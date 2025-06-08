@@ -27,7 +27,14 @@ jobs:
 
       - name: Check for large files
         run: |
-          find . -type f -size +5M -exec ls -lh {} \; | grep -v "\.git" || true
+          large_files=$(find . -type f -size +5M -not -path "./.git/*" -exec ls -lh {} \;)
+          if [ -n "$large_files" ]; then
+            echo "Error: Large files found (>5MB):"
+            echo "$large_files"
+            exit 1
+          else
+            echo "No large files found (>5MB)"
+          fi
 
       - name: Security - Check for secrets
         uses: trufflesecurity/trufflehog@main
