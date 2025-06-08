@@ -1,0 +1,34 @@
+# Flake8 Configuration - Following CODING_STANDARDS.md
+
+[flake8]
+# Black compatibility
+max-line-length = 88
+extend-ignore = E203, W503
+
+# General settings
+max-complexity = 10
+select = B,C,E,F,W,T4,B9
+
+# Exclude directories
+exclude =
+    .git,
+    __pycache__,
+    .venv,
+    venv,
+    env,
+    build,
+    dist,
+    *.egg,
+    .pytest_cache,
+    .mypy_cache,
+    .tox,
+    migrations,
+
+# Per file ignores
+per-file-ignores =
+    __init__.py: F401
+    tests/*: F401,F811
+
+# Import order
+import-order-style = google
+application-import-names = src

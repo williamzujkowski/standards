@@ -1,0 +1,209 @@
+version: '3.8'
+
+# Docker Compose following DEVOPS_PLATFORM_STANDARDS.md
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.standards
+      args:
+        - BUILD_VERSION=${BUILD_VERSION:-latest}
+    image: ${IMAGE_NAME:-app}:${IMAGE_TAG:-latest}
+    container_name: ${CONTAINER_NAME:-app}
+    
+    # Resource limits per COST_OPTIMIZATION_STANDARDS.md
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    
+    # Security: Read-only root filesystem
+    read_only: true
+    
+    # Temporary directories for runtime
+    tmpfs:
+      - /tmp
+      - /var/run
+    
+    # Security: Drop all capabilities and add only needed ones
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+    
+    # Security: No new privileges
+    security_opt:
+      - no-new-privileges:true
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    
+    # Environment variables
+    environment:
+      - NODE_ENV=production
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - PORT=3000
+    
+    # Secrets management (per MODERN_SECURITY_STANDARDS.md)
+    secrets:
+      - db_password
+      - api_key
+    
+    # Networking
+    networks:
+      - app-network
+    
+    # Ports
+    ports:
+      - "${HOST_PORT:-3000}:3000"
+    
+    # Restart policy
+    restart: unless-stopped
+    
+    # Logging configuration (per OBSERVABILITY_STANDARDS.md)
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        labels: "service=app,env=production"
+    
+    # Dependencies
+    depends_on:
+      database:
+        condition: service_healthy
+      cache:
+        condition: service_started
+
+  database:
+    image: postgres:15-alpine
+    container_name: ${DB_CONTAINER_NAME:-database}
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    
+    # Security
+    security_opt:
+      - no-new-privileges:true
+    
+    # Environment
+    environment:
+      - POSTGRES_DB=${DB_NAME:-app}
+      - POSTGRES_USER=${DB_USER:-app}
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db_password
+    
+    # Secrets
+    secrets:
+      - db_password
+    
+    # Volumes for persistence
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d:ro
+    
+    # Health check
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-app}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    
+    # Networking
+    networks:
+      - app-network
+    
+    # Restart policy
+    restart: unless-stopped
+    
+    # Logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  cache:
+    image: redis:7-alpine
+    container_name: ${CACHE_CONTAINER_NAME:-cache}
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+    
+    # Security
+    security_opt:
+      - no-new-privileges:true
+    
+    # Command with security options
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    
+    # Volumes
+    volumes:
+      - cache-data:/data
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    
+    # Networking
+    networks:
+      - app-network
+    
+    # Restart policy
+    restart: unless-stopped
+    
+    # Logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+# Networks
+networks:
+  app-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16
+
+# Volumes
+volumes:
+  db-data:
+    driver: local
+  cache-data:
+    driver: local
+
+# Secrets (use external in production)
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
+  api_key:
+    file: ./secrets/api_key.txt

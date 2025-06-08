@@ -1,0 +1,65 @@
+# Multi-stage Dockerfile following DEVOPS_PLATFORM_STANDARDS.md and MODERN_SECURITY_STANDARDS.md
+
+# Build stage
+FROM node:20-alpine AS builder
+
+# Security: Run as non-root user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001
+
+# Install dependencies first (better layer caching)
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production && \
+    npm cache clean --force
+
+# Copy source code
+COPY --chown=nodejs:nodejs . .
+
+# Build application
+RUN npm run build
+
+# Runtime stage
+FROM node:20-alpine AS runtime
+
+# Security hardening per MODERN_SECURITY_STANDARDS.md
+RUN apk add --no-cache \
+    dumb-init \
+    && rm -rf /var/cache/apk/*
+
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001
+
+# Set up working directory
+WORKDIR /app
+
+# Copy built application from builder stage
+COPY --from=builder --chown=nodejs:nodejs /app/dist ./dist
+COPY --from=builder --chown=nodejs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nodejs:nodejs /app/package*.json ./
+
+# Security: Remove unnecessary permissions
+RUN chmod -R 555 /app
+
+# Health check per OBSERVABILITY_STANDARDS.md
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD node healthcheck.js || exit 1
+
+# Switch to non-root user
+USER nodejs
+
+# Expose port (should be > 1024 for non-root)
+EXPOSE 3000
+
+# Use dumb-init to handle signals properly
+ENTRYPOINT ["dumb-init", "--"]
+
+# Start application
+CMD ["node", "dist/index.js"]
+
+# Labels for metadata (per DEVOPS_PLATFORM_STANDARDS.md)
+LABEL org.opencontainers.image.source="https://github.com/your-org/your-repo" \
+      org.opencontainers.image.description="Standards-compliant application" \
+      org.opencontainers.image.licenses="MIT" \
+      org.opencontainers.image.vendor="Your Organization"
