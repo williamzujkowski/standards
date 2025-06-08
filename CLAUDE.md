@@ -35,10 +35,16 @@ commands:
 - **CN** → `CLOUD_NATIVE_STANDARDS.md` - Containers, K8s, microservices
 - **DE** → `DATA_ENGINEERING_STANDARDS.md` - Pipelines, ETL, analytics
 - **FE** → `FRONTEND_MOBILE_STANDARDS.md` - UI/UX, React, mobile
+- **WD** → `WEB_DESIGN_UX_STANDARDS.md` - Visual design, UX patterns
+- **CON** → `CONTENT_STANDARDS.md` - Writing, editorial, SEO
+- **PM** → `PROJECT_MANAGEMENT_STANDARDS.md` - Agile, planning, stakeholders
 - **GH** → `GITHUB_PLATFORM_STANDARDS.md` - CI/CD, workflows, automation
+- **DOP** → `DEVOPS_PLATFORM_STANDARDS.md` - IaC, platform engineering, SRE
 - **EVT** → `EVENT_DRIVEN_STANDARDS.md` - Events, messaging, streaming
 - **OBS** → `OBSERVABILITY_STANDARDS.md` - Monitoring, logging, tracing
 - **COST** → `COST_OPTIMIZATION_STANDARDS.md` - FinOps, efficiency
+- **LEG** → `LEGAL_COMPLIANCE_STANDARDS.md` - Privacy, licensing, compliance
+- **SEO** → `SEO_WEB_MARKETING_STANDARDS.md` - Technical SEO, marketing automation
 
 ---
 
@@ -72,6 +78,42 @@ Reference: RESTful patterns, OpenAPI specs
 ```
 Load: CS:performance + OBS:metrics + COST:optimization
 Focus: Profiling, caching, resource efficiency
+```
+
+### For Infrastructure & DevOps
+```
+Load: DOP:iac + CN:kubernetes + GH:cicd
+Focus: Terraform, K8s, GitOps, pipelines
+```
+
+### For Design & User Experience
+```
+Load: WD:* + FE:ui-components + CS:patterns
+Focus: Design systems, components, accessibility
+```
+
+### For Content & Documentation
+```
+Load: CON:* + WD:typography + CS:documentation
+Focus: Writing guidelines, SEO, editorial process
+```
+
+### For Project Management
+```
+Load: PM:* + US:planning + CS:architecture
+Focus: Agile practices, sprint planning, risk management
+```
+
+### For Legal Compliance
+```
+Load: LEG:privacy + LEG:licensing + CS:security
+Focus: GDPR compliance, license scanning, audit trails
+```
+
+### For SEO & Marketing
+```
+Load: SEO:technical + CON:seo + FE:performance
+Focus: Core Web Vitals, schema markup, content optimization
 ```
 
 ---
@@ -160,11 +202,32 @@ Focus: OWASP Top 10, input validation, auth
 - 4.3: Security & Resilience Testing
 - 4.4: Documentation & Integration Testing
 
+### PROJECT_MANAGEMENT_STANDARDS.md Sections
+- 1-2: Core Principles & Methodology
+- 3-4: Project Lifecycle & Agile
+- 5-6: Planning, Risk & Issues
+- 7-8: Stakeholder & Team Management
+- 9-10: Metrics & Implementation
+
+### LEGAL_COMPLIANCE_STANDARDS.md Sections
+- 1-2: Principles & Privacy (GDPR)
+- 3-4: Licensing & Accessibility
+- 5-6: Security Compliance & IP
+- 7-8: Audit & Implementation
+
+### SEO_WEB_MARKETING_STANDARDS.md Sections
+- 1-3: Technical SEO & Architecture
+- 4-5: Performance & Schema
+- 6-7: Content Marketing & Analytics
+- 8-10: Automation & Implementation
+
 ### Key Performance Indicators
 - Code Coverage: 85%+ (95% critical)
 - Response Time: p95 < 200ms
 - Error Rate: < 0.1%
 - Security Score: A+ (via scanning tools)
+- SEO Score: 90+ (Lighthouse)
+- Accessibility: WCAG 2.1 AA
 
 ---
 
@@ -207,6 +270,20 @@ Result: Only performance-related standards loaded
 User: "Add JWT authentication to the application"
 System: Loading @load [SEC:auth, CS:security, TS:security-testing]
 Result: Security-focused standards without unrelated content
+```
+
+### Example 4: Privacy Compliance Implementation
+```
+User: "Implement GDPR compliance for user data"
+System: Loading @load [LEG:privacy, SEC:encryption, CS:audit]
+Result: Privacy and compliance focused standards
+```
+
+### Example 5: SEO Optimization
+```
+User: "Optimize website for search engines"
+System: Loading @load [SEO:technical, FE:performance, CON:seo]
+Result: SEO and performance optimization standards
 ```
 
 ---

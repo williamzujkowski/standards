@@ -192,7 +192,9 @@ AI: Loading @load [FE:react,performance + CS:style + TS:component]
 | API | CS:api + SEC:api | REST, validation |
 | Frontend | FE:* + TS:ui | Components, UX |
 | Data | DE:* + TS:data | Quality, pipelines |
-| DevOps | GH:ci + CN:deploy | Automation, IaC |
+| Infrastructure | DOP:* + CN:k8s | Terraform, K8s |
+| CI/CD | DOP:cicd + GH:* | Pipelines, GitOps |
+| Platform | DOP:platform + CN:* | IDP, self-service |
 
 ---
 
