@@ -27,7 +27,7 @@ jobs:
 
       - name: Check for large files
         run: |
-          find . -type f -size +5M -exec ls -lh {} \; | grep -v "\.git"
+          find . -type f -size +5M -exec ls -lh {} \; | grep -v "\.git" || true
 
       - name: Security - Check for secrets
         uses: trufflesecurity/trufflehog@main
