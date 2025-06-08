@@ -1,7 +1,7 @@
 # Content Standards
 
-**Version:** 1.0.0  
-**Last Updated:** January 2025  
+**Version:** 1.0.0
+**Last Updated:** January 2025
 **Status:** Active
 
 ## Table of Contents
@@ -28,7 +28,7 @@ content_strategy:
   mission:
     statement: "Deliver clear, helpful, and accessible content that empowers users to succeed"
     alignment: "Business objectives and user needs"
-  
+
   principles:
     clarity:
       description: "Write in plain language that anyone can understand"
@@ -37,7 +37,7 @@ content_strategy:
         - Avoid jargon and technical terms when possible
         - Define complex concepts clearly
         - Lead with the most important information
-    
+
     helpfulness:
       description: "Provide value in every piece of content"
       guidelines:
@@ -45,7 +45,7 @@ content_strategy:
         - Offer actionable guidance
         - Include relevant examples
         - Link to additional resources
-    
+
     accessibility:
       description: "Ensure content is usable by everyone"
       guidelines:
@@ -53,7 +53,7 @@ content_strategy:
         - Use descriptive headings and links
         - Provide alt text for images
         - Structure content logically
-    
+
     consistency:
       description: "Maintain unified voice and style"
       guidelines:
@@ -68,13 +68,13 @@ content_strategy:
       - Scroll depth
       - Click-through rate
       - Social shares
-    
+
     effectiveness:
       - Task completion rate
       - Support ticket reduction
       - User satisfaction score
       - Content helpfulness rating
-    
+
     reach:
       - Page views
       - Unique visitors
@@ -93,28 +93,28 @@ governance_structure:
         - Approve major changes
         - Allocate resources
         - Monitor performance
-      
+
     content_manager:
       responsibilities:
         - Implement content strategy
         - Manage editorial calendar
         - Coordinate contributors
         - Ensure quality standards
-    
+
     subject_matter_experts:
       responsibilities:
         - Provide technical accuracy
         - Review specialized content
         - Update domain knowledge
         - Validate information
-    
+
     content_creators:
       responsibilities:
         - Write and edit content
         - Follow style guidelines
         - Meet deadlines
         - Incorporate feedback
-    
+
     reviewers:
       responsibilities:
         - Check accuracy and clarity
@@ -129,7 +129,7 @@ governance_structure:
       - legal: "Legal/compliance check (if needed)"
       - final: "Content manager approval"
       - publish: "Publication to production"
-    
+
     sla:
       draft_to_review: "2 business days"
       review_to_approval: "3 business days"
@@ -268,20 +268,20 @@ grammar_standards:
       - Present tense
       - Simple sentences
       - Parallel construction
-    
+
     avoid:
       - Passive voice (except when necessary)
       - Complex subordinate clauses
       - Double negatives
       - Ambiguous pronouns
-  
+
   word_choice:
     use:
       - Common, everyday words
       - Concrete nouns
       - Strong verbs
       - Specific descriptions
-    
+
     avoid:
       - Jargon without explanation
       - Buzzwords and clichés
@@ -295,14 +295,14 @@ punctuation_rules:
     hyphen: "Compound words (e-commerce)"
     en_dash: "Ranges (10–15 minutes)"
     em_dash: "Emphasis—like this"
-  
+
   lists:
     bulleted:
       - Use for unordered items
       - Capitalize first word
       - Use periods for complete sentences
       - Maintain parallel structure
-    
+
     numbered:
       - Use for sequential steps
       - Use for ranked items
@@ -318,19 +318,19 @@ formatting:
     - Sentence case for headings
     - Title case for proper nouns only
     - lowercase for email addresses and URLs
-  
+
   numbers:
     - Spell out one through nine
     - Use numerals for 10 and above
     - Always use numerals for percentages (5%)
     - Use numerals for ages, measurements, and money
-  
+
   dates_and_times:
     - Month DD, YYYY (January 15, 2025)
     - 12-hour clock with AM/PM
     - Time zones in parentheses (2 PM EST)
     - Use "to" not dashes for ranges
-  
+
   abbreviations:
     - Spell out on first use
     - Include abbreviation in parentheses
@@ -343,7 +343,7 @@ technical_writing:
     - Use code blocks for multi-line examples
     - Include language identifier
     - Provide context and explanation
-  
+
   ui_elements:
     - Bold for button names: Click **Save**
     - Use quotation marks for field labels
@@ -419,56 +419,56 @@ technical_writing:
 .content {
   // Optimal line length for reading
   max-width: 65ch;
-  
+
   // Paragraph spacing
   p {
     margin-bottom: 1.5em;
     line-height: 1.6;
   }
-  
+
   // Heading hierarchy
   h2 {
     margin-top: 2em;
     margin-bottom: 0.5em;
     font-size: 1.75em;
   }
-  
+
   h3 {
     margin-top: 1.5em;
     margin-bottom: 0.5em;
     font-size: 1.25em;
   }
-  
+
   // Lists for scannability
   ul, ol {
     margin: 1em 0;
     padding-left: 2em;
-    
+
     li {
       margin-bottom: 0.5em;
     }
   }
-  
+
   // Callout boxes
   .callout {
     margin: 2em 0;
     padding: 1em;
     border-left: 4px solid;
     background-color: var(--callout-bg);
-    
+
     &--tip {
       border-color: var(--color-success);
     }
-    
+
     &--warning {
       border-color: var(--color-warning);
     }
-    
+
     &--info {
       border-color: var(--color-info);
     }
   }
-  
+
   // Pull quotes
   .pull-quote {
     margin: 2em 0;
@@ -498,19 +498,19 @@ brand_voice:
         examples:
           do: "We're here to help you succeed"
           dont: "Users must complete the following steps"
-      
+
       clear:
         description: "Direct and easy to understand"
         examples:
           do: "Click Save to keep your changes"
           dont: "Actuate the preservation mechanism to persist modifications"
-      
+
       confident:
         description: "Knowledgeable without being arrogant"
         examples:
           do: "This method improves performance by 50%"
           dont: "This might possibly help performance"
-    
+
     secondary:
       helpful:
         description: "Focused on user success"
@@ -519,7 +519,7 @@ brand_voice:
           - Provide context
           - Offer solutions
           - Include examples
-      
+
       human:
         description: "Conversational and relatable"
         techniques:
@@ -545,28 +545,28 @@ situational_tone:
       - "Great job! Your project is now live."
       - "Success! Your data has been saved."
       - "You're all set! Here's what happens next..."
-  
+
   error_messages:
     tone: "Calm, helpful, and solution-focused"
     examples:
       - "Something went wrong, but we can fix it."
       - "We couldn't process that request. Here's why..."
       - "Let's try a different approach."
-  
+
   educational_content:
     tone: "Patient and encouraging"
     examples:
       - "Let's explore how this works..."
       - "Don't worry if this seems complex at first."
       - "You'll master this in no time."
-  
+
   marketing_content:
     tone: "Inspiring and benefit-focused"
     examples:
       - "Imagine what you could build..."
       - "Join thousands who've transformed their workflow."
       - "Start creating something amazing today."
-  
+
   technical_documentation:
     tone: "Precise and instructive"
     examples:
@@ -663,7 +663,7 @@ class ContentAdapter {
       visualAids: this.suggestVisuals(content, persona)
     };
   }
-  
+
   private adjustComplexity(
     content: string,
     persona: AudiencePersona
@@ -675,7 +675,7 @@ class ContentAdapter {
     }
     return content;
   }
-  
+
   private simplifyLanguage(content: string): string {
     // Replace complex terms with simpler alternatives
     const replacements = {
@@ -685,7 +685,7 @@ class ContentAdapter {
       'repository': 'project folder',
       'dependency': 'required package'
     };
-    
+
     let simplified = content;
     Object.entries(replacements).forEach(([complex, simple]) => {
       simplified = simplified.replace(
@@ -693,7 +693,7 @@ class ContentAdapter {
         simple
       );
     });
-    
+
     return simplified;
   }
 }
@@ -797,20 +797,20 @@ curl -X GET "https://api.example.com/v1/resource/123" \
 ### Step-by-Step Instructions
 
 1. **First Step Title**
-   
+
    Description of what to do.
-   
+
    ![Screenshot with annotations](image-url)
-   
+
    > **Tip**: Helpful information or shortcut
 
 2. **Second Step Title**
-   
+
    More detailed instructions with:
    - Sub-steps if needed
    - Clear action verbs
    - Expected results
-   
+
    > **Note**: Important information to remember
 
 ### Troubleshooting
@@ -839,42 +839,42 @@ blog_structure:
       - Include primary keyword
       - Create curiosity or promise value
       - Use numbers when applicable
-    
+
     formulas:
       - "How to [Achieve Desired Outcome] in [Time Period]"
       - "[Number] Ways to [Solve Problem]"
       - "The Complete Guide to [Topic]"
       - "Why [Conventional Wisdom] Is Wrong"
-  
+
   introduction:
     elements:
       - Hook (question, statistic, or story)
       - Problem identification
       - Solution preview
       - Article roadmap
-    
+
     length: "100-150 words"
-  
+
   body:
     structure:
       - Use subheadings every 300 words
       - Include examples and data
       - Add visuals every 500 words
       - Use bullet points for lists
-    
+
     elements:
       - Supporting arguments
       - Case studies
       - Expert quotes
       - Data visualizations
-  
+
   conclusion:
     elements:
       - Key takeaways summary
       - Call to action
       - Related resources
       - Comments invitation
-    
+
     length: "75-100 words"
 
   seo_checklist:
@@ -905,17 +905,17 @@ blog_structure:
       margin: 0 auto;
       padding: 20px;
     }
-    
+
     .header {
       text-align: center;
       padding: 20px 0;
       border-bottom: 2px solid #eee;
     }
-    
+
     .content {
       padding: 30px 0;
     }
-    
+
     .cta-button {
       display: inline-block;
       padding: 12px 30px;
@@ -925,7 +925,7 @@ blog_structure:
       border-radius: 5px;
       margin: 20px 0;
     }
-    
+
     .footer {
       padding-top: 30px;
       border-top: 2px solid #eee;
@@ -940,40 +940,40 @@ blog_structure:
   <div style="display:none;font-size:1px;color:#333;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">
     {{ preheader_text }}
   </div>
-  
+
   <!-- Header -->
   <div class="header">
     <img src="{{ logo_url }}" alt="{{ company_name }}" width="200">
   </div>
-  
+
   <!-- Main Content -->
   <div class="content">
     <h1>{{ headline }}</h1>
-    
+
     <p>Hi {{ first_name }},</p>
-    
+
     <p>{{ opening_paragraph }}</p>
-    
+
     <!-- Body Content -->
     {{ body_content }}
-    
+
     <!-- Call to Action -->
     <div style="text-align: center;">
       <a href="{{ cta_url }}" class="cta-button">{{ cta_text }}</a>
     </div>
-    
+
     <p>{{ closing_paragraph }}</p>
-    
+
     <p>Best regards,<br>
     {{ sender_name }}<br>
     {{ sender_title }}</p>
   </div>
-  
+
   <!-- Footer -->
   <div class="footer">
     <p>{{ company_address }}</p>
     <p>
-      <a href="{{ unsubscribe_url }}">Unsubscribe</a> | 
+      <a href="{{ unsubscribe_url }}">Unsubscribe</a> |
       <a href="{{ preferences_url }}">Update Preferences</a>
     </p>
   </div>
@@ -997,13 +997,13 @@ platform_guidelines:
       - Use threads for complex topics
       - Include visuals when possible
       - Engage with replies
-    
+
     content_types:
       - Quick tips
       - Industry news commentary
       - Thread tutorials
       - Polls and questions
-  
+
   linkedin:
     character_limit: 3000
     optimal_length: "150-300 characters"
@@ -1014,13 +1014,13 @@ platform_guidelines:
       - Industry insights
       - Thought leadership
       - Career advice
-    
+
     content_types:
       - Article shares with commentary
       - Industry analysis
       - Company updates
       - Professional achievements
-  
+
   instagram:
     caption_limit: 2200
     optimal_length: "138-150 characters"
@@ -1031,7 +1031,7 @@ platform_guidelines:
       - Stories for behind-scenes
       - Consistent aesthetic
       - User-generated content
-    
+
     content_types:
       - Product showcases
       - Behind the scenes
@@ -1086,7 +1086,7 @@ class SocialContentOptimizer {
     platform: SocialPlatform
   ): PlatformContent {
     const rules = this.getPlatformRules(platform);
-    
+
     return {
       platform,
       text: this.truncateText(content, rules.characterLimit),
@@ -1095,7 +1095,7 @@ class SocialContentOptimizer {
       link: this.extractLink(content)
     };
   }
-  
+
   private getPlatformRules(platform: SocialPlatform) {
     const rules = {
       twitter: {
@@ -1114,7 +1114,7 @@ class SocialContentOptimizer {
         mediaTypes: ['image', 'video']
       }
     };
-    
+
     return rules[platform];
   }
 }
@@ -1136,19 +1136,19 @@ verification_standards:
       - Official documentation
       - Direct interviews
       - Company data
-    
+
     secondary:
       - Peer-reviewed journals
       - Reputable news sources
       - Industry reports
       - Government statistics
-    
+
     unacceptable:
       - Wikipedia as sole source
       - Unverified social media
       - Anonymous sources
       - Outdated information (>2 years)
-  
+
   verification_steps:
     1_identify:
       action: "Identify all claims requiring verification"
@@ -1157,7 +1157,7 @@ verification_standards:
         - Technical specifications
         - Quotes and attributions
         - Historical facts
-    
+
     2_source:
       action: "Find authoritative sources"
       requirements:
@@ -1165,7 +1165,7 @@ verification_standards:
         - Primary source preferred
         - Recent and relevant
         - Credible authority
-    
+
     3_verify:
       action: "Cross-check information"
       methods:
@@ -1173,7 +1173,7 @@ verification_standards:
         - Contact subject matter experts
         - Review official documentation
         - Check for updates or corrections
-    
+
     4_document:
       action: "Record verification"
       includes:
@@ -1237,19 +1237,19 @@ class QualityAnalyzer {
       seo: await this.analyzeSEO(content),
       inclusivity: await this.checkInclusivity(content)
     };
-    
+
     return report;
   }
-  
+
   private async checkReadability(content: string): Promise<ReadabilityScore> {
     // Flesch-Kincaid Grade Level
     const sentences = content.split(/[.!?]+/).length;
     const words = content.split(/\s+/).length;
     const syllables = this.countSyllables(content);
-    
+
     const score = 206.835 - 1.015 * (words / sentences) - 84.6 * (syllables / words);
     const gradeLevel = 0.39 * (words / sentences) + 11.8 * (syllables / words) - 15.59;
-    
+
     return {
       fleschScore: score,
       gradeLevel: gradeLevel,
@@ -1274,7 +1274,7 @@ review_stages:
       - Link validation
       - Image optimization
       - Meta information
-  
+
   2_peer_review:
     owner: "Team member"
     duration: "1 hour"
@@ -1284,7 +1284,7 @@ review_stages:
       - Tone consistency
       - Structure and flow
       - Target audience fit
-  
+
   3_sme_review:
     owner: "Subject matter expert"
     duration: "2 hours"
@@ -1294,7 +1294,7 @@ review_stages:
       - Best practices
       - Industry standards
       - Updated information
-  
+
   4_editorial_review:
     owner: "Editor"
     duration: "1 hour"
@@ -1304,7 +1304,7 @@ review_stages:
       - Legal compliance
       - SEO optimization
       - Publishing readiness
-  
+
   5_final_approval:
     owner: "Content manager"
     duration: "30 minutes"
@@ -1321,7 +1321,7 @@ feedback_guidelines:
     - Suggest improvements
     - Explain the why
     - Prioritize changes
-  
+
   collaborative:
     - Ask questions
     - Discuss alternatives
@@ -1375,7 +1375,7 @@ class ContentVersionManager {
   ): ContentVersion {
     const previousVersion = this.getLatestVersion(content.id);
     const newVersionNumber = this.incrementVersion(previousVersion.version);
-    
+
     return {
       id: generateId(),
       contentId: content.id,
@@ -1387,10 +1387,10 @@ class ContentVersionManager {
       reviewers: []
     };
   }
-  
+
   private incrementVersion(version: string): string {
     const [major, minor, patch] = version.split('.').map(Number);
-    
+
     // Increment based on change type
     if (this.isMajorChange()) {
       return `${major + 1}.0.0`;
@@ -1420,27 +1420,27 @@ localization_approach:
       - fr-FR (French - France)
       - de-DE (German - Germany)
       - ja-JP (Japanese - Japan)
-    
+
     tier_2:
       - pt-BR (Portuguese - Brazil)
       - it-IT (Italian - Italy)
       - ko-KR (Korean - South Korea)
       - zh-CN (Chinese - Simplified)
       - nl-NL (Dutch - Netherlands)
-  
+
   content_priorities:
     high:
       - User interface strings
       - Error messages
       - Core documentation
       - Legal content
-    
+
     medium:
       - Marketing content
       - Blog posts
       - Help articles
       - Email templates
-    
+
     low:
       - Social media
       - Internal documentation
@@ -1452,12 +1452,12 @@ translation_guidelines:
     - Industry expertise preferred
     - Consistency with glossary mandatory
     - Cultural adaptation encouraged
-  
+
   tone_adaptation:
     formal_languages: [ja-JP, de-DE, fr-FR]
     informal_languages: [en-US, pt-BR]
     context_dependent: [es-ES, it-IT]
-  
+
   review_process:
     - Initial translation
     - In-context review
@@ -1514,17 +1514,17 @@ class LocalizationUtils {
   formatNumber(value: number, locale: string): string {
     return new Intl.NumberFormat(locale).format(value);
   }
-  
+
   // Format dates according to locale
   formatDate(date: Date, locale: string, format: 'short' | 'long'): string {
-    const options: Intl.DateTimeFormatOptions = 
-      format === 'short' 
+    const options: Intl.DateTimeFormatOptions =
+      format === 'short'
         ? { year: 'numeric', month: 'short', day: 'numeric' }
         : { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    
+
     return new Intl.DateTimeFormat(locale, options).format(date);
   }
-  
+
   // Handle pluralization rules
   pluralize(count: number, locale: string, forms: Record<string, string>): string {
     const pr = new Intl.PluralRules(locale);
@@ -1547,18 +1547,18 @@ cultural_guidelines:
       - Color associations
       - Gesture appropriateness
       - Religious sensitivity
-    
+
     regional_preferences:
       western:
         - Individual achievement
         - Direct communication
         - Innovation focus
-      
+
       eastern:
         - Group harmony
         - Indirect communication
         - Tradition respect
-  
+
   content_adaptation:
     examples_and_references:
       localize:
@@ -1567,19 +1567,19 @@ cultural_guidelines:
         - Historical events
         - Currency and units
         - Business practices
-      
+
       maintain:
         - Technical specifications
         - Product names
         - Brand terminology
         - Industry standards
-    
+
     communication_style:
       high_context_cultures: [ja-JP, ko-KR, zh-CN]
         - More formal tone
         - Indirect messaging
         - Relationship building
-      
+
       low_context_cultures: [en-US, de-DE, nl-NL]
         - Direct communication
         - Explicit information
@@ -1603,42 +1603,42 @@ cultural_guidelines:
 [dir="rtl"] {
   // Text alignment
   text-align: right;
-  
+
   // Layout mirroring
   .container {
     direction: rtl;
   }
-  
+
   // Spacing adjustments
   .content {
     padding-left: 0;
     padding-right: 20px;
-    
+
     ul, ol {
       padding-right: 40px;
       padding-left: 0;
     }
   }
-  
+
   // Component mirroring
   .nav-menu {
     flex-direction: row-reverse;
-    
+
     &__icon {
       margin-right: 0;
       margin-left: 8px;
     }
   }
-  
+
   // Form elements
   .form-field {
     &__label {
       text-align: right;
     }
-    
+
     &__input {
       text-align: right;
-      
+
       &[type="email"],
       &[type="url"],
       &[type="number"] {
@@ -1647,7 +1647,7 @@ cultural_guidelines:
       }
     }
   }
-  
+
   // Icons that need flipping
   .icon-arrow-right {
     transform: scaleX(-1);
@@ -1660,7 +1660,7 @@ cultural_guidelines:
   margin-inline-start: 20px; // Instead of margin-left
   padding-inline-end: 10px; // Instead of padding-right
   border-inline-start: 2px solid; // Instead of border-left
-  
+
   // Logical values
   text-align: start; // Instead of left
   float: inline-start; // Instead of float: left
@@ -1683,31 +1683,31 @@ on_page_elements:
       - 50-60 characters maximum
       - Include primary keyword
       - Brand name at end
-    
+
     format: "[Primary Keyword] - [Secondary Info] | [Brand]"
-    
+
   meta_descriptions:
     requirements:
       - 150-160 characters maximum
       - Include primary keyword
       - Compelling call to action
       - Unique for each page
-    
+
     format: "Action-oriented description with keyword and value proposition."
-  
+
   heading_structure:
     h1:
       - One per page
       - Include primary keyword
       - Match search intent
       - 20-70 characters
-    
+
     h2_h3:
       - Support main topic
       - Include related keywords
       - Create content hierarchy
       - Improve scannability
-  
+
   url_structure:
     guidelines:
       - Use hyphens not underscores
@@ -1715,7 +1715,7 @@ on_page_elements:
       - Keep under 60 characters
       - Remove stop words
       - Use lowercase only
-    
+
     examples:
       good: "/blog/content-marketing-strategy"
       bad: "/blog/post_12345_final_v2"
@@ -1727,13 +1727,13 @@ keyword_optimization:
       - SEMrush
       - Ahrefs
       - Google Search Console
-    
+
     criteria:
       - Search volume > 100/month
       - Keyword difficulty < 70
       - Business relevance: high
       - Search intent match
-  
+
   placement:
     primary_keyword:
       - Title tag
@@ -1742,7 +1742,7 @@ keyword_optimization:
       - URL slug
       - Meta description
       - 2-3 times in body
-    
+
     secondary_keywords:
       - H2/H3 headings
       - Throughout body naturally
@@ -1789,34 +1789,34 @@ class SEOAnalyzer {
       recommendations: [],
       metadata: this.extractMetadata(page)
     };
-    
+
     // Check title
     this.analyzeTitle(page, analysis);
-    
+
     // Check meta description
     this.analyzeMetaDescription(page, analysis);
-    
+
     // Check headings
     this.analyzeHeadings(page, analysis);
-    
+
     // Check content
     this.analyzeContent(page, analysis);
-    
+
     // Check images
     this.analyzeImages(page, analysis);
-    
+
     // Check performance
     await this.analyzePerformance(url, analysis);
-    
+
     // Calculate score
     analysis.score = this.calculateScore(analysis);
-    
+
     return analysis;
   }
-  
+
   private analyzeTitle(page: Document, analysis: SEOAnalysis): void {
     const title = page.querySelector('title')?.textContent || '';
-    
+
     if (!title) {
       analysis.issues.push({
         type: 'error',
@@ -1833,7 +1833,7 @@ class SEOAnalyzer {
           impact: 'medium'
         });
       }
-      
+
       if (title.length < 30) {
         analysis.issues.push({
           type: 'warning',
@@ -1898,25 +1898,25 @@ class ContentAnalytics {
       category: this.getCategory(contentId),
       tags: this.getTags(contentId)
     });
-    
+
     // Scroll depth tracking
     this.trackScrollDepth(contentId);
-    
+
     // Time on page tracking
     this.trackTimeOnPage(contentId);
-    
+
     // Engagement tracking
     this.trackEngagement(contentId);
   }
-  
+
   private trackScrollDepth(contentId: string): void {
     const thresholds = [25, 50, 75, 100];
     const observed = new Set<number>();
-    
+
     window.addEventListener('scroll', throttle(() => {
-      const scrollPercentage = (window.scrollY + window.innerHeight) / 
+      const scrollPercentage = (window.scrollY + window.innerHeight) /
         document.documentElement.scrollHeight * 100;
-      
+
       thresholds.forEach(threshold => {
         if (scrollPercentage >= threshold && !observed.has(threshold)) {
           observed.add(threshold);
@@ -1965,34 +1965,34 @@ class ContentExperimentRunner {
   async runExperiment(experiment: ContentExperiment): Promise<void> {
     // Validate experiment setup
     this.validateExperiment(experiment);
-    
+
     // Assign users to variants
     const variant = this.assignVariant(experiment);
-    
+
     // Apply variant changes
     await this.applyVariant(variant);
-    
+
     // Track exposure
     this.trackExposure(experiment, variant);
-    
+
     // Monitor metrics
     this.monitorMetrics(experiment, variant);
   }
-  
+
   private assignVariant(experiment: ContentExperiment): ContentVariant {
     const random = Math.random() * 100;
     let cumulative = 0;
-    
+
     for (const variant of experiment.variants) {
       cumulative += variant.traffic;
       if (random <= cumulative) {
         return variant;
       }
     }
-    
+
     return experiment.variants[0]; // Fallback to control
   }
-  
+
   calculateSignificance(
     control: VariantPerformance,
     variant: VariantPerformance
@@ -2002,7 +2002,7 @@ class ContentExperimentRunner {
     const controlTotal = control.visitors;
     const variantConversions = variant.conversions;
     const variantTotal = variant.visitors;
-    
+
     // Implementation of significance calculation
     return this.chiSquareTest(
       controlConversions,
@@ -2030,71 +2030,71 @@ content_stages:
       - Keyword analysis
       - Audience needs assessment
       - Competitive analysis
-    
+
     deliverables:
       - Content brief
       - Target keywords
       - Success metrics
       - Timeline
-    
+
     tools:
       - Content calendar
       - Keyword research tools
       - Analytics dashboards
       - Competitor monitoring
-  
+
   2_creation:
     activities:
       - Research and outline
       - First draft writing
       - Media creation
       - Internal review
-    
+
     deliverables:
       - Complete draft
       - Supporting media
       - Meta information
       - Internal feedback
-    
+
     quality_checks:
       - Accuracy verification
       - Style guide compliance
       - SEO optimization
       - Readability score
-  
+
   3_review:
     activities:
       - Peer review
       - SME validation
       - Legal check
       - Final editing
-    
+
     deliverables:
       - Reviewed content
       - Approval documentation
       - Change tracking
       - Sign-offs
-  
+
   4_publication:
     activities:
       - CMS upload
       - Formatting check
       - Link validation
       - Schedule/publish
-    
+
     deliverables:
       - Published content
       - Tracking setup
       - Promotion plan
       - Archive copy
-  
+
   5_maintenance:
     activities:
       - Performance monitoring
       - Update scheduling
       - Feedback incorporation
       - Optimization
-    
+
     triggers:
       - Age (>6 months)
       - Performance decline
@@ -2107,7 +2107,7 @@ content_retirement:
     - Poor performance
     - No longer relevant
     - Legal/compliance issues
-  
+
   process:
     - Impact assessment
     - Redirect planning
@@ -2216,45 +2216,45 @@ distribution_channels:
       types: [blog, documentation, landing pages]
       frequency: "2-3 times per week"
       optimization: "SEO, CRO"
-    
+
     email:
       types: [newsletter, drip campaigns, announcements]
       frequency: "Weekly newsletter, event-driven campaigns"
       optimization: "Subject lines, send times"
-    
+
     mobile_app:
       types: [in-app messages, push notifications]
       frequency: "Based on user behavior"
       optimization: "Timing, personalization"
-  
+
   earned_media:
     pr_outlets:
       types: [press releases, contributed articles]
       frequency: "Monthly or event-driven"
       requirements: "Newsworthy angle, media kit"
-    
+
     influencers:
       types: [guest posts, interviews, reviews]
       frequency: "Quarterly campaigns"
       requirements: "Relationship building, value exchange"
-  
+
   paid_media:
     search_ads:
       types: [Google Ads, Bing Ads]
       content: "Ad copy, landing pages"
       optimization: "Keywords, quality score"
-    
+
     social_ads:
       types: [Facebook, LinkedIn, Twitter]
       content: "Visual ads, video, carousel"
       optimization: "Audience targeting, creative testing"
-  
+
   shared_media:
     social_platforms:
       types: [organic posts, stories, live streams]
       frequency: "Daily to weekly per platform"
       optimization: "Timing, hashtags, engagement"
-    
+
     communities:
       types: [forums, groups, Q&A sites]
       frequency: "Regular participation"
@@ -2266,13 +2266,13 @@ syndication_rules:
     - Respect platform guidelines
     - Optimize format and length
     - Include platform-specific CTAs
-  
+
   timing_strategy:
     - Publish on owned media first
     - Syndicate after 24-48 hours
     - Schedule for optimal engagement
     - Consider time zones
-  
+
   tracking_requirements:
     - Use UTM parameters
     - Track referral sources
@@ -2311,21 +2311,21 @@ interface ChannelCustomization {
 class ContentDistributor {
   async distribute(plan: DistributionPlan): Promise<DistributionResult> {
     const results: ChannelResult[] = [];
-    
+
     for (const channel of plan.channels) {
       if (!channel.enabled) continue;
-      
+
       try {
         const adapted = await this.adaptContent(
           plan.contentId,
           channel
         );
-        
+
         const result = await this.publishToChannel(
           adapted,
           channel
         );
-        
+
         results.push({
           channel: channel.channel,
           success: true,
@@ -2340,7 +2340,7 @@ class ContentDistributor {
         });
       }
     }
-    
+
     return {
       contentId: plan.contentId,
       timestamp: new Date(),
@@ -2348,14 +2348,14 @@ class ContentDistributor {
       summary: this.generateSummary(results)
     };
   }
-  
+
   private async adaptContent(
     contentId: string,
     channel: ChannelConfig
   ): Promise<AdaptedContent> {
     const content = await this.getContent(contentId);
     const adapter = this.getAdapter(channel.channel);
-    
+
     return adapter.adapt(content, channel.customization);
   }
 }

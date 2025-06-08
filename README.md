@@ -316,7 +316,7 @@ Copy these to jumpstart your project:
 # Python project
 cp -r standards/templates/python-project/* .
 
-# JavaScript/TypeScript project  
+# JavaScript/TypeScript project
 cp -r standards/templates/javascript-project/* .
 
 # Go project
@@ -391,7 +391,7 @@ Our innovative routing system reduces token usage by 85% when using these standa
 
 ## 🤝 Contributing
 
-We welcome contributions to improve these standards! 
+We welcome contributions to improve these standards!
 
 ### How to Contribute
 

@@ -1,8 +1,8 @@
 # Project Management Standards
 
-**Version:** 2.0.0  
-**Last Updated:** January 2025  
-**Status:** Active  
+**Version:** 2.0.0
+**Last Updated:** January 2025
+**Status:** Active
 **Focus:** Agile project management with enterprise adaptability
 
 ## Table of Contents
@@ -30,17 +30,17 @@ core_principles:
     - Deliver value early and continuously
     - Validate assumptions with users
     - Prioritize based on business impact
-    
+
   team_empowerment:
     - Self-organizing teams
     - Psychological safety
     - Continuous learning culture
-    
+
   adaptive_planning:
     - Embrace change as competitive advantage
     - Short feedback loops
     - Data-driven decisions
-    
+
   quality_first:
     - Built-in quality, not inspected in
     - Definition of Done enforcement
@@ -74,21 +74,21 @@ methodology_guide:
       - High collaboration possible
     team_size: "3-9 members"
     sprint_length: "1-4 weeks"
-    
+
   kanban:
     use_when:
       - Continuous flow needed
       - Varying task sizes
       - Support/maintenance work
     wip_limits: "Required"
-    
+
   waterfall:
     use_when:
       - Fixed requirements
       - Regulatory compliance
       - Hardware dependencies
     phases: [Requirements, Design, Build, Test, Deploy]
-    
+
   hybrid:
     use_when:
       - Mixed requirement stability
@@ -106,22 +106,22 @@ framework_elements:
       - Owns product vision
       - Manages backlog
       - Stakeholder liaison
-      
+
     scrum_master:
       - Facilitates process
       - Removes impediments
       - Coaches team
-      
+
     development_team:
       - Self-organizing
       - Cross-functional
       - Delivers increment
-      
+
   artifacts:
     product_backlog: "Prioritized feature list"
     sprint_backlog: "Committed work for sprint"
     increment: "Potentially shippable product"
-    
+
   events:
     sprint_planning: "Define sprint work"
     daily_standup: "Sync and impediments"
@@ -147,7 +147,7 @@ lifecycle_phases:
       - Project charter
       - Stakeholder register
       - Initial budget
-      
+
   planning:
     activities:
       - Develop roadmap
@@ -158,7 +158,7 @@ lifecycle_phases:
       - Project plan
       - Resource plan
       - Risk register
-      
+
   execution:
     activities:
       - Sprint execution
@@ -169,7 +169,7 @@ lifecycle_phases:
       - Working increments
       - Status reports
       - Updated documentation
-      
+
   closure:
     activities:
       - Final delivery
@@ -191,12 +191,12 @@ phase_gates:
       - Approved business case
       - Committed sponsor
       - Available funding
-      
+
     planning_to_execution:
       - Approved plan
       - Team assembled
       - Environment ready
-      
+
     execution_to_closure:
       - Acceptance criteria met
       - Documentation complete
@@ -221,7 +221,7 @@ sprint_standards:
       - Sprint backlog
       - Commitment
       - Plan
-      
+
   execution:
     daily_standup:
       duration: "15 minutes"
@@ -229,19 +229,19 @@ sprint_standards:
         - What did I complete?
         - What will I do today?
         - Any impediments?
-        
+
     practices:
       - Update board daily
       - Raise blockers immediately
       - Collaborate actively
-      
+
   review:
     duration: "2 hours for 2-week sprint"
     activities:
       - Demo working software
       - Gather feedback
       - Update backlog
-      
+
   retrospective:
     duration: "1.5 hours for 2-week sprint"
     format:
@@ -256,7 +256,7 @@ sprint_standards:
 backlog_standards:
   user_stories:
     format: "As a [user], I want [feature] so that [benefit]"
-    
+
     INVEST_criteria:
       Independent: "Minimal dependencies"
       Negotiable: "Not a contract"
@@ -264,13 +264,13 @@ backlog_standards:
       Estimable: "Can size it"
       Small: "Fits in sprint"
       Testable: "Clear acceptance criteria"
-      
+
   prioritization:
     methods:
       - MoSCoW (Must/Should/Could/Won't)
       - Value vs Effort matrix
       - WSJF (Weighted Shortest Job First)
-      
+
   refinement:
     frequency: "Weekly, 10% of capacity"
     activities:
@@ -289,13 +289,13 @@ definition_of_done:
     - Unit tests passing
     - Code reviewed
     - Documentation updated
-    
+
   quality_assured:
     - Integration tests passing
     - Acceptance criteria met
     - No critical bugs
     - Performance validated
-    
+
   ready_to_ship:
     - Deployed to staging
     - Product owner approved
@@ -320,7 +320,7 @@ project_charter:
     constraints: "Time, budget, resources"
     assumptions: "What we believe true"
     risks: "Major concerns"
-    
+
   approval:
     sponsor: "Required"
     stakeholders: "Key ones"
@@ -336,13 +336,13 @@ wbs_standards:
     - Mutually exclusive elements
     - Outcome-oriented
     - 8-80 hour work packages
-    
+
   structure:
     level_1: "Project"
     level_2: "Major deliverables"
     level_3: "Components"
     level_4: "Work packages"
-    
+
   work_package:
     attributes:
       - Clear deliverable
@@ -360,15 +360,15 @@ estimation:
     planning_poker:
       scale: "Fibonacci (1,2,3,5,8,13)"
       process: "Reveal simultaneously"
-      
+
     t_shirt_sizing:
       scale: [XS, S, M, L, XL]
       use: "Initial estimates"
-      
+
     three_point:
       formula: "(Optimistic + 4*Likely + Pessimistic) / 6"
       use: "Detailed planning"
-      
+
   best_practices:
     - Estimate as team
     - Include buffer (15-20%)
@@ -384,14 +384,14 @@ scheduling:
     identify: "Longest duration path"
     monitor: "Weekly updates"
     optimize: "Fast-track or crash"
-    
+
   milestones:
     types:
       - Phase completion
       - Major deliveries
       - External dependencies
       - Go/no-go decisions
-      
+
   tracking:
     burndown: "Daily sprint progress"
     burnup: "Release progress"
@@ -413,18 +413,18 @@ risk_management:
       - SWOT analysis
       - Expert interviews
       - Historical data
-      
+
   assessment:
     probability: [Low, Medium, High]
     impact: [Low, Medium, High]
     score: "Probability × Impact"
-    
+
   response_strategies:
     avoid: "Eliminate risk"
     mitigate: "Reduce probability/impact"
     transfer: "Insurance/outsource"
     accept: "Contingency plan"
-    
+
   monitoring:
     frequency: "Weekly review"
     triggers: "Define thresholds"
@@ -441,25 +441,25 @@ issue_management:
       high: "Major impact"
       medium: "Workaround exists"
       low: "Minor inconvenience"
-      
+
   process:
     capture:
       - Description
       - Impact
       - Reporter
       - Date
-      
+
     triage:
       - Assign owner
       - Set priority
       - Define timeline
-      
+
     resolution:
       - Root cause
       - Action taken
       - Verification
       - Lessons learned
-      
+
   escalation:
     level_1: "Team lead (1 day)"
     level_2: "PM (2 days)"
@@ -478,20 +478,20 @@ stakeholder_analysis:
     dimensions:
       interest: [Low, Medium, High]
       influence: [Low, Medium, High]
-      
+
     strategies:
       high_high: "Manage closely"
       high_low: "Keep informed"
       low_high: "Keep satisfied"
       low_low: "Monitor"
-      
+
   engagement:
     plan:
       - Communication frequency
       - Preferred channels
       - Level of detail
       - Key messages
-      
+
   raci_matrix:
     responsible: "Does the work"
     accountable: "Owns outcome"
@@ -509,26 +509,26 @@ communication:
       - Sprint reviews
       - Steering committees
       - War rooms
-      
+
     asynchronous:
       - Email updates
       - Dashboards
       - Wiki/docs
       - Chat channels
-      
+
   cadence:
     daily: "Team sync"
     weekly: "Status report"
     bi_weekly: "Stakeholder update"
     monthly: "Steering committee"
-    
+
   templates:
     status_report:
       - Progress summary
       - Key metrics
       - Risks/issues
       - Next steps
-      
+
     executive_summary:
       - Business value
       - Timeline status
@@ -549,28 +549,28 @@ team_development:
       - Set clear expectations
       - Define working agreements
       - Establish communication norms
-      
+
     storming:
       - Address conflicts openly
       - Facilitate discussions
       - Build trust
-      
+
     norming:
       - Reinforce positive behaviors
       - Celebrate successes
       - Continuous improvement
-      
+
     performing:
       - Empower decision-making
       - Foster innovation
       - Scale practices
-      
+
   practices:
     psychological_safety:
       - Encourage questions
       - Learn from failures
       - Value diverse opinions
-      
+
     continuous_learning:
       - Regular training
       - Knowledge sharing
@@ -586,7 +586,7 @@ performance:
     quality: "Defect escape rate"
     satisfaction: "Team health surveys"
     predictability: "Commitment accuracy"
-    
+
   individual_support:
     one_on_ones:
       frequency: "Bi-weekly"
@@ -594,7 +594,7 @@ performance:
         - Progress and blockers
         - Career development
         - Feedback exchange
-        
+
     growth_plans:
       - Skill assessment
       - Learning objectives
@@ -611,14 +611,14 @@ remote_teams:
     - Overlap hours defined
     - Response time SLAs
     - Documentation first
-    
+
   collaboration:
     tools:
       - Video conferencing
       - Virtual whiteboards
       - Async updates
       - Shared workspaces
-      
+
     practices:
       - Virtual coffee chats
       - Online team building
@@ -638,17 +638,17 @@ project_metrics:
     schedule_variance: "Actual vs planned"
     budget_variance: "Actual vs budget"
     scope_creep: "Added vs original"
-    
+
   quality:
     defect_density: "Bugs per feature"
     test_coverage: "> 80%"
     technical_debt: "Track and plan"
-    
+
   team:
     velocity_trend: "Improving"
     happiness_index: "> 7/10"
     retention_rate: "> 90%"
-    
+
   business:
     roi: "Value delivered / cost"
     time_to_market: "Idea to production"
@@ -664,23 +664,23 @@ reporting:
       - Sprint burndown
       - Build status
       - Current blockers
-      
+
     weekly:
       - Progress summary
       - Risk heat map
       - Budget burn
-      
+
     monthly:
       - Trend analysis
       - Milestone status
       - Team metrics
-      
+
   formats:
     executive:
       - One-page summary
       - Traffic light status
       - Key decisions needed
-      
+
     detailed:
       - Full metrics
       - Root cause analysis
@@ -696,14 +696,14 @@ improvement:
     participation: "Whole team"
     output: "2-3 action items"
     follow_up: "Track completion"
-    
+
   metrics_review:
     frequency: "Monthly"
     analyze:
       - Trends
       - Anomalies
       - Correlations
-      
+
   process_optimization:
     - Remove waste
     - Automate repeatable
@@ -724,17 +724,17 @@ adoption:
       duration: "1-2 months"
       scope: "Single team"
       focus: "Core practices"
-      
+
     rollout:
       duration: "3-6 months"
       scope: "Department"
       focus: "Standardization"
-      
+
     scale:
       duration: "6-12 months"
       scope: "Organization"
       focus: "Optimization"
-      
+
   success_factors:
     - Executive sponsorship
     - Team buy-in
@@ -751,22 +751,22 @@ maturity_levels:
     - Ad hoc processes
     - Hero culture
     - Reactive mode
-    
+
   level_2_managed:
     - Basic standards
     - Regular planning
     - Some metrics
-    
+
   level_3_defined:
     - Documented processes
     - Consistent practices
     - Proactive management
-    
+
   level_4_quantified:
     - Data-driven decisions
     - Predictable delivery
     - Continuous improvement
-    
+
   level_5_optimizing:
     - Innovation culture
     - Self-organizing
@@ -781,22 +781,22 @@ avoid:
     - Rigid adherence to process
     - Ignoring team feedback
     - Documentation overload
-    
+
   planning_paralysis:
     - Over-planning upfront
     - Resisting change
     - Perfect vs good enough
-    
+
   metrics_madness:
     - Measuring everything
     - Gaming the system
     - Quantity over quality
-    
+
   communication_breakdown:
     - Information silos
     - Assuming understanding
     - Delayed escalation
-    
+
 remedies:
   - Start simple, evolve
   - Focus on outcomes
@@ -814,21 +814,21 @@ tool_categories:
       - Backlog management
       - Sprint planning
       - Progress tracking
-      
+
   collaboration:
     examples: [Slack, Teams, Miro]
     capabilities:
       - Real-time chat
       - Video conferencing
       - Virtual whiteboarding
-      
+
   reporting:
     examples: [PowerBI, Tableau, Grafana]
     capabilities:
       - Real-time dashboards
       - Trend analysis
       - Custom reports
-      
+
   automation:
     focus:
       - Status updates
@@ -848,12 +848,12 @@ sprint_checklist:
     - [ ] Backlog refined
     - [ ] Capacity confirmed
     - [ ] Dependencies identified
-    
+
   during:
     - [ ] Daily standups held
     - [ ] Board updated
     - [ ] Blockers addressed
-    
+
   after:
     - [ ] Demo completed
     - [ ] Retrospective held

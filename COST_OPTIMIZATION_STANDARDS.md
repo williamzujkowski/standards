@@ -1,7 +1,7 @@
 # Cost Optimization and FinOps Standards
 
-**Version:** 1.0.0  
-**Last Updated:** January 2025  
+**Version:** 1.0.0
+**Last Updated:** January 2025
 **Status:** Active
 
 ## Table of Contents
@@ -32,7 +32,7 @@ finops_principles:
       - Shared responsibility for cloud costs
       - Regular cost review meetings
       - Cost-aware engineering culture
-  
+
   accountability:
     description: "Teams own their cloud cost decisions"
     practices:
@@ -40,7 +40,7 @@ finops_principles:
       - Budget ownership at team level
       - Cost impact consideration in technical decisions
       - Regular cost reviews and retrospectives
-  
+
   value_driven:
     description: "Optimize for business value, not just cost reduction"
     practices:
@@ -48,7 +48,7 @@ finops_principles:
       - Value-based cost optimization
       - Performance vs cost trade-off analysis
       - Customer impact consideration
-  
+
   accessibility:
     description: "Cost data is accessible to all stakeholders"
     practices:
@@ -116,7 +116,7 @@ class FinOpsMaturityAssessment:
                 improvement_actions=[]
             )
         }
-    
+
     def assess_cost_visibility(self) -> MaturityLevel:
         """Assess current cost visibility maturity."""
         criteria = {
@@ -138,10 +138,10 @@ class FinOpsMaturityAssessment:
                 "Self-service cost analytics"
             ]
         }
-        
+
         # Implementation would assess against these criteria
         return MaturityLevel.CRAWL
-    
+
     def assess_cost_allocation(self) -> MaturityLevel:
         """Assess cost allocation maturity."""
         criteria = {
@@ -163,9 +163,9 @@ class FinOpsMaturityAssessment:
                 "Automated dispute resolution"
             ]
         }
-        
+
         return MaturityLevel.CRAWL
-    
+
     def generate_improvement_roadmap(self) -> Dict[str, List[str]]:
         """Generate improvement roadmap based on maturity gaps."""
         roadmap = {
@@ -173,26 +173,26 @@ class FinOpsMaturityAssessment:
             "short_term_goals": [],
             "long_term_vision": []
         }
-        
+
         for dimension in self.dimensions.values():
             if dimension.current_level == MaturityLevel.CRAWL:
                 roadmap["immediate_actions"].extend([
                     f"Establish basic {dimension.name.lower()} capabilities",
                     f"Implement foundational {dimension.name.lower()} processes"
                 ])
-            
+
             if dimension.target_level == MaturityLevel.WALK:
                 roadmap["short_term_goals"].extend([
                     f"Automate {dimension.name.lower()} processes",
                     f"Implement advanced {dimension.name.lower()} features"
                 ])
-            
+
             if dimension.target_level == MaturityLevel.RUN:
                 roadmap["long_term_vision"].extend([
                     f"Achieve full automation in {dimension.name.lower()}",
                     f"Implement predictive {dimension.name.lower()} capabilities"
                 ])
-        
+
         return roadmap
 
 # Usage
@@ -219,7 +219,7 @@ finops_organization:
       - Approve major cost initiatives
       - Resolve cost disputes
     meeting_frequency: monthly
-  
+
   finops_team:
     roles:
       - FinOps Practitioner (lead)
@@ -232,7 +232,7 @@ finops_organization:
       - Tool management and automation
       - Training and enablement
     meeting_frequency: weekly
-  
+
   engineering_champions:
     selection_criteria:
       - Strong technical background
@@ -255,7 +255,7 @@ from enum import Enum
 
 class ResponsibilityType(Enum):
     ACCOUNTABLE = "accountable"  # A - Accountable
-    RESPONSIBLE = "responsible"  # R - Responsible  
+    RESPONSIBLE = "responsible"  # R - Responsible
     CONSULTED = "consulted"     # C - Consulted
     INFORMED = "informed"       # I - Informed
 
@@ -269,16 +269,16 @@ class FinOpsRole:
 
 class FinOpsRACI:
     """RACI matrix for FinOps responsibilities."""
-    
+
     def __init__(self):
         self.roles = [
             "FinOps Practitioner",
-            "Engineering Manager", 
+            "Engineering Manager",
             "Finance Manager",
             "Product Manager",
             "DevOps Engineer"
         ]
-        
+
         self.activities = {
             "cost_budgeting": {
                 "FinOps Practitioner": ResponsibilityType.RESPONSIBLE,
@@ -309,7 +309,7 @@ class FinOpsRACI:
                 "DevOps Engineer": ResponsibilityType.RESPONSIBLE
             }
         }
-    
+
     def get_responsibilities(self, role: str) -> Dict[str, ResponsibilityType]:
         """Get all responsibilities for a specific role."""
         return {
@@ -340,7 +340,7 @@ FINOPS_ROLES = {
         ],
         reporting_to="CFO or VP Engineering"
     ),
-    
+
     "cloud_cost_analyst": FinOpsRole(
         name="Cloud Cost Analyst",
         description="Analyze cloud costs and provide insights",
@@ -385,17 +385,17 @@ class AWSCostManager:
         self.ce_client = session.client('ce')  # Cost Explorer
         self.organizations_client = session.client('organizations')
         self.budgets_client = session.client('budgets')
-        
-    def get_cost_and_usage(self, 
-                          start_date: str, 
+
+    def get_cost_and_usage(self,
+                          start_date: str,
                           end_date: str,
                           granularity: str = 'MONTHLY',
                           group_by: List[Dict] = None) -> Dict:
         """Get cost and usage data from Cost Explorer."""
-        
+
         if group_by is None:
             group_by = [{'Type': 'DIMENSION', 'Key': 'SERVICE'}]
-        
+
         response = self.ce_client.get_cost_and_usage(
             TimePeriod={
                 'Start': start_date,
@@ -405,9 +405,9 @@ class AWSCostManager:
             Metrics=['BlendedCost', 'UsageQuantity'],
             GroupBy=group_by
         )
-        
+
         return response
-    
+
     def get_rightsizing_recommendations(self) -> Dict:
         """Get EC2 rightsizing recommendations."""
         response = self.ce_client.get_rightsizing_recommendation(
@@ -417,29 +417,29 @@ class AWSCostManager:
                 'RecommendationTarget': 'SAME_INSTANCE_FAMILY'
             }
         )
-        
+
         return response
-    
+
     def get_savings_plans_utilization(self, time_period: Dict) -> Dict:
         """Get Savings Plans utilization and coverage."""
         response = self.ce_client.get_savings_plans_utilization(
             TimePeriod=time_period,
             Granularity='MONTHLY'
         )
-        
+
         return response
-    
+
     def analyze_cost_trends(self, days: int = 30) -> pd.DataFrame:
         """Analyze cost trends over specified period."""
         end_date = datetime.now().date()
         start_date = end_date - timedelta(days=days)
-        
+
         response = self.get_cost_and_usage(
             start_date=start_date.isoformat(),
             end_date=end_date.isoformat(),
             granularity='DAILY'
         )
-        
+
         # Convert to DataFrame for analysis
         data = []
         for result in response['ResultsByTime']:
@@ -452,19 +452,19 @@ class AWSCostManager:
                     'Service': service,
                     'Cost': cost
                 })
-        
+
         df = pd.DataFrame(data)
         df['Date'] = pd.to_datetime(df['Date'])
-        
+
         return df
-    
-    def create_cost_budget(self, 
+
+    def create_cost_budget(self,
                           budget_name: str,
                           budget_limit: float,
                           time_unit: str = 'MONTHLY') -> Dict:
         """Create a cost budget with alerts."""
         account_id = boto3.client('sts').get_caller_identity()['Account']
-        
+
         budget = {
             'BudgetName': budget_name,
             'BudgetLimit': {
@@ -479,7 +479,7 @@ class AWSCostManager:
             'CostFilters': {},
             'BudgetType': 'COST'
         }
-        
+
         # Create budget notifications
         notifications = [
             {
@@ -511,13 +511,13 @@ class AWSCostManager:
                 ]
             }
         ]
-        
+
         response = self.budgets_client.create_budget(
             AccountId=account_id,
             Budget=budget,
             NotificationsWithSubscribers=notifications
         )
-        
+
         return response
 
 # Usage example
@@ -530,7 +530,7 @@ print(f"Total cost last 30 days: ${trends_df['Cost'].sum():.2f}")
 # Get rightsizing recommendations
 rightsizing = cost_manager.get_rightsizing_recommendations()
 potential_savings = sum([
-    float(rec['EstimatedMonthlySavings']['Amount']) 
+    float(rec['EstimatedMonthlySavings']['Amount'])
     for rec in rightsizing.get('RightsizingRecommendations', [])
 ])
 print(f"Potential monthly savings from rightsizing: ${potential_savings:.2f}")
@@ -552,36 +552,36 @@ class AzureCostManager:
         """Initialize Azure Cost Manager."""
         self.subscription_id = subscription_id
         self.credential = DefaultAzureCredential()
-        
+
         self.cost_client = CostManagementClient(
             credential=self.credential,
             subscription_id=subscription_id
         )
-        
+
         self.consumption_client = ConsumptionManagementClient(
             credential=self.credential,
             subscription_id=subscription_id
         )
-        
+
         self.advisor_client = AdvisorManagementClient(
             credential=self.credential,
             subscription_id=subscription_id
         )
-    
-    def get_cost_analysis(self, 
+
+    def get_cost_analysis(self,
                          resource_group: str = None,
                          time_period_days: int = 30) -> pd.DataFrame:
         """Get cost analysis data."""
-        
+
         # Define scope
         scope = f"/subscriptions/{self.subscription_id}"
         if resource_group:
             scope += f"/resourceGroups/{resource_group}"
-        
+
         # Define time period
         end_date = datetime.now().date()
         start_date = end_date - timedelta(days=time_period_days)
-        
+
         # Create query definition
         query_definition = {
             "type": "ActualCost",
@@ -606,13 +606,13 @@ class AzureCostManager:
                 ]
             }
         }
-        
+
         # Execute query
         result = self.cost_client.query.usage(
             scope=scope,
             parameters=query_definition
         )
-        
+
         # Convert to DataFrame
         data = []
         for row in result.rows:
@@ -622,18 +622,18 @@ class AzureCostManager:
                 'Cost': float(row[0]),
                 'Currency': row[3]
             })
-        
+
         return pd.DataFrame(data)
-    
+
     def get_advisor_recommendations(self) -> List[Dict]:
         """Get Azure Advisor cost recommendations."""
         recommendations = []
-        
+
         # Get cost recommendations
         cost_recommendations = self.advisor_client.recommendations.list(
             filter="Category eq 'Cost'"
         )
-        
+
         for rec in cost_recommendations:
             recommendations.append({
                 'id': rec.name,
@@ -644,9 +644,9 @@ class AzureCostManager:
                 'potential_savings': rec.extended_properties.get('annualSavingsAmount', 0),
                 'resource_id': rec.resource_metadata.resource_id if rec.resource_metadata else None
             })
-        
+
         return recommendations
-    
+
     def analyze_reserved_instance_utilization(self) -> Dict:
         """Analyze Reserved Instance utilization."""
         # Get RI utilization for last 30 days
@@ -655,33 +655,33 @@ class AzureCostManager:
             reservation_id="your-reservation-id",  # Replace with actual ID
             grain="daily"
         )
-        
+
         total_utilization = 0
         count = 0
-        
+
         for data in utilization_data:
             if hasattr(data, 'utilization_percentage'):
                 total_utilization += data.utilization_percentage
                 count += 1
-        
+
         avg_utilization = total_utilization / count if count > 0 else 0
-        
+
         return {
             'average_utilization': avg_utilization,
             'optimization_opportunity': 100 - avg_utilization
         }
-    
-    def create_budget_alert(self, 
+
+    def create_budget_alert(self,
                            budget_name: str,
                            budget_amount: float,
                            resource_group: str = None) -> Dict:
         """Create budget with alert notifications."""
-        
+
         # Define scope
         scope = f"/subscriptions/{self.subscription_id}"
         if resource_group:
             scope += f"/resourceGroups/{resource_group}"
-        
+
         # Budget definition
         budget_definition = {
             "properties": {
@@ -712,10 +712,10 @@ class AzureCostManager:
                 }
             }
         }
-        
+
         # Note: Budget creation would use Azure REST API or ARM templates
         # as the Python SDK doesn't fully support budget creation
-        
+
         return {
             "budget_name": budget_name,
             "scope": scope,
@@ -750,17 +750,17 @@ class GCPCostManager:
         """Initialize GCP Cost Manager."""
         self.project_id = project_id
         self.billing_account_id = billing_account_id
-        
+
         # Initialize clients
         self.billing_client = billing_v1.CloudBillingClient()
         self.recommender_client = recommender_v1.RecommenderClient()
-    
+
     def get_billing_data(self, days: int = 30) -> pd.DataFrame:
         """Get billing data using BigQuery export."""
         from google.cloud import bigquery
-        
+
         client = bigquery.Client(project=self.project_id)
-        
+
         # Query billing export table
         query = f"""
         SELECT
@@ -774,21 +774,21 @@ class GCPCostManager:
         GROUP BY 1, 2, 3, 5
         ORDER BY usage_date DESC, total_cost DESC
         """
-        
+
         df = client.query(query).to_dataframe()
         return df
-    
+
     def get_cost_recommendations(self) -> List[Dict]:
         """Get cost optimization recommendations."""
         recommendations = []
-        
+
         # Get rightsizing recommendations
         parent = f"projects/{self.project_id}/locations/global/recommenders/google.compute.instance.MachineTypeRecommender"
-        
+
         try:
             for recommendation in self.recommender_client.list_recommendations(parent=parent):
                 impact = recommendation.primary_impact
-                
+
                 recommendations.append({
                     'id': recommendation.name,
                     'recommender': 'compute.instance.MachineTypeRecommender',
@@ -803,14 +803,14 @@ class GCPCostManager:
                 })
         except Exception as e:
             print(f"Error getting rightsizing recommendations: {e}")
-        
+
         # Get idle resource recommendations
         idle_parent = f"projects/{self.project_id}/locations/global/recommenders/google.compute.instance.IdleResourceRecommender"
-        
+
         try:
             for recommendation in self.recommender_client.list_recommendations(parent=idle_parent):
                 impact = recommendation.primary_impact
-                
+
                 recommendations.append({
                     'id': recommendation.name,
                     'recommender': 'compute.instance.IdleResourceRecommender',
@@ -825,26 +825,26 @@ class GCPCostManager:
                 })
         except Exception as e:
             print(f"Error getting idle resource recommendations: {e}")
-        
+
         return recommendations
-    
+
     def analyze_cost_trends(self, df: pd.DataFrame) -> Dict:
         """Analyze cost trends from billing data."""
         # Convert usage_date to datetime
         df['usage_date'] = pd.to_datetime(df['usage_date'])
-        
+
         # Daily cost trends
         daily_costs = df.groupby('usage_date')['total_cost'].sum().reset_index()
         daily_costs = daily_costs.sort_values('usage_date')
-        
+
         # Service-wise cost breakdown
         service_costs = df.groupby('service_name')['total_cost'].sum().sort_values(ascending=False)
-        
+
         # Growth analysis
         recent_week = daily_costs.tail(7)['total_cost'].mean()
         previous_week = daily_costs.iloc[-14:-7]['total_cost'].mean()
         growth_rate = ((recent_week - previous_week) / previous_week * 100) if previous_week > 0 else 0
-        
+
         return {
             'total_cost': df['total_cost'].sum(),
             'daily_average': daily_costs['total_cost'].mean(),
@@ -852,18 +852,18 @@ class GCPCostManager:
             'growth_rate_percent': growth_rate,
             'currency': df['currency'].iloc[0] if len(df) > 0 else 'USD'
         }
-    
-    def create_budget_alert(self, 
+
+    def create_budget_alert(self,
                            budget_name: str,
                            budget_amount: float,
                            alert_thresholds: List[float] = [0.8, 1.0]) -> Dict:
         """Create budget with alert notifications."""
-        
+
         # Budget creation would typically be done via:
         # 1. Cloud Console UI
         # 2. gcloud CLI
         # 3. Terraform/Infrastructure as Code
-        
+
         budget_config = {
             "displayName": budget_name,
             "budgetFilter": {
@@ -887,7 +887,7 @@ class GCPCostManager:
                 "schemaVersion": "1.0"
             }
         }
-        
+
         return budget_config
 
 # Usage
@@ -917,46 +917,46 @@ tagging_strategy:
     - key: "Environment"
       values: ["production", "staging", "development", "test"]
       description: "Environment designation"
-      
+
     - key: "Team"
       values: ["platform", "frontend", "backend", "data", "security"]
       description: "Owning team responsible for the resource"
-      
+
     - key: "Project"
       description: "Project or product name"
       pattern: "^[a-z][a-z0-9-]*[a-z0-9]$"
-      
+
     - key: "CostCenter"
       description: "Cost center for chargeback"
       pattern: "^CC-[0-9]{4}$"
-      
+
     - key: "Application"
       description: "Application name"
       pattern: "^[a-z][a-z0-9-]*[a-z0-9]$"
-      
+
   optional_tags:
     - key: "Owner"
       description: "Individual responsible for the resource"
-      
+
     - key: "CreatedBy"
       description: "Who created the resource"
-      
+
     - key: "Purpose"
       description: "Specific purpose of the resource"
-      
+
     - key: "Schedule"
       description: "When resource should be running"
       values: ["24x7", "business-hours", "dev-hours"]
-      
+
   automation_tags:
     - key: "AutoShutdown"
       values: ["enabled", "disabled"]
       description: "Whether resource can be automatically shutdown"
-      
+
     - key: "Backup"
       values: ["required", "optional", "none"]
       description: "Backup requirements"
-      
+
     - key: "Monitoring"
       values: ["standard", "enhanced", "minimal"]
       description: "Monitoring level required"
@@ -970,14 +970,14 @@ tag_enforcement:
       - "s3:bucket"
       - "lambda:function"
     enforcement_method: "preventive"  # preventive, detective, corrective
-    
+
   azure:
     resource_types:
       - "Microsoft.Compute/virtualMachines"
       - "Microsoft.Storage/storageAccounts"
       - "Microsoft.Sql/servers"
     enforcement_method: "policy"
-    
+
   gcp:
     resource_types:
       - "compute.instances"
@@ -1000,35 +1000,35 @@ class CloudTaggingManager:
         self.mandatory_tags = [
             'Environment', 'Team', 'Project', 'CostCenter', 'Application'
         ]
-    
+
     def validate_tags(self, tags: Dict[str, str]) -> List[str]:
         """Validate tags against tagging strategy."""
         violations = []
-        
+
         # Check mandatory tags
         for required_tag in self.mandatory_tags:
             if required_tag not in tags:
                 violations.append(f"Missing mandatory tag: {required_tag}")
-        
+
         # Validate Environment tag values
         if 'Environment' in tags:
             valid_environments = ['production', 'staging', 'development', 'test']
             if tags['Environment'] not in valid_environments:
                 violations.append(f"Invalid Environment value: {tags['Environment']}")
-        
+
         # Validate CostCenter format
         if 'CostCenter' in tags:
             import re
             if not re.match(r'^CC-\d{4}$', tags['CostCenter']):
                 violations.append(f"Invalid CostCenter format: {tags['CostCenter']}")
-        
+
         return violations
-    
+
     def get_untagged_resources(self, region: str = 'us-east-1') -> List[Dict]:
         """Find AWS resources missing mandatory tags."""
         ec2 = self.aws_session.client('ec2', region_name=region)
         untagged_resources = []
-        
+
         # Check EC2 instances
         instances = ec2.describe_instances()
         for reservation in instances['Reservations']:
@@ -1036,7 +1036,7 @@ class CloudTaggingManager:
                 if instance['State']['Name'] not in ['terminated', 'terminating']:
                     tags = {tag['Key']: tag['Value'] for tag in instance.get('Tags', [])}
                     violations = self.validate_tags(tags)
-                    
+
                     if violations:
                         untagged_resources.append({
                             'ResourceType': 'EC2Instance',
@@ -1045,18 +1045,18 @@ class CloudTaggingManager:
                             'Violations': violations,
                             'Region': region
                         })
-        
+
         # Check S3 buckets
         s3 = self.aws_session.client('s3')
         buckets = s3.list_buckets()
-        
+
         for bucket in buckets['Buckets']:
             try:
                 tags_response = s3.get_bucket_tagging(Bucket=bucket['Name'])
                 tags = {tag['Key']: tag['Value'] for tag in tags_response.get('TagSet', [])}
             except s3.exceptions.NoSuchTagSet:
                 tags = {}
-            
+
             violations = self.validate_tags(tags)
             if violations:
                 untagged_resources.append({
@@ -1066,41 +1066,41 @@ class CloudTaggingManager:
                     'Violations': violations,
                     'Region': 'global'
                 })
-        
+
         return untagged_resources
-    
-    def apply_default_tags(self, resource_type: str, resource_id: str, 
+
+    def apply_default_tags(self, resource_type: str, resource_id: str,
                           region: str, default_tags: Dict[str, str]) -> bool:
         """Apply default tags to a resource."""
         try:
             if resource_type == 'EC2Instance':
                 ec2 = self.aws_session.client('ec2', region_name=region)
-                
+
                 # Convert dict to AWS tag format
                 tag_list = [{'Key': k, 'Value': v} for k, v in default_tags.items()]
-                
+
                 ec2.create_tags(
                     Resources=[resource_id],
                     Tags=tag_list
                 )
-                
+
             elif resource_type == 'S3Bucket':
                 s3 = self.aws_session.client('s3')
-                
+
                 # Convert dict to S3 tag format
                 tag_set = [{'Key': k, 'Value': v} for k, v in default_tags.items()]
-                
+
                 s3.put_bucket_tagging(
                     Bucket=resource_id,
                     Tagging={'TagSet': tag_set}
                 )
-            
+
             return True
-            
+
         except Exception as e:
             print(f"Error applying tags to {resource_id}: {e}")
             return False
-    
+
     def generate_tagging_report(self) -> Dict:
         """Generate comprehensive tagging compliance report."""
         report = {
@@ -1115,36 +1115,36 @@ class CloudTaggingManager:
             'violations_by_resource_type': {},
             'untagged_resources': []
         }
-        
+
         # Get untagged resources across all regions
         regions = ['us-east-1', 'us-west-2', 'eu-west-1']  # Add more regions as needed
-        
+
         for region in regions:
             untagged = self.get_untagged_resources(region)
             report['untagged_resources'].extend(untagged)
-        
+
         # Calculate summary statistics
         report['summary']['total_resources'] = len(report['untagged_resources'])
         report['summary']['non_compliant_resources'] = len(report['untagged_resources'])
-        
+
         # Analyze violations
         for resource in report['untagged_resources']:
             resource_type = resource['ResourceType']
             if resource_type not in report['violations_by_resource_type']:
                 report['violations_by_resource_type'][resource_type] = 0
             report['violations_by_resource_type'][resource_type] += 1
-            
+
             for violation in resource['Violations']:
                 if violation not in report['violations_by_tag']:
                     report['violations_by_tag'][violation] = 0
                 report['violations_by_tag'][violation] += 1
-        
+
         # Calculate compliance percentage
         if report['summary']['total_resources'] > 0:
-            compliance_rate = (report['summary']['compliant_resources'] / 
+            compliance_rate = (report['summary']['compliant_resources'] /
                              report['summary']['total_resources']) * 100
             report['summary']['compliance_percentage'] = round(compliance_rate, 2)
-        
+
         return report
 
 # Usage
@@ -1194,12 +1194,12 @@ class ComputeRightsizingAnalyzer:
         self.ec2_client = boto3.client('ec2')
         self.cloudwatch_client = boto3.client('cloudwatch')
         self.ce_client = boto3.client('ce')
-    
+
     def get_instance_utilization(self, instance_id: str, days: int = 30) -> Dict:
         """Get CPU and memory utilization for an instance."""
         end_time = datetime.utcnow()
         start_time = end_time - timedelta(days=days)
-        
+
         # Get CPU utilization
         cpu_response = self.cloudwatch_client.get_metric_statistics(
             Namespace='AWS/EC2',
@@ -1210,7 +1210,7 @@ class ComputeRightsizingAnalyzer:
             Period=3600,  # 1 hour intervals
             Statistics=['Average', 'Maximum']
         )
-        
+
         # Get memory utilization (requires CloudWatch agent)
         try:
             memory_response = self.cloudwatch_client.get_metric_statistics(
@@ -1224,11 +1224,11 @@ class ComputeRightsizingAnalyzer:
             )
         except:
             memory_response = {'Datapoints': []}
-        
+
         # Calculate utilization statistics
         cpu_values = [dp['Average'] for dp in cpu_response['Datapoints']]
         memory_values = [dp['Average'] for dp in memory_response['Datapoints']]
-        
+
         return {
             'instance_id': instance_id,
             'cpu_utilization': {
@@ -1243,58 +1243,58 @@ class ComputeRightsizingAnalyzer:
             },
             'sample_count': len(cpu_values)
         }
-    
+
     def analyze_rightsizing_opportunities(self) -> List[Dict]:
         """Analyze all instances for rightsizing opportunities."""
         recommendations = []
-        
+
         # Get all running instances
         instances_response = self.ec2_client.describe_instances(
             Filters=[{'Name': 'instance-state-name', 'Values': ['running']}]
         )
-        
+
         for reservation in instances_response['Reservations']:
             for instance in reservation['Instances']:
                 instance_id = instance['InstanceId']
                 instance_type = instance['InstanceType']
-                
+
                 # Get utilization data
                 utilization = self.get_instance_utilization(instance_id)
-                
+
                 # Determine rightsizing recommendation
                 recommendation = self._generate_rightsizing_recommendation(
                     instance, utilization
                 )
-                
+
                 if recommendation:
                     recommendations.append(recommendation)
-        
+
         return recommendations
-    
+
     def _generate_rightsizing_recommendation(self, instance: Dict, utilization: Dict) -> Dict:
         """Generate rightsizing recommendation based on utilization."""
         instance_id = instance['InstanceId']
         current_type = instance['InstanceType']
-        
+
         cpu_avg = utilization['cpu_utilization']['average']
         cpu_p95 = utilization['cpu_utilization']['p95']
         memory_avg = utilization['memory_utilization']['average']
-        
+
         # Define thresholds
         LOW_CPU_THRESHOLD = 20
         HIGH_CPU_THRESHOLD = 80
         LOW_MEMORY_THRESHOLD = 20
         HIGH_MEMORY_THRESHOLD = 80
-        
+
         recommendation = None
         reason = []
-        
+
         # Check for underutilization
         if cpu_avg < LOW_CPU_THRESHOLD and memory_avg < LOW_MEMORY_THRESHOLD:
             recommendation = 'downsize'
             reason.append(f"Low CPU utilization ({cpu_avg:.1f}%)")
             reason.append(f"Low memory utilization ({memory_avg:.1f}%)")
-        
+
         # Check for overutilization
         elif cpu_p95 > HIGH_CPU_THRESHOLD or memory_avg > HIGH_MEMORY_THRESHOLD:
             recommendation = 'upsize'
@@ -1302,11 +1302,11 @@ class ComputeRightsizingAnalyzer:
                 reason.append(f"High CPU utilization P95 ({cpu_p95:.1f}%)")
             if memory_avg > HIGH_MEMORY_THRESHOLD:
                 reason.append(f"High memory utilization ({memory_avg:.1f}%)")
-        
+
         if recommendation:
             # Get potential instance types and savings
             new_type, savings = self._calculate_savings(current_type, recommendation)
-            
+
             return {
                 'instance_id': instance_id,
                 'current_type': current_type,
@@ -1317,9 +1317,9 @@ class ComputeRightsizingAnalyzer:
                 'utilization': utilization,
                 'confidence': self._calculate_confidence(utilization)
             }
-        
+
         return None
-    
+
     def _calculate_savings(self, current_type: str, recommendation: str) -> Tuple[str, float]:
         """Calculate potential savings from rightsizing."""
         # Instance type to cost mapping (simplified - use real pricing API)
@@ -1337,9 +1337,9 @@ class ComputeRightsizingAnalyzer:
             'c5.xlarge': 171.00,
             'c5.2xlarge': 342.00
         }
-        
+
         current_cost = instance_costs.get(current_type, 100)  # Default cost
-        
+
         # Simple recommendation logic (in practice, use more sophisticated analysis)
         if recommendation == 'downsize':
             # Recommend one size smaller
@@ -1364,33 +1364,33 @@ class ComputeRightsizingAnalyzer:
                 'm5.xlarge': 'm5.2xlarge'
             }
             new_type = size_map.get(current_type, current_type)
-        
+
         new_cost = instance_costs.get(new_type, current_cost)
         monthly_savings = current_cost - new_cost
-        
+
         return new_type, monthly_savings
-    
+
     def _calculate_confidence(self, utilization: Dict) -> str:
         """Calculate confidence level of recommendation."""
         sample_count = utilization['sample_count']
-        
+
         if sample_count < 168:  # Less than 1 week of hourly data
             return 'low'
         elif sample_count < 720:  # Less than 1 month of hourly data
             return 'medium'
         else:
             return 'high'
-    
+
     def generate_rightsizing_report(self) -> Dict:
         """Generate comprehensive rightsizing report."""
         recommendations = self.analyze_rightsizing_opportunities()
-        
+
         # Calculate summary statistics
         total_instances = len(recommendations) if recommendations else 0
         downsize_opportunities = len([r for r in recommendations if r['recommendation'] == 'downsize'])
         upsize_recommendations = len([r for r in recommendations if r['recommendation'] == 'upsize'])
         total_potential_savings = sum([r['potential_monthly_savings'] for r in recommendations if r['potential_monthly_savings'] > 0])
-        
+
         return {
             'timestamp': datetime.now().isoformat(),
             'summary': {
@@ -1434,23 +1434,23 @@ class AutoScalingOptimizer:
         self.autoscaling_client = boto3.client('autoscaling')
         self.cloudwatch_client = boto3.client('cloudwatch')
         self.ec2_client = boto3.client('ec2')
-    
+
     def analyze_autoscaling_groups(self) -> List[Dict]:
         """Analyze all Auto Scaling groups for optimization opportunities."""
         optimizations = []
-        
+
         # Get all Auto Scaling groups
         response = self.autoscaling_client.describe_auto_scaling_groups()
-        
+
         for asg in response['AutoScalingGroups']:
             asg_name = asg['AutoScalingGroupName']
-            
+
             # Analyze scaling patterns
             analysis = self._analyze_scaling_pattern(asg_name)
-            
+
             # Generate optimization recommendations
             recommendations = self._generate_scaling_recommendations(asg, analysis)
-            
+
             if recommendations:
                 optimizations.append({
                     'asg_name': asg_name,
@@ -1462,14 +1462,14 @@ class AutoScalingOptimizer:
                     'analysis': analysis,
                     'recommendations': recommendations
                 })
-        
+
         return optimizations
-    
+
     def _analyze_scaling_pattern(self, asg_name: str, days: int = 30) -> Dict:
         """Analyze scaling patterns for an Auto Scaling group."""
         end_time = datetime.utcnow()
         start_time = end_time - timedelta(days=days)
-        
+
         # Get capacity metrics
         capacity_response = self.cloudwatch_client.get_metric_statistics(
             Namespace='AWS/AutoScaling',
@@ -1480,7 +1480,7 @@ class AutoScalingOptimizer:
             Period=3600,  # 1 hour intervals
             Statistics=['Average', 'Maximum', 'Minimum']
         )
-        
+
         # Get CPU utilization
         cpu_response = self.cloudwatch_client.get_metric_statistics(
             Namespace='AWS/AutoScaling',
@@ -1491,16 +1491,16 @@ class AutoScalingOptimizer:
             Period=3600,
             Statistics=['Average']
         )
-        
+
         capacity_values = [dp['Average'] for dp in capacity_response['Datapoints']]
-        
+
         if capacity_values:
             analysis = {
                 'avg_capacity': statistics.mean(capacity_values),
                 'min_capacity': min(capacity_values),
                 'max_capacity': max(capacity_values),
                 'capacity_variance': statistics.variance(capacity_values) if len(capacity_values) > 1 else 0,
-                'scaling_frequency': len([v for i, v in enumerate(capacity_values[1:]) 
+                'scaling_frequency': len([v for i, v in enumerate(capacity_values[1:])
                                         if abs(v - capacity_values[i]) > 0]),
                 'utilization_pattern': self._determine_utilization_pattern(capacity_values)
             }
@@ -1513,17 +1513,17 @@ class AutoScalingOptimizer:
                 'scaling_frequency': 0,
                 'utilization_pattern': 'insufficient_data'
             }
-        
+
         return analysis
-    
+
     def _determine_utilization_pattern(self, capacity_values: List[float]) -> str:
         """Determine the utilization pattern from capacity data."""
         if not capacity_values:
             return 'insufficient_data'
-        
+
         avg_capacity = statistics.mean(capacity_values)
         variance = statistics.variance(capacity_values) if len(capacity_values) > 1 else 0
-        
+
         # Simple pattern classification
         if variance < 0.5:
             return 'stable'
@@ -1531,18 +1531,18 @@ class AutoScalingOptimizer:
             return 'moderate_scaling'
         else:
             return 'high_scaling'
-    
+
     def _generate_scaling_recommendations(self, asg: Dict, analysis: Dict) -> List[Dict]:
         """Generate scaling optimization recommendations."""
         recommendations = []
         current_min = asg['MinSize']
         current_max = asg['MaxSize']
         current_desired = asg['DesiredCapacity']
-        
+
         avg_capacity = analysis['avg_capacity']
         max_capacity = analysis['max_capacity']
         pattern = analysis['utilization_pattern']
-        
+
         # Check if min size is too high
         if current_min > avg_capacity * 1.2:
             recommendations.append({
@@ -1552,7 +1552,7 @@ class AutoScalingOptimizer:
                 'reason': f'Min size ({current_min}) is higher than typical usage ({avg_capacity:.1f})',
                 'potential_savings': self._calculate_savings(current_min - int(avg_capacity * 0.8))
             })
-        
+
         # Check if max size is too low (causing performance issues)
         if current_max < max_capacity * 1.2 and pattern == 'high_scaling':
             recommendations.append({
@@ -1562,7 +1562,7 @@ class AutoScalingOptimizer:
                 'reason': f'Max size may be limiting scaling during peak demand',
                 'potential_cost_impact': 'increased_capacity_costs'
             })
-        
+
         # Check if max size is unnecessarily high
         if current_max > max_capacity * 2 and pattern in ['stable', 'moderate_scaling']:
             recommendations.append({
@@ -1572,25 +1572,25 @@ class AutoScalingOptimizer:
                 'reason': f'Max size ({current_max}) is much higher than actual peak usage ({max_capacity})',
                 'benefit': 'reduced_blast_radius'
             })
-        
+
         return recommendations
-    
+
     def _calculate_savings(self, instance_reduction: int) -> float:
         """Calculate potential savings from instance reduction."""
         # Simplified calculation - use actual instance pricing
         avg_instance_cost_per_month = 100  # $100/month per instance
         return instance_reduction * avg_instance_cost_per_month
-    
+
     def optimize_scaling_policies(self, asg_name: str) -> Dict:
         """Analyze and optimize scaling policies."""
         # Get current scaling policies
         policies_response = self.autoscaling_client.describe_policies(
             AutoScalingGroupName=asg_name
         )
-        
+
         current_policies = policies_response['ScalingPolicies']
         recommendations = []
-        
+
         for policy in current_policies:
             if policy['PolicyType'] == 'StepScaling':
                 # Analyze step scaling policy
@@ -1598,19 +1598,19 @@ class AutoScalingOptimizer:
             elif policy['PolicyType'] == 'TargetTrackingScaling':
                 # Analyze target tracking policy
                 recommendations.extend(self._analyze_target_tracking_policy(policy))
-        
+
         return {
             'asg_name': asg_name,
             'current_policies': len(current_policies),
             'policy_recommendations': recommendations
         }
-    
+
     def _analyze_step_scaling_policy(self, policy: Dict) -> List[Dict]:
         """Analyze step scaling policy for optimization."""
         recommendations = []
-        
+
         step_adjustments = policy.get('StepAdjustments', [])
-        
+
         # Check for overlapping or inefficient steps
         if len(step_adjustments) > 3:
             recommendations.append({
@@ -1618,16 +1618,16 @@ class AutoScalingOptimizer:
                 'reason': 'Too many step adjustments can cause oscillation',
                 'recommendation': 'Consider consolidating to 2-3 steps'
             })
-        
+
         return recommendations
-    
+
     def _analyze_target_tracking_policy(self, policy: Dict) -> List[Dict]:
         """Analyze target tracking policy for optimization."""
         recommendations = []
-        
+
         target_value = policy['TargetValue']
         metric_type = policy['TargetTrackingConfiguration']['PredefinedMetricSpecification']['PredefinedMetricType']
-        
+
         # Check CPU target values
         if metric_type == 'ASGAverageCPUUtilization':
             if target_value > 80:
@@ -1644,7 +1644,7 @@ class AutoScalingOptimizer:
                     'recommended_value': 50,
                     'reason': 'Low CPU target may cause unnecessary scaling'
                 })
-        
+
         return recommendations
 
 # Usage
@@ -1659,7 +1659,7 @@ for opt in optimizations:
     print(f"Current config: Min={opt['current_config']['min_size']}, "
           f"Max={opt['current_config']['max_size']}, "
           f"Desired={opt['current_config']['desired_capacity']}")
-    
+
     for rec in opt['recommendations']:
         print(f"- {rec['type']}: {rec['reason']}")
         if 'potential_savings' in rec:
@@ -1684,7 +1684,7 @@ class StorageOptimizer:
         self.s3_client = boto3.client('s3')
         self.cloudwatch_client = boto3.client('cloudwatch')
         self.ce_client = boto3.client('ce')
-    
+
     def analyze_s3_storage_costs(self) -> Dict:
         """Analyze S3 storage costs and optimization opportunities."""
         buckets = self.s3_client.list_buckets()['Buckets']
@@ -1694,25 +1694,25 @@ class StorageOptimizer:
             'optimization_opportunities': [],
             'total_potential_savings': 0
         }
-        
+
         for bucket in buckets:
             bucket_name = bucket['Name']
             bucket_analysis = self._analyze_bucket(bucket_name)
             analysis['bucket_analysis'].append(bucket_analysis)
-            
+
             # Check for optimization opportunities
             opportunities = self._identify_storage_optimizations(bucket_analysis)
             if opportunities:
                 analysis['optimization_opportunities'].extend(opportunities)
-        
+
         # Calculate total potential savings
         analysis['total_potential_savings'] = sum([
-            opp.get('potential_monthly_savings', 0) 
+            opp.get('potential_monthly_savings', 0)
             for opp in analysis['optimization_opportunities']
         ])
-        
+
         return analysis
-    
+
     def _analyze_bucket(self, bucket_name: str) -> Dict:
         """Analyze individual S3 bucket for cost optimization."""
         try:
@@ -1729,7 +1729,7 @@ class StorageOptimizer:
                 Period=86400,
                 Statistics=['Average']
             )
-            
+
             objects_response = self.cloudwatch_client.get_metric_statistics(
                 Namespace='AWS/S3',
                 MetricName='NumberOfObjects',
@@ -1742,7 +1742,7 @@ class StorageOptimizer:
                 Period=86400,
                 Statistics=['Average']
             )
-            
+
             # Get lifecycle configuration
             try:
                 lifecycle = self.s3_client.get_bucket_lifecycle_configuration(Bucket=bucket_name)
@@ -1751,27 +1751,27 @@ class StorageOptimizer:
             except self.s3_client.exceptions.NoSuchLifecycleConfiguration:
                 has_lifecycle = False
                 lifecycle_rules = 0
-            
+
             # Get versioning status
             try:
                 versioning = self.s3_client.get_bucket_versioning(Bucket=bucket_name)
                 versioning_status = versioning.get('Status', 'Disabled')
             except:
                 versioning_status = 'Disabled'
-            
+
             # Get bucket size in bytes
             bucket_size = 0
             object_count = 0
-            
+
             if size_response['Datapoints']:
                 bucket_size = size_response['Datapoints'][0]['Average']
-            
+
             if objects_response['Datapoints']:
                 object_count = int(objects_response['Datapoints'][0]['Average'])
-            
+
             # Analyze storage class distribution
             storage_classes = self._get_storage_class_distribution(bucket_name)
-            
+
             return {
                 'bucket_name': bucket_name,
                 'size_bytes': bucket_size,
@@ -1783,7 +1783,7 @@ class StorageOptimizer:
                 'storage_classes': storage_classes,
                 'monthly_cost_estimate': self._estimate_monthly_cost(bucket_size, storage_classes)
             }
-        
+
         except Exception as e:
             return {
                 'bucket_name': bucket_name,
@@ -1792,7 +1792,7 @@ class StorageOptimizer:
                 'size_gb': 0,
                 'object_count': 0
             }
-    
+
     def _get_storage_class_distribution(self, bucket_name: str) -> Dict:
         """Get distribution of objects across storage classes."""
         storage_classes = {
@@ -1802,12 +1802,12 @@ class StorageOptimizer:
             'DEEP_ARCHIVE': 0,
             'INTELLIGENT_TIERING': 0
         }
-        
+
         try:
-            # This is a simplified approach - in practice, you'd need to 
+            # This is a simplified approach - in practice, you'd need to
             # iterate through all objects or use S3 Inventory
             paginator = self.s3_client.get_paginator('list_objects_v2')
-            
+
             for page in paginator.paginate(Bucket=bucket_name, MaxKeys=1000):  # Limit for example
                 if 'Contents' in page:
                     for obj in page['Contents']:
@@ -1816,9 +1816,9 @@ class StorageOptimizer:
                             storage_classes[storage_class] += obj['Size']
         except Exception as e:
             print(f"Error getting storage class distribution for {bucket_name}: {e}")
-        
+
         return storage_classes
-    
+
     def _estimate_monthly_cost(self, total_size_bytes: float, storage_classes: Dict) -> float:
         """Estimate monthly storage cost based on size and storage classes."""
         # S3 pricing (simplified - use actual regional pricing)
@@ -1829,10 +1829,10 @@ class StorageOptimizer:
             'DEEP_ARCHIVE': 0.00099,
             'INTELLIGENT_TIERING': 0.0125
         }
-        
+
         total_cost = 0
         total_gb = total_size_bytes / (1024**3)
-        
+
         # If we have storage class breakdown, use it
         if any(storage_classes.values()):
             for storage_class, size_bytes in storage_classes.items():
@@ -1842,25 +1842,25 @@ class StorageOptimizer:
         else:
             # Assume all STANDARD storage
             total_cost = total_gb * pricing_per_gb['STANDARD']
-        
+
         return total_cost
-    
+
     def _identify_storage_optimizations(self, bucket_analysis: Dict) -> List[Dict]:
         """Identify storage optimization opportunities for a bucket."""
         opportunities = []
         bucket_name = bucket_analysis['bucket_name']
         size_gb = bucket_analysis.get('size_gb', 0)
         monthly_cost = bucket_analysis.get('monthly_cost_estimate', 0)
-        
+
         # Skip small buckets (less than 1GB)
         if size_gb < 1:
             return opportunities
-        
+
         # Check for missing lifecycle policy
         if not bucket_analysis.get('has_lifecycle_policy', False) and size_gb > 10:
             # Estimate savings from lifecycle policy
             potential_savings = monthly_cost * 0.3  # Assume 30% savings
-            
+
             opportunities.append({
                 'bucket_name': bucket_name,
                 'type': 'lifecycle_policy',
@@ -1872,14 +1872,14 @@ class StorageOptimizer:
                     'transition_to_deep_archive_after_days': 365
                 }
             })
-        
+
         # Check for versioning without lifecycle
-        if (bucket_analysis.get('versioning_status') == 'Enabled' and 
+        if (bucket_analysis.get('versioning_status') == 'Enabled' and
             bucket_analysis.get('lifecycle_rules_count', 0) == 0):
-            
+
             # Versioned objects can accumulate significant costs
             potential_savings = monthly_cost * 0.4  # Assume 40% savings
-            
+
             opportunities.append({
                 'bucket_name': bucket_name,
                 'type': 'version_management',
@@ -1890,17 +1890,17 @@ class StorageOptimizer:
                     'delete_incomplete_multipart_uploads_after_days': 7
                 }
             })
-        
+
         # Check for inefficient storage class usage
         storage_classes = bucket_analysis.get('storage_classes', {})
         standard_storage = storage_classes.get('STANDARD', 0)
-        
+
         if standard_storage > 0 and size_gb > 5:
             # Suggest Intelligent Tiering for large buckets with mixed access patterns
             current_standard_cost = (standard_storage / (1024**3)) * 0.023
             intelligent_tiering_cost = (standard_storage / (1024**3)) * 0.0125
             potential_savings = current_standard_cost - intelligent_tiering_cost
-            
+
             if potential_savings > 5:  # Only suggest if savings > $5/month
                 opportunities.append({
                     'bucket_name': bucket_name,
@@ -1909,15 +1909,15 @@ class StorageOptimizer:
                     'potential_monthly_savings': potential_savings,
                     'implementation': 'Enable S3 Intelligent Tiering'
                 })
-        
+
         return opportunities
-    
-    def generate_lifecycle_policy(self, bucket_name: str, 
+
+    def generate_lifecycle_policy(self, bucket_name: str,
                                  ia_days: int = 30,
                                  glacier_days: int = 90,
                                  deep_archive_days: int = 365) -> Dict:
         """Generate lifecycle policy for a bucket."""
-        
+
         lifecycle_policy = {
             'Rules': [
                 {
@@ -1957,14 +1957,14 @@ class StorageOptimizer:
                 }
             ]
         }
-        
+
         return lifecycle_policy
-    
+
     def implement_optimization(self, opportunity: Dict) -> bool:
         """Implement a storage optimization opportunity."""
         bucket_name = opportunity['bucket_name']
         optimization_type = opportunity['type']
-        
+
         try:
             if optimization_type == 'lifecycle_policy':
                 implementation = opportunity['implementation']
@@ -1974,14 +1974,14 @@ class StorageOptimizer:
                     implementation['transition_to_glacier_after_days'],
                     implementation['transition_to_deep_archive_after_days']
                 )
-                
+
                 self.s3_client.put_bucket_lifecycle_configuration(
                     Bucket=bucket_name,
                     LifecycleConfiguration=lifecycle_policy
                 )
-                
+
                 return True
-            
+
             elif optimization_type == 'intelligent_tiering':
                 # Enable Intelligent Tiering (requires S3 Inventory configuration)
                 intelligent_tiering_config = {
@@ -1999,11 +1999,11 @@ class StorageOptimizer:
                         }
                     ]
                 }
-                
+
                 # Note: This would require additional S3 API calls
                 print(f"Would configure Intelligent Tiering for {bucket_name}")
                 return True
-        
+
         except Exception as e:
             print(f"Error implementing optimization for {bucket_name}: {e}")
             return False
@@ -2019,8 +2019,8 @@ print(f"Found {len(analysis['optimization_opportunities'])} optimization opportu
 print(f"Total potential monthly savings: ${analysis['total_potential_savings']:.2f}")
 
 # Show top opportunities
-for opp in sorted(analysis['optimization_opportunities'], 
-                  key=lambda x: x.get('potential_monthly_savings', 0), 
+for opp in sorted(analysis['optimization_opportunities'],
+                  key=lambda x: x.get('potential_monthly_savings', 0),
                   reverse=True)[:5]:
     print(f"\nBucket: {opp['bucket_name']}")
     print(f"Type: {opp['type']}")
@@ -2029,9 +2029,9 @@ for opp in sorted(analysis['optimization_opportunities'],
 
 # Implement top optimization
 if analysis['optimization_opportunities']:
-    top_opportunity = max(analysis['optimization_opportunities'], 
+    top_opportunity = max(analysis['optimization_opportunities'],
                          key=lambda x: x.get('potential_monthly_savings', 0))
-    
+
     print(f"\nImplementing top optimization for {top_opportunity['bucket_name']}...")
     success = storage_optimizer.implement_optimization(top_opportunity)
     print(f"Implementation {'successful' if success else 'failed'}")
@@ -2060,12 +2060,12 @@ class CostAnomalyDetector:
         self.ce_client = boto3.client('ce')
         self.cloudwatch_client = boto3.client('cloudwatch')
         self.sns_client = boto3.client('sns')
-        
+
     def get_historical_costs(self, days: int = 90, granularity: str = 'DAILY') -> pd.DataFrame:
         """Get historical cost data for anomaly detection."""
         end_date = datetime.now().date()
         start_date = end_date - timedelta(days=days)
-        
+
         response = self.ce_client.get_cost_and_usage(
             TimePeriod={
                 'Start': start_date.isoformat(),
@@ -2077,7 +2077,7 @@ class CostAnomalyDetector:
                 {'Type': 'DIMENSION', 'Key': 'SERVICE'}
             ]
         )
-        
+
         # Convert to DataFrame
         data = []
         for result in response['ResultsByTime']:
@@ -2090,70 +2090,70 @@ class CostAnomalyDetector:
                     'Service': service,
                     'Cost': cost
                 })
-        
+
         df = pd.DataFrame(data)
         return df
-    
+
     def detect_cost_anomalies(self, df: pd.DataFrame, contamination: float = 0.1) -> List[Dict]:
         """Detect cost anomalies using Isolation Forest."""
         anomalies = []
-        
+
         # Group by service for individual analysis
         for service in df['Service'].unique():
             service_data = df[df['Service'] == service].copy()
-            
+
             if len(service_data) < 7:  # Need at least a week of data
                 continue
-            
+
             # Feature engineering
             service_data['DayOfWeek'] = service_data['Date'].dt.dayofweek
             service_data['Month'] = service_data['Date'].dt.month
             service_data['Day'] = service_data['Date'].dt.day
-            
+
             # Calculate rolling statistics
             service_data['RollingMean7'] = service_data['Cost'].rolling(window=7).mean()
             service_data['RollingStd7'] = service_data['Cost'].rolling(window=7).std()
             service_data['CostChange'] = service_data['Cost'].pct_change()
-            
+
             # Prepare features for anomaly detection
             features = ['Cost', 'DayOfWeek', 'Month', 'Day', 'CostChange']
             feature_data = service_data[features].dropna()
-            
+
             if len(feature_data) < 7:
                 continue
-            
+
             # Normalize features
             scaler = StandardScaler()
             normalized_features = scaler.fit_transform(feature_data)
-            
+
             # Detect anomalies using Isolation Forest
             iso_forest = IsolationForest(
                 contamination=contamination,
                 random_state=42,
                 n_estimators=100
             )
-            
+
             anomaly_labels = iso_forest.fit_predict(normalized_features)
             anomaly_scores = iso_forest.score_samples(normalized_features)
-            
+
             # Identify anomalies
             anomaly_indices = np.where(anomaly_labels == -1)[0]
-            
+
             for idx in anomaly_indices:
                 original_idx = feature_data.iloc[idx].name
                 anomaly_data = service_data.loc[original_idx]
-                
+
                 # Calculate anomaly metrics
                 cost = anomaly_data['Cost']
                 rolling_mean = anomaly_data['RollingMean7']
                 rolling_std = anomaly_data['RollingStd7']
-                
+
                 # Calculate z-score
                 z_score = (cost - rolling_mean) / rolling_std if rolling_std > 0 else 0
-                
+
                 # Determine severity
                 severity = self._determine_anomaly_severity(abs(z_score), cost)
-                
+
                 anomalies.append({
                     'date': anomaly_data['Date'].isoformat(),
                     'service': service,
@@ -2166,12 +2166,12 @@ class CostAnomalyDetector:
                     'severity': severity,
                     'confidence': abs(anomaly_scores[idx])
                 })
-        
+
         # Sort by severity and cost impact
         anomalies.sort(key=lambda x: (x['severity'], abs(x['cost_difference'])), reverse=True)
-        
+
         return anomalies
-    
+
     def _determine_anomaly_severity(self, z_score: float, cost: float) -> str:
         """Determine the severity of a cost anomaly."""
         if z_score > 3 or cost > 1000:
@@ -2182,7 +2182,7 @@ class CostAnomalyDetector:
             return 'medium'
         else:
             return 'low'
-    
+
     def create_cost_alert(self, anomaly: Dict) -> Dict:
         """Create a cost alert for an anomaly."""
         alert = {
@@ -2203,19 +2203,19 @@ class CostAnomalyDetector:
             },
             'recommended_actions': self._generate_recommended_actions(anomaly)
         }
-        
+
         return alert
-    
+
     def _generate_recommended_actions(self, anomaly: Dict) -> List[str]:
         """Generate recommended actions for a cost anomaly."""
         actions = []
         service = anomaly['service']
         severity = anomaly['severity']
-        
+
         if severity in ['critical', 'high']:
             actions.append(f"Immediately investigate {service} usage and recent changes")
             actions.append("Check for any new resource deployments or configuration changes")
-            
+
         if anomaly['cost_difference'] > 0:  # Cost increase
             actions.extend([
                 f"Review {service} resource utilization for scaling events",
@@ -2227,11 +2227,11 @@ class CostAnomalyDetector:
                 f"Verify {service} is functioning normally despite lower costs",
                 "Check if resources were unexpectedly terminated or scaled down"
             ])
-        
+
         actions.append("Update cost forecasts and budgets if this represents a new baseline")
-        
+
         return actions
-    
+
     def send_alert_notification(self, alert: Dict, sns_topic_arn: str) -> bool:
         """Send alert notification via SNS."""
         try:
@@ -2241,81 +2241,81 @@ class CostAnomalyDetector:
                 'sms': f"Cost Alert: {alert['details']['service']} cost anomaly detected. "
                        f"${alert['details']['difference']:.2f} above expected."
             }
-            
+
             self.sns_client.publish(
                 TopicArn=sns_topic_arn,
                 Message=json.dumps(message),
                 MessageStructure='json',
                 Subject=f"Cost Anomaly Alert - {alert['severity'].upper()}"
             )
-            
+
             return True
-            
+
         except Exception as e:
             print(f"Error sending alert notification: {e}")
             return False
-    
+
     def _format_email_alert(self, alert: Dict) -> str:
         """Format alert for email notification."""
         details = alert['details']
-        
+
         email_body = f"""
         Cost Anomaly Detection Alert
-        
+
         Alert ID: {alert['alert_id']}
         Severity: {alert['severity'].upper()}
         Timestamp: {alert['timestamp']}
-        
+
         Service: {details['service']}
         Date: {details['date']}
-        
+
         Cost Analysis:
         - Actual Cost: ${details['actual_cost']:.2f}
         - Expected Cost: ${details['expected_cost']:.2f}
         - Difference: ${details['difference']:.2f} ({details['difference_percent']:.1f}%)
         - Z-Score: {details['z_score']:.2f}
-        
+
         Recommended Actions:
         """
-        
+
         for i, action in enumerate(alert['recommended_actions'], 1):
             email_body += f"\n{i}. {action}"
-        
+
         email_body += f"""
-        
+
         Please investigate this anomaly and take appropriate action.
-        
+
         This alert was generated automatically by the Cost Anomaly Detection system.
         """
-        
+
         return email_body
-    
+
     def run_anomaly_detection_pipeline(self, sns_topic_arn: str = None) -> Dict:
         """Run the complete anomaly detection pipeline."""
         # Get historical cost data
         print("Fetching historical cost data...")
         df = self.get_historical_costs(days=90)
-        
+
         if df.empty:
             return {'status': 'error', 'message': 'No cost data available'}
-        
+
         # Detect anomalies
         print("Detecting cost anomalies...")
         anomalies = self.detect_cost_anomalies(df)
-        
+
         # Process alerts
         alerts_sent = 0
         critical_anomalies = []
-        
+
         for anomaly in anomalies:
             if anomaly['severity'] in ['critical', 'high']:
                 alert = self.create_cost_alert(anomaly)
                 critical_anomalies.append(alert)
-                
+
                 if sns_topic_arn:
                     if self.send_alert_notification(alert, sns_topic_arn):
                         alerts_sent += 1
-        
+
         return {
             'status': 'success',
             'timestamp': datetime.now().isoformat(),
@@ -2381,13 +2381,13 @@ class BudgetManager:
     def __init__(self):
         self.budgets_client = boto3.client('budgets')
         self.account_id = boto3.client('sts').get_caller_identity()['Account']
-        
-    def create_hierarchical_budgets(self, 
+
+    def create_hierarchical_budgets(self,
                                    total_budget: float,
                                    budget_breakdown: Dict[str, float]) -> List[Dict]:
         """Create hierarchical budget structure."""
         budgets_created = []
-        
+
         # Create master budget
         master_budget = self.create_budget(
             budget_name="Master-Budget",
@@ -2397,7 +2397,7 @@ class BudgetManager:
             alert_thresholds=[50, 80, 100, 120]
         )
         budgets_created.append(master_budget)
-        
+
         # Create departmental budgets
         for department, amount in budget_breakdown.items():
             dept_budget = self.create_budget(
@@ -2411,15 +2411,15 @@ class BudgetManager:
                 alert_thresholds=[75, 90, 100]
             )
             budgets_created.append(dept_budget)
-        
+
         # Create environment-based budgets
         environments = ['production', 'staging', 'development']
         env_budget_split = total_budget * 0.7  # 70% for env-specific budgets
-        
+
         for env in environments:
             env_percentage = {'production': 0.6, 'staging': 0.25, 'development': 0.15}
             env_amount = env_budget_split * env_percentage[env]
-            
+
             env_budget = self.create_budget(
                 budget_name=f"Budget-{env.title()}-Environment",
                 budget_amount=env_amount,
@@ -2431,9 +2431,9 @@ class BudgetManager:
                 alert_thresholds=[80, 95, 100]
             )
             budgets_created.append(env_budget)
-        
+
         return budgets_created
-    
+
     def create_budget(self,
                      budget_name: str,
                      budget_amount: float,
@@ -2442,11 +2442,11 @@ class BudgetManager:
                      cost_filters: Dict = None,
                      alert_thresholds: List[float] = None) -> Dict:
         """Create a comprehensive budget with alerts."""
-        
+
         # Default alert thresholds
         if alert_thresholds is None:
             alert_thresholds = [80, 100]
-        
+
         # Define time period
         now = datetime.now()
         if time_unit == BudgetTimeUnit.MONTHLY:
@@ -2455,7 +2455,7 @@ class BudgetManager:
         else:
             start_date = now.replace(month=1, day=1)
             end_date = start_date.replace(year=start_date.year + 1)
-        
+
         # Create budget definition
         budget = {
             'BudgetName': budget_name,
@@ -2471,7 +2471,7 @@ class BudgetManager:
             'BudgetType': budget_type.value,
             'CostFilters': cost_filters or {}
         }
-        
+
         # Create notifications
         notifications = []
         for threshold in alert_thresholds:
@@ -2494,7 +2494,7 @@ class BudgetManager:
                     }
                 ]
             })
-            
+
             # Forecasted cost notification (for thresholds >= 100%)
             if threshold >= 100:
                 notifications.append({
@@ -2511,21 +2511,21 @@ class BudgetManager:
                         }
                     ]
                 })
-        
+
         try:
             response = self.budgets_client.create_budget(
                 AccountId=self.account_id,
                 Budget=budget,
                 NotificationsWithSubscribers=notifications
             )
-            
+
             return {
                 'budget_name': budget_name,
                 'amount': budget_amount,
                 'status': 'created',
                 'notifications_count': len(notifications)
             }
-            
+
         except Exception as e:
             return {
                 'budget_name': budget_name,
@@ -2533,18 +2533,18 @@ class BudgetManager:
                 'status': 'failed',
                 'error': str(e)
             }
-    
+
     def create_dynamic_budget(self,
                              budget_name: str,
                              historical_months: int = 3,
                              growth_factor: float = 1.1,
                              cost_filters: Dict = None) -> Dict:
         """Create a budget based on historical spending patterns."""
-        
+
         # Get historical cost data
         end_date = datetime.now().date()
         start_date = end_date - timedelta(days=historical_months * 30)
-        
+
         ce_client = boto3.client('ce')
         response = ce_client.get_cost_and_usage(
             TimePeriod={
@@ -2556,22 +2556,22 @@ class BudgetManager:
             GroupBy=[],
             Filter=cost_filters or {}
         )
-        
+
         # Calculate average monthly cost
         monthly_costs = []
         for result in response['ResultsByTime']:
             if result['Total']:
                 cost = float(result['Total']['BlendedCost']['Amount'])
                 monthly_costs.append(cost)
-        
+
         if not monthly_costs:
             average_cost = 1000  # Default budget
         else:
             average_cost = sum(monthly_costs) / len(monthly_costs)
-        
+
         # Apply growth factor
         budget_amount = average_cost * growth_factor
-        
+
         # Create the budget
         return self.create_budget(
             budget_name=budget_name,
@@ -2579,7 +2579,7 @@ class BudgetManager:
             cost_filters=cost_filters,
             alert_thresholds=[80, 90, 100, 110]
         )
-    
+
     def get_budget_status(self, budget_name: str) -> Dict:
         """Get current status of a budget."""
         try:
@@ -2587,9 +2587,9 @@ class BudgetManager:
                 AccountId=self.account_id,
                 BudgetName=budget_name
             )
-            
+
             budget = response['Budget']
-            
+
             # Get budget utilization
             utilization_response = self.budgets_client.describe_budget_performance_history(
                 AccountId=self.account_id,
@@ -2599,21 +2599,21 @@ class BudgetManager:
                     'End': datetime.now().date()
                 }
             )
-            
+
             # Calculate utilization
             budget_limit = float(budget['BudgetLimit']['Amount'])
             actual_spend = 0
             forecasted_spend = 0
-            
+
             if utilization_response['BudgetPerformanceHistory']:
                 history = utilization_response['BudgetPerformanceHistory'][0]
                 if 'ActualCost' in history:
                     actual_spend = float(history['ActualCost']['Amount'])
                 if 'ForecastedCost' in history:
                     forecasted_spend = float(history['ForecastedCost']['Amount'])
-            
+
             utilization_percentage = (actual_spend / budget_limit) * 100 if budget_limit > 0 else 0
-            
+
             return {
                 'budget_name': budget_name,
                 'budget_limit': budget_limit,
@@ -2625,14 +2625,14 @@ class BudgetManager:
                 'time_unit': budget['TimeUnit'],
                 'currency': budget['BudgetLimit']['Unit']
             }
-            
+
         except Exception as e:
             return {
                 'budget_name': budget_name,
                 'status': 'error',
                 'error': str(e)
             }
-    
+
     def _determine_budget_status(self, utilization_percentage: float) -> str:
         """Determine budget status based on utilization."""
         if utilization_percentage >= 100:
@@ -2643,7 +2643,7 @@ class BudgetManager:
             return 'on_track'
         else:
             return 'under_budget'
-    
+
     def generate_budget_report(self) -> Dict:
         """Generate comprehensive budget report."""
         try:
@@ -2652,28 +2652,28 @@ class BudgetManager:
                 AccountId=self.account_id,
                 MaxResults=100
             )
-            
+
             budgets = response['Budgets']
             budget_statuses = []
-            
+
             total_budget_limit = 0
             total_actual_spend = 0
             total_forecasted_spend = 0
-            
+
             for budget in budgets:
                 budget_name = budget['BudgetName']
                 status = self.get_budget_status(budget_name)
                 budget_statuses.append(status)
-                
+
                 if status['status'] != 'error':
                     total_budget_limit += status['budget_limit']
                     total_actual_spend += status['actual_spend']
                     total_forecasted_spend += status['forecasted_spend']
-            
+
             # Calculate summary statistics
             exceeded_budgets = len([b for b in budget_statuses if b.get('status') == 'exceeded'])
             warning_budgets = len([b for b in budget_statuses if b.get('status') == 'warning'])
-            
+
             return {
                 'report_timestamp': datetime.now().isoformat(),
                 'summary': {
@@ -2688,34 +2688,34 @@ class BudgetManager:
                 'budget_details': budget_statuses,
                 'recommendations': self._generate_budget_recommendations(budget_statuses)
             }
-            
+
         except Exception as e:
             return {
                 'status': 'error',
                 'error': str(e)
             }
-    
+
     def _generate_budget_recommendations(self, budget_statuses: List[Dict]) -> List[str]:
         """Generate budget management recommendations."""
         recommendations = []
-        
+
         exceeded_budgets = [b for b in budget_statuses if b.get('status') == 'exceeded']
         warning_budgets = [b for b in budget_statuses if b.get('status') == 'warning']
         under_budgets = [b for b in budget_statuses if b.get('status') == 'under_budget']
-        
+
         if exceeded_budgets:
             recommendations.append(f"Immediate action required: {len(exceeded_budgets)} budgets exceeded")
             recommendations.append("Review cost drivers for exceeded budgets and implement controls")
-        
+
         if warning_budgets:
             recommendations.append(f"Monitor closely: {len(warning_budgets)} budgets approaching limits")
-        
+
         if under_budgets:
             recommendations.append(f"Consider reallocating funds from {len(under_budgets)} under-utilized budgets")
-        
+
         if len(budget_statuses) < 5:
             recommendations.append("Consider creating more granular budgets for better cost control")
-        
+
         return recommendations
 
 # Usage

@@ -1,7 +1,7 @@
 # Cloud-Native and Container Standards
 
-**Version:** 1.0.0  
-**Last Updated:** January 2025  
+**Version:** 1.0.0
+**Last Updated:** January 2025
 **Status:** Active
 
 ## Table of Contents
@@ -367,7 +367,7 @@ resource "aws_instance" "web_server" {
   # Use data sources for AMIs
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
-  
+
   # Always tag resources
   tags = merge(
     var.common_tags,
@@ -377,7 +377,7 @@ resource "aws_instance" "web_server" {
       ManagedBy   = "terraform"
     }
   )
-  
+
   # Lifecycle rules
   lifecycle {
     create_before_destroy = true
@@ -390,7 +390,7 @@ variable "instance_type" {
   description = "EC2 instance type"
   type        = string
   default     = "t3.micro"
-  
+
   validation {
     condition     = contains(["t3.micro", "t3.small", "t3.medium"], var.instance_type)
     error_message = "Instance type must be t3.micro, t3.small, or t3.medium."
@@ -505,14 +505,14 @@ security-scan:
 exports.handler = async (event, context) => {
   // Initialize outside handler for connection reuse
   const db = await getDBConnection();
-  
+
   try {
     // Input validation
     const input = validateInput(event);
-    
+
     // Business logic
     const result = await processRequest(input, db);
-    
+
     // Structured response
     return {
       statusCode: 200,
@@ -529,7 +529,7 @@ exports.handler = async (event, context) => {
       stack: error.stack,
       requestId: context.requestId
     });
-    
+
     return {
       statusCode: error.statusCode || 500,
       body: JSON.stringify({
@@ -610,24 +610,24 @@ functions:
 const processMessage = async (message) => {
   const startTime = Date.now();
   const { Body, MessageId, Attributes } = message;
-  
+
   try {
     // Parse and validate message
     const data = JSON.parse(Body);
     await validateMessage(data);
-    
+
     // Process with idempotency
     const result = await processWithIdempotency(MessageId, data);
-    
+
     // Delete message on success
     await sqs.deleteMessage({
       QueueUrl: process.env.QUEUE_URL,
       ReceiptHandle: message.ReceiptHandle
     }).promise();
-    
+
     // Emit metrics
     metrics.recordSuccess(Date.now() - startTime);
-    
+
   } catch (error) {
     // Handle poison messages
     const receiveCount = parseInt(Attributes.ApproximateReceiveCount);
@@ -871,11 +871,11 @@ Organization
 resource "google_project_iam_binding" "app_developers" {
   project = google_project.app.project_id
   role    = "roles/container.developer"
-  
+
   members = [
     "group:developers@example.com",
   ]
-  
+
   condition {
     title       = "Only during business hours"
     description = "Access only during business hours"
@@ -908,11 +908,11 @@ resource "google_project_iam_binding" "app_developers" {
 - rule: Unauthorized Process
   desc: Detect unauthorized process execution
   condition: >
-    spawned_process and 
+    spawned_process and
     container and
     not proc.name in (allowed_processes)
   output: >
-    Unauthorized process started 
+    Unauthorized process started
     (user=%user.name command=%proc.cmdline container=%container.info)
   priority: WARNING
 ```
@@ -1044,7 +1044,7 @@ var (
         },
         []string{"method", "endpoint", "status"},
     )
-    
+
     httpRequestDuration = prometheus.NewHistogramVec(
         prometheus.HistogramOpts{
             Namespace: "myapp",

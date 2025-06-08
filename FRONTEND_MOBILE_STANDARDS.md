@@ -1,7 +1,7 @@
 # Frontend and Mobile Development Standards
 
-**Version:** 1.0.0  
-**Last Updated:** January 2025  
+**Version:** 1.0.0
+**Last Updated:** January 2025
 **Status:** Active
 
 ## Table of Contents
@@ -116,7 +116,7 @@ describe('Button', () => {
   it('calls onClick when clicked', () => {
     const handleClick = jest.fn();
     render(<Button onClick={handleClick}>Click me</Button>);
-    
+
     fireEvent.click(screen.getByText('Click me'));
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
@@ -245,11 +245,11 @@ class ApiService {
       method: 'PATCH',
       body: JSON.stringify(updates),
     });
-    
+
     if (!response.success) {
       throw new Error(response.message || 'Failed to update user');
     }
-    
+
     return response.data;
   }
 }
@@ -272,14 +272,14 @@ const isProduction = process.env.NODE_ENV === 'production';
 module.exports = {
   mode: isProduction ? 'production' : 'development',
   entry: './src/index.tsx',
-  
+
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: isProduction 
-      ? '[name].[contenthash].js' 
+    filename: isProduction
+      ? '[name].[contenthash].js'
       : '[name].js',
-    chunkFilename: isProduction 
-      ? '[name].[contenthash].chunk.js' 
+    chunkFilename: isProduction
+      ? '[name].[contenthash].chunk.js'
       : '[name].chunk.js',
     clean: true,
     publicPath: '/',
@@ -327,16 +327,16 @@ module.exports = {
       template: './public/index.html',
       minify: isProduction,
     }),
-    ...(isProduction 
+    ...(isProduction
       ? [
           new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',
           }),
-        ] 
+        ]
       : []
     ),
-    ...(process.env.ANALYZE === 'true' 
-      ? [new BundleAnalyzerPlugin()] 
+    ...(process.env.ANALYZE === 'true'
+      ? [new BundleAnalyzerPlugin()]
       : []
     ),
   ],
@@ -392,7 +392,7 @@ export const useUser = (userId: string): UseUserResult => {
   const fetchUser = useCallback(async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const userData = await apiService.getUser(userId);
       setUser(userData);
@@ -519,7 +519,7 @@ Tabs.Tab = ({ id, children }) => {
   if (!context) throw new Error('Tab must be used within Tabs');
 
   const { activeTab, setActiveTab } = context;
-  
+
   return (
     <button
       role="tab"
@@ -541,9 +541,9 @@ Tabs.Panel = ({ id, children }) => {
   if (!context) throw new Error('TabPanel must be used within Tabs');
 
   const { activeTab } = context;
-  
+
   if (activeTab !== id) return null;
-  
+
   return (
     <div role="tabpanel" className="tab-panel">
       {children}
@@ -563,14 +563,14 @@ interface ExpensiveListProps {
   onItemClick: (id: string) => void;
 }
 
-export const ExpensiveList = memo<ExpensiveListProps>(({ 
-  items, 
-  filter, 
-  onItemClick 
+export const ExpensiveList = memo<ExpensiveListProps>(({
+  items,
+  filter,
+  onItemClick
 }) => {
   // Memoize expensive computations
   const filteredItems = useMemo(() => {
-    return items.filter(item => 
+    return items.filter(item =>
       item.name.toLowerCase().includes(filter.toLowerCase())
     );
   }, [items, filter]);
@@ -628,17 +628,17 @@ export const AppRouter: React.FC = () => {
     <Router>
       <Suspense fallback={<LoadingSpinner />}>
         <Routes>
-          <Route 
-            path="/dashboard" 
-            element={<LazyDashboard />} 
+          <Route
+            path="/dashboard"
+            element={<LazyDashboard />}
           />
-          <Route 
-            path="/profile" 
-            element={<LazyProfile />} 
+          <Route
+            path="/profile"
+            element={<LazyProfile />}
           />
-          <Route 
-            path="/settings" 
-            element={<LazySettings />} 
+          <Route
+            path="/settings"
+            element={<LazySettings />}
           />
         </Routes>
       </Suspense>
@@ -703,7 +703,7 @@ watch(() => props.userId, (newId) => {
 // Methods
 const updateProfile = async () => {
   if (!user.value) return;
-  
+
   updating.value = true;
   try {
     await updateUser(user.value.id, {
@@ -766,7 +766,7 @@ export function useUser(): UseUserReturn {
   const fetchUser = async (id: string) => {
     loading.value = true;
     error.value = null;
-    
+
     try {
       const response = await apiService.getUser(id);
       user.value = response.data;
@@ -827,7 +827,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   constructor(private userService: UserService) {
     // Reactive data streams
     this.user$ = this.userId$.pipe(
-      switchMap(id => 
+      switchMap(id =>
         id ? this.userService.getUser(id) : of(null)
       ),
       catchError(error => {
@@ -875,10 +875,10 @@ import { ApiResponse } from '@models/api.model';
 })
 export class UserService {
   private readonly baseUrl = `${environment.apiUrl}/users`;
-  
+
   private loadingSubject = new BehaviorSubject<boolean>(false);
   private errorSubject = new BehaviorSubject<string | null>(null);
-  
+
   public loading$ = this.loadingSubject.asObservable();
   public error$ = this.errorSubject.asObservable();
 
@@ -916,13 +916,13 @@ export class UserService {
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'An unknown error occurred';
-    
+
     if (error.error instanceof ErrorEvent) {
       errorMessage = `Client Error: ${error.error.message}`;
     } else {
       errorMessage = `Server Error: ${error.status} - ${error.message}`;
     }
-    
+
     this.setError(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
@@ -1094,7 +1094,7 @@ interface UserState {
   users: User[];
   loading: boolean;
   error: string | null;
-  
+
   // Actions
   setCurrentUser: (user: User | null) => void;
   fetchUser: (userId: string) => Promise<void>;
@@ -1115,13 +1115,13 @@ export const useUserStore = create<UserState>()(
     persist(
       (set, get) => ({
         ...initialState,
-        
-        setCurrentUser: (user) => 
+
+        setCurrentUser: (user) =>
           set({ currentUser: user }, false, 'setCurrentUser'),
-        
+
         fetchUser: async (userId) => {
           set({ loading: true, error: null }, false, 'fetchUser/pending');
-          
+
           try {
             const user = await apiService.getUser(userId);
             set(
@@ -1140,10 +1140,10 @@ export const useUserStore = create<UserState>()(
             );
           }
         },
-        
+
         updateUser: async (userId, updates) => {
           set({ loading: true, error: null }, false, 'updateUser/pending');
-          
+
           try {
             const user = await apiService.updateUser(userId, updates);
             set(
@@ -1166,9 +1166,9 @@ export const useUserStore = create<UserState>()(
             );
           }
         },
-        
+
         clearError: () => set({ error: null }, false, 'clearError'),
-        
+
         reset: () => set(initialState, false, 'reset'),
       }),
       {
@@ -1247,7 +1247,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   // Monitor system theme changes
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
+
     const handleChange = (e: MediaQueryListEvent) => {
       dispatch({
         type: 'SET_SYSTEM_THEME',
@@ -1374,7 +1374,7 @@ export const performanceMonitor = new PerformanceMonitor();
 // Performance budget checker
 export const checkPerformanceBudget = () => {
   const metrics = performanceMonitor.getMetrics();
-  
+
   const budget = {
     fcp: 1800, // 1.8s
     lcp: 2500, // 2.5s
@@ -1475,7 +1475,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
           <img src={placeholder} alt="" aria-hidden="true" />
         </div>
       )}
-      
+
       {isInView && (
         <picture>
           <source
@@ -1522,7 +1522,7 @@ export function loadable<T extends ComponentType<any>>(
   options: LoadableOptions = {}
 ) {
   const LazyComponent = React.lazy(importFunc);
-  
+
   return function LoadableComponent(props: React.ComponentProps<T>) {
     return (
       <Suspense fallback={options.fallback ? <options.fallback /> : <div>Loading...</div>}>
@@ -1553,7 +1553,7 @@ export const preloadRoutes = () => {
     () => import('@pages/Dashboard'),
     () => import('@pages/UserProfile'),
   ];
-  
+
   routes.forEach(route => {
     route().catch(() => {
       // Silently handle preload failures
@@ -1640,8 +1640,8 @@ self.addEventListener('activate', (event) => {
       .then(cacheNames => {
         return Promise.all(
           cacheNames
-            .filter(cacheName => 
-              cacheName !== STATIC_CACHE && 
+            .filter(cacheName =>
+              cacheName !== STATIC_CACHE &&
               cacheName !== DYNAMIC_CACHE
             )
             .map(cacheName => caches.delete(cacheName))
@@ -1710,7 +1710,7 @@ async function networkFirst(request, cacheName = DYNAMIC_CACHE) {
     if (cachedResponse) {
       return cachedResponse;
     }
-    
+
     if (request.mode === 'navigate') {
       return caches.match('/offline.html');
     }
@@ -1737,7 +1737,7 @@ self.addEventListener('sync', (event) => {
 async function doBackgroundSync() {
   // Process offline actions queue
   const offlineActions = await getOfflineActions();
-  
+
   for (const action of offlineActions) {
     try {
       await processOfflineAction(action);
@@ -1886,7 +1886,7 @@ class OfflineManager {
 
       request.onupgradeneeded = (event) => {
         const db = (event.target as IDBOpenDBRequest).result;
-        
+
         // Create object stores
         if (!db.objectStoreNames.contains('actions')) {
           const actionStore = db.createObjectStore('actions', { keyPath: 'id' });
@@ -2151,7 +2151,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
   },
-  
+
   // Variants
   primary: {
     backgroundColor: colors.primary,
@@ -2164,7 +2164,7 @@ const styles = StyleSheet.create({
   danger: {
     backgroundColor: colors.danger,
   },
-  
+
   // Sizes
   small: {
     paddingHorizontal: spacing.sm,
@@ -2181,12 +2181,12 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.md,
     minHeight: 56,
   },
-  
+
   // States
   disabled: {
     opacity: 0.5,
   },
-  
+
   // Text styles
   text: {
     fontFamily: typography.semiBold,
@@ -2324,7 +2324,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export const SafeAreaView: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const insets = useSafeAreaInsets();
-  
+
   return (
     <View
       style={{

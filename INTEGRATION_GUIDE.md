@@ -131,19 +131,19 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: true  # If using submodules
-      
+
       - name: Set up environment
         run: |
           # Language-specific setup
-          
+
       - name: Lint Check
         run: make lint
-        
+
       - name: Test Coverage
         run: |
           make test
           # Ensure 85% coverage per TESTING_STANDARDS.md
-          
+
       - name: Security Scan
         run: make security-check
 ```

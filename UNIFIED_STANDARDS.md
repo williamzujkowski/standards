@@ -1,7 +1,7 @@
 # Unified Software Development Standards
 
-**Version:** 1.0.0  
-**Last Updated:** January 2025  
+**Version:** 1.0.0
+**Last Updated:** January 2025
 **Status:** Active
 
 ## Table of Contents
@@ -649,9 +649,9 @@ test_[unit]_[scenario]_[expected_result]
 1. **Message Format**
    ```
    type(scope): subject
-   
+
    body
-   
+
    footer
    ```
 
@@ -1128,10 +1128,10 @@ Brief description of changes
 ```markdown
 ## Incident Summary
 - **Severity**: SEV[1-4]
-- **Start Time**: 
-- **End Time**: 
-- **Duration**: 
-- **Affected Services**: 
+- **Start Time**:
+- **End Time**:
+- **Duration**:
+- **Affected Services**:
 
 ## Impact
 - Users affected:
@@ -1174,31 +1174,31 @@ logger = logging.getLogger(__name__)
 
 class UserService:
     """Service for managing user operations.
-    
+
     This service handles user creation, authentication,
     and profile management.
     """
-    
+
     def __init__(self, db_connection, cache_client):
         """Initialize UserService.
-        
+
         Args:
             db_connection: Database connection instance
             cache_client: Cache client for performance
         """
         self._db = db_connection
         self._cache = cache_client
-    
+
     def create_user(self, email: str, password: str) -> Optional[User]:
         """Create a new user account.
-        
+
         Args:
             email: User's email address
             password: User's password (will be hashed)
-            
+
         Returns:
             Created User object or None if failed
-            
+
         Raises:
             ValidationError: If email format is invalid
             DuplicateError: If email already exists
@@ -1216,7 +1216,7 @@ class UserService:
 export class UserService {
   private db: DatabaseConnection;
   private cache: CacheClient;
-  
+
   /**
    * Initialize UserService
    * @param db - Database connection instance
@@ -1226,7 +1226,7 @@ export class UserService {
     this.db = db;
     this.cache = cache;
   }
-  
+
   /**
    * Create a new user account
    * @param email - User's email address
@@ -1268,12 +1268,12 @@ repos:
       - id: end-of-file-fixer
       - id: check-added-large-files
       - id: check-merge-conflict
-      
+
   - repo: https://github.com/psf/black
     rev: 23.1.0
     hooks:
       - id: black
-        
+
   - repo: https://github.com/pycqa/flake8
     rev: 6.0.0
     hooks:

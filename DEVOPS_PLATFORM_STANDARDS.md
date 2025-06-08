@@ -1,7 +1,7 @@
 # DevOps and Platform Engineering Standards
 
-**Version:** 1.0.0  
-**Last Updated:** January 2025  
+**Version:** 1.0.0
+**Last Updated:** January 2025
 **Status:** Active
 
 ## Table of Contents
@@ -26,14 +26,14 @@
 # terraform/modules/example/main.tf
 terraform {
   required_version = ">= 1.5.0"
-  
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
   }
-  
+
   backend "s3" {
     bucket         = "terraform-state-bucket"
     key            = "infrastructure/terraform.tfstate"
@@ -46,10 +46,10 @@ terraform {
 # Module structure
 module "network" {
   source = "./modules/network"
-  
+
   environment = var.environment
   cidr_block  = var.vpc_cidr
-  
+
   tags = merge(
     local.common_tags,
     {
@@ -68,11 +68,11 @@ state_management:
     encryption: true
     locking: true
     versioning: true
-  
+
   workspace_strategy:
     pattern: "{environment}-{region}"
     isolation: "complete"
-  
+
   security:
     access_control: "role-based"
     audit_logging: true
@@ -85,7 +85,7 @@ state_management:
 variable "instance_class" {
   description = "RDS instance class"
   type        = string
-  
+
   validation {
     condition     = can(regex("^db\\.", var.instance_class))
     error_message = "Instance class must start with 'db.'"
@@ -96,7 +96,7 @@ variable "allocated_storage" {
   description = "Allocated storage in GB"
   type        = number
   default     = 100
-  
+
   validation {
     condition     = var.allocated_storage >= 20 && var.allocated_storage <= 65536
     error_message = "Storage must be between 20 and 65536 GB."
@@ -127,11 +127,11 @@ output "connection_string" {
   hosts: app_servers
   become: yes
   gather_facts: yes
-  
+
   vars_files:
     - ../vars/{{ environment }}.yml
     - ../vars/secrets.yml
-  
+
   pre_tasks:
     - name: Verify target environment
       assert:
@@ -139,13 +139,13 @@ output "connection_string" {
           - environment is defined
           - environment in ['dev', 'staging', 'prod']
         fail_msg: "Environment must be specified and valid"
-    
+
     - name: Create deployment audit log
       lineinfile:
         path: /var/log/deployments.log
         line: "{{ ansible_date_time.iso8601 }} - {{ ansible_user }} - {{ app_version }}"
         create: yes
-  
+
   roles:
     - role: common
       tags: ['always']
@@ -153,7 +153,7 @@ output "connection_string" {
       tags: ['deploy']
     - role: health-check
       tags: ['verify']
-  
+
   post_tasks:
     - name: Send deployment notification
       uri:
@@ -226,7 +226,7 @@ import (
 
 func TestNetworkModule(t *testing.T) {
     t.Parallel()
-    
+
     terraformOptions := &terraform.Options{
         TerraformDir: "../../modules/network",
         Vars: map[string]interface{}{
@@ -234,14 +234,14 @@ func TestNetworkModule(t *testing.T) {
             "cidr_block":  "10.0.0.0/16",
         },
     }
-    
+
     defer terraform.Destroy(t, terraformOptions)
     terraform.InitAndApply(t, terraformOptions)
-    
+
     // Validate outputs
     vpcId := terraform.Output(t, terraformOptions, "vpc_id")
     assert.NotEmpty(t, vpcId)
-    
+
     // Test network connectivity
     validateNetworkConnectivity(t, terraformOptions)
 }
@@ -304,25 +304,25 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Full history for better analysis
-      
+
       - name: Code Quality Checks
         run: |
           make lint
           make format-check
           make type-check
-      
+
       - name: Security Scanning
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
           scan-ref: '.'
           severity: 'CRITICAL,HIGH'
-      
+
       - name: License Compliance
         run: |
           pip install pip-licenses
           pip-licenses --fail-on="GPL"
-  
+
   # 2. Build Stage
   build:
     needs: quality
@@ -332,10 +332,10 @@ jobs:
         target: [app, worker]
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      
+
       - name: Build and Cache
         uses: docker/build-push-action@v5
         with:
@@ -346,14 +346,14 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           outputs: type=docker,dest=/tmp/${{ matrix.target }}.tar
-      
+
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.target }}-image
           path: /tmp/${{ matrix.target }}.tar
           retention-days: 1
-  
+
   # 3. Test Stage
   test:
     needs: build
@@ -370,15 +370,15 @@ jobs:
           --health-retries 5
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Download artifacts
         uses: actions/download-artifact@v3
-      
+
       - name: Load Docker images
         run: |
           docker load --input app-image/app.tar
           docker load --input worker-image/worker.tar
-      
+
       - name: Run Tests
         run: |
           make test-unit
@@ -386,12 +386,12 @@ jobs:
           make test-e2e
         env:
           DATABASE_URL: postgresql://postgres:test@localhost:5432/test
-      
+
       - name: Upload Coverage
         uses: codecov/codecov-action@v3
         with:
           fail_ci_if_error: true
-  
+
   # 4. Deploy Stage
   deploy:
     needs: test
@@ -399,13 +399,13 @@ jobs:
     if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE }}
           aws-region: us-east-1
-      
+
       - name: Deploy to ECS
         run: |
           make deploy-ecs ENV=production
@@ -422,19 +422,19 @@ pipeline {
             yamlFile 'jenkins/pod-templates/build-pod.yaml'
         }
     }
-    
+
     options {
         timeout(time: 1, unit: 'HOURS')
         timestamps()
         ansiColor('xterm')
         buildDiscarder(logRotator(numToKeepStr: '30'))
     }
-    
+
     environment {
         DOCKER_REGISTRY = credentials('docker-registry')
         SONAR_TOKEN = credentials('sonar-token')
     }
-    
+
     stages {
         stage('Checkout') {
             steps {
@@ -447,7 +447,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Quality Gates') {
             parallel {
                 stage('Lint') {
@@ -469,7 +469,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Build') {
             steps {
                 script {
@@ -481,7 +481,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Test') {
             steps {
                 sh 'make test-all'
@@ -496,7 +496,7 @@ pipeline {
                 ])
             }
         }
-        
+
         stage('Deploy') {
             when {
                 branch 'main'
@@ -512,7 +512,7 @@ pipeline {
             }
         }
     }
-    
+
     post {
         always {
             cleanWs()
@@ -679,13 +679,13 @@ jobs:
           secrets: |
             secret/data/app database_password | DB_PASSWORD ;
             secret/data/app api_key | API_KEY
-      
+
       - name: Use secrets securely
         run: |
           # Secrets are available as environment variables
           echo "::add-mask::$DB_PASSWORD"
           echo "::add-mask::$API_KEY"
-          
+
           # Use secrets in deployment
           helm upgrade app ./charts/app \
             --set database.password="$DB_PASSWORD" \
@@ -1035,7 +1035,7 @@ spec:
 platform:
   name: "Internal Developer Platform"
   version: "2.0"
-  
+
   components:
     portal:
       type: "backstage"
@@ -1044,39 +1044,39 @@ platform:
         - api_documentation
         - tech_radar
         - cost_insights
-    
+
     ci_cd:
       type: "tekton"
       integrations:
         - github
         - gitlab
         - bitbucket
-    
+
     infrastructure:
       provisioning: "crossplane"
       providers:
         - aws
         - azure
         - gcp
-    
+
     observability:
       metrics: "prometheus"
       logs: "loki"
       traces: "tempo"
       visualization: "grafana"
-    
+
     security:
       scanning: "trivy"
       policy: "opa"
       secrets: "vault"
-  
+
   self_service:
     templates:
       - microservice
       - web_app
       - data_pipeline
       - ml_model
-    
+
     resources:
       - database
       - cache
@@ -1146,7 +1146,7 @@ export const createServiceCommand = new Command('create-service')
   .option('--with-cache', 'Include cache', false)
   .action(async (options) => {
     console.log('🚀 Creating new service...');
-    
+
     // Generate code from template
     const servicePath = await generateFromTemplate({
       template: options.template,
@@ -1157,7 +1157,7 @@ export const createServiceCommand = new Command('create-service')
         cache: options.withCache,
       },
     });
-    
+
     // Provision infrastructure
     const infrastructure = await provisionInfrastructure({
       service: options.name,
@@ -1176,7 +1176,7 @@ export const createServiceCommand = new Command('create-service')
         } : undefined,
       },
     });
-    
+
     // Setup CI/CD pipeline
     const pipeline = await setupPipeline({
       service: options.name,
@@ -1184,7 +1184,7 @@ export const createServiceCommand = new Command('create-service')
       stages: ['build', 'test', 'scan', 'deploy'],
       environments: ['dev', 'staging', 'prod'],
     });
-    
+
     console.log('✅ Service created successfully!');
     console.log(`📁 Code: ${servicePath}`);
     console.log(`🏗️  Infrastructure: ${infrastructure.dashboardUrl}`);
@@ -1218,7 +1218,7 @@ spec:
       type: boolean
       description: Enable high availability
       default: false
-  
+
   resources:
     - apiVersion: postgresql.cnpg.io/v1
       kind: Cluster
@@ -1275,14 +1275,14 @@ func CreateResource(c *gin.Context) {
         c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
         return
     }
-    
+
     // Validate team ownership
     user := auth.GetUser(c)
     if !user.IsInTeam(req.Team) {
         c.JSON(http.StatusForbidden, gin.H{"error": "not authorized for team"})
         return
     }
-    
+
     // Create resource
     resource, err := resources.Create(c.Request.Context(), resources.CreateOptions{
         Type:       req.Type,
@@ -1295,7 +1295,7 @@ func CreateResource(c *gin.Context) {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
     }
-    
+
     // Audit log
     audit.Log(c.Request.Context(), audit.Entry{
         Action:   "resource.create",
@@ -1303,7 +1303,7 @@ func CreateResource(c *gin.Context) {
         User:     user.Email,
         Team:     req.Team,
     })
-    
+
     c.JSON(http.StatusCreated, gin.H{
         "id":          resource.ID,
         "status":      resource.Status,
@@ -1358,7 +1358,7 @@ spec:
           labels:
             severity: warning
             team: payments
-    
+
     - name: latency
       objective: 99
       description: "99% of requests should complete within 500ms"
@@ -1387,35 +1387,35 @@ error_budget_policy:
   payment_service:
     slo_target: 99.9
     measurement_window: 30d
-    
+
     thresholds:
       - remaining_budget: 75%
         actions:
           - type: notification
             target: team-slack
             message: "Error budget at 75% - review recent changes"
-      
+
       - remaining_budget: 50%
         actions:
           - type: review
             description: "Mandatory review of recent deployments"
           - type: slow_rollout
             description: "Reduce deployment velocity to 1/day"
-      
+
       - remaining_budget: 25%
         actions:
           - type: freeze
             description: "Feature freeze - only critical fixes"
           - type: incident_review
             description: "Conduct thorough incident analysis"
-      
+
       - remaining_budget: 0%
         actions:
           - type: halt_deployments
             description: "Stop all non-emergency deployments"
           - type: dedicated_response
             description: "Assign dedicated team to reliability"
-    
+
     exemptions:
       - type: security_patch
         approval: security_team
@@ -1436,21 +1436,21 @@ incident_response:
         - External communication
         - Decision making
       backup: platform_lead
-    
+
     technical_lead:
       responsibilities:
         - Technical investigation
         - Solution implementation
         - Root cause analysis
       backup: senior_engineer
-    
+
     communications_lead:
       responsibilities:
         - Status page updates
         - Customer communication
         - Internal updates
       backup: product_manager
-  
+
   severities:
     sev1:
       definition: "Complete service outage or data loss"
@@ -1464,7 +1464,7 @@ incident_response:
         - status_page: immediate
         - customer_email: 15_minutes
         - executive_brief: 30_minutes
-    
+
     sev2:
       definition: "Major feature unavailable or significant degradation"
       response_time: 15_minutes
@@ -1474,7 +1474,7 @@ incident_response:
       communication:
         - status_page: 15_minutes
         - customer_email: 1_hour
-    
+
     sev3:
       definition: "Minor feature unavailable or minor degradation"
       response_time: 1_hour
@@ -1482,7 +1482,7 @@ incident_response:
         - oncall_engineer
       communication:
         - status_page: 1_hour
-  
+
   procedures:
     initial_response:
       - Acknowledge alert within SLA
@@ -1490,20 +1490,20 @@ incident_response:
       - Create incident channel
       - Assign roles
       - Begin investigation
-    
+
     investigation:
       - Review monitoring dashboards
       - Check recent deployments
       - Analyze logs and traces
       - Test hypotheses
       - Document findings
-    
+
     mitigation:
       - Implement immediate fixes
       - Consider rollback if needed
       - Monitor impact of changes
       - Update stakeholders
-    
+
     resolution:
       - Verify issue is resolved
       - Monitor for recurrence
@@ -1534,17 +1534,17 @@ class DatabaseRecoveryRunbook:
         self.cloudwatch = boto3.client('cloudwatch')
         self.slack = WebClient(token=os.environ['SLACK_TOKEN'])
         self.incident_channel = None
-    
+
     def execute(self, alert_data: Dict) -> None:
         """Execute database recovery runbook"""
         try:
             # 1. Create incident channel
             self.incident_channel = self._create_incident_channel(alert_data)
-            
+
             # 2. Assess database state
             db_state = self._assess_database_state(alert_data['db_identifier'])
             self._post_to_slack(f"Database state: {db_state}")
-            
+
             # 3. Determine recovery action
             if db_state['status'] == 'failed':
                 self._initiate_failover(alert_data['db_identifier'])
@@ -1552,21 +1552,21 @@ class DatabaseRecoveryRunbook:
                 self._terminate_idle_connections(alert_data['db_identifier'])
             elif db_state['cpu_utilization'] > 90:
                 self._scale_up_instance(alert_data['db_identifier'])
-            
+
             # 4. Monitor recovery
             self._monitor_recovery(alert_data['db_identifier'])
-            
+
             # 5. Validate recovery
             if self._validate_recovery(alert_data['db_identifier']):
                 self._post_to_slack("✅ Database recovered successfully")
                 self._close_incident()
             else:
                 self._escalate_incident()
-                
+
         except Exception as e:
             logger.error(f"Runbook execution failed: {e}")
             self._escalate_incident()
-    
+
     def _assess_database_state(self, db_identifier: str) -> Dict:
         """Assess current database state"""
         # Get RDS instance status
@@ -1574,13 +1574,13 @@ class DatabaseRecoveryRunbook:
             DBInstanceIdentifier=db_identifier
         )
         instance = response['DBInstances'][0]
-        
+
         # Get performance metrics
         metrics = self._get_performance_metrics(db_identifier)
-        
+
         # Check replica lag if applicable
         replica_lag = self._check_replica_lag(db_identifier)
-        
+
         return {
             'status': instance['DBInstanceStatus'],
             'endpoint': instance.get('Endpoint', {}).get('Address'),
@@ -1590,18 +1590,18 @@ class DatabaseRecoveryRunbook:
             'replica_lag': replica_lag,
             'storage_free': metrics['FreeStorageSpace'],
         }
-    
+
     def _initiate_failover(self, db_identifier: str) -> None:
         """Initiate database failover"""
         self._post_to_slack("🔄 Initiating database failover...")
-        
+
         try:
             # For Multi-AZ deployments
             self.rds_client.reboot_db_instance(
                 DBInstanceIdentifier=db_identifier,
                 ForceFailover=True
             )
-            
+
             # Wait for failover to complete
             waiter = self.rds_client.get_waiter('db_instance_available')
             waiter.wait(
@@ -1611,9 +1611,9 @@ class DatabaseRecoveryRunbook:
                     'MaxAttempts': 40
                 }
             )
-            
+
             self._post_to_slack("✅ Failover completed successfully")
-            
+
         except Exception as e:
             logger.error(f"Failover failed: {e}")
             raise
@@ -1704,33 +1704,33 @@ class GamedayScenario:
         self.description = description
         self.start_time = None
         self.recovery_time = None
-    
+
     async def run(self) -> Dict:
         """Run gameday scenario"""
         logger.info("Starting gameday scenario", scenario=self.name)
         self.start_time = asyncio.get_event_loop().time()
-        
+
         try:
             # Run chaos experiment
             result = await self._execute_chaos()
-            
+
             # Monitor system behavior
             impact = await self._monitor_impact()
-            
+
             # Verify auto-recovery
             recovery = await self._verify_recovery()
-            
+
             # Calculate metrics
             self.recovery_time = asyncio.get_event_loop().time()
             mttr = self.recovery_time - self.start_time
-            
+
             # Score the scenario
             score = self._calculate_score(impact, recovery, mttr)
-            
+
             # Update metrics
             gameday_score.labels(scenario=self.name).set(score)
             gameday_mttr.labels(scenario=self.name).set(mttr)
-            
+
             return {
                 'scenario': self.name,
                 'success': True,
@@ -1739,7 +1739,7 @@ class GamedayScenario:
                 'impact': impact,
                 'recovery': recovery,
             }
-            
+
         except Exception as e:
             logger.error("Gameday scenario failed", scenario=self.name, error=str(e))
             return {
@@ -1747,7 +1747,7 @@ class GamedayScenario:
                 'success': False,
                 'error': str(e),
             }
-    
+
     async def _execute_chaos(self) -> Dict:
         """Execute chaos experiment"""
         experiment = {
@@ -1784,7 +1784,7 @@ class GamedayScenario:
             ],
             "rollbacks": [],
         }
-        
+
         return await asyncio.to_thread(run_experiment, experiment)
 ```
 
@@ -2003,11 +2003,11 @@ data:
     server:
       port: 8080
       shutdown: graceful
-    
+
     spring:
       application:
         name: payment-service
-      
+
       datasource:
         hikari:
           maximum-pool-size: 20
@@ -2015,7 +2015,7 @@ data:
           connection-timeout: 30000
           idle-timeout: 600000
           max-lifetime: 1800000
-    
+
     management:
       endpoints:
         web:
@@ -2025,7 +2025,7 @@ data:
         export:
           prometheus:
             enabled: true
-    
+
     resilience4j:
       circuitbreaker:
         instances:
@@ -2036,7 +2036,7 @@ data:
             failure-rate-threshold: 50
             slow-call-rate-threshold: 50
             slow-call-duration-threshold: 2000
-      
+
       retry:
         instances:
           payment-gateway:
@@ -2077,7 +2077,7 @@ import (
     "fmt"
     "sync"
     "time"
-    
+
     "github.com/hashicorp/consul/api"
     "go.uber.org/zap"
 )
@@ -2093,21 +2093,21 @@ type ConfigClient struct {
 func NewConfigClient(consulAddr string, logger *zap.Logger) (*ConfigClient, error) {
     config := api.DefaultConfig()
     config.Address = consulAddr
-    
+
     client, err := api.NewClient(config)
     if err != nil {
         return nil, fmt.Errorf("failed to create consul client: %w", err)
     }
-    
+
     cc := &ConfigClient{
         consul:      client,
         logger:      logger,
         subscribers: make(map[string][]chan string),
     }
-    
+
     // Start watching for changes
     go cc.watchChanges(context.Background())
-    
+
     return cc, nil
 }
 
@@ -2116,42 +2116,42 @@ func (c *ConfigClient) Get(key string) (string, error) {
     if value, ok := c.cache.Load(key); ok {
         return value.(string), nil
     }
-    
+
     // Fetch from Consul
     kv := c.consul.KV()
     pair, _, err := kv.Get(key, nil)
     if err != nil {
         return "", fmt.Errorf("failed to get key %s: %w", key, err)
     }
-    
+
     if pair == nil {
         return "", fmt.Errorf("key %s not found", key)
     }
-    
+
     value := string(pair.Value)
     c.cache.Store(key, value)
-    
+
     return value, nil
 }
 
 func (c *ConfigClient) Watch(key string) <-chan string {
     c.mu.Lock()
     defer c.mu.Unlock()
-    
+
     ch := make(chan string, 1)
     c.subscribers[key] = append(c.subscribers[key], ch)
-    
+
     // Send current value
     if value, err := c.Get(key); err == nil {
         ch <- value
     }
-    
+
     return ch
 }
 
 func (c *ConfigClient) watchChanges(ctx context.Context) {
     kv := c.consul.KV()
-    
+
     for {
         select {
         case <-ctx.Done():
@@ -2163,17 +2163,17 @@ func (c *ConfigClient) watchChanges(ctx context.Context) {
                 time.Sleep(5 * time.Second)
                 continue
             }
-            
+
             for _, key := range keys {
                 oldValue, _ := c.cache.Load(key.Key)
                 newValue := string(key.Value)
-                
+
                 if oldValue != newValue {
                     c.cache.Store(key.Key, newValue)
                     c.notifySubscribers(key.Key, newValue)
                 }
             }
-            
+
             time.Sleep(10 * time.Second)
         }
     }
@@ -2197,19 +2197,19 @@ flags:
           - attribute: region
             operator: in
             values: [us-east-1, us-west-2]
-      
+
       - type: user-list
         enabled: true
         users:
           - user123
           - user456
-      
+
       - type: group
         enabled: true
         groups:
           - beta-testers
           - internal-users
-  
+
   - key: enhanced-fraud-detection
     description: Use ML-based fraud detection
     enabled: true
@@ -2248,7 +2248,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - name: Calculate Version
         id: version
         uses: mathieudutour/github-tag-action@v6.1
@@ -2262,13 +2262,13 @@ jobs:
             feat:minor:Features
             fix:patch:Bug Fixes
             perf:patch:Performance
-      
+
       - name: Generate Changelog
         id: changelog
         run: |
           npm install -g conventional-changelog-cli
           conventional-changelog -p angular -i CHANGELOG.md -s -r 0
-          
+
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
@@ -2306,7 +2306,7 @@ async function generateReleaseNotes(
   const octokit = new Octokit({
     auth: process.env.GITHUB_TOKEN,
   });
-  
+
   // Get commits between tags
   const commits = await octokit.repos.compareCommits({
     owner,
@@ -2314,7 +2314,7 @@ async function generateReleaseNotes(
     base: fromTag,
     head: toTag,
   });
-  
+
   // Parse commit messages
   const notes: ReleaseNotes = {
     version: toTag,
@@ -2326,10 +2326,10 @@ async function generateReleaseNotes(
     security: [],
     dependencies: [],
   };
-  
+
   for (const commit of commits.data.commits) {
     const message = commit.commit.message;
-    
+
     if (message.includes('BREAKING CHANGE:')) {
       notes.breaking.push(extractDescription(message));
     } else if (message.startsWith('feat:')) {
@@ -2344,50 +2344,50 @@ async function generateReleaseNotes(
       notes.dependencies.push(extractDescription(message));
     }
   }
-  
+
   return notes;
 }
 
 function formatReleaseNotes(notes: ReleaseNotes): string {
   let output = `# Release ${notes.version}\n\n`;
   output += `Released: ${notes.date}\n\n`;
-  
+
   if (notes.breaking.length > 0) {
     output += '## ⚠️ Breaking Changes\n\n';
     notes.breaking.forEach(item => output += `- ${item}\n`);
     output += '\n';
   }
-  
+
   if (notes.features.length > 0) {
     output += '## ✨ Features\n\n';
     notes.features.forEach(item => output += `- ${item}\n`);
     output += '\n';
   }
-  
+
   if (notes.fixes.length > 0) {
     output += '## 🐛 Bug Fixes\n\n';
     notes.fixes.forEach(item => output += `- ${item}\n`);
     output += '\n';
   }
-  
+
   if (notes.security.length > 0) {
     output += '## 🔒 Security\n\n';
     notes.security.forEach(item => output += `- ${item}\n`);
     output += '\n';
   }
-  
+
   if (notes.performance.length > 0) {
     output += '## ⚡ Performance\n\n';
     notes.performance.forEach(item => output += `- ${item}\n`);
     output += '\n';
   }
-  
+
   if (notes.dependencies.length > 0) {
     output += '## 📦 Dependencies\n\n';
     notes.dependencies.forEach(item => output += `- ${item}\n`);
     output += '\n';
   }
-  
+
   return output;
 }
 ```
@@ -2420,29 +2420,29 @@ data:
         condition: "error_rate > 5%"
         duration: 5m
         action: immediate
-      
+
       - name: latency_degradation
         condition: "p99_latency > 2 * baseline"
         duration: 10m
         action: immediate
-      
+
       - name: memory_leak
         condition: "memory_usage_rate > 10MB/min"
         duration: 30m
         action: scheduled
-      
+
       - name: crash_loop
         condition: "restart_count > 5"
         duration: 15m
         action: immediate
-    
+
     rollback_procedures:
       immediate:
         - pause_deployments
         - revert_to_previous
         - notify_oncall
         - create_incident
-      
+
       scheduled:
         - notify_team
         - schedule_rollback
@@ -2508,37 +2508,37 @@ fi
 # Main rollback procedure
 function main() {
     log "Starting rollback for $SERVICE to version $VERSION in namespace $NAMESPACE"
-    
+
     # 1. Check current deployment
     log "Checking current deployment..."
     CURRENT_VERSION=$(kubectl get deployment "$SERVICE" -n "$NAMESPACE" \
         -o jsonpath='{.spec.template.spec.containers[0].image}' | cut -d: -f2)
     log "Current version: $CURRENT_VERSION"
-    
+
     if [[ "$CURRENT_VERSION" == "$VERSION" ]]; then
         warning "Already at version $VERSION, nothing to do"
         exit 0
     fi
-    
+
     # 2. Create backup of current state
     log "Creating backup of current deployment..."
     kubectl get deployment "$SERVICE" -n "$NAMESPACE" -o yaml > \
         "/tmp/${SERVICE}-${CURRENT_VERSION}-backup.yaml"
-    
+
     # 3. Check if target version exists
     log "Verifying target version exists..."
     if ! docker manifest inspect "${REGISTRY}/${SERVICE}:${VERSION}" &>/dev/null; then
         error "Version $VERSION not found in registry"
         exit 1
     fi
-    
+
     # 4. Update deployment
     log "Rolling back to version $VERSION..."
     kubectl set image "deployment/$SERVICE" \
         "${SERVICE}=${REGISTRY}/${SERVICE}:${VERSION}" \
         -n "$NAMESPACE" \
         --record
-    
+
     # 5. Monitor rollout
     log "Monitoring rollout status..."
     if ! kubectl rollout status "deployment/$SERVICE" -n "$NAMESPACE" --timeout=10m; then
@@ -2546,21 +2546,21 @@ function main() {
         kubectl apply -f "/tmp/${SERVICE}-${CURRENT_VERSION}-backup.yaml"
         exit 1
     fi
-    
+
     # 6. Verify health
     log "Verifying service health..."
     sleep 30  # Give pods time to stabilize
-    
+
     READY_REPLICAS=$(kubectl get deployment "$SERVICE" -n "$NAMESPACE" \
         -o jsonpath='{.status.readyReplicas}')
     DESIRED_REPLICAS=$(kubectl get deployment "$SERVICE" -n "$NAMESPACE" \
         -o jsonpath='{.spec.replicas}')
-    
+
     if [[ "$READY_REPLICAS" != "$DESIRED_REPLICAS" ]]; then
         error "Not all replicas are ready: $READY_REPLICAS/$DESIRED_REPLICAS"
         exit 1
     fi
-    
+
     # 7. Run smoke tests
     log "Running smoke tests..."
     if command -v smoke-test &>/dev/null; then
@@ -2568,7 +2568,7 @@ function main() {
     else
         warning "Smoke test command not found, skipping"
     fi
-    
+
     # 8. Update incident
     log "Updating incident tracking..."
     if [[ -n "${INCIDENT_ID:-}" ]]; then
@@ -2576,7 +2576,7 @@ function main() {
             --status "mitigated" \
             --comment "Rolled back $SERVICE from $CURRENT_VERSION to $VERSION"
     fi
-    
+
     log "Rollback completed successfully!"
     log "Service $SERVICE is now running version $VERSION"
 }

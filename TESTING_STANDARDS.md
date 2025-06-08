@@ -23,10 +23,10 @@ def test_user_authentication_valid_credentials():
     # Arrange
     valid_username = "test_user"
     valid_password = "correct_password"
-    
+
     # Act
     result = authenticate_user(valid_username, valid_password)
-    
+
     # Assert
     assert result.success is True
     assert result.error_message is None
@@ -51,7 +51,7 @@ Example structure:
 ```python
 def test_calculation_with_zero_division_protection():
     """REGRESSION: Bug #1234 - Division by zero crash in calculation module.
-    
+
     This test ensures that when a divisor of zero is provided, the function
     returns a default value rather than raising an exception.
     """
@@ -59,10 +59,10 @@ def test_calculation_with_zero_division_protection():
     input_value = 10
     divisor = 0
     expected_result = None  # Our fix returns None instead of raising ZeroDivisionError
-    
+
     # Act
     result = safe_divide(input_value, divisor)
-    
+
     # Assert
     assert result == expected_result
 ```
@@ -90,7 +90,7 @@ Example structure:
 ```python
 def test_api_response_time_sla():
     """BENCHMARK: API must respond within 200ms for 95% of requests.
-    
+
     SLA Requirements:
     - p95 response time: < 200ms
     - p99 response time: < 500ms
@@ -99,7 +99,7 @@ def test_api_response_time_sla():
     # Arrange
     num_requests = 1000
     endpoint = "/api/users"
-    
+
     # Act
     response_times = []
     errors = 0
@@ -113,12 +113,12 @@ def test_api_response_time_sla():
             errors += 1
         finally:
             response_times.append((time.time() - start_time) * 1000)  # Convert to ms
-    
+
     # Assert
     error_rate = errors / num_requests
     p95 = numpy.percentile(response_times, 95)
     p99 = numpy.percentile(response_times, 99)
-    
+
     assert p95 < 200, f"95th percentile response time {p95}ms exceeds SLA of 200ms"
     assert p99 < 500, f"99th percentile response time {p99}ms exceeds SLA of 500ms"
     assert error_rate < 0.001, f"Error rate {error_rate} exceeds SLA of 0.1%"
@@ -145,7 +145,7 @@ Example structure:
 ```python
 def test_with_grammatical_evolution():
     """FUZZING: Use GE to discover edge cases in the input parser.
-    
+
     This test uses grammatical evolution to generate various inputs
     that conform to our API grammar but might trigger unexpected behaviors.
     """
@@ -157,25 +157,25 @@ def test_with_grammatical_evolution():
         'params': ['<simple_param>', '<complex_param>', '<nested_param>', '<malformed_param>'],
         # ... additional grammar rules
     }
-    
+
     # Configure GE parameters
     max_generations = 50
     population_size = 100
     mutation_rate = 0.1
-    
+
     # Run GE-based fuzzing
-    fuzzer = GrammaticalEvolutionFuzzer(grammar=grammar, 
+    fuzzer = GrammaticalEvolutionFuzzer(grammar=grammar,
                                       coverage_tracker=CoverageTracker(),
                                       target_function=api_request_handler)
-    
+
     results = fuzzer.run(max_generations, population_size, mutation_rate)
-    
+
     # Analyze results
     edge_cases = results.filter(lambda r: r.status == 'failure')
-    
+
     # Assert
     assert not edge_cases.has_critical_failures(), f"Critical failures found: {edge_cases.critical_failures}"
-    
+
     # Add discovered edge cases to regression suite
     for case in edge_cases:
         add_to_regression_suite(case)
@@ -201,37 +201,37 @@ Example structure:
 ```python
 def test_agent_logging_completeness():
     """AGENT FEEDBACK: Verify agent produces comprehensive structured logs.
-    
+
     This test ensures our agent properly logs all required information
     for debugging, monitoring, and improvement purposes.
     """
     # Arrange
     test_input = "Process this complex request with multiple steps"
     expected_log_fields = [
-        "request_id", "timestamp", "input", "parsed_intent", 
-        "selected_action", "considered_alternatives", "confidence_score", 
+        "request_id", "timestamp", "input", "parsed_intent",
+        "selected_action", "considered_alternatives", "confidence_score",
         "execution_time_ms", "output", "status"
     ]
-    
+
     # Setup log capture
     log_capture = LogCapture()
-    
+
     # Act
     agent.process(test_input, log_handler=log_capture)
-    
+
     # Assert
     logs = log_capture.get_logs_as_json()
     assert len(logs) > 0, "No logs were produced"
-    
+
     # Check if all required fields are present in the logs
     for log in logs:
         for field in expected_log_fields:
             assert field in log, f"Required log field '{field}' is missing"
-    
+
     # Verify log sequence completeness
     assert "agent_started" in [log["event"] for log in logs]
     assert "agent_completed" in [log["event"] for log in logs]
-    
+
     # Verify decision points are logged with alternatives
     decision_logs = [log for log in logs if log["event"] == "decision_point"]
     assert len(decision_logs) > 0, "No decision points were logged"
@@ -252,16 +252,16 @@ Implement comprehensive code coverage standards in your testing:
    - 85%+ overall line coverage
    - 95%+ coverage for critical components (authentication, data processing, API layers)
    - 100% coverage for utility functions and shared libraries
-   
+
 2. Track coverage trends over time:
    - Prevent coverage regression in established code
    - Allow temporary exemptions for prototype code with documented expiration
-   
+
 3. Cover all code paths and branches:
    - Test error handling and exception paths
    - Verify both positive and negative conditions for each branch
    - Ensure conditional logic is fully exercised
-   
+
 4. Include coverage reports in CI/CD pipelines:
    - Block merges that decrease coverage below thresholds
    - Highlight uncovered code sections for reviewer attention
@@ -271,13 +271,13 @@ Example implementation:
 # Coverage configuration (in pytest.ini, pyproject.toml, or similar)
 [coverage]
 fail_under = 85
-exclude_lines = 
+exclude_lines =
     pragma: no cover
     def __repr__
     raise NotImplementedError
     if TYPE_CHECKING:
     pass
-    
+
 # Critical component coverage validation
 def test_coverage_critical_components():
     """Verify critical components meet 95% code coverage requirement."""
@@ -287,7 +287,7 @@ def test_coverage_critical_components():
         "app/data_processing",
         "app/api"
     ]
-    
+
     for module in critical_modules:
         coverage = coverage_report.get_module_coverage(module)
         assert coverage >= 95, f"Critical module {module} has insufficient coverage: {coverage}%"
@@ -304,17 +304,17 @@ Implement static analysis rules to catch issues before runtime:
    - Find potential bugs (unused variables, unreachable code)
    - Identify security vulnerabilities
    - Detect performance anti-patterns
-   
+
 2. Create custom rules specific to your project:
    - Domain-specific constraints and conventions
    - Architectural boundaries enforcement
    - Resource management patterns
-   
+
 3. Integrate static analysis into development workflow:
    - Run checks before commits (pre-commit hooks)
    - Include in CI/CD pipeline
    - Generate reports for code reviews
-   
+
 4. Maintain a "zero warnings" policy:
    - Treat warnings as errors in CI builds
    - Document temporary exceptions with clear justification
@@ -362,17 +362,17 @@ Implement contract testing to verify interface stability between components:
    - Specify error handling behaviors
    - Define performance characteristics
    - Document version compatibility
-   
+
 2. Implement consumer-driven contract tests:
    - Have consumers define their expectations of providers
    - Verify providers meet all consumer expectations
    - Run tests on both consumer and provider sides
-   
+
 3. Maintain a contract registry:
    - Track all service interface contracts
    - Version contracts explicitly
    - Document migration paths for breaking changes
-   
+
 4. Automate contract verification:
    - Test against contract definitions, not implementations
    - Include contract verification in CI/CD pipelines
@@ -384,23 +384,23 @@ def test_user_service_contract():
     """Verify the User Service meets its consumer contract requirements."""
     # Load contract definitions
     contract = ContractRegistry.load("user_service", version="2.1")
-    
+
     # Test all required endpoints
     for endpoint in contract.endpoints:
         # Prepare test request based on contract
         request = endpoint.create_sample_request()
-        
+
         # Execute request against service
         response = client.request(
             method=endpoint.method,
             url=endpoint.path,
             json=request.payload
         )
-        
+
         # Verify response matches contract
         assert response.status_code == endpoint.expected_status
         assert validate_schema(response.json(), endpoint.response_schema)
-        
+
         # Verify performance requirements
         assert response.elapsed.total_seconds() < endpoint.sla_response_time
 ```
@@ -417,17 +417,17 @@ Implement mutation testing to verify test quality:
    - Remove conditional blocks
    - Change logical operators (AND to OR, etc.)
    - Swap function calls with similar signatures
-   
+
 2. Establish mutation score thresholds:
    - Minimum 80% killed mutations overall
    - 90%+ for critical components
    - 100% for security-sensitive code
-   
+
 3. Integrate into quality workflows:
    - Run periodically (weekly/monthly) or on significant changes
    - Review surviving mutations in code reviews
    - Address test gaps revealed by surviving mutations
-   
+
 4. Focus on high-value targets:
    - Business logic
    - Data transformation code
@@ -453,13 +453,13 @@ def test_mutation_score():
         capture_output=True,
         text=True
     )
-    
+
     # Parse results
     stats = parse_mutation_results(result.stdout)
-    
+
     # Verify overall score
     assert stats["score"] >= 80, f"Mutation score too low: {stats['score']}%"
-    
+
     # Verify critical components
     for component in CRITICAL_COMPONENTS:
         component_score = stats["component_scores"].get(component, 0)
@@ -477,18 +477,18 @@ Implement property-based testing to discover edge cases:
    - Mathematical properties (commutativity, associativity)
    - Business rule invariants
    - Data transformation consistency
-   
+
 2. Generate diverse test inputs automatically:
    - Configure generators for your domain types
    - Include edge cases and boundary values
    - Combine generators for complex structures
    - Shrink failing cases to minimal examples
-   
+
 3. Define explicit property assertions:
    - Focus on what must be true, not specific examples
    - Cover both functional and non-functional requirements
    - Include performance and resource usage properties
-   
+
 4. Incorporate failure analysis:
    - Document discovered edge cases
    - Add specific regression tests for found issues
@@ -516,7 +516,7 @@ def test_search_found_if_present(needle):
     # Skip empty strings
     if not needle:
         return
-        
+
     haystack = f"prefix {needle} suffix"
     assert search(haystack, needle) is not None
 
@@ -540,19 +540,19 @@ Implement comprehensive security testing practices:
    - Dependency scanning for known vulnerabilities
    - Dynamic testing (DAST) for runtime vulnerabilities
    - Interactive testing (IAST) for complex attack vectors
-   
+
 2. Test against established security standards:
    - OWASP Top 10 vulnerabilities
    - CWE/SANS Top 25 programming errors
    - Domain-specific security requirements (HIPAA, PCI-DSS, etc.)
-   
+
 3. Implement specific test cases for common vulnerabilities:
    - Injection attacks (SQL, NoSQL, OS command, etc.)
    - Authentication and authorization bypass
    - Sensitive data exposure
    - XXE and SSRF vulnerabilities
    - Security misconfigurations
-   
+
 4. Incorporate security tests into CI/CD:
    - Block deployment on critical findings
    - Generate security reports for review
@@ -564,18 +564,18 @@ def test_sql_injection_prevention():
     """Verify protection against SQL injection attacks."""
     # Arrange
     attack_vectors = [
-        "' OR '1'='1", 
+        "' OR '1'='1",
         "'; DROP TABLE users; --",
         "' UNION SELECT username, password FROM users; --",
         # More attack vectors...
     ]
-    
+
     # Act & Assert
     for attack in attack_vectors:
         # Test each input point that might reach database
         result = user_service.find_by_name(attack)
         assert not any_user_data_leaked(result)
-        
+
         result = user_service.authenticate(attack, "password")
         assert result.authenticated is False
 
@@ -584,13 +584,13 @@ def test_authorization_controls():
     # Arrange
     regular_user = create_user(role="user")
     admin_user = create_user(role="admin")
-    
+
     # Act & Assert
     # Test vertical privilege escalation
     regular_user_client = get_client_for_user(regular_user)
     response = regular_user_client.get("/admin/users")
     assert response.status_code == 403
-    
+
     # Test horizontal privilege escalation
     other_user = create_user(role="user")
     response = regular_user_client.get(f"/users/{other_user.id}/profile")
@@ -609,18 +609,18 @@ Implement resilience testing to verify system stability under adverse conditions
    - Resource exhaustion (CPU, memory, disk)
    - Clock skew and time-related issues
    - High latency and throughput scenarios
-   
+
 2. Define steady-state hypotheses for each experiment:
    - Explicit metrics that define normal operation
    - Acceptable degradation limits
    - Recovery time objectives
-   
+
 3. Run controlled experiments in production-like environments:
    - Start with minimal blast radius
    - Increase scope progressively
    - Always have abort conditions
    - Monitor closely during execution
-   
+
 4. Incorporate findings into architecture:
    - Document discovered weaknesses
    - Implement additional safeguards
@@ -638,28 +638,28 @@ def test_resilience_to_database_failure():
             response.json()["status"] == "healthy" and
             response.elapsed.total_seconds() < 0.5
         )
-    
+
     # Verify initial steady state
     assert check_steady_state()
-    
+
     # Introduce chaos - database failure
     with simulate_database_failure():
         # Verify degraded but operational state
         response = client.get("/api/users")
-        
+
         # Read operations should work from cache
         assert response.status_code == 200
         assert response.headers["X-Data-Source"] == "cache"
-        
+
         # Write operations should fail gracefully
         create_response = client.post("/api/users", json={"name": "test"})
         assert create_response.status_code == 503  # Service Unavailable
         assert "retry_after" in create_response.headers
-    
+
     # Verify recovery
     # Wait for recovery - max 30 seconds
     wait_for_condition(check_steady_state, timeout=30)
-    
+
     # Verify writes work after recovery
     create_response = client.post("/api/users", json={"name": "test"})
     assert create_response.status_code == 201  # Created
@@ -678,18 +678,18 @@ Implement documentation testing to ensure accuracy and reliability:
    - Execute in isolated environments
    - Verify expected outputs match documented claims
    - Update examples when APIs change
-   
+
 2. Validate API documentation completeness:
    - Test that all endpoints are documented
    - Verify all parameters are described
    - Ensure all response codes are documented
    - Check that examples cover common use cases
-   
+
 3. Test documentation for user journeys:
    - Verify step-by-step tutorials work as written
    - Test installation and setup instructions
    - Validate troubleshooting guides
-   
+
 4. Automate documentation testing:
    - Run doc tests in CI/CD pipelines
    - Generate documentation from tests
@@ -703,24 +703,24 @@ def test_readme_examples():
     readme_path = Path("README.md")
     readme_content = readme_path.read_text()
     code_blocks = extract_code_blocks(readme_content)
-    
+
     for i, code in enumerate(code_blocks):
         # Skip non-executable examples (e.g., console output)
         if is_executable_code(code):
             # Create temporary module for execution
             module_path = tmp_path / f"example_{i}.py"
             module_path.write_text(code)
-            
+
             # Execute example
             result = subprocess.run(
                 [sys.executable, str(module_path)],
                 capture_output=True,
                 text=True
             )
-            
+
             # Verify execution succeeds
             assert result.returncode == 0, f"Example {i} failed: {result.stderr}"
-            
+
             # Verify output matches if specified
             expected_output = extract_expected_output(readme_content, i)
             if expected_output:
@@ -730,14 +730,14 @@ def test_api_documentation_completeness():
     """Verify API documentation covers all actual endpoints."""
     # Get actual API endpoints
     actual_endpoints = list_all_api_endpoints()
-    
+
     # Get documented endpoints
     documented_endpoints = extract_endpoints_from_docs()
-    
+
     # Verify all actual endpoints are documented
     for endpoint in actual_endpoints:
         assert endpoint in documented_endpoints, f"Endpoint {endpoint} is not documented"
-        
+
         # Verify all parameters are documented
         actual_params = get_endpoint_parameters(endpoint)
         documented_params = get_documented_parameters(endpoint)
@@ -756,18 +756,18 @@ Implement robust integration testing patterns:
    - Service dependencies
    - Third-party integrations
    - Database and persistence layers
-   
+
 2. Use appropriate testing approaches for each boundary:
    - Mocks for uncontrollable dependencies
    - Stubs for simplified behavior
    - Spies for interaction verification
    - Real instances for critical paths
-   
+
 3. Implement end-to-end test scenarios:
    - Complete user journeys
    - Multi-step business processes
    - Cross-component workflows
-   
+
 4. Manage test environments effectively:
    - Containerize dependencies
    - Use test doubles when appropriate
@@ -781,36 +781,36 @@ def test_user_registration_end_to_end():
     # Arrange
     email = f"test-{uuid.uuid4()}@example.com"
     password = "secure_password123"
-    
+
     # Use real email service in test mode
     email_service = configure_real_email_service(test_mode=True)
-    
+
     # Act - Start registration process
     response = client.post("/api/register", json={
         "email": email,
         "password": password
     })
-    
+
     # Assert - Initial response
     assert response.status_code == 202  # Accepted
     registration_id = response.json()["registration_id"]
-    
+
     # Verify email was sent
     sent_emails = email_service.get_sent_emails()
     assert len(sent_emails) == 1
     verification_email = sent_emails[0]
     assert verification_email.recipient == email
-    
+
     # Extract verification code
     verification_code = extract_verification_code(verification_email.body)
-    
+
     # Complete verification
     response = client.post("/api/verify", json={
         "registration_id": registration_id,
         "verification_code": verification_code
     })
     assert response.status_code == 201  # Created
-    
+
     # Verify user is created in database
     with db_connection() as conn:
         user = conn.execute(
@@ -820,7 +820,7 @@ def test_user_registration_end_to_end():
         assert user is not None
         assert user["email"] == email
         assert user["is_verified"] is True
-        
+
     # Verify login works
     response = client.post("/api/login", json={
         "email": email,
@@ -840,19 +840,19 @@ Implement testability guidelines to ensure code is designed for effective testin
    - Separate concerns clearly
    - Avoid global state
    - Create pure functions where possible
-   
+
 2. Create testability interfaces:
    - Time providers instead of direct datetime usage
    - File system abstractions
    - Network/API abstractions
    - Randomness control
-   
+
 3. Implement testing hooks:
    - Instrumentation points
    - State inspection methods
    - Execution trace capabilities
    - Test-only extension points
-   
+
 4. Establish testability reviews:
    - Include testability in code reviews
    - Measure test effort as metric
@@ -874,7 +874,7 @@ class TestableService:
     def __init__(self, time_provider=None, random_provider=None):
         self.time_provider = time_provider or (lambda: datetime.now())
         self.random_provider = random_provider or random.random
-    
+
     def process_data(self, input_data):
         current_time = self.time_provider()
         processed = self._transform(input_data)
@@ -891,10 +891,10 @@ def test_process_data_normal_path():
         random_provider=lambda: 0.6  # Ensures we skip the special case
     )
     input_data = {"key": "value"}
-    
+
     # Act
     result = service.process_data(input_data)
-    
+
     # Assert
     assert result == expected_transformed_data
 
@@ -907,10 +907,10 @@ def test_process_data_special_case():
         random_provider=lambda: 0.4  # Ensures we take the special case
     )
     input_data = {"key": "value"}
-    
+
     # Act
     result = service.process_data(input_data)
-    
+
     # Assert
     assert result == expected_special_case_result
 ```

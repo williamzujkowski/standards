@@ -14,7 +14,7 @@ project:
   style: PEP8 + Black (88 chars)
   testing: pytest (85%+ coverage)
   docs: Google-style docstrings
-  
+
 commands:
   setup: "python -m venv venv && source venv/bin/activate && pip install -e '.[dev]'"
   lint: "black . && isort . && flake8 && mypy ."
@@ -27,7 +27,7 @@ commands:
 
 ### Core Standards
 - **CS** → `CODING_STANDARDS.md` - Style, architecture, patterns
-- **TS** → `TESTING_STANDARDS.md` - Testing principles, QA frameworks  
+- **TS** → `TESTING_STANDARDS.md` - Testing principles, QA frameworks
 - **US** → `UNIFIED_STANDARDS.md` - Comprehensive development lifecycle
 
 ### Domain Standards
@@ -62,7 +62,7 @@ Load: TS:regression-testing + CS:error-handling
 Skip: Architecture patterns, optimization standards
 ```
 
-### For Security Reviews  
+### For Security Reviews
 ```
 Load: SEC:all + CS:security-section
 Focus: Input validation, auth, encryption
@@ -141,7 +141,7 @@ patterns:
 
 testing:
   TDD: Test-Driven Development
-  BDD: Behavior-Driven Development  
+  BDD: Behavior-Driven Development
   AAA: Arrange-Act-Assert
   SUT: System Under Test
 
@@ -196,7 +196,7 @@ Focus: OWASP Top 10, input validation, auth
 - 3.5: Performance
 - 3.6: Error Handling
 
-### TESTING_STANDARDS.md Sections  
+### TESTING_STANDARDS.md Sections
 - 4.1: Core Principles (hypothesis, regression, benchmarks)
 - 4.2: Quality Assurance (coverage, static analysis)
 - 4.3: Security & Resilience Testing
@@ -260,7 +260,7 @@ Result: Minimal tokens loaded, focused on API-specific standards
 
 ### Example 2: Debugging Performance Issue
 ```
-User: "Debug slow database queries"  
+User: "Debug slow database queries"
 System: Loading @load [CS:performance, DE:optimization, OBS:metrics]
 Result: Only performance-related standards loaded
 ```

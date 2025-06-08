@@ -1,8 +1,8 @@
 # SEO & Web Marketing Standards
 
-**Version:** 1.0.0  
-**Last Updated:** January 2025  
-**Status:** Active  
+**Version:** 1.0.0
+**Last Updated:** January 2025
+**Status:** Active
 **Focus:** Technical SEO, performance optimization, and marketing automation
 
 ## Table of Contents
@@ -33,21 +33,21 @@ crawlability_standards:
       - Valid syntax
       - Sitemap reference
       - Crawl-delay if needed
-      
+
     example: |
       User-agent: *
       Allow: /
       Disallow: /api/
       Disallow: /admin/
       Sitemap: https://example.com/sitemap.xml
-      
+
   xml_sitemap:
     requirements:
       - Maximum 50,000 URLs per file
       - Under 50MB uncompressed
       - UTF-8 encoding
       - Update frequency accurate
-      
+
     structure:
       main: "/sitemap.xml"
       index: "/sitemap-index.xml"
@@ -56,7 +56,7 @@ crawlability_standards:
         - posts: "/sitemap-posts.xml"
         - images: "/sitemap-images.xml"
         - videos: "/sitemap-videos.xml"
-        
+
   crawl_optimization:
     - Remove crawl traps
     - Fix redirect chains
@@ -76,26 +76,26 @@ url_standards:
       - No special characters
       - Maximum 60 characters
       - Descriptive keywords
-      
+
   implementation:
     canonical_urls:
       - Self-referencing canonicals
       - Cross-domain canonicals
       - Parameter handling
       - Protocol consistency
-      
+
     redirects:
       types:
         301: "Permanent moves"
         302: "Temporary redirects"
         308: "Permanent (preserve method)"
-        
+
       rules:
         - Maximum 2 redirect hops
         - Update internal links
         - Monitor redirect chains
         - Log all redirects
-        
+
   internationalization:
     hreflang:
       implementation: "Link tags in head"
@@ -117,17 +117,17 @@ security_seo:
       - Minimum TLS 1.2
       - HSTS enabled
       - No mixed content
-      
+
     implementation:
       server_config: |
         # HSTS with preload
         Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-        
+
         # Security headers
         X-Content-Type-Options: nosniff
         X-Frame-Options: SAMEORIGIN
         Referrer-Policy: strict-origin-when-cross-origin
-        
+
   csp_for_seo:
     balance:
       - Allow necessary third-party scripts
@@ -149,21 +149,21 @@ meta_tags:
       length: "50-60 characters"
       structure: "Primary Keyword - Secondary Keyword | Brand"
       uniqueness: "Unique per page"
-      
+
     implementation:
       dynamic_generation: |
         <title>{pageTitle} | {categoryName} | {siteName}</title>
-      
+
   meta_description:
     requirements:
       length: "150-160 characters"
       cta: "Include call-to-action"
       keywords: "Natural inclusion"
       uniqueness: "Unique per page"
-      
+
     template: |
       <meta name="description" content="{summary}. {benefit}. {cta}">
-      
+
   open_graph:
     required_tags:
       - og:title
@@ -171,18 +171,18 @@ meta_tags:
       - og:image
       - og:url
       - og:type
-      
+
     image_specs:
       dimensions: "1200x630px"
       format: "JPG or PNG"
       size: "< 5MB"
-      
+
   twitter_cards:
     types:
       summary: "Default card"
       summary_large_image: "Featured content"
       player: "Video content"
-      
+
     required:
       - twitter:card
       - twitter:title
@@ -199,19 +199,19 @@ header_structure:
       count: "One per page"
       placement: "Above fold"
       keywords: "Primary keyword included"
-      
+
     h2_h6:
       structure: "Logical hierarchy"
       keywords: "LSI keywords"
       nesting: "Proper parent-child"
-      
+
   implementation:
     semantic_html:
       - Use heading tags for structure
       - Don't skip levels
       - Include keywords naturally
       - Support outline algorithm
-      
+
     accessibility:
       - Screen reader friendly
       - Logical flow
@@ -230,33 +230,33 @@ content_standards:
       - H1 tag
       - Alt text
       - Meta description
-      
+
     lsi_keywords:
       - Related terms
       - Synonyms
       - Entity mentions
       - Question variations
-      
+
   content_structure:
     requirements:
       - Minimum 300 words
       - Original content
       - E-A-T signals
       - Regular updates
-      
+
     formatting:
       - Short paragraphs (2-3 sentences)
       - Bullet points
       - Numbered lists
       - Bold key phrases
-      
+
   internal_linking:
     strategy:
       - 3-5 internal links per page
       - Descriptive anchor text
       - Relevant context
       - Deep linking
-      
+
     implementation:
       - Automated related posts
       - Contextual links
@@ -279,14 +279,14 @@ site_architecture:
       - Category pages
       - Subcategory pages
       - Product/content pages
-      
+
   navigation:
     main_menu:
       - 7±2 items maximum
       - Descriptive labels
       - Logical grouping
       - Mobile-friendly
-      
+
     breadcrumbs:
       implementation: "Schema.org BreadcrumbList"
       format: "Home > Category > Subcategory > Page"
@@ -294,7 +294,7 @@ site_architecture:
         - On all pages except home
         - Clickable links
         - Current page not linked
-        
+
   url_architecture:
     patterns:
       blog: "/blog/category/post-title"
@@ -312,18 +312,18 @@ pagination:
       - rel="prev" for previous page
       - rel="next" for next page
       - Canonical to self on each page
-      
+
     url_structure:
       format: "/category/page/2"
       avoid: "?page=2" when possible
-      
+
   infinite_scroll:
     seo_friendly:
       - Provide paginated alternative
       - Implement history.pushState
       - Load content progressively
       - Include "View All" option
-      
+
   optimization:
     - Index first page only
     - Consolidate thin pages
@@ -341,23 +341,23 @@ mobile_seo:
       - Flexible images
       - Viewport meta tag
       - Touch-friendly elements
-      
+
     viewport_meta: |
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      
+
   mobile_usability:
     standards:
       - Tap targets: 48x48px minimum
       - Font size: 16px minimum
       - No horizontal scrolling
       - Fast loading (< 3s)
-      
+
   amp_implementation:
     when_needed:
       - News articles
       - Blog posts
       - Product pages
-      
+
     requirements:
       - Valid AMP HTML
       - Canonical reference
@@ -380,12 +380,12 @@ core_web_vitals:
       - Preload critical resources
       - Optimize images and videos
       - Remove render-blocking resources
-      
+
     implementation:
       preload_critical: |
         <link rel="preload" as="image" href="hero-image.webp">
         <link rel="preload" as="font" href="main-font.woff2" crossorigin>
-        
+
   fid_optimization:
     target: "< 100 milliseconds"
     techniques:
@@ -393,7 +393,7 @@ core_web_vitals:
       - Use web workers
       - Optimize JavaScript execution
       - Implement progressive enhancement
-      
+
   cls_optimization:
     target: "< 0.1"
     techniques:
@@ -401,11 +401,11 @@ core_web_vitals:
       - Reserve space for ads
       - Avoid inserting content above
       - Font loading optimization
-      
+
     implementation:
       image_dimensions: |
         <img src="..." width="800" height="600" alt="...">
-      
+
       font_loading: |
         font-display: optional; /* or swap */
 ```
@@ -420,29 +420,29 @@ performance_standards:
       lazy_loading: "loading='lazy'"
       responsive: "srcset and sizes"
       compression: "85% quality"
-      
+
     css:
       - Critical CSS inline
       - Non-critical deferred
       - Minification
       - Remove unused styles
-      
+
     javascript:
       - Defer non-critical
       - Async where possible
       - Code splitting
       - Tree shaking
-      
+
   caching_strategy:
     static_assets:
       images: "1 year"
       css_js: "1 year with versioning"
       fonts: "1 year"
-      
+
     html:
       cache_control: "no-cache, must-revalidate"
       etag: "Enabled"
-      
+
   cdn_configuration:
     requirements:
       - Global edge locations
@@ -460,22 +460,22 @@ technical_optimization:
       - Enable Gzip/Brotli
       - Compress HTML, CSS, JS
       - Minimum 1KB threshold
-      
+
     http2_http3:
       - Server push for critical resources
       - Multiplexing enabled
       - Header compression
-      
+
   resource_hints:
     dns_prefetch: |
       <link rel="dns-prefetch" href="//cdn.example.com">
-      
+
     preconnect: |
       <link rel="preconnect" href="https://fonts.googleapis.com">
-      
+
     prefetch: |
       <link rel="prefetch" href="/next-page.html">
-      
+
   critical_rendering_path:
     optimization:
       - Inline critical CSS
@@ -496,7 +496,7 @@ structured_data:
     json_ld: "Recommended"
     microdata: "Legacy support"
     rdfa: "Avoid"
-    
+
   common_schemas:
     organization:
       required:
@@ -505,7 +505,7 @@ structured_data:
         - logo
         - contactPoint
         - sameAs (social profiles)
-        
+
     local_business:
       required:
         - name
@@ -513,7 +513,7 @@ structured_data:
         - telephone
         - openingHours
         - geo coordinates
-        
+
     product:
       required:
         - name
@@ -521,7 +521,7 @@ structured_data:
         - description
         - offers (price, availability)
         - aggregateRating
-        
+
     article:
       required:
         - headline
@@ -529,13 +529,13 @@ structured_data:
         - author
         - image
         - publisher
-        
+
   validation:
     tools:
       - Google Rich Results Test
       - Schema.org validator
       - Structured Data Testing Tool
-      
+
     monitoring:
       - Search Console reports
       - Rich results status
@@ -553,21 +553,21 @@ rich_snippets:
         - Question-answer pairs
         - Complete answers
         - No promotional content
-        
+
     how_to:
       implementation: "HowTo schema"
       requirements:
         - Step-by-step instructions
         - Time estimates
         - Required tools/materials
-        
+
     reviews:
       implementation: "Review/AggregateRating"
       requirements:
         - Genuine reviews
         - Rating scale
         - Review count
-        
+
     events:
       implementation: "Event schema"
       requirements:
@@ -575,7 +575,7 @@ rich_snippets:
         - Start date/time
         - Location
         - Ticket information
-        
+
   best_practices:
     - Test before deployment
     - Monitor performance
@@ -596,24 +596,24 @@ content_management:
       url: "/blog/{category}/{slug}"
       metadata: [title, description, author, date]
       features: [comments, sharing, related]
-      
+
     landing_pages:
       url: "/{campaign}/{offer}"
       elements: [hero, benefits, cta, form]
       tracking: [source, medium, campaign]
-      
+
     resources:
       url: "/resources/{type}/{title}"
       types: [whitepapers, ebooks, guides]
       gating: "Progressive profiling"
-      
+
   content_delivery:
     formats:
       - HTML pages
       - PDF downloads
       - Video embeds
       - Podcast feeds
-      
+
     optimization:
       - CDN delivery
       - Responsive images
@@ -629,25 +629,25 @@ syndication:
     implementation:
       main: "/feed.xml"
       category: "/category/{name}/feed.xml"
-      
+
     requirements:
       - Valid XML
       - Full content or summary
       - Proper encoding
       - Update frequency
-      
+
   social_sharing:
     meta_tags:
       - Open Graph
       - Twitter Cards
       - Pinterest Rich Pins
-      
+
     implementation:
       - Share buttons
       - Click tracking
       - UTM parameters
       - Social proof
-      
+
   cross_posting:
     canonical_handling:
       - Point to original
@@ -674,27 +674,27 @@ analytics_setup:
           gtag('js', new Date());
           gtag('config', 'GA_MEASUREMENT_ID');
         </script>
-        
+
     enhanced_ecommerce:
       - Product impressions
       - Product clicks
       - Add to cart
       - Checkout steps
       - Purchase
-      
+
     custom_dimensions:
       - Author
       - Category
       - User type
       - Content type
-      
+
   goal_tracking:
     macro_conversions:
       - Form submissions
       - Phone calls
       - Purchases
       - Sign-ups
-      
+
     micro_conversions:
       - PDF downloads
       - Video views
@@ -712,27 +712,27 @@ tag_management:
       - Body container
       - DataLayer implementation
       - Version control
-      
+
     common_tags:
       - Analytics tags
       - Conversion pixels
       - Remarketing tags
       - Heatmap tools
-      
+
     triggers:
       - Page views
       - Clicks
       - Form submissions
       - Scroll depth
       - Time on page
-      
+
   privacy_compliance:
     consent_management:
       - Cookie consent banner
       - Granular opt-in/out
       - Geographic detection
       - Preference center
-      
+
     implementation:
       - Consent mode
       - Server-side tagging
@@ -751,20 +751,20 @@ conversion_tracking:
         - Event tracking
         - Callback functions
         - DataLayer pushes
-        
+
     ecommerce_tracking:
       enhanced_ecommerce:
         - Product views
         - Cart actions
         - Checkout funnel
         - Transaction details
-        
+
     phone_tracking:
       - Dynamic number insertion
       - Call tracking
       - Duration tracking
       - Source attribution
-      
+
   attribution_models:
     types:
       - Last click
@@ -772,7 +772,7 @@ conversion_tracking:
       - Linear
       - Time decay
       - Data-driven
-      
+
     implementation:
       - UTM parameters
       - Channel definitions
@@ -795,33 +795,33 @@ marketing_automation:
         - Additional fields over time
         - Smart field logic
         - Conditional questions
-        
+
       optimization:
         - A/B testing
         - Field reduction
         - Inline validation
         - Mobile optimization
-        
+
     landing_pages:
       elements:
         - Clear value proposition
         - Social proof
         - Trust signals
         - Minimal navigation
-        
+
   lead_scoring:
     demographic:
       - Job title
       - Company size
       - Industry
       - Location
-      
+
     behavioral:
       - Page views
       - Content downloads
       - Email engagement
       - Webinar attendance
-      
+
     implementation:
       - Point assignment
       - Threshold setting
@@ -839,20 +839,20 @@ automation_workflows:
       - Education (day 3)
       - Case study (day 7)
       - Offer (day 14)
-      
+
     re_engagement:
       triggers:
         - 30 days inactive
         - Cart abandonment
         - Browse abandonment
-        
+
   personalization:
     dynamic_content:
       - Industry-specific
       - Role-based
       - Stage-based
       - Behavior-based
-      
+
     implementation:
       - Merge tags
       - Dynamic blocks
@@ -873,33 +873,33 @@ email_technical:
       spf: "v=spf1 include:_spf.provider.com ~all"
       dkim: "2048-bit key minimum"
       dmarc: "v=DMARC1; p=quarantine; rua=mailto:..."
-      
+
     reputation:
       - Warm up new IPs
       - Monitor blacklists
       - Manage bounce rates
       - Track complaints
-      
+
   html_email:
     standards:
       - Tables for layout
       - Inline CSS
       - 600px max width
       - Alt text for images
-      
+
     compatibility:
       - Test across clients
       - Fallback fonts
       - Dark mode support
       - Plain text version
-      
+
   tracking:
     metrics:
       - Open rate
       - Click rate
       - Conversion rate
       - List growth rate
-      
+
     implementation:
       - UTM parameters
       - Pixel tracking
@@ -917,21 +917,21 @@ email_optimization:
       - Personalization
       - A/B testing
       - Emoji usage (sparingly)
-      
+
   preheader_text:
     requirements:
       - 40-100 characters
       - Complement subject
       - Call to action
       - Hidden if needed
-      
+
   mobile_optimization:
     requirements:
       - Single column layout
       - Large tap targets (44x44px)
       - Readable fonts (14px+)
       - Compressed images
-      
+
   accessibility:
     standards:
       - Semantic HTML
@@ -956,7 +956,7 @@ seo_audit:
     - [ ] Page speed optimal
     - [ ] Mobile-friendly
     - [ ] Core Web Vitals pass
-    
+
   on_page:
     - [ ] Title tags optimized
     - [ ] Meta descriptions unique
@@ -964,7 +964,7 @@ seo_audit:
     - [ ] Internal linking strong
     - [ ] Image optimization
     - [ ] Schema markup valid
-    
+
   content:
     - [ ] Keyword research done
     - [ ] Content quality high
@@ -982,17 +982,17 @@ marketing_stack:
       - Google Analytics 4
       - Google Search Console
       - Hotjar/Crazy Egg
-      
+
     seo:
       - Screaming Frog
       - Ahrefs/SEMrush
       - PageSpeed Insights
-      
+
     marketing:
       - HubSpot/Marketo
       - Mailchimp/SendGrid
       - Hootsuite/Buffer
-      
+
   integration_points:
     - CRM sync
     - Analytics data
@@ -1010,19 +1010,19 @@ monitoring:
       - Keyword rankings
       - Click-through rate
       - Conversion rate
-      
+
     performance:
       - Page load time
       - Core Web Vitals
       - Server response time
       - Error rates
-      
+
     marketing:
       - Lead generation
       - Cost per lead
       - ROI/ROAS
       - Customer lifetime value
-      
+
   reporting:
     frequency:
       daily: "Traffic and conversions"

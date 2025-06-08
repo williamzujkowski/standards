@@ -72,7 +72,7 @@ Spec: [OPENAPI/REQUIREMENTS]
 
 Implement RESTful endpoint with:
 - Input validation
-- Error handling  
+- Error handling
 - Rate limiting
 - Documentation
 - Tests

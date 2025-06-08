@@ -1,7 +1,7 @@
 # Modern Security Standards
 
-**Version:** 1.0.0  
-**Last Updated:** January 2025  
+**Version:** 1.0.0
+**Last Updated:** January 2025
 **Status:** Active
 
 ## Table of Contents
@@ -31,20 +31,20 @@ zero_trust_policy:
     - "Verify explicitly"
     - "Use least privilege access"
     - "Monitor and log everything"
-  
+
   implementation:
     identity_verification:
       - Multi-factor authentication required
       - Continuous authentication
       - Risk-based authentication
       - Device compliance verification
-    
+
     network_segmentation:
       - Micro-segmentation
       - Software-defined perimeters
       - Encrypted communications
       - Network monitoring
-    
+
     data_protection:
       - Data classification
       - Encryption at rest and in transit
@@ -99,18 +99,18 @@ class ZeroTrustAccessControl:
         self.policies: List[PolicyEngine] = []
         self.audit_logger = AuditLogger()
         self.risk_engine = RiskEngine()
-    
+
     def add_policy(self, policy: PolicyEngine):
         """Add a policy to the evaluation chain."""
         self.policies.append(policy)
-    
+
     def evaluate_access(self, request: AccessRequest) -> Dict[str, Any]:
         """Evaluate access request against all policies."""
         start_time = time.time()
-        
+
         # Update risk score
         request.context.risk_score = self.risk_engine.calculate_risk(request.context)
-        
+
         # Evaluate all policies
         decisions = []
         for policy in self.policies:
@@ -128,10 +128,10 @@ class ZeroTrustAccessControl:
                     'error': str(e),
                     'timestamp': time.time()
                 })
-        
+
         # Final decision - all policies must pass
         final_decision = all(d['decision'] for d in decisions)
-        
+
         result = {
             'access_granted': final_decision,
             'user_id': request.context.user_id,
@@ -143,54 +143,54 @@ class ZeroTrustAccessControl:
             'evaluation_time_ms': (time.time() - start_time) * 1000,
             'policy_decisions': decisions
         }
-        
+
         # Audit log
         self.audit_logger.log_access_decision(result)
-        
+
         return result
 
 class IdentityVerificationPolicy(PolicyEngine):
     def __init__(self, mfa_required: bool = True, max_session_age: int = 3600):
         self.mfa_required = mfa_required
         self.max_session_age = max_session_age
-    
+
     def evaluate(self, request: AccessRequest) -> bool:
         context = request.context
-        
+
         # Check session age
         session_age = time.time() - context.authentication_time
         if session_age > self.max_session_age:
             return False
-        
+
         # Check MFA requirement
         if self.mfa_required and context.trust_level < TrustLevel.MEDIUM:
             return False
-        
+
         return True
 
 class LocationPolicy(PolicyEngine):
     def __init__(self, allowed_countries: List[str], allowed_ip_ranges: List[str]):
         self.allowed_countries = allowed_countries
         self.allowed_ip_ranges = allowed_ip_ranges
-    
+
     def evaluate(self, request: AccessRequest) -> bool:
         context = request.context
-        
+
         # Check country restrictions
         user_country = self._get_country_from_location(context.location)
         if user_country not in self.allowed_countries:
             return False
-        
+
         # Check IP range restrictions
         if not self._ip_in_allowed_ranges(context.ip_address):
             return False
-        
+
         return True
-    
+
     def _get_country_from_location(self, location: str) -> str:
         # Implementation to extract country from location
         return location.split(',')[-1].strip()
-    
+
     def _ip_in_allowed_ranges(self, ip: str) -> bool:
         # Implementation to check if IP is in allowed ranges
         return True  # Simplified for example
@@ -198,14 +198,14 @@ class LocationPolicy(PolicyEngine):
 class DeviceCompliancePolicy(PolicyEngine):
     def __init__(self, device_registry):
         self.device_registry = device_registry
-    
+
     def evaluate(self, request: AccessRequest) -> bool:
         context = request.context
-        
+
         device = self.device_registry.get_device(context.device_id)
         if not device:
             return False
-        
+
         # Check device compliance
         return (
             device.is_managed and
@@ -217,7 +217,7 @@ class DeviceCompliancePolicy(PolicyEngine):
 class RiskBasedPolicy(PolicyEngine):
     def __init__(self, max_risk_score: float = 0.7):
         self.max_risk_score = max_risk_score
-    
+
     def evaluate(self, request: AccessRequest) -> bool:
         return request.context.risk_score <= self.max_risk_score
 
@@ -225,39 +225,39 @@ class RiskEngine:
     def calculate_risk(self, context: SecurityContext) -> float:
         """Calculate risk score based on various factors."""
         risk_factors = []
-        
+
         # Location risk
         if self._is_high_risk_location(context.location):
             risk_factors.append(0.3)
-        
+
         # Device risk
         if not self._is_known_device(context.device_id):
             risk_factors.append(0.4)
-        
+
         # Time-based risk
         if self._is_unusual_time(context.authentication_time):
             risk_factors.append(0.2)
-        
+
         # Behavioral risk
         behavioral_risk = self._calculate_behavioral_risk(context.user_id)
         risk_factors.append(behavioral_risk)
-        
+
         # Combine risk factors
         total_risk = min(sum(risk_factors), 1.0)
         return total_risk
-    
+
     def _is_high_risk_location(self, location: str) -> bool:
         # Implementation to check if location is high risk
         return False
-    
+
     def _is_known_device(self, device_id: str) -> bool:
         # Implementation to check if device is known
         return True
-    
+
     def _is_unusual_time(self, auth_time: float) -> bool:
         # Implementation to check if access time is unusual
         return False
-    
+
     def _calculate_behavioral_risk(self, user_id: str) -> float:
         # Implementation to calculate behavioral risk
         return 0.1
@@ -271,7 +271,7 @@ class AuditLogger:
 # Usage example
 def setup_zero_trust():
     zt_controller = ZeroTrustAccessControl()
-    
+
     # Add policies
     zt_controller.add_policy(IdentityVerificationPolicy(mfa_required=True))
     zt_controller.add_policy(LocationPolicy(
@@ -280,7 +280,7 @@ def setup_zero_trust():
     ))
     zt_controller.add_policy(DeviceCompliancePolicy(device_registry=None))
     zt_controller.add_policy(RiskBasedPolicy(max_risk_score=0.6))
-    
+
     return zt_controller
 ```
 
@@ -435,28 +435,28 @@ jobs:
     permissions:
       contents: read
       security-events: write
-      
+
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Generate SBOM with Syft
         uses: anchore/sbom-action@v0
         with:
           artifact-name: sbom.spdx.json
           format: spdx-json
-          
+
       - name: Generate SBOM with CycloneDX
         run: |
           npm install -g @cyclonedx/cdxgen
           cdxgen -o sbom-cyclonedx.json
-          
+
       - name: Scan SBOM for vulnerabilities
         uses: anchore/scan-action@v3
         with:
           sbom: sbom.spdx.json
           fail-build: true
           severity-cutoff: critical
-          
+
       - name: Upload SBOM artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -464,7 +464,7 @@ jobs:
           path: |
             sbom.spdx.json
             sbom-cyclonedx.json
-            
+
       - name: Publish SBOM to registry
         run: |
           # Upload to container registry as OCI artifact
@@ -498,7 +498,7 @@ class SupplyChainValidator:
         self.trusted_registries = trusted_registries
         self.vulnerability_db = VulnerabilityDatabase()
         self.signature_validator = SignatureValidator()
-    
+
     def validate_package(self, package: PackageMetadata) -> Dict[str, any]:
         """Validate a package against supply chain security policies."""
         results = {
@@ -508,17 +508,17 @@ class SupplyChainValidator:
             'issues': [],
             'risk_score': 0.0
         }
-        
+
         # Check if package is from trusted registry
         if not self._is_from_trusted_registry(package.source_url):
             results['issues'].append('Package not from trusted registry')
             results['risk_score'] += 0.3
-        
+
         # Verify package signature
         if not self.signature_validator.verify(package):
             results['issues'].append('Invalid or missing package signature')
             results['risk_score'] += 0.4
-        
+
         # Check for known vulnerabilities
         vulnerabilities = self.vulnerability_db.get_vulnerabilities(
             package.name, package.version
@@ -528,28 +528,28 @@ class SupplyChainValidator:
             if critical_vulns:
                 results['issues'].append(f'Critical vulnerabilities found: {len(critical_vulns)}')
                 results['risk_score'] += 0.5
-        
+
         # Check package age and maintenance
         if self._is_unmaintained(package):
             results['issues'].append('Package appears unmaintained')
             results['risk_score'] += 0.2
-        
+
         # Check for suspicious patterns
         if self._has_suspicious_patterns(package):
             results['issues'].append('Suspicious patterns detected')
             results['risk_score'] += 0.6
-        
+
         results['valid'] = results['risk_score'] < 0.7
         return results
-    
+
     def _is_from_trusted_registry(self, source_url: str) -> bool:
         return any(registry in source_url for registry in self.trusted_registries)
-    
+
     def _is_unmaintained(self, package: PackageMetadata) -> bool:
         # Check if package hasn't been updated in over a year
         age_days = (datetime.now() - package.published_date).days
         return age_days > 365
-    
+
     def _has_suspicious_patterns(self, package: PackageMetadata) -> bool:
         suspicious_patterns = [
             'eval',
@@ -574,7 +574,7 @@ class SignatureValidator:
         """Verify package signature."""
         if not package.signature:
             return False
-        
+
         # Implement signature verification logic
         return True
 
@@ -629,15 +629,15 @@ jobs:
       contents: read
       security-events: write
       packages: write
-      
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Build image
         run: |
           docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
-      
+
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
@@ -646,7 +646,7 @@ jobs:
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH'
           exit-code: '1'
-      
+
       - name: Run Grype vulnerability scanner
         uses: anchore/scan-action@v3
         with:
@@ -654,7 +654,7 @@ jobs:
           fail-build: true
           severity-cutoff: critical
           acs-report-enable: true
-      
+
       - name: Run Docker Scout
         uses: docker/scout-action@v1
         with:
@@ -662,14 +662,14 @@ jobs:
           image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
           exit-code: true
           only-severities: critical,high
-      
+
       - name: Sign container image
         uses: sigstore/cosign-installer@v3
       - run: |
           cosign sign --yes ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
         env:
           COSIGN_EXPERIMENTAL: 1
-      
+
       - name: Generate SLSA provenance
         uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v1.7.0
         with:
@@ -677,7 +677,7 @@ jobs:
           digest: ${{ steps.build.outputs.digest }}
           registry-username: ${{ github.actor }}
           registry-password: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Upload Trivy scan results
         uses: github/codeql-action/upload-sarif@v2
         if: always()
@@ -763,21 +763,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Install Cosign
         uses: sigstore/cosign-installer@v3
-        
+
       - name: Install Rekor CLI
         run: |
           wget https://github.com/sigstore/rekor/releases/latest/download/rekor-cli-linux-amd64
           chmod +x rekor-cli-linux-amd64
           sudo mv rekor-cli-linux-amd64 /usr/local/bin/rekor-cli
-      
+
       - name: Build artifact
         run: |
           npm run build
           tar -czf release.tar.gz dist/
-      
+
       - name: Sign artifact with Cosign
         run: |
           cosign sign-blob --yes release.tar.gz \
@@ -785,12 +785,12 @@ jobs:
             --output-certificate release.tar.gz.crt
         env:
           COSIGN_EXPERIMENTAL: 1
-      
+
       - name: Create SLSA attestation
         uses: actions/attest-build-provenance@v1
         with:
           subject-path: release.tar.gz
-      
+
       - name: Verify signature
         run: |
           cosign verify-blob release.tar.gz \
@@ -800,7 +800,7 @@ jobs:
             --certificate-oidc-issuer https://token.actions.githubusercontent.com
         env:
           COSIGN_EXPERIMENTAL: 1
-      
+
       - name: Upload signed artifacts
         uses: actions/upload-release-asset@v1
         with:
@@ -827,7 +827,7 @@ jobs:
     not proc.name in (allowed_network_processes) and
     not fd.typechar = 'f'
   output: >
-    Unexpected network traffic detected 
+    Unexpected network traffic detected
     (user=%user.name command=%proc.cmdline connection=%fd.name container=%container.info)
   priority: WARNING
   tags: [network, container]
@@ -842,7 +842,7 @@ jobs:
      fd.name startswith /etc/sudoers or
      fd.name startswith /root/.ssh)
   output: >
-    Sensitive file accessed 
+    Sensitive file accessed
     (user=%user.name command=%proc.cmdline file=%fd.name container=%container.info)
   priority: CRITICAL
   tags: [filesystem, container]
@@ -855,7 +855,7 @@ jobs:
     proc.name in (su, sudo, setuid, setgid, chmod) and
     not user.name in (allowed_users)
   output: >
-    Privilege escalation attempt 
+    Privilege escalation attempt
     (user=%user.name command=%proc.cmdline container=%container.info)
   priority: CRITICAL
   tags: [privilege_escalation, container]
@@ -871,7 +871,7 @@ jobs:
      proc.cmdline contains "stratum" or
      proc.cmdline contains "pool.minergate.com")
   output: >
-    Potential cryptocurrency mining detected 
+    Potential cryptocurrency mining detected
     (user=%user.name command=%proc.cmdline container=%container.info)
   priority: CRITICAL
   tags: [malware, container]
@@ -1013,19 +1013,19 @@ spec:
     - target: admission.k8s.gatekeeper.sh
       rego: |
         package k8srequiredsecuritycontext
-        
+
         violation[{"msg": msg}] {
           container := input.review.object.spec.containers[_]
           not container.securityContext.runAsNonRoot
           msg := "Container must run as non-root user"
         }
-        
+
         violation[{"msg": msg}] {
           container := input.review.object.spec.containers[_]
           not container.securityContext.readOnlyRootFilesystem
           msg := "Container must have read-only root filesystem"
         }
-        
+
         violation[{"msg": msg}] {
           container := input.review.object.spec.containers[_]
           container.securityContext.allowPrivilegeEscalation
@@ -1212,13 +1212,13 @@ async def verify_token(credentials: HTTPAuthorizationCredentials = Security(secu
             SecurityConfig.JWT_SECRET,
             algorithms=[SecurityConfig.JWT_ALGORITHM]
         )
-        
+
         # Check token expiration
         if payload.get("exp", 0) < time.time():
             raise HTTPException(status_code=401, detail="Token expired")
-        
+
         return TokenData(**payload)
-    
+
     except jwt.InvalidTokenError:
         raise HTTPException(status_code=401, detail="Invalid token")
 
@@ -1252,11 +1252,11 @@ def rate_limit(max_requests: int = 60, window_seconds: int = 60):
                 # Fallback to user ID from token
                 token_data = kwargs.get('token_data')
                 client_id = token_data.user_id if token_data else 'anonymous'
-            
+
             # Check rate limit
             key = f"rate_limit:{client_id}"
             current_requests = redis_client.get(key)
-            
+
             if current_requests is None:
                 redis_client.setex(key, window_seconds, 1)
             elif int(current_requests) >= max_requests:
@@ -1267,7 +1267,7 @@ def rate_limit(max_requests: int = 60, window_seconds: int = 60):
                 )
             else:
                 redis_client.incr(key)
-            
+
             return await func(*args, **kwargs)
         return wrapper
     return decorator
@@ -1283,7 +1283,7 @@ async def get_user(
     # Verify user can access this user ID
     if token_data.user_id != user_id and "admin" not in token_data.scopes:
         raise HTTPException(status_code=403, detail="Access denied")
-    
+
     # Implementation here
     return {"user_id": user_id, "data": "user data"}
 
@@ -1297,25 +1297,25 @@ async def create_user(
     # Input validation
     if not validate_user_input(user_data):
         raise HTTPException(status_code=400, detail="Invalid input")
-    
+
     # Implementation here
     return {"message": "User created"}
 
 def validate_user_input(data: dict) -> bool:
     """Validate user input data."""
     required_fields = ["email", "name"]
-    
+
     # Check required fields
     for field in required_fields:
         if field not in data:
             return False
-    
+
     # Validate email format
     import re
     email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     if not re.match(email_pattern, data.get("email", "")):
         return False
-    
+
     # Additional validation rules
     return True
 
@@ -1323,7 +1323,7 @@ def validate_user_input(data: dict) -> bool:
 @app.middleware("http")
 async def add_security_headers(request, call_next):
     response = await call_next(request)
-    
+
     # Security headers
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["X-Frame-Options"] = "DENY"
@@ -1331,7 +1331,7 @@ async def add_security_headers(request, call_next):
     response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
     response.headers["Content-Security-Policy"] = "default-src 'self'"
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
-    
+
     return response
 ```
 
@@ -1348,7 +1348,7 @@ from typing import Dict, List
 class APISecurityTester:
     def __init__(self, zap_proxy_url: str = "http://127.0.0.1:8080"):
         self.zap = zapv2.ZAPv2(proxies={'http': zap_proxy_url, 'https': zap_proxy_url})
-        
+
     def security_test_api(self, target_url: str, api_spec_path: str) -> Dict:
         """Perform comprehensive API security testing."""
         results = {
@@ -1358,32 +1358,32 @@ class APISecurityTester:
             'vulnerabilities': [],
             'risk_score': 0.0
         }
-        
+
         try:
             # Import API specification
             with open(api_spec_path, 'r') as f:
                 api_spec = json.load(f)
-            
+
             # Spider the API
             spider_id = self.zap.spider.scan(target_url)
             self._wait_for_completion(spider_id, 'spider')
-            
+
             # Passive scan
             self.zap.pscan.enable_all_scanners()
             while int(self.zap.pscan.records_to_scan) > 0:
                 time.sleep(2)
-            
+
             # Active scan
             active_scan_id = self.zap.ascan.scan(target_url)
             self._wait_for_completion(active_scan_id, 'ascan')
-            
+
             # API-specific tests
             results['tests']['injection_attacks'] = self._test_injection_attacks(target_url)
             results['tests']['authentication_bypass'] = self._test_auth_bypass(target_url)
             results['tests']['authorization_flaws'] = self._test_authorization(target_url)
             results['tests']['input_validation'] = self._test_input_validation(target_url, api_spec)
             results['tests']['rate_limiting'] = self._test_rate_limiting(target_url)
-            
+
             # Get vulnerabilities
             alerts = self.zap.core.alerts()
             for alert in alerts:
@@ -1395,15 +1395,15 @@ class APISecurityTester:
                     'solution': alert['solution'],
                     'url': alert['url']
                 })
-            
+
             # Calculate risk score
             results['risk_score'] = self._calculate_risk_score(results['vulnerabilities'])
-            
+
         except Exception as e:
             results['error'] = str(e)
-        
+
         return results
-    
+
     def _test_injection_attacks(self, target_url: str) -> Dict:
         """Test for injection vulnerabilities."""
         injection_payloads = [
@@ -1413,7 +1413,7 @@ class APISecurityTester:
             "{{7*7}}",  # Template injection
             "../../../etc/passwd",  # Path traversal
         ]
-        
+
         vulnerabilities = []
         for payload in injection_payloads:
             # Test each endpoint with payload
@@ -1422,7 +1422,7 @@ class APISecurityTester:
                     f"{target_url}/api/test?param={payload}",
                     followRedirects=True
                 )
-                
+
                 if self._detect_injection_response(response, payload):
                     vulnerabilities.append({
                         'payload': payload,
@@ -1431,13 +1431,13 @@ class APISecurityTester:
                     })
             except Exception:
                 pass
-        
+
         return {
             'passed': len(vulnerabilities) == 0,
             'vulnerabilities_found': len(vulnerabilities),
             'details': vulnerabilities
         }
-    
+
     def _test_auth_bypass(self, target_url: str) -> Dict:
         """Test for authentication bypass vulnerabilities."""
         bypass_tests = [
@@ -1446,7 +1446,7 @@ class APISecurityTester:
             {'method': 'expired_token', 'headers': {'Authorization': 'Bearer expired_token'}},
             {'method': 'malformed_token', 'headers': {'Authorization': 'malformed'}},
         ]
-        
+
         bypassed = []
         for test in bypass_tests:
             try:
@@ -1454,72 +1454,72 @@ class APISecurityTester:
                     f"{target_url}/api/protected",
                     requestheader=test['headers']
                 )
-                
+
                 # Check if request succeeded when it shouldn't
                 if response.get('statusCode') == 200:
                     bypassed.append(test['method'])
             except Exception:
                 pass
-        
+
         return {
             'passed': len(bypassed) == 0,
             'bypassed_methods': bypassed
         }
-    
+
     def _test_rate_limiting(self, target_url: str) -> Dict:
         """Test rate limiting implementation."""
         request_count = 0
         rate_limited = False
-        
+
         # Send rapid requests
         for i in range(100):
             try:
                 response = self.zap.core.send_request(f"{target_url}/api/test")
                 request_count += 1
-                
+
                 if response.get('statusCode') == 429:  # Too Many Requests
                     rate_limited = True
                     break
-                    
+
             except Exception:
                 break
-        
+
         return {
             'passed': rate_limited,
             'requests_before_limit': request_count,
             'rate_limiting_active': rate_limited
         }
-    
+
     def _detect_injection_response(self, response: Dict, payload: str) -> bool:
         """Detect if response indicates successful injection."""
         response_body = response.get('responseBody', '').lower()
-        
+
         # SQL injection indicators
         sql_errors = ['sql syntax', 'mysql_fetch', 'ora-', 'postgresql error']
         if any(error in response_body for error in sql_errors):
             return True
-        
+
         # XSS indicators
         if payload.lower() in response_body:
             return True
-        
+
         # Template injection indicators
         if payload == "{{7*7}}" and "49" in response_body:
             return True
-        
+
         return False
-    
+
     def _calculate_risk_score(self, vulnerabilities: List[Dict]) -> float:
         """Calculate overall risk score based on vulnerabilities."""
         risk_weights = {'High': 0.4, 'Medium': 0.2, 'Low': 0.1, 'Informational': 0.05}
         total_risk = 0.0
-        
+
         for vuln in vulnerabilities:
             risk_level = vuln.get('risk', 'Low')
             total_risk += risk_weights.get(risk_level, 0.1)
-        
+
         return min(total_risk, 1.0)  # Cap at 1.0
-    
+
     def _wait_for_completion(self, scan_id: str, scan_type: str):
         """Wait for scan to complete."""
         while True:
@@ -1527,10 +1527,10 @@ class APISecurityTester:
                 progress = int(self.zap.spider.status(scan_id))
             elif scan_type == 'ascan':
                 progress = int(self.zap.ascan.status(scan_id))
-            
+
             if progress >= 100:
                 break
-            
+
             time.sleep(5)
 
 # Usage
@@ -1540,7 +1540,7 @@ if __name__ == "__main__":
         target_url="https://api.example.com",
         api_spec_path="openapi.json"
     )
-    
+
     print(f"Security test completed. Risk score: {results['risk_score']}")
     print(f"Vulnerabilities found: {len(results['vulnerabilities'])}")
 ```
@@ -1573,18 +1573,18 @@ jobs:
     permissions:
       contents: read
       security-events: write
-      
+
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       # Secret scanning
       - name: Run GitLeaks
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
+
       # SAST scanning
       - name: Run Semgrep
         uses: returntocorp/semgrep-action@v1
@@ -1593,20 +1593,20 @@ jobs:
             p/security-audit
             p/secrets
             p/owasp-top-ten
-      
+
       # CodeQL Analysis
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
           languages: javascript, python
           queries: security-and-quality
-      
+
       - name: Autobuild
         uses: github/codeql-action/autobuild@v2
-      
+
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
-      
+
       # License scanning
       - name: FOSSA Scan
         uses: fossas/fossa-action@main
@@ -1619,13 +1619,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       # npm audit
       - name: npm audit
         run: |
           npm audit --audit-level high
           npm audit --json > npm-audit.json
-      
+
       # Snyk vulnerability scan
       - name: Run Snyk
         uses: snyk/actions/node@master
@@ -1633,7 +1633,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --severity-threshold=high
-      
+
       # OSV Scanner
       - name: Run OSV Scanner
         uses: google/osv-scanner-action@v1
@@ -1642,7 +1642,7 @@ jobs:
             -r
             --skip-git
             ./
-      
+
       # Dependency Check
       - name: Run OWASP Dependency Check
         uses: dependency-check/Dependency-Check_Action@main
@@ -1661,18 +1661,18 @@ jobs:
     needs: [static-analysis, dependency-security]
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Build Docker image
         run: |
           docker build -t ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
-      
+
       # Dockerfile security scan
       - name: Run Hadolint
         uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: Dockerfile
           failure-threshold: error
-      
+
       # Multi-scanner approach
       - name: Run Trivy Scanner
         uses: aquasecurity/trivy-action@master
@@ -1682,25 +1682,25 @@ jobs:
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH'
           exit-code: '1'
-      
+
       - name: Run Grype Scanner
         uses: anchore/scan-action@v3
         with:
           image: ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
           fail-build: true
           severity-cutoff: critical
-      
+
       - name: Run Clair Scanner
         run: |
           docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
             quay.io/coreos/clair:latest \
             analyze ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-      
+
       # Sign container if security checks pass
       - name: Install Cosign
         if: github.event_name != 'pull_request'
         uses: sigstore/cosign-installer@v3
-      
+
       - name: Sign container image
         if: github.event_name != 'pull_request'
         run: |
@@ -1713,7 +1713,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       # Terraform security scanning
       - name: Run Checkov
         uses: bridgecrewio/checkov-action@master
@@ -1724,13 +1724,13 @@ jobs:
           output_file_path: checkov-results.sarif
           quiet: true
           soft_fail: false
-      
+
       # Kubernetes security scanning
       - name: Run Kubesec
         run: |
           curl -sSL https://github.com/controlplaneio/kubesec/releases/latest/download/kubesec_linux_amd64.tar.gz | tar xz
           ./kubesec scan k8s/*.yaml
-      
+
       # Cloud formation security
       - name: Run CFN-Nag
         if: hashFiles('cloudformation/**/*.yml') != ''
@@ -1745,13 +1745,13 @@ jobs:
     if: github.event_name != 'pull_request'
     steps:
       - uses: actions/checkout@v4
-      
+
       # Start application for testing
       - name: Start application
         run: |
           docker-compose -f docker-compose.test.yml up -d
           sleep 30
-      
+
       # OWASP ZAP Baseline scan
       - name: ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.7.0
@@ -1759,7 +1759,7 @@ jobs:
           target: 'http://localhost:3000'
           rules_file_name: '.zap/rules.tsv'
           cmd_options: '-a'
-      
+
       # ZAP Full Scan
       - name: ZAP Full Scan
         uses: zaproxy/action-full-scan@v0.4.0
@@ -1767,12 +1767,12 @@ jobs:
           target: 'http://localhost:3000'
           rules_file_name: '.zap/rules.tsv'
           cmd_options: '-a'
-      
+
       # Custom API security tests
       - name: API Security Tests
         run: |
           python tests/security/api_security_tests.py
-      
+
       - name: Cleanup
         if: always()
         run: |
@@ -1792,13 +1792,13 @@ jobs:
           echo "- Dependency Scan: ${{ needs.dependency-security.result }}" >> security-report.md
           echo "- Container Scan: ${{ needs.container-security.result }}" >> security-report.md
           echo "- Infrastructure Scan: ${{ needs.infrastructure-security.result }}" >> security-report.md
-      
+
       - name: Upload Security Report
         uses: actions/upload-artifact@v3
         with:
           name: security-report
           path: security-report.md
-      
+
       # Notify security team if any failures
       - name: Notify Security Team
         if: contains(needs.*.result, 'failure')
@@ -1853,14 +1853,14 @@ class SecurityPolicy(ABC):
 
 class CriticalVulnerabilityPolicy(SecurityPolicy):
     """Policy: No critical vulnerabilities allowed in production."""
-    
+
     def evaluate(self, scan_results: Dict[str, Any]) -> List[PolicyViolation]:
         violations = []
-        
+
         # Check dependency vulnerabilities
         dep_vulns = scan_results.get('dependency_scan', {}).get('vulnerabilities', [])
         critical_deps = [v for v in dep_vulns if v.get('severity') == 'critical']
-        
+
         if critical_deps:
             violations.append(PolicyViolation(
                 policy_name="no_critical_dependencies",
@@ -1879,11 +1879,11 @@ class CriticalVulnerabilityPolicy(SecurityPolicy):
                     ) for v in critical_deps
                 ]
             ))
-        
+
         # Check container vulnerabilities
         container_vulns = scan_results.get('container_scan', {}).get('vulnerabilities', [])
         critical_container = [v for v in container_vulns if v.get('severity') == 'CRITICAL']
-        
+
         if critical_container:
             violations.append(PolicyViolation(
                 policy_name="no_critical_container_vulns",
@@ -1902,12 +1902,12 @@ class CriticalVulnerabilityPolicy(SecurityPolicy):
                     ) for v in critical_container
                 ]
             ))
-        
+
         return violations
 
 class SecretsPolicy(SecurityPolicy):
     """Policy: No secrets allowed in source code."""
-    
+
     def __init__(self):
         self.secret_patterns = [
             (r'api[_-]?key[_-]?=\s*["\']([a-zA-Z0-9]{20,})["\']', 'API Key'),
@@ -1916,11 +1916,11 @@ class SecretsPolicy(SecurityPolicy):
             (r'token[_-]?=\s*["\']([a-zA-Z0-9]{20,})["\']', 'Token'),
             (r'-----BEGIN\s+(?:RSA\s+)?PRIVATE\s+KEY-----', 'Private Key'),
         ]
-    
+
     def evaluate(self, scan_results: Dict[str, Any]) -> List[PolicyViolation]:
         violations = []
         secret_findings = scan_results.get('secret_scan', {}).get('findings', [])
-        
+
         if secret_findings:
             violations.append(PolicyViolation(
                 policy_name="no_secrets_in_code",
@@ -1939,19 +1939,19 @@ class SecretsPolicy(SecurityPolicy):
                     ) for finding in secret_findings
                 ]
             ))
-        
+
         return violations
 
 class SecurityCompliancePolicy(SecurityPolicy):
     """Policy: Enforce security compliance requirements."""
-    
+
     def evaluate(self, scan_results: Dict[str, Any]) -> List[PolicyViolation]:
         violations = []
-        
+
         # Check for security headers
         security_headers = scan_results.get('dynamic_scan', {}).get('security_headers', {})
         missing_headers = []
-        
+
         required_headers = [
             'X-Content-Type-Options',
             'X-Frame-Options',
@@ -1959,11 +1959,11 @@ class SecurityCompliancePolicy(SecurityPolicy):
             'Strict-Transport-Security',
             'Content-Security-Policy'
         ]
-        
+
         for header in required_headers:
             if not security_headers.get(header):
                 missing_headers.append(header)
-        
+
         if missing_headers:
             violations.append(PolicyViolation(
                 policy_name="security_headers_required",
@@ -1982,7 +1982,7 @@ class SecurityCompliancePolicy(SecurityPolicy):
                     ) for header in missing_headers
                 ]
             ))
-        
+
         return violations
 
 class SecurityPolicyEngine:
@@ -1992,22 +1992,22 @@ class SecurityPolicyEngine:
             SecretsPolicy(),
             SecurityCompliancePolicy(),
         ]
-    
+
     def evaluate_all_policies(self, scan_results: Dict[str, Any]) -> Dict[str, Any]:
         """Evaluate all security policies against scan results."""
         all_violations = []
-        
+
         for policy in self.policies:
             violations = policy.evaluate(scan_results)
             all_violations.extend(violations)
-        
+
         # Categorize violations by severity
         critical_violations = [v for v in all_violations if v.severity == SeverityLevel.CRITICAL]
         high_violations = [v for v in all_violations if v.severity == SeverityLevel.HIGH]
-        
+
         # Determine if deployment should be blocked
         block_deployment = len(critical_violations) > 0
-        
+
         return {
             'policy_evaluation_passed': not block_deployment,
             'block_deployment': block_deployment,
@@ -2043,16 +2043,16 @@ def main():
         'secret_scan': load_secret_scan_results(),
         'dynamic_scan': load_dynamic_scan_results(),
     }
-    
+
     # Evaluate policies
     policy_engine = SecurityPolicyEngine()
     evaluation_result = policy_engine.evaluate_all_policies(scan_results)
-    
+
     # Output results
     print(f"Policy evaluation: {'PASSED' if evaluation_result['policy_evaluation_passed'] else 'FAILED'}")
     print(f"Critical violations: {evaluation_result['critical_violations']}")
     print(f"High violations: {evaluation_result['high_violations']}")
-    
+
     # Exit with appropriate code for CI/CD
     if evaluation_result['block_deployment']:
         print("🚫 Deployment blocked due to security policy violations")

@@ -1,7 +1,7 @@
 # Web Design and UX Standards
 
-**Version:** 1.0.0  
-**Last Updated:** January 2025  
+**Version:** 1.0.0
+**Last Updated:** January 2025
 **Status:** Active
 
 ## Table of Contents
@@ -33,7 +33,7 @@ user_centered_design:
         - Provide visual hierarchy
         - Minimize cognitive load
         - Show system status clearly
-    
+
     consistency:
       description: "Predictable patterns and behaviors"
       guidelines:
@@ -41,7 +41,7 @@ user_centered_design:
         - Use standard UI conventions
         - Keep terminology uniform
         - Align with platform guidelines
-    
+
     efficiency:
       description: "Enable users to accomplish tasks quickly"
       guidelines:
@@ -49,7 +49,7 @@ user_centered_design:
         - Provide keyboard shortcuts
         - Remember user preferences
         - Offer smart defaults
-    
+
     feedback:
       description: "Communicate system state and actions"
       guidelines:
@@ -57,7 +57,7 @@ user_centered_design:
         - Clear error messages
         - Progress indicators
         - Success confirmations
-    
+
     accessibility:
       description: "Usable by everyone"
       guidelines:
@@ -83,7 +83,7 @@ design_process:
         - Journey maps
         - Problem statements
         - Success metrics
-    
+
     ideation:
       activities:
         - Sketching sessions
@@ -95,7 +95,7 @@ design_process:
         - User flows
         - Site maps
         - Wireframes
-    
+
     design:
       activities:
         - Visual design
@@ -107,7 +107,7 @@ design_process:
         - Interactive prototypes
         - Design specifications
         - Component library
-    
+
     validation:
       activities:
         - Usability testing
@@ -217,7 +217,7 @@ $container-max-widths: (
   display: grid;
   grid-template-columns: repeat($columns, 1fr);
   gap: $gutter;
-  
+
   @each $breakpoint, $value in $breakpoints {
     @media (min-width: $value) {
       &.grid-#{$breakpoint} {
@@ -233,18 +233,18 @@ $container-max-widths: (
     grid-column: 1 / -1;
     min-height: 64px;
   }
-  
+
   &__sidebar {
     grid-column: span 3;
-    
+
     @media (max-width: map-get($breakpoints, md)) {
       grid-column: 1 / -1;
     }
   }
-  
+
   &__main {
     grid-column: span 9;
-    
+
     @media (max-width: map-get($breakpoints, md)) {
       grid-column: 1 / -1;
     }
@@ -285,7 +285,7 @@ $spacing: (
   .ml-#{$name} { margin-left: $value; }
   .mx-#{$name} { margin-left: $value; margin-right: $value; }
   .my-#{$name} { margin-top: $value; margin-bottom: $value; }
-  
+
   // Padding utilities
   .p-#{$name} { padding: $value; }
   .pt-#{$name} { padding-top: $value; }
@@ -294,7 +294,7 @@ $spacing: (
   .pl-#{$name} { padding-left: $value; }
   .px-#{$name} { padding-left: $value; padding-right: $value; }
   .py-#{$name} { padding-top: $value; padding-bottom: $value; }
-  
+
   // Gap utilities
   .gap-#{$name} { gap: $value; }
 }
@@ -328,7 +328,7 @@ $shadows: (
 .card {
   @include elevation(1);
   transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  
+
   &:hover {
     @include elevation(3);
   }
@@ -382,7 +382,7 @@ $z-layers: (
 
 .modal {
   z-index: z(modal);
-  
+
   &__backdrop {
     z-index: z(modal-backdrop);
   }
@@ -508,29 +508,29 @@ $comfortable-line-length: 45-75ch;
   max-width: $max-line-length;
   margin-left: auto;
   margin-right: auto;
-  
+
   // Responsive font sizing
   font-size: clamp(
     map-get($type-scale, base),
     2.5vw,
     map-get($type-scale, md)
   );
-  
+
   // Paragraph spacing
   p + p {
     margin-top: map-get($spacing, 4);
   }
-  
+
   // List styling
   ul, ol {
     margin-bottom: map-get($spacing, 4);
     padding-left: map-get($spacing, 5);
-    
+
     li {
       margin-bottom: map-get($spacing, 2);
     }
   }
-  
+
   // Blockquote styling
   blockquote {
     margin: map-get($spacing, 6) 0;
@@ -538,7 +538,7 @@ $comfortable-line-length: 45-75ch;
     border-left: 4px solid var(--color-primary);
     font-style: italic;
   }
-  
+
   // Code blocks
   pre {
     margin: map-get($spacing, 4) 0;
@@ -547,7 +547,7 @@ $comfortable-line-length: 45-75ch;
     border-radius: var(--radius-md);
     overflow-x: auto;
   }
-  
+
   // Inline code
   code {
     padding: 2px 4px;
@@ -563,7 +563,7 @@ $comfortable-line-length: 45-75ch;
   .content {
     font-size: map-get($type-scale, base);
   }
-  
+
   h1, .h1 { @include text-style(2xl, bold, tight); }
   h2, .h2 { @include text-style(xl, semibold, tight); }
   h3, .h3 { @include text-style(lg, semibold, snug); }
@@ -581,12 +581,12 @@ $comfortable-line-length: 45-75ch;
   @include elevation(1);
   overflow: hidden;
   transition: all 0.3s ease;
-  
+
   &__media {
     position: relative;
     padding-bottom: 56.25%; // 16:9 aspect ratio
     overflow: hidden;
-    
+
     img {
       position: absolute;
       top: 0;
@@ -596,37 +596,37 @@ $comfortable-line-length: 45-75ch;
       object-fit: cover;
     }
   }
-  
+
   &__content {
     padding: map-get($spacing, 5);
   }
-  
+
   &__title {
     @include text-style(lg, semibold, snug);
     margin-bottom: map-get($spacing, 2);
   }
-  
+
   &__description {
     @include text-style(base, normal, normal);
     color: var(--color-text-secondary);
     margin-bottom: map-get($spacing, 4);
   }
-  
+
   &__actions {
     display: flex;
     gap: map-get($spacing, 3);
     margin-top: auto;
   }
-  
+
   // Interactive states
   &--interactive {
     cursor: pointer;
-    
+
     &:hover {
       @include elevation(3);
       transform: translateY(-2px);
     }
-    
+
     &:active {
       @include elevation(1);
       transform: translateY(0);
@@ -642,39 +642,39 @@ $comfortable-line-length: 45-75ch;
   width: 100%;
   border-collapse: collapse;
   background: var(--color-surface);
-  
+
   &__header {
     background: var(--color-surface-variant);
     border-bottom: 2px solid var(--color-border);
   }
-  
+
   &__row {
     border-bottom: 1px solid var(--color-border-light);
-    
+
     &:hover {
       background: var(--color-surface-hover);
     }
-    
+
     &--selected {
       background: var(--color-surface-selected);
     }
   }
-  
+
   &__cell {
     padding: map-get($spacing, 3) map-get($spacing, 4);
     text-align: left;
-    
+
     &--numeric {
       text-align: right;
       font-feature-settings: "tnum" 1; // Tabular numbers
     }
-    
+
     &--actions {
       text-align: right;
       white-space: nowrap;
     }
   }
-  
+
   &__header-cell {
     @extend .table__cell;
     @include text-style(sm, semibold, normal);
@@ -682,27 +682,27 @@ $comfortable-line-length: 45-75ch;
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
-  
+
   // Responsive table
   @media (max-width: map-get($breakpoints, md)) {
     &--responsive {
       display: block;
-      
+
       .table__header {
         display: none;
       }
-      
+
       .table__row {
         display: block;
         margin-bottom: map-get($spacing, 4);
         border: 1px solid var(--color-border);
         border-radius: var(--radius-md);
       }
-      
+
       .table__cell {
         display: flex;
         justify-content: space-between;
-        
+
         &::before {
           content: attr(data-label);
           font-weight: map-get($font-weights, semibold);
@@ -773,18 +773,18 @@ $semantic-colors: (
   --color-primary-light: #{map-get($brand-colors, primary-light)};
   --color-primary-dark: #{map-get($brand-colors, primary-dark)};
   --color-secondary: #{map-get($brand-colors, secondary)};
-  
+
   --color-background: #{map-get($neutral-colors, 50)};
   --color-surface: #{map-get($neutral-colors, 0)};
   --color-surface-variant: #{map-get($neutral-colors, 100)};
-  
+
   --color-text-primary: #{map-get($neutral-colors, 900)};
   --color-text-secondary: #{map-get($neutral-colors, 600)};
   --color-text-disabled: #{map-get($neutral-colors, 400)};
-  
+
   --color-border: #{map-get($neutral-colors, 300)};
   --color-border-light: #{map-get($neutral-colors, 200)};
-  
+
   --color-success: #{map-get($semantic-colors, success)};
   --color-warning: #{map-get($semantic-colors, warning)};
   --color-error: #{map-get($semantic-colors, error)};
@@ -796,14 +796,14 @@ $semantic-colors: (
   --color-background: #{map-get($neutral-colors, 900)};
   --color-surface: #{map-get($neutral-colors, 800)};
   --color-surface-variant: #{map-get($neutral-colors, 700)};
-  
+
   --color-text-primary: #{map-get($neutral-colors, 50)};
   --color-text-secondary: #{map-get($neutral-colors, 300)};
   --color-text-disabled: #{map-get($neutral-colors, 600)};
-  
+
   --color-border: #{map-get($neutral-colors, 700)};
   --color-border-light: #{map-get($neutral-colors, 800)};
-  
+
   --color-success: #{map-get($semantic-colors, success-light)};
   --color-warning: #{map-get($semantic-colors, warning-light)};
   --color-error: #{map-get($semantic-colors, error-light)};
@@ -828,14 +828,14 @@ export function calculateContrast(
 ): ColorContrastResult {
   const l1 = getLuminance(foreground);
   const l2 = getLuminance(background);
-  
+
   const ratio = (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
-  
+
   // WCAG 2.1 Level AA: 4.5:1 for normal text, 3:1 for large text
   // WCAG 2.1 Level AAA: 7:1 for normal text, 4.5:1 for large text
   const level = ratio >= 7 ? 'AAA' : ratio >= 4.5 ? 'AA' : 'FAIL';
   const largeTextLevel = ratio >= 4.5 ? 'AAA' : ratio >= 3 ? 'AA' : 'FAIL';
-  
+
   return { ratio, level, largeTextLevel };
 }
 
@@ -847,7 +847,7 @@ function getLuminance(color: string): number {
       ? val / 12.92
       : Math.pow((val + 0.055) / 1.055, 2.4);
   });
-  
+
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
@@ -857,12 +857,12 @@ export const colorValidation = {
     const result = calculateContrast(text, background);
     return result.level !== 'FAIL';
   },
-  
+
   checkLargeTextContrast(text: string, background: string): boolean {
     const result = calculateContrast(text, background);
     return result.largeTextLevel !== 'FAIL';
   },
-  
+
   suggestAccessibleColor(
     baseColor: string,
     background: string,
@@ -897,17 +897,17 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
-export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ 
-  children 
+export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
+  children
 }) => {
   const [theme, setThemeState] = useState<Theme['name']>('auto');
-  
+
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') as Theme['name'];
     if (savedTheme) {
       setThemeState(savedTheme);
     }
-    
+
     // Handle system theme changes
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = (e: MediaQueryListEvent) => {
@@ -918,15 +918,15 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
         );
       }
     };
-    
+
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, [theme]);
-  
+
   const setTheme = (newTheme: Theme['name']) => {
     setThemeState(newTheme);
     localStorage.setItem('theme', newTheme);
-    
+
     if (newTheme === 'auto') {
       const prefersDark = window.matchMedia(
         '(prefers-color-scheme: dark)'
@@ -939,12 +939,12 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
       document.documentElement.setAttribute('data-theme', newTheme);
     }
   };
-  
+
   const toggleTheme = () => {
     const nextTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(nextTheme);
   };
-  
+
   return (
     <ThemeContext.Provider
       value={{
@@ -1145,19 +1145,19 @@ export const ButtonGroup: Story = {
 
 .form-field {
   margin-bottom: map-get($spacing, 5);
-  
+
   &__label {
     display: block;
     margin-bottom: map-get($spacing, 2);
     @include text-style(sm, medium, normal);
     color: var(--color-text-primary);
-    
+
     &--required::after {
       content: " *";
       color: var(--color-error);
     }
   }
-  
+
   &__input {
     width: 100%;
     padding: map-get($spacing, 3) map-get($spacing, 4);
@@ -1168,38 +1168,38 @@ export const ButtonGroup: Story = {
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     transition: all 0.2s ease;
-    
+
     &:hover:not(:disabled) {
       border-color: var(--color-border-hover);
     }
-    
+
     &:focus {
       outline: none;
       border-color: var(--color-primary);
       box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.2);
     }
-    
+
     &:disabled {
       background-color: var(--color-surface-disabled);
       color: var(--color-text-disabled);
       cursor: not-allowed;
     }
-    
+
     &--error {
       border-color: var(--color-error);
-      
+
       &:focus {
         box-shadow: 0 0 0 3px rgba(var(--color-error-rgb), 0.2);
       }
     }
   }
-  
+
   &__help {
     margin-top: map-get($spacing, 2);
     @include text-style(sm, normal, normal);
     color: var(--color-text-secondary);
   }
-  
+
   &__error {
     margin-top: map-get($spacing, 2);
     @include text-style(sm, normal, normal);
@@ -1212,7 +1212,7 @@ export const ButtonGroup: Story = {
   display: flex;
   align-items: flex-start;
   margin-bottom: map-get($spacing, 3);
-  
+
   &__input {
     flex-shrink: 0;
     width: 20px;
@@ -1220,16 +1220,16 @@ export const ButtonGroup: Story = {
     margin-top: 2px;
     margin-right: map-get($spacing, 3);
     cursor: pointer;
-    
+
     &:disabled {
       cursor: not-allowed;
     }
   }
-  
+
   &__label {
     @include text-style(base, normal, normal);
     cursor: pointer;
-    
+
     .form-check__input:disabled + & {
       color: var(--color-text-disabled);
       cursor: not-allowed;
@@ -1291,7 +1291,7 @@ const NavigationMenuItem: React.FC<{
 }> = ({ item, isActive, orientation, onItemClick }) => {
   const [isOpen, setIsOpen] = useState(false);
   const hasChildren = item.children && item.children.length > 0;
-  
+
   return (
     <li className="nav-menu__item" role="none">
       <a
@@ -1385,7 +1385,7 @@ $easing: (
 @mixin transition($properties, $duration: normal, $easing: standard, $delay: 0ms) {
   $duration-value: map-get($duration, $duration);
   $easing-value: map-get($easing, $easing);
-  
+
   transition-property: $properties;
   transition-duration: $duration-value;
   transition-timing-function: $easing-value;
@@ -1395,7 +1395,7 @@ $easing: (
 // Micro-interactions
 @mixin hover-lift() {
   @include transition(transform box-shadow, fast);
-  
+
   &:hover {
     transform: translateY(-2px);
     box-shadow: map-get($shadows, 3);
@@ -1404,7 +1404,7 @@ $easing: (
 
 @mixin press-scale() {
   @include transition(transform, faster);
-  
+
   &:active {
     transform: scale(0.96);
   }
@@ -1494,7 +1494,7 @@ interface RippleOptions {
 export class RippleEffect {
   private container: HTMLElement;
   private options: Required<RippleOptions>;
-  
+
   constructor(element: HTMLElement, options: RippleOptions = {}) {
     this.container = element;
     this.options = {
@@ -1502,25 +1502,25 @@ export class RippleEffect {
       duration: options.duration || 600,
       size: options.size || 0,
     };
-    
+
     this.container.style.position = 'relative';
     this.container.style.overflow = 'hidden';
-    
+
     this.bindEvents();
   }
-  
+
   private bindEvents() {
     this.container.addEventListener('pointerdown', this.createRipple);
   }
-  
+
   private createRipple = (event: PointerEvent) => {
     const ripple = document.createElement('span');
     const rect = this.container.getBoundingClientRect();
-    
+
     const size = this.options.size || Math.max(rect.width, rect.height);
     const x = event.clientX - rect.left - size / 2;
     const y = event.clientY - rect.top - size / 2;
-    
+
     ripple.style.cssText = `
       position: absolute;
       border-radius: 50%;
@@ -1534,14 +1534,14 @@ export class RippleEffect {
       transform: scale(0);
       animation: ripple-effect ${this.options.duration}ms ease-out;
     `;
-    
+
     this.container.appendChild(ripple);
-    
+
     ripple.addEventListener('animationend', () => {
       ripple.remove();
     });
   };
-  
+
   destroy() {
     this.container.removeEventListener('pointerdown', this.createRipple);
   }
@@ -1567,7 +1567,7 @@ interface DragDropOptions {
 export function useDragDrop(options: DragDropOptions) {
   const [isDragging, setIsDragging] = useState(false);
   const [draggedItem, setDraggedItem] = useState<any>(null);
-  
+
   const dragHandlers = {
     draggable: true,
     onDragStart: (e: React.DragEvent, item: any) => {
@@ -1583,7 +1583,7 @@ export function useDragDrop(options: DragDropOptions) {
       options.onDragEnd?.(draggedItem);
     },
   };
-  
+
   const dropHandlers = {
     onDragOver: (e: React.DragEvent) => {
       e.preventDefault();
@@ -1599,7 +1599,7 @@ export function useDragDrop(options: DragDropOptions) {
       options.onDrop?.(item, target);
     },
   };
-  
+
   return {
     isDragging,
     draggedItem,
@@ -1612,7 +1612,7 @@ export function useDragDrop(options: DragDropOptions) {
 .draggable {
   cursor: move;
   transition: opacity 0.2s ease;
-  
+
   &--dragging {
     opacity: 0.5;
     cursor: grabbing;
@@ -1621,12 +1621,12 @@ export function useDragDrop(options: DragDropOptions) {
 
 .drop-zone {
   transition: all 0.2s ease;
-  
+
   &--active {
     background-color: var(--color-drop-zone-active);
     border: 2px dashed var(--color-primary);
   }
-  
+
   &--hover {
     background-color: var(--color-drop-zone-hover);
     transform: scale(1.02);
@@ -1639,44 +1639,44 @@ export function useDragDrop(options: DragDropOptions) {
 // hooks/useScrollProgress.ts
 export function useScrollProgress() {
   const [progress, setProgress] = useState(0);
-  
+
   useEffect(() => {
     const updateProgress = () => {
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight;
       const winHeight = window.innerHeight;
       const scrollPercent = scrollTop / (docHeight - winHeight);
-      
+
       setProgress(Math.min(Math.max(scrollPercent, 0), 1));
     };
-    
+
     window.addEventListener('scroll', updateProgress, { passive: true });
     updateProgress();
-    
+
     return () => window.removeEventListener('scroll', updateProgress);
   }, []);
-  
+
   return progress;
 }
 
 // Parallax scrolling
 export function useParallax(speed: number = 0.5) {
   const ref = useRef<HTMLElement>(null);
-  
+
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
-    
+
     const handleScroll = () => {
       const scrolled = window.scrollY;
       const yPos = -(scrolled * speed);
       element.style.transform = `translateY(${yPos}px)`;
     };
-    
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [speed]);
-  
+
   return ref;
 }
 ```
@@ -1740,13 +1740,13 @@ $breakpoints: (
   margin-right: auto;
   padding-left: map-get($spacing, 4);
   padding-right: map-get($spacing, 4);
-  
+
   @each $breakpoint, $container-width in $container-max-widths {
     @include media-up($breakpoint) {
       max-width: $container-width;
     }
   }
-  
+
   &--fluid {
     max-width: none;
   }
@@ -1766,17 +1766,17 @@ $breakpoints: (
 // hooks/useMediaQuery.ts
 export function useMediaQuery(query: string): boolean {
   const [matches, setMatches] = useState(false);
-  
+
   useEffect(() => {
     const media = window.matchMedia(query);
-    
+
     const updateMatch = () => setMatches(media.matches);
     updateMatch();
-    
+
     media.addEventListener('change', updateMatch);
     return () => media.removeEventListener('change', updateMatch);
   }, [query]);
-  
+
   return matches;
 }
 
@@ -1785,15 +1785,15 @@ export const ResponsiveNavigation: React.FC = () => {
   const isMobile = useMediaQuery('(max-width: 768px)');
   const isTablet = useMediaQuery('(min-width: 769px) and (max-width: 1024px)');
   const isDesktop = useMediaQuery('(min-width: 1025px)');
-  
+
   if (isMobile) {
     return <MobileNavigation />;
   }
-  
+
   if (isTablet) {
     return <TabletNavigation />;
   }
-  
+
   return <DesktopNavigation />;
 };
 ```
@@ -1822,7 +1822,7 @@ export const ProgressiveImage: React.FC<{
 }> = ({ src, alt, placeholder }) => {
   const [imageSrc, setImageSrc] = useState(placeholder || '');
   const [imageRef, setImageRef] = useState<HTMLImageElement | null>(null);
-  
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       entries => {
@@ -1837,14 +1837,14 @@ export const ProgressiveImage: React.FC<{
       },
       { threshold: 0.1 }
     );
-    
+
     if (imageRef) {
       observer.observe(imageRef);
     }
-    
+
     return () => observer.disconnect();
   }, [imageRef, src]);
-  
+
   return (
     <img
       ref={setImageRef}
@@ -1869,12 +1869,12 @@ export const ProgressiveImage: React.FC<{
     min-height: 44px; // Apple HIG minimum
     min-width: 44px;
   }
-  
+
   .link {
     padding: map-get($spacing, 2) map-get($spacing, 3);
     margin: -#{map-get($spacing, 2)} -#{map-get($spacing, 3)};
   }
-  
+
   // Disable hover effects on touch
   .card:hover {
     transform: none;
@@ -1888,7 +1888,7 @@ export const ProgressiveImage: React.FC<{
   .logo {
     background-image: url('/images/logo@2x.png');
   }
-  
+
   // Thinner borders
   .divider {
     border-width: 0.5px;
@@ -1904,7 +1904,7 @@ export const ProgressiveImage: React.FC<{
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  
+
   .parallax {
     transform: none !important;
   }
@@ -1915,17 +1915,17 @@ export const ProgressiveImage: React.FC<{
   .no-print {
     display: none !important;
   }
-  
+
   body {
     font-size: 12pt;
     line-height: 1.5;
     color: #000;
     background: #fff;
   }
-  
+
   a {
     text-decoration: underline;
-    
+
     &[href^="http"]:after {
       content: " (" attr(href) ")";
     }
@@ -1950,14 +1950,14 @@ navigation_patterns:
       - hamburger_menu
       - tab_bar
       - side_drawer
-    
+
   secondary_navigation:
     patterns:
       - breadcrumbs
       - section_tabs
       - sidebar_menu
       - contextual_actions
-  
+
   mobile_navigation:
     patterns:
       - bottom_tab_bar  # Max 5 items
@@ -1971,7 +1971,7 @@ information_hierarchy:
     2: "Section navigation"
     3: "Page navigation"
     4: "Content navigation"
-  
+
   principles:
     - Progressive disclosure
     - Consistent positioning
@@ -2005,14 +2005,14 @@ export const SearchExperience: React.FC<SearchConfig> = ({
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
-  
+
   const debouncedSearch = useMemo(
     () => debounce(async (searchQuery: string) => {
       if (searchQuery.length < minChars) {
         setResults([]);
         return;
       }
-      
+
       setIsSearching(true);
       try {
         const searchResults = await performSearch(searchQuery, {
@@ -2026,11 +2026,11 @@ export const SearchExperience: React.FC<SearchConfig> = ({
     }, debounceMs),
     [debounceMs, minChars, maxResults, categories]
   );
-  
+
   useEffect(() => {
     debouncedSearch(query);
   }, [query, debouncedSearch]);
-  
+
   return (
     <div className={clsx('search', { 'search--active': isFocused })}>
       <div className="search__input-wrapper">
@@ -2059,9 +2059,9 @@ export const SearchExperience: React.FC<SearchConfig> = ({
           </button>
         )}
       </div>
-      
+
       {isFocused && (
-        <div 
+        <div
           id="search-results"
           className="search__results"
           role="listbox"
@@ -2069,17 +2069,17 @@ export const SearchExperience: React.FC<SearchConfig> = ({
           {query.length < minChars && showRecent && (
             <RecentSearches onSelect={setQuery} />
           )}
-          
+
           {query.length >= minChars && (
             <>
               {showSuggestions && (
-                <SearchSuggestions 
-                  query={query} 
+                <SearchSuggestions
+                  query={query}
                   onSelect={setQuery}
                 />
               )}
-              
-              <SearchResults 
+
+              <SearchResults
                 results={results}
                 query={query}
                 isSearching={isSearching}
@@ -2115,8 +2115,8 @@ export const SkeletonLoader: React.FC<{
         <div className="skeleton-loader__text">
           <div className="skeleton skeleton--title" />
           {Array.from({ length: lines }).map((_, i) => (
-            <div 
-              key={i} 
+            <div
+              key={i}
               className="skeleton skeleton--line"
               style={{ width: `${Math.random() * 40 + 60}%` }}
             />
@@ -2134,12 +2134,12 @@ export const ProgressIndicator: React.FC<{
   showPercentage?: boolean;
 }> = ({ value, max = 100, label, showPercentage = true }) => {
   const percentage = Math.round((value / max) * 100);
-  
+
   return (
     <div className="progress" role="progressbar" aria-valuenow={value} aria-valuemax={max}>
       {label && <div className="progress__label">{label}</div>}
       <div className="progress__track">
-        <div 
+        <div
           className="progress__fill"
           style={{ width: `${percentage}%` }}
         />
@@ -2167,13 +2167,13 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
   level = 'component',
 }) => {
   const errorId = useId();
-  
+
   useEffect(() => {
     console.error('Error boundary caught:', error);
     // Log to error tracking service
     trackError(error, { level, errorId });
   }, [error, level, errorId]);
-  
+
   if (level === 'page') {
     return (
       <div className="error-page">
@@ -2196,7 +2196,7 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
       </div>
     );
   }
-  
+
   return (
     <div className={clsx('error-fallback', `error-fallback--${level}`)}>
       <div className="error-fallback__icon">
@@ -2204,7 +2204,7 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
       </div>
       <div className="error-fallback__message">
         <p>Unable to load this {level}</p>
-        <button 
+        <button
           className="error-fallback__retry"
           onClick={resetError}
         >
@@ -2221,7 +2221,7 @@ export const FormFieldError: React.FC<{
   touched?: boolean;
 }> = ({ error, touched }) => {
   if (!error || !touched) return null;
-  
+
   return (
     <div className="form-field__error" role="alert">
       <ErrorIcon className="form-field__error-icon" />
@@ -2249,13 +2249,13 @@ export function useKeyboardNavigation(
     loop = true,
     onSelect,
   } = options;
-  
+
   const [focusedIndex, setFocusedIndex] = useState(-1);
-  
+
   const handleKeyDown = useCallback((event: React.KeyboardEvent) => {
     const key = event.key;
     const itemCount = items.length;
-    
+
     const navigationKeys = {
       vertical: {
         next: 'ArrowDown',
@@ -2266,9 +2266,9 @@ export function useKeyboardNavigation(
         prev: 'ArrowLeft',
       },
     };
-    
+
     const { next, prev } = navigationKeys[orientation];
-    
+
     switch (key) {
       case next:
         event.preventDefault();
@@ -2280,7 +2280,7 @@ export function useKeyboardNavigation(
           return nextIndex;
         });
         break;
-        
+
       case prev:
         event.preventDefault();
         setFocusedIndex(current => {
@@ -2291,7 +2291,7 @@ export function useKeyboardNavigation(
           return prevIndex;
         });
         break;
-        
+
       case 'Enter':
       case ' ':
         event.preventDefault();
@@ -2299,24 +2299,24 @@ export function useKeyboardNavigation(
           onSelect?.(items[focusedIndex], focusedIndex);
         }
         break;
-        
+
       case 'Home':
         event.preventDefault();
         setFocusedIndex(0);
         break;
-        
+
       case 'End':
         event.preventDefault();
         setFocusedIndex(itemCount - 1);
         break;
-        
+
       case 'Escape':
         event.preventDefault();
         setFocusedIndex(-1);
         break;
     }
   }, [items, orientation, loop, onSelect, focusedIndex]);
-  
+
   return {
     focusedIndex,
     setFocusedIndex,
@@ -2364,7 +2364,7 @@ export const Tooltip: React.FC<{
 }> = ({ content, children }) => {
   const [isVisible, setIsVisible] = useState(false);
   const tooltipId = useId();
-  
+
   return (
     <>
       {React.cloneElement(children, {

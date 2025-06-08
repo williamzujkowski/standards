@@ -1,7 +1,7 @@
 # GitHub Platform Standards
 
-**Version:** 1.0.0  
-**Last Updated:** January 2025  
+**Version:** 1.0.0
+**Last Updated:** January 2025
 **Status:** Active
 
 ## Table of Contents
@@ -92,23 +92,23 @@ protection_rules:
       count: 1
       dismiss_stale: true
       require_codeowner: true
-    
+
     # Required status checks
     required_checks:
       - "build"
       - "test"
       - "security-scan"
       - "lint"
-    
+
     # Additional restrictions
     enforce_admins: false
     restrict_pushes: true
     allow_force_pushes: false
     allow_deletions: false
-    
+
     # Require up-to-date branches
     strict_checks: true
-    
+
     # Require signed commits
     required_signatures: true
 ```
@@ -266,19 +266,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-      
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: Run linter
         run: npm run lint
-      
+
       - name: Check formatting
         run: npm run format:check
 
@@ -290,19 +290,19 @@ jobs:
         node-version: [16, 18, 20]
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: Run tests
         run: npm test
-      
+
       - name: Upload coverage
         if: matrix.node-version == '18'
         uses: codecov/codecov-action@v3
@@ -315,15 +315,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Run security audit
         run: npm audit --audit-level=high
-      
+
       - name: Run Snyk scan
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      
+
       - name: Upload SARIF results
         uses: github/codeql-action/upload-sarif@v2
         with:
@@ -335,19 +335,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-      
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: Build project
         run: npm run build
-      
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -380,25 +380,25 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
           registry-url: 'https://registry.npmjs.org'
-      
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: Build
         run: npm run build
-      
+
       - name: Generate changelog
         id: changelog
         uses: conventional-changelog-action@v3
         with:
           preset: 'angular'
-      
+
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
@@ -406,12 +406,12 @@ jobs:
           body: ${{ steps.changelog.outputs.clean_changelog }}
           draft: false
           prerelease: false
-      
+
       - name: Publish to npm
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      
+
       - name: Build Docker image
         run: |
           docker build -t ghcr.io/${{ github.repository }}:${{ github.ref_name }} .
@@ -442,18 +442,18 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-      
+
       - name: Deploy to environment
         run: |
           ./scripts/deploy.sh ${{ github.event.inputs.environment }}
-      
+
       - name: Notify deployment
         uses: 8398a7/action-slack@v3
         with:
@@ -487,18 +487,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ inputs.node-version }}
           cache: 'npm'
-      
+
       - name: Install and test
         run: |
           npm ci
           npm test
-      
+
       - name: Upload coverage
         uses: codecov/codecov-action@v3
         with:
@@ -528,7 +528,7 @@ jobs:
 # Pin actions to commit SHA for security
 steps:
   - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
-  
+
   # Use environment for secrets
   - name: Deploy
     environment: production
@@ -643,18 +643,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.1'
           bundler-cache: true
-      
+
       - name: Build Jekyll site
         run: bundle exec jekyll build
         env:
           JEKYLL_ENV: production
-      
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
@@ -772,7 +772,7 @@ updates:
     ignore:
       - dependency-name: "aws-sdk"
         versions: ["2.x"]
-    
+
   # GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -881,7 +881,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: License Finder
         uses: pivotal/licensefinder-action@v1
         with:
@@ -890,7 +890,7 @@ jobs:
             Apache-2.0
             BSD-3-Clause
             ISC
-          
+
       - name: FOSSA Scan
         uses: fossas/fossa-action@main
         with:
@@ -905,7 +905,7 @@ jobs:
   with:
     artifact-name: sbom.spdx.json
     format: spdx-json
-    
+
 - name: Publish SBOM
   uses: anchore/sbom-action/publish-sbom@v0
   with:
@@ -932,7 +932,7 @@ body:
     attributes:
       value: |
         Thanks for taking the time to fill out this bug report!
-        
+
   - type: textarea
     id: what-happened
     attributes:
@@ -941,7 +941,7 @@ body:
       placeholder: Tell us what you see!
     validations:
       required: true
-      
+
   - type: textarea
     id: reproduction
     attributes:
@@ -954,7 +954,7 @@ body:
         4. See error
     validations:
       required: true
-      
+
   - type: dropdown
     id: version
     attributes:
@@ -965,7 +965,7 @@ body:
         - 1.0.3 (Edge)
     validations:
       required: true
-      
+
   - type: dropdown
     id: browsers
     attributes:
@@ -976,14 +976,14 @@ body:
         - Chrome
         - Safari
         - Microsoft Edge
-        
+
   - type: textarea
     id: logs
     attributes:
       label: Relevant log output
       description: Please copy and paste any relevant log output
       render: shell
-      
+
   - type: checkboxes
     id: terms
     attributes:
@@ -1006,7 +1006,7 @@ body:
     attributes:
       value: |
         Thanks for suggesting a new feature!
-        
+
   - type: textarea
     id: problem
     attributes:
@@ -1014,7 +1014,7 @@ body:
       description: What problem does this feature solve?
     validations:
       required: true
-      
+
   - type: textarea
     id: solution
     attributes:
@@ -1022,13 +1022,13 @@ body:
       description: Describe your proposed solution
     validations:
       required: true
-      
+
   - type: textarea
     id: alternatives
     attributes:
       label: Alternatives Considered
       description: What alternatives have you considered?
-      
+
   - type: dropdown
     id: priority
     attributes:
@@ -1138,7 +1138,7 @@ template: |
   ## Changes
 
   $CHANGES
-  
+
   **Full Changelog**: https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION
 ```
 
@@ -1158,7 +1158,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
+
       - name: Generate changelog
         uses: orhun/git-cliff-action@v2
         with:
@@ -1166,7 +1166,7 @@ jobs:
           args: --verbose
         env:
           OUTPUT: CHANGELOG.md
-          
+
       - name: Commit changelog
         run: |
           git config user.name github-actions
@@ -1188,7 +1188,7 @@ jobs:
 apps:
   - name: "Dependabot"
     purpose: "Automated dependency updates"
-    
+
   - name: "Codecov"
     purpose: "Code coverage tracking"
     config: |
@@ -1200,7 +1200,7 @@ apps:
               default:
                 target: 80%
                 threshold: 2%
-    
+
   - name: "Renovate"
     purpose: "Advanced dependency management"
     config: |
@@ -1209,17 +1209,17 @@ apps:
         "prConcurrentLimit": 3,
         "prHourlyLimit": 2
       }
-    
+
   - name: "Stale"
     purpose: "Manage stale issues/PRs"
     config: |
       daysUntilStale: 60
       daysUntilClose: 7
       staleLabel: wontfix
-    
+
   - name: "AllContributors"
     purpose: "Recognize contributors"
-    
+
   - name: "Settings"
     purpose: "Repository settings as code"
 ```
@@ -1237,18 +1237,18 @@ const app = express();
 function verifyGitHubWebhook(req, res, next) {
   const signature = req.headers['x-hub-signature-256'];
   const body = JSON.stringify(req.body);
-  
+
   if (!signature) {
     return res.status(401).send('Unauthorized');
   }
-  
+
   const hmac = crypto.createHmac('sha256', process.env.WEBHOOK_SECRET);
   const digest = 'sha256=' + hmac.update(body).digest('hex');
-  
+
   if (signature !== digest) {
     return res.status(401).send('Unauthorized');
   }
-  
+
   next();
 }
 
@@ -1256,7 +1256,7 @@ function verifyGitHubWebhook(req, res, next) {
 app.post('/webhook', express.json(), verifyGitHubWebhook, (req, res) => {
   const event = req.headers['x-github-event'];
   const payload = req.body;
-  
+
   switch (event) {
     case 'push':
       handlePush(payload);
@@ -1270,7 +1270,7 @@ app.post('/webhook', express.json(), verifyGitHubWebhook, (req, res) => {
     default:
       console.log(`Unhandled event: ${event}`);
   }
-  
+
   res.status(200).send('OK');
 });
 ```
@@ -1319,7 +1319,7 @@ archive_issues() {
 generate_release() {
   local version=$1
   local previous=$(gh release list --limit 1 --json tagName --jq '.[0].tagName')
-  
+
   gh api repos/:owner/:repo/releases/generate-notes \
     --method POST \
     --field tag_name="v$version" \
@@ -1361,7 +1361,7 @@ async function autoMergeDependabot() {
     repo: 'myrepo',
     state: 'open',
   });
-  
+
   for (const pull of pulls) {
     if (pull.user.login === 'dependabot[bot]' && pull.mergeable_state === 'clean') {
       await octokit.pulls.merge({
@@ -1383,7 +1383,7 @@ async function bulkUpdateIssues(labels, milestone) {
     state: 'open',
     per_page: 100,
   });
-  
+
   for await (const { data: issues } of iterator) {
     for (const issue of issues) {
       await octokit.issues.update({

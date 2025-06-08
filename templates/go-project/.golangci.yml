@@ -26,7 +26,7 @@ linters:
     - staticcheck
     - typecheck
     - unused
-    
+
     # Additional linters for standards compliance
     - bodyclose
     - cyclop
@@ -71,38 +71,38 @@ linters-settings:
   errcheck:
     check-type-assertions: true
     check-blank: true
-    
+
   govet:
     check-shadowing: true
     enable-all: true
-    
+
   gocyclo:
     min-complexity: 10
-    
+
   gocognit:
     min-complexity: 10
-    
+
   funlen:
     lines: 50
     statements: 30
-    
+
   goconst:
     min-len: 3
     min-occurrences: 3
-    
+
   lll:
     line-length: 120
     tab-width: 4
-    
+
   misspell:
     locale: US
-    
+
   nakedret:
     max-func-lines: 10
-    
+
   nestif:
     min-complexity: 4
-    
+
   gomnd:
     settings:
       mnd:
@@ -116,7 +116,7 @@ linters-settings:
         ignored-numbers:
           - '0'
           - '1'
-          
+
   revive:
     rules:
       - name: blank-imports
@@ -139,7 +139,7 @@ linters-settings:
       - name: superfluous-else
       - name: unreachable-code
       - name: redefines-builtin-id
-      
+
   stylecheck:
     checks: ["all", "-ST1000", "-ST1003", "-ST1016", "-ST1020", "-ST1021", "-ST1022"]
     dot-import-whitelist:
@@ -155,19 +155,19 @@ issues:
         - funlen
         - gocognit
         - gomnd
-        
+
     - path: cmd/
       linters:
         - gochecknoinits
         - gochecknoglobals
-        
+
   max-issues-per-linter: 0
   max-same-issues: 0
   new: false
-  
+
 severity:
   default-severity: error
-  
+
   rules:
     - linters:
         - dupl

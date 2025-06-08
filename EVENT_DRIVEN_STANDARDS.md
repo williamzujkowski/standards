@@ -1,7 +1,7 @@
 # Event-Driven Architecture Standards
 
-**Version:** 1.0.0  
-**Last Updated:** January 2025  
+**Version:** 1.0.0
+**Last Updated:** January 2025
 **Status:** Active
 
 ## Table of Contents
@@ -123,14 +123,14 @@ interface EventVersioning {
     "Adding new event types",
     "Expanding enum values"
   ];
-  
+
   breaking_changes: [
     "Removing required fields",
     "Changing field types",
     "Removing event types",
     "Changing event semantics"
   ];
-  
+
   evolution_strategy: {
     semantic_versioning: "Major.Minor.Patch";
     schema_registry: "Confluent Schema Registry or equivalent";
@@ -173,7 +173,7 @@ topics:
       compression.type: snappy
       min.insync.replicas: 2
       segment.ms: 604800000     # 7 days
-  
+
   customer-events:
     partitions: 6
     replication_factor: 3
@@ -192,7 +192,7 @@ producer:
   batch.size: 16384
   linger.ms: 5
 
-# Consumer configuration  
+# Consumer configuration
 consumer:
   enable.auto.commit: false
   auto.offset.reset: earliest
@@ -210,7 +210,7 @@ exchanges:
     durable: true
     properties:
       alternate-exchange: "order.dead-letter"
-  
+
   - name: "customer.events"
     type: "fanout"
     durable: true
@@ -223,7 +223,7 @@ queues:
       x-max-retries: 3
       x-dead-letter-exchange: "order.dead-letter"
       x-dead-letter-routing-key: "failed"
-  
+
   - name: "order.dead-letter"
     durable: true
     properties:
@@ -260,25 +260,25 @@ abstract class DomainEvent {
     public readonly correlationId?: string,
     public readonly causationId?: string
   ) {}
-  
+
   abstract getEventType(): string;
 }
 
 // Example aggregate with event sourcing
 class Order {
   private events: DomainEvent[] = [];
-  
+
   constructor(
     public readonly id: string,
     private version: number = 0
   ) {}
-  
+
   static fromHistory(events: DomainEvent[]): Order {
     const order = new Order(events[0].aggregateId);
     events.forEach(event => order.apply(event, false));
     return order;
   }
-  
+
   createOrder(customerId: string, items: OrderItem[]): void {
     const event = new OrderCreatedEvent(
       crypto.randomUUID(),
@@ -290,7 +290,7 @@ class Order {
     );
     this.apply(event, true);
   }
-  
+
   private apply(event: DomainEvent, isNew: boolean): void {
     // Apply event to aggregate state
     switch (event.getEventType()) {
@@ -299,17 +299,17 @@ class Order {
         break;
       // ... other event handlers
     }
-    
+
     if (isNew) {
       this.events.push(event);
     }
     this.version = event.version;
   }
-  
+
   getUncommittedEvents(): DomainEvent[] {
     return [...this.events];
   }
-  
+
   markEventsAsCommitted(): void {
     this.events = [];
   }
@@ -322,46 +322,46 @@ class EventSourcedRepository<T> {
     private aggregateFactory: (id: string) => T,
     private snapshotFrequency: number = 10
   ) {}
-  
+
   async save(aggregate: any): Promise<void> {
     const events = aggregate.getUncommittedEvents();
     if (events.length === 0) return;
-    
+
     await this.eventStore.saveEvents(
       aggregate.id,
       events,
       aggregate.version - events.length
     );
-    
+
     aggregate.markEventsAsCommitted();
-    
+
     // Create snapshot if needed
     if (aggregate.version % this.snapshotFrequency === 0) {
       const snapshot = this.createSnapshot(aggregate);
       await this.eventStore.createSnapshot(aggregate.id, snapshot);
     }
   }
-  
+
   async getById(id: string): Promise<T | null> {
     // Try to load from snapshot first
     const snapshot = await this.eventStore.getSnapshot(id);
     let fromVersion = 0;
     let aggregate: T;
-    
+
     if (snapshot) {
       aggregate = this.rehydrateFromSnapshot(snapshot);
       fromVersion = snapshot.version + 1;
     } else {
       aggregate = this.aggregateFactory(id);
     }
-    
+
     // Load events since snapshot
     const events = await this.eventStore.getEvents(id, fromVersion);
     if (events.length === 0 && !snapshot) return null;
-    
+
     // Apply events to reconstruct current state
     events.forEach(event => (aggregate as any).apply(event, false));
-    
+
     return aggregate;
   }
 }
@@ -399,25 +399,25 @@ class CreateOrderCommandHandler implements CommandHandler<CreateOrderCommand> {
     private orderRepository: EventSourcedRepository<Order>,
     private eventBus: EventBus
   ) {}
-  
+
   async handle(command: CreateOrderCommand): Promise<void> {
     // Validate command
     await this.validateCommand(command);
-    
+
     // Create aggregate
     const order = new Order(command.id);
     order.createOrder(command.customerId, command.items);
-    
+
     // Save to event store
     await this.orderRepository.save(order);
-    
+
     // Publish domain events
     const events = order.getUncommittedEvents();
     for (const event of events) {
       await this.eventBus.publish(event);
     }
   }
-  
+
   private async validateCommand(command: CreateOrderCommand): Promise<void> {
     if (!command.customerId) {
       throw new ValidationError("Customer ID is required");
@@ -456,7 +456,7 @@ interface OrderReadModel {
 
 class GetOrderQueryHandler implements QueryHandler<GetOrderQuery, OrderReadModel | null> {
   constructor(private readModelRepository: ReadModelRepository) {}
-  
+
   async handle(query: GetOrderQuery): Promise<OrderReadModel | null> {
     return await this.readModelRepository.findById(query.orderId);
   }
@@ -465,7 +465,7 @@ class GetOrderQueryHandler implements QueryHandler<GetOrderQuery, OrderReadModel
 // Read model projections
 class OrderProjection {
   constructor(private repository: ReadModelRepository) {}
-  
+
   async on(event: OrderCreatedEvent): Promise<void> {
     const readModel: OrderReadModel = {
       id: event.aggregateId,
@@ -480,10 +480,10 @@ class OrderProjection {
       createdAt: event.timestamp,
       updatedAt: event.timestamp
     };
-    
+
     await this.repository.save(readModel);
   }
-  
+
   async on(event: OrderStatusChangedEvent): Promise<void> {
     const readModel = await this.repository.findById(event.aggregateId);
     if (readModel) {
@@ -505,33 +505,33 @@ class OrderProjection {
 abstract class Saga {
   protected state: SagaState = SagaState.NotStarted;
   protected currentStep: number = 0;
-  
+
   abstract getSteps(): SagaStep[];
   abstract getCompensationSteps(): SagaStep[];
-  
+
   async execute(): Promise<SagaResult> {
     this.state = SagaState.Running;
     const steps = this.getSteps();
-    
+
     try {
       for (let i = 0; i < steps.length; i++) {
         this.currentStep = i;
         await steps[i].execute();
       }
-      
+
       this.state = SagaState.Completed;
       return SagaResult.Success;
-      
+
     } catch (error) {
       this.state = SagaState.Failed;
       await this.compensate();
       return SagaResult.Failed;
     }
   }
-  
+
   private async compensate(): Promise<void> {
     const compensationSteps = this.getCompensationSteps();
-    
+
     // Execute compensation steps in reverse order
     for (let i = this.currentStep; i >= 0; i--) {
       try {
@@ -554,7 +554,7 @@ class OrderProcessingSaga extends Saga {
   ) {
     super();
   }
-  
+
   getSteps(): SagaStep[] {
     return [
       new ReserveInventoryStep(this.orderId, this.inventoryService),
@@ -562,7 +562,7 @@ class OrderProcessingSaga extends Saga {
       new CreateShipmentStep(this.orderId, this.shippingService)
     ];
   }
-  
+
   getCompensationSteps(): SagaStep[] {
     return [
       new CancelShipmentStep(this.orderId, this.shippingService),
@@ -581,7 +581,7 @@ class ReserveInventoryStep implements SagaStep {
     private orderId: string,
     private inventoryService: InventoryService
   ) {}
-  
+
   async execute(): Promise<void> {
     await this.inventoryService.reserve(this.orderId);
   }
@@ -590,13 +590,13 @@ class ReserveInventoryStep implements SagaStep {
 // Saga manager
 class SagaManager {
   private sagas = new Map<string, Saga>();
-  
+
   async startSaga(sagaId: string, saga: Saga): Promise<void> {
     this.sagas.set(sagaId, saga);
-    
+
     try {
       const result = await saga.execute();
-      
+
       if (result === SagaResult.Success) {
         await this.onSagaCompleted(sagaId);
       } else {
@@ -606,12 +606,12 @@ class SagaManager {
       this.sagas.delete(sagaId);
     }
   }
-  
+
   private async onSagaCompleted(sagaId: string): Promise<void> {
     // Emit saga completed event
     console.log(`Saga ${sagaId} completed successfully`);
   }
-  
+
   private async onSagaFailed(sagaId: string): Promise<void> {
     // Emit saga failed event
     console.log(`Saga ${sagaId} failed and compensated`);
@@ -624,11 +624,11 @@ class SagaManager {
 // Event-driven saga using choreography
 class OrderCreatedHandler {
   constructor(private inventoryService: InventoryService) {}
-  
+
   async handle(event: OrderCreatedEvent): Promise<void> {
     try {
       await this.inventoryService.reserve(event.aggregateId, event.items);
-      
+
       // Publish success event
       const inventoryReservedEvent = new InventoryReservedEvent(
         crypto.randomUUID(),
@@ -638,9 +638,9 @@ class OrderCreatedHandler {
         event.items,
         event.id // causation ID
       );
-      
+
       await this.eventBus.publish(inventoryReservedEvent);
-      
+
     } catch (error) {
       // Publish failure event
       const inventoryReservationFailedEvent = new InventoryReservationFailedEvent(
@@ -651,7 +651,7 @@ class OrderCreatedHandler {
         error.message,
         event.id
       );
-      
+
       await this.eventBus.publish(inventoryReservationFailedEvent);
     }
   }
@@ -659,11 +659,11 @@ class OrderCreatedHandler {
 
 class InventoryReservedHandler {
   constructor(private paymentService: PaymentService) {}
-  
+
   async handle(event: InventoryReservedEvent): Promise<void> {
     try {
       await this.paymentService.charge(event.aggregateId);
-      
+
       const paymentProcessedEvent = new PaymentProcessedEvent(
         crypto.randomUUID(),
         event.aggregateId,
@@ -671,9 +671,9 @@ class InventoryReservedHandler {
         new Date(),
         event.id
       );
-      
+
       await this.eventBus.publish(paymentProcessedEvent);
-      
+
     } catch (error) {
       // Compensate by releasing inventory
       const paymentFailedEvent = new PaymentFailedEvent(
@@ -684,7 +684,7 @@ class InventoryReservedHandler {
         error.message,
         event.id
       );
-      
+
       await this.eventBus.publish(paymentFailedEvent);
     }
   }
@@ -702,7 +702,7 @@ import { KafkaStreams } from 'kafka-streams';
 
 class EventAnalyticsProcessor {
   private stream: KafkaStreams;
-  
+
   constructor() {
     this.stream = new KafkaStreams({
       kafkaHost: 'localhost:9092',
@@ -710,11 +710,11 @@ class EventAnalyticsProcessor {
       clientName: 'analytics-processor'
     });
   }
-  
+
   async start(): Promise<void> {
     const orderEventsStream = this.stream.getKStream('order-events');
     const customerEventsStream = this.stream.getKStream('customer-events');
-    
+
     // Real-time order metrics
     const orderMetrics = orderEventsStream
       .filter(event => event.type === 'OrderCreated')
@@ -727,9 +727,9 @@ class EventAnalyticsProcessor {
           totalAmount: oldVal.totalAmount + event.data.amount
         })
       );
-    
+
     orderMetrics.to('order-metrics-topic');
-    
+
     // Customer behavior analysis
     const customerJourney = customerEventsStream
       .join(orderEventsStream, 'customerId', 'inner', 5 * 60 * 1000) // 5-minute window
@@ -741,9 +741,9 @@ class EventAnalyticsProcessor {
           timestamp: orderEvent.timestamp
         }
       }));
-    
+
     customerJourney.to('customer-journey-topic');
-    
+
     await this.stream.start();
   }
 }
@@ -751,11 +751,11 @@ class EventAnalyticsProcessor {
 // Complex Event Processing (CEP)
 class ComplexEventProcessor {
   private patterns: EventPattern[] = [];
-  
+
   addPattern(pattern: EventPattern): void {
     this.patterns.push(pattern);
   }
-  
+
   async processEvent(event: DomainEvent): Promise<void> {
     for (const pattern of this.patterns) {
       if (await pattern.matches(event)) {
@@ -773,19 +773,19 @@ interface EventPattern {
 // Fraud detection pattern
 class FraudDetectionPattern implements EventPattern {
   private suspiciousActivities = new Map<string, number>();
-  
+
   async matches(event: DomainEvent): Promise<boolean> {
     return event.getEventType() === 'PaymentProcessed';
   }
-  
+
   async execute(event: DomainEvent): Promise<void> {
     const paymentEvent = event as PaymentProcessedEvent;
     const customerId = paymentEvent.customerId;
-    
+
     // Track payment frequency
     const currentCount = this.suspiciousActivities.get(customerId) || 0;
     this.suspiciousActivities.set(customerId, currentCount + 1);
-    
+
     // Check for suspicious pattern (e.g., >5 payments in 1 hour)
     if (currentCount > 5) {
       const fraudAlertEvent = new FraudAlertEvent(
@@ -796,10 +796,10 @@ class FraudDetectionPattern implements EventPattern {
         'High frequency payments detected',
         event.id
       );
-      
+
       await this.eventBus.publish(fraudAlertEvent);
     }
-    
+
     // Clean up old entries (simplified)
     setTimeout(() => {
       this.suspiciousActivities.delete(customerId);
