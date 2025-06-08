@@ -27,7 +27,7 @@
 ## 🔄 Recent Updates (June 2025)
 
 - ✅ Fixed all YAML formatting issues for standards compliance
-- ✅ Updated GitHub Actions workflow for better error handling  
+- ✅ Updated GitHub Actions workflow for better error handling
 - ✅ Added missing H1 header to COMPREHENSIVE_STANDARDS.md
 - ✅ Improved large file detection in CI/CD pipeline
 - ✅ All 21 standards documents now fully validated
