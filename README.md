@@ -2,10 +2,11 @@
 
 **A complete collection of battle-tested standards for modern software development**
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/standards)
-[![Standards](https://img.shields.io/badge/standards-20%20documents-green.svg)](https://github.com/standards)
+[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/williamzujkowski/standards)
+[![Standards](https://img.shields.io/badge/standards-21%20documents-green.svg)](https://github.com/williamzujkowski/standards)
 [![License](https://img.shields.io/badge/license-MIT-purple.svg)](LICENSE)
-[![Last Updated](https://img.shields.io/badge/updated-January%202025-orange.svg)](https://github.com/standards)
+[![Compliance](https://github.com/williamzujkowski/standards/actions/workflows/standards-compliance.yml/badge.svg)](https://github.com/williamzujkowski/standards/actions/workflows/standards-compliance.yml)
+[![Last Updated](https://img.shields.io/badge/updated-June%202025-orange.svg)](https://github.com/williamzujkowski/standards)
 
 ---
 
@@ -23,13 +24,24 @@
 
 ---
 
+## 🔄 Recent Updates (June 2025)
+
+- ✅ Fixed all YAML formatting issues for standards compliance
+- ✅ Updated GitHub Actions workflow for better error handling  
+- ✅ Added missing H1 header to COMPREHENSIVE_STANDARDS.md
+- ✅ Improved large file detection in CI/CD pipeline
+- ✅ All 21 standards documents now fully validated
+- ✅ Enhanced CI/CD with YAML linting and validation
+
+---
+
 ## 🎯 Overview
 
 This repository contains a comprehensive collection of software development standards covering every aspect of modern software engineering. From coding practices to cloud architecture, from security to SEO, these standards represent industry best practices refined through real-world implementation.
 
 ### Why These Standards?
 
-- **Comprehensive Coverage**: 20 specialized documents covering all aspects of development
+- **Comprehensive Coverage**: 21 specialized documents covering all aspects of development
 - **Battle-Tested**: Based on real-world projects and industry best practices
 - **LLM-Optimized**: Special routing system for efficient AI/LLM usage
 - **Constantly Updated**: Regular updates to reflect industry changes
@@ -299,6 +311,8 @@ Week-by-week checklist for systematic standards adoption.
 - Language detection and appropriate checks
 - Automated coverage enforcement
 - Security scanning integration
+- YAML validation and linting
+- Large file detection
 
 ### Badge Generation
 
@@ -357,7 +371,7 @@ Our innovative routing system reduces token usage by 85% when using these standa
 - **Cost Reduction**: 85% fewer tokens = lower API costs
 - **Faster Responses**: Less context = quicker processing
 - **Better Accuracy**: Focused context = more relevant outputs
-- **Scalability**: Efficient even with all 20 standards available
+- **Scalability**: Efficient even with all 21 standards available
 
 ---
 
