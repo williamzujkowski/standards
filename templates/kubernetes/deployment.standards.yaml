@@ -92,39 +92,39 @@ spec:
               value: "production"
             - name: LOG_LEVEL
               value: "info"
-          - name: DATABASE_URL
-            valueFrom:
-              secretKeyRef:
-                name: app-secrets
-                key: database-url
-          - name: API_KEY
-            valueFrom:
-              secretKeyRef:
-                name: app-secrets
-                key: api-key
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: database-url
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: api-key
 
           # Resource limits per COST_OPTIMIZATION_STANDARDS.md
           resources:
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
 
           # Liveness probe per OBSERVABILITY_STANDARDS.md
           livenessProbe:
-          httpGet:
-            path: /health/live
-            port: http
-            httpHeaders:
-              - name: User-Agent
-                value: Kubernetes-Health-Check
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          timeoutSeconds: 5
-          successThreshold: 1
-          failureThreshold: 3
+            httpGet:
+              path: /health/live
+              port: http
+              httpHeaders:
+                - name: User-Agent
+                  value: Kubernetes-Health-Check
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
 
           # Readiness probe
           readinessProbe:
