@@ -1488,6 +1488,33 @@ Comprehensive project management framework for modern software development:
 - **Team Management**: Team development, performance metrics, collaboration tools, and conflict resolution
 - **Project Closure**: Retrospectives, lessons learned, knowledge transfer, and success metrics
 
+### 7.13 Legal Compliance Standards
+
+**Document:** `LEGAL_COMPLIANCE_STANDARDS.md`
+
+Technical implementation patterns for legal compliance (NOT legal advice):
+
+- **Privacy and Data Protection**: GDPR implementation, consent management, and data subject rights
+- **Software Licensing**: Dependency scanning, license compatibility, and attribution requirements
+- **Accessibility Standards**: WCAG 2.1 implementation, testing frameworks, and compliance reporting
+- **Security Compliance**: Framework implementations (SOC2, ISO 27001, PCI DSS) and audit trails
+- **Intellectual Property**: Code ownership, copyright management, and trade secret protection
+- **Audit and Documentation**: Compliance documentation, audit trail implementation, and reporting
+
+### 7.14 SEO and Web Marketing Standards
+
+**Document:** `SEO_WEB_MARKETING_STANDARDS.md`
+
+Technical SEO and digital marketing implementation standards:
+
+- **Technical SEO Foundations**: Crawlability, indexability, URL structure, and HTTPS implementation
+- **On-Page Optimization**: Meta tags, header hierarchy, content optimization, and internal linking
+- **Site Architecture**: Information architecture, navigation standards, and mobile optimization
+- **Performance and Core Web Vitals**: LCP, FID, CLS optimization, and page speed standards
+- **Schema and Structured Data**: Schema.org implementation, rich snippets, and JSON-LD
+- **Marketing Automation**: Lead capture, scoring, workflow automation, and personalization
+- **Analytics and Tracking**: Implementation standards, conversion tracking, and privacy compliance
+
 ## Usage Guidelines for Extended Standards
 
 ### Implementation Priority
@@ -1496,6 +1523,17 @@ Comprehensive project management framework for modern software development:
 2. **Domain-Specific Extension**: Add specialized standards based on your technology stack and project requirements
 3. **Gradual Adoption**: Implement extended standards incrementally, focusing on areas with the highest impact
 4. **Cross-Reference Integration**: Ensure compatibility between core and extended standards
+
+### Integration Tools and Resources
+
+The repository includes comprehensive integration tools to facilitate standards adoption:
+
+- **Automated Setup**: Use `setup-project.sh` for quick project initialization with standards
+- **Integration Guide**: Follow `INTEGRATION_GUIDE.md` for detailed integration strategies
+- **Adoption Checklist**: Use `ADOPTION_CHECKLIST.md` for systematic week-by-week implementation
+- **Templates**: Language-specific configurations in `templates/` directory
+- **CI/CD Integration**: Pre-configured workflows in `.github/workflows/`
+- **Badge Generation**: Use `generate-badges.sh` to create compliance badges
 
 ### Customization Approach
 

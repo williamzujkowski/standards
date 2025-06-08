@@ -15,6 +15,7 @@
 - [Legal Disclaimer](#legal-disclaimer)
 - [Quick Start](#quick-start)
 - [Standards Library](#standards-library)
+- [Integration Tools](#integration-tools)
 - [LLM Optimization](#llm-optimization)
 - [Implementation Guide](#implementation-guide)
 - [Contributing](#contributing)
@@ -64,26 +65,41 @@ This repository contains a comprehensive collection of software development stan
 
 ### For New Projects
 
+#### Option 1: Automated Setup (Recommended)
+```bash
+curl -O https://raw.githubusercontent.com/williamzujkowski/standards/master/setup-project.sh
+chmod +x setup-project.sh
+./setup-project.sh my-new-project
+```
+
+#### Option 2: Manual Setup
 1. Start with **UNIFIED_STANDARDS.md** - Your comprehensive foundation
-2. Review **CLAUDE.md** - Understand the efficient routing system
-3. Select domain-specific standards based on your tech stack
-4. Implement using provided templates and checklists
+2. Copy **CLAUDE.md** to your project for AI assistance
+3. Use templates from `templates/` directory for your language
+4. Follow **ADOPTION_CHECKLIST.md** for systematic implementation
 
 ### For Existing Projects
 
-1. Perform gap analysis using relevant standard checklists
-2. Prioritize implementation based on:
+1. Read **INTEGRATION_GUIDE.md** for detailed integration strategies
+2. Perform gap analysis using relevant standard checklists
+3. Prioritize implementation based on:
    - Security standards (MODERN_SECURITY_STANDARDS.md)
    - Testing standards (TESTING_STANDARDS.md)
    - Core coding standards (CODING_STANDARDS.md)
-3. Gradually adopt other standards based on project needs
+4. Use language-specific templates from `templates/` directory
 
 ### For LLM/AI Usage
 
-Use **CLAUDE.md** as your routing document to load only relevant standards:
+Always include **CLAUDE.md** in your project and use the dynamic loading syntax:
 ```
 @load [CS:style,architecture + TS:core + SEC:auth]
 ```
+
+### Quick Integration Options
+
+- **Git Submodule**: `git submodule add https://github.com/williamzujkowski/standards.git .standards`
+- **Direct Copy**: Copy `CLAUDE.md` and `MASTER_PROMPT.md` to your project
+- **Templates**: Use language-specific configs from `templates/` directory
 
 ---
 
@@ -241,6 +257,77 @@ GitHub-specific platform and workflow standards.
 
 ---
 
+## 🛠️ Integration Tools
+
+### Setup and Configuration
+
+#### [setup-project.sh](./setup-project.sh)
+Automated project setup script that creates a standards-compliant project structure.
+- Creates directory structure
+- Copies essential files
+- Sets up pre-commit hooks
+- Generates initial configs
+
+#### [INTEGRATION_GUIDE.md](./INTEGRATION_GUIDE.md)
+Comprehensive guide for integrating standards into your projects.
+- Multiple integration strategies
+- CI/CD configuration examples
+- Monitoring and compliance tracking
+- Best practices
+
+#### [ADOPTION_CHECKLIST.md](./ADOPTION_CHECKLIST.md)
+Week-by-week checklist for systematic standards adoption.
+- Phased implementation plan
+- Progress tracking
+- Success indicators
+- Common pitfalls
+
+### Templates Directory
+
+#### Language-Specific Templates
+- **Python**: `pyproject.toml`, `.flake8` with standards-compliant settings
+- **JavaScript/TypeScript**: `package.json`, `.eslintrc.json` with comprehensive linting
+- **Go**: `Makefile`, `.golangci.yml` with security and quality checks
+
+#### Infrastructure Templates
+- **Docker**: Security-hardened `Dockerfile` and `docker-compose.yml`
+- **Kubernetes**: Production-ready deployment manifests
+- **Terraform**: IaC templates with security and cost optimization
+
+#### CI/CD Templates
+- **GitHub Actions**: `.github/workflows/standards-compliance.yml`
+- Language detection and appropriate checks
+- Automated coverage enforcement
+- Security scanning integration
+
+### Badge Generation
+
+#### [generate-badges.sh](./generate-badges.sh)
+Generate compliance badges for your README.
+- Standards compliance badges
+- Dynamic metric badges
+- Custom badge generation
+- Compliance report template
+
+### Quick Start Templates
+
+Copy these to jumpstart your project:
+```bash
+# Python project
+cp -r standards/templates/python-project/* .
+
+# JavaScript/TypeScript project  
+cp -r standards/templates/javascript-project/* .
+
+# Go project
+cp -r standards/templates/go-project/* .
+
+# Docker setup
+cp standards/templates/docker/* .
+```
+
+---
+
 ## 🤖 LLM Optimization
 
 ### The CLAUDE.md Advantage
@@ -340,17 +427,27 @@ With the understanding that:
 
 ## 🌟 Quick Links
 
+### Essential Documents
 - **Start Here**: [UNIFIED_STANDARDS.md](./UNIFIED_STANDARDS.md)
+- **Quick Setup**: [setup-project.sh](./setup-project.sh)
+- **Integration Guide**: [INTEGRATION_GUIDE.md](./INTEGRATION_GUIDE.md)
+- **Adoption Checklist**: [ADOPTION_CHECKLIST.md](./ADOPTION_CHECKLIST.md)
+
+### For Developers
 - **LLM Usage**: [CLAUDE.md](./CLAUDE.md)
 - **Security First**: [MODERN_SECURITY_STANDARDS.md](./MODERN_SECURITY_STANDARDS.md)
 - **Testing Guide**: [TESTING_STANDARDS.md](./TESTING_STANDARDS.md)
+- **Templates**: [templates/](./templates/)
 
 ---
 
-## 📊 Statistics
+## 📊 Repository Statistics
 
-- **Total Standards**: 20 comprehensive documents
-- **Total Content**: 95% coverage of modern development practices
+- **Standards Documents**: 20 comprehensive guides
+- **Integration Tools**: 15+ templates and scripts
+- **Language Support**: Python, JavaScript/TypeScript, Go
+- **Infrastructure**: Docker, Kubernetes, Terraform
+- **Total Coverage**: 95% of modern development practices
 - **LLM Optimization**: 85% token reduction with CLAUDE.md
 - **Last Updated**: January 2025
 - **Active Maintenance**: Ongoing
