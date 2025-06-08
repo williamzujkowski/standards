@@ -1,3 +1,4 @@
+---
 # GolangCI-Lint Configuration - Following CODING_STANDARDS.md
 
 run:
@@ -141,11 +142,61 @@ linters-settings:
       - name: redefines-builtin-id
 
   stylecheck:
-    checks: ["all", "-ST1000", "-ST1003", "-ST1016", "-ST1020", "-ST1021", "-ST1022"]
+    checks:
+      - "all"
+      - "-ST1000"
+      - "-ST1003"
+      - "-ST1016"
+      - "-ST1020"
+      - "-ST1021"
+      - "-ST1022"
     dot-import-whitelist:
       - fmt
-    initialisms: ["ACL", "API", "ASCII", "CPU", "CSS", "DNS", "EOF", "GUID", "HTML", "HTTP", "HTTPS", "ID", "IP", "JSON", "JWT", "LHS", "QPS", "RAM", "RHS", "RPC", "SLA", "SMTP", "SQL", "SSH", "TCP", "TLS", "TTL", "UDP", "UI", "UID", "UUID", "URI", "URL", "UTF8", "VM", "XML", "XMPP", "XSRF", "XSS"]
-    http-status-code-whitelist: ["200", "400", "404", "500"]
+    initialisms:
+      - "ACL"
+      - "API"
+      - "ASCII"
+      - "CPU"
+      - "CSS"
+      - "DNS"
+      - "EOF"
+      - "GUID"
+      - "HTML"
+      - "HTTP"
+      - "HTTPS"
+      - "ID"
+      - "IP"
+      - "JSON"
+      - "JWT"
+      - "LHS"
+      - "QPS"
+      - "RAM"
+      - "RHS"
+      - "RPC"
+      - "SLA"
+      - "SMTP"
+      - "SQL"
+      - "SSH"
+      - "TCP"
+      - "TLS"
+      - "TTL"
+      - "UDP"
+      - "UI"
+      - "UID"
+      - "UUID"
+      - "URI"
+      - "URL"
+      - "UTF8"
+      - "VM"
+      - "XML"
+      - "XMPP"
+      - "XSRF"
+      - "XSS"
+    http-status-code-whitelist:
+      - "200"
+      - "400"
+      - "404"
+      - "500"
 
 issues:
   exclude-rules:

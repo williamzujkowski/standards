@@ -1,10 +1,11 @@
+---
 name: Standards Compliance Template
 
-on:
+'on':
   pull_request:
-    branches: [ main, master, develop ]
+    branches: [main, master, develop]
   push:
-    branches: [ main, master, develop ]
+    branches: [main, master, develop]
 
 jobs:
   # Language-agnostic checks
@@ -16,7 +17,9 @@ jobs:
       - name: Check file formatting
         run: |
           # Check for trailing whitespace
-          ! grep -r '[[:space:]]$' --include="*.md" --include="*.yml" --include="*.yaml" .
+          # Check for trailing whitespace in markdown and YAML files
+          ! grep -r '[[:space:]]$' \
+            --include="*.md" --include="*.yml" --include="*.yaml" .
 
       - name: Validate YAML files
         run: |
@@ -33,7 +36,9 @@ jobs:
 
   # Python-specific compliance
   python-compliance:
-    if: contains(github.repository, 'python') || contains(github.repository, 'py')
+    if: |
+      contains(github.repository, 'python') ||
+      contains(github.repository, 'py')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -68,7 +73,10 @@ jobs:
 
   # JavaScript/TypeScript compliance
   javascript-compliance:
-    if: contains(github.repository, 'js') || contains(github.repository, 'ts') || contains(github.repository, 'node')
+    if: >
+      contains(github.repository, 'js') ||
+      contains(github.repository, 'ts') ||
+      contains(github.repository, 'node')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -117,12 +125,16 @@ jobs:
       - name: Test with coverage
         run: |
           go test -coverprofile=coverage.out -covermode=atomic ./...
-          go tool cover -func=coverage.out | grep total | awk '{print $3}' | sed 's/%//g' | \
-          awk '{if ($1 < 85) {print "Coverage is below 85%: " $1 "%"; exit 1}}'
+          go tool cover -func=coverage.out | grep total | \
+            awk '{print $3}' | sed 's/%//g' | \
+            awk '{if ($1 < 85) {
+              print "Coverage is below 85%: " $1 "%"; exit 1}}'
 
   # Performance and accessibility checks (for web projects)
   web-compliance:
-    if: contains(github.repository, 'web') || contains(github.repository, 'frontend')
+    if: |
+      contains(github.repository, 'web') ||
+      contains(github.repository, 'frontend')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

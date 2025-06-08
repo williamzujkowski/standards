@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -20,6 +21,7 @@ spec:
     matchLabels:
       app: myapp
       component: backend
+
   template:
     metadata:
       labels:
@@ -49,60 +51,60 @@ spec:
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
+            - weight: 100
+              podAffinityTerm:
               labelSelector:
                 matchExpressions:
-                - key: app
-                  operator: In
-                  values:
-                  - myapp
-              topologyKey: kubernetes.io/hostname
+                  - key: app
+                    operator: In
+                    values:
+                      - myapp
+                topologyKey: kubernetes.io/hostname
 
       containers:
-      - name: app
-        image: myapp:v1.0.0
-        imagePullPolicy: IfNotPresent
+        - name: app
+          image: myapp:v1.0.0
+          imagePullPolicy: IfNotPresent
 
-        # Security context per container
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
-          runAsNonRoot: true
-          runAsUser: 1001
-          capabilities:
-            drop:
-            - ALL
-            add:
-            - NET_BIND_SERVICE
+          # Security context per container
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1001
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - NET_BIND_SERVICE
 
-        ports:
-        - name: http
-          containerPort: 3000
-          protocol: TCP
-        - name: metrics
-          containerPort: 9090
-          protocol: TCP
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+            - name: metrics
+              containerPort: 9090
+              protocol: TCP
 
-        # Environment variables
-        env:
-        - name: NODE_ENV
-          value: "production"
-        - name: LOG_LEVEL
-          value: "info"
-        - name: DATABASE_URL
-          valueFrom:
-            secretKeyRef:
-              name: app-secrets
-              key: database-url
-        - name: API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: app-secrets
-              key: api-key
+          # Environment variables
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: LOG_LEVEL
+              value: "info"
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: app-secrets
+                key: database-url
+          - name: API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: app-secrets
+                key: api-key
 
-        # Resource limits per COST_OPTIMIZATION_STANDARDS.md
-        resources:
+          # Resource limits per COST_OPTIMIZATION_STANDARDS.md
+          resources:
           requests:
             memory: "256Mi"
             cpu: "250m"
@@ -110,85 +112,85 @@ spec:
             memory: "512Mi"
             cpu: "500m"
 
-        # Liveness probe per OBSERVABILITY_STANDARDS.md
-        livenessProbe:
+          # Liveness probe per OBSERVABILITY_STANDARDS.md
+          livenessProbe:
           httpGet:
             path: /health/live
             port: http
             httpHeaders:
-            - name: User-Agent
-              value: Kubernetes-Health-Check
+              - name: User-Agent
+                value: Kubernetes-Health-Check
           initialDelaySeconds: 30
           periodSeconds: 10
           timeoutSeconds: 5
           successThreshold: 1
           failureThreshold: 3
 
-        # Readiness probe
-        readinessProbe:
-          httpGet:
-            path: /health/ready
-            port: http
-            httpHeaders:
-            - name: User-Agent
-              value: Kubernetes-Health-Check
-          initialDelaySeconds: 10
-          periodSeconds: 5
-          timeoutSeconds: 3
-          successThreshold: 1
-          failureThreshold: 3
+          # Readiness probe
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: http
+              httpHeaders:
+                - name: User-Agent
+                  value: Kubernetes-Health-Check
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 3
 
-        # Startup probe for slow-starting containers
-        startupProbe:
-          httpGet:
-            path: /health/startup
-            port: http
-          initialDelaySeconds: 0
-          periodSeconds: 10
-          timeoutSeconds: 3
-          failureThreshold: 30
+          # Startup probe for slow-starting containers
+          startupProbe:
+            httpGet:
+              path: /health/startup
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 30
 
-        # Volume mounts
-        volumeMounts:
-        - name: tmp
-          mountPath: /tmp
-        - name: cache
-          mountPath: /app/cache
-        - name: config
-          mountPath: /app/config
-          readOnly: true
+          # Volume mounts
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            - name: cache
+              mountPath: /app/cache
+            - name: config
+              mountPath: /app/config
+              readOnly: true
 
       # Init container for migrations
       initContainers:
-      - name: migrations
-        image: myapp:v1.0.0
-        command: ['npm', 'run', 'migrate']
-        env:
-        - name: DATABASE_URL
-          valueFrom:
-            secretKeyRef:
-              name: app-secrets
-              key: database-url
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: false
-          runAsNonRoot: true
-          runAsUser: 1001
+        - name: migrations
+          image: myapp:v1.0.0
+          command: ['npm', 'run', 'migrate']
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: database-url
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 1001
 
       # Volumes
       volumes:
-      - name: tmp
-        emptyDir: {}
-      - name: cache
-        emptyDir: {}
-      - name: config
-        configMap:
-          name: app-config
-          defaultMode: 0444
+        - name: tmp
+          emptyDir: {}
+        - name: cache
+          emptyDir: {}
+        - name: config
+          configMap:
+            name: app-config
+            defaultMode: 0444
 
       # Image pull secrets
       imagePullSecrets:
-      - name: registry-credentials
+        - name: registry-credentials
 
       # DNS policy
       dnsPolicy: ClusterFirst
@@ -215,14 +217,14 @@ spec:
     app: myapp
     component: backend
   ports:
-  - name: http
-    port: 80
-    targetPort: http
-    protocol: TCP
-  - name: metrics
-    port: 9090
-    targetPort: metrics
-    protocol: TCP
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP
+    - name: metrics
+      port: 9090
+      targetPort: metrics
+      protocol: TCP
   sessionAffinity: None
 
 ---
@@ -240,34 +242,34 @@ spec:
   minReplicas: 3
   maxReplicas: 10
   metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 70
-  - type: Resource
-    resource:
-      name: memory
-      target:
-        type: Utilization
-        averageUtilization: 80
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
   behavior:
     scaleDown:
       stabilizationWindowSeconds: 300
       policies:
-      - type: Percent
-        value: 50
-        periodSeconds: 60
+        - type: Percent
+          value: 50
+          periodSeconds: 60
     scaleUp:
       stabilizationWindowSeconds: 60
       policies:
-      - type: Percent
-        value: 100
-        periodSeconds: 60
-      - type: Pods
-        value: 2
-        periodSeconds: 60
+        - type: Percent
+          value: 100
+          periodSeconds: 60
+        - type: Pods
+          value: 2
+          periodSeconds: 60
 
 ---
 # PodDisruptionBudget for high availability
