@@ -27,7 +27,8 @@ jobs:
 
       - name: Check for large files
         run: |
-          large_files=$(find . -type f -size +5M -not -path "./.git/*" -exec ls -lh {} \;)
+          large_files=$(find . -type f -size +5M -not -path "./.git/*" \
+            -exec ls -lh {} \;)
           if [ -n "$large_files" ]; then
             echo "Error: Large files found (>5MB):"
             echo "$large_files"
