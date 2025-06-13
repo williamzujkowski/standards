@@ -1,0 +1,179 @@
+# .standards.yml - Federation Configuration
+# Enable external projects to reference standards without copying
+
+version: "latest"
+type: "federation-config"
+
+# Federation settings
+federation:
+  # Source repository
+  source: "github.com/williamzujkowski/standards"
+  branch: "main"
+  
+  # How to reference standards
+  mode: "reference"  # Options: reference, copy, mirror
+  
+  # Standards to include
+  standards:
+    - "CS:*"     # All coding standards
+    - "SEC:*"    # All security standards
+    - "TS:*"     # All testing standards
+    - "FE:*"     # Frontend standards
+    - "CN:*"     # Cloud native standards
+  
+  # Optional: specific sections only
+  sections:
+    CS: ["api", "python", "javascript", "patterns"]
+    SEC: ["auth", "api", "validation"]
+    TS: ["unit", "integration", "coverage"]
+  
+  # Update strategy
+  updates:
+    frequency: "weekly"
+    strategy: "auto-pr"  # Create PR for updates
+    breaking_changes: "manual"  # Require manual approval
+
+# Local overrides (project-specific)
+overrides:
+  # Override specific rules
+  rules:
+    TS-001:
+      threshold:
+        overall: 90  # Higher than standard 85%
+    
+    CS-001:
+      max_lines: 30  # Stricter than standard 50
+  
+  # Additional project rules
+  custom_rules:
+    - id: "PROJ-001"
+      name: "Project-specific naming"
+      standard: "CS:style"
+      pattern: "^[a-z][a-z0-9_]*$"
+      severity: "error"
+
+# Integration settings
+integration:
+  # IDE support
+  ide:
+    vscode:
+      extensions: ["standards.federation"]
+      settings:
+        autoload: true
+        realtime_validation: true
+    
+    intellij:
+      plugins: ["standards-federation"]
+  
+  # CI/CD
+  ci:
+    github_actions:
+      workflow: ".github/workflows/standards-check.yml"
+      on: ["push", "pull_request"]
+    
+    pre_commit:
+      hooks:
+        - id: "standards-check"
+          name: "Validate against federated standards"
+          entry: "standards-cli validate"
+          language: "system"
+          pass_filenames: false
+
+# Caching configuration
+cache:
+  location: ".standards-cache/"
+  ttl: 86400  # 24 hours
+  size_limit: "100MB"
+  
+  # What to cache
+  include:
+    - "standards/*"
+    - "micro/*"
+    - "STANDARDS_INDEX.md"
+    - "standards-api.json"
+
+# Validation settings
+validation:
+  # When to validate
+  triggers:
+    - "pre-commit"
+    - "pre-push"
+    - "ci-build"
+  
+  # Validation levels
+  levels:
+    development: "warning"
+    staging: "error"
+    production: "strict"
+  
+  # Report format
+  reports:
+    format: "json"  # Options: json, html, markdown
+    output: ".standards-report.json"
+    include_fixes: true
+
+# Team settings
+team:
+  # Notification preferences
+  notifications:
+    standards_updates: ["tech-lead@example.com"]
+    violations: ["dev-team@example.com"]
+    
+  # Approval requirements
+  approvals:
+    override_standard: 2  # Requires 2 approvals
+    disable_rule: 1
+    custom_rule: 1
+
+# Usage tracking
+analytics:
+  enabled: true
+  anonymous: true
+  metrics:
+    - "most_violated_rules"
+    - "standards_adoption_rate"
+    - "average_compliance_score"
+  
+  # Where to send metrics
+  endpoint: "https://api.github.com/repos/williamzujkowski/standards/metrics"
+
+# Quick start commands
+commands:
+  # Initialize federation
+  init: |
+    standards-cli init --source github.com/williamzujkowski/standards
+    standards-cli cache --preload
+  
+  # Check compliance
+  check: |
+    standards-cli validate --config .standards.yml
+  
+  # Update standards
+  update: |
+    standards-cli update --strategy auto-pr
+  
+  # Generate report
+  report: |
+    standards-cli report --format html --output standards-report.html
+
+# Example usage in external project
+example:
+  # In your project root
+  setup: |
+    # 1. Create .standards.yml with this configuration
+    # 2. Run: standards-cli init
+    # 3. Add to .gitignore: .standards-cache/
+    # 4. Configure CI/CD to run validation
+    # 5. Enable pre-commit hooks
+  
+  # Daily workflow
+  workflow: |
+    # Standards are automatically validated on:
+    # - Pre-commit (warnings)
+    # - Pull requests (errors)
+    # - Main branch (strict)
+    
+    # Manual commands:
+    # - standards-cli check [file]
+    # - standards-cli fix [file]
+    # - standards-cli explain [rule-id]

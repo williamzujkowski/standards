@@ -161,7 +161,7 @@ When you've implemented the core standards:
 ## 🆘 Getting Help
 
 - **Questions**: Create an issue in the standards repo
-- **Examples**: Check the `templates/` directory
+- **Examples**: Check the `examples/project-templates/` directory
 - **Integration**: See `INTEGRATION_GUIDE.md`
 - **Updates**: Watch the repository for updates
 

@@ -1,0 +1,75 @@
+name: Redundancy Check
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sunday
+
+jobs:
+  check-redundancy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyyaml
+    
+    - name: Run redundancy checks
+      run: |
+        python test_redundancy.py
+    
+    - name: Check if STANDARDS_INDEX.md needs update
+      run: |
+        # Run the generator and check if there are changes
+        python generate_standards_index.py
+        if git diff --exit-code STANDARDS_INDEX.md; then
+          echo "✅ STANDARDS_INDEX.md is up to date"
+        else
+          echo "❌ STANDARDS_INDEX.md needs to be regenerated"
+          echo "Run: python generate_standards_index.py"
+          exit 1
+        fi
+    
+    - name: Validate YAML files
+      run: |
+        echo "Checking YAML syntax..."
+        python -c "import yaml; yaml.safe_load(open('MANIFEST.yaml'))"
+        python -c "import yaml; yaml.safe_load(open('standards-schema.yaml'))"
+        python -c "import yaml; yaml.safe_load(open('TOOLS_CATALOG.yaml'))"
+        python -c "import yaml; yaml.safe_load(open('.standards.yml'))"
+        echo "✅ All YAML files are valid"
+    
+    - name: Validate JSON files
+      run: |
+        echo "Checking JSON syntax..."
+        python -c "import json; json.load(open('standards-api.json'))"
+        echo "✅ All JSON files are valid"
+    
+    - name: Check for large files
+      run: |
+        echo "Checking for overly large files..."
+        large_files=$(find . -name "*.md" -size +100k -type f)
+        if [ -n "$large_files" ]; then
+          echo "⚠️  Warning: Large markdown files detected:"
+          echo "$large_files"
+          echo "Consider splitting these files or creating summaries"
+        fi
+    
+    - name: Report file organization
+      run: |
+        echo "📊 Repository Statistics:"
+        echo "Standards files: $(ls -1 *_STANDARDS.md 2>/dev/null | wc -l)"
+        echo "Support files: $(ls -1 *.md | grep -v _STANDARDS | wc -l)"
+        echo "Config files: $(ls -1 *.{yaml,yml,json} 2>/dev/null | wc -l)"
+        echo "Total size: $(du -sh . | cut -f1)"

@@ -1,0 +1,116 @@
+# Trivy Configuration - Container and Vulnerability Scanning
+# Reference: TOOLS_CATALOG.yaml - security.container_scanning
+
+# Scan targets
+scan:
+  # Security check levels
+  security-checks:
+    - vuln        # OS package vulnerabilities
+    - config      # Misconfiguration
+    - secret      # Embedded secrets
+    - license     # License compliance
+
+# Severity levels to detect
+severity:
+  - CRITICAL
+  - HIGH
+  - MEDIUM
+  - LOW
+
+# Vulnerability database
+db:
+  # Auto-download the latest database
+  download-db-only: false
+  skip-db-update: false
+  
+  # Use light DB for faster scanning in CI
+  light: false
+
+# Ignore policies
+ignore:
+  # Ignore unfixed vulnerabilities (use with caution)
+  unfixed: false
+  
+  # Ignore specific CVEs (add sparingly with justification)
+  vulnerabilities: []
+    # - CVE-2022-12345  # Justification: False positive in test code
+
+# Output configuration
+output:
+  # Format: table, json, sarif, cyclonedx, spdx
+  format: table
+  
+  # Exit code
+  exit-code: 1  # Exit with error on findings
+  
+  # Output file (optional)
+  # output: trivy-report.json
+
+# Cache configuration
+cache:
+  # Cache directory
+  dir: ".trivy-cache"
+  
+  # Clear cache on start
+  clear: false
+
+# Timeout settings
+timeout: 10m
+
+# Kubernetes scanning (if applicable)
+kubernetes:
+  # Scan Kubernetes workloads
+  cluster: false
+  
+  # Namespaces to scan
+  namespaces: []
+
+# Registry authentication (if needed)
+registry:
+  # Insecure registries (use only for testing)
+  insecure: false
+  
+  # Auth config path
+  # auth-url: ""
+
+# Custom policies
+policy:
+  # Policy paths for custom checks
+  policy-paths: []
+    # - "./security-policies"
+  
+  # Policy namespaces
+  namespaces: []
+    # - "custom"
+
+# Misconfiguration scanning
+misconfig:
+  # Skip dirs for misconfiguration scanning
+  skip-dirs:
+    - "node_modules"
+    - "vendor"
+    - ".git"
+    - "dist"
+    - "build"
+
+# License scanning
+license:
+  # Full license scan
+  full: true
+  
+  # Allowed licenses (SPDX identifiers)
+  allowed:
+    - "MIT"
+    - "Apache-2.0"
+    - "BSD-3-Clause"
+    - "BSD-2-Clause"
+    - "ISC"
+    - "MPL-2.0"
+  
+  # Forbidden licenses
+  forbidden:
+    - "GPL-2.0"
+    - "GPL-3.0"
+    - "AGPL-3.0"
+    - "LGPL-2.1"
+    - "LGPL-3.0"

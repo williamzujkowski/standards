@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -12,16 +12,16 @@ dependencies = []
 
 [project.optional-dependencies]
 dev = [
-    "black==23.12.1",
-    "isort==5.13.2",
-    "flake8==7.0.0",
-    "mypy==1.8.0",
-    "pytest==7.4.4",
-    "pytest-cov==4.1.0",
-    "pytest-asyncio==0.23.3",
-    "pre-commit==3.6.0",
-    "safety==3.0.1",
-    "bandit==1.7.6",
+    "black",
+    "isort",
+    "flake8",
+    "mypy",
+    "pytest",
+    "pytest-cov",
+    "pytest-asyncio",
+    "pre-commit",
+    "safety",
+    "bandit",
 ]
 
 # Black - Code Formatting (per CODING_STANDARDS.md)

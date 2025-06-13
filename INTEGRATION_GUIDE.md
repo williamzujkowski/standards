@@ -26,7 +26,7 @@ git submodule add https://github.com/williamzujkowski/standards.git .standards
 
 # Create symbolic links to key files
 ln -s .standards/CLAUDE.md docs/CLAUDE.md
-ln -s .standards/MASTER_PROMPT.md docs/MASTER_PROMPT.md
+ln -s .standards/CLAUDE.md docs/CLAUDE.md
 ```
 
 ### Option 3: Project Template (Full Integration)
