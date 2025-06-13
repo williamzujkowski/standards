@@ -1,0 +1,220 @@
+# standards-schema.yaml - Machine-readable standards definition
+version: "latest"
+last_updated: "2025-01-10"
+
+standards:
+  coding:
+    id: "CS"
+    version: "latest"
+    categories:
+      style:
+        python:
+          rules:
+            - id: "line-length"
+              value: 88
+              enforcer: "black"
+              severity: "required"
+              autofix: true
+            - id: "import-order"
+              enforcer: "isort"
+              severity: "required"
+              autofix: true
+            - id: "type-hints"
+              enforcer: "mypy"
+              severity: "required"
+              config:
+                strict: true
+        javascript:
+          rules:
+            - id: "semicolons"
+              value: false
+              enforcer: "prettier"
+              severity: "required"
+            - id: "quotes"
+              value: "single"
+              enforcer: "eslint"
+        typescript:
+          extends: "javascript"
+          additional_rules:
+            - id: "explicit-types"
+              severity: "required"
+              exceptions: ["inferred-returns"]
+      
+      architecture:
+        patterns:
+          - id: "dependency-injection"
+            when: "dependencies > 3"
+            severity: "recommended"
+          - id: "repository-pattern"
+            when: "data-access"
+            severity: "recommended"
+        
+        principles:
+          - id: "single-responsibility"
+            max_lines_per_class: 300
+            max_methods_per_class: 10
+          - id: "dependency-inversion"
+            severity: "required"
+      
+      error_handling:
+        rules:
+          - id: "no-empty-catch"
+            severity: "required"
+          - id: "specific-exceptions"
+            severity: "required"
+          - id: "error-context"
+            must_include: ["timestamp", "request_id", "user_context"]
+
+  testing:
+    id: "TS"
+    version: "latest"
+    requirements:
+      coverage:
+        overall:
+          minimum: 85
+          target: 90
+          enforcement: "required"
+        critical_paths:
+          minimum: 95
+          target: 100
+          enforcement: "required"
+        new_code:
+          minimum: 90
+          enforcement: "required"
+      
+      test_types:
+        unit:
+          required: true
+          framework_options: ["pytest", "jest", "go-test"]
+          patterns: ["AAA", "given-when-then"]
+        integration:
+          required: true
+          scope: ["api", "database", "external-services"]
+        e2e:
+          required: ["user-facing", "critical-workflows"]
+          tools: ["cypress", "playwright", "selenium"]
+        performance:
+          required: ["high-traffic", "data-processing"]
+          metrics: ["response-time", "throughput", "resource-usage"]
+
+  security:
+    id: "SEC"
+    version: "latest"
+    categories:
+      authentication:
+        requirements:
+          - id: "mfa"
+            when: "sensitive-data"
+            severity: "required"
+          - id: "session-management"
+            timeout: 3600
+            refresh: true
+          - id: "password-policy"
+            min_length: 12
+            complexity: ["uppercase", "lowercase", "numbers", "symbols"]
+      
+      api_security:
+        requirements:
+          - id: "rate-limiting"
+            default: "100/hour"
+            authenticated: "1000/hour"
+            severity: "required"
+          - id: "input-validation"
+            severity: "required"
+            types: ["sql", "xss", "command", "path"]
+          - id: "authentication"
+            methods: ["jwt", "oauth2", "api-key"]
+            severity: "required"
+
+  frontend:
+    id: "FE"
+    version: "latest"
+    frameworks:
+      react:
+        version: "latest"
+        rules:
+          - id: "functional-components"
+            severity: "required"
+          - id: "hooks-rules"
+            enforcer: "eslint-plugin-react-hooks"
+          - id: "prop-types"
+            alternative: "typescript"
+            severity: "recommended"
+        performance:
+          - id: "lazy-loading"
+            when: "bundle-size > 500KB"
+          - id: "memoization"
+            when: "expensive-computations"
+      vue:
+        version: "latest"
+        rules:
+          - id: "composition-api"
+            severity: "recommended"
+          - id: "template-syntax"
+            enforcer: "vue-eslint-parser"
+
+compliance_profiles:
+  strict:
+    name: "Enterprise Strict"
+    requires:
+      - all: "required"
+      - min_percentage: 90
+        of: "recommended"
+    coverage: 95
+    security: "all"
+  
+  standard:
+    name: "Standard Development"
+    requires:
+      - all: "required"
+      - min_percentage: 70
+        of: "recommended"
+    coverage: 85
+    security: "required-only"
+  
+  startup:
+    name: "Startup Agile"
+    requires:
+      - all: "required"
+      - critical: "security"
+    coverage: 70
+    security: "critical-only"
+
+automation:
+  pre_commit:
+    checks:
+      - standard: "CS:style"
+        autofix: true
+      - standard: "SEC:secrets"
+        block: true
+      - standard: "TS:broken"
+        block: true
+  
+  ci_cd:
+    stages:
+      - name: "validate"
+        checks: ["CS:*", "TS:unit", "SEC:dependencies"]
+      - name: "test"
+        checks: ["TS:*", "SEC:dynamic"]
+      - name: "deploy"
+        requires: ["compliance_score > 85"]
+
+# Tool definitions moved to centralized catalog
+tooling:
+  # Reference the centralized TOOLS_CATALOG.yaml for all tool recommendations
+  # This allows for easier updates and customization
+  catalog_reference: "./TOOLS_CATALOG.yaml"
+  
+  # Tool selection is now managed centrally with:
+  # - Recommendation levels (required, recommended, optional, legacy, deprecated)
+  # - Version management
+  # - Migration paths
+  # - Configuration templates in tools-config/
+  
+  # Override specific tools for this project (if needed):
+  overrides: {}
+    # example:
+    # python:
+    #   linters:
+    #     - name: "custom-linter"
+    #       recommendation: "required"

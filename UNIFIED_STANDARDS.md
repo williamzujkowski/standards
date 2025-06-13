@@ -1531,7 +1531,7 @@ The repository includes comprehensive integration tools to facilitate standards 
 - **Automated Setup**: Use `setup-project.sh` for quick project initialization with standards
 - **Integration Guide**: Follow `INTEGRATION_GUIDE.md` for detailed integration strategies
 - **Adoption Checklist**: Use `ADOPTION_CHECKLIST.md` for systematic week-by-week implementation
-- **Templates**: Language-specific configurations in `templates/` directory
+- **Templates**: Language-specific configurations in `examples/project-templates/` directory
 - **CI/CD Integration**: Pre-configured workflows in `.github/workflows/`
 - **Badge Generation**: Use `generate-badges.sh` to create compliance badges
 

@@ -1,0 +1,166 @@
+# Semgrep Configuration - SAST Rules
+# Reference: TOOLS_CATALOG.yaml - security.sast
+
+rules:
+  # Security Rules - Critical
+  - id: hardcoded-secret
+    pattern-either:
+      - pattern: $KEY = "..."
+      - pattern: password = "..."
+      - pattern: api_key = "..."
+      - pattern: secret = "..."
+    pattern-not:
+      - pattern: $KEY = ""
+      - pattern: $KEY = "example"
+      - pattern: $KEY = "test"
+    message: "Potential hardcoded secret found"
+    languages: [python, javascript, typescript, go]
+    severity: ERROR
+
+  # SQL Injection Prevention
+  - id: sql-injection
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $QUERY = "..." + $INPUT
+          - pattern: |
+              $QUERY = f"...{$INPUT}..."
+          - pattern: |
+              $QUERY.format(..., $INPUT, ...)
+    message: "Potential SQL injection vulnerability"
+    languages: [python, javascript, typescript]
+    severity: ERROR
+    metadata:
+      cwe: "CWE-89"
+      owasp: "A03:2021"
+
+  # Command Injection
+  - id: command-injection
+    patterns:
+      - pattern-either:
+          - pattern: subprocess.run($INPUT, shell=True)
+          - pattern: os.system($INPUT)
+          - pattern: exec($INPUT)
+    message: "Potential command injection vulnerability"
+    languages: [python]
+    severity: ERROR
+
+  # XSS Prevention
+  - id: xss-vulnerability
+    patterns:
+      - pattern-either:
+          - pattern: |
+              res.send($INPUT)
+          - pattern: |
+              res.write($INPUT)
+          - pattern: |
+              innerHTML = $INPUT
+    pattern-not:
+      - pattern: |
+          res.send(escape($INPUT))
+    message: "Potential XSS vulnerability - sanitize user input"
+    languages: [javascript, typescript]
+    severity: ERROR
+
+  # Authentication Checks
+  - id: missing-auth-check
+    patterns:
+      - pattern: |
+          @app.route(...)
+          def $FUNC(...):
+              ...
+      - pattern-not: |
+          @app.route(...)
+          @requires_auth
+          def $FUNC(...):
+              ...
+    message: "Route handler missing authentication check"
+    languages: [python]
+    severity: WARNING
+
+  # Error Handling
+  - id: empty-catch-block
+    pattern: |
+      try:
+          ...
+      except ...:
+          pass
+    message: "Empty catch block - errors should be logged"
+    languages: [python]
+    severity: WARNING
+
+  # Best Practices
+  - id: use-type-hints
+    patterns:
+      - pattern: |
+          def $FUNC($ARGS):
+              ...
+      - pattern-not: |
+          def $FUNC($ARGS) -> ...:
+              ...
+    message: "Function missing return type hint"
+    languages: [python]
+    severity: INFO
+
+# Configuration
+config:
+  # Performance settings
+  max-workers: 4
+  timeout: 300
+  max-memory: 2048
+
+  # Output settings
+  output-format: text  # text, json, sarif, junit-xml
+  verbose: false
+
+  # Paths to scan
+  paths:
+    include:
+      - "src/"
+      - "lib/"
+      - "app/"
+    exclude:
+      - "node_modules/"
+      - "vendor/"
+      - ".git/"
+      - "dist/"
+      - "build/"
+      - "*.test.js"
+      - "*.spec.ts"
+      - "*_test.go"
+      - "test_*.py"
+
+  # Rule sources
+  sources:
+    # Use standard rule packs
+    - "r/python.lang.security"
+    - "r/javascript.lang.security"
+    - "r/typescript.lang.security"
+    - "r/go.lang.security"
+    
+    # OWASP rules
+    - "r/owasp.top-ten"
+    
+    # Framework specific
+    - "r/python.flask"
+    - "r/python.django"
+    - "r/javascript.express"
+    - "r/typescript.react"
+
+  # Ignore patterns
+  ignore:
+    # Ignore specific rule IDs
+    rules: []
+      # - "generic.secrets.security.detected-generic-secret"
+    
+    # Ignore files
+    paths: []
+      # - "legacy/*.py"
+
+  # Auto-fix settings
+  autofix: false  # Don't auto-fix in CI
+
+# Custom rule paths (if any)
+custom-rules:
+  - ".semgrep/"
+  - "security/semgrep-rules/"

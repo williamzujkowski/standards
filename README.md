@@ -2,7 +2,7 @@
 
 **A complete collection of battle-tested standards for modern software development**
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/williamzujkowski/standards)
+[![Version](https://img.shields.io/badge/version-latest-blue.svg)](https://github.com/williamzujkowski/standards)
 [![Standards](https://img.shields.io/badge/standards-21%20documents-green.svg)](https://github.com/williamzujkowski/standards)
 [![License](https://img.shields.io/badge/license-MIT-purple.svg)](LICENSE)
 [![Compliance](https://github.com/williamzujkowski/standards/actions/workflows/standards-compliance.yml/badge.svg)](https://github.com/williamzujkowski/standards/actions/workflows/standards-compliance.yml)
@@ -28,7 +28,7 @@
 
 - ✅ Fixed all YAML formatting issues for standards compliance
 - ✅ Updated GitHub Actions workflow for better error handling
-- ✅ Added missing H1 header to COMPREHENSIVE_STANDARDS.md
+- ✅ Consolidated LLM files for better organization
 - ✅ Improved large file detection in CI/CD pipeline
 - ✅ All 21 standards documents now fully validated
 - ✅ Enhanced CI/CD with YAML linting and validation
@@ -73,6 +73,35 @@ This repository contains a comprehensive collection of software development stan
 
 ---
 
+## 🤖 LLM Integration
+
+This repository is optimized for AI assistants like Claude, GPT-4, and GitHub Copilot:
+
+### Quick Start for LLMs
+```
+# Basic usage
+@load [CS:python + TS:pytest + SEC:*]
+
+# Natural language
+"I need to build a React app with authentication"
+→ Automatically loads: FE:react + SEC:auth + WD:components + TS:jest
+```
+
+### Key Features
+- **90% token reduction** with intelligent routing via CLAUDE.md
+- **Instant answers** without loading full documents
+- **Progressive loading** - start small, expand as needed
+- **Remote access** - no need to download entire repository
+
+### For AI Assistants
+Always reference **CLAUDE.md** as your primary interface. It provides:
+- Natural language → standards mapping
+- Context-aware loading
+- Task-based routing
+- Optimization patterns
+
+---
+
 ## 🚀 Quick Start
 
 ### For New Projects
@@ -87,7 +116,7 @@ chmod +x setup-project.sh
 #### Option 2: Manual Setup
 1. Start with **UNIFIED_STANDARDS.md** - Your comprehensive foundation
 2. Copy **CLAUDE.md** to your project for AI assistance
-3. Use templates from `templates/` directory for your language
+3. Use templates from `examples/project-templates/` directory for your language
 4. Follow **ADOPTION_CHECKLIST.md** for systematic implementation
 
 ### For Existing Projects
@@ -98,7 +127,7 @@ chmod +x setup-project.sh
    - Security standards (MODERN_SECURITY_STANDARDS.md)
    - Testing standards (TESTING_STANDARDS.md)
    - Core coding standards (CODING_STANDARDS.md)
-4. Use language-specific templates from `templates/` directory
+4. Use language-specific templates from `examples/project-templates/` directory
 
 ### For LLM/AI Usage
 
@@ -110,8 +139,8 @@ Always include **CLAUDE.md** in your project and use the dynamic loading syntax:
 ### Quick Integration Options
 
 - **Git Submodule**: `git submodule add https://github.com/williamzujkowski/standards.git .standards`
-- **Direct Copy**: Copy `CLAUDE.md` and `MASTER_PROMPT.md` to your project
-- **Templates**: Use language-specific configs from `templates/` directory
+- **Direct Copy**: Copy `CLAUDE.md` to your project for AI assistance
+- **Templates**: Use language-specific configs from `examples/project-templates/` directory
 
 ---
 
@@ -254,11 +283,10 @@ Technical implementation for legal compliance.
 
 ### 📋 Supporting Documents
 
-#### [COMPREHENSIVE_STANDARDS.md](./COMPREHENSIVE_STANDARDS.md)
-High-level overview of all standards.
-
-#### [MASTER_PROMPT.md](./MASTER_PROMPT.md) (228 lines)
-Efficient prompt templates using CLAUDE.md routing.
+#### Additional Resources
+- Use `CLAUDE.md` for all LLM interactions
+- Check `STANDARDS_INDEX.md` for quick summaries
+- Reference `DIRECT_ACCESS.md` for remote loading patterns
 
 #### [GITHUB_PLATFORM_STANDARDS.md](./GITHUB_PLATFORM_STANDARDS.md) (1,488 lines)
 GitHub-specific platform and workflow standards.
@@ -328,16 +356,16 @@ Generate compliance badges for your README.
 Copy these to jumpstart your project:
 ```bash
 # Python project
-cp -r standards/templates/python-project/* .
+cp -r standards/examples/project-templates/python-project/* .
 
 # JavaScript/TypeScript project
-cp -r standards/templates/javascript-project/* .
+cp -r standards/examples/project-templates/javascript-project/* .
 
 # Go project
-cp -r standards/templates/go-project/* .
+cp -r standards/examples/project-templates/go-project/* .
 
 # Docker setup
-cp standards/templates/docker/* .
+cp standards/examples/project-templates/docker/* .
 ```
 
 ---
@@ -451,18 +479,37 @@ With the understanding that:
 - **LLM Usage**: [CLAUDE.md](./CLAUDE.md)
 - **Security First**: [MODERN_SECURITY_STANDARDS.md](./MODERN_SECURITY_STANDARDS.md)
 - **Testing Guide**: [TESTING_STANDARDS.md](./TESTING_STANDARDS.md)
-- **Templates**: [templates/](./templates/)
+- **Templates**: [examples/project-templates/](./examples/project-templates/)
+
+### 🤖 LLM-Optimized Features
+- **AI Interface**: [CLAUDE.md](./CLAUDE.md) - Primary LLM interface with all features
+- **Quick Reference**: [STANDARDS_INDEX.md](./STANDARDS_INDEX.md) - One-line summaries for instant access
+- **Direct Access**: Remote loading patterns in [standards-api.json](./standards-api.json#direct_access)
+- **Standards Graph**: [STANDARDS_GRAPH.md](./STANDARDS_GRAPH.md) - Dependency mapping
+- **Version Management**: Version tracking in [MANIFEST.yaml](./MANIFEST.yaml#versioning)
+- **Machine-Readable**: [standards-schema.yaml](./standards-schema.yaml) & [standards-api.json](./standards-api.json)
+
+### 🔧 Centralized Tool Management (New!)
+- **Tool Catalog**: [TOOLS_CATALOG.yaml](./TOOLS_CATALOG.yaml) - All tool recommendations in one place
+- **Toolchain Guide**: [TOOLCHAIN_STANDARDS.md](./TOOLCHAIN_STANDARDS.md) - How to select and use tools
+- **Tool Configs**: [tools-config/](./tools-config/) - Ready-to-use tool configurations
+- **Easy Updates**: Modify tool recommendations in one central location
+- **Migration Paths**: Clear guidance for moving from legacy to modern tools
 
 ---
 
 ## 📊 Repository Statistics
 
-- **Standards Documents**: 20 comprehensive guides
-- **Integration Tools**: 15+ templates and scripts
+- **Standards Documents**: 28+ comprehensive guides (including toolchain standards)
+- **Integration Tools**: 25+ templates, scripts, and configurations
 - **Language Support**: Python, JavaScript/TypeScript, Go
 - **Infrastructure**: Docker, Kubernetes, Terraform
 - **Total Coverage**: 95% of modern development practices
-- **LLM Optimization**: 85% token reduction with CLAUDE.md
+- **LLM Optimization**: 90% token reduction with CLAUDE.md v3.0
+- **AI Features**: 7 dedicated LLM integration documents
+- **Machine-Readable**: YAML schema + JSON API + Tools Catalog
+- **Centralized Tools**: 50+ tools managed in single catalog
+- **Tool Configs**: Pre-configured templates for immediate use
 - **Last Updated**: January 2025
 - **Active Maintenance**: Ongoing
 

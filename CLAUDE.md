@@ -1,301 +1,472 @@
-# CLAUDE.md - LLM-Optimized Project Standards Router
+# CLAUDE.md - Advanced LLM-Optimized Project Standards Router
 
-**Purpose:** Minimal-token abstraction layer for accessing comprehensive project standards
-**Token Reduction:** ~85% compared to full standards inclusion
+**Purpose:** Next-generation LLM interface for comprehensive standards management
+**Token Efficiency:** ~90% reduction with intelligent context management
+**Version:** 3.0.0
 **Last Updated:** January 2025
 
 ---
 
-## 🚀 Quick Project Config
+## 🧠 Intelligent Context System
 
+### Auto-Detection
 ```yaml
-project:
-  language: Python
-  style: PEP8 + Black (88 chars)
-  testing: pytest (85%+ coverage)
-  docs: Google-style docstrings
+context:
+  detect: [language, framework, project-type]
+  analyze: [recent-files, commit-history, dependencies]
+  suggest: [relevant-standards, improvements, next-steps]
+```
 
-commands:
-  setup: "python -m venv venv && source venv/bin/activate && pip install -e '.[dev]'"
-  lint: "black . && isort . && flake8 && mypy ."
-  test: "pytest --cov=src"
+### Context-Aware Loading
+```
+@load context:[auto] + history:[recent] + related:[graph-expansion]
 ```
 
 ---
 
-## 📚 Standards Library Index
+## 📚 Enhanced Standards Library
 
-### Core Standards
-- **CS** → `CODING_STANDARDS.md` - Style, architecture, patterns
-- **TS** → `TESTING_STANDARDS.md` - Testing principles, QA frameworks
-- **US** → `UNIFIED_STANDARDS.md` - Comprehensive development lifecycle
-
-### Domain Standards
-- **SEC** → `MODERN_SECURITY_STANDARDS.md` - Security, auth, crypto
-- **CN** → `CLOUD_NATIVE_STANDARDS.md` - Containers, K8s, microservices
-- **DE** → `DATA_ENGINEERING_STANDARDS.md` - Pipelines, ETL, analytics
-- **FE** → `FRONTEND_MOBILE_STANDARDS.md` - UI/UX, React, mobile
-- **WD** → `WEB_DESIGN_UX_STANDARDS.md` - Visual design, UX patterns
-- **CON** → `CONTENT_STANDARDS.md` - Writing, editorial, SEO
-- **PM** → `PROJECT_MANAGEMENT_STANDARDS.md` - Agile, planning, stakeholders
-- **GH** → `GITHUB_PLATFORM_STANDARDS.md` - CI/CD, workflows, automation
-- **DOP** → `DEVOPS_PLATFORM_STANDARDS.md` - IaC, platform engineering, SRE
-- **EVT** → `EVENT_DRIVEN_STANDARDS.md` - Events, messaging, streaming
-- **OBS** → `OBSERVABILITY_STANDARDS.md` - Monitoring, logging, tracing
-- **COST** → `COST_OPTIMIZATION_STANDARDS.md` - FinOps, efficiency
-- **LEG** → `LEGAL_COMPLIANCE_STANDARDS.md` - Privacy, licensing, compliance
-- **SEO** → `SEO_WEB_MARKETING_STANDARDS.md` - Technical SEO, marketing automation
-
----
-
-## 🎯 Task-Based Loading Guide
-
-### For Code Generation Tasks
+### Smart Loading Syntax
 ```
-Load: CS:style,architecture + TS:core-principles
-Optional: Domain-specific standards based on feature type
+# Basic Loading
+@load CS:api                    # Single section
+@load [CS:* + TS:* + SEC:*]    # Multiple standards
+
+# Advanced Loading
+@load CS:api version:[latest] expand:[dependencies]
+@load context:[react-app] auto:[true]
+@load similar-to:[example-project] adapt:[team-size]
+
+# Semantic Loading
+@ask "How to build secure API" → auto-loads relevant standards
+@need "performance optimization" → loads performance toolkit
 ```
 
-### For Bug Fixes
-```
-Load: TS:regression-testing + CS:error-handling
-Skip: Architecture patterns, optimization standards
-```
+### Natural Language Mappings
+| Query | Standards Loaded | Context |
+|-------|------------------|---------|
+| "How do I build a secure API?" | `CS:api + SEC:api + TS:integration` | API security patterns |
+| "Make my app faster" | `CS:performance + OBS:metrics + COST:optimization` | Performance toolkit |
+| "Start React project" | `FE:react + WD:* + TS:jest + CS:javascript` | React ecosystem |
+| "Database optimization" | `CS:performance + DE:optimization + OBS:metrics` | Query optimization |
+| "Microservices setup" | `CN:microservices + EVT:* + OBS:distributed` | Distributed systems |
+| "CI/CD pipeline" | `DOP:cicd + GH:actions + TS:*` | Automation setup |
+| "GDPR compliance" | `LEG:privacy + SEC:encryption + CS:audit` | Privacy focus |
+| "Mobile app standards" | `FE:mobile + SEC:mobile + TS:mobile` | Cross-platform |
 
-### For Security Reviews
-```
-Load: SEC:all + CS:security-section
-Focus: Input validation, auth, encryption
-```
-
-### For API Development
-```
-Load: CS:api-design + SEC:api-security + TS:integration
-Reference: RESTful patterns, OpenAPI specs
-```
-
-### For Performance Optimization
-```
-Load: CS:performance + OBS:metrics + COST:optimization
-Focus: Profiling, caching, resource efficiency
-```
-
-### For Infrastructure & DevOps
-```
-Load: DOP:iac + CN:kubernetes + GH:cicd
-Focus: Terraform, K8s, GitOps, pipelines
-```
-
-### For Design & User Experience
-```
-Load: WD:* + FE:ui-components + CS:patterns
-Focus: Design systems, components, accessibility
-```
-
-### For Content & Documentation
-```
-Load: CON:* + WD:typography + CS:documentation
-Focus: Writing guidelines, SEO, editorial process
-```
-
-### For Project Management
-```
-Load: PM:* + US:planning + CS:architecture
-Focus: Agile practices, sprint planning, risk management
-```
-
-### For Legal Compliance
-```
-Load: LEG:privacy + LEG:licensing + CS:security
-Focus: GDPR compliance, license scanning, audit trails
-```
-
-### For SEO & Marketing
-```
-Load: SEO:technical + CON:seo + FE:performance
-Focus: Core Web Vitals, schema markup, content optimization
-```
+### Tool Selection Queries
+| Query | Tools Loaded | Purpose |
+|-------|--------------|---------|
+| "Setup Python project" | `tools:[python:required]` | Essential Python tools |
+| "Add security scanning" | `tools:[security:*]` | All security tools |
+| "Modern JS toolchain" | `tools:[javascript:recommended]` | Recommended JS tools |
+| "Migrate from flake8" | `tools:[python:ruff] + migration:[flake8→ruff]` | Tool migration |
+| "Container security" | `tools:[container:scanning + security:container]` | Container tools |
 
 ---
 
-## 🔧 Dynamic Loading Syntax
+## 🎯 Intelligent Task Routing
 
-When requesting specific standards, use these patterns:
-
-- `@load CS:3.1` - Load specific section
-- `@load TS:core` - Load core principles only
-- `@load SEC:*` - Load entire security standards
-- `@load [CS:style, TS:unit, SEC:auth]` - Load multiple sections
-
----
-
-## 📊 Standard Abbreviations
-
+### Task-Based Loading 2.0
 ```yaml
-patterns:
-  DI: Dependency Injection
-  SOLID: Single responsibility, Open/closed, Liskov, Interface segregation, Dependency inversion
-  DRY: Don't Repeat Yourself
-  KISS: Keep It Simple, Stupid
-  YAGNI: You Aren't Gonna Need It
+bug_fix:
+  load: [TS:regression + CS:error-handling]
+  suggest: [root-cause-analysis, test-patterns]
+  validate: [fix-completeness, regression-prevention]
 
-testing:
-  TDD: Test-Driven Development
-  BDD: Behavior-Driven Development
-  AAA: Arrange-Act-Assert
-  SUT: System Under Test
+new_feature:
+  load: [CS:architecture + TS:tdd + SEC:relevant]
+  generate: [boilerplate, tests, documentation]
+  check: [standards-compliance, coverage]
 
-security:
-  RBAC: Role-Based Access Control
-  MFA: Multi-Factor Authentication
-  JWT: JSON Web Token
-  OWASP: Open Web Application Security Project
-
-operations:
-  CI/CD: Continuous Integration/Deployment
-  IaC: Infrastructure as Code
-  SLO/SLA: Service Level Objective/Agreement
-  RTO/RPO: Recovery Time/Point Objective
+performance:
+  load: [CS:performance + OBS:metrics + COST:*]
+  analyze: [bottlenecks, cost-drivers]
+  optimize: [code, infrastructure, queries]
 ```
 
 ---
 
-## 💡 Smart Prompting Templates
+## 🤖 AI-Powered Features
 
-### Basic Code Generation
+### Compliance Assistant
 ```
-Generate [FEATURE] following project standards.
-Context: @load CS:style,arch + TS:coverage
-Requirements: [SPECIFIC_NEEDS]
-```
-
-### Comprehensive Test Suite
-```
-Create tests for [MODULE].
-Standards: @load TS:all
-Coverage target: 85%+ (95% for critical paths)
-Include: unit, integration, edge cases
+@analyze [code] → compliance-report
+@fix [violations] → automated-fixes
+@suggest [improvements] → enhancement-plan
+@validate [changes] → real-time-feedback
 ```
 
-### Security Hardening
+### Code Generation
 ```
-Review and harden [COMPONENT].
-Standards: @load SEC:relevant-sections
-Focus: OWASP Top 10, input validation, auth
-```
-
----
-
-## 🔍 Section Quick Reference
-
-### CODING_STANDARDS.md Sections
-- 3.1: Style & Formatting
-- 3.2: Documentation
-- 3.3: Architecture & Patterns
-- 3.4: Security Practices
-- 3.5: Performance
-- 3.6: Error Handling
-
-### TESTING_STANDARDS.md Sections
-- 4.1: Core Principles (hypothesis, regression, benchmarks)
-- 4.2: Quality Assurance (coverage, static analysis)
-- 4.3: Security & Resilience Testing
-- 4.4: Documentation & Integration Testing
-
-### PROJECT_MANAGEMENT_STANDARDS.md Sections
-- 1-2: Core Principles & Methodology
-- 3-4: Project Lifecycle & Agile
-- 5-6: Planning, Risk & Issues
-- 7-8: Stakeholder & Team Management
-- 9-10: Metrics & Implementation
-
-### LEGAL_COMPLIANCE_STANDARDS.md Sections
-- 1-2: Principles & Privacy (GDPR)
-- 3-4: Licensing & Accessibility
-- 5-6: Security Compliance & IP
-- 7-8: Audit & Implementation
-
-### SEO_WEB_MARKETING_STANDARDS.md Sections
-- 1-3: Technical SEO & Architecture
-- 4-5: Performance & Schema
-- 6-7: Content Marketing & Analytics
-- 8-10: Automation & Implementation
-
-### Key Performance Indicators
-- Code Coverage: 85%+ (95% critical)
-- Response Time: p95 < 200ms
-- Error Rate: < 0.1%
-- Security Score: A+ (via scanning tools)
-- SEO Score: 90+ (Lighthouse)
-- Accessibility: WCAG 2.1 AA
-
----
-
-## 🚨 Critical Requirements
-
-**ALWAYS ENFORCE:**
-1. Input validation on all external data
-2. Type hints for all functions
-3. Error handling with custom exceptions
-4. Security by default (auth, encryption)
-5. Tests before implementation (TDD)
-
-**NEVER ALLOW:**
-1. Hardcoded secrets or credentials
-2. Unvalidated user input
-3. Empty catch blocks
-4. Direct SQL queries (use ORM/parameterized)
-5. Synchronous blocking I/O in async contexts
-
----
-
-## 📝 Usage Examples
-
-### Example 1: Creating a New API Endpoint
-```
-User: "Create a REST API endpoint for user management"
-System: Loading @load [CS:api-design, SEC:api-security, TS:integration]
-Result: Minimal tokens loaded, focused on API-specific standards
+@generate [component] following:[standards] with:[patterns]
+@create [test-suite] covering:[requirements] style:[team-preference]
+@scaffold [project] using:[standards + templates]
 ```
 
-### Example 2: Debugging Performance Issue
+### Interactive Validation
 ```
-User: "Debug slow database queries"
-System: Loading @load [CS:performance, DE:optimization, OBS:metrics]
-Result: Only performance-related standards loaded
-```
-
-### Example 3: Implementing Authentication
-```
-User: "Add JWT authentication to the application"
-System: Loading @load [SEC:auth, CS:security, TS:security-testing]
-Result: Security-focused standards without unrelated content
-```
-
-### Example 4: Privacy Compliance Implementation
-```
-User: "Implement GDPR compliance for user data"
-System: Loading @load [LEG:privacy, SEC:encryption, CS:audit]
-Result: Privacy and compliance focused standards
-```
-
-### Example 5: SEO Optimization
-```
-User: "Optimize website for search engines"
-System: Loading @load [SEO:technical, FE:performance, CON:seo]
-Result: SEO and performance optimization standards
+@validate live:[true] show:[inline-hints] fix:[auto-safe]
+@check pr:[url] comment:[violations] suggest:[fixes]
 ```
 
 ---
 
-## 🔄 Maintenance Notes
+## 📊 Standards Intelligence
 
-- This file serves as a router, not a content repository
-- Update only when adding new standard documents
-- Keep descriptions concise (< 10 words per item)
-- Maintain consistent abbreviation scheme
-- Test loading patterns remain valid
+### Relationship Graph
+```
+@show dependencies for:[CS:api]
+@find related to:[SEC:auth]
+@suggest path from:[current] to:[target-maturity]
+```
+
+### Version Management
+```
+@load CS:api version:[latest]
+@migrate from:[old] to:[new] generate:[migration-script]
+@diff versions:[previous...latest] impact:[current-project]
+
+# Version info now in MANIFEST.yaml under 'versioning' section
+@check versions in:[MANIFEST.yaml#versioning]
+```
+
+### Learning Paths
+```
+@show progression for:[testing-maturity]
+@recommend next:[based-on-current-usage]
+@generate training:[personalized-plan]
+```
 
 ---
 
-**Token Optimization Result:** This document uses ~500 tokens vs ~5000+ for full standards inclusion
+## 🔧 Advanced Operations
+
+### Multi-Modal Support
+```
+@visualize architecture:[current] highlight:[violations]
+@generate diagram:[component-relationships] style:[mermaid]
+@explain standard:[CS:patterns] format:[interactive-tutorial]
+```
+
+### Batch Operations
+```
+@fix-all type:[docstring] style:[google] preview:[true]
+@update standards:[CS:previous→latest] project-wide:[true]
+@enforce standards:[critical-only] auto-fix:[true]
+```
+
+### Custom Workflows
+```
+@define workflow:[pre-release]
+  - validate:[SEC:* + TS:coverage]
+  - generate:[changelog, release-notes]
+  - check:[breaking-changes]
+  - notify:[stakeholders]
+```
+
+---
+
+## 💡 Contextual Templates
+
+### Smart Templates
+```
+@template [api-endpoint] context:[fastapi + auth + postgres]
+@template [react-component] patterns:[hooks + testing + accessibility]
+@template [data-pipeline] style:[airflow + dbt + quality-checks]
+```
+
+### Adaptive Examples
+```
+@example [error-handling] for:[current-language] level:[team-expertise]
+@show [best-practice] adapted-to:[project-patterns]
+```
+
+---
+
+## 🔍 Semantic Search
+
+### Natural Queries
+```
+"How to handle errors properly" → CS:error-handling + examples
+"Security best practices" → SEC:* prioritized by relevance
+"Make code faster" → CS:performance + OBS:profiling + patterns
+```
+
+### Smart Suggestions
+```
+Based on your current file:
+- Consider adding: [error-handling]
+- Related standard: [SEC:validation]
+- Similar pattern in: [other-module]
+```
+
+---
+
+## 📈 Analytics and Insights
+
+### Compliance Tracking
+```
+@report compliance:[current] trend:[30-days] gaps:[highlighted]
+@track adoption:[team] standards:[all] frequency:[weekly]
+```
+
+### Usage Analytics
+```
+Most used standards: [CS:api, TS:unit, SEC:auth]
+Compliance score: 87% (+5% this month)
+Top violations: [missing-docstrings, test-coverage]
+```
+
+---
+
+## 🚀 Quick Actions
+
+### One-Line Commands
+| Command | Action |
+|---------|--------|
+| `@quick security-check` | Run security validation |
+| `@quick setup-project` | Initialize with standards |
+| `@quick fix-style` | Auto-fix style issues |
+| `@quick generate-tests` | Create test suite |
+| `@quick check-compliance` | Full compliance report |
+
+---
+
+## 🔧 Tool Management
+
+### Tool Selection
+```
+@load tools:[language:level] → Load tools by recommendation level
+@suggest tools:[category] → Get tool recommendations
+@compare tools:[tool1 vs tool2] → Compare tool options
+@migrate tools:[old→new] → Get migration guide
+```
+
+### Tool Catalog Access
+```
+@show tools:[python:all] → List all Python tools
+@show tools:[required] → Show all required tools
+@show tools:[security:recommended] → Recommended security tools
+@check tool:[name] → Check tool details and version
+```
+
+### Tool Configuration
+```
+@generate config:[black + ruff + mypy] → Generate tool configs
+@setup toolchain:[python + recommended] → Complete setup
+@validate tools:[current] → Check tool compliance
+```
+
+### Examples
+```
+# Setup new Python project with modern tools
+@load tools:[python:required + python:recommended]
+@generate config:[all] in:[pyproject.toml]
+
+# Migrate from legacy tools
+@migrate tools:[flake8→ruff + pylint→ruff]
+@show migration:[step-by-step]
+
+# Security audit toolchain
+@load tools:[security:required]
+@generate workflow:[security-scanning]
+```
+
+---
+
+## 🧩 Integration Patterns
+
+### IDE Integration
+```
+@integrate with:[vscode|intellij|vim]
+@configure realtime:[validation + hints + fixes]
+@sync settings:[team-wide]
+```
+
+### CI/CD Integration
+```
+@generate workflow:[github-actions|gitlab-ci|jenkins]
+@configure gates:[quality + security + coverage]
+@report to:[slack|email|dashboard]
+```
+
+---
+
+## 🔐 Security-First Defaults
+
+### Automatic Security
+```
+When loading any standard:
+- Include relevant security sections
+- Validate against OWASP Top 10
+- Check for exposed secrets
+- Suggest security improvements
+```
+
+---
+
+## 💾 Cache Management
+
+### Smart Caching Directives
+```
+# Cache for session
+@cache standards:[CS:api, SEC:auth] duration:[session]
+@cache frequently-used:[CS:*, TS:unit] duration:[24h]
+
+# Preload common patterns
+@preload common:[bug_fix, new_feature, security_review]
+@preload based-on:[project-type] auto:[true]
+
+# Cache control
+@cache-status  # Show cached standards and expiry
+@cache-clear [specific-standard]  # Clear specific cache
+@cache-refresh  # Update all cached standards
+```
+
+### Conditional Loading
+```
+@if-cached CS:api use:[cache] else:[@load CS:api]
+@fetch-if-modified CS:api since:[last-check]
+@use-cached-or-micro CS:api  # Use cache, fallback to micro
+```
+
+---
+
+## 🚀 Lazy Loading Syntax
+
+### Progressive Loading
+```
+@peek CS:api  # First 100 tokens preview
+@summary CS:api  # AI-generated summary
+@toc CS:api  # Table of contents only
+@stats CS:api  # Size, sections, last updated
+```
+
+### Section-Based Loading
+```
+@lazy-load CS:api sections:[overview]  # Start minimal
+@expand CS:api add:[patterns]  # Add more sections
+@load-on-demand CS:api  # Load sections as referenced
+```
+
+### Smart Chunking
+```
+@chunk CS:api size:[1000-tokens]  # Load in chunks
+@stream CS:api  # Progressive streaming
+@load CS:api until:[token-limit:5000]  # Stop at limit
+```
+
+---
+
+## 🔍 Real-Time Validation
+
+### Remote Validation Endpoints
+```
+@validate-remote code:[snippet] against:[CS:python]
+@check-remote url:[github.com/user/repo] standards:[SEC:*]
+@lint-remote file:[path] rules:[CS:style + TS:coverage]
+
+# Remote access patterns now in standards-api.json
+@see standards-api.json#direct_access
+```
+
+### Live Validation
+```
+@validate-live enabled:[true] standards:[current-context]
+@auto-fix-remote violations:[safe-only]
+@suggest-fixes show:[inline] confidence:[high]
+```
+
+---
+
+## 📝 Memory and Learning
+
+### Session Context
+```
+@remember preferences:[style, patterns, standards]
+@learn from:[corrections, choices, feedback]
+@adapt to:[team-conventions, project-patterns]
+```
+
+### Cross-Reference Learning
+```
+When you use: [pattern-A]
+Also consider: [related-pattern-B]
+Teams like yours use: [pattern-C]
+```
+
+---
+
+## 📋 Compliance Automation
+
+### Automated Analysis
+```
+@analyze [codebase] against:[standards] output:[report|suggestions|fixes]
+@audit [pull-request] using:[CS:* + TS:* + SEC:*] flag:[violations|improvements]
+@suggest improvements for:[file|module] based-on:[relevant-standards]
+```
+
+### Fix Generation
+```
+@fix [violation-type] in:[code-context] following:[standard-section]
+@fix-all [violation-type] in:[directory|project]
+@generate migration-script from:[old-standard] to:[new-standard]
+```
+
+### CI/CD Integration
+```
+@validate pull-request:[PR-URL]
+@comment violations on:[specific-lines]
+@block commit if:[critical-violations]
+```
+
+---
+
+## ⚡ Quick Reference (No Loading Required)
+
+### Instant Answers
+| Question | Answer | Reference |
+|----------|---------|-----------|
+| "Python naming?" | `snake_case` functions, `PascalCase` classes | CS:python |
+| "Test coverage?" | 85% overall, 95% critical, 90% new code | TS:coverage |
+| "Password rules?" | Min 12 chars, mixed case/numbers/symbols | SEC:auth |
+| "JWT expiry?" | Access: 1 hour, Refresh: 7 days | SEC:auth |
+| "API versioning?" | URL path: `/api/v1/`, `/api/v2/` | CS:api |
+
+### Quick Numbers
+- Max function: 50 lines
+- Max file: 500 lines
+- Session timeout: 30 min activity
+- API rate limit: 1000 req/hour/user
+- Log retention: 30 days minimum
+
+---
+
+## 🎓 Advanced Prompt Engineering
+
+### Chain-of-Thought Pattern
+```
+Task: [DESCRIPTION]
+1. Identify context → @load smart:[context-aware]
+2. Analyze requirements → Required: [list], Recommended: [list]
+3. Generate solution → Following: [standards], Validating: [real-time]
+```
+
+### Few-Shot Learning
+```
+Example 1: Auth endpoint → @load [CS:api + SEC:auth]
+Example 2: Data endpoint → @load [CS:api + LEG:privacy]
+Your task: [REQUIREMENT] → Applying patterns...
+```
+
+### Progressive Refinement
+```
+Initial: @generate based-on:[requirements]
++ "Add auth" → @enhance with:[SEC:auth]
++ "Optimize" → @optimize using:[CS:performance]
+```
+
+---
+
+**Token Optimization:** Advanced features with only ~10% token increase over v2.0

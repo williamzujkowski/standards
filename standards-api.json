@@ -1,0 +1,253 @@
+{
+  "version": "latest",
+  "endpoints": {
+    "base": "https://raw.githubusercontent.com/williamzujkowski/standards/main",
+    "api": "https://api.github.com/repos/williamzujkowski/standards",
+    "contents": "https://api.github.com/repos/williamzujkowski/standards/contents",
+    "search": "https://api.github.com/search/code?q=repo:williamzujkowski/standards",
+    "index": "https://raw.githubusercontent.com/williamzujkowski/standards/main/STANDARDS_INDEX.md",
+    "micro": "https://raw.githubusercontent.com/williamzujkowski/standards/main/micro"
+  },
+  "remote_commands": {
+    "@fetch-rule": {
+      "description": "Get specific rule by ID",
+      "example": "@fetch-rule SEC-001",
+      "endpoint": "/standards-api.json#rules[id={rule_id}]"
+    },
+    "@fetch-example": {
+      "description": "Get code example for a standard",
+      "example": "@fetch-example CS:api",
+      "endpoint": "/{standard}.md#examples"
+    },
+    "@fetch-checklist": {
+      "description": "Get compliance checklist",
+      "example": "@fetch-checklist SEC:auth",
+      "endpoint": "/{standard}.md#checklist"
+    },
+    "@fetch-micro": {
+      "description": "Get ultra-condensed version",
+      "example": "@fetch-micro CS:api",
+      "endpoint": "/micro/{standard}.micro.md"
+    },
+    "@fetch-section": {
+      "description": "Get specific section of a standard",
+      "example": "@fetch-section CS:api/error-handling",
+      "endpoint": "/{standard}.md#{section}"
+    },
+    "@fetch-remote": {
+      "description": "Load standard directly from GitHub",
+      "example": "@fetch-remote CS:api",
+      "endpoint": "{base}/{standard}.md"
+    },
+    "@load-remote": {
+      "description": "Load with token limits",
+      "example": "@load-remote CS:api max-tokens:[2000]",
+      "options": ["max-tokens", "mode", "chunks"]
+    },
+    "@search-github": {
+      "description": "Search across all standards",
+      "example": "@search-github \"error handling\" in:[standards]",
+      "endpoint": "{search}+{query}"
+    },
+    "@quick": {
+      "description": "Get quick answer without full load",
+      "example": "@quick \"python naming conventions\"",
+      "endpoint": "{index}#quick-reference"
+    },
+    "@fetch-batch": {
+      "description": "Parallel fetch multiple standards",
+      "example": "@fetch-batch [CS:api, SEC:api, TS:integration]",
+      "parallel": true
+    },
+    "@fetch-related": {
+      "description": "Auto-fetch related standards",
+      "example": "@fetch-related CS:api",
+      "uses": "MANIFEST.yaml#dependencies"
+    },
+    "@fetch-context": {
+      "description": "Load by project type",
+      "example": "@fetch-context python-api",
+      "uses": "MANIFEST.yaml#profiles"
+    },
+    "@cache-remote": {
+      "description": "Cache standards for session",
+      "example": "@cache-remote CS:api duration:[session]",
+      "options": ["duration", "preload"]
+    },
+    "@fetch-if-modified": {
+      "description": "Only fetch if updated",
+      "example": "@fetch-if-modified CS:api since:[2025-01-01]",
+      "headers": ["If-Modified-Since"]
+    }
+  },
+  "direct_access": {
+    "raw_content_url": "https://raw.githubusercontent.com/williamzujkowski/standards/main/{filename}",
+    "usage_examples": {
+      "full_document": "https://raw.githubusercontent.com/williamzujkowski/standards/main/CODING_STANDARDS.md",
+      "specific_section": "https://raw.githubusercontent.com/williamzujkowski/standards/main/CODING_STANDARDS.md#api-design",
+      "quick_index": "https://raw.githubusercontent.com/williamzujkowski/standards/main/STANDARDS_INDEX.md",
+      "micro_standard": "https://raw.githubusercontent.com/williamzujkowski/standards/main/micro/{standard}.micro.md"
+    },
+    "batch_patterns": {
+      "parallel_fetch": "@fetch-batch [CS:api, SEC:api, TS:integration]",
+      "related_standards": "@fetch-related CS:api",
+      "context_based": "@fetch-context python-api",
+      "task_based": "@fetch-task security-review"
+    },
+    "optimization": {
+      "chunked_loading": "@load-remote CS:api max-tokens:[2000]",
+      "progressive_loading": "@load-remote CS:api mode:[progressive] chunks:[overview,examples,checklist]",
+      "section_specific": "@section CS:api/error-handling",
+      "format_options": ["markdown", "json", "yaml", "summary"]
+    },
+    "performance_metrics": {
+      "full_standard_load": { "time": "2-3s", "tokens": "~10,000", "network": "50-100KB" },
+      "section_load": { "time": "<500ms", "tokens": "~1,000", "network": "5-10KB" },
+      "micro_load": { "time": "<200ms", "tokens": "~500", "network": "2-3KB" },
+      "index_lookup": { "time": "<100ms", "tokens": "~100", "network": "1KB" },
+      "cached_load": { "time": "<10ms", "tokens": "0", "network": "0KB" }
+    },
+    "best_practices": [
+      "Use section-specific loading to minimize tokens",
+      "Cache frequently used standards",
+      "Use micro versions for quick lookups",
+      "Batch related standard fetches",
+      "Use conditional fetching to avoid redundant loads"
+    ]
+  },
+  "query_patterns": {
+    "by_severity": "?severity={critical|warning|info}",
+    "by_language": "?language={python|javascript|go}",
+    "by_standard": "?standard={CS|SEC|TS|FE}",
+    "by_autofix": "?autofix=true"
+  },
+  "rules": [
+    {
+      "id": "CS-001",
+      "standard": "CS:style",
+      "name": "Function Length",
+      "description": "Functions should not exceed 50 lines",
+      "severity": "warning",
+      "threshold": {
+        "max_lines": 50,
+        "exclude": ["comments", "docstrings"]
+      },
+      "languages": ["python", "javascript", "go"],
+      "autofix": false,
+      "example_violation": "def very_long_function():\n    # 100+ lines of code",
+      "example_fix": "# Split into smaller functions\ndef process_data():\n    data = prepare_data()\n    return transform_data(data)"
+    },
+    {
+      "id": "SEC-001",
+      "standard": "SEC:validation",
+      "name": "SQL Injection Prevention",
+      "description": "Never use string concatenation for SQL queries",
+      "severity": "critical",
+      "patterns": {
+        "detect": [
+          "query = .* \\+ .*",
+          "f\"SELECT .* {.*}\"",
+          "query.format\\("
+        ],
+        "exclude": ["parameterized", "prepared"]
+      },
+      "autofix": true,
+      "fix_template": "Use parameterized queries: cursor.execute(query, params)",
+      "references": ["OWASP:A03:2021"]
+    },
+    {
+      "id": "TS-001",
+      "standard": "TS:coverage",
+      "name": "Minimum Test Coverage",
+      "description": "Maintain minimum test coverage requirements",
+      "severity": "required",
+      "thresholds": {
+        "overall": 85,
+        "critical_paths": 95,
+        "new_code": 90
+      },
+      "enforcement": {
+        "pre_commit": false,
+        "ci": true,
+        "block_merge": true
+      },
+      "exceptions": {
+        "allowed_paths": ["migrations/", "generated/"],
+        "requires_approval": true
+      }
+    },
+    {
+      "id": "FE-001",
+      "standard": "FE:performance",
+      "name": "Bundle Size Limits",
+      "description": "Keep bundle sizes within acceptable limits",
+      "severity": "warning",
+      "thresholds": {
+        "initial": "200KB",
+        "lazy": "100KB",
+        "total": "1MB"
+      },
+      "tools": ["webpack-bundle-analyzer", "rollup-plugin-visualizer"],
+      "optimization_hints": [
+        "Use code splitting",
+        "Lazy load routes",
+        "Tree-shake dependencies"
+      ]
+    }
+  ],
+  "rule_sets": {
+    "security_critical": ["SEC-001", "SEC-002", "SEC-003"],
+    "performance": ["CS-010", "FE-001", "FE-002"],
+    "testing": ["TS-001", "TS-002", "TS-003"]
+  },
+  "profiles": {
+    "strict": {
+      "rules": ["all"],
+      "severity_overrides": {
+        "warning": "error"
+      }
+    },
+    "balanced": {
+      "rules": ["security_critical", "testing"],
+      "custom_thresholds": {
+        "TS-001": {
+          "overall": 80
+        }
+      }
+    }
+  },
+  "remote_validation": {
+    "endpoints": {
+      "validate_snippet": "/api/validate",
+      "validate_file": "/api/validate/file",
+      "validate_project": "/api/validate/project"
+    },
+    "commands": {
+      "@validate-remote": {
+        "description": "Validate code against standards",
+        "example": "@validate-remote code:[snippet] standards:[CS:python]"
+      },
+      "@check-compliance": {
+        "description": "Check compliance score",
+        "example": "@check-compliance project:[url] standards:[all]"
+      }
+    }
+  },
+  "caching": {
+    "ttl": {
+      "rules": 86400,
+      "standards": 3600,
+      "micro": 86400,
+      "index": 3600
+    },
+    "headers": {
+      "Cache-Control": "public, max-age=3600",
+      "ETag": "enabled"
+    }
+  },
+  "rate_limits": {
+    "unauthenticated": "60 requests/hour",
+    "authenticated": "5000 requests/hour",
+    "burst": "10 requests/minute"
+  }
+}

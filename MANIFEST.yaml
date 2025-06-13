@@ -1,0 +1,662 @@
+# MANIFEST.yaml - Progressive Loading Configuration
+version: "latest"
+last_updated: "2025-01-13"
+
+# Standard metadata and loading configuration
+standards:
+  # Coding Standards
+  CS:
+    full_name: "CODING_STANDARDS.md"
+    size: "45KB"
+    token_estimate: 12000
+    sections:
+      overview:
+        tokens: 500
+        priority: "high"
+        description: "Core principles and philosophy"
+      style:
+        tokens: 800
+        priority: "high"
+        description: "Code style and formatting rules"
+      api:
+        tokens: 1500
+        priority: "high"
+        description: "API design patterns and REST standards"
+      architecture:
+        tokens: 2000
+        priority: "medium"
+        description: "Software architecture patterns"
+      patterns:
+        tokens: 1800
+        priority: "medium"
+        description: "Design patterns and best practices"
+      error-handling:
+        tokens: 1200
+        priority: "high"
+        description: "Error handling and logging"
+      performance:
+        tokens: 1000
+        priority: "medium"
+        description: "Performance optimization"
+      security:
+        tokens: 800
+        priority: "high"
+        description: "Secure coding practices"
+      examples:
+        tokens: 2400
+        priority: "low"
+        description: "Code examples and templates"
+    dependencies:
+      requires: []
+      recommends: ["SEC:validation", "TS:unit"]
+      enhances: ["CS:patterns", "CS:performance"]
+
+  # Security Standards
+  SEC:
+    full_name: "MODERN_SECURITY_STANDARDS.md"
+    size: "78KB"
+    token_estimate: 20000
+    sections:
+      overview:
+        tokens: 600
+        priority: "high"
+        description: "Security principles and threat model"
+      auth:
+        tokens: 2500
+        priority: "critical"
+        description: "Authentication and authorization"
+      api:
+        tokens: 1800
+        priority: "high"
+        description: "API security and rate limiting"
+      encryption:
+        tokens: 2000
+        priority: "high"
+        description: "Cryptography and key management"
+      container:
+        tokens: 1500
+        priority: "medium"
+        description: "Container and Kubernetes security"
+      cloud:
+        tokens: 1200
+        priority: "medium"
+        description: "Cloud security best practices"
+      validation:
+        tokens: 1000
+        priority: "critical"
+        description: "Input validation and sanitization"
+      incident:
+        tokens: 1400
+        priority: "medium"
+        description: "Incident response procedures"
+    dependencies:
+      requires: ["CS:security", "CS:validation"]
+      recommends: ["TS:security", "OBS:monitoring"]
+      conflicts: []
+
+  # Testing Standards
+  TS:
+    full_name: "TESTING_STANDARDS.md"
+    size: "52KB"
+    token_estimate: 14000
+    sections:
+      overview:
+        tokens: 400
+        priority: "high"
+        description: "Testing philosophy and strategy"
+      unit:
+        tokens: 2000
+        priority: "critical"
+        description: "Unit testing patterns and coverage"
+      integration:
+        tokens: 1800
+        priority: "high"
+        description: "Integration and API testing"
+      performance:
+        tokens: 1500
+        priority: "medium"
+        description: "Load and performance testing"
+      security:
+        tokens: 1200
+        priority: "high"
+        description: "Security testing and scanning"
+      tdd:
+        tokens: 1000
+        priority: "medium"
+        description: "Test-driven development"
+      coverage:
+        tokens: 800
+        priority: "high"
+        description: "Coverage requirements and metrics"
+      examples:
+        tokens: 2300
+        priority: "low"
+        description: "Test examples and fixtures"
+    dependencies:
+      requires: ["CS:patterns"]
+      recommends: ["CS:error-handling", "OBS:monitoring"]
+
+  # Frontend Standards
+  FE:
+    full_name: "FRONTEND_MOBILE_STANDARDS.md"
+    size: "68KB"
+    token_estimate: 18000
+    sections:
+      overview:
+        tokens: 500
+        priority: "high"
+      react:
+        tokens: 2500
+        priority: "high"
+        description: "React patterns and hooks"
+      performance:
+        tokens: 2000
+        priority: "high"
+        description: "Web performance and Core Web Vitals"
+      mobile:
+        tokens: 2200
+        priority: "medium"
+        description: "Mobile and React Native"
+      accessibility:
+        tokens: 1800
+        priority: "high"
+        description: "WCAG compliance and a11y"
+      state:
+        tokens: 1500
+        priority: "medium"
+        description: "State management patterns"
+      components:
+        tokens: 2000
+        priority: "medium"
+        description: "Component architecture"
+    dependencies:
+      requires: ["CS:javascript", "WD:components"]
+      recommends: ["TS:component", "SEO:technical"]
+
+  # Cloud Native Standards
+  CN:
+    full_name: "CLOUD_NATIVE_STANDARDS.md"
+    size: "61KB"
+    token_estimate: 16000
+    sections:
+      overview:
+        tokens: 500
+        priority: "high"
+      docker:
+        tokens: 1800
+        priority: "high"
+        description: "Container best practices"
+      kubernetes:
+        tokens: 2500
+        priority: "high"
+        description: "K8s deployment and security"
+      microservices:
+        tokens: 2000
+        priority: "medium"
+        description: "Microservice patterns"
+      serverless:
+        tokens: 1500
+        priority: "low"
+        description: "Function design"
+      optimization:
+        tokens: 1200
+        priority: "medium"
+        description: "Cost and performance"
+    dependencies:
+      requires: ["SEC:container", "OBS:distributed"]
+      recommends: ["EVT:patterns", "COST:cloud"]
+  
+  # Data Engineering Standards
+  DE:
+    full_name: "DATA_ENGINEERING_STANDARDS.md"
+    size: "65KB"
+    token_estimate: 17000
+    sections:
+      overview:
+        tokens: 500
+        priority: "high"
+        description: "Data engineering principles"
+      pipelines:
+        tokens: 2000
+        priority: "high"
+        description: "ETL/ELT pipeline design"
+      quality:
+        tokens: 1800
+        priority: "high"
+        description: "Data quality and governance"
+      streaming:
+        tokens: 1500
+        priority: "medium"
+        description: "Stream processing patterns"
+      modeling:
+        tokens: 1700
+        priority: "medium"
+        description: "Data modeling standards"
+    dependencies:
+      requires: ["CS:patterns"]
+      recommends: ["OBS:monitoring", "COST:data"]
+  
+  # DevOps Platform Standards
+  DOP:
+    full_name: "DEVOPS_PLATFORM_STANDARDS.md"
+    size: "58KB"
+    token_estimate: 15000
+    sections:
+      overview:
+        tokens: 500
+        priority: "high"
+        description: "DevOps principles and practices"
+      cicd:
+        tokens: 2000
+        priority: "high"
+        description: "CI/CD pipeline standards"
+      iac:
+        tokens: 1800
+        priority: "high"
+        description: "Infrastructure as Code"
+      gitops:
+        tokens: 1500
+        priority: "medium"
+        description: "GitOps practices"
+      sre:
+        tokens: 1700
+        priority: "medium"
+        description: "Site Reliability Engineering"
+    dependencies:
+      requires: ["CS:patterns"]
+      recommends: ["CN:kubernetes", "OBS:monitoring"]
+  
+  # Observability Standards
+  OBS:
+    full_name: "OBSERVABILITY_STANDARDS.md"
+    size: "72KB"
+    token_estimate: 19000
+    sections:
+      overview:
+        tokens: 500
+        priority: "high"
+        description: "Three pillars of observability"
+      metrics:
+        tokens: 2000
+        priority: "high"
+        description: "Metrics and monitoring"
+      logging:
+        tokens: 1800
+        priority: "high"
+        description: "Logging standards"
+      tracing:
+        tokens: 2000
+        priority: "high"
+        description: "Distributed tracing"
+      slos:
+        tokens: 1500
+        priority: "medium"
+        description: "SLOs and error budgets"
+    dependencies:
+      requires: []
+      recommends: ["DOP:sre", "CN:kubernetes"]
+  
+  # Cost Optimization Standards
+  COST:
+    full_name: "COST_OPTIMIZATION_STANDARDS.md"
+    size: "48KB"
+    token_estimate: 13000
+    sections:
+      overview:
+        tokens: 500
+        priority: "high"
+        description: "FinOps principles"
+      cloud:
+        tokens: 2000
+        priority: "high"
+        description: "Cloud cost optimization"
+      kubernetes:
+        tokens: 1500
+        priority: "medium"
+        description: "K8s resource optimization"
+      data:
+        tokens: 1200
+        priority: "medium"
+        description: "Data storage costs"
+      finops:
+        tokens: 1300
+        priority: "medium"
+        description: "FinOps practices"
+    dependencies:
+      requires: []
+      recommends: ["CN:optimization", "OBS:metrics"]
+  
+  # Additional Standards
+  PM:
+    full_name: "PROJECT_MANAGEMENT_STANDARDS.md"
+    size: "42KB"
+    token_estimate: 11000
+    sections:
+      overview:
+        tokens: 500
+        priority: "high"
+        description: "Agile project management"
+      agile:
+        tokens: 2000
+        priority: "high"
+        description: "Scrum and agile practices"
+      planning:
+        tokens: 1500
+        priority: "medium"
+        description: "Sprint planning"
+      stakeholder:
+        tokens: 1200
+        priority: "medium"
+        description: "Stakeholder management"
+    dependencies:
+      requires: []
+      recommends: []
+  
+  LEG:
+    full_name: "LEGAL_COMPLIANCE_STANDARDS.md"
+    size: "45KB"
+    token_estimate: 12000
+    sections:
+      overview:
+        tokens: 500
+        priority: "high"
+        description: "Legal compliance overview"
+      privacy:
+        tokens: 2000
+        priority: "critical"
+        description: "Privacy and GDPR"
+      licensing:
+        tokens: 1500
+        priority: "high"
+        description: "Software licensing"
+      accessibility:
+        tokens: 1200
+        priority: "high"
+        description: "Accessibility standards"
+    dependencies:
+      requires: []
+      recommends: ["SEC:encryption", "CS:audit"]
+  
+  WD:
+    full_name: "WEB_DESIGN_UX_STANDARDS.md"
+    size: "55KB"
+    token_estimate: 14500
+    sections:
+      overview:
+        tokens: 500
+        priority: "high"
+        description: "Design principles"
+      visual:
+        tokens: 2000
+        priority: "high"
+        description: "Visual design standards"
+      components:
+        tokens: 1800
+        priority: "high"
+        description: "Component design systems"
+      accessibility:
+        tokens: 1500
+        priority: "high"
+        description: "UX accessibility"
+    dependencies:
+      requires: []
+      recommends: ["FE:accessibility", "FE:components"]
+  
+  SEO:
+    full_name: "SEO_WEB_MARKETING_STANDARDS.md"
+    size: "51KB"
+    token_estimate: 13500
+    sections:
+      overview:
+        tokens: 500
+        priority: "high"
+        description: "SEO fundamentals"
+      technical:
+        tokens: 2000
+        priority: "high"
+        description: "Technical SEO"
+      content:
+        tokens: 1500
+        priority: "medium"
+        description: "Content optimization"
+      analytics:
+        tokens: 1200
+        priority: "medium"
+        description: "Analytics and tracking"
+    dependencies:
+      requires: []
+      recommends: ["FE:performance", "WD:content"]
+  
+  EVT:
+    full_name: "EVENT_DRIVEN_STANDARDS.md"
+    size: "38KB"
+    token_estimate: 10000
+    sections:
+      overview:
+        tokens: 500
+        priority: "high"
+        description: "Event-driven architecture"
+      patterns:
+        tokens: 2000
+        priority: "high"
+        description: "Event patterns and design"
+      messaging:
+        tokens: 1500
+        priority: "high"
+        description: "Message brokers"
+      saga:
+        tokens: 1200
+        priority: "medium"
+        description: "Saga patterns"
+    dependencies:
+      requires: ["CS:patterns"]
+      recommends: ["CN:microservices", "OBS:tracing"]
+  
+  GH:
+    full_name: "GITHUB_PLATFORM_STANDARDS.md"
+    size: "49KB"
+    token_estimate: 13000
+    sections:
+      overview:
+        tokens: 500
+        priority: "high"
+        description: "GitHub best practices"
+      actions:
+        tokens: 2000
+        priority: "high"
+        description: "GitHub Actions"
+      repository:
+        tokens: 1500
+        priority: "high"
+        description: "Repository management"
+      security:
+        tokens: 1200
+        priority: "high"
+        description: "GitHub security"
+    dependencies:
+      requires: []
+      recommends: ["DOP:cicd", "SEC:*"]
+  
+  CONT:
+    full_name: "CONTENT_STANDARDS.md"
+    size: "40KB"
+    token_estimate: 10500
+    sections:
+      overview:
+        tokens: 500
+        priority: "high"
+        description: "Content strategy"
+      writing:
+        tokens: 1800
+        priority: "high"
+        description: "Writing guidelines"
+      editorial:
+        tokens: 1500
+        priority: "medium"
+        description: "Editorial standards"
+      governance:
+        tokens: 1200
+        priority: "medium"
+        description: "Content governance"
+    dependencies:
+      requires: []
+      recommends: ["SEO:content", "WD:content"]
+  
+  TOOL:
+    full_name: "TOOLCHAIN_STANDARDS.md"
+    size: "43KB"
+    token_estimate: 11500
+    sections:
+      overview:
+        tokens: 500
+        priority: "high"
+        description: "Tool selection guidelines"
+      languages:
+        tokens: 2000
+        priority: "high"
+        description: "Language-specific tools"
+      infrastructure:
+        tokens: 1500
+        priority: "medium"
+        description: "Infrastructure tools"
+      security:
+        tokens: 1200
+        priority: "high"
+        description: "Security scanning tools"
+    dependencies:
+      requires: []
+      recommends: ["CS:*", "SEC:*"]
+
+# Loading strategies based on use case
+loading_strategies:
+  minimal:
+    description: "Bare minimum for quick reference"
+    sections: ["overview"]
+    max_tokens: 2000
+    
+  standard:
+    description: "Common development tasks"
+    sections: ["overview", "main_topic", "examples"]
+    max_tokens: 5000
+    
+  comprehensive:
+    description: "Full implementation guidance"
+    sections: ["all"]
+    max_tokens: 15000
+    
+  security_focused:
+    description: "Security review and implementation"
+    include_standards: ["SEC:*", "CS:security", "TS:security"]
+    sections: ["overview", "implementation", "checklist"]
+    
+  performance_focused:
+    description: "Performance optimization"
+    include_standards: ["CS:performance", "FE:performance", "OBS:metrics", "COST:*"]
+    sections: ["overview", "patterns", "metrics"]
+
+# Quick loading profiles
+profiles:
+  bug_fix:
+    standards: ["CS:error-handling", "TS:regression", "CS:patterns"]
+    sections: ["overview", "patterns"]
+    priority: "high"
+    
+  new_feature:
+    standards: ["CS:architecture", "TS:tdd", "SEC:relevant"]
+    sections: ["overview", "patterns", "examples"]
+    priority: "medium"
+    
+  security_review:
+    standards: ["SEC:*", "TS:security", "CS:validation"]
+    sections: ["all"]
+    priority: "critical"
+    
+  performance_optimization:
+    standards: ["CS:performance", "OBS:metrics", "COST:*"]
+    sections: ["overview", "patterns", "metrics"]
+    priority: "high"
+    
+  api_development:
+    standards: ["CS:api", "SEC:api", "TS:integration", "CS:validation"]
+    sections: ["overview", "patterns", "examples", "checklist"]
+    priority: "high"
+
+# Caching configuration
+cache:
+  default_ttl: 3600  # 1 hour
+  standards:
+    overview: 86400  # 24 hours
+    examples: 86400  # 24 hours
+    patterns: 43200  # 12 hours
+    implementation: 3600  # 1 hour
+  
+# Version tracking
+versioning:
+  strategy: "semantic"
+  schema: "MAJOR.MINOR.PATCH"
+  schema_description:
+    MAJOR: "Breaking changes requiring migration"
+    MINOR: "New features, backward compatible"
+    PATCH: "Bug fixes and clarifications"
+  
+  # Current versions for all standards
+  current_versions:
+    CS: "latest"  # Coding Standards
+    SEC: "latest"  # Security Standards  
+    TS: "latest"  # Testing Standards
+    FE: "latest"  # Frontend Standards
+    CN: "latest"  # Cloud Native Standards
+    DE: "latest"  # Data Engineering
+    DOP: "latest"  # DevOps Standards
+    OBS: "latest"  # Observability
+    COST: "latest"  # Cost Optimization
+    PM: "latest"  # Project Management
+    LEG: "latest"  # Legal Compliance
+    WD: "latest"  # Web Design & UX
+    SEO: "latest"  # SEO & Marketing
+    EVT: "latest"  # Event-Driven Architecture
+    GH: "latest"  # GitHub Platform
+    CONT: "latest"  # Content Standards
+    TOOL: "latest"  # Toolchain Standards
+  
+  # Version support policy
+  support_policy:
+    current: "Latest stable release"
+    lts: "Long-term support (2 years)"
+    previous: "6 months after new release"
+    legacy: "Security patches only"
+    eol: "No support"
+  
+  # Compatibility modes
+  compatibility:
+    strict: "Exact version match required"
+    compatible: "Accept patch updates (x.x.PATCH)"
+    flexible: "Accept minor updates (x.MINOR.x)"
+    latest: "Always use newest version"
+  
+  # Migration tracking
+  migrations:
+    available:
+      - from: "CS:2.0.0"
+        to: "CS:3.0.0"
+        automated: ["callback-to-promise", "error-format"]
+        manual: ["custom-middleware"]
+      - from: "SEC:2.0.0"
+        to: "SEC:3.0.0"
+        automated: ["auth-patterns", "encryption-standards"]
+        manual: ["zero-trust-migration"]
+  
+  # Experimental features
+  experimental:
+    enabled: false
+    features:
+      - "ai-patterns"
+      - "llm-integration" 
+      - "automated-refactoring"
+      - "predictive-compliance"
+  
+  # Change notification
+  notifications:
+    enabled: true
+    channels: ["email", "slack", "webhook"]
+    subscribe_to: ["breaking-changes", "security-updates", "new-features"]
