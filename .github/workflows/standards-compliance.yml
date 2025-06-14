@@ -16,22 +16,26 @@ jobs:
 
       - name: Check file formatting
         run: |
-          # Check for trailing whitespace
-          # Check for trailing whitespace in markdown and YAML files
-          ! grep -r '[[:space:]]$' \
-            --include="*.md" --include="*.yml" --include="*.yaml" .
+          # Check for trailing whitespace using our comprehensive script
+          if [ -f scripts/check_whitespace.sh ]; then
+            bash scripts/check_whitespace.sh
+          else
+            # Fallback to basic check if script doesn't exist
+            ! grep -r '[[:space:]]$' \
+              --include="*.md" --include="*.yml" --include="*.yaml" .
+          fi
 
       - name: Validate YAML files
         run: |
           find . -name "*.yml" -o -name "*.yaml" | xargs -I {} yamllint {}
-      
+
       - name: Run Knowledge Management Tests
         run: |
           echo "Running knowledge management validation tests..."
           if [ -f tests/validate_knowledge_management.sh ]; then
             cd tests && bash validate_knowledge_management.sh
           fi
-      
+
       - name: Run Cross-Reference Validation
         run: |
           echo "Running cross-reference validation..."
