@@ -1,8 +1,8 @@
 # Cloud-Native and Container Standards
 
-**Version:** 1.0.0  
-**Last Updated:** January 2025  
-**Status:** Active  
+**Version:** 1.0.0
+**Last Updated:** January 2025
+**Status:** Active
 **Standard Code:** CN
 
 ---

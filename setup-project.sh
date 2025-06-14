@@ -104,12 +104,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Run Standards Checks
         run: |
           echo "Running standards compliance checks..."
           # Add your language-specific linters and checks here
-          
+
       - name: Check Test Coverage
         run: |
           echo "Checking test coverage meets 85% requirement..."

@@ -1,8 +1,8 @@
 # LLM Training & Optimization Patterns
 
-**Version:** 1.0.0  
-**Last Updated:** 2025-01-13  
-**Status:** Active  
+**Version:** 1.0.0
+**Last Updated:** 2025-01-13
+**Status:** Active
 **Standard Code:** LLM
 
 ---

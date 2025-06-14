@@ -115,7 +115,7 @@ A project following comprehensive development standards for quality, security, a
 This project adheres to the [Comprehensive Software Development Standards](https://github.com/williamzujkowski/standards):
 
 - ✅ **Code Quality**: Following coding standards with automated linting and formatting
-- ✅ **Testing**: ${COVERAGE}% test coverage with unit, integration, and e2e tests  
+- ✅ **Testing**: ${COVERAGE}% test coverage with unit, integration, and e2e tests
 - ✅ **Security**: ${SECURITY_SCORE} rating with automated vulnerability scanning
 - ✅ **Performance**: Optimized for Core Web Vitals and scalability
 - ✅ **Documentation**: Comprehensive docs following content standards
@@ -158,8 +158,8 @@ chmod +x badges/generate-dynamic-badge.sh
 cat > badges/standards-compliance-template.md << EOF
 # Standards Compliance Report
 
-**Project**: \${PROJECT_NAME}  
-**Date**: \$(date +%Y-%m-%d)  
+**Project**: \${PROJECT_NAME}
+**Date**: \$(date +%Y-%m-%d)
 **Standards Version**: ${STANDARDS_VERSION}
 
 ## Executive Summary

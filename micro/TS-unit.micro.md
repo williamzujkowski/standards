@@ -13,10 +13,10 @@ def test_calculate_total_with_discount():
     # Arrange
     cart = ShoppingCart()
     cart.add_item(Item("Book", 10.00))
-    
+
     # Act
     total = cart.calculate_total(discount=0.1)
-    
+
     # Assert
     assert total == 9.00
 ```

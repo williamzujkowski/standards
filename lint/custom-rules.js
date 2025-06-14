@@ -11,10 +11,10 @@ const yaml = require('js-yaml');
 function checkVersionMetadata(content, file) {
   const errors = [];
   const lines = content.split('\n');
-  
+
   // Check for version metadata in first 20 lines
   const headerArea = lines.slice(0, 20).join('\n');
-  
+
   if (file.endsWith('_STANDARDS.md') || file === 'UNIFIED_STANDARDS.md') {
     if (!headerArea.includes('Version:')) {
       errors.push({
@@ -24,7 +24,7 @@ function checkVersionMetadata(content, file) {
         message: 'Standards files must include "Version:" metadata'
       });
     }
-    
+
     if (!headerArea.includes('Last Updated:')) {
       errors.push({
         file,
@@ -33,7 +33,7 @@ function checkVersionMetadata(content, file) {
         message: 'Standards files must include "Last Updated:" metadata'
       });
     }
-    
+
     if (!headerArea.includes('Status:')) {
       errors.push({
         file,
@@ -43,7 +43,7 @@ function checkVersionMetadata(content, file) {
       });
     }
   }
-  
+
   return errors;
 }
 
@@ -52,10 +52,10 @@ function checkVersionMetadata(content, file) {
  */
 function checkRequiredSections(content, file) {
   const errors = [];
-  
+
   if (file.endsWith('_STANDARDS.md') && file !== 'UNIFIED_STANDARDS.md') {
     const requiredSections = ['Overview', 'Implementation'];
-    
+
     requiredSections.forEach(section => {
       const pattern = new RegExp(`^#{1,3}\\s+${section}`, 'mi');
       if (!pattern.test(content)) {
@@ -68,7 +68,7 @@ function checkRequiredSections(content, file) {
       }
     });
   }
-  
+
   return errors;
 }
 
@@ -77,7 +77,7 @@ function checkRequiredSections(content, file) {
  */
 function checkRequirementTags(content, file) {
   const errors = [];
-  
+
   if (file.endsWith('_STANDARDS.md')) {
     if (!content.includes('[REQUIRED]') && !content.includes('[RECOMMENDED]')) {
       errors.push({
@@ -88,7 +88,7 @@ function checkRequirementTags(content, file) {
       });
     }
   }
-  
+
   return errors;
 }
 
@@ -99,12 +99,12 @@ function checkCrossReferences(content, file, allFiles) {
   const errors = [];
   const linkPattern = /\[([^\]]+)\]\(\.\/([^)]+)\)/g;
   const lines = content.split('\n');
-  
+
   let match;
   while ((match = linkPattern.exec(content)) !== null) {
     const linkPath = match[2].split('#')[0];
     const fullPath = path.resolve(path.dirname(file), linkPath);
-    
+
     if (!allFiles.includes(fullPath) && !fs.existsSync(fullPath)) {
       const lineNum = content.substring(0, match.index).split('\n').length;
       errors.push({
@@ -115,7 +115,7 @@ function checkCrossReferences(content, file, allFiles) {
       });
     }
   }
-  
+
   return errors;
 }
 
@@ -124,22 +124,22 @@ function checkCrossReferences(content, file, allFiles) {
  */
 async function checkManifestInclusion(file, manifestPath) {
   const errors = [];
-  
+
   if (file.endsWith('_STANDARDS.md') || file === 'UNIFIED_STANDARDS.md') {
     try {
       const manifestContent = fs.readFileSync(manifestPath, 'utf8');
       const manifest = yaml.load(manifestContent);
-      
+
       const fileName = path.basename(file);
       let found = false;
-      
+
       for (const [code, data] of Object.entries(manifest.standards || {})) {
         if (data.full_name === fileName || data.filename === fileName) {
           found = true;
           break;
         }
       }
-      
+
       if (!found) {
         errors.push({
           file,
@@ -152,7 +152,7 @@ async function checkManifestInclusion(file, manifestPath) {
       // Manifest not found or invalid
     }
   }
-  
+
   return errors;
 }
 
@@ -161,10 +161,10 @@ async function checkManifestInclusion(file, manifestPath) {
  */
 function checkImplementationChecklist(content, file) {
   const errors = [];
-  
+
   if (file.endsWith('_STANDARDS.md') && file !== 'UNIFIED_STANDARDS.md') {
-    if (!content.includes('Implementation Checklist') && 
-        !content.includes('checklist') && 
+    if (!content.includes('Implementation Checklist') &&
+        !content.includes('checklist') &&
         !content.includes('Checklist')) {
       errors.push({
         file,
@@ -174,7 +174,7 @@ function checkImplementationChecklist(content, file) {
       });
     }
   }
-  
+
   return errors;
 }
 
@@ -184,15 +184,15 @@ function checkImplementationChecklist(content, file) {
 function checkTokenEfficiency(content, file) {
   const errors = [];
   const warnings = [];
-  
+
   // Check section sizes
   const sections = content.split(/^##\s+/m);
-  
+
   sections.forEach((section, index) => {
     if (section.trim()) {
       const wordCount = section.split(/\s+/).length;
       const estimatedTokens = Math.floor(wordCount * 0.75);
-      
+
       if (estimatedTokens > 3000) {
         const lineNum = content.indexOf(section);
         warnings.push({
@@ -205,7 +205,7 @@ function checkTokenEfficiency(content, file) {
       }
     }
   });
-  
+
   return [...errors, ...warnings];
 }
 
@@ -218,7 +218,7 @@ async function lintStandardsFiles(directory) {
     warnings: [],
     files: 0
   };
-  
+
   // Get all markdown files
   const allFiles = [];
   function walkDir(dir) {
@@ -233,16 +233,16 @@ async function lintStandardsFiles(directory) {
       }
     });
   }
-  
+
   walkDir(directory);
-  
+
   // Lint each file
   for (const file of allFiles) {
     const content = fs.readFileSync(file, 'utf8');
     const relativeFile = path.relative(directory, file);
-    
+
     results.files++;
-    
+
     // Run custom rules
     const errors = [
       ...checkVersionMetadata(content, relativeFile),
@@ -253,7 +253,7 @@ async function lintStandardsFiles(directory) {
       ...checkImplementationChecklist(content, relativeFile),
       ...checkTokenEfficiency(content, relativeFile)
     ];
-    
+
     errors.forEach(error => {
       if (error.level === 'warning') {
         results.warnings.push(error);
@@ -262,7 +262,7 @@ async function lintStandardsFiles(directory) {
       }
     });
   }
-  
+
   return results;
 }
 
@@ -281,15 +281,15 @@ module.exports = {
 // Run if called directly
 if (require.main === module) {
   const directory = process.argv[2] || '.';
-  
+
   lintStandardsFiles(directory).then(results => {
     console.log('Standards Linting Report');
     console.log('=======================\n');
-    
+
     console.log(`Files checked: ${results.files}`);
     console.log(`Errors found: ${results.errors.length}`);
     console.log(`Warnings found: ${results.warnings.length}\n`);
-    
+
     if (results.errors.length > 0) {
       console.log('ERRORS:');
       results.errors.forEach(error => {
@@ -297,14 +297,14 @@ if (require.main === module) {
       });
       console.log('');
     }
-    
+
     if (results.warnings.length > 0) {
       console.log('WARNINGS:');
       results.warnings.forEach(warning => {
         console.log(`  ${warning.file}:${warning.line} - [${warning.rule}] ${warning.message}`);
       });
     }
-    
+
     // Exit with error code if errors found
     if (results.errors.length > 0) {
       process.exit(1);

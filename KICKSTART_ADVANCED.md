@@ -256,7 +256,7 @@ Apply language-specific standards to each component"
 ```
 Always request:
 - CS:[language] - Code standards
-- TS:[testing] - Test requirements  
+- TS:[testing] - Test requirements
 - SEC:[relevant] - Security measures
 - DOP:cicd - Deployment pipeline
 

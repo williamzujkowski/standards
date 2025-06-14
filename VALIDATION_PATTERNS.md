@@ -1,8 +1,8 @@
 # Interactive Validation Patterns
 
-**Version:** 1.0.0  
-**Last Updated:** 2025-01-13  
-**Status:** Active  
+**Version:** 1.0.0
+**Last Updated:** 2025-01-13
+**Status:** Active
 **Standard Code:** VAL
 
 ---
@@ -41,13 +41,13 @@ Suggested fix:
 ```python
 def calculate_double_value(x: Union[int, float]) -> Union[int, float]:
     """Calculate double the input value.
-    
+
     Args:
         x: Numeric value to double
-        
+
     Returns:
         The input value multiplied by 2
-        
+
     Raises:
         TypeError: If x is not numeric
     """
@@ -127,7 +127,7 @@ Issues:
 
 ### Project-Wide Validation
 ```
-@validate project:[path] 
+@validate project:[path]
     standards:[CS:* + TS:* + SEC:*]
     output:[report.md]
     ignore:[node_modules/, *.test.js]
@@ -157,7 +157,7 @@ Issue: Missing error handling
 
 ### Batch Fixes
 ```
-@generate fixes for-all:[missing-docstrings] 
+@generate fixes for-all:[missing-docstrings]
     style:[google]
     include:[parameter-descriptions]
 ```
@@ -173,7 +173,7 @@ Issue: Missing error handling
 
 ### On-Save Validation
 ```
-@validate on:[save] 
+@validate on:[save]
     check:[style + critical-issues]
     auto-fix:[safe-formatting]
     warn:[other-issues]
@@ -253,7 +253,7 @@ Action Items:
    ```python
    # Current (Vulnerable)
    query = f"SELECT * FROM users WHERE id = {id}"
-   
+
    # Fixed (Safe)
    query = "SELECT * FROM users WHERE id = %s"
    cursor.execute(query, (id,))

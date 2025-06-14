@@ -90,7 +90,7 @@ Suggest modern tools for:
    - CS:[language] - Core language patterns
    - TS:[framework] - Testing approach
    - SEC:[relevant] - Security requirements
-   
+
    Recommended Standards:
    - FE/WD:[as-applicable]
    - DOP:[deployment]

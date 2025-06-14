@@ -44,7 +44,7 @@ languages:
         version: "latest"
         description: "Legacy linter, migrate to ruff"
         config_file: ".flake8"
-    
+
     formatting:
       - name: "black"
         recommendation: "required"
@@ -58,7 +58,7 @@ languages:
         version: "latest"
         description: "Import statement sorting"
         config_file: "pyproject.toml"
-    
+
     testing:
       - name: "pytest"
         recommendation: "required"
@@ -72,7 +72,7 @@ languages:
         recommendation: "recommended"
         version: "latest"
         description: "Property-based testing"
-    
+
     security:
       - name: "bandit"
         recommendation: "required"
@@ -82,7 +82,7 @@ languages:
         recommendation: "recommended"
         version: "latest"
         description: "Dependency vulnerability scanner"
-    
+
     package:
       - name: "poetry"
         recommendation: "recommended"
@@ -107,7 +107,7 @@ languages:
           - "eslint:recommended"
           - "plugin:react/recommended"
           - "plugin:@typescript-eslint/recommended"
-    
+
     formatting:
       - name: "prettier"
         recommendation: "required"
@@ -118,7 +118,7 @@ languages:
           semi: false
           singleQuote: true
           tabWidth: 2
-    
+
     testing:
       - name: "jest"
         recommendation: "required"
@@ -133,7 +133,7 @@ languages:
         recommendation: "optional"
         version: "latest"
         description: "Cross-browser testing"
-    
+
     build:
       - name: "vite"
         recommendation: "recommended"
@@ -147,7 +147,7 @@ languages:
         recommendation: "optional"
         version: "latest"
         description: "Ultra-fast bundler"
-    
+
     package:
       - name: "pnpm"
         recommendation: "recommended"
@@ -178,13 +178,13 @@ languages:
         version: "latest"
         description: "Comprehensive Go linter"
         config_file: ".golangci.yml"
-    
+
     testing:
       - name: "go test"
         recommendation: "required"
         description: "Built-in testing"
         flags: ["-race", "-cover"]
-    
+
     build:
       - name: "go build"
         recommendation: "required"
@@ -202,7 +202,7 @@ infrastructure:
       recommendation: "optional"
       version: "latest"
       description: "Rootless container engine"
-  
+
   orchestration:
     - name: "kubernetes"
       recommendation: "recommended"
@@ -212,7 +212,7 @@ infrastructure:
         - "kubectl"
         - "helm"
         - "kustomize"
-  
+
   iac:
     - name: "terraform"
       recommendation: "recommended"
@@ -257,7 +257,7 @@ security:
       recommendation: "optional"
       version: "latest"
       description: "Code quality and security"
-  
+
   container_scanning:
     - name: "trivy"
       recommendation: "required"
@@ -267,7 +267,7 @@ security:
       recommendation: "optional"
       version: "latest"
       description: "Alternative vulnerability scanner"
-  
+
   dependency_scanning:
     - name: "snyk"
       recommendation: "recommended"
@@ -290,7 +290,7 @@ observability:
       recommendation: "recommended"
       version: "latest"
       description: "Metrics visualization"
-  
+
   logging:
     - name: "elasticsearch"
       recommendation: "optional"
@@ -300,7 +300,7 @@ observability:
       recommendation: "recommended"
       version: "latest"
       description: "Log collection"
-  
+
   tracing:
     - name: "jaeger"
       recommendation: "recommended"
@@ -309,7 +309,7 @@ observability:
     - name: "opentelemetry"
       recommendation: "recommended"
       description: "Observability framework"
-  
+
   apm:
     - name: "datadog"
       recommendation: "optional"

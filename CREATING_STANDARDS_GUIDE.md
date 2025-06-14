@@ -53,19 +53,19 @@ Every standard MUST include:
 # Good: Clear, practical example with context
 class UserService:
     """Service for managing user operations."""
-    
+
     def __init__(self, repository: UserRepository):
         self._repository = repository
-    
+
     async def get_user(self, user_id: str) -> User:
         """Get user by ID with proper error handling."""
         if not user_id:
             raise ValueError("User ID is required")
-        
+
         user = await self._repository.find_by_id(user_id)
         if not user:
             raise UserNotFoundError(f"User {user_id} not found")
-        
+
         return user
 ```
 

@@ -15,7 +15,7 @@ fi
 if ! command -v pre-commit &> /dev/null; then
     echo "Installing pre-commit..."
     pip3 install --user pre-commit
-    
+
     # Add to PATH if needed
     export PATH="$HOME/.local/bin:$PATH"
 fi

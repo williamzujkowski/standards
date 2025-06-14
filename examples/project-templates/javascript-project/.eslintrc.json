@@ -41,13 +41,13 @@
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "@typescript-eslint/strict-boolean-expressions": "error",
-    
+
     // React rules
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    
+
     // Import rules
     "import/order": [
       "error",
@@ -62,7 +62,7 @@
     ],
     "import/no-unresolved": "error",
     "import/no-cycle": "error",
-    
+
     // General rules (per CODING_STANDARDS.md)
     "no-console": ["warn", { "allow": ["warn", "error"] }],
     "no-debugger": "error",

@@ -1,8 +1,8 @@
 # Project Management Standards
 
-**Version:** 2.0.0  
-**Last Updated:** January 2025  
-**Status:** Active  
+**Version:** 2.0.0
+**Last Updated:** January 2025
+**Status:** Active
 **Standard Code:** PM
 
 ---

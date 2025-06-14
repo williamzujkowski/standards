@@ -39,7 +39,7 @@ standards:
             - id: "explicit-types"
               severity: "required"
               exceptions: ["inferred-returns"]
-      
+
       architecture:
         patterns:
           - id: "dependency-injection"
@@ -48,14 +48,14 @@ standards:
           - id: "repository-pattern"
             when: "data-access"
             severity: "recommended"
-        
+
         principles:
           - id: "single-responsibility"
             max_lines_per_class: 300
             max_methods_per_class: 10
           - id: "dependency-inversion"
             severity: "required"
-      
+
       error_handling:
         rules:
           - id: "no-empty-catch"
@@ -81,7 +81,7 @@ standards:
         new_code:
           minimum: 90
           enforcement: "required"
-      
+
       test_types:
         unit:
           required: true
@@ -112,7 +112,7 @@ standards:
           - id: "password-policy"
             min_length: 12
             complexity: ["uppercase", "lowercase", "numbers", "symbols"]
-      
+
       api_security:
         requirements:
           - id: "rate-limiting"
@@ -162,7 +162,7 @@ compliance_profiles:
         of: "recommended"
     coverage: 95
     security: "all"
-  
+
   standard:
     name: "Standard Development"
     requires:
@@ -171,7 +171,7 @@ compliance_profiles:
         of: "recommended"
     coverage: 85
     security: "required-only"
-  
+
   startup:
     name: "Startup Agile"
     requires:
@@ -189,7 +189,7 @@ automation:
         block: true
       - standard: "TS:broken"
         block: true
-  
+
   ci_cd:
     stages:
       - name: "validate"
@@ -204,13 +204,13 @@ tooling:
   # Reference the centralized TOOLS_CATALOG.yaml for all tool recommendations
   # This allows for easier updates and customization
   catalog_reference: "./TOOLS_CATALOG.yaml"
-  
+
   # Tool selection is now managed centrally with:
   # - Recommendation levels (required, recommended, optional, legacy, deprecated)
   # - Version management
   # - Migration paths
   # - Configuration templates in tools-config/
-  
+
   # Override specific tools for this project (if needed):
   overrides: {}
     # example:

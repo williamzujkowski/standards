@@ -1,8 +1,8 @@
 # Comprehensive Coding Standards for LLM Projects
 
-**Version:** 1.0.0  
-**Last Updated:** 2025-01-13  
-**Status:** Active  
+**Version:** 1.0.0
+**Last Updated:** 2025-01-13
+**Status:** Active
 **Standard Code:** CS
 
 ---

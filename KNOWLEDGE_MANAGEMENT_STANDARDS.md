@@ -1,8 +1,8 @@
 # Knowledge Management Standards
 
-**Version:** 1.0.0  
-**Last Updated:** January 2025  
-**Status:** Active  
+**Version:** 1.0.0
+**Last Updated:** January 2025
+**Status:** Active
 **Standard Code:** KM
 
 ---
@@ -252,15 +252,15 @@ import logging
 
 class DocumentManager:
     """Manages document lifecycle with versioning."""
-    
+
     def __init__(self, storage_backend: StorageBackend):
         self.storage = storage_backend
         self.logger = logging.getLogger(__name__)
-    
+
     def save_document(
-        self, 
-        doc_id: str, 
-        content: str, 
+        self,
+        doc_id: str,
+        content: str,
         metadata: Optional[dict] = None
     ) -> str:
         """Save document with automatic versioning."""
@@ -330,11 +330,11 @@ loading_strategies:
   small_context:  # < 4K tokens
     - load: ["overview", "quick_reference"]
     - exclude: ["examples", "appendices"]
-  
+
   medium_context:  # 4K-32K tokens
     - load: ["overview", "core_sections", "examples"]
     - lazy_load: ["advanced", "edge_cases"]
-  
+
   large_context:  # > 32K tokens
     - load: ["*"]
     - optimize: ["remove_duplicates", "compress_examples"]
@@ -556,7 +556,7 @@ Provide contextual recommendations:
 context_suggestions:
   - trigger: "reading CODING_STANDARDS"
     suggest: ["TESTING_STANDARDS", "CODE_REVIEW_CHECKLIST"]
-  
+
   - trigger: "searching error handling"
     suggest: ["LOGGING_STANDARDS", "MONITORING_STANDARDS"]
 ```

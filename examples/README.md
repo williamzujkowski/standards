@@ -106,10 +106,10 @@ The `project-templates` directory contains ready-to-use project configurations:
    ```bash
    # Python project
    cp -r examples/project-templates/python-project/* my-new-project/
-   
+
    # JavaScript project
    cp -r examples/project-templates/javascript-project/* my-new-project/
-   
+
    # Go project
    cp -r examples/project-templates/go-project/* my-new-project/
    ```

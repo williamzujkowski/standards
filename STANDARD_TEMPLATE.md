@@ -1,8 +1,8 @@
 # [STANDARD_NAME] Standards
 
-**Version:** 1.0.0  
-**Last Updated:** [DATE]  
-**Status:** Draft/Active/Deprecated  
+**Version:** 1.0.0
+**Last Updated:** [DATE]
+**Status:** Draft/Active/Deprecated
 **Standard Code:** [XX] (2-4 letters for CLAUDE.md reference)
 
 ---
@@ -50,7 +50,7 @@
 // Good example
 [code]
 
-// Bad example  
+// Bad example
 [code]
 ```
 
@@ -210,7 +210,7 @@ setting = "value"
    ```bash
    # Step 1: [Description]
    [commands]
-   
+
    # Step 2: [Description]
    [commands]
    ```

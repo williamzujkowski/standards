@@ -56,9 +56,9 @@ Add to each *_STANDARDS.md file after the title:
 
 Template:
 ```markdown
-**Version:** 1.0.0  
-**Last Updated:** 2025-01-13  
-**Status:** Active  
+**Version:** 1.0.0
+**Last Updated:** 2025-01-13
+**Status:** Active
 **Standard Code:** XX (2-4 letters)
 
 ---

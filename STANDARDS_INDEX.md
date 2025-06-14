@@ -248,7 +248,7 @@ This index provides quick summaries of all standards sections. Use the codes bel
 ## 📊 Statistics
 
 - **Total Standards**: 17 documents
-- **Total Sections**: 143+ specialized topics  
+- **Total Sections**: 143+ specialized topics
 - **Quick Load Time**: <100ms per section
 - **Token Savings**: ~95% compared to full document loading
 

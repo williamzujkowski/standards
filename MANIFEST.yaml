@@ -256,7 +256,7 @@ standards:
     dependencies:
       requires: ["SEC:container", "OBS:distributed"]
       recommends: ["EVT:patterns", "COST:cloud"]
-  
+
   # Data Engineering Standards
   DE:
     full_name: "DATA_ENGINEERING_STANDARDS.md"
@@ -286,7 +286,7 @@ standards:
     dependencies:
       requires: ["CS:patterns"]
       recommends: ["OBS:monitoring", "COST:data"]
-  
+
   # DevOps Platform Standards
   DOP:
     full_name: "DEVOPS_PLATFORM_STANDARDS.md"
@@ -316,7 +316,7 @@ standards:
     dependencies:
       requires: ["CS:patterns"]
       recommends: ["CN:kubernetes", "OBS:monitoring"]
-  
+
   # Observability Standards
   OBS:
     full_name: "OBSERVABILITY_STANDARDS.md"
@@ -346,7 +346,7 @@ standards:
     dependencies:
       requires: []
       recommends: ["DOP:sre", "CN:kubernetes"]
-  
+
   # Cost Optimization Standards
   COST:
     full_name: "COST_OPTIMIZATION_STANDARDS.md"
@@ -376,7 +376,7 @@ standards:
     dependencies:
       requires: []
       recommends: ["CN:optimization", "OBS:metrics"]
-  
+
   # Additional Standards
   PM:
     full_name: "PROJECT_MANAGEMENT_STANDARDS.md"
@@ -402,7 +402,7 @@ standards:
     dependencies:
       requires: []
       recommends: []
-  
+
   LEG:
     full_name: "LEGAL_COMPLIANCE_STANDARDS.md"
     size: "45KB"
@@ -427,7 +427,7 @@ standards:
     dependencies:
       requires: []
       recommends: ["SEC:encryption", "CS:audit"]
-  
+
   WD:
     full_name: "WEB_DESIGN_UX_STANDARDS.md"
     size: "55KB"
@@ -452,7 +452,7 @@ standards:
     dependencies:
       requires: []
       recommends: ["FE:accessibility", "FE:components"]
-  
+
   SEO:
     full_name: "SEO_WEB_MARKETING_STANDARDS.md"
     size: "51KB"
@@ -477,7 +477,7 @@ standards:
     dependencies:
       requires: []
       recommends: ["FE:performance", "WD:content"]
-  
+
   EVT:
     full_name: "EVENT_DRIVEN_STANDARDS.md"
     size: "38KB"
@@ -502,7 +502,7 @@ standards:
     dependencies:
       requires: ["CS:patterns"]
       recommends: ["CN:microservices", "OBS:tracing"]
-  
+
   GH:
     full_name: "GITHUB_PLATFORM_STANDARDS.md"
     size: "49KB"
@@ -527,7 +527,7 @@ standards:
     dependencies:
       requires: []
       recommends: ["DOP:cicd", "SEC:*"]
-  
+
   CONT:
     full_name: "CONTENT_STANDARDS.md"
     size: "40KB"
@@ -552,7 +552,7 @@ standards:
     dependencies:
       requires: []
       recommends: ["SEO:content", "WD:content"]
-  
+
   TOOL:
     full_name: "TOOLCHAIN_STANDARDS.md"
     size: "43KB"
@@ -577,7 +577,7 @@ standards:
     dependencies:
       requires: []
       recommends: ["CS:*", "SEC:*"]
-  
+
   UNIFIED:
     identifier: "UNIFIED"
     full_name: "UNIFIED_STANDARDS.md"
@@ -598,22 +598,22 @@ loading_strategies:
     description: "Bare minimum for quick reference"
     sections: ["overview"]
     max_tokens: 2000
-    
+
   standard:
     description: "Common development tasks"
     sections: ["overview", "main_topic", "examples"]
     max_tokens: 5000
-    
+
   comprehensive:
     description: "Full implementation guidance"
     sections: ["all"]
     max_tokens: 15000
-    
+
   security_focused:
     description: "Security review and implementation"
     include_standards: ["SEC:*", "CS:security", "TS:security"]
     sections: ["overview", "implementation", "checklist"]
-    
+
   performance_focused:
     description: "Performance optimization"
     include_standards: ["CS:performance", "FE:performance", "OBS:metrics", "COST:*"]
@@ -625,22 +625,22 @@ profiles:
     standards: ["CS:error-handling", "TS:regression", "CS:patterns"]
     sections: ["overview", "patterns"]
     priority: "high"
-    
+
   new_feature:
     standards: ["CS:architecture", "TS:tdd", "SEC:relevant"]
     sections: ["overview", "patterns", "examples"]
     priority: "medium"
-    
+
   security_review:
     standards: ["SEC:*", "TS:security", "CS:validation"]
     sections: ["all"]
     priority: "critical"
-    
+
   performance_optimization:
     standards: ["CS:performance", "OBS:metrics", "COST:*"]
     sections: ["overview", "patterns", "metrics"]
     priority: "high"
-    
+
   api_development:
     standards: ["CS:api", "SEC:api", "TS:integration", "CS:validation"]
     sections: ["overview", "patterns", "examples", "checklist"]
@@ -654,7 +654,7 @@ cache:
     examples: 86400  # 24 hours
     patterns: 43200  # 12 hours
     implementation: 3600  # 1 hour
-  
+
 # Version tracking
 versioning:
   strategy: "semantic"
@@ -663,11 +663,11 @@ versioning:
     MAJOR: "Breaking changes requiring migration"
     MINOR: "New features, backward compatible"
     PATCH: "Bug fixes and clarifications"
-  
+
   # Current versions for all standards
   current_versions:
     CS: "latest"  # Coding Standards
-    SEC: "latest"  # Security Standards  
+    SEC: "latest"  # Security Standards
     TS: "latest"  # Testing Standards
     FE: "latest"  # Frontend Standards
     CN: "latest"  # Cloud Native Standards
@@ -683,7 +683,7 @@ versioning:
     GH: "latest"  # GitHub Platform
     CONT: "latest"  # Content Standards
     TOOL: "latest"  # Toolchain Standards
-  
+
   # Version support policy
   support_policy:
     current: "Latest stable release"
@@ -691,14 +691,14 @@ versioning:
     previous: "6 months after new release"
     legacy: "Security patches only"
     eol: "No support"
-  
+
   # Compatibility modes
   compatibility:
     strict: "Exact version match required"
     compatible: "Accept patch updates (x.x.PATCH)"
     flexible: "Accept minor updates (x.MINOR.x)"
     latest: "Always use newest version"
-  
+
   # Migration tracking
   migrations:
     available:
@@ -710,16 +710,16 @@ versioning:
         to: "SEC:3.0.0"
         automated: ["auth-patterns", "encryption-standards"]
         manual: ["zero-trust-migration"]
-  
+
   # Experimental features
   experimental:
     enabled: false
     features:
       - "ai-patterns"
-      - "llm-integration" 
+      - "llm-integration"
       - "automated-refactoring"
       - "predictive-compliance"
-  
+
   # Change notification
   notifications:
     enabled: true
