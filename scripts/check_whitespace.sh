@@ -2,13 +2,23 @@
 # Script to check for trailing whitespace without modifying files
 # Used for CI/CD validation
 
-set -euo pipefail
+set -uo pipefail
 
-# Color codes for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-NC='\033[0m' # No Color
+# Add error handler
+trap 'echo "Error on line $LINENO: Command failed with exit code $?"' ERR
+
+# Color codes for output (disable in CI)
+if [[ -n "${CI:-}" ]] || [[ -n "${GITHUB_ACTIONS:-}" ]]; then
+    RED=''
+    GREEN=''
+    YELLOW=''
+    NC=''
+else
+    RED='\033[0;31m'
+    GREEN='\033[0;32m'
+    YELLOW='\033[0;33m'
+    NC='\033[0m' # No Color
+fi
 
 # Function to check for trailing whitespace in a file
 check_file() {
@@ -32,6 +42,13 @@ main() {
 
     echo -e "${GREEN}Checking for trailing whitespace...${NC}"
 
+    # Debug info in CI
+    if [[ -n "${CI:-}" ]] || [[ -n "${GITHUB_ACTIONS:-}" ]]; then
+        echo "Running in CI/GitHub Actions environment"
+        echo "Current directory: $(pwd)"
+        echo "Script location: $0"
+    fi
+
     # Define file extensions to check
     local extensions=("md" "yml" "yaml" "py" "sh" "json" "js" "ts" "tsx" "jsx" "txt" "rst" "toml" "cfg" "ini" "xml" "html" "css" "scss" "sass")
 
@@ -50,6 +67,19 @@ main() {
     echo -e "\n${GREEN}Summary:${NC}"
     echo -e "Files checked: $files_checked"
     echo -e "Files with trailing whitespace: $files_with_whitespace"
+
+    # Debug output for CI
+    if [[ -n "${CI:-}" ]] || [[ -n "${GITHUB_ACTIONS:-}" ]]; then
+        if [[ $files_checked -eq 0 ]]; then
+            echo "WARNING: No files were checked. This might indicate an issue with the find command."
+            echo "Trying alternative check..."
+            # Run a simple grep to see if there are files with trailing whitespace
+            if grep -r '[[:space:]]$' --include="*.md" --include="*.yml" --include="*.yaml" . 2>/dev/null; then
+                echo "Found files with trailing whitespace using grep"
+                exit 1
+            fi
+        fi
+    fi
 
     if [[ $files_with_whitespace -gt 0 ]]; then
         echo -e "\n${RED}❌ Found trailing whitespace in $files_with_whitespace file(s)${NC}"
