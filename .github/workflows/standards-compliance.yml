@@ -24,6 +24,23 @@ jobs:
       - name: Validate YAML files
         run: |
           find . -name "*.yml" -o -name "*.yaml" | xargs -I {} yamllint {}
+      
+      - name: Run Knowledge Management Tests
+        run: |
+          echo "Running knowledge management validation tests..."
+          if [ -f tests/validate_knowledge_management.sh ]; then
+            cd tests && bash validate_knowledge_management.sh
+          fi
+      
+      - name: Run Cross-Reference Validation
+        run: |
+          echo "Running cross-reference validation..."
+          if [ -f tests/validate_cross_references.py ]; then
+            python3 tests/validate_cross_references.py || {
+              echo "Cross-reference validation failed. Run 'python3 tests/fix_validation_issues.py' locally to fix."
+              exit 1
+            }
+          fi
 
       - name: Check for large files
         run: |

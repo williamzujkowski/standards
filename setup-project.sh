@@ -15,7 +15,8 @@ git clone --depth 1 "$STANDARDS_REPO" "$TEMP_DIR/standards"
 
 # Copy essential files
 cp "$TEMP_DIR/standards/CLAUDE.md" "$PROJECT_DIR/docs/"
-cp "$TEMP_DIR/standards/MASTER_PROMPT.md" "$PROJECT_DIR/docs/"
+cp "$TEMP_DIR/standards/KICKSTART_PROMPT.md" "$PROJECT_DIR/docs/"
+cp "$TEMP_DIR/standards/KICKSTART_ADVANCED.md" "$PROJECT_DIR/docs/"
 
 # Create project-specific standards reference
 cat > "$PROJECT_DIR/docs/PROJECT_STANDARDS.md" << 'EOF'

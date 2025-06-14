@@ -4,6 +4,57 @@ last_updated: "2025-01-13"
 
 # Standard metadata and loading configuration
 standards:
+  # Knowledge Management Standards
+  KM:
+    identifier: "KM"
+    full_name: "KNOWLEDGE_MANAGEMENT_STANDARDS.md"
+    size: "52KB"
+    token_estimate: 14000
+    sections:
+      overview:
+        tokens: 400
+        priority: "critical"
+        description: "Introduction to knowledge management architecture"
+      core-principles:
+        tokens: 800
+        priority: "critical"
+        description: "Five fundamental principles"
+      architecture:
+        tokens: 1500
+        priority: "high"
+        description: "Repository and document structure"
+      documentation:
+        tokens: 1800
+        priority: "high"
+        description: "Documentation standards and patterns"
+      ai-integration:
+        tokens: 2000
+        priority: "critical"
+        description: "AI/LLM optimization strategies"
+      progressive-disclosure:
+        tokens: 1200
+        priority: "high"
+        description: "Multi-level information architecture"
+      cross-reference:
+        tokens: 1000
+        priority: "medium"
+        description: "Relationship management"
+      version-management:
+        tokens: 800
+        priority: "medium"
+        description: "Versioning and migration"
+      search:
+        tokens: 700
+        priority: "medium"
+        description: "Search and discovery optimization"
+      checklist:
+        tokens: 800
+        priority: "low"
+        description: "Implementation checklist"
+    dependencies:
+      requires: []
+      recommends: ["CS", "TS", "DOP"]
+      complements: ["ALL"]
   # Coding Standards
   CS:
     full_name: "CODING_STANDARDS.md"
@@ -526,6 +577,20 @@ standards:
     dependencies:
       requires: []
       recommends: ["CS:*", "SEC:*"]
+  
+  UNIFIED:
+    identifier: "UNIFIED"
+    full_name: "UNIFIED_STANDARDS.md"
+    size: "45KB"
+    token_estimate: 12000
+    sections:
+      overview:
+        tokens: 500
+        priority: "critical"
+        description: "Comprehensive overview"
+    dependencies:
+      requires: []
+      recommends: ["CS", "TS", "SEC"]
 
 # Loading strategies based on use case
 loading_strategies:
@@ -660,3 +725,5 @@ versioning:
     enabled: true
     channels: ["email", "slack", "webhook"]
     subscribe_to: ["breaking-changes", "security-updates", "new-features"]
+
+# Related to Knowledge Management Standards - see KNOWLEDGE_MANAGEMENT_STANDARDS.md

@@ -5,6 +5,8 @@
 **Version:** 3.0.0
 **Last Updated:** January 2025
 
+> 🚀 **New:** Use [KICKSTART_PROMPT.md](./KICKSTART_PROMPT.md) for instant project analysis and implementation guidance!
+
 ---
 
 ## 🧠 Intelligent Context System
@@ -31,6 +33,7 @@ context:
 # Basic Loading
 @load CS:api                    # Single section
 @load [CS:* + TS:* + SEC:*]    # Multiple standards
+@load KM:*                      # Knowledge management architecture
 
 # Advanced Loading
 @load CS:api version:[latest] expand:[dependencies]
@@ -40,6 +43,7 @@ context:
 # Semantic Loading
 @ask "How to build secure API" → auto-loads relevant standards
 @need "performance optimization" → loads performance toolkit
+@ask "how to organize docs" → loads KM:architecture + examples
 ```
 
 ### Natural Language Mappings
@@ -49,10 +53,27 @@ context:
 | "Make my app faster" | `CS:performance + OBS:metrics + COST:optimization` | Performance toolkit |
 | "Start React project" | `FE:react + WD:* + TS:jest + CS:javascript` | React ecosystem |
 | "Database optimization" | `CS:performance + DE:optimization + OBS:metrics` | Query optimization |
+| "Data engineering" | `DE:* + CS:patterns + OBS:monitoring` | Data pipelines |
+| "Unified overview" | `UNIFIED:* + CS:overview + TS:overview` | Quick reference |
+| "All standards overview" | `UNIFIED:comprehensive` | Complete reference |
 | "Microservices setup" | `CN:microservices + EVT:* + OBS:distributed` | Distributed systems |
 | "CI/CD pipeline" | `DOP:cicd + GH:actions + TS:*` | Automation setup |
 | "GDPR compliance" | `LEG:privacy + SEC:encryption + CS:audit` | Privacy focus |
 | "Mobile app standards" | `FE:mobile + SEC:mobile + TS:mobile` | Cross-platform |
+| "Documentation system" | `KM:* + CS:documentation + DOP:automation` | Knowledge management |
+| "Organize standards" | `KM:architecture + KM:cross-reference` | Standards architecture |
+| "Project management" | `PM:* + GH:projects + CONT:*` | Project organization |
+| "Content strategy" | `CONT:* + SEO:content + WD:content` | Content management |
+| "SEO optimization" | `SEO:* + FE:performance + WD:*` | Search optimization |
+| "Tool selection" | `TOOL:* + CS:tools + SEC:tools` | Toolchain guidance |
+| "Cost management" | `COST:* + CN:optimization + OBS:metrics` | Cost optimization |
+| "Testing strategy" | `TS:* + CS:testing + SEC:security` | Testing practices |
+| "Monitoring setup" | `OBS:* + CN:kubernetes + DOP:sre` | Observability |
+| "UX design" | `WD:* + FE:accessibility + SEO:technical` | Design standards |
+| "Event architecture" | `EVT:* + CN:microservices + OBS:tracing` | Event-driven |
+| "Security audit" | `SEC:* + TS:security + LEG:compliance` | Security review |
+| "Legal compliance" | `LEG:* + SEC:privacy + CONT:governance` | Compliance |
+| "GitHub best practices" | `GH:* + DOP:cicd + SEC:github` | GitHub usage |
 
 ### Tool Selection Queries
 | Query | Tools Loaded | Purpose |
@@ -83,6 +104,11 @@ performance:
   load: [CS:performance + OBS:metrics + COST:*]
   analyze: [bottlenecks, cost-drivers]
   optimize: [code, infrastructure, queries]
+
+quick_reference:
+  load: [UNIFIED:overview + CS:patterns + TS:best-practices]
+  suggest: [common-patterns, quick-wins]
+  validate: [standards-compliance]
 ```
 
 ---
@@ -470,3 +496,16 @@ Initial: @generate based-on:[requirements]
 ---
 
 **Token Optimization:** Advanced features with only ~10% token increase over v2.0
+
+---
+
+## 📝 Contributing New Standards
+
+To create new standards that integrate with this system:
+1. Use [STANDARD_TEMPLATE.md](./STANDARD_TEMPLATE.md) as your starting point
+2. Follow [CREATING_STANDARDS_GUIDE.md](./CREATING_STANDARDS_GUIDE.md) for integration
+3. Update this file with new loading patterns and mappings
+
+## Related Standards
+
+- [Knowledge Management Standards](./KNOWLEDGE_MANAGEMENT_STANDARDS.md) - Core architecture principles

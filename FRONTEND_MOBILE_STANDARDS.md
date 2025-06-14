@@ -1,5 +1,12 @@
 # Frontend and Mobile Development Standards
 
+**Version:** 1.0.0  
+**Last Updated:** January 2025  
+**Status:** Active  
+**Standard Code:** FE
+
+---
+
 **Version:** 1.0.0
 **Last Updated:** January 2025
 **Status:** Active
@@ -16,6 +23,11 @@
 8. [Testing and Quality Assurance](#8-testing-and-quality-assurance)
 
 ---
+
+## Overview
+
+This standard provides comprehensive guidelines and best practices for the subject area.
+It aims to ensure consistency, quality, and maintainability across all related implementations.
 
 ## 1. Frontend Architecture Standards
 

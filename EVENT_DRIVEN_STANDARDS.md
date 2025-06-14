@@ -1,5 +1,12 @@
 # Event-Driven Architecture Standards
 
+**Version:** 1.0.0  
+**Last Updated:** January 2025  
+**Status:** Active  
+**Standard Code:** EVT
+
+---
+
 **Version:** 1.0.0
 **Last Updated:** January 2025
 **Status:** Active
@@ -15,6 +22,11 @@
 7. [Event Processing and Analytics](#7-event-processing-and-analytics)
 
 ---
+
+## Overview
+
+This standard provides comprehensive guidelines and best practices for the subject area.
+It aims to ensure consistency, quality, and maintainability across all related implementations.
 
 ## 1. Event-Driven Design Principles
 

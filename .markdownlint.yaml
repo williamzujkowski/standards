@@ -1,0 +1,122 @@
+# Markdownlint Configuration for Standards Repository
+# Based on KNOWLEDGE_MANAGEMENT_STANDARDS.md requirements
+
+# Default state for all rules
+default: true
+
+# Line length - standards files can be longer for comprehensive coverage
+MD013:
+  line_length: 120
+  heading_line_length: 100
+  code_block_line_length: 100
+  strict: false
+  stern: true
+
+# Headers must use ATX style (# Header)
+MD003:
+  style: "atx"
+
+# Lists must be consistent
+MD004:
+  style: "consistent"
+
+# Proper nesting is required
+MD005: true
+
+# Lists must have proper spacing
+MD030:
+  ul_single: 1
+  ol_single: 1
+  ul_multi: 1
+  ol_multi: 1
+
+# No trailing spaces
+MD009: true
+
+# No hard tabs except in code blocks
+MD010:
+  code_blocks: false
+
+# No reversed link syntax
+MD011: true
+
+# No multiple consecutive blank lines
+MD012:
+  maximum: 2
+
+# Consistent unordered list markers
+MD004:
+  style: "dash"
+
+# First line must be a top-level heading
+MD041: true
+
+# Proper spacing around headings
+MD022: true
+MD023: true
+MD024: true
+MD025: true
+
+# Code blocks must have language specified
+MD040: true
+
+# Links must have descriptive text
+MD042: true
+
+# Images must have alt text
+MD045: true
+
+# Code blocks should be properly formatted
+MD046:
+  style: "fenced"
+
+# Files should end with a single newline
+MD047: true
+
+# Inline code should not have multiple spaces
+MD038: true
+
+# Spaces inside link text
+MD039: true
+
+# Fenced code blocks should be surrounded by blank lines
+MD031: true
+
+# Lists should be surrounded by blank lines
+MD032: true
+
+# Custom rules for standards repository
+
+# Disable rules that conflict with our standards
+MD033: false  # Allow inline HTML for complex formatting
+MD034: false  # Allow bare URLs in examples
+MD036: false  # Allow emphasis used as headers for [REQUIRED]/[RECOMMENDED]
+
+# Our standards use specific patterns that should be allowed
+MD002: false  # First header doesn't always need to be level 1 in sections
+MD026: false  # Allow trailing punctuation in headers (e.g., "## Overview:")
+
+# Warn but don't error on these
+MD007:  # Unordered list indentation
+  indent: 2
+  start_indented: false
+
+# Headers should have blank lines around them
+MD022: true
+MD023: true
+
+# Multiple headers with same content allowed (e.g., multiple "Overview" sections)
+MD024: false
+
+# Don't require single top-level header (we have versioning info before main header)
+MD025: false
+
+# Line length exceptions for specific patterns
+MD013:
+  tables: false
+  code_blocks: false
+  headings: false
+
+# Allow duplicate headers at different levels
+MD024:
+  siblings_only: true

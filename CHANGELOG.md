@@ -5,6 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- **KICKSTART_PROMPT.md** - Universal AI project kickstart prompt
+- **KICKSTART_ADVANCED.md** - Advanced kickstart patterns and examples
+- **examples/project_plan_example.md** - Sample project plan for kickstart
+- **STANDARD_TEMPLATE.md** - Template for creating new standards
+- **CREATING_STANDARDS_GUIDE.md** - Comprehensive guide for contributing standards
+- **CONTRIBUTING.md** - General contribution guidelines
+- **KNOWLEDGE_MANAGEMENT_STANDARDS.md** - Comprehensive guide for AI-optimized documentation systems
+- **tests/validate_cross_references.py** - Comprehensive cross-reference validation tests
+- **tests/validate_knowledge_management.sh** - Bash test runner for standards compliance
+- **tests/validate_token_efficiency.py** - Token efficiency analysis and recommendations
+- **tests/fix_validation_issues.py** - Automated fixes for common validation issues
+- **tests/README.md** - Documentation for the test suite
+- **lint/** directory - Comprehensive linting system:
+  - `.markdownlint.yaml` - Markdown linting configuration
+  - `.yamllint.yaml` - YAML linting configuration
+  - `standards-linter.py` - Custom Python linter for standards
+  - `custom-rules.js` - Node.js custom linting rules
+  - `.pre-commit-config.yaml` - Pre-commit hooks configuration
+  - `setup-hooks.sh` - Automated setup script
+  - `README.md` - Linting documentation
+- **TODO_TEST_FIXES.md** - Comprehensive list of test failures to fix
+
+### Changed
+- **README.md** - Reorganized with user-friendly structure:
+  - Quick Start Guide now front and center
+  - AI-Powered Kickstart as primary option
+  - Logical grouping of standards by category
+  - Reduced redundancy and simplified navigation
+  - Cleaner, more concise format (190 lines vs 536)
+
 ## [2.1.0] - 2025-01-08
 
 ### Added

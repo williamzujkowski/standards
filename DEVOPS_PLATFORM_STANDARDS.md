@@ -1,5 +1,12 @@
 # DevOps and Platform Engineering Standards
 
+**Version:** 1.0.0  
+**Last Updated:** January 2025  
+**Status:** Active  
+**Standard Code:** DOP
+
+---
+
 **Version:** 1.0.0
 **Last Updated:** January 2025
 **Status:** Active
@@ -16,6 +23,11 @@
 8. [Release Management](#8-release-management)
 
 ---
+
+## Overview
+
+This standard provides comprehensive guidelines and best practices for the subject area.
+It aims to ensure consistency, quality, and maintainability across all related implementations.
 
 ## 1. Infrastructure as Code (IaC)
 

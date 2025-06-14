@@ -11,6 +11,15 @@ Maps relationships between standards to enable intelligent loading and comprehen
 - `→ enhances →` : Optional but beneficial
 - `→ conflicts →` : Cannot use together
 
+### Knowledge Management Dependencies
+```
+KM:* → complements → ALL standards (universal applicability)
+KM:architecture → requires → CS:documentation
+KM:ai-integration → requires → CLAUDE.md
+KM:progressive-disclosure → enhances → ALL documentation
+KM:cross-reference → requires → standards relationship mapping
+```
+
 ### Security Dependencies
 ```
 SEC:auth → requires → CS:error-handling + CS:logging

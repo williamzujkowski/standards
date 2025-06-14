@@ -1,520 +1,215 @@
 # 🚀 Comprehensive Software Development Standards
 
-**A complete collection of battle-tested standards for modern software development**
+**Battle-tested standards for modern software development with AI-powered kickstart**
 
 [![Version](https://img.shields.io/badge/version-latest-blue.svg)](https://github.com/williamzujkowski/standards)
 [![Standards](https://img.shields.io/badge/standards-21%20documents-green.svg)](https://github.com/williamzujkowski/standards)
 [![License](https://img.shields.io/badge/license-MIT-purple.svg)](LICENSE)
 [![Compliance](https://github.com/williamzujkowski/standards/actions/workflows/standards-compliance.yml/badge.svg)](https://github.com/williamzujkowski/standards/actions/workflows/standards-compliance.yml)
-[![Last Updated](https://img.shields.io/badge/updated-June%202025-orange.svg)](https://github.com/williamzujkowski/standards)
 
 ---
 
-## 📋 Table of Contents
+## 🎯 Quick Start Guide
 
-- [Overview](#overview)
-- [Legal Disclaimer](#legal-disclaimer)
-- [Quick Start](#quick-start)
-- [Standards Library](#standards-library)
-- [Integration Tools](#integration-tools)
-- [LLM Optimization](#llm-optimization)
-- [Implementation Guide](#implementation-guide)
-- [Contributing](#contributing)
-- [License](#license)
+### 🚀 **Option 1: AI-Powered Project Kickstart** (Recommended)
 
----
+Get instant project analysis and implementation guidance:
 
-## 🔄 Recent Updates (June 2025)
+1. **Copy the kickstart prompt** from [KICKSTART_PROMPT.md](./KICKSTART_PROMPT.md)
+2. **Paste into any LLM** (ChatGPT, Claude, Gemini, etc.) along with your project plan
+3. **Get instant analysis** including:
+   - Tech stack validation
+   - Relevant standards recommendations
+   - Project structure and boilerplate
+   - Implementation roadmap
+   - Tool recommendations
 
-- ✅ Fixed all YAML formatting issues for standards compliance
-- ✅ Updated GitHub Actions workflow for better error handling
-- ✅ Consolidated LLM files for better organization
-- ✅ Improved large file detection in CI/CD pipeline
-- ✅ All 21 standards documents now fully validated
-- ✅ Enhanced CI/CD with YAML linting and validation
+> 💡 **Example**: See [examples/project_plan_example.md](./examples/project_plan_example.md) for a sample project plan
 
----
+### ⚡ **Option 2: Automated Setup Script**
 
-## 🎯 Overview
-
-This repository contains a comprehensive collection of software development standards covering every aspect of modern software engineering. From coding practices to cloud architecture, from security to SEO, these standards represent industry best practices refined through real-world implementation.
-
-### Why These Standards?
-
-- **Comprehensive Coverage**: 21 specialized documents covering all aspects of development
-- **Battle-Tested**: Based on real-world projects and industry best practices
-- **LLM-Optimized**: Special routing system for efficient AI/LLM usage
-- **Constantly Updated**: Regular updates to reflect industry changes
-- **Implementation-Ready**: Includes code examples, templates, and checklists
-
-### Who Is This For?
-
-- **Development Teams**: Establish consistent practices across projects
-- **Tech Leads**: Implement industry best practices quickly
-- **Startups**: Bootstrap development processes with proven standards
-- **Enterprises**: Standardize practices across large organizations
-- **Individual Developers**: Level up skills with comprehensive guidelines
-
----
-
-## ⚖️ Legal Disclaimer
-
-**IMPORTANT: Please read this disclaimer carefully before using these standards.**
-
-1. **No Warranty**: These standards are provided "as is" without warranty of any kind, express or implied.
-
-2. **Not Legal Advice**: The LEGAL_COMPLIANCE_STANDARDS.md and related documents do NOT constitute legal advice. Always consult qualified legal professionals for legal matters.
-
-3. **No Liability**: The authors and contributors assume no liability for the use of these standards or any consequences arising from their implementation.
-
-4. **Your Responsibility**: You are responsible for evaluating the suitability of these standards for your specific use case and ensuring compliance with applicable laws and regulations.
-
-5. **Industry Guidelines**: These standards represent general industry best practices and may need adaptation for specific contexts, industries, or jurisdictions.
-
----
-
-## 🤖 LLM Integration
-
-This repository is optimized for AI assistants like Claude, GPT-4, and GitHub Copilot:
-
-### Quick Start for LLMs
-```
-# Basic usage
-@load [CS:python + TS:pytest + SEC:*]
-
-# Natural language
-"I need to build a React app with authentication"
-→ Automatically loads: FE:react + SEC:auth + WD:components + TS:jest
-```
-
-### Key Features
-- **90% token reduction** with intelligent routing via CLAUDE.md
-- **Instant answers** without loading full documents
-- **Progressive loading** - start small, expand as needed
-- **Remote access** - no need to download entire repository
-
-### For AI Assistants
-Always reference **CLAUDE.md** as your primary interface. It provides:
-- Natural language → standards mapping
-- Context-aware loading
-- Task-based routing
-- Optimization patterns
-
----
-
-## 🚀 Quick Start
-
-### For New Projects
-
-#### Option 1: Automated Setup (Recommended)
 ```bash
 curl -O https://raw.githubusercontent.com/williamzujkowski/standards/master/setup-project.sh
 chmod +x setup-project.sh
 ./setup-project.sh my-new-project
 ```
 
-#### Option 2: Manual Setup
-1. Start with **UNIFIED_STANDARDS.md** - Your comprehensive foundation
-2. Copy **CLAUDE.md** to your project for AI assistance
-3. Use templates from `examples/project-templates/` directory for your language
-4. Follow **ADOPTION_CHECKLIST.md** for systematic implementation
+### 📋 **Option 3: Manual Setup**
 
-### For Existing Projects
+1. Start with **[UNIFIED_STANDARDS.md](./UNIFIED_STANDARDS.md)** - Your comprehensive foundation
+2. Copy **[CLAUDE.md](./CLAUDE.md)** to your project for AI assistance
+3. Use templates from `examples/project-templates/` for your language
+4. Follow **[ADOPTION_CHECKLIST.md](./ADOPTION_CHECKLIST.md)** for systematic implementation
 
-1. Read **INTEGRATION_GUIDE.md** for detailed integration strategies
-2. Perform gap analysis using relevant standard checklists
-3. Prioritize implementation based on:
-   - Security standards (MODERN_SECURITY_STANDARDS.md)
-   - Testing standards (TESTING_STANDARDS.md)
-   - Core coding standards (CODING_STANDARDS.md)
-4. Use language-specific templates from `examples/project-templates/` directory
+### 🤖 **For AI/LLM Users**
 
-### For LLM/AI Usage
-
-Always include **CLAUDE.md** in your project and use the dynamic loading syntax:
+Use our token-optimized loading system:
 ```
-@load [CS:style,architecture + TS:core + SEC:auth]
+# Basic usage
+@load [CS:python + TS:pytest + SEC:*]
+
+# Natural language
+"I need to build a React app with authentication"
+→ Automatically loads: FE:react + SEC:auth + WD:components
 ```
 
-### Quick Integration Options
+---
 
+## ⚖️ Legal Disclaimer
+
+**IMPORTANT**: These standards are provided "as is" without warranty. Legal compliance documents do NOT constitute legal advice. Always consult qualified professionals for legal matters. You are responsible for evaluating suitability for your specific use case.
+
+---
+
+## 📚 What's Included
+
+### **21 Comprehensive Standards Documents**
+Complete coverage of modern software development practices from coding to deployment, security to compliance.
+
+### **AI-Powered Features**
+- 90% token reduction with CLAUDE.md
+- Natural language to standards mapping
+- Instant project kickstart analysis
+- Context-aware recommendations
+
+### **Ready-to-Use Templates**
+- Language configs (Python, JS/TS, Go)
+- CI/CD workflows
+- Docker & Kubernetes manifests
+- Tool configurations
+
+### **Integration Tools**
+- Automated setup scripts
+- Compliance checking
+- Badge generation
+- Migration guides
+
+---
+
+## 📂 Standards Categories
+
+### 💻 **Development & Engineering**
+- **[UNIFIED_STANDARDS.md](./UNIFIED_STANDARDS.md)** - Master document with all core standards
+- **[CODING_STANDARDS.md](./CODING_STANDARDS.md)** - Language-specific best practices
+- **[TESTING_STANDARDS.md](./TESTING_STANDARDS.md)** - Comprehensive testing methodologies
+- **[MODERN_SECURITY_STANDARDS.md](./MODERN_SECURITY_STANDARDS.md)** - Zero Trust security implementation
+- **[DATA_ENGINEERING_STANDARDS.md](./DATA_ENGINEERING_STANDARDS.md)** - Data pipeline and analytics
+- **[KNOWLEDGE_MANAGEMENT_STANDARDS.md](./KNOWLEDGE_MANAGEMENT_STANDARDS.md)** - Documentation architecture patterns
+
+### 🎨 **Frontend & Design**
+- **[FRONTEND_MOBILE_STANDARDS.md](./FRONTEND_MOBILE_STANDARDS.md)** - React/Vue/Angular & mobile
+- **[WEB_DESIGN_UX_STANDARDS.md](./WEB_DESIGN_UX_STANDARDS.md)** - Design systems & accessibility
+
+### 🔧 **Operations & Infrastructure**
+- **[CLOUD_NATIVE_STANDARDS.md](./CLOUD_NATIVE_STANDARDS.md)** - Container & microservices patterns
+- **[DEVOPS_PLATFORM_STANDARDS.md](./DEVOPS_PLATFORM_STANDARDS.md)** - CI/CD & Infrastructure as Code
+- **[OBSERVABILITY_STANDARDS.md](./OBSERVABILITY_STANDARDS.md)** - Monitoring, logging, tracing
+- **[EVENT_DRIVEN_STANDARDS.md](./EVENT_DRIVEN_STANDARDS.md)** - Event architecture patterns
+
+### 📊 **Business & Compliance**
+- **[PROJECT_MANAGEMENT_STANDARDS.md](./PROJECT_MANAGEMENT_STANDARDS.md)** - Agile & team practices
+- **[COST_OPTIMIZATION_STANDARDS.md](./COST_OPTIMIZATION_STANDARDS.md)** - FinOps & resource optimization
+- **[LEGAL_COMPLIANCE_STANDARDS.md](./LEGAL_COMPLIANCE_STANDARDS.md)** - Privacy & regulatory compliance
+- **[SEO_WEB_MARKETING_STANDARDS.md](./SEO_WEB_MARKETING_STANDARDS.md)** - Technical SEO & marketing
+
+### 🤖 **AI/LLM Integration**
+- **[CLAUDE.md](./CLAUDE.md)** - Primary LLM interface (90% token reduction)
+- **[KICKSTART_PROMPT.md](./KICKSTART_PROMPT.md)** - Universal project kickstart prompt
+- **[KICKSTART_ADVANCED.md](./KICKSTART_ADVANCED.md)** - Advanced kickstart patterns
+- **[KNOWLEDGE_MANAGEMENT_STANDARDS.md](./KNOWLEDGE_MANAGEMENT_STANDARDS.md)** - How to build AI-optimized documentation systems
+
+---
+
+## 🛠️ Integration Options
+
+### **For New Projects**
+1. Use the AI Kickstart (Option 1) for instant guidance
+2. Run setup script (Option 2) for automated structure
+3. Copy relevant templates from `examples/project-templates/`
+
+### **For Existing Projects**
+1. Read **[INTEGRATION_GUIDE.md](./INTEGRATION_GUIDE.md)** for strategies
+2. Perform gap analysis using standard checklists
+3. Prioritize: Security → Testing → Core Standards
+4. Use **[ADOPTION_CHECKLIST.md](./ADOPTION_CHECKLIST.md)** for phased adoption
+
+### **Quick Integration Methods**
 - **Git Submodule**: `git submodule add https://github.com/williamzujkowski/standards.git .standards`
-- **Direct Copy**: Copy `CLAUDE.md` to your project for AI assistance
-- **Templates**: Use language-specific configs from `examples/project-templates/` directory
+- **Direct Copy**: Copy CLAUDE.md + relevant standards to your project
+- **Remote Access**: Use standards directly via LLM without downloading
 
 ---
 
-## 📚 Standards Library
+## 🌟 Essential Links
 
-### 🎯 Core Standards
+### **Getting Started**
+- 🚀 [KICKSTART_PROMPT.md](./KICKSTART_PROMPT.md) - AI project analyzer
+- 📚 [UNIFIED_STANDARDS.md](./UNIFIED_STANDARDS.md) - Complete standards reference
+- 🤖 [CLAUDE.md](./CLAUDE.md) - LLM optimization interface
+- ✅ [ADOPTION_CHECKLIST.md](./ADOPTION_CHECKLIST.md) - Implementation roadmap
 
-#### [UNIFIED_STANDARDS.md](./UNIFIED_STANDARDS.md) (1,463 lines)
-The master document containing comprehensive development standards. Start here for a complete overview.
-- Core development principles
-- Extended standards library references
-- Implementation guidelines
-- Complete checklists
+### **Templates & Tools**
+- 📁 [Project Templates](./examples/project-templates/) - Language-specific configs
+- 🔧 [Setup Script](./setup-project.sh) - Automated project setup
+- 📊 [Integration Guide](./INTEGRATION_GUIDE.md) - Detailed integration strategies
+- 🏷️ [Badge Generator](./generate-badges.sh) - Compliance badges
+- 📝 [Standard Template](./STANDARD_TEMPLATE.md) - Template for new standards
+- 📖 [Creating Standards Guide](./CREATING_STANDARDS_GUIDE.md) - How to contribute standards
 
-#### [CODING_STANDARDS.md](./CODING_STANDARDS.md)
-Fundamental coding practices and style guidelines.
-- Language-specific standards
-- Code organization
-- Best practices
-- Anti-patterns to avoid
-
-#### [TESTING_STANDARDS.md](./TESTING_STANDARDS.md)
-Comprehensive testing methodologies and quality assurance.
-- Testing strategies
-- Coverage requirements
-- Test types and patterns
-- QA processes
-
-#### [CLAUDE.md](./CLAUDE.md) (223 lines) ⚡
-LLM-optimized routing document for efficient standard access.
-- 85% token reduction
-- Dynamic loading syntax
-- Task-based patterns
-- Quick reference guide
+### **Advanced Features**
+- 🧩 [KICKSTART_ADVANCED.md](./KICKSTART_ADVANCED.md) - Advanced kickstart patterns
+- 📋 [TOOLS_CATALOG.yaml](./TOOLS_CATALOG.yaml) - Centralized tool management
+- 🔍 [STANDARDS_INDEX.md](./STANDARDS_INDEX.md) - Quick reference summaries
+- 📈 [STANDARDS_GRAPH.md](./STANDARDS_GRAPH.md) - Standards relationships
 
 ---
 
-### 🔧 Engineering Standards
+## 📊 Why These Standards?
 
-#### [MODERN_SECURITY_STANDARDS.md](./MODERN_SECURITY_STANDARDS.md) (2,116 lines)
-Comprehensive security implementation standards.
-- Zero Trust Architecture
-- DevSecOps practices
-- Container security
-- Incident response
-
-#### [CLOUD_NATIVE_STANDARDS.md](./CLOUD_NATIVE_STANDARDS.md)
-Cloud-native architecture and deployment patterns.
-- Container standards
-- Kubernetes best practices
-- Microservices patterns
-- Cloud-agnostic design
-
-#### [DATA_ENGINEERING_STANDARDS.md](./DATA_ENGINEERING_STANDARDS.md) (1,912 lines)
-Data pipeline and analytics engineering standards.
-- ETL/ELT design
-- Data quality frameworks
-- Stream processing
-- Analytics engineering
-
-#### [DEVOPS_PLATFORM_STANDARDS.md](./DEVOPS_PLATFORM_STANDARDS.md)
-Infrastructure and platform engineering standards.
-- Infrastructure as Code
-- CI/CD pipelines
-- GitOps practices
-- SRE principles
-
-#### [EVENT_DRIVEN_STANDARDS.md](./EVENT_DRIVEN_STANDARDS.md) (852 lines)
-Event-driven architecture and messaging patterns.
-- Event design principles
-- Message broker configuration
-- Saga patterns
-- Stream processing
-
-#### [OBSERVABILITY_STANDARDS.md](./OBSERVABILITY_STANDARDS.md) (2,351 lines)
-Monitoring, logging, and tracing standards.
-- Three pillars implementation
-- OpenTelemetry
-- SLOs and error budgets
-- Incident response
-
----
-
-### 💻 Frontend & UX Standards
-
-#### [FRONTEND_MOBILE_STANDARDS.md](./FRONTEND_MOBILE_STANDARDS.md) (2,476 lines)
-Frontend and mobile development standards.
-- React/Vue/Angular patterns
-- Performance optimization
-- PWA implementation
-- React Native development
-
-#### [WEB_DESIGN_UX_STANDARDS.md](./WEB_DESIGN_UX_STANDARDS.md)
-Visual design and user experience standards.
-- Design systems
-- Component libraries
-- Accessibility standards
-- Responsive design
-
----
-
-### 📈 Business & Operations Standards
-
-#### [PROJECT_MANAGEMENT_STANDARDS.md](./PROJECT_MANAGEMENT_STANDARDS.md) (886 lines)
-Agile project management and team collaboration.
-- Scrum implementation
-- Sprint management
-- Stakeholder engagement
-- Team excellence
-
-#### [CONTENT_STANDARDS.md](./CONTENT_STANDARDS.md)
-Content creation and editorial guidelines.
-- Writing standards
-- Editorial processes
-- Content governance
-- SEO content practices
-
-#### [SEO_WEB_MARKETING_STANDARDS.md](./SEO_WEB_MARKETING_STANDARDS.md)
-Technical SEO and digital marketing standards.
-- Technical SEO
-- Core Web Vitals
-- Marketing automation
-- Analytics implementation
-
-#### [COST_OPTIMIZATION_STANDARDS.md](./COST_OPTIMIZATION_STANDARDS.md)
-FinOps and resource optimization practices.
-- Cloud cost management
-- Resource optimization
-- Budget monitoring
-- Cost allocation
-
-#### [LEGAL_COMPLIANCE_STANDARDS.md](./LEGAL_COMPLIANCE_STANDARDS.md)
-Technical implementation for legal compliance.
-- Privacy implementation
-- License management
-- Accessibility standards
-- Audit trails
-
----
-
-### 📋 Supporting Documents
-
-#### Additional Resources
-- Use `CLAUDE.md` for all LLM interactions
-- Check `STANDARDS_INDEX.md` for quick summaries
-- Reference `DIRECT_ACCESS.md` for remote loading patterns
-
-#### [GITHUB_PLATFORM_STANDARDS.md](./GITHUB_PLATFORM_STANDARDS.md) (1,488 lines)
-GitHub-specific platform and workflow standards.
-- Repository management
-- GitHub Actions
-- Security automation
-- Project management
-
----
-
-## 🛠️ Integration Tools
-
-### Setup and Configuration
-
-#### [setup-project.sh](./setup-project.sh)
-Automated project setup script that creates a standards-compliant project structure.
-- Creates directory structure
-- Copies essential files
-- Sets up pre-commit hooks
-- Generates initial configs
-
-#### [INTEGRATION_GUIDE.md](./INTEGRATION_GUIDE.md)
-Comprehensive guide for integrating standards into your projects.
-- Multiple integration strategies
-- CI/CD configuration examples
-- Monitoring and compliance tracking
-- Best practices
-
-#### [ADOPTION_CHECKLIST.md](./ADOPTION_CHECKLIST.md)
-Week-by-week checklist for systematic standards adoption.
-- Phased implementation plan
-- Progress tracking
-- Success indicators
-- Common pitfalls
-
-### Templates Directory
-
-#### Language-Specific Templates
-- **Python**: `pyproject.toml`, `.flake8` with standards-compliant settings
-- **JavaScript/TypeScript**: `package.json`, `.eslintrc.json` with comprehensive linting
-- **Go**: `Makefile`, `.golangci.yml` with security and quality checks
-
-#### Infrastructure Templates
-- **Docker**: Security-hardened `Dockerfile` and `docker-compose.yml`
-- **Kubernetes**: Production-ready deployment manifests
-- **Terraform**: IaC templates with security and cost optimization
-
-#### CI/CD Templates
-- **GitHub Actions**: `.github/workflows/standards-compliance.yml`
-- Language detection and appropriate checks
-- Automated coverage enforcement
-- Security scanning integration
-- YAML validation and linting
-- Large file detection
-
-### Badge Generation
-
-#### [generate-badges.sh](./generate-badges.sh)
-Generate compliance badges for your README.
-- Standards compliance badges
-- Dynamic metric badges
-- Custom badge generation
-- Compliance report template
-
-### Quick Start Templates
-
-Copy these to jumpstart your project:
-```bash
-# Python project
-cp -r standards/examples/project-templates/python-project/* .
-
-# JavaScript/TypeScript project
-cp -r standards/examples/project-templates/javascript-project/* .
-
-# Go project
-cp -r standards/examples/project-templates/go-project/* .
-
-# Docker setup
-cp standards/examples/project-templates/docker/* .
-```
-
----
-
-## 🤖 LLM Optimization
-
-### The CLAUDE.md Advantage
-
-Our innovative routing system reduces token usage by 85% when using these standards with LLMs:
-
-1. **Efficient Loading**: Load only what you need
-   ```
-   @load [CS:api-design + SEC:api-security + TS:integration]
-   ```
-
-2. **Task-Based Templates**: Pre-configured for common tasks
-   ```
-   Bug Fix: @load [TS:regression + CS:error-handling]
-   New Feature: @load [CS:architecture + TS:tdd + SEC:relevant]
-   ```
-
-3. **Smart Routing**: 2-letter codes for all standards
-   ```
-   CS → CODING_STANDARDS.md
-   SEC → MODERN_SECURITY_STANDARDS.md
-   PM → PROJECT_MANAGEMENT_STANDARDS.md
-   ```
-
-### Benefits
-
-- **Cost Reduction**: 85% fewer tokens = lower API costs
-- **Faster Responses**: Less context = quicker processing
-- **Better Accuracy**: Focused context = more relevant outputs
-- **Scalability**: Efficient even with all 21 standards available
-
----
-
-## 📖 Implementation Guide
-
-### Phase 1: Foundation (Weeks 1-2)
-1. Review UNIFIED_STANDARDS.md
-2. Set up development environment per CODING_STANDARDS.md
-3. Implement basic CI/CD from DEVOPS_PLATFORM_STANDARDS.md
-4. Establish testing framework per TESTING_STANDARDS.md
-
-### Phase 2: Core Practices (Weeks 3-4)
-1. Implement security standards (MODERN_SECURITY_STANDARDS.md)
-2. Set up observability (OBSERVABILITY_STANDARDS.md)
-3. Establish project management practices (PROJECT_MANAGEMENT_STANDARDS.md)
-4. Configure code quality tools
-
-### Phase 3: Specialization (Month 2)
-1. Add domain-specific standards based on your stack
-2. Implement advanced patterns (EVENT_DRIVEN, CLOUD_NATIVE)
-3. Set up analytics and monitoring
-4. Optimize for performance
-
-### Phase 4: Maturity (Month 3+)
-1. Fine-tune practices based on team feedback
-2. Implement cost optimization strategies
-3. Establish compliance and audit procedures
-4. Create team-specific customizations
+- **Comprehensive**: 21 documents covering all aspects of modern development
+- **Battle-Tested**: Based on real-world projects and industry best practices
+- **AI-Optimized**: 90% token reduction for efficient LLM usage
+- **Always Current**: Regular updates reflecting industry changes
+- **Ready-to-Use**: Includes templates, configs, and automation scripts
 
 ---
 
 ## 🤝 Contributing
 
-We welcome contributions to improve these standards!
-
-### How to Contribute
-
-1. **Issues**: Report bugs, suggest improvements, or request new standards
-2. **Pull Requests**: Submit improvements with clear descriptions
-3. **Discussions**: Share experiences and best practices
-
-### Contribution Guidelines
-
-- Maintain the existing format and structure
-- Include practical examples and code samples
-- Update relevant documents when making changes
-- Add appropriate **[REQUIRED]** or **[RECOMMENDED]** tags
+We welcome contributions! Please:
+- Report issues or suggest improvements
+- Submit PRs with clear descriptions
+- Follow existing format and structure
+- Include practical examples
 - Keep LLM optimization in mind
+
+**Creating New Standards?** See [CREATING_STANDARDS_GUIDE.md](./CREATING_STANDARDS_GUIDE.md) and use [STANDARD_TEMPLATE.md](./STANDARD_TEMPLATE.md)
+
+### 🧪 Quality Assurance
+
+**Testing Suite** - Validate standards compliance:
+```bash
+cd tests && ./validate_knowledge_management.sh
+```
+
+**Linting System** - Enforce standards automatically:
+```bash
+cd lint && ./setup-hooks.sh  # One-time setup
+pre-commit run --all-files    # Manual check
+```
+
+See [tests/README.md](./tests/README.md) and [lint/README.md](./lint/README.md) for details.
+
+**Current Status**: See [TODO_TEST_FIXES.md](./TODO_TEST_FIXES.md) for pending compliance fixes.
 
 ---
 
 ## 📄 License
 
-This repository is licensed under the MIT License. See [LICENSE](LICENSE) file for details.
-
-You are free to:
-- Use these standards in personal and commercial projects
-- Modify and adapt to your needs
-- Share with your team and community
-
-With the understanding that:
-- No warranty is provided
-- Attribution is appreciated but not required
-- You cannot hold contributors liable
+MIT License - See [LICENSE](LICENSE) for details. Free to use in personal and commercial projects.
 
 ---
 
-## 🌟 Quick Links
-
-### Essential Documents
-- **Start Here**: [UNIFIED_STANDARDS.md](./UNIFIED_STANDARDS.md)
-- **Quick Setup**: [setup-project.sh](./setup-project.sh)
-- **Integration Guide**: [INTEGRATION_GUIDE.md](./INTEGRATION_GUIDE.md)
-- **Adoption Checklist**: [ADOPTION_CHECKLIST.md](./ADOPTION_CHECKLIST.md)
-
-### For Developers
-- **LLM Usage**: [CLAUDE.md](./CLAUDE.md)
-- **Security First**: [MODERN_SECURITY_STANDARDS.md](./MODERN_SECURITY_STANDARDS.md)
-- **Testing Guide**: [TESTING_STANDARDS.md](./TESTING_STANDARDS.md)
-- **Templates**: [examples/project-templates/](./examples/project-templates/)
-
-### 🤖 LLM-Optimized Features
-- **AI Interface**: [CLAUDE.md](./CLAUDE.md) - Primary LLM interface with all features
-- **Quick Reference**: [STANDARDS_INDEX.md](./STANDARDS_INDEX.md) - One-line summaries for instant access
-- **Direct Access**: Remote loading patterns in [standards-api.json](./standards-api.json#direct_access)
-- **Standards Graph**: [STANDARDS_GRAPH.md](./STANDARDS_GRAPH.md) - Dependency mapping
-- **Version Management**: Version tracking in [MANIFEST.yaml](./MANIFEST.yaml#versioning)
-- **Machine-Readable**: [standards-schema.yaml](./standards-schema.yaml) & [standards-api.json](./standards-api.json)
-
-### 🔧 Centralized Tool Management (New!)
-- **Tool Catalog**: [TOOLS_CATALOG.yaml](./TOOLS_CATALOG.yaml) - All tool recommendations in one place
-- **Toolchain Guide**: [TOOLCHAIN_STANDARDS.md](./TOOLCHAIN_STANDARDS.md) - How to select and use tools
-- **Tool Configs**: [tools-config/](./tools-config/) - Ready-to-use tool configurations
-- **Easy Updates**: Modify tool recommendations in one central location
-- **Migration Paths**: Clear guidance for moving from legacy to modern tools
-
----
-
-## 📊 Repository Statistics
-
-- **Standards Documents**: 28+ comprehensive guides (including toolchain standards)
-- **Integration Tools**: 25+ templates, scripts, and configurations
-- **Language Support**: Python, JavaScript/TypeScript, Go
-- **Infrastructure**: Docker, Kubernetes, Terraform
-- **Total Coverage**: 95% of modern development practices
-- **LLM Optimization**: 90% token reduction with CLAUDE.md v3.0
-- **AI Features**: 7 dedicated LLM integration documents
-- **Machine-Readable**: YAML schema + JSON API + Tools Catalog
-- **Centralized Tools**: 50+ tools managed in single catalog
-- **Tool Configs**: Pre-configured templates for immediate use
-- **Last Updated**: January 2025
-- **Active Maintenance**: Ongoing
-
----
-
-**Remember**: These standards are living documents. Technology evolves, and so should our practices. Use these as a foundation, but always consider your specific context and requirements.
+**Remember**: These are living documents. Use them as a foundation but always consider your specific context and requirements.
 
 *Happy coding! 🚀*
