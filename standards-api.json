@@ -42,7 +42,8 @@
     "@load-remote": {
       "description": "Load with token limits",
       "example": "@load-remote CS:api max-tokens:[2000]",
-      "options": ["max-tokens", "mode", "chunks"]
+      "options": ["max-tokens", "mode", "chunks"],
+      "endpoint": "uses raw_content_url with chunking support"
     },
     "@search-github": {
       "description": "Search across all standards",
@@ -57,7 +58,8 @@
     "@fetch-batch": {
       "description": "Parallel fetch multiple standards",
       "example": "@fetch-batch [CS:api, SEC:api, TS:integration]",
-      "parallel": true
+      "parallel": true,
+      "endpoint": "uses raw_content_url with parallel requests"
     },
     "@fetch-related": {
       "description": "Auto-fetch related standards",
@@ -72,12 +74,14 @@
     "@cache-remote": {
       "description": "Cache standards for session",
       "example": "@cache-remote CS:api duration:[session]",
-      "options": ["duration", "preload"]
+      "options": ["duration", "preload"],
+      "endpoint": "uses raw_content_url with local caching"
     },
     "@fetch-if-modified": {
       "description": "Only fetch if updated",
       "example": "@fetch-if-modified CS:api since:[2025-01-01]",
-      "headers": ["If-Modified-Since"]
+      "headers": ["If-Modified-Since"],
+      "endpoint": "uses raw_content_url with conditional headers"
     }
   },
   "direct_access": {

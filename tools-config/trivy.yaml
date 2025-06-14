@@ -22,7 +22,7 @@ db:
   # Auto-download the latest database
   download-db-only: false
   skip-db-update: false
-  
+
   # Use light DB for faster scanning in CI
   light: false
 
@@ -30,7 +30,7 @@ db:
 ignore:
   # Ignore unfixed vulnerabilities (use with caution)
   unfixed: false
-  
+
   # Ignore specific CVEs (add sparingly with justification)
   vulnerabilities: []
     # - CVE-2022-12345  # Justification: False positive in test code
@@ -39,10 +39,10 @@ ignore:
 output:
   # Format: table, json, sarif, cyclonedx, spdx
   format: table
-  
+
   # Exit code
   exit-code: 1  # Exit with error on findings
-  
+
   # Output file (optional)
   # output: trivy-report.json
 
@@ -50,7 +50,7 @@ output:
 cache:
   # Cache directory
   dir: ".trivy-cache"
-  
+
   # Clear cache on start
   clear: false
 
@@ -61,7 +61,7 @@ timeout: 10m
 kubernetes:
   # Scan Kubernetes workloads
   cluster: false
-  
+
   # Namespaces to scan
   namespaces: []
 
@@ -69,7 +69,7 @@ kubernetes:
 registry:
   # Insecure registries (use only for testing)
   insecure: false
-  
+
   # Auth config path
   # auth-url: ""
 
@@ -78,7 +78,7 @@ policy:
   # Policy paths for custom checks
   policy-paths: []
     # - "./security-policies"
-  
+
   # Policy namespaces
   namespaces: []
     # - "custom"
@@ -97,7 +97,7 @@ misconfig:
 license:
   # Full license scan
   full: true
-  
+
   # Allowed licenses (SPDX identifiers)
   allowed:
     - "MIT"
@@ -106,7 +106,7 @@ license:
     - "BSD-2-Clause"
     - "ISC"
     - "MPL-2.0"
-  
+
   # Forbidden licenses
   forbidden:
     - "GPL-2.0"

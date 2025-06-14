@@ -1,0 +1,43 @@
+# YAML Linting Configuration
+extends: default
+
+rules:
+  line-length:
+    max: 120
+    level: warning
+
+  truthy:
+    allowed-values: ['true', 'false', 'on', 'off']
+
+  comments:
+    min-spaces-from-content: 2
+
+  indentation:
+    spaces: 2
+    indent-sequences: true
+
+  brackets:
+    max-spaces-inside: 1
+
+  braces:
+    max-spaces-inside: 1
+
+  colons:
+    max-spaces-after: 1
+
+  commas:
+    max-spaces-after: 1
+
+  # Allow some flexibility for readability
+  empty-lines:
+    max: 2
+    max-start: 0
+    max-end: 1
+
+  # Don't require document start marker
+  document-start: disable
+
+  # Allow quoted strings when needed
+  quoted-strings:
+    quote-type: any
+    required: only-when-needed

@@ -2,6 +2,16 @@
 
 ## 🚀 Quick Start Integration
 
+### Option 0: AI-Powered Kickstart (Recommended)
+
+For new projects, use our AI kickstart for instant guidance:
+
+1. Copy the kickstart prompt from [KICKSTART_PROMPT.md](./KICKSTART_PROMPT.md)
+2. Paste into any LLM (ChatGPT, Claude, Gemini) with your project plan
+3. Get instant standards recommendations and implementation blueprint
+
+See [KICKSTART_ADVANCED.md](./KICKSTART_ADVANCED.md) for advanced patterns.
+
 ### Option 1: Direct Reference (Simplest)
 
 Add this to your project's README.md:
@@ -26,7 +36,7 @@ git submodule add https://github.com/williamzujkowski/standards.git .standards
 
 # Create symbolic links to key files
 ln -s .standards/CLAUDE.md docs/CLAUDE.md
-ln -s .standards/CLAUDE.md docs/CLAUDE.md
+ln -s .standards/KICKSTART_PROMPT.md docs/KICKSTART_PROMPT.md
 ```
 
 ### Option 3: Project Template (Full Integration)
@@ -43,6 +53,7 @@ chmod +x setup-project.sh
 ## 📋 Integration Checklist
 
 ### Immediate Actions
+- [ ] Use KICKSTART_PROMPT.md for project analysis
 - [ ] Add standards reference to README
 - [ ] Copy CLAUDE.md for AI-assisted development
 - [ ] Set up pre-commit hooks

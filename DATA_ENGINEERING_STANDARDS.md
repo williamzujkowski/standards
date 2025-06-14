@@ -3,6 +3,13 @@
 **Version:** 1.0.0
 **Last Updated:** January 2025
 **Status:** Active
+**Standard Code:** DE
+
+---
+
+**Version:** 1.0.0
+**Last Updated:** January 2025
+**Status:** Active
 
 ## Table of Contents
 
@@ -16,6 +23,11 @@
 8. [Data Operations](#8-data-operations)
 
 ---
+
+## Overview
+
+This standard provides comprehensive guidelines and best practices for the subject area.
+It aims to ensure consistency, quality, and maintainability across all related implementations.
 
 ## 1. Data Pipeline Standards
 

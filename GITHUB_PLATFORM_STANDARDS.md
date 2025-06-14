@@ -3,6 +3,13 @@
 **Version:** 1.0.0
 **Last Updated:** January 2025
 **Status:** Active
+**Standard Code:** GH
+
+---
+
+**Version:** 1.0.0
+**Last Updated:** January 2025
+**Status:** Active
 
 ## Table of Contents
 
@@ -15,6 +22,11 @@
 7. [Advanced GitHub Features](#7-advanced-github-features)
 
 ---
+
+## Overview
+
+This standard provides comprehensive guidelines and best practices for the subject area.
+It aims to ensure consistency, quality, and maintainability across all related implementations.
 
 ## 1. Repository Standards
 
@@ -152,7 +164,6 @@ Detailed installation instructions.
 
 ## 📖 Documentation
 
-- [API Documentation](./docs/api.md)
 - [Contributing Guide](./CONTRIBUTING.md)
 - [Code of Conduct](./CODE_OF_CONDUCT.md)
 

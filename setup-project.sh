@@ -15,7 +15,8 @@ git clone --depth 1 "$STANDARDS_REPO" "$TEMP_DIR/standards"
 
 # Copy essential files
 cp "$TEMP_DIR/standards/CLAUDE.md" "$PROJECT_DIR/docs/"
-cp "$TEMP_DIR/standards/MASTER_PROMPT.md" "$PROJECT_DIR/docs/"
+cp "$TEMP_DIR/standards/KICKSTART_PROMPT.md" "$PROJECT_DIR/docs/"
+cp "$TEMP_DIR/standards/KICKSTART_ADVANCED.md" "$PROJECT_DIR/docs/"
 
 # Create project-specific standards reference
 cat > "$PROJECT_DIR/docs/PROJECT_STANDARDS.md" << 'EOF'
@@ -103,12 +104,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Run Standards Checks
         run: |
           echo "Running standards compliance checks..."
           # Add your language-specific linters and checks here
-          
+
       - name: Check Test Coverage
         run: |
           echo "Checking test coverage meets 85% requirement..."

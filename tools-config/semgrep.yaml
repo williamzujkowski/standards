@@ -137,10 +137,10 @@ config:
     - "r/javascript.lang.security"
     - "r/typescript.lang.security"
     - "r/go.lang.security"
-    
+
     # OWASP rules
     - "r/owasp.top-ten"
-    
+
     # Framework specific
     - "r/python.flask"
     - "r/python.django"
@@ -152,7 +152,7 @@ config:
     # Ignore specific rule IDs
     rules: []
       # - "generic.secrets.security.detected-generic-secret"
-    
+
     # Ignore files
     paths: []
       # - "legacy/*.py"

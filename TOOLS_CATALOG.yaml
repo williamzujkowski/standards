@@ -1,345 +1,345 @@
 # TOOLS_CATALOG.yaml - Centralized Tool Management
-version: "latest"
-last_updated: "2025-01-13"
+version: latest
+last_updated: 2025-01-13
 
 # Tool recommendation levels
 recommendation_levels:
-  required: "Must use in all projects"
-  recommended: "Should use unless good reason not to"
-  optional: "Can use based on project needs"
-  legacy: "Existing projects only, migrate when possible"
-  deprecated: "Do not use in new projects"
+  required: Must use in all projects
+  recommended: Should use unless good reason not to
+  optional: Can use based on project needs
+  legacy: Existing projects only, migrate when possible
+  deprecated: Do not use in new projects
 
 # Tool categories
 categories:
-  linting: "Code style and quality checking"
-  formatting: "Code formatting and standardization"
-  testing: "Test execution and coverage"
-  security: "Security scanning and vulnerability detection"
-  build: "Build and compilation tools"
-  package: "Package and dependency management"
-  container: "Container and orchestration tools"
-  ci_cd: "Continuous Integration/Deployment"
-  monitoring: "Observability and monitoring"
-  documentation: "Documentation generation"
-  version_control: "Version control and collaboration"
+  linting: Code style and quality checking
+  formatting: Code formatting and standardization
+  testing: Test execution and coverage
+  security: Security scanning and vulnerability detection
+  build: Build and compilation tools
+  package: Package and dependency management
+  container: Container and orchestration tools
+  ci_cd: Continuous Integration/Deployment
+  monitoring: Observability and monitoring
+  documentation: Documentation generation
+  version_control: Version control and collaboration
 
 # Language-specific toolchains
 languages:
   python:
     linting:
-      - name: "ruff"
-        recommendation: "recommended"
-        version: "latest"
-        description: "Fast Python linter, replacing flake8"
-        replaces: ["flake8", "pylint"]
-        config_file: "pyproject.toml"
-      - name: "mypy"
-        recommendation: "required"
-        version: "latest"
-        description: "Static type checker for Python"
-        config_file: "pyproject.toml"
-      - name: "flake8"
-        recommendation: "legacy"
-        version: "latest"
-        description: "Legacy linter, migrate to ruff"
-        config_file: ".flake8"
-    
+      - name: ruff
+        recommendation: recommended
+        version: latest
+        description: Fast Python linter, replacing flake8
+        replaces: [flake8, pylint]
+        config_file: pyproject.toml
+      - name: mypy
+        recommendation: required
+        version: latest
+        description: Static type checker for Python
+        config_file: pyproject.toml
+      - name: flake8
+        recommendation: legacy
+        version: latest
+        description: Legacy linter, migrate to ruff
+        config_file: .flake8
+
     formatting:
-      - name: "black"
-        recommendation: "required"
-        version: "latest"
-        description: "The uncompromising code formatter"
-        config_file: "pyproject.toml"
+      - name: black
+        recommendation: required
+        version: latest
+        description: The uncompromising code formatter
+        config_file: pyproject.toml
         settings:
           line-length: 88
-      - name: "isort"
-        recommendation: "required"
-        version: "latest"
-        description: "Import statement sorting"
-        config_file: "pyproject.toml"
-    
+      - name: isort
+        recommendation: required
+        version: latest
+        description: Import statement sorting
+        config_file: pyproject.toml
+
     testing:
-      - name: "pytest"
-        recommendation: "required"
-        version: "latest"
-        description: "Testing framework"
+      - name: pytest
+        recommendation: required
+        version: latest
+        description: Testing framework
         plugins:
-          - "pytest-cov"
-          - "pytest-asyncio"
-          - "pytest-mock"
-      - name: "hypothesis"
-        recommendation: "recommended"
-        version: "latest"
-        description: "Property-based testing"
-    
+          - pytest-cov
+          - pytest-asyncio
+          - pytest-mock
+      - name: hypothesis
+        recommendation: recommended
+        version: latest
+        description: Property-based testing
+
     security:
-      - name: "bandit"
-        recommendation: "required"
-        version: "latest"
-        description: "Security linter for Python"
-      - name: "safety"
-        recommendation: "recommended"
-        version: "latest"
-        description: "Dependency vulnerability scanner"
-    
+      - name: bandit
+        recommendation: required
+        version: latest
+        description: Security linter for Python
+      - name: safety
+        recommendation: recommended
+        version: latest
+        description: Dependency vulnerability scanner
+
     package:
-      - name: "poetry"
-        recommendation: "recommended"
-        version: "latest"
-        description: "Modern dependency management"
-      - name: "pip-tools"
-        recommendation: "optional"
-        version: "latest"
-        description: "Pin dependencies with pip"
-      - name: "pip"
-        recommendation: "legacy"
-        description: "Basic package installer"
+      - name: poetry
+        recommendation: recommended
+        version: latest
+        description: Modern dependency management
+      - name: pip-tools
+        recommendation: optional
+        version: latest
+        description: Pin dependencies with pip
+      - name: pip
+        recommendation: legacy
+        description: Basic package installer
 
   javascript:
     linting:
-      - name: "eslint"
-        recommendation: "required"
-        version: "latest"
-        description: "JavaScript linter"
-        config_file: ".eslintrc.json"
+      - name: eslint
+        recommendation: required
+        version: latest
+        description: JavaScript linter
+        config_file: .eslintrc.json
         presets:
-          - "eslint:recommended"
-          - "plugin:react/recommended"
-          - "plugin:@typescript-eslint/recommended"
-    
+          - eslint:recommended
+          - plugin:react/recommended
+          - plugin:@typescript-eslint/recommended
+
     formatting:
-      - name: "prettier"
-        recommendation: "required"
-        version: "latest"
-        description: "Code formatter"
-        config_file: ".prettierrc"
+      - name: prettier
+        recommendation: required
+        version: latest
+        description: Code formatter
+        config_file: .prettierrc
         settings:
           semi: false
           singleQuote: true
           tabWidth: 2
-    
+
     testing:
-      - name: "jest"
-        recommendation: "required"
-        version: "latest"
-        description: "Testing framework"
-        config_file: "jest.config.js"
-      - name: "cypress"
-        recommendation: "recommended"
-        version: "latest"
-        description: "E2E testing"
-      - name: "playwright"
-        recommendation: "optional"
-        version: "latest"
-        description: "Cross-browser testing"
-    
+      - name: jest
+        recommendation: required
+        version: latest
+        description: Testing framework
+        config_file: jest.config.js
+      - name: cypress
+        recommendation: recommended
+        version: latest
+        description: E2E testing
+      - name: playwright
+        recommendation: optional
+        version: latest
+        description: Cross-browser testing
+
     build:
-      - name: "vite"
-        recommendation: "recommended"
-        version: "latest"
-        description: "Fast build tool"
-      - name: "webpack"
-        recommendation: "optional"
-        version: "latest"
-        description: "Traditional bundler"
-      - name: "esbuild"
-        recommendation: "optional"
-        version: "latest"
-        description: "Ultra-fast bundler"
-    
+      - name: vite
+        recommendation: recommended
+        version: latest
+        description: Fast build tool
+      - name: webpack
+        recommendation: optional
+        version: latest
+        description: Traditional bundler
+      - name: esbuild
+        recommendation: optional
+        version: latest
+        description: Ultra-fast bundler
+
     package:
-      - name: "pnpm"
-        recommendation: "recommended"
-        version: "latest"
-        description: "Fast, disk space efficient package manager"
-      - name: "npm"
-        recommendation: "optional"
-        version: "latest"
-        description: "Default Node.js package manager"
-      - name: "yarn"
-        recommendation: "legacy"
-        version: "latest"
-        description: "Alternative package manager"
+      - name: pnpm
+        recommendation: recommended
+        version: latest
+        description: Fast, disk space efficient package manager
+      - name: npm
+        recommendation: optional
+        version: latest
+        description: Default Node.js package manager
+      - name: yarn
+        recommendation: legacy
+        version: latest
+        description: Alternative package manager
 
   typescript:
-    extends: "javascript"
+    extends: javascript
     additional:
-      - name: "typescript"
-        recommendation: "required"
-        version: "latest"
-        description: "TypeScript compiler"
-        config_file: "tsconfig.json"
+      - name: typescript
+        recommendation: required
+        version: latest
+        description: TypeScript compiler
+        config_file: tsconfig.json
 
   go:
     linting:
-      - name: "golangci-lint"
-        recommendation: "required"
-        version: "latest"
-        description: "Comprehensive Go linter"
-        config_file: ".golangci.yml"
-    
+      - name: golangci-lint
+        recommendation: required
+        version: latest
+        description: Comprehensive Go linter
+        config_file: .golangci.yml
+
     testing:
-      - name: "go test"
-        recommendation: "required"
-        description: "Built-in testing"
-        flags: ["-race", "-cover"]
-    
+      - name: go test
+        recommendation: required
+        description: Built-in testing
+        flags: [-race, -cover]
+
     build:
-      - name: "go build"
-        recommendation: "required"
-        description: "Built-in compiler"
-        flags: ["-ldflags='-s -w'"]
+      - name: go build
+        recommendation: required
+        description: Built-in compiler
+        flags: [-ldflags='-s -w']
 
 # Infrastructure and DevOps tools
 infrastructure:
   container:
-    - name: "docker"
-      recommendation: "required"
-      version: "latest"
-      description: "Container runtime"
-    - name: "podman"
-      recommendation: "optional"
-      version: "latest"
-      description: "Rootless container engine"
-  
+    - name: docker
+      recommendation: required
+      version: latest
+      description: Container runtime
+    - name: podman
+      recommendation: optional
+      version: latest
+      description: Rootless container engine
+
   orchestration:
-    - name: "kubernetes"
-      recommendation: "recommended"
-      version: "latest"
-      description: "Container orchestration"
+    - name: kubernetes
+      recommendation: recommended
+      version: latest
+      description: Container orchestration
       tools:
-        - "kubectl"
-        - "helm"
-        - "kustomize"
-  
+        - kubectl
+        - helm
+        - kustomize
+
   iac:
-    - name: "terraform"
-      recommendation: "recommended"
-      version: "latest"
-      description: "Infrastructure as Code"
+    - name: terraform
+      recommendation: recommended
+      version: latest
+      description: Infrastructure as Code
       providers:
-        - "aws"
-        - "azure"
-        - "google"
-    - name: "ansible"
-      recommendation: "optional"
-      version: "latest"
-      description: "Configuration management"
-    - name: "pulumi"
-      recommendation: "optional"
-      version: "latest"
-      description: "Infrastructure as Code with programming languages"
+        - aws
+        - azure
+        - google
+    - name: ansible
+      recommendation: optional
+      version: latest
+      description: Configuration management
+    - name: pulumi
+      recommendation: optional
+      version: latest
+      description: Infrastructure as Code with programming languages
 
   ci_cd:
-    - name: "github-actions"
-      recommendation: "recommended"
-      description: "GitHub's built-in CI/CD"
-      file: ".github/workflows/*.yml"
-    - name: "gitlab-ci"
-      recommendation: "optional"
-      description: "GitLab's built-in CI/CD"
-      file: ".gitlab-ci.yml"
-    - name: "jenkins"
-      recommendation: "legacy"
-      version: "latest"
-      description: "Traditional CI/CD server"
+    - name: github-actions
+      recommendation: recommended
+      description: GitHub's built-in CI/CD
+      file: .github/workflows/*.yml
+    - name: gitlab-ci
+      recommendation: optional
+      description: GitLab's built-in CI/CD
+      file: .gitlab-ci.yml
+    - name: jenkins
+      recommendation: legacy
+      version: latest
+      description: Traditional CI/CD server
 
 # Security scanning tools
 security:
   sast:
-    - name: "semgrep"
-      recommendation: "recommended"
-      version: "latest"
-      description: "Multi-language SAST"
-      languages: ["python", "javascript", "go", "java"]
-    - name: "sonarqube"
-      recommendation: "optional"
-      version: "latest"
-      description: "Code quality and security"
-  
+    - name: semgrep
+      recommendation: recommended
+      version: latest
+      description: Multi-language SAST
+      languages: [python, javascript, go, java]
+    - name: sonarqube
+      recommendation: optional
+      version: latest
+      description: Code quality and security
+
   container_scanning:
-    - name: "trivy"
-      recommendation: "required"
-      version: "latest"
-      description: "Container vulnerability scanner"
-    - name: "grype"
-      recommendation: "optional"
-      version: "latest"
-      description: "Alternative vulnerability scanner"
-  
+    - name: trivy
+      recommendation: required
+      version: latest
+      description: Container vulnerability scanner
+    - name: grype
+      recommendation: optional
+      version: latest
+      description: Alternative vulnerability scanner
+
   dependency_scanning:
-    - name: "snyk"
-      recommendation: "recommended"
-      description: "Dependency vulnerability scanning"
-    - name: "dependabot"
-      recommendation: "required"
-      description: "GitHub dependency updates"
-    - name: "renovate"
-      recommendation: "optional"
-      description: "Multi-platform dependency updates"
+    - name: snyk
+      recommendation: recommended
+      description: Dependency vulnerability scanning
+    - name: dependabot
+      recommendation: required
+      description: GitHub dependency updates
+    - name: renovate
+      recommendation: optional
+      description: Multi-platform dependency updates
 
 # Observability tools
 observability:
   metrics:
-    - name: "prometheus"
-      recommendation: "recommended"
-      version: "latest"
-      description: "Metrics collection"
-    - name: "grafana"
-      recommendation: "recommended"
-      version: "latest"
-      description: "Metrics visualization"
-  
+    - name: prometheus
+      recommendation: recommended
+      version: latest
+      description: Metrics collection
+    - name: grafana
+      recommendation: recommended
+      version: latest
+      description: Metrics visualization
+
   logging:
-    - name: "elasticsearch"
-      recommendation: "optional"
-      version: "latest"
-      description: "Log storage and search"
-    - name: "fluentd"
-      recommendation: "recommended"
-      version: "latest"
-      description: "Log collection"
-  
+    - name: elasticsearch
+      recommendation: optional
+      version: latest
+      description: Log storage and search
+    - name: fluentd
+      recommendation: recommended
+      version: latest
+      description: Log collection
+
   tracing:
-    - name: "jaeger"
-      recommendation: "recommended"
-      version: "latest"
-      description: "Distributed tracing"
-    - name: "opentelemetry"
-      recommendation: "recommended"
-      description: "Observability framework"
-  
+    - name: jaeger
+      recommendation: recommended
+      version: latest
+      description: Distributed tracing
+    - name: opentelemetry
+      recommendation: recommended
+      description: Observability framework
+
   apm:
-    - name: "datadog"
-      recommendation: "optional"
-      description: "Commercial APM solution"
-    - name: "new-relic"
-      recommendation: "optional"
-      description: "Commercial APM solution"
-    - name: "sentry"
-      recommendation: "recommended"
-      description: "Error tracking"
+    - name: datadog
+      recommendation: optional
+      description: Commercial APM solution
+    - name: new-relic
+      recommendation: optional
+      description: Commercial APM solution
+    - name: sentry
+      recommendation: recommended
+      description: Error tracking
 
 # Tool selection rules
 selection_rules:
-  - rule: "Use 'required' tools in all projects"
+  - rule: Use 'required' tools in all projects
     priority: 1
-  - rule: "Prefer 'recommended' over 'optional' tools"
+  - rule: Prefer 'recommended' over 'optional' tools
     priority: 2
-  - rule: "Migrate from 'legacy' to modern alternatives"
+  - rule: Migrate from 'legacy' to modern alternatives
     priority: 3
-  - rule: "Never use 'deprecated' tools in new projects"
+  - rule: Never use 'deprecated' tools in new projects
     priority: 4
-  - rule: "Consider team expertise when choosing between options"
+  - rule: Consider team expertise when choosing between options
     priority: 5
 
 # Version management
 version_policy:
-  update_frequency: "quarterly"
+  update_frequency: quarterly
   version_constraints:
-    - "Use exact versions in production"
-    - "Use minimum versions in libraries"
-    - "Pin major versions for stability"
-  security_updates: "immediate"
-  breaking_changes: "major version only"
+    - Use exact versions in production
+    - Use minimum versions in libraries
+    - Pin major versions for stability
+  security_updates: immediate
+  breaking_changes: major version only

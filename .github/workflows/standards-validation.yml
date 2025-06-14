@@ -9,182 +9,182 @@ on:
 jobs:
   validate-standards:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-        
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
-        
-    - name: Validate YAML Files
-      run: |
-        pip install yamllint
-        yamllint standards-schema.yaml
-        
-    - name: Validate JSON Files
-      run: |
-        python -m json.tool standards-api.json > /dev/null
-        
-    - name: Check Standards Schema Consistency
-      run: |
-        # Validate that standards referenced in various files exist
-        python -c "
-        import yaml
-        import json
-        import sys
-        
-        # Load standards schema
-        with open('standards-schema.yaml', 'r') as f:
-            schema = yaml.safe_load(f)
-            
-        # Load API rules
-        with open('standards-api.json', 'r') as f:
-            rules = json.load(f)
-            
-        # Validate all rule standards exist in schema
-        standard_ids = {std['id'] for std in schema['standards'].values()}
-        
-        errors = []
-        for rule in rules['rules']:
-            std_ref = rule['standard'].split(':')[0]
-            if std_ref not in standard_ids:
-                errors.append(f'Rule {rule[\"id\"]} references unknown standard: {std_ref}')
-                
-        if errors:
-            print('Validation errors:')
-            for error in errors:
-                print(f'  - {error}')
-            sys.exit(1)
-        else:
-            print('All standards references are valid')
-        "
-        
-    - name: Validate Markdown Standards Links
-      run: |
-        # Check that all markdown files referenced in CLAUDE.md exist
-        python -c "
-        import re
-        import os
-        import sys
-        
-        errors = []
-        
-        with open('CLAUDE.md', 'r') as f:
-            content = f.read()
-            
-        # Find all .md file references
-        md_files = re.findall(r'`([A-Z_]+\.md)`', content)
-        
-        for md_file in md_files:
-            if not os.path.exists(md_file):
-                errors.append(f'Referenced file does not exist: {md_file}')
-                
-        if errors:
-            print('Missing files:')
-            for error in errors:
-                print(f'  - {error}')
-            sys.exit(1)
-        else:
-            print('All referenced markdown files exist')
-        "
-        
-    - name: Check Standards Compliance Score
-      id: compliance
-      run: |
-        # Calculate compliance score based on rules
-        python -c "
-        import json
-        
-        with open('standards-api.json', 'r') as f:
-            rules = json.load(f)
-            
-        total_rules = len(rules['rules'])
-        required_rules = len([r for r in rules['rules'] if r['severity'] == 'required'])
-        
-        score = (required_rules / total_rules) * 100 if total_rules > 0 else 0
-        
-        print(f'Compliance Score: {score:.1f}%')
-        print(f'Total Rules: {total_rules}')
-        print(f'Required Rules: {required_rules}')
-        
-        # Output for GitHub Actions
-        print(f'::set-output name=score::{score:.1f}')
-        print(f'::set-output name=total::{total_rules}')
-        print(f'::set-output name=required::{required_rules}')
-        "
-        
-    - name: Validate Standards Graph
-      run: |
-        # Check for circular dependencies in standards graph
-        python -c "
-        import re
-        
-        # Simple validation - in real implementation would parse the graph properly
-        with open('STANDARDS_GRAPH.md', 'r') as f:
-            content = f.read()
-            
-        # Check that graph syntax is valid
-        if '→ requires →' in content and '→ conflicts →' in content:
-            print('Standards graph syntax appears valid')
-        else:
-            print('ERROR: Standards graph missing required relationship types')
-            exit(1)
-        "
-        
-    - name: Generate Validation Report
-      if: always()
-      run: |
-        echo "## Standards Validation Report" > validation-report.md
-        echo "" >> validation-report.md
-        echo "### Compliance Score: ${{ steps.compliance.outputs.score }}%" >> validation-report.md
-        echo "- Total Rules: ${{ steps.compliance.outputs.total }}" >> validation-report.md
-        echo "- Required Rules: ${{ steps.compliance.outputs.required }}" >> validation-report.md
-        echo "" >> validation-report.md
-        echo "### Validation Status" >> validation-report.md
-        echo "- YAML Schema: ✅" >> validation-report.md
-        echo "- JSON API: ✅" >> validation-report.md
-        echo "- Standards References: ✅" >> validation-report.md
-        echo "- Markdown Links: ✅" >> validation-report.md
-        
-    - name: Upload Validation Report
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: validation-report
-        path: validation-report.md
-        
-    - name: Comment PR with Validation Results
-      if: github.event_name == 'pull_request'
-      uses: actions/github-script@v6
-      with:
-        script: |
-          const score = '${{ steps.compliance.outputs.score }}';
-          const total = '${{ steps.compliance.outputs.total }}';
-          const required = '${{ steps.compliance.outputs.required }}';
-          
-          const comment = `## 📊 Standards Validation Results
-          
-          **Compliance Score:** ${score}%
-          
-          | Metric | Value |
-          |--------|-------|
-          | Total Rules | ${total} |
-          | Required Rules | ${required} |
-          | Schema Validation | ✅ |
-          | Reference Validation | ✅ |
-          
-          All standards validation checks passed! 🎉`;
-          
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: comment
-          });
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Validate YAML Files
+        run: |
+          pip install yamllint
+          yamllint standards-schema.yaml
+
+      - name: Validate JSON Files
+        run: |
+          python -m json.tool standards-api.json > /dev/null
+
+      - name: Check Standards Schema Consistency
+        run: |
+          # Validate that standards referenced in various files exist
+          python -c "
+          import yaml
+          import json
+          import sys
+
+          # Load standards schema
+          with open('standards-schema.yaml', 'r') as f:
+              schema = yaml.safe_load(f)
+
+          # Load API rules
+          with open('standards-api.json', 'r') as f:
+              rules = json.load(f)
+
+          # Validate all rule standards exist in schema
+          standard_ids = {std['id'] for std in schema['standards'].values()}
+
+          errors = []
+          for rule in rules['rules']:
+              std_ref = rule['standard'].split(':')[0]
+              if std_ref not in standard_ids:
+                  errors.append(f'Rule {rule[\"id\"]} references unknown standard: {std_ref}')
+
+          if errors:
+              print('Validation errors:')
+              for error in errors:
+                  print(f'  - {error}')
+              sys.exit(1)
+          else:
+              print('All standards references are valid')
+          "
+
+      - name: Validate Markdown Standards Links
+        run: |
+          # Check that all markdown files referenced in CLAUDE.md exist
+          python -c "
+          import re
+          import os
+          import sys
+
+          errors = []
+
+          with open('CLAUDE.md', 'r') as f:
+              content = f.read()
+
+          # Find all .md file references
+          md_files = re.findall(r'`([A-Z_]+\.md)`', content)
+
+          for md_file in md_files:
+              if not os.path.exists(md_file):
+                  errors.append(f'Referenced file does not exist: {md_file}')
+
+          if errors:
+              print('Missing files:')
+              for error in errors:
+                  print(f'  - {error}')
+              sys.exit(1)
+          else:
+              print('All referenced markdown files exist')
+          "
+
+      - name: Check Standards Compliance Score
+        id: compliance
+        run: |
+          # Calculate compliance score based on rules
+          python -c "
+          import json
+
+          with open('standards-api.json', 'r') as f:
+              rules = json.load(f)
+
+          total_rules = len(rules['rules'])
+          required_rules = len([r for r in rules['rules'] if r['severity'] == 'required'])
+
+          score = (required_rules / total_rules) * 100 if total_rules > 0 else 0
+
+          print(f'Compliance Score: {score:.1f}%')
+          print(f'Total Rules: {total_rules}')
+          print(f'Required Rules: {required_rules}')
+
+          # Output for GitHub Actions
+          print(f'::set-output name=score::{score:.1f}')
+          print(f'::set-output name=total::{total_rules}')
+          print(f'::set-output name=required::{required_rules}')
+          "
+
+      - name: Validate Standards Graph
+        run: |
+          # Check for circular dependencies in standards graph
+          python -c "
+          import re
+
+          # Simple validation - in real implementation would parse the graph properly
+          with open('STANDARDS_GRAPH.md', 'r') as f:
+              content = f.read()
+
+          # Check that graph syntax is valid
+          if '→ requires →' in content and '→ conflicts →' in content:
+              print('Standards graph syntax appears valid')
+          else:
+              print('ERROR: Standards graph missing required relationship types')
+              exit(1)
+          "
+
+      - name: Generate Validation Report
+        if: always()
+        run: |
+          echo "## Standards Validation Report" > validation-report.md
+          echo "" >> validation-report.md
+          echo "### Compliance Score: ${{ steps.compliance.outputs.score }}%" >> validation-report.md
+          echo "- Total Rules: ${{ steps.compliance.outputs.total }}" >> validation-report.md
+          echo "- Required Rules: ${{ steps.compliance.outputs.required }}" >> validation-report.md
+          echo "" >> validation-report.md
+          echo "### Validation Status" >> validation-report.md
+          echo "- YAML Schema: ✅" >> validation-report.md
+          echo "- JSON API: ✅" >> validation-report.md
+          echo "- Standards References: ✅" >> validation-report.md
+          echo "- Markdown Links: ✅" >> validation-report.md
+
+      - name: Upload Validation Report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: validation-report
+          path: validation-report.md
+
+      - name: Comment PR with Validation Results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const score = '${{ steps.compliance.outputs.score }}';
+            const total = '${{ steps.compliance.outputs.total }}';
+            const required = '${{ steps.compliance.outputs.required }}';
+
+            const comment = `## 📊 Standards Validation Results
+
+            **Compliance Score:** ${score}%
+
+            | Metric | Value |
+            |--------|-------|
+            | Total Rules | ${total} |
+            | Required Rules | ${required} |
+            | Schema Validation | ✅ |
+            | Reference Validation | ✅ |
+
+            All standards validation checks passed! 🎉`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });

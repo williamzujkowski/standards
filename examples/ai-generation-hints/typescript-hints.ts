@@ -1,13 +1,13 @@
 // templates/ai-generation-hints/typescript-hints.ts
 /**
  * AI Generation Hints for TypeScript - Standards-Compliant Code Templates
- * 
+ *
  * Usage:
  * @generate typescript:[component-type] with:[CS:typescript + FE:react + TS:jest]
  */
 
 // Result type for error handling (CS:error-handling)
-type Result<T, E = Error> = 
+type Result<T, E = Error> =
   | { success: true; value: T }
   | { success: false; error: E };
 
@@ -15,15 +15,15 @@ type Result<T, E = Error> =
 const Result = {
   ok: <T>(value: T): Result<T> => ({ success: true, value }),
   err: <E = Error>(error: E): Result<never, E> => ({ success: false, error }),
-  isOk: <T, E>(result: Result<T, E>): result is { success: true; value: T } => 
+  isOk: <T, E>(result: Result<T, E>): result is { success: true; value: T } =>
     result.success,
-  isErr: <T, E>(result: Result<T, E>): result is { success: false; error: E } => 
+  isErr: <T, E>(result: Result<T, E>): result is { success: false; error: E } =>
     !result.success,
 };
 
 /**
  * Standard React Component Template (FE:react)
- * 
+ *
  * AI Instructions:
  * - Use functional components with hooks
  * - Include proper TypeScript types
@@ -66,7 +66,7 @@ export const StandardComponent: React.FC<StandardComponentProps> = React.memo(({
 
     try {
       const result = await performAction(id, processedData);
-      
+
       if (Result.isOk(result)) {
         onAction?.(result);
       } else {
@@ -149,7 +149,7 @@ StandardComponent.displayName = 'StandardComponent';
 
 /**
  * Standard API Service Template (CS:api + SEC:api)
- * 
+ *
  * AI Instructions:
  * - Include proper error handling
  * - Implement request/response typing
@@ -231,7 +231,7 @@ class StandardAPIService {
         }
 
         const responseData = await response.json() as T;
-        
+
         // Validate response data (SEC:validation)
         if (!this.validateResponse(responseData)) {
           throw new ValidationError('Invalid response format');
@@ -241,7 +241,7 @@ class StandardAPIService {
 
       } catch (error) {
         lastError = error instanceof Error ? error : new Error(String(error));
-        
+
         // Don't retry on client errors (4xx)
         if (error instanceof APIError && error.status >= 400 && error.status < 500) {
           return Result.err(error);
@@ -383,10 +383,10 @@ describe('StandardComponent', () => {
 
   it('handles loading state', async () => {
     render(<StandardComponent id="test-id" />);
-    
+
     // Initially shows loading
     expect(screen.getByRole('status')).toBeInTheDocument();
-    
+
     // Wait for content to load
     await waitFor(() => {
       expect(screen.queryByRole('status')).not.toBeInTheDocument();
@@ -400,7 +400,7 @@ describe('StandardComponent', () => {
     );
 
     render(<StandardComponent id="test-id" />);
-    
+
     await waitFor(() => {
       expect(screen.getByRole('alert')).toBeInTheDocument();
       expect(screen.getByText(/API Error/i)).toBeInTheDocument();
@@ -410,13 +410,13 @@ describe('StandardComponent', () => {
   it('calls onAction callback', async () => {
     const onAction = jest.fn();
     render(<StandardComponent id="test-id" onAction={onAction} />);
-    
+
     await waitFor(() => {
       expect(screen.getByRole('button')).not.toBeDisabled();
     });
 
     await userEvent.click(screen.getByRole('button'));
-    
+
     await waitFor(() => {
       expect(onAction).toHaveBeenCalledWith(
         expect.objectContaining({ success: true })
@@ -429,7 +429,7 @@ describe('StandardComponent', () => {
 // AI Generation Instructions
 /**
  * When generating TypeScript/React code:
- * 
+ *
  * 1. Always use functional components with hooks (FE:react)
  * 2. Include proper TypeScript types for all props and state
  * 3. Use Result type for error handling
@@ -440,7 +440,7 @@ describe('StandardComponent', () => {
  * 8. Include comprehensive tests (85%+ coverage)
  * 9. Follow RESTful API patterns
  * 10. Implement proper error boundaries
- * 
+ *
  * Example prompt usage:
  * @generate typescript:[user-list] with:[FE:react + CS:typescript + TS:jest]
  */
