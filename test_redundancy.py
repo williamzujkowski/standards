@@ -53,6 +53,15 @@ class RedundancyChecker:
                     if len(section) > 500:  # Only check substantial sections
                         # Normalize whitespace for comparison
                         normalized = re.sub(r'\s+', ' ', section.strip())
+                        
+                        # Skip generic boilerplate sections
+                        if any(generic in normalized for generic in [
+                            "This standard provides comprehensive guidelines and best practices",
+                            "Review the relevant sections of this standard for your use case",
+                            "Identify which guidelines apply to your project"
+                        ]):
+                            continue
+                            
                         section_hash = hashlib.md5(normalized.encode()).hexdigest()
                         
                         content_hashes[section_hash].append({
@@ -198,7 +207,12 @@ class RedundancyChecker:
         print("\n" + "="*60)
         
         # Return exit code
-        return 1 if self.errors else 0
+        if self.errors:
+            return 1  # Critical errors
+        elif self.warnings:
+            return 2  # Non-critical warnings
+        else:
+            return 0  # All good
 
 
 def main():
