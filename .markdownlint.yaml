@@ -14,11 +14,11 @@ MD013:
 
 # Headers must use ATX style (# Header)
 MD003:
-  style: "atx"
+  style: atx
 
 # Lists must be consistent
 MD004:
-  style: "consistent"
+  style: consistent
 
 # Proper nesting is required
 MD005: true
@@ -44,9 +44,7 @@ MD011: true
 MD012:
   maximum: 2
 
-# Consistent unordered list markers
-MD004:
-  style: "dash"
+# Consistent unordered list markers (already defined above)
 
 # First line must be a top-level heading
 MD041: true
@@ -54,7 +52,6 @@ MD041: true
 # Proper spacing around headings
 MD022: true
 MD023: true
-MD024: true
 MD025: true
 
 # Code blocks must have language specified
@@ -68,7 +65,7 @@ MD045: true
 
 # Code blocks should be properly formatted
 MD046:
-  style: "fenced"
+  style: fenced
 
 # Files should end with a single newline
 MD047: true
@@ -101,22 +98,9 @@ MD007:  # Unordered list indentation
   indent: 2
   start_indented: false
 
-# Headers should have blank lines around them
-MD022: true
-MD023: true
+# Headers should have blank lines around them (already enabled above)
 
 # Multiple headers with same content allowed (e.g., multiple "Overview" sections)
-MD024: false
-
-# Don't require single top-level header (we have versioning info before main header)
-MD025: false
-
-# Line length exceptions for specific patterns
-MD013:
-  tables: false
-  code_blocks: false
-  headings: false
-
 # Allow duplicate headers at different levels
 MD024:
   siblings_only: true

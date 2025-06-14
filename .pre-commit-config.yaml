@@ -10,6 +10,7 @@ repos:
         args: [--markdown-linebreak-ext=md]
       - id: end-of-file-fixer
       - id: check-yaml
+        exclude: deployment\.standards\.yaml$
       - id: check-added-large-files
         args: [--maxkb=5000]
       - id: check-merge-conflict

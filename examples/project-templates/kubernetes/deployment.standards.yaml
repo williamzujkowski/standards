@@ -30,11 +30,11 @@ spec:
         version: v1.0.0
       annotations:
         # Security scanning per MODERN_SECURITY_STANDARDS.md
-        security.alpha.kubernetes.io/pod-security-policy: 'restricted'
+        security.alpha.kubernetes.io/pod-security-policy: restricted
         # Prometheus metrics per OBSERVABILITY_STANDARDS.md
-        prometheus.io/scrape: 'true'
-        prometheus.io/port: '9090'
-        prometheus.io/path: '/metrics'
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+        prometheus.io/path: /metrics
     spec:
       # Security context per MODERN_SECURITY_STANDARDS.md
       securityContext:
@@ -89,9 +89,9 @@ spec:
           # Environment variables
           env:
             - name: NODE_ENV
-              value: "production"
+              value: production
             - name: LOG_LEVEL
-              value: "info"
+              value: info
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
@@ -106,11 +106,11 @@ spec:
           # Resource limits per COST_OPTIMIZATION_STANDARDS.md
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "250m"
+              memory: 256Mi
+              cpu: 250m
             limits:
-              memory: "512Mi"
-              cpu: "500m"
+              memory: 512Mi
+              cpu: 500m
 
           # Liveness probe per OBSERVABILITY_STANDARDS.md
           livenessProbe:
@@ -164,7 +164,7 @@ spec:
       initContainers:
         - name: migrations
           image: myapp:v1.0.0
-          command: ['npm', 'run', 'migrate']
+          command: [npm, run, migrate]
           env:
             - name: DATABASE_URL
               valueFrom:

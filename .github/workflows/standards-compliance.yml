@@ -17,9 +17,18 @@ jobs:
       - name: Check file formatting
         run: |
           # Check for trailing whitespace using our comprehensive script
+          echo "Current directory: $(pwd)"
+          echo "Checking if script exists..."
           if [ -f scripts/check_whitespace.sh ]; then
-            bash scripts/check_whitespace.sh
+            echo "Script found at scripts/check_whitespace.sh"
+            ls -la scripts/check_whitespace.sh
+            echo "Running whitespace check..."
+            bash scripts/check_whitespace.sh || {
+              echo "Script exited with code $?"
+              exit 1
+            }
           else
+            echo "Script not found, using fallback check..."
             # Fallback to basic check if script doesn't exist
             ! grep -r '[[:space:]]$' \
               --include="*.md" --include="*.yml" --include="*.yaml" .
