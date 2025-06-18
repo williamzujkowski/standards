@@ -35,6 +35,12 @@ class StandardsValidator:
         """Find all standards markdown files"""
         patterns = ["*_STANDARDS.md", "UNIFIED_STANDARDS.md"]
         files = []
+        # Look in the new docs/standards directory
+        standards_dir = self.root / "docs" / "standards"
+        if standards_dir.exists():
+            for pattern in patterns:
+                files.extend(standards_dir.glob(pattern))
+        # Also check root for backward compatibility
         for pattern in patterns:
             files.extend(self.root.glob(pattern))
         return sorted(files)
@@ -57,7 +63,7 @@ class StandardsValidator:
 
     def test_manifest_completeness(self) -> ValidationResult:
         """Test: All standards have entries in MANIFEST.yaml"""
-        manifest_path = self.root / "MANIFEST.yaml"
+        manifest_path = self.root / "config" / "MANIFEST.yaml"
         if not manifest_path.exists():
             return ValidationResult(False, "MANIFEST.yaml not found")
 
@@ -84,7 +90,7 @@ class StandardsValidator:
 
     def test_claude_routing_coverage(self) -> ValidationResult:
         """Test: CLAUDE.md covers all major standard categories"""
-        claude_path = self.root / "CLAUDE.md"
+        claude_path = self.root / "docs" / "core" / "CLAUDE.md"
         if not claude_path.exists():
             return ValidationResult(False, "CLAUDE.md not found")
 
@@ -98,7 +104,7 @@ class StandardsValidator:
             codes_in_claude.add(match.group(1))
 
         # Check against MANIFEST.yaml codes
-        manifest_path = self.root / "MANIFEST.yaml"
+        manifest_path = self.root / "config" / "MANIFEST.yaml"
         with open(manifest_path) as f:
             manifest = yaml.safe_load(f)
 
@@ -122,19 +128,22 @@ class StandardsValidator:
         # and key infrastructure files
         standards_files = [f for f in self.standards_files]
         key_files = [
-            "CLAUDE.md",
-            "MANIFEST.yaml",
-            "KNOWLEDGE_MANAGEMENT_STANDARDS.md",
-            "COMPLIANCE_STANDARDS.md",
-            "NIST_IMPLEMENTATION_GUIDE.md",
+            ("docs/core/CLAUDE.md", "CLAUDE.md"),
+            ("config/MANIFEST.yaml", "MANIFEST.yaml"),
+            (
+                "docs/standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md",
+                "KNOWLEDGE_MANAGEMENT_STANDARDS.md",
+            ),
+            ("docs/standards/COMPLIANCE_STANDARDS.md", "COMPLIANCE_STANDARDS.md"),
+            ("docs/nist/NIST_IMPLEMENTATION_GUIDE.md", "NIST_IMPLEMENTATION_GUIDE.md"),
         ]
 
         # Files that should have bidirectional links
         important_files = set()
         for f in standards_files:
             important_files.add(f.name)
-        for fname in key_files:
-            if (self.root / fname).exists():
+        for fpath, fname in key_files:
+            if (self.root / fpath).exists():
                 important_files.add(fname)
 
         links = defaultdict(set)
@@ -142,10 +151,10 @@ class StandardsValidator:
         # Check all important files for links
         all_files_to_check = []
         all_files_to_check.extend(standards_files)
-        for fname in key_files:
-            fpath = self.root / fname
-            if fpath.exists():
-                all_files_to_check.append(fpath)
+        for fpath, fname in key_files:
+            full_path = self.root / fpath
+            if full_path.exists():
+                all_files_to_check.append(full_path)
 
         for file_path in all_files_to_check:
             if isinstance(file_path, Path):
@@ -304,7 +313,7 @@ class StandardsValidator:
 
     def test_index_coverage(self) -> ValidationResult:
         """Test: STANDARDS_INDEX.md covers all standards"""
-        index_path = self.root / "STANDARDS_INDEX.md"
+        index_path = self.root / "docs" / "guides" / "STANDARDS_INDEX.md"
         if not index_path.exists():
             return ValidationResult(False, "STANDARDS_INDEX.md not found")
 
@@ -343,7 +352,7 @@ class StandardsValidator:
 
     def test_graph_relationships(self) -> ValidationResult:
         """Test: STANDARDS_GRAPH.md contains all key relationships"""
-        graph_path = self.root / "STANDARDS_GRAPH.md"
+        graph_path = self.root / "docs" / "guides" / "STANDARDS_GRAPH.md"
         if not graph_path.exists():
             return ValidationResult(False, "STANDARDS_GRAPH.md not found")
 

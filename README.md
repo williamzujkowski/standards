@@ -6,7 +6,7 @@
 [![Standards](https://img.shields.io/badge/standards-23%20documents-green.svg)](https://github.com/williamzujkowski/standards)
 [![License](https://img.shields.io/badge/license-MIT-purple.svg)](LICENSE)
 [![Compliance](https://github.com/williamzujkowski/standards/actions/workflows/standards-compliance.yml/badge.svg)](https://github.com/williamzujkowski/standards/actions/workflows/standards-compliance.yml)
-[![NIST](https://img.shields.io/badge/NIST%20800--53r5-Compliant-brightgreen.svg)](./NIST_IMPLEMENTATION_GUIDE.md)
+[![NIST](https://img.shields.io/badge/NIST%20800--53r5-Compliant-brightgreen.svg)](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md)
 
 ---
 
@@ -19,7 +19,7 @@
 - **VS Code Extension**: Real-time NIST control suggestions
 - **CI/CD Integration**: Automated compliance checking and SSP generation
 - **Quick Start**: `./scripts/setup-nist-hooks.sh` - Get compliant in minutes!
-- **See**: [NIST_IMPLEMENTATION_GUIDE.md](./NIST_IMPLEMENTATION_GUIDE.md) for details
+- **See**: [NIST_IMPLEMENTATION_GUIDE.md](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md) for details
 
 ---
 
@@ -29,7 +29,7 @@
 
 Get instant project analysis and implementation guidance:
 
-1. **Copy the kickstart prompt** from [KICKSTART_PROMPT.md](./KICKSTART_PROMPT.md)
+1. **Copy the kickstart prompt** from [KICKSTART_PROMPT.md](./docs/guides/KICKSTART_PROMPT.md)
 2. **Paste into any LLM** (ChatGPT, Claude, Gemini, etc.) along with your project plan
 3. **Get instant analysis** including:
    - Tech stack validation
@@ -43,17 +43,17 @@ Get instant project analysis and implementation guidance:
 ### ⚡ **Option 2: Automated Setup Script**
 
 ```bash
-curl -O https://raw.githubusercontent.com/williamzujkowski/standards/master/setup-project.sh
+curl -O https://raw.githubusercontent.com/williamzujkowski/standards/master/scripts/setup-project.sh
 chmod +x setup-project.sh
 ./setup-project.sh my-new-project
 ```
 
 ### 📋 **Option 3: Manual Setup**
 
-1. Start with **[UNIFIED_STANDARDS.md](./UNIFIED_STANDARDS.md)** - Your comprehensive foundation
-2. Copy **[CLAUDE.md](./CLAUDE.md)** to your project for AI assistance
+1. Start with **[UNIFIED_STANDARDS.md](./docs/standards/UNIFIED_STANDARDS.md)** - Your comprehensive foundation
+2. Copy **[CLAUDE.md](./docs/core/CLAUDE.md)** to your project for AI assistance
 3. Use templates from `examples/project-templates/` for your language
-4. Follow **[ADOPTION_CHECKLIST.md](./ADOPTION_CHECKLIST.md)** for systematic implementation
+4. Follow **[ADOPTION_CHECKLIST.md](./docs/guides/ADOPTION_CHECKLIST.md)** for systematic implementation
 5. **NEW**: Install NIST compliance hooks with `./scripts/setup-nist-hooks.sh`
 
 ### 🤖 **For AI/LLM Users**
@@ -115,41 +115,41 @@ Complete coverage of modern software development practices from coding to deploy
 ## 📂 Standards Categories
 
 ### 💻 **Development & Engineering**
-- **[UNIFIED_STANDARDS.md](./UNIFIED_STANDARDS.md)** - Master document with all core standards
-- **[CODING_STANDARDS.md](./CODING_STANDARDS.md)** - Language-specific best practices
-- **[TESTING_STANDARDS.md](./TESTING_STANDARDS.md)** - Comprehensive testing methodologies
-- **[MODERN_SECURITY_STANDARDS.md](./MODERN_SECURITY_STANDARDS.md)** - Zero Trust security implementation
-- **[DATA_ENGINEERING_STANDARDS.md](./DATA_ENGINEERING_STANDARDS.md)** - Data pipeline and analytics
-- **[KNOWLEDGE_MANAGEMENT_STANDARDS.md](./KNOWLEDGE_MANAGEMENT_STANDARDS.md)** - Documentation architecture patterns
+- **[UNIFIED_STANDARDS.md](./docs/standards/UNIFIED_STANDARDS.md)** - Master document with all core standards
+- **[CODING_STANDARDS.md](./docs/standards/CODING_STANDARDS.md)** - Language-specific best practices
+- **[TESTING_STANDARDS.md](./docs/standards/TESTING_STANDARDS.md)** - Comprehensive testing methodologies
+- **[MODERN_SECURITY_STANDARDS.md](./docs/standards/MODERN_SECURITY_STANDARDS.md)** - Zero Trust security implementation
+- **[DATA_ENGINEERING_STANDARDS.md](./docs/standards/DATA_ENGINEERING_STANDARDS.md)** - Data pipeline and analytics
+- **[KNOWLEDGE_MANAGEMENT_STANDARDS.md](./docs/standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md)** - Documentation architecture patterns
 
 ### 🎨 **Frontend & Design**
-- **[FRONTEND_MOBILE_STANDARDS.md](./FRONTEND_MOBILE_STANDARDS.md)** - React/Vue/Angular & mobile
-- **[WEB_DESIGN_UX_STANDARDS.md](./WEB_DESIGN_UX_STANDARDS.md)** - Design systems & accessibility
+- **[FRONTEND_MOBILE_STANDARDS.md](./docs/standards/FRONTEND_MOBILE_STANDARDS.md)** - React/Vue/Angular & mobile
+- **[WEB_DESIGN_UX_STANDARDS.md](./docs/standards/WEB_DESIGN_UX_STANDARDS.md)** - Design systems & accessibility
 
 ### 🔧 **Operations & Infrastructure**
-- **[CLOUD_NATIVE_STANDARDS.md](./CLOUD_NATIVE_STANDARDS.md)** - Container & microservices patterns
-- **[DEVOPS_PLATFORM_STANDARDS.md](./DEVOPS_PLATFORM_STANDARDS.md)** - CI/CD & Infrastructure as Code
-- **[OBSERVABILITY_STANDARDS.md](./OBSERVABILITY_STANDARDS.md)** - Monitoring, logging, tracing
-- **[EVENT_DRIVEN_STANDARDS.md](./EVENT_DRIVEN_STANDARDS.md)** - Event architecture patterns
+- **[CLOUD_NATIVE_STANDARDS.md](./docs/standards/CLOUD_NATIVE_STANDARDS.md)** - Container & microservices patterns
+- **[DEVOPS_PLATFORM_STANDARDS.md](./docs/standards/DEVOPS_PLATFORM_STANDARDS.md)** - CI/CD & Infrastructure as Code
+- **[OBSERVABILITY_STANDARDS.md](./docs/standards/OBSERVABILITY_STANDARDS.md)** - Monitoring, logging, tracing
+- **[EVENT_DRIVEN_STANDARDS.md](./docs/standards/EVENT_DRIVEN_STANDARDS.md)** - Event architecture patterns
 
 ### 📊 **Business & Compliance**
-- **[PROJECT_MANAGEMENT_STANDARDS.md](./PROJECT_MANAGEMENT_STANDARDS.md)** - Agile & team practices
-- **[COST_OPTIMIZATION_STANDARDS.md](./COST_OPTIMIZATION_STANDARDS.md)** - FinOps & resource optimization
-- **[LEGAL_COMPLIANCE_STANDARDS.md](./LEGAL_COMPLIANCE_STANDARDS.md)** - Privacy & regulatory compliance
-- **[SEO_WEB_MARKETING_STANDARDS.md](./SEO_WEB_MARKETING_STANDARDS.md)** - Technical SEO & marketing
+- **[PROJECT_MANAGEMENT_STANDARDS.md](./docs/standards/PROJECT_MANAGEMENT_STANDARDS.md)** - Agile & team practices
+- **[COST_OPTIMIZATION_STANDARDS.md](./docs/standards/COST_OPTIMIZATION_STANDARDS.md)** - FinOps & resource optimization
+- **[LEGAL_COMPLIANCE_STANDARDS.md](./docs/standards/LEGAL_COMPLIANCE_STANDARDS.md)** - Privacy & regulatory compliance
+- **[SEO_WEB_MARKETING_STANDARDS.md](./docs/standards/SEO_WEB_MARKETING_STANDARDS.md)** - Technical SEO & marketing
 
 ### 🔐 **NIST 800-53r5 Compliance**
-- **[NIST_IMPLEMENTATION_GUIDE.md](./NIST_IMPLEMENTATION_GUIDE.md)** - 🚀 Quick start guide (15 min setup)
-- **[COMPLIANCE_STANDARDS.md](./COMPLIANCE_STANDARDS.md)** - Detailed control tagging standards
-- **[NIST_QUICK_REFERENCE.md](./NIST_QUICK_REFERENCE.md)** - Essential controls cheat sheet
+- **[NIST_IMPLEMENTATION_GUIDE.md](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md)** - 🚀 Quick start guide (15 min setup)
+- **[COMPLIANCE_STANDARDS.md](./docs/standards/COMPLIANCE_STANDARDS.md)** - Detailed control tagging standards
+- **[NIST_QUICK_REFERENCE.md](./docs/nist/NIST_QUICK_REFERENCE.md)** - Essential controls cheat sheet
 - **[examples/nist-templates/](./examples/nist-templates/)** - Pre-tagged security templates
 - **[prompts/nist-compliance/](./prompts/nist-compliance/)** - LLM prompts for compliance
 
 ### 🤖 **AI/LLM Integration**
-- **[CLAUDE.md](./CLAUDE.md)** - Primary LLM interface (90% token reduction)
-- **[KICKSTART_PROMPT.md](./KICKSTART_PROMPT.md)** - Universal project kickstart prompt
-- **[KICKSTART_ADVANCED.md](./KICKSTART_ADVANCED.md)** - Advanced kickstart patterns
-- **[KNOWLEDGE_MANAGEMENT_STANDARDS.md](./KNOWLEDGE_MANAGEMENT_STANDARDS.md)** - How to build AI-optimized documentation systems
+- **[CLAUDE.md](./docs/core/CLAUDE.md)** - Primary LLM interface (90% token reduction)
+- **[KICKSTART_PROMPT.md](./docs/guides/KICKSTART_PROMPT.md)** - Universal project kickstart prompt
+- **[KICKSTART_ADVANCED.md](./docs/guides/KICKSTART_ADVANCED.md)** - Advanced kickstart patterns
+- **[KNOWLEDGE_MANAGEMENT_STANDARDS.md](./docs/standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md)** - How to build AI-optimized documentation systems
 
 ---
 
@@ -161,10 +161,10 @@ Complete coverage of modern software development practices from coding to deploy
 3. Copy relevant templates from `examples/project-templates/`
 
 ### **For Existing Projects**
-1. Read **[INTEGRATION_GUIDE.md](./INTEGRATION_GUIDE.md)** for strategies
+1. Read **[INTEGRATION_GUIDE.md](./docs/core/INTEGRATION_GUIDE.md)** for strategies
 2. Perform gap analysis using standard checklists
 3. Prioritize: Security → Testing → Core Standards
-4. Use **[ADOPTION_CHECKLIST.md](./ADOPTION_CHECKLIST.md)** for phased adoption
+4. Use **[ADOPTION_CHECKLIST.md](./docs/guides/ADOPTION_CHECKLIST.md)** for phased adoption
 
 ### **Quick Integration Methods**
 - **Git Submodule**: `git submodule add https://github.com/williamzujkowski/standards.git .standards`
@@ -176,27 +176,27 @@ Complete coverage of modern software development practices from coding to deploy
 ## 🌟 Essential Links
 
 ### **Getting Started**
-- 🚀 [KICKSTART_PROMPT.md](./KICKSTART_PROMPT.md) - AI project analyzer
-- 📚 [UNIFIED_STANDARDS.md](./UNIFIED_STANDARDS.md) - Complete standards reference
-- 🤖 [CLAUDE.md](./CLAUDE.md) - LLM optimization interface
-- ✅ [ADOPTION_CHECKLIST.md](./ADOPTION_CHECKLIST.md) - Implementation roadmap
+- 🚀 [KICKSTART_PROMPT.md](./docs/guides/KICKSTART_PROMPT.md) - AI project analyzer
+- 📚 [UNIFIED_STANDARDS.md](./docs/standards/UNIFIED_STANDARDS.md) - Complete standards reference
+- 🤖 [CLAUDE.md](./docs/core/CLAUDE.md) - LLM optimization interface
+- ✅ [ADOPTION_CHECKLIST.md](./docs/guides/ADOPTION_CHECKLIST.md) - Implementation roadmap
 
 ### **Templates & Tools**
 - 📁 [Project Templates](./examples/project-templates/) - Language-specific configs
 - 🔐 [NIST Templates](./examples/nist-templates/) - Security components with controls
-- 🔧 [Setup Script](./setup-project.sh) - Automated project setup
+- 🔧 [Setup Script](./scripts/setup-project.sh) - Automated project setup
 - 🛡️ [NIST Setup](./scripts/setup-nist-hooks.sh) - One-command compliance setup
-- 📊 [Integration Guide](./INTEGRATION_GUIDE.md) - Detailed integration strategies
-- 🏷️ [Badge Generator](./generate-badges.sh) - Compliance badges
-- 📝 [Standard Template](./STANDARD_TEMPLATE.md) - Template for new standards
-- 📖 [Creating Standards Guide](./CREATING_STANDARDS_GUIDE.md) - How to contribute standards
+- 📊 [Integration Guide](./docs/core/INTEGRATION_GUIDE.md) - Detailed integration strategies
+- 🏷️ [Badge Generator](./scripts/generate-badges.sh) - Compliance badges
+- 📝 [Standard Template](./docs/guides/STANDARD_TEMPLATE.md) - Template for new standards
+- 📖 [Creating Standards Guide](./docs/guides/CREATING_STANDARDS_GUIDE.md) - How to contribute standards
 
 ### **Advanced Features**
-- 🧩 [KICKSTART_ADVANCED.md](./KICKSTART_ADVANCED.md) - Advanced kickstart patterns
-- 📋 [TOOLS_CATALOG.yaml](./TOOLS_CATALOG.yaml) - Centralized tool management
-- 🔍 [STANDARDS_INDEX.md](./STANDARDS_INDEX.md) - Quick reference summaries
-- 📈 [STANDARDS_GRAPH.md](./STANDARDS_GRAPH.md) - Standards relationships
-- 🤖 [.vscode/nist-extension/](./.vscode/nist-extension/) - VS Code NIST extension
+- 🧩 [KICKSTART_ADVANCED.md](./docs/guides/KICKSTART_ADVANCED.md) - Advanced kickstart patterns
+- 📋 [TOOLS_CATALOG.yaml](./config/TOOLS_CATALOG.yaml) - Centralized tool management
+- 🔍 [STANDARDS_INDEX.md](./docs/guides/STANDARDS_INDEX.md) - Quick reference summaries
+- 📈 [STANDARDS_GRAPH.md](./docs/guides/STANDARDS_GRAPH.md) - Standards relationships
+- 🤖 VS Code NIST extension - Available in the .vscode/nist-extension/ directory
 - 📊 [standards/compliance/](./standards/compliance/) - OSCAL compliance platform
 
 ---
@@ -222,7 +222,7 @@ We welcome contributions! Please:
 - Include practical examples
 - Keep LLM optimization in mind
 
-**Creating New Standards?** See [CREATING_STANDARDS_GUIDE.md](./CREATING_STANDARDS_GUIDE.md) and use [STANDARD_TEMPLATE.md](./STANDARD_TEMPLATE.md)
+**Creating New Standards?** See [CREATING_STANDARDS_GUIDE.md](./docs/guides/CREATING_STANDARDS_GUIDE.md) and use [STANDARD_TEMPLATE.md](./docs/guides/STANDARD_TEMPLATE.md)
 
 ### 🧪 Quality Assurance
 
@@ -239,7 +239,112 @@ pre-commit run --all-files    # Manual check
 
 See [tests/README.md](./tests/README.md) and [lint/README.md](./lint/README.md) for details.
 
-**Current Status**: See [TODO_TEST_FIXES.md](./TODO_TEST_FIXES.md) for pending compliance fixes.
+---
+
+## 🛠️ Tools & Automation
+
+### **Script Utilities**
+
+| Script | Purpose | Usage |
+|--------|---------|-------|
+| `setup-project.sh` | Create new project with standards | `./scripts/setup-project.sh project-name` |
+| `generate_standards_index.py` | Generate standards quick reference | `python3 scripts/generate_standards_index.py` |
+| `fix_trailing_whitespace.sh` | Remove trailing whitespace | `./scripts/fix_trailing_whitespace.sh` |
+| `test_redundancy.py` | Check for DRY violations | `python3 tests/test_redundancy.py` |
+| `generate-badges.sh` | Generate compliance badges | `./scripts/generate-badges.sh` |
+
+### **VS Code Extension**
+
+Install our NIST compliance extension for real-time control suggestions:
+
+```bash
+# Install the extension
+cd .vscode/nist-extension
+npm install
+npm run compile
+
+# Link to VS Code (development mode)
+ln -s $(pwd) ~/.vscode/extensions/nist-compliance-helper
+```
+
+**Features:**
+- 🎯 Real-time NIST control suggestions while coding
+- 📝 Code snippets for common security patterns
+- 🔍 Hover information for control details
+- ⚡ Quick fixes for missing controls
+- 🏷️ Auto-completion for @nist tags
+
+### **GitHub Actions Workflows**
+
+| Workflow | Trigger | Purpose |
+|----------|---------|---------|
+| `standards-compliance.yml` | Push/PR | Validate standards compliance |
+| `nist-compliance.yml` | Push/PR | Check NIST control coverage |
+| `standards-validation.yml` | Push/PR | Run comprehensive validation tests |
+| `redundancy-check.yml` | Push/PR | Detect code redundancy |
+| `auto-fix-whitespace.yml` | Push | Auto-fix trailing whitespace |
+| `auto-summaries.yml` | Schedule | Generate periodic summaries |
+
+📖 **See [GITHUB_WORKFLOWS.md](./docs/core/GITHUB_WORKFLOWS.md) for detailed workflow documentation**
+
+### **Compliance Automation Platform**
+
+Our TypeScript-based compliance platform in `standards/compliance/` provides:
+
+- **OSCAL Processing**: Import/export NIST controls in OSCAL format
+- **Multi-Language Parsers**: Extract controls from Python, Go, JS/TS, Java, YAML
+- **Evidence Collection**: Automated evidence harvesting for assessments
+- **SSP Generation**: Create System Security Plans from code annotations
+- **Knowledge Graphs**: Semantic analysis of control relationships
+
+**Quick Start:**
+```bash
+cd standards/compliance
+./quickstart.sh
+```
+
+### **Micro Standards**
+
+Ultra-condensed versions (500 tokens) for token-efficient LLM usage:
+
+```bash
+# Access micro standards directly
+cat micro/CS-api.micro.md     # API standards
+cat micro/SEC-auth.micro.md   # Auth standards
+cat micro/TS-unit.micro.md    # Unit testing
+```
+
+### **Standards API**
+
+Remote access patterns defined in `config/standards-api.json`:
+
+```javascript
+// Fetch specific rules
+@fetch-rule CS:api#rate-limiting
+
+// Get examples
+@fetch-example SEC:auth#jwt-implementation
+
+// Search standards
+@search "authentication patterns"
+```
+
+### **Test Infrastructure**
+
+Comprehensive validation suite in `tests/`:
+
+- `validate_cross_references.py` - Verify all links and references
+- `validate_token_efficiency.py` - Check token optimization
+- `fix_validation_issues.py` - Auto-fix common issues
+- `validate_knowledge_management.sh` - Run all tests
+
+### **Linting Tools**
+
+Custom linting in `lint/`:
+
+- `standards-linter.py` - Enforce standards format
+- `custom-rules.js` - Project-specific rules
+- Pre-commit hooks for automatic checking
 
 ---
 

@@ -138,9 +138,9 @@ When adding new examples:
 
 ## 🔗 Related Documentation
 
-- [CLAUDE.md](../CLAUDE.md) - Primary AI interface and standards router
-- [VALIDATION_PATTERNS.md](../VALIDATION_PATTERNS.md) - Validation examples
-- [STANDARDS_INDEX.md](../STANDARDS_INDEX.md) - Quick reference index
+- [CLAUDE.md](../docs/core/CLAUDE.md) - Primary AI interface and standards router
+- [VALIDATION_PATTERNS.md](../docs/guides/VALIDATION_PATTERNS.md) - Validation examples
+- [STANDARDS_INDEX.md](../docs/guides/STANDARDS_INDEX.md) - Quick reference index
 - [README.md](../README.md) - Main repository documentation
 
 ## 💡 Quick Tips

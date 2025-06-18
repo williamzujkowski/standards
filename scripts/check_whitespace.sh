@@ -86,7 +86,7 @@ main() {
         echo -e "\n${YELLOW}Files with issues:${NC}"
         printf '%s\n' "${problematic_files[@]}"
         echo -e "\n${YELLOW}To fix these issues, run:${NC}"
-        echo -e "  ./fix_trailing_whitespace.sh"
+        echo -e "  ./scripts/fix_trailing_whitespace.sh"
         exit 1
     else
         echo -e "\n${GREEN}✓ No trailing whitespace found${NC}"

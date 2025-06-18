@@ -1,6 +1,6 @@
 # Tools Configuration Directory
 
-This directory contains standardized configuration files for development tools referenced in [TOOLS_CATALOG.yaml](../TOOLS_CATALOG.yaml).
+This directory contains standardized configuration files for development tools referenced in [TOOLS_CATALOG.yaml](../config/TOOLS_CATALOG.yaml).
 
 ## 📁 Configuration Files
 

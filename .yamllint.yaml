@@ -40,4 +40,4 @@ rules:
   # Allow quoted strings when needed
   quoted-strings:
     quote-type: any
-    required: only-when-needed
+    required: false

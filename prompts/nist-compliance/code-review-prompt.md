@@ -9,7 +9,7 @@ Use this prompt to review code for NIST compliance issues and get specific recom
 Perform a NIST 800-53r5 compliance review of the following code. I need a security-focused review that identifies:
 
 1. Missing NIST control tags
-2. Incorrect control mappings  
+2. Incorrect control mappings
 3. Incomplete control implementations
 4. Security vulnerabilities related to NIST controls
 5. Evidence collection gaps

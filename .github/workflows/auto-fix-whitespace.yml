@@ -35,10 +35,10 @@ jobs:
         id: fix
         run: |
           # Make script executable
-          chmod +x fix_trailing_whitespace.sh
+          chmod +x scripts/fix_trailing_whitespace.sh
 
           # Run the fix script and capture output
-          output=$(./fix_trailing_whitespace.sh 2>&1)
+          output=$(./scripts/fix_trailing_whitespace.sh 2>&1)
           echo "$output"
 
           # Check if any files were modified
