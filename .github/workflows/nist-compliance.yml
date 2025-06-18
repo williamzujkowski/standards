@@ -37,13 +37,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: standards/compliance/package-lock.json
 
       - name: Install dependencies
         run: |
           cd standards/compliance
-          npm ci
+          npm install
 
       - name: Validate NIST tags in changed files
         id: validate
@@ -206,10 +204,13 @@ jobs:
           echo "sc_controls=$sc_controls" >> $GITHUB_OUTPUT
 
       - name: Create coverage badge
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && env.GIST_SECRET != ''
         uses: schneegans/dynamic-badges-action@v1.7.0
+        env:
+          GIST_SECRET: ${{ secrets.GIST_SECRET }}
         with:
-          auth: ${{ secrets.GIST_SECRET }}
-          gistID: your-gist-id  # Replace with actual Gist ID
+          auth: ${{ env.GIST_SECRET }}
+          gistID: ${{ secrets.GIST_ID || 'skip' }}  # Configure GIST_ID in repository secrets
           filename: nist-coverage.json
           label: NIST Controls
           message: ${{ steps.coverage.outputs.total_controls }} controls
@@ -231,7 +232,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd standards/compliance
-          npm ci
+          npm install
 
       - name: Generate SSP
         run: |
@@ -260,7 +261,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd standards/compliance
-          npm ci
+          npm install
 
       - name: Harvest evidence
         run: |
