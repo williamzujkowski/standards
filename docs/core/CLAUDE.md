@@ -468,7 +468,7 @@ When writing security-related code, automatically suggest NIST controls:
 ```
 # Quick Reference
 Authentication → @nist ia-2, ia-5
-Authorization → @nist ac-2, ac-3, ac-6  
+Authorization → @nist ac-2, ac-3, ac-6
 Encryption → @nist sc-8, sc-13
 Logging → @nist au-2, au-3
 Session management → @nist ac-12

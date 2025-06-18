@@ -1,7 +1,7 @@
 # GitHub Actions Workflows Documentation
 
-**Version:** 1.0.0  
-**Last Updated:** January 2025  
+**Version:** 1.0.0
+**Last Updated:** January 2025
 **Status:** Active
 
 ---

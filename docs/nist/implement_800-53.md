@@ -240,7 +240,7 @@ Analyze this security control and provide a comprehensive semantic breakdown:
 ### 1. Domain Classification
 Identify the primary security domains this control addresses:
 - Access Control & Identity Management
-- Audit & Accountability  
+- Audit & Accountability
 - Configuration Management
 - System & Communications Protection
 - Physical & Environmental Protection
@@ -257,7 +257,7 @@ Identify specific technologies, frameworks, and implementation approaches:
 ### 3. Implementation Patterns
 Describe common implementation patterns:
 - Code-level implementations
-- Configuration-based implementations  
+- Configuration-based implementations
 - Process-based implementations
 - Documentation requirements
 
@@ -278,7 +278,7 @@ Based on the williamzujkowski/standards repository structure, suggest mappings t
 ### 6. Semantic Keywords
 Generate relevant keywords for search and discovery:
 - Technical terms
-- Process terms  
+- Process terms
 - Compliance terms
 - Industry-standard terms
 
@@ -1515,7 +1515,7 @@ new IntelligentComplianceCLI();
 
 ### LLM Optimization Features
 - **Semantic Analysis**: AI-powered control mapping with confidence scoring
-- **Natural Language Interface**: Ask compliance questions in plain English  
+- **Natural Language Interface**: Ask compliance questions in plain English
 - **Intelligent Auto-tagging**: Automatic NIST control identification in standards
 - **Smart Gap Analysis**: AI-generated remediation plans with effort estimation
 

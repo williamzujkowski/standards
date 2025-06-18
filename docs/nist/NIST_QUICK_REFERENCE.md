@@ -1,10 +1,10 @@
 # NIST Compliance Quick Reference
 
-**Version:** 1.0.0  
-**Last Updated:** 2025-01-18  
-**Status:** Active  
-**Standard Code:** NQR  
-**Tokens:** ~500  
+**Version:** 1.0.0
+**Last Updated:** 2025-01-18
+**Status:** Active
+**Standard Code:** NQR
+**Tokens:** ~500
 **Purpose:** Minimal context for quick lookups
 
 ---

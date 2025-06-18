@@ -395,7 +395,7 @@ ${code}
 
 Consider:
 1. Security functionality implemented
-2. Data protection measures  
+2. Data protection measures
 3. Access control mechanisms
 4. Audit capabilities
 
@@ -550,7 +550,7 @@ nist-validator report --format html
 ```
 Common Tags:
 @nist ia-2      → Authentication
-@nist ac-3      → Authorization  
+@nist ac-3      → Authorization
 @nist sc-13     → Encryption
 @nist au-2      → Audit logging
 @nist ac-12     → Session timeout
