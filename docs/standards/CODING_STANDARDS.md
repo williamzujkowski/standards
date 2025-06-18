@@ -57,6 +57,9 @@ Implement consistent code style and formatting:
    - Variables: camelCase or snake_case nouns
    - Constants: UPPER_SNAKE_CASE
    - Private members: prefix with underscore
+   - Avoid potentially offensive or ambiguous acronyms
+   - Always consider cultural sensitivity in naming
+   - Prefer full descriptive names over unclear abbreviations
 
 4. Structure code consistently:
    - Organize imports logically

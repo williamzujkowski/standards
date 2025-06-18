@@ -34,6 +34,7 @@ context:
 @load CS:api                    # Single section
 @load [CS:* + TS:* + SEC:*]    # Multiple standards
 @load KM:*                      # Knowledge management architecture
+@load NIST-IG:*                 # NIST implementation guidance
 
 # Advanced Loading
 @load CS:api version:[latest] expand:[dependencies]
@@ -49,11 +50,11 @@ context:
 ### Natural Language Mappings
 | Query | Standards Loaded | Context |
 |-------|------------------|---------|
-| "How to start NIST compliance?" | `NIG:quick-start` | Setup guide |
-| "NIST tag examples" | `NIG:tagging-reference` | Code examples |
-| "Check my NIST tags" | `NIG:workflow` | Validation |
-| "NIST CI/CD setup" | `NIG:workflow` | Automation |
-| "NIST implementation guide" | `NIG:* + COMPLIANCE:overview` | Full guide |
+| "How to start NIST compliance?" | `NIST-IG:quick-start` | Setup guide |
+| "NIST tag examples" | `NIST-IG:tagging-reference` | Code examples |
+| "Check my NIST tags" | `NIST-IG:workflow` | Validation |
+| "NIST CI/CD setup" | `NIST-IG:workflow` | Automation |
+| "NIST implementation guide" | `NIST-IG:* + COMPLIANCE:overview` | Full guide |
 | "How do I build a secure API?" | `CS:api + SEC:api + TS:integration` | API security patterns |
 | "Make my app faster" | `CS:performance + OBS:metrics + COST:optimization` | Performance toolkit |
 | "Start React project" | `FE:react + WD:* + TS:jest + CS:javascript` | React ecosystem |
