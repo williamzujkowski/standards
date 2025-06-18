@@ -57,14 +57,20 @@ jobs:
 
       - name: Check for large files
         run: |
+          # Exclude OSCAL catalog files which are legitimately large (official NIST data)
           large_files=$(find . -type f -size +5M -not -path "./.git/*" \
+            -not -path "*/oscal/catalogs/*" \
+            -not -name "*catalog*.json" \
             -exec ls -lh {} \;)
           if [ -n "$large_files" ]; then
             echo "Error: Large files found (>5MB):"
             echo "$large_files"
+            echo ""
+            echo "Note: OSCAL catalog files are excluded from this check as they contain"
+            echo "official NIST control data and are expected to be large."
             exit 1
           else
-            echo "No large files found (>5MB)"
+            echo "No large files found (>5MB) - OSCAL catalogs excluded"
           fi
 
       - name: Security - Check for secrets
