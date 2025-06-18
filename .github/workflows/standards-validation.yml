@@ -26,11 +26,11 @@ jobs:
       - name: Validate YAML Files
         run: |
           pip install yamllint
-          yamllint standards-schema.yaml
+          yamllint config/standards-schema.yaml
 
       - name: Validate JSON Files
         run: |
-          python -m json.tool standards-api.json > /dev/null
+          python -m json.tool config/standards-api.json > /dev/null
 
       - name: Check Standards Schema Consistency
         run: |
@@ -41,11 +41,11 @@ jobs:
           import sys
 
           # Load standards schema
-          with open('standards-schema.yaml', 'r') as f:
+          with open('config/standards-schema.yaml', 'r') as f:
               schema = yaml.safe_load(f)
 
           # Load API rules
-          with open('standards-api.json', 'r') as f:
+          with open('config/standards-api.json', 'r') as f:
               rules = json.load(f)
 
           # Validate all rule standards exist in schema
@@ -127,7 +127,7 @@ jobs:
           import re
 
           # Simple validation - in real implementation would parse the graph properly
-          with open('STANDARDS_GRAPH.md', 'r') as f:
+          with open('docs/guides/STANDARDS_GRAPH.md', 'r') as f:
               content = f.read()
 
           # Check that graph syntax is valid

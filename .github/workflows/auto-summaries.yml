@@ -64,13 +64,14 @@ jobs:
               summary += f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M UTC')}\n\n"
 
               # Load manifest for structure
-              with open('MANIFEST.yaml', 'r') as f:
+              with open('config/MANIFEST.yaml', 'r') as f:
                   manifest = yaml.safe_load(f)
 
               for std_code, std_info in manifest['standards'].items():
                   file_name = std_info['full_name']
-                  if os.path.exists(file_name):
-                      excerpt = extract_summary(file_name)
+                  file_path = f"docs/standards/{file_name}"
+                  if os.path.exists(file_path):
+                      excerpt = extract_summary(file_path)
                       summary += f"## {std_code} - {file_name}\n"
                       summary += f"{excerpt}\n\n"
 
@@ -168,7 +169,7 @@ jobs:
               }
 
               # Parse STANDARDS_INDEX.md for quick lookups
-              with open('STANDARDS_INDEX.md', 'r') as f:
+              with open('docs/guides/STANDARDS_INDEX.md', 'r') as f:
                   content = f.read()
 
               # Extract quick answers

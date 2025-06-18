@@ -164,7 +164,7 @@ jobs:
             function authenticateUser() { ... }
             \`\`\`
 
-            See [COMPLIANCE_STANDARDS.md](../../COMPLIANCE_STANDARDS.md) for more details.`;
+            See [COMPLIANCE_STANDARDS.md](../../docs/standards/COMPLIANCE_STANDARDS.md) for more details.`;
 
               github.rest.issues.createComment({
                 issue_number: context.issue.number,
@@ -315,6 +315,6 @@ jobs:
 
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 📚 Resources" >> $GITHUB_STEP_SUMMARY
-          echo "- [COMPLIANCE_STANDARDS.md](../../COMPLIANCE_STANDARDS.md)" >> $GITHUB_STEP_SUMMARY
-          echo "- [NIST Tagging Proposal](../../NIST_TAGGING_PROPOSAL.md)" >> $GITHUB_STEP_SUMMARY
+          echo "- [COMPLIANCE_STANDARDS.md](../../docs/standards/COMPLIANCE_STANDARDS.md)" >> $GITHUB_STEP_SUMMARY
+          echo "- [NIST Tagging Proposal](../../docs/nist/NIST_TAGGING_PROPOSAL.md)" >> $GITHUB_STEP_SUMMARY
           echo "- [Compliance Platform](../../standards/compliance/README.md)" >> $GITHUB_STEP_SUMMARY

@@ -57,10 +57,10 @@ echo "----------------------"
 
 # Test: Required files exist
 run_test "README.md exists" "test -f README.md"
-run_test "CLAUDE.md exists" "test -f CLAUDE.md"
-run_test "MANIFEST.yaml exists" "test -f MANIFEST.yaml"
-run_test "STANDARDS_INDEX.md exists" "test -f STANDARDS_INDEX.md"
-run_test "STANDARDS_GRAPH.md exists" "test -f STANDARDS_GRAPH.md"
+run_test "CLAUDE.md exists" "test -f docs/core/CLAUDE.md"
+run_test "MANIFEST.yaml exists" "test -f config/MANIFEST.yaml"
+run_test "docs/guides/STANDARDS_INDEX.md exists" "test -f docs/guides/STANDARDS_INDEX.md"
+run_test "docs/guides/STANDARDS_GRAPH.md exists" "test -f docs/guides/STANDARDS_GRAPH.md"
 run_test "CHANGELOG.md exists" "test -f CHANGELOG.md"
 
 echo ""
@@ -69,14 +69,14 @@ echo "--------------------------"
 
 # Test: All .md files have proper headers
 run_test "All standards have version info" \
-    "! grep -L 'Version:' *_STANDARDS.md 2>/dev/null"
+    "! grep -L 'Version:' docs/standards/*_STANDARDS.md 2>/dev/null"
 
 run_test "All standards have status info" \
-    "! grep -L 'Status:' *_STANDARDS.md 2>/dev/null"
+    "! grep -L 'Status:' docs/standards/*_STANDARDS.md 2>/dev/null"
 
 # Test: MANIFEST.yaml is valid YAML
 run_test "MANIFEST.yaml is valid YAML" \
-    "python3 -c 'import yaml; yaml.safe_load(open(\"MANIFEST.yaml\"))' 2>/dev/null || yamllint MANIFEST.yaml"
+    "python3 -c 'import yaml; yaml.safe_load(open(\"config/MANIFEST.yaml\"))' 2>/dev/null || yamllint config/MANIFEST.yaml"
 
 # Test: No broken markdown links
 run_test "No broken internal links" \
