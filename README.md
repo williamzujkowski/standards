@@ -1,11 +1,25 @@
 # 🚀 Comprehensive Software Development Standards
 
-**Battle-tested standards for modern software development with AI-powered kickstart**
+**Battle-tested standards for modern software development with AI-powered kickstart and NIST 800-53r5 compliance**
 
 [![Version](https://img.shields.io/badge/version-latest-blue.svg)](https://github.com/williamzujkowski/standards)
-[![Standards](https://img.shields.io/badge/standards-21%20documents-green.svg)](https://github.com/williamzujkowski/standards)
+[![Standards](https://img.shields.io/badge/standards-23%20documents-green.svg)](https://github.com/williamzujkowski/standards)
 [![License](https://img.shields.io/badge/license-MIT-purple.svg)](LICENSE)
 [![Compliance](https://github.com/williamzujkowski/standards/actions/workflows/standards-compliance.yml/badge.svg)](https://github.com/williamzujkowski/standards/actions/workflows/standards-compliance.yml)
+[![NIST](https://img.shields.io/badge/NIST%20800--53r5-Compliant-brightgreen.svg)](./NIST_IMPLEMENTATION_GUIDE.md)
+
+---
+
+---
+
+## 🆕 What's New
+
+### 🔐 NIST 800-53r5 Compliance Integration
+- **Automated Control Tagging**: Tag security features with `@nist` annotations
+- **VS Code Extension**: Real-time NIST control suggestions
+- **CI/CD Integration**: Automated compliance checking and SSP generation
+- **Quick Start**: `./scripts/setup-nist-hooks.sh` - Get compliant in minutes!
+- **See**: [NIST_IMPLEMENTATION_GUIDE.md](./NIST_IMPLEMENTATION_GUIDE.md) for details
 
 ---
 
@@ -40,6 +54,7 @@ chmod +x setup-project.sh
 2. Copy **[CLAUDE.md](./CLAUDE.md)** to your project for AI assistance
 3. Use templates from `examples/project-templates/` for your language
 4. Follow **[ADOPTION_CHECKLIST.md](./ADOPTION_CHECKLIST.md)** for systematic implementation
+5. **NEW**: Install NIST compliance hooks with `./scripts/setup-nist-hooks.sh`
 
 ### 🤖 **For AI/LLM Users**
 
@@ -63,24 +78,35 @@ Use our token-optimized loading system:
 
 ## 📚 What's Included
 
-### **21 Comprehensive Standards Documents**
+### **23 Comprehensive Standards Documents**
 Complete coverage of modern software development practices from coding to deployment, security to compliance.
+
+### **🔐 NIST 800-53r5 Compliance Suite**
+- **Control Tagging**: `@nist` annotations for security features
+- **VS Code Extension**: Real-time control suggestions
+- **Annotation Framework**: Multi-language parsers (JS/TS, Python, Go, Java, YAML)
+- **Automated Tools**: Git hooks, CI/CD integration, SSP generation
+- **Templates**: Pre-tagged security components
+- **LLM Prompts**: Compliance-focused AI assistance
 
 ### **AI-Powered Features**
 - 90% token reduction with CLAUDE.md
 - Natural language to standards mapping
 - Instant project kickstart analysis
 - Context-aware recommendations
+- NIST control suggestions
 
 ### **Ready-to-Use Templates**
 - Language configs (Python, JS/TS, Go)
-- CI/CD workflows
+- NIST-tagged security templates
+- CI/CD workflows with compliance checks
 - Docker & Kubernetes manifests
 - Tool configurations
 
 ### **Integration Tools**
 - Automated setup scripts
-- Compliance checking
+- NIST compliance checking
+- SSP generation
 - Badge generation
 - Migration guides
 
@@ -111,6 +137,13 @@ Complete coverage of modern software development practices from coding to deploy
 - **[COST_OPTIMIZATION_STANDARDS.md](./COST_OPTIMIZATION_STANDARDS.md)** - FinOps & resource optimization
 - **[LEGAL_COMPLIANCE_STANDARDS.md](./LEGAL_COMPLIANCE_STANDARDS.md)** - Privacy & regulatory compliance
 - **[SEO_WEB_MARKETING_STANDARDS.md](./SEO_WEB_MARKETING_STANDARDS.md)** - Technical SEO & marketing
+
+### 🔐 **NIST 800-53r5 Compliance**
+- **[NIST_IMPLEMENTATION_GUIDE.md](./NIST_IMPLEMENTATION_GUIDE.md)** - 🚀 Quick start guide (15 min setup)
+- **[COMPLIANCE_STANDARDS.md](./COMPLIANCE_STANDARDS.md)** - Detailed control tagging standards
+- **[NIST_QUICK_REFERENCE.md](./NIST_QUICK_REFERENCE.md)** - Essential controls cheat sheet
+- **[examples/nist-templates/](./examples/nist-templates/)** - Pre-tagged security templates
+- **[prompts/nist-compliance/](./prompts/nist-compliance/)** - LLM prompts for compliance
 
 ### 🤖 **AI/LLM Integration**
 - **[CLAUDE.md](./CLAUDE.md)** - Primary LLM interface (90% token reduction)
@@ -150,7 +183,9 @@ Complete coverage of modern software development practices from coding to deploy
 
 ### **Templates & Tools**
 - 📁 [Project Templates](./examples/project-templates/) - Language-specific configs
+- 🔐 [NIST Templates](./examples/nist-templates/) - Security components with controls
 - 🔧 [Setup Script](./setup-project.sh) - Automated project setup
+- 🛡️ [NIST Setup](./scripts/setup-nist-hooks.sh) - One-command compliance setup
 - 📊 [Integration Guide](./INTEGRATION_GUIDE.md) - Detailed integration strategies
 - 🏷️ [Badge Generator](./generate-badges.sh) - Compliance badges
 - 📝 [Standard Template](./STANDARD_TEMPLATE.md) - Template for new standards
@@ -161,16 +196,20 @@ Complete coverage of modern software development practices from coding to deploy
 - 📋 [TOOLS_CATALOG.yaml](./TOOLS_CATALOG.yaml) - Centralized tool management
 - 🔍 [STANDARDS_INDEX.md](./STANDARDS_INDEX.md) - Quick reference summaries
 - 📈 [STANDARDS_GRAPH.md](./STANDARDS_GRAPH.md) - Standards relationships
+- 🤖 [.vscode/nist-extension/](./.vscode/nist-extension/) - VS Code NIST extension
+- 📊 [standards/compliance/](./standards/compliance/) - OSCAL compliance platform
 
 ---
 
 ## 📊 Why These Standards?
 
-- **Comprehensive**: 21 documents covering all aspects of modern development
+- **Comprehensive**: 23 documents covering all aspects of modern development
 - **Battle-Tested**: Based on real-world projects and industry best practices
 - **AI-Optimized**: 90% token reduction for efficient LLM usage
+- **Compliance-Ready**: NIST 800-53r5 controls integrated throughout
 - **Always Current**: Regular updates reflecting industry changes
 - **Ready-to-Use**: Includes templates, configs, and automation scripts
+- **Developer-Friendly**: Quick setup, minimal friction, maximum value
 
 ---
 

@@ -47,6 +47,9 @@ Use this checklist to systematically adopt the comprehensive development standar
 - [ ] Implement input validation
 - [ ] Set up secrets management
 - [ ] Add security scanning to CI
+- [ ] **NEW**: Install NIST compliance hooks (`./scripts/setup-nist-hooks.sh`)
+- [ ] **NEW**: Review [NIST_IMPLEMENTATION_GUIDE.md](./NIST_IMPLEMENTATION_GUIDE.md)
+- [ ] **NEW**: Start tagging security code with @nist annotations
 
 ## 🏗️ Week 3: Advanced Standards
 
@@ -86,6 +89,7 @@ Use this checklist to systematically adopt the comprehensive development standar
 - [ ] Configure `DATA_ENGINEERING_STANDARDS.md`
 - [ ] Set up `CLOUD_NATIVE_STANDARDS.md`
 - [ ] Add API versioning
+- [ ] Tag all security endpoints with NIST controls
 
 #### For DevOps Focus
 - [ ] Implement `DEVOPS_PLATFORM_STANDARDS.md`
@@ -98,6 +102,7 @@ Use this checklist to systematically adopt the comprehensive development standar
 ### Monthly Reviews
 - [ ] Review standards compliance
 - [ ] Update metrics dashboard
+- [ ] Check NIST control coverage
 - [ ] Gather team feedback
 - [ ] Plan improvements
 - [ ] Update documentation

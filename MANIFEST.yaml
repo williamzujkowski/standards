@@ -377,6 +377,50 @@ standards:
       requires: []
       recommends: ["CN:optimization", "OBS:metrics"]
 
+  # Unified Standards
+  UNIFIED:
+    identifier: "UNIFIED"
+    full_name: "UNIFIED_STANDARDS.md"
+    size: "45KB"
+    token_estimate: 12000
+    sections:
+      overview:
+        tokens: 500
+        priority: "critical"
+        description: "Comprehensive overview"
+      coding:
+        tokens: 2000
+        priority: "high"
+        description: "Core coding standards"
+      testing:
+        tokens: 1500
+        priority: "high"
+        description: "Testing practices"
+      security:
+        tokens: 1800
+        priority: "critical"
+        description: "Security requirements"
+      devops:
+        tokens: 1500
+        priority: "high"
+        description: "DevOps practices"
+      documentation:
+        tokens: 1200
+        priority: "medium"
+        description: "Documentation standards"
+      quick-reference:
+        tokens: 1000
+        priority: "high"
+        description: "Quick reference guide"
+      implementation:
+        tokens: 800
+        priority: "medium"
+        description: "Implementation checklist"
+    dependencies:
+      requires: []
+      recommends: ["CS", "TS", "SEC"]
+      complements: ["ALL"]
+
   # Additional Standards
   PM:
     full_name: "PROJECT_MANAGEMENT_STANDARDS.md"
@@ -578,19 +622,82 @@ standards:
       requires: []
       recommends: ["CS:*", "SEC:*"]
 
-  UNIFIED:
-    identifier: "UNIFIED"
-    full_name: "UNIFIED_STANDARDS.md"
-    size: "45KB"
-    token_estimate: 12000
+  COMPLIANCE:
+    identifier: "COMPLIANCE"
+    full_name: "COMPLIANCE_STANDARDS.md"
+    size: "20KB"
+    token_estimate: 5500
     sections:
       overview:
+        tokens: 300
+        priority: "critical"
+        description: "NIST 800-53r5 compliance overview"
+      tagging:
+        tokens: 1500
+        priority: "critical"
+        description: "Control tagging standards"
+      patterns:
+        tokens: 1200
+        priority: "high"
+        description: "Implementation patterns"
+      evidence:
+        tokens: 800
+        priority: "high"
+        description: "Evidence collection"
+      automation:
+        tokens: 1000
+        priority: "medium"
+        description: "CI/CD integration"
+      implementation:
+        tokens: 400
+        priority: "medium"
+        description: "Implementation guide"
+    dependencies:
+      requires: ["SEC:*"]
+      recommends: ["NIG", "CS:patterns", "TS:*"]
+
+  NIG:
+    identifier: "NIG"
+    full_name: "NIST_IMPLEMENTATION_GUIDE.md"
+    size: "8KB"
+    token_estimate: 2500
+    sections:
+      overview:
+        tokens: 200
+        priority: "critical"
+        description: "Quick start guide"
+      quick-start:
+        tokens: 600
+        priority: "critical"
+        description: "Installation and setup"
+      tagging-reference:
         tokens: 500
         priority: "critical"
-        description: "Comprehensive overview"
+        description: "Tag format quick reference"
+      workflow:
+        tokens: 400
+        priority: "high"
+        description: "Workflow integration"
+      monitoring:
+        tokens: 300
+        priority: "high"
+        description: "Compliance monitoring"
+      next-steps:
+        tokens: 200
+        priority: "medium"
+        description: "Next steps and resources"
+      documentation:
+        tokens: 200
+        priority: "medium"
+        description: "Related documentation"
+      contributing:
+        tokens: 100
+        priority: "low"
+        description: "Contribution guidelines"
     dependencies:
-      requires: []
-      recommends: ["CS", "TS", "SEC"]
+      requires: ["COMPLIANCE"]
+      recommends: ["SEC:*", "CS:patterns"]
+      complements: ["COMPLIANCE:tagging", "COMPLIANCE:patterns"]
 
 # Loading strategies based on use case
 loading_strategies:
@@ -683,6 +790,8 @@ versioning:
     GH: "latest"  # GitHub Platform
     CONT: "latest"  # Content Standards
     TOOL: "latest"  # Toolchain Standards
+    COMPLIANCE: "latest"  # NIST Compliance Standards
+    NIG: "latest"  # NIST Implementation Guide
 
   # Version support policy
   support_policy:

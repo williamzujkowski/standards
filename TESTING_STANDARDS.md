@@ -36,6 +36,8 @@ It aims to ensure consistency, quality, and maintainability across all related i
 
 ## Core Testing Principles
 
+<!-- @nist-controls: [si-10, si-11, au-2, au-3] -->
+
 ### 1. Hypothesis Tests for Behavior Validation
 
 ```
@@ -53,7 +55,10 @@ When implementing a new feature or function, create hypothesis tests that valida
 Example structure:
 ```python
 def test_user_authentication_valid_credentials():
-    """HYPOTHESIS: Given valid credentials, authentication should succeed."""
+    """HYPOTHESIS: Given valid credentials, authentication should succeed.
+    @nist ia-2 "Test authentication mechanism"
+    @nist si-10 "Validate input credentials"
+    """
     # Arrange
     valid_username = "test_user"
     valid_password = "correct_password"
@@ -84,6 +89,8 @@ Example structure:
 ```python
 def test_calculation_with_zero_division_protection():
     """REGRESSION: Bug #1234 - Division by zero crash in calculation module.
+    @nist si-11 "Test error handling"
+    @nist si-10 "Input validation testing"
 
     This test ensures that when a divisor of zero is provided, the function
     returns a default value rather than raising an exception.
@@ -559,6 +566,8 @@ def test_serialization_roundtrip(data):
 
 ### 11. Security Testing Guidelines
 
+<!-- @nist-controls: [si-10, si-11, ac-3, ac-6, ia-2, sc-8, sc-13, au-2] -->
+
 ```
 Implement comprehensive security testing practices:
 
@@ -588,7 +597,10 @@ Implement comprehensive security testing practices:
 Example implementation:
 ```python
 def test_sql_injection_prevention():
-    """Verify protection against SQL injection attacks."""
+    """Verify protection against SQL injection attacks.
+    @nist si-10 "Input validation testing"
+    @evidence test
+    """
     # Arrange
     attack_vectors = [
         "' OR '1'='1",
@@ -607,7 +619,11 @@ def test_sql_injection_prevention():
         assert result.authenticated is False
 
 def test_authorization_controls():
-    """Verify proper enforcement of authorization controls."""
+    """Verify proper enforcement of authorization controls.
+    @nist ac-3 "Access enforcement testing"
+    @nist ac-6 "Least privilege verification"
+    @evidence test
+    """
     # Arrange
     regular_user = create_user(role="user")
     admin_user = create_user(role="admin")
@@ -655,7 +671,10 @@ Implement resilience testing to verify system stability under adverse conditions
 Example implementation:
 ```python
 def test_resilience_to_database_failure():
-    """Verify system resilience when database becomes unavailable."""
+    """Verify system resilience when database becomes unavailable.
+    @nist si-11 "Error handling under failure conditions"
+    @evidence test
+    """
     # Define steady state
     def check_steady_state():
         response = client.get("/api/health")
@@ -995,5 +1014,5 @@ The test suite should be maintainable, provide fast feedback, and serve as livin
 ## Related Standards
 
 - [Knowledge Management Standards](./KNOWLEDGE_MANAGEMENT_STANDARDS.md) - Documentation practices
-
 - [CREATING_STANDARDS_GUIDE.md](./CREATING_STANDARDS_GUIDE.md) - Standards creation guide
+- [COMPLIANCE_STANDARDS.md](./COMPLIANCE_STANDARDS.md) - NIST compliance testing requirements

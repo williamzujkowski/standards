@@ -1563,6 +1563,37 @@ Each extended standard can be customized for your organization by:
 
 ---
 
+## 11. NIST Compliance Integration
+
+<!-- @nist-controls: [various - see individual sections] -->
+
+For comprehensive NIST 800-53r5 compliance implementation, see:
+- **[NIST_IMPLEMENTATION_GUIDE.md](./NIST_IMPLEMENTATION_GUIDE.md)** - Quick start guide
+- **[COMPLIANCE_STANDARDS.md](./COMPLIANCE_STANDARDS.md)** - Detailed tagging standards
+
+### Quick Reference: Security Feature → NIST Control Mapping
+
+| Security Feature | NIST Controls | Implementation Guide |
+|-----------------|---------------|---------------------|
+| Authentication | ia-2, ia-5 | [Guide](./NIST_IMPLEMENTATION_GUIDE.md#2-start-tagging-your-code) |
+| Authorization | ac-3, ac-6 | [Guide](./NIST_IMPLEMENTATION_GUIDE.md#2-start-tagging-your-code) |
+| Audit Logging | au-2, au-3 | [Guide](./NIST_IMPLEMENTATION_GUIDE.md#2-start-tagging-your-code) |
+| Encryption | sc-8, sc-13 | [Guide](./NIST_IMPLEMENTATION_GUIDE.md#2-start-tagging-your-code) |
+| Input Validation | si-10 | [Guide](./NIST_IMPLEMENTATION_GUIDE.md#2-start-tagging-your-code) |
+| Error Handling | si-11 | [Guide](./NIST_IMPLEMENTATION_GUIDE.md#2-start-tagging-your-code) |
+| Session Management | ac-12 | [Guide](./NIST_IMPLEMENTATION_GUIDE.md#2-start-tagging-your-code) |
+
+### Integration with Development Workflow
+
+1. **During Development**: Add @nist tags as you write security-related code
+2. **Pre-commit**: Automatic validation and suggestions via git hooks
+3. **Code Review**: Check for missing or incorrect NIST tags
+4. **CI/CD**: Automated compliance reporting and SSP generation
+
+For automated tooling, see [Available Tools](./NIST_IMPLEMENTATION_GUIDE.md#available-tools).
+
+---
+
 **End of Document**
 
 ## Implementation

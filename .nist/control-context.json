@@ -1,0 +1,346 @@
+{
+  "version": "1.0.0",
+  "project": {
+    "name": "Software Development Standards",
+    "baseline": "moderate",
+    "description": "Comprehensive software development standards with NIST 800-53r5 compliance",
+    "primaryLanguages": ["typescript", "python", "go"],
+    "securityFocus": ["authentication", "authorization", "encryption", "logging"]
+  },
+  "controlDescriptions": {
+    "ac-2": {
+      "title": "Account Management",
+      "summary": "Manage system accounts including creation, modification, and deletion",
+      "implementation_guidance": "Implement user CRUD operations with proper validation and audit logging",
+      "common_patterns": ["user registration", "account provisioning", "role assignment"],
+      "project_examples": [
+        "User registration endpoints with email verification",
+        "Admin panel for user management",
+        "Automated account deprovisioning"
+      ]
+    },
+    "ac-3": {
+      "title": "Access Enforcement",
+      "summary": "Enforce approved authorizations for logical access",
+      "implementation_guidance": "Use RBAC or ABAC patterns with middleware/decorators",
+      "common_patterns": ["permission checks", "role validation", "resource authorization"],
+      "project_examples": [
+        "API endpoint authorization middleware",
+        "Resource-level permission checks",
+        "Dynamic permission evaluation"
+      ]
+    },
+    "ac-6": {
+      "title": "Least Privilege",
+      "summary": "Employ principle of least privilege",
+      "implementation_guidance": "Grant minimal permissions required for functionality",
+      "common_patterns": ["minimal scopes", "restricted roles", "permission boundaries"],
+      "project_examples": [
+        "Microservice-specific database users",
+        "API scopes limited to required operations",
+        "Time-bound elevated privileges"
+      ]
+    },
+    "ac-12": {
+      "title": "Session Termination",
+      "summary": "Automatically terminate sessions after inactivity",
+      "implementation_guidance": "Implement timeout mechanisms with configurable durations",
+      "common_patterns": ["idle timeout", "absolute timeout", "forced logout"],
+      "project_examples": [
+        "30-minute inactivity timeout",
+        "8-hour absolute session limit",
+        "Admin force-logout capability"
+      ]
+    },
+    "ia-2": {
+      "title": "Identification and Authentication",
+      "summary": "Uniquely identify and authenticate users",
+      "implementation_guidance": "Implement secure authentication with MFA support",
+      "common_patterns": ["login endpoints", "JWT tokens", "OAuth integration"],
+      "project_examples": [
+        "Username/password with MFA",
+        "SSO integration with SAML/OAuth",
+        "Biometric authentication support"
+      ]
+    },
+    "ia-5": {
+      "title": "Authenticator Management",
+      "summary": "Manage authenticators (passwords, tokens, certificates)",
+      "implementation_guidance": "Enforce strong password policies and secure token management",
+      "common_patterns": ["password policy", "token rotation", "certificate management"],
+      "project_examples": [
+        "Password complexity requirements",
+        "API key rotation system",
+        "Certificate renewal automation"
+      ]
+    },
+    "au-2": {
+      "title": "Audit Events",
+      "summary": "Define and log security-relevant events",
+      "implementation_guidance": "Log authentication, authorization, and data modification events",
+      "common_patterns": ["security logging", "audit trails", "event correlation"],
+      "project_examples": [
+        "Failed login attempt logging",
+        "Permission change audit trail",
+        "Data access logging"
+      ]
+    },
+    "au-3": {
+      "title": "Content of Audit Records",
+      "summary": "Ensure audit records contain required information",
+      "implementation_guidance": "Include who, what, when, where, and outcome in logs",
+      "common_patterns": ["structured logging", "log enrichment", "correlation IDs"],
+      "project_examples": [
+        "JSON structured logs with all required fields",
+        "Request ID propagation",
+        "User context in all audit logs"
+      ]
+    },
+    "sc-8": {
+      "title": "Transmission Confidentiality",
+      "summary": "Protect data confidentiality during transmission",
+      "implementation_guidance": "Use TLS 1.2+ for all network communications",
+      "common_patterns": ["HTTPS enforcement", "TLS configuration", "certificate pinning"],
+      "project_examples": [
+        "Force HTTPS redirects",
+        "TLS 1.3 with strong ciphers",
+        "Certificate pinning for mobile apps"
+      ]
+    },
+    "sc-13": {
+      "title": "Cryptographic Protection",
+      "summary": "Use cryptography to protect information",
+      "implementation_guidance": "Use approved algorithms for encryption and hashing",
+      "common_patterns": ["encryption at rest", "password hashing", "digital signatures"],
+      "project_examples": [
+        "AES-256 for data encryption",
+        "Argon2id for password hashing",
+        "RSA-4096 for digital signatures"
+      ]
+    },
+    "si-10": {
+      "title": "Information Input Validation",
+      "summary": "Validate all information inputs",
+      "implementation_guidance": "Implement comprehensive input validation and sanitization",
+      "common_patterns": ["input validation", "sanitization", "parameterized queries"],
+      "project_examples": [
+        "Schema validation for API inputs",
+        "SQL injection prevention",
+        "XSS protection"
+      ]
+    },
+    "si-11": {
+      "title": "Error Handling",
+      "summary": "Handle and log errors appropriately",
+      "implementation_guidance": "Implement secure error handling without information leakage",
+      "common_patterns": ["error logging", "sanitized responses", "error monitoring"],
+      "project_examples": [
+        "Generic error messages to users",
+        "Detailed error logging internally",
+        "Error rate monitoring and alerting"
+      ]
+    }
+  },
+  "implementationPatterns": {
+    "authentication": {
+      "controls": ["ia-2", "ia-5", "au-2"],
+      "description": "User authentication implementation",
+      "typescript": {
+        "example": "export async function authenticate(credentials: Credentials): Promise<User>",
+        "libraries": ["passport", "jsonwebtoken", "bcrypt"],
+        "testingApproach": "Unit tests for validation, integration tests for flow"
+      },
+      "python": {
+        "example": "async def authenticate(credentials: Credentials) -> User:",
+        "libraries": ["django-auth", "flask-login", "passlib"],
+        "testingApproach": "pytest with fixtures for auth states"
+      },
+      "go": {
+        "example": "func Authenticate(credentials Credentials) (*User, error)",
+        "libraries": ["golang-jwt", "bcrypt", "gorilla/sessions"],
+        "testingApproach": "Table-driven tests with mock stores"
+      }
+    },
+    "authorization": {
+      "controls": ["ac-3", "ac-6", "au-2"],
+      "description": "Access control implementation",
+      "typescript": {
+        "example": "export function authorize(user: User, resource: Resource, action: Action): boolean",
+        "libraries": ["casl", "accesscontrol", "node-acl"],
+        "testingApproach": "Permission matrix tests"
+      },
+      "python": {
+        "example": "def authorize(user: User, resource: Resource, action: Action) -> bool:",
+        "libraries": ["django-guardian", "flask-rbac", "py-abac"],
+        "testingApproach": "Parametrized tests for permission combinations"
+      },
+      "go": {
+        "example": "func Authorize(user User, resource Resource, action Action) bool",
+        "libraries": ["casbin", "ladon", "ory/keto"],
+        "testingApproach": "Behavior-driven tests"
+      }
+    },
+    "encryption": {
+      "controls": ["sc-8", "sc-13"],
+      "description": "Cryptographic protection implementation",
+      "typescript": {
+        "example": "export async function encrypt(data: Buffer, key: Buffer): Promise<EncryptedData>",
+        "libraries": ["node-forge", "crypto", "bcrypt"],
+        "testingApproach": "Test vectors from NIST"
+      },
+      "python": {
+        "example": "async def encrypt(data: bytes, key: bytes) -> EncryptedData:",
+        "libraries": ["cryptography", "pycryptodome", "passlib"],
+        "testingApproach": "Known plaintext/ciphertext pairs"
+      },
+      "go": {
+        "example": "func Encrypt(data []byte, key []byte) (EncryptedData, error)",
+        "libraries": ["crypto/aes", "golang.org/x/crypto", "crypto/tls"],
+        "testingApproach": "Fuzz testing with go-fuzz"
+      }
+    },
+    "logging": {
+      "controls": ["au-2", "au-3", "si-11"],
+      "description": "Audit logging implementation",
+      "typescript": {
+        "example": "export function auditLog(event: SecurityEvent): void",
+        "libraries": ["winston", "bunyan", "pino"],
+        "testingApproach": "Mock logger with assertion on calls"
+      },
+      "python": {
+        "example": "def audit_log(event: SecurityEvent) -> None:",
+        "libraries": ["structlog", "python-json-logger", "loguru"],
+        "testingApproach": "Log capture with pytest"
+      },
+      "go": {
+        "example": "func AuditLog(event SecurityEvent) error",
+        "libraries": ["zap", "logrus", "zerolog"],
+        "testingApproach": "Test logger with buffer"
+      }
+    },
+    "validation": {
+      "controls": ["si-10"],
+      "description": "Input validation implementation",
+      "typescript": {
+        "example": "export function validateInput<T>(input: unknown, schema: Schema): T",
+        "libraries": ["joi", "yup", "zod", "ajv"],
+        "testingApproach": "Positive and negative test cases"
+      },
+      "python": {
+        "example": "def validate_input(input: Any, schema: Schema) -> ValidatedData:",
+        "libraries": ["pydantic", "marshmallow", "cerberus"],
+        "testingApproach": "Property-based testing with hypothesis"
+      },
+      "go": {
+        "example": "func ValidateInput(input interface{}, schema Schema) (ValidatedData, error)",
+        "libraries": ["validator", "go-playground/validator", "ozzo-validation"],
+        "testingApproach": "Table-driven validation tests"
+      }
+    }
+  },
+  "evidenceRequirements": {
+    "code": {
+      "description": "Source code implementation of the control",
+      "examples": ["Function implementing the control", "Configuration enforcing the control"],
+      "collection": "Automated via annotation scanning"
+    },
+    "test": {
+      "description": "Tests verifying the control works correctly",
+      "examples": ["Unit tests", "Integration tests", "Security tests"],
+      "collection": "Test file scanning and coverage reports"
+    },
+    "config": {
+      "description": "Configuration implementing the control",
+      "examples": ["Security headers", "Timeout values", "Encryption settings"],
+      "collection": "Configuration file analysis"
+    },
+    "documentation": {
+      "description": "Documentation describing the control",
+      "examples": ["API docs", "Security guides", "Runbooks"],
+      "collection": "Markdown and comment scanning"
+    },
+    "logs": {
+      "description": "Log samples showing the control in action",
+      "examples": ["Audit logs", "Access logs", "Error logs"],
+      "collection": "Log aggregation queries"
+    }
+  },
+  "projectBaseline": {
+    "selected": "moderate",
+    "justification": "Appropriate for most web applications handling user data",
+    "customizations": {
+      "additions": [],
+      "removals": [],
+      "modifications": []
+    }
+  },
+  "llmPrompts": {
+    "controlSuggestion": "Based on the following code, suggest relevant NIST 800-53r5 controls from the moderate baseline. Focus on: {patterns}",
+    "implementationGuidance": "Provide implementation guidance for {control} in {language} for a {context} context",
+    "evidenceIdentification": "Identify evidence types that would demonstrate compliance with {control}",
+    "gapAnalysis": "Analyze the following code for missing NIST controls related to {securityArea}"
+  },
+  "quickReferences": {
+    "implementationGuide": "./NIST_IMPLEMENTATION_GUIDE.md",
+    "quickStartCommand": "./scripts/setup-nist-hooks.sh",
+    "validationCommand": "./scripts/nist-pre-commit.sh",
+    "controlTaggingGuide": "./NIST_IMPLEMENTATION_GUIDE.md#tagging-quick-reference"
+  },
+  "learningResources": {
+    "gettingStarted": {
+      "file": "NIST_IMPLEMENTATION_GUIDE.md",
+      "sections": ["quick-start", "tagging-quick-reference"],
+      "timeEstimate": "15 minutes"
+    },
+    "advancedTopics": {
+      "file": "COMPLIANCE_STANDARDS.md",
+      "sections": ["patterns", "evidence", "automation"],
+      "timeEstimate": "60 minutes"
+    }
+  },
+  "autoTaggingRules": {
+    "enabled": true,
+    "patterns": [
+      {
+        "regex": "\\b(authenticate|login|signin)\\b",
+        "suggestedControls": ["ia-2", "ia-5"],
+        "confidence": "high"
+      },
+      {
+        "regex": "\\b(authorize|permission|access.?control)\\b",
+        "suggestedControls": ["ac-3", "ac-6"],
+        "confidence": "high"
+      },
+      {
+        "regex": "\\b(encrypt|decrypt|crypto)\\b",
+        "suggestedControls": ["sc-13"],
+        "confidence": "high"
+      },
+      {
+        "regex": "\\b(session|timeout|expir)\\b",
+        "suggestedControls": ["ac-12"],
+        "confidence": "medium"
+      },
+      {
+        "regex": "\\b(log|audit|track)\\b",
+        "suggestedControls": ["au-2", "au-3"],
+        "confidence": "medium"
+      },
+      {
+        "regex": "\\b(validat|sanitiz)\\b",
+        "suggestedControls": ["si-10"],
+        "confidence": "high"
+      },
+      {
+        "regex": "\\b(error|exception|catch)\\b",
+        "suggestedControls": ["si-11"],
+        "confidence": "medium"
+      },
+      {
+        "regex": "\\b(tls|https|ssl)\\b",
+        "suggestedControls": ["sc-8"],
+        "confidence": "high"
+      }
+    ]
+  }
+}

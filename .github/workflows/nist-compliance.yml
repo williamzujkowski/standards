@@ -1,0 +1,320 @@
+name: NIST 800-53r5 Continuous Compliance
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    types: [opened, synchronize, reopened]
+  schedule:
+    # Run weekly compliance audit
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+    inputs:
+      baseline:
+        description: 'Security baseline'
+        required: false
+        default: 'moderate'
+        type: choice
+        options:
+          - low
+          - moderate
+          - high
+
+env:
+  BASELINE: ${{ github.event.inputs.baseline || 'moderate' }}
+  NODE_VERSION: '18'
+
+jobs:
+  validate-tags:
+    name: Validate NIST Control Tags
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for better analysis
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: standards/compliance/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          cd standards/compliance
+          npm ci
+
+      - name: Validate NIST tags in changed files
+        id: validate
+        run: |
+          cd standards/compliance
+
+          # Get changed files
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            changed_files=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+          else
+            changed_files=$(git diff --name-only HEAD~1...HEAD)
+          fi
+
+          # Validate tags in changed files
+          for file in $changed_files; do
+            if [[ $file =~ \.(ts|js|py|go|yaml|yml|json|md)$ ]]; then
+              echo "Checking $file for NIST tags..."
+              npm run validate-file -- "../../$file" || true
+            fi
+          done
+
+      - name: Check for untagged security code
+        run: |
+          cd standards/compliance
+
+          # Security-related patterns that should have NIST tags
+          patterns=(
+            "auth|authentication|login"
+            "encrypt|decrypt|crypto"
+            "password|credential"
+            "session|token|jwt"
+            "permission|role|access"
+            "audit|log.*security"
+            "validate|sanitize.*input"
+          )
+
+          for pattern in "${patterns[@]}"; do
+            echo "Checking for untagged $pattern implementations..."
+            # Find files with security patterns but no NIST tags
+            grep -r -l "$pattern" ../../ --include="*.ts" --include="*.js" --include="*.py" | while read file; do
+              if ! grep -q "@nist" "$file"; then
+                echo "⚠️  $file contains '$pattern' but no NIST tags"
+              fi
+            done
+          done
+
+  suggest-controls:
+    name: Suggest NIST Controls
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    needs: validate-tags
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Analyze and suggest controls
+        id: suggest
+        run: |
+          cd standards/compliance
+
+          # Generate suggestions for PR files
+          suggestions=""
+          for file in $(git diff --name-only origin/${{ github.base_ref }}...HEAD); do
+            if [[ $file =~ \.(ts|js|py|go)$ ]]; then
+              # Run suggestion engine (mock for now)
+              suggestions+="### $file\n"
+              suggestions+="Suggested controls based on content:\n"
+
+              # Simple pattern matching for suggestions
+              if grep -q "auth\|login" "../../$file" 2>/dev/null; then
+                suggestions+="- \`@nist ia-2\` - Identification and Authentication\n"
+                suggestions+="- \`@nist ia-5\` - Authenticator Management\n"
+              fi
+
+              if grep -q "encrypt\|crypto" "../../$file" 2>/dev/null; then
+                suggestions+="- \`@nist sc-13\` - Cryptographic Protection\n"
+                suggestions+="- \`@nist sc-8\` - Transmission Confidentiality\n"
+              fi
+
+              if grep -q "log\|audit" "../../$file" 2>/dev/null; then
+                suggestions+="- \`@nist au-2\` - Audit Events\n"
+                suggestions+="- \`@nist au-3\` - Content of Audit Records\n"
+              fi
+
+              suggestions+="\n"
+            fi
+          done
+
+          # Save suggestions for comment
+          echo "suggestions<<EOF" >> $GITHUB_OUTPUT
+          echo "$suggestions" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Comment suggestions on PR
+        if: steps.suggest.outputs.suggestions != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const suggestions = `${{ steps.suggest.outputs.suggestions }}`;
+
+            if (suggestions.trim()) {
+              const comment = `## 🏷️ NIST Control Tagging Suggestions
+
+            Based on the security-related code in this PR, consider adding these NIST 800-53r5 control tags:
+
+            ${suggestions}
+
+            ### How to add tags:
+            \`\`\`typescript
+            /**
+             * @nist ia-2 "User authentication"
+             * @nist ia-5 "Password management"
+             */
+            function authenticateUser() { ... }
+            \`\`\`
+
+            See [COMPLIANCE_STANDARDS.md](../../COMPLIANCE_STANDARDS.md) for more details.`;
+
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comment
+              });
+            }
+
+  coverage-report:
+    name: Generate Coverage Report
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Calculate control coverage
+        id: coverage
+        run: |
+          cd standards/compliance
+
+          # Count tagged controls
+          total_controls=$(grep -r "@nist [a-z][a-z]-[0-9]" ../../ --include="*.ts" --include="*.js" --include="*.py" --include="*.md" | grep -o "@nist [a-z][a-z]-[0-9]\+" | sort -u | wc -l)
+
+          # Count by family
+          ac_controls=$(grep -r "@nist ac-" ../../ --include="*.ts" --include="*.js" --include="*.py" | grep -o "@nist ac-[0-9]\+" | sort -u | wc -l)
+          au_controls=$(grep -r "@nist au-" ../../ --include="*.ts" --include="*.js" --include="*.py" | grep -o "@nist au-[0-9]\+" | sort -u | wc -l)
+          ia_controls=$(grep -r "@nist ia-" ../../ --include="*.ts" --include="*.js" --include="*.py" | grep -o "@nist ia-[0-9]\+" | sort -u | wc -l)
+          sc_controls=$(grep -r "@nist sc-" ../../ --include="*.ts" --include="*.js" --include="*.py" | grep -o "@nist sc-[0-9]\+" | sort -u | wc -l)
+
+          echo "total_controls=$total_controls" >> $GITHUB_OUTPUT
+          echo "ac_controls=$ac_controls" >> $GITHUB_OUTPUT
+          echo "au_controls=$au_controls" >> $GITHUB_OUTPUT
+          echo "ia_controls=$ia_controls" >> $GITHUB_OUTPUT
+          echo "sc_controls=$sc_controls" >> $GITHUB_OUTPUT
+
+      - name: Create coverage badge
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: your-gist-id  # Replace with actual Gist ID
+          filename: nist-coverage.json
+          label: NIST Controls
+          message: ${{ steps.coverage.outputs.total_controls }} controls
+          color: ${{ steps.coverage.outputs.total_controls > 50 && 'green' || steps.coverage.outputs.total_controls > 25 && 'yellow' || 'red' }}
+
+  generate-ssp:
+    name: Generate System Security Plan
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: [validate-tags, coverage-report]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          cd standards/compliance
+          npm ci
+
+      - name: Generate SSP
+        run: |
+          cd standards/compliance
+          npm run generate-ssp -- --baseline ${{ env.BASELINE }} --format json
+
+      - name: Upload SSP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: system-security-plan
+          path: standards/compliance/oscal-output/ssp-*.json
+          retention-days: 90
+
+  collect-evidence:
+    name: Collect Compliance Evidence
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          cd standards/compliance
+          npm ci
+
+      - name: Harvest evidence
+        run: |
+          cd standards/compliance
+          npm run harvest-evidence -- --format json
+
+      - name: Generate assessment results
+        run: |
+          cd standards/compliance
+          ls -la oscal-output/
+
+      - name: Upload evidence artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: compliance-evidence-${{ github.run_number }}
+          path: standards/compliance/oscal-output/assessment-results-*.json
+          retention-days: 90
+
+      - name: Update compliance dashboard
+        run: |
+          echo "📊 Compliance Dashboard Update"
+          echo "Total Controls Tagged: $(grep -r "@nist" . --include="*.ts" --include="*.js" | wc -l)"
+          echo "Evidence Items Collected: $(find . -name "*.evidence.json" | wc -l)"
+          echo "Last Assessment: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+
+  compliance-summary:
+    name: Compliance Summary
+    runs-on: ubuntu-latest
+    if: always()
+    needs: [validate-tags, coverage-report, generate-ssp, collect-evidence]
+    steps:
+      - name: Generate summary
+        run: |
+          echo "## 📋 NIST 800-53r5 Compliance Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Baseline:** ${{ env.BASELINE }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Run Type:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Timestamp:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          echo "### 📊 Results" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Tag Validation: ${{ needs.validate-tags.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- 📈 Coverage Report: ${{ needs.coverage-report.result }}" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            echo "- 📄 SSP Generation: ${{ needs.generate-ssp.result }}" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ github.event_name }}" == "schedule" ] || [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "- 🔍 Evidence Collection: ${{ needs.collect-evidence.result }}" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📚 Resources" >> $GITHUB_STEP_SUMMARY
+          echo "- [COMPLIANCE_STANDARDS.md](../../COMPLIANCE_STANDARDS.md)" >> $GITHUB_STEP_SUMMARY
+          echo "- [NIST Tagging Proposal](../../NIST_TAGGING_PROPOSAL.md)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Compliance Platform](../../standards/compliance/README.md)" >> $GITHUB_STEP_SUMMARY

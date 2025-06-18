@@ -1,0 +1,16 @@
+# <type>: <subject> [<NIST controls>]
+
+# <body>
+
+# <footer>
+
+# Type: feat, fix, docs, style, refactor, test, chore
+# NIST: Include relevant NIST controls if security-related
+# Example: feat: Add user authentication [ia-2, ia-5]
+#
+# Security-related commits should reference NIST controls:
+# - Authentication: ia-2, ia-5
+# - Authorization: ac-2, ac-3
+# - Encryption: sc-8, sc-13
+# - Logging: au-2, au-3
+# - Session: ac-12

@@ -49,6 +49,11 @@ context:
 ### Natural Language Mappings
 | Query | Standards Loaded | Context |
 |-------|------------------|---------|
+| "How to start NIST compliance?" | `NIG:quick-start` | Setup guide |
+| "NIST tag examples" | `NIG:tagging-reference` | Code examples |
+| "Check my NIST tags" | `NIG:workflow` | Validation |
+| "NIST CI/CD setup" | `NIG:workflow` | Automation |
+| "NIST implementation guide" | `NIG:* + COMPLIANCE:overview` | Full guide |
 | "How do I build a secure API?" | `CS:api + SEC:api + TS:integration` | API security patterns |
 | "Make my app faster" | `CS:performance + OBS:metrics + COST:optimization` | Performance toolkit |
 | "Start React project" | `FE:react + WD:* + TS:jest + CS:javascript` | React ecosystem |
@@ -59,6 +64,8 @@ context:
 | "Microservices setup" | `CN:microservices + EVT:* + OBS:distributed` | Distributed systems |
 | "CI/CD pipeline" | `DOP:cicd + GH:actions + TS:*` | Automation setup |
 | "GDPR compliance" | `LEG:privacy + SEC:encryption + CS:audit` | Privacy focus |
+| "NIST compliance" | `COMPLIANCE:* + nist:moderate + evidence:patterns` | NIST 800-53r5 |
+| "Tag NIST controls" | `COMPLIANCE:tagging + nist:quick-ref` | Control tagging |
 | "Mobile app standards" | `FE:mobile + SEC:mobile + TS:mobile` | Cross-platform |
 | "Documentation system" | `KM:* + CS:documentation + DOP:automation` | Knowledge management |
 | "Organize standards" | `KM:architecture + KM:cross-reference` | Standards architecture |
@@ -99,11 +106,24 @@ new_feature:
   load: [CS:architecture + TS:tdd + SEC:relevant]
   generate: [boilerplate, tests, documentation]
   check: [standards-compliance, coverage]
+  nist_tag: [auto-suggest, validate-controls]
+
+security_feature:
+  load: [SEC:* + COMPLIANCE:tagging + nist:moderate]
+  suggest: [nist-controls, implementation-patterns]
+  generate: [tagged-code, evidence-templates]
+  validate: [control-coverage, evidence-quality]
 
 performance:
   load: [CS:performance + OBS:metrics + COST:*]
   analyze: [bottlenecks, cost-drivers]
   optimize: [code, infrastructure, queries]
+
+compliance_check:
+  load: [COMPLIANCE:* + nist:all + evidence:patterns]
+  analyze: [control-coverage, implementation-gaps]
+  generate: [ssp, assessment-results, evidence-inventory]
+  suggest: [missing-controls, remediation-steps]
 
 quick_reference:
   load: [UNIFIED:overview + CS:patterns + TS:best-practices]
@@ -426,6 +446,46 @@ Teams like yours use: [pattern-C]
 
 ## 📋 Compliance Automation
 
+### NIST 800-53r5 Control Tagging
+
+When asked about NIST compliance, automatically load:
+```
+@load NIST_IMPLEMENTATION_GUIDE.md + COMPLIANCE_STANDARDS.md + context:[nist-moderate]
+```
+
+Quick commands:
+- `@nist suggest` - Get control suggestions for current code
+- `@nist validate` - Check existing tags
+- `@nist implement [control]` - Get implementation guidance
+- `@nist quickstart` - Load implementation guide
+- `@nist coverage report:[by-family|by-control|gaps]`
+- `@nist generate ssp:[auto-collect-evidence]`
+
+See [NIST_IMPLEMENTATION_GUIDE.md](./NIST_IMPLEMENTATION_GUIDE.md) for the complete quick start.
+
+### Automated NIST Tagging
+When writing security-related code, automatically suggest NIST controls:
+```
+# Quick Reference
+Authentication → @nist ia-2, ia-5
+Authorization → @nist ac-2, ac-3, ac-6  
+Encryption → @nist sc-8, sc-13
+Logging → @nist au-2, au-3
+Session management → @nist ac-12
+Error handling → @nist si-11
+
+# Format
+@nist <control-id> "<brief description>"
+```
+
+### Control Context Loading
+```
+@load compliance:nist-moderate  # Load moderate baseline controls
+@load nist:[ac-* + ia-* + sc-*]  # Load specific families
+@load evidence:[code + config + test]  # Load evidence patterns
+@load NIST_IMPLEMENTATION_GUIDE.md  # Load quick start guide
+```
+
 ### Automated Analysis
 ```
 @analyze [codebase] against:[standards] output:[report|suggestions|fixes]
@@ -509,3 +569,4 @@ To create new standards that integrate with this system:
 ## Related Standards
 
 - [Knowledge Management Standards](./KNOWLEDGE_MANAGEMENT_STANDARDS.md) - Core architecture principles
+- [Compliance Standards](./COMPLIANCE_STANDARDS.md) - NIST 800-53r5 control tagging guidelines

@@ -149,6 +149,43 @@ This index provides quick summaries of all standards sections. Use the codes bel
 | `COST:implementation-check` | Implementation Checklist | [ ] FinOps principles documented and communicated [ ] Cross-functional team established [ ] Roles an |
 
 
+## 📚 Knowledge Management (KM)
+
+| Code | Section | Summary |
+|------|---------|---------|
+| `KM:overview` | Knowledge Management Standards | Version: 1.0.0 Last Updated: January 2025 Status: Active Standard Code: KM |
+| `KM:core-principles` | Core Principles | Five fundamental principles for knowledge architecture |
+| `KM:architecture` | Repository Architecture | Repository structure and document organization |
+| `KM:documentation` | Documentation Standards | Documentation patterns and best practices |
+| `KM:ai-integration` | AI/LLM Integration | AI optimization strategies and token management |
+| `KM:progressive-disclosure` | Progressive Disclosure | Multi-level information architecture |
+| `KM:cross-reference` | Cross-Reference Architecture | Relationship management and linking |
+| `KM:version-management` | Version Management | Versioning and migration strategies |
+
+## 🏁 Unified Standards (UNIFIED)
+
+| Code | Section | Summary |
+|------|---------|---------|
+| `UNIFIED:overview` | Unified Software Development Standards | Version: 1.0.0 Last Updated: January 2025 Status: Active Standard Code: UNIFIED |
+| `UNIFIED:coding` | Core Coding Standards | Essential coding practices and patterns |
+| `UNIFIED:testing` | Testing Practices | Comprehensive testing requirements |
+| `UNIFIED:security` | Security Requirements | Security implementation standards |
+| `UNIFIED:devops` | DevOps Practices | CI/CD and deployment standards |
+| `UNIFIED:documentation` | Documentation Standards | Documentation requirements |
+| `UNIFIED:quick-reference` | Quick Reference Guide | Essential guidelines at a glance |
+| `UNIFIED:implementation` | Implementation Checklist | Step-by-step implementation guide |
+
+## 🔐 Compliance Standards (COMPLIANCE)
+
+| Code | Section | Summary |
+|------|---------|---------|
+| `COMPLIANCE:overview` | Compliance Standards | Version: 1.0.0 Last Updated: 2025-01-18 Status: Active Standard Code: COMPLIANCE |
+| `COMPLIANCE:tagging` | Control Tagging Standards | NIST 800-53r5 control annotation guidelines |
+| `COMPLIANCE:patterns` | Implementation Patterns | Common security implementation patterns |
+| `COMPLIANCE:evidence` | Evidence Collection | Automated evidence gathering |
+| `COMPLIANCE:automation` | CI/CD Integration | Continuous compliance automation |
+| `COMPLIANCE:implementation` | Implementation Guide | Getting started with compliance |
+
 ## 📋 Additional Standards
 
 
@@ -227,6 +264,14 @@ This index provides quick summaries of all standards sections. Use the codes bel
 | `TOOL:observability-stack` | Observability Stack | Collection: `prometheus` (v2.45+) Visualization: `grafana` (v10.0+) Alerting: Prometheus Alertmanage |
 | `TOOL:tool-configuration` | Tool Configuration | All tool configurations should be centralized: project-root/ ├── pyproject.toml # Python tools (blac |
 | `TOOL:migration-paths` | Migration Paths | pip install ruff ruff check --fix . [tool.ruff] |
+| `NIG:overview` | NIST 800-53r5 Control Tagging Implementation Guide | Version: 1.0.0 Last Updated: 2025-01-18 Status: Active Standard Code: NIG |
+| `NIG:-quick-start` | 🚀 Quick Start | Install git hooks: ./scripts/setup-nist-hooks.sh This installs pre-commit validation and tag suggestions |
+| `NIG:-whats-implemented` | 📋 What's Implemented | Complete NIST 800-53r5 tagging system with GitHub Actions, pre-commit hooks, and OSCAL SSP generation |
+| `NIG:-tagging-quick-refe` | 🏷️ Tagging Quick Reference | Common patterns: Auth→ia-2,ia-5 | Authz→ac-2,ac-3,ac-6 | Encryption→sc-8,sc-13 | Audit→au-2,au-3 |
+| `NIG:-workflow-integrati` | 🔄 Workflow Integration | Development flow: Write→Suggest→Tag→Validate→CI/CD→SSP generation. Automated compliance tracking |
+| `NIG:-monitoring-complia` | 📊 Monitoring Compliance | Check coverage, generate SSPs, collect evidence, track control implementation across codebase |
+| `NIG:-next-steps` | 🎯 Next Steps | Developers: Install hooks, tag security code. Security: Review SSPs. LLMs: Include @nist tags |
+| `NIG:-documentation` | 📚 Documentation | COMPLIANCE_STANDARDS.md for guidelines, NIST_TAGGING_PROPOSAL.md for strategy, OSCAL platform docs |
 
 
 ## 🚀 Quick Loading Examples
@@ -247,8 +292,8 @@ This index provides quick summaries of all standards sections. Use the codes bel
 
 ## 📊 Statistics
 
-- **Total Standards**: 17 documents
-- **Total Sections**: 143+ specialized topics
+- **Total Standards**: 18 documents
+- **Total Sections**: 151+ specialized topics
 - **Quick Load Time**: <100ms per section
 - **Token Savings**: ~95% compared to full document loading
 

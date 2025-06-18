@@ -194,6 +194,39 @@ Implement security best practices in all code:
    - Use security headers in web applications
 ```
 
+### NIST Control Tagging
+
+When implementing security features, add NIST 800-53r5 control tags:
+
+```python
+# @nist ia-2 "User authentication"
+def authenticate_user(credentials: Credentials) -> User:
+    """Authenticate user with provided credentials."""
+    pass
+
+# @nist ac-3 "Access enforcement"
+# @nist ac-6 "Least privilege"
+def check_permissions(user: User, resource: Resource) -> bool:
+    """Check if user has permission to access resource."""
+    pass
+```
+
+**Common Security Pattern → NIST Control Mappings:**
+- Authentication code → `@nist ia-2`, `@nist ia-5`
+- Authorization logic → `@nist ac-3`, `@nist ac-6`
+- Password handling → `@nist ia-5`, `@nist ia-5.1`
+- Session management → `@nist ac-12`
+- Encryption → `@nist sc-8` (transit), `@nist sc-13` (at rest)
+- Audit logging → `@nist au-2`, `@nist au-3`
+- Input validation → `@nist si-10`
+- Error handling → `@nist si-11`
+
+See [NIST_IMPLEMENTATION_GUIDE.md](./NIST_IMPLEMENTATION_GUIDE.md) for:
+- Complete control mappings
+- Language-specific syntax
+- Automated tooling
+- CI/CD integration
+
 ## 5. Performance Optimization
 
 ```
@@ -741,5 +774,5 @@ The code should be robust, efficient, secure, and maintainable. It should follow
 ## Related Standards
 
 - [Knowledge Management Standards](./KNOWLEDGE_MANAGEMENT_STANDARDS.md) - Documentation standards
-
 - [CREATING_STANDARDS_GUIDE.md](./CREATING_STANDARDS_GUIDE.md) - How to create standards
+- [COMPLIANCE_STANDARDS.md](./COMPLIANCE_STANDARDS.md) - NIST compliance for secure coding

@@ -24,6 +24,7 @@ Based on the detected technologies, recommend relevant standards:
 - **Infrastructure (CN/DOP):** Container and deployment standards
 - **Data Engineering (DE):** Database and data pipeline standards
 - **Legal/Compliance (LEG):** Privacy and regulatory requirements
+- **NIST Compliance (NIG):** NIST 800-53r5 control tagging ([NIST_IMPLEMENTATION_GUIDE.md](https://github.com/williamzujkowski/standards/blob/master/NIST_IMPLEMENTATION_GUIDE.md))
 
 ### 3. **Implementation Blueprint**
 Create a structured implementation plan with:
@@ -32,6 +33,7 @@ Create a structured implementation plan with:
 - Development workflow (git flow, CI/CD)
 - Testing strategy and coverage targets
 - Security checklist and authentication approach
+- Compliance requirements (NIST controls for security features)
 - Deployment pipeline and monitoring
 
 ### 4. **Code Generation**

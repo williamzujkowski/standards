@@ -1,0 +1,101 @@
+# Semantic mapping rules for NIST 800-53r5 controls to repository standards
+# These rules guide the AI-powered semantic analysis engine
+
+version: 1.0.0
+created: 2025-01-15
+
+mapping_rules:
+  # Technology-specific mappings
+  technology_mappings:
+    authentication:
+      keywords: ["auth", "login", "signin", "authenticate", "credential", "password", "mfa", "2fa", "oauth", "saml", "sso", "jwt"]
+      control_families: ["ac", "ia"]
+      repository_patterns:
+        - "*/auth/*"
+        - "*authentication*"
+        - "*login*"
+        - "SECURITY_STANDARDS.md#authentication"
+
+    encryption:
+      keywords: ["encrypt", "decrypt", "crypto", "tls", "ssl", "https", "aes", "rsa", "hash", "bcrypt", "certificate"]
+      control_families: ["sc"]
+      repository_patterns:
+        - "*encryption*"
+        - "*crypto*"
+        - "SECURITY_STANDARDS.md#encryption"
+
+    logging:
+      keywords: ["log", "audit", "trace", "monitor", "event", "record", "telemetry", "observability"]
+      control_families: ["au"]
+      repository_patterns:
+        - "*logging*"
+        - "*monitoring*"
+        - "OBSERVABILITY_STANDARDS.md"
+
+    access_control:
+      keywords: ["rbac", "abac", "permission", "role", "authorization", "access", "privilege", "policy", "acl"]
+      control_families: ["ac"]
+      repository_patterns:
+        - "*authorization*"
+        - "*permissions*"
+        - "*access-control*"
+
+  # Process-based mappings
+  process_mappings:
+    configuration_management:
+      keywords: ["config", "baseline", "version", "change", "deployment", "release", "git", "ci/cd"]
+      control_families: ["cm"]
+      repository_patterns:
+        - "DEVOPS_STANDARDS.md"
+        - "*configuration*"
+        - ".github/workflows/*"
+
+    testing:
+      keywords: ["test", "validate", "verify", "quality", "coverage", "unit", "integration", "security test"]
+      control_families: ["ca", "sa"]
+      repository_patterns:
+        - "TESTING_STANDARDS.md"
+        - "*test*"
+        - "*spec*"
+
+  # Evidence type mappings
+  evidence_mappings:
+    code_evidence:
+      file_patterns: ["*.ts", "*.js", "*.py", "*.java", "*.go", "*.rs"]
+      analysis_methods: ["ast", "regex", "semantic"]
+
+    configuration_evidence:
+      file_patterns: ["*.yaml", "*.yml", "*.json", "*.toml", "*.env", "*.conf"]
+      analysis_methods: ["parser", "schema_validation"]
+
+    documentation_evidence:
+      file_patterns: ["*.md", "*.rst", "*.txt", "README*", "SECURITY*"]
+      analysis_methods: ["nlp", "keyword_extraction"]
+
+    infrastructure_evidence:
+      file_patterns: ["Dockerfile*", "*.tf", "k8s/*.yaml", ".github/workflows/*"]
+      analysis_methods: ["parser", "policy_validation"]
+
+# Confidence scoring rules
+confidence_scoring:
+  factors:
+    - name: "keyword_density"
+      weight: 0.3
+      description: "Density of relevant keywords in the content"
+
+    - name: "semantic_similarity"
+      weight: 0.4
+      description: "Semantic similarity between control and standard text"
+
+    - name: "structural_alignment"
+      weight: 0.2
+      description: "Alignment of document structure with control requirements"
+
+    - name: "explicit_reference"
+      weight: 0.1
+      description: "Explicit references to NIST controls or security frameworks"
+
+  thresholds:
+    high_confidence: 0.8
+    medium_confidence: 0.5
+    low_confidence: 0.3

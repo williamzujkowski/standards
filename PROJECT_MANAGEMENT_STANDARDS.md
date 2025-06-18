@@ -425,6 +425,7 @@ risk_management:
       - SWOT analysis
       - Expert interviews
       - Historical data
+      - Security/compliance review (see [NIST_IMPLEMENTATION_GUIDE.md](./NIST_IMPLEMENTATION_GUIDE.md))
 
   assessment:
     probability: [Low, Medium, High]
@@ -655,6 +656,7 @@ project_metrics:
     defect_density: "Bugs per feature"
     test_coverage: "> 80%"
     technical_debt: "Track and plan"
+    nist_compliance: "% of security features tagged"
 
   team:
     velocity_trend: "Improving"
@@ -720,6 +722,12 @@ improvement:
     - Remove waste
     - Automate repeatable
     - Simplify complex
+
+  compliance_tracking:
+    - Monitor NIST control coverage
+    - Review security feature tagging
+    - Update compliance documentation
+    - See [NIST Implementation Guide](./NIST_IMPLEMENTATION_GUIDE.md)
     - Measure impact
 ```
 

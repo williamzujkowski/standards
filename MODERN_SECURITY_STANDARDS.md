@@ -29,7 +29,18 @@
 This standard provides comprehensive guidelines and best practices for the subject area.
 It aims to ensure consistency, quality, and maintainability across all related implementations.
 
+## NIST Compliance Integration
+
+This standard is fully mapped to NIST 800-53r5 controls. Look for `@nist` tags throughout.
+
+For implementation guidance:
+- **Quick Start**: [NIST_IMPLEMENTATION_GUIDE.md](./NIST_IMPLEMENTATION_GUIDE.md)
+- **Detailed Standards**: [COMPLIANCE_STANDARDS.md](./COMPLIANCE_STANDARDS.md)
+- **Control Reference**: [Quick Reference](./NIST_IMPLEMENTATION_GUIDE.md#tagging-quick-reference)
+
 ## 1. Zero Trust Architecture
+
+<!-- @nist-controls: [ac-2, ac-3, ac-6, ia-2, ia-5, au-2, sc-8] -->
 
 ### 1.1 Zero Trust Principles
 
@@ -46,27 +57,30 @@ zero_trust_policy:
 
   implementation:
     identity_verification:
-      - Multi-factor authentication required
-      - Continuous authentication
-      - Risk-based authentication
-      - Device compliance verification
+      - Multi-factor authentication required  # @nist ia-2 "Multi-factor authentication"
+      - Continuous authentication  # @nist ia-2 "Continuous verification"
+      - Risk-based authentication  # @nist ia-5 "Risk-based authenticator management"
+      - Device compliance verification  # @nist ia-2 "Device authentication"
 
     network_segmentation:
-      - Micro-segmentation
-      - Software-defined perimeters
-      - Encrypted communications
-      - Network monitoring
+      - Micro-segmentation  # @nist ac-3 "Access enforcement through segmentation"
+      - Software-defined perimeters  # @nist ac-3 "Dynamic access control"
+      - Encrypted communications  # @nist sc-8 "Transmission confidentiality"
+      - Network monitoring  # @nist au-2 "Network audit events"
 
     data_protection:
-      - Data classification
-      - Encryption at rest and in transit
-      - Data loss prevention
-      - Rights management
+      - Data classification  # @nist ac-3 "Classification-based access"
+      - Encryption at rest and in transit  # @nist sc-13 "Cryptographic protection"
+      - Data loss prevention  # @nist ac-3 "Data access enforcement"
+      - Rights management  # @nist ac-6 "Least privilege data access"
 ```
 
 #### Implementation Framework **[REQUIRED]**
 ```python
 # Zero Trust Access Control Framework
+# @nist ac-3 "Access enforcement implementation"
+# @nist ac-6 "Least privilege access control"
+# @nist au-2 "Audit access decisions"
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import List, Dict, Any, Optional
@@ -107,17 +121,21 @@ class PolicyEngine(ABC):
         pass
 
 class ZeroTrustAccessControl:
+    # @nist ac-3 "Zero trust access control implementation"
     def __init__(self):
         self.policies: List[PolicyEngine] = []
-        self.audit_logger = AuditLogger()
-        self.risk_engine = RiskEngine()
+        self.audit_logger = AuditLogger()  # @nist au-2 "Audit logger initialization"
+        self.risk_engine = RiskEngine()  # @nist ia-2 "Risk-based authentication"
 
     def add_policy(self, policy: PolicyEngine):
         """Add a policy to the evaluation chain."""
         self.policies.append(policy)
 
     def evaluate_access(self, request: AccessRequest) -> Dict[str, Any]:
-        """Evaluate access request against all policies."""
+        """Evaluate access request against all policies.
+        @nist ac-3 "Policy-based access enforcement"
+        @nist au-3 "Generate detailed audit records"
+        """
         start_time = time.time()
 
         # Update risk score
@@ -157,6 +175,8 @@ class ZeroTrustAccessControl:
         }
 
         # Audit log
+        # @nist au-2 "Log all access decisions"
+        # @nist au-3 "Include all relevant details in audit log"
         self.audit_logger.log_access_decision(result)
 
         return result
@@ -1129,6 +1149,8 @@ spec:
 
 ## 4. API Security
 
+<!-- @nist-controls: [ac-3, ac-6, ia-2, ia-5, sc-8, sc-13, si-10, au-2] -->
+
 ### 4.1 API Gateway Security
 
 #### Rate Limiting and Throttling **[REQUIRED]**
@@ -1171,6 +1193,9 @@ spec:
 #### API Authentication and Authorization **[REQUIRED]**
 ```python
 # FastAPI security implementation
+# @nist ia-2 "API authentication"
+# @nist ac-3 "API authorization"
+# @nist sc-8 "HTTPS enforcement"
 from fastapi import FastAPI, Depends, HTTPException, Security
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.middleware.cors import CORSMiddleware
@@ -1217,7 +1242,10 @@ class SecurityConfig:
     RATE_LIMIT_PER_MINUTE = 60
 
 async def verify_token(credentials: HTTPAuthorizationCredentials = Security(security)) -> TokenData:
-    """Verify and decode JWT token."""
+    """Verify and decode JWT token.
+    @nist ia-5 "Token verification"
+    @nist ac-12 "Session expiration check"
+    """
     try:
         payload = jwt.decode(
             credentials.credentials,
@@ -1226,6 +1254,7 @@ async def verify_token(credentials: HTTPAuthorizationCredentials = Security(secu
         )
 
         # Check token expiration
+        # @nist ac-12 "Enforce session termination"
         if payload.get("exp", 0) < time.time():
             raise HTTPException(status_code=401, detail="Token expired")
 

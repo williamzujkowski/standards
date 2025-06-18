@@ -31,6 +31,8 @@ It aims to ensure consistency, quality, and maintainability across all related i
 
 ## 1. Observability Principles
 
+<!-- @nist-controls: [au-2, au-3, au-4, au-5, au-6, au-9, si-4] -->
+
 ### 1.1 Three Pillars of Observability
 
 #### Metrics, Logs, and Traces **[REQUIRED]**
@@ -48,10 +50,10 @@ observability:
     cardinality_limit: 1000000
 
   logs:
-    retention: 30d
-    structured_format: json
+    retention: 30d  # @nist au-4 "Audit storage capacity"
+    structured_format: json  # @nist au-3 "Content of audit records"
     compression: gzip
-    log_level: info
+    log_level: info  # @nist au-2 "Audit events"
 
   traces:
     sampling_rate: 0.1  # 10% sampling
@@ -80,6 +82,8 @@ from typing import Dict, Any, Optional
 from contextlib import contextmanager
 
 class ObservabilityManager:
+    # @nist au-2 "Comprehensive audit event generation"
+    # @nist si-4 "System monitoring implementation"
     def __init__(self, service_name: str, service_version: str, environment: str):
         self.service_name = service_name
         self.service_version = service_version
@@ -1064,6 +1068,8 @@ class TraceAnalyzer:
 
 ## 4. Logging Standards
 
+<!-- @nist-controls: [au-2, au-3, au-4, au-5, au-6, au-9] -->
+
 ### 4.1 Structured Logging
 
 #### Log Format Standards **[REQUIRED]**
@@ -1079,6 +1085,8 @@ import traceback
 import threading
 
 class StructuredLogger:
+    # @nist au-3 "Structured audit record generation"
+    # @nist au-9 "Protection of audit information"
     def __init__(self, service_name: str, version: str, environment: str):
         self.service_name = service_name
         self.version = version
@@ -1107,7 +1115,10 @@ class StructuredLogger:
         return getattr(self._local, 'correlation_id', None)
 
     def _build_log_entry(self, level: str, message: str, **kwargs) -> Dict[str, Any]:
-        """Build structured log entry."""
+        """Build structured log entry.
+        @nist au-3 "Content of audit records"
+        @nist-implements au-3.1 "Additional audit information"
+        """
         entry = {
             "timestamp": datetime.utcnow().isoformat() + "Z",
             "level": level.upper(),
@@ -1149,7 +1160,10 @@ class StructuredLogger:
         self.logger.warning(json.dumps(entry))
 
     def error(self, message: str, exception: Exception = None, **kwargs):
-        """Log error message with optional exception."""
+        """Log error message with optional exception.
+        @nist si-11 "Error handling and logging"
+        @nist au-2 "Log security-relevant errors"
+        """
         if exception:
             kwargs.update({
                 "exception_type": type(exception).__name__,

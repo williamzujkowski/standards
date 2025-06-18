@@ -1,0 +1,159 @@
+{
+  "system-security-plan": {
+    "uuid": "ssp-001-2025-01-15",
+    "metadata": {
+      "title": "System Security Plan - standards",
+      "last-modified": "2025-01-15T12:00:00.000Z",
+      "version": "1.0.0",
+      "oscal-version": "1.1.2",
+      "roles": [
+        {
+          "id": "system-owner",
+          "title": "System Owner",
+          "description": "The individual responsible for the overall system"
+        },
+        {
+          "id": "developer",
+          "title": "Developer",
+          "description": "Personnel responsible for system development and maintenance"
+        },
+        {
+          "id": "security-officer",
+          "title": "Information System Security Officer",
+          "description": "Individual responsible for system security"
+        }
+      ],
+      "parties": [
+        {
+          "uuid": "party-001",
+          "type": "organization",
+          "name": "System Owner Organization",
+          "short-name": "Owner"
+        }
+      ],
+      "responsible-parties": [
+        {
+          "role-id": "system-owner",
+          "party-uuids": ["party-001"]
+        }
+      ]
+    },
+    "import-profile": {
+      "href": "#moderate-baseline",
+      "remarks": "Importing moderate baseline profile"
+    },
+    "system-characteristics": {
+      "system-ids": [
+        {
+          "identifier": "system-001",
+          "scheme": "organizational"
+        }
+      ],
+      "system-name": "Standards Repository System",
+      "system-name-short": "SRS",
+      "description": "OSCAL-native compliance management system",
+      "security-sensitivity-level": "moderate",
+      "system-information": {
+        "information-types": [
+          {
+            "uuid": "info-type-001",
+            "title": "User Authentication Data",
+            "description": "User credentials and authentication tokens",
+            "confidentiality-impact": {
+              "base": "high",
+              "selected": "high"
+            },
+            "integrity-impact": {
+              "base": "high",
+              "selected": "high"
+            },
+            "availability-impact": {
+              "base": "moderate",
+              "selected": "moderate"
+            }
+          }
+        ]
+      },
+      "security-impact-level": {
+        "security-objective-confidentiality": "moderate",
+        "security-objective-integrity": "moderate",
+        "security-objective-availability": "moderate"
+      },
+      "status": {
+        "state": "under-development",
+        "remarks": "Status determined from repository analysis"
+      },
+      "authorization-boundary": {
+        "description": "The authorization boundary encompasses the Express, React application components, PostgreSQL, Redis data stores, and supporting Docker, Kubernetes infrastructure."
+      }
+    },
+    "system-implementation": {
+      "uuid": "impl-001",
+      "description": "Implementation details for Standards Repository System",
+      "users": [
+        {
+          "uuid": "user-001",
+          "title": "System Administrators",
+          "description": "Personnel responsible for system administration",
+          "role-ids": ["system-administrator"]
+        }
+      ],
+      "components": [
+        {
+          "uuid": "comp-001",
+          "type": "software",
+          "title": "Application Server",
+          "description": "Express, React application providing core functionality",
+          "status": {
+            "state": "operational"
+          }
+        },
+        {
+          "uuid": "comp-002",
+          "type": "software",
+          "title": "Database Server",
+          "description": "PostgreSQL, Redis providing data persistence",
+          "status": {
+            "state": "operational"
+          }
+        }
+      ]
+    },
+    "control-implementation": {
+      "uuid": "ctrl-impl-001",
+      "description": "Control implementations derived from repository standards",
+      "implemented-requirements": [
+        {
+          "uuid": "req-ac-2",
+          "control-id": "ac-2",
+          "description": "The Standards Repository System implements Account Management through automated controls. Implementation status: implemented. Evidence collected from 1 sources with 85% confidence.",
+          "statements": [
+            {
+              "statement-id": "ac-2_stmt",
+              "uuid": "stmt-ac-2",
+              "description": "This control is implemented with the following implementation approach."
+            }
+          ],
+          "responsible-roles": [
+            {"role-id": "system-owner"},
+            {"role-id": "developer"}
+          ],
+          "props": [
+            {
+              "name": "implementation-status",
+              "value": "implemented",
+              "remarks": "Based on analysis of 1 evidence items"
+            }
+          ],
+          "links": [
+            {
+              "href": "#evidence-src-services-user-management-ts",
+              "rel": "evidence",
+              "media-type": "text/plain"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
