@@ -2,7 +2,7 @@
 # Knowledge Management Validation Test Runner
 # Ensures compliance with KNOWLEDGE_MANAGEMENT_STANDARDS.md
 
-set -euo pipefail
+set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
@@ -69,10 +69,10 @@ echo "--------------------------"
 
 # Test: All .md files have proper headers
 run_test "All standards have version info" \
-    "! grep -L 'Version:' docs/standards/*_STANDARDS.md 2>/dev/null"
+    "test -z \"\$(grep -L 'Version:' docs/standards/*_STANDARDS.md 2>/dev/null)\""
 
 run_test "All standards have status info" \
-    "! grep -L 'Status:' docs/standards/*_STANDARDS.md 2>/dev/null"
+    "test -z \"\$(grep -L 'Status:' docs/standards/*_STANDARDS.md 2>/dev/null)\""
 
 # Test: MANIFEST.yaml is valid YAML
 run_test "MANIFEST.yaml is valid YAML" \
@@ -80,7 +80,7 @@ run_test "MANIFEST.yaml is valid YAML" \
 
 # Test: No broken markdown links
 run_test "No broken internal links" \
-    "! grep -r '\[.*\](\./[^)]*\.md)' *.md | while read -r line; do file=\$(echo \"\$line\" | sed 's/.*(\.\///; s/).*//' | cut -d'#' -f1); test -f \"\$file\" || echo \"\$line\"; done | grep ."
+    "! find . -name '*.md' -not -path './.git/*' -print0 | xargs -0 grep -h '\[.*\](\./[^)]*\.md)' | sed 's/.*](\.\/\([^)]*\)).*/\1/' | while read -r f; do [ ! -f \"\$f\" ] && echo \"Missing: \$f\" && exit 1; done"
 
 echo ""
 echo "4. Standards Compliance Tests"
@@ -88,11 +88,11 @@ echo "----------------------------"
 
 # Test: Check for [REQUIRED] and [RECOMMENDED] tags
 run_test "Standards use requirement tags" \
-    "grep -l '\\[REQUIRED\\]\\|\\[RECOMMENDED\\]' *_STANDARDS.md | wc -l | grep -qE '^[1-9][0-9]*$'"
+    "grep -l '\\[REQUIRED\\]\\|\\[RECOMMENDED\\]' docs/standards/*_STANDARDS.md 2>/dev/null | wc -l | grep -qE '^[1-9][0-9]*$'"
 
 # Test: Implementation checklists present
 run_test "Standards have implementation checklists" \
-    "grep -l 'Implementation Checklist\\|checklist' *_STANDARDS.md | wc -l | grep -qE '^[1-9][0-9]*$'"
+    "grep -l 'Implementation Checklist\\|checklist' docs/standards/*_STANDARDS.md 2>/dev/null | wc -l | grep -qE '^[1-9][0-9]*$'"
 
 echo ""
 echo "5. Token Optimization Tests"
@@ -100,18 +100,18 @@ echo "--------------------------"
 
 # Test: MANIFEST.yaml has token counts
 run_test "MANIFEST has token estimates" \
-    "grep -q 'tokens:' MANIFEST.yaml"
+    "grep -q 'tokens:' config/MANIFEST.yaml"
 
 # Test: CLAUDE.md has loading patterns
 run_test "CLAUDE.md has @load patterns" \
-    "grep -q '@load' CLAUDE.md"
+    "grep -q '@load' docs/core/CLAUDE.md"
 
 echo ""
 echo "6. Cross-Reference Tests"
 echo "-----------------------"
 
 # Test: Count cross-references
-XREF_COUNT=$(grep -r '\[.*\](\./' *.md 2>/dev/null | wc -l)
+XREF_COUNT=$(find . -name '*.md' -not -path './.git/*' -exec grep -h '\[.*\](\./' {} \; 2>/dev/null | wc -l)
 echo "  Total cross-references found: $XREF_COUNT"
 
 if [ "$XREF_COUNT" -gt 50 ]; then
@@ -135,3 +135,4 @@ else
     echo -e "\n${RED}Some tests failed. Please review and fix the issues.${NC}"
     exit 1
 fi
+
