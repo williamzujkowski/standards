@@ -99,7 +99,9 @@ class StandardsValidator:
 
         # Extract standard codes from natural language mappings
         codes_in_claude = set()
-        code_pattern = r"`([A-Z]{2,}?):[^`]*`"  # Changed to allow codes of any length
+        code_pattern = (
+            r"`([A-Z][A-Z\-]*?):[^`]*`"  # Allow uppercase letters and hyphens
+        )
         for match in re.finditer(code_pattern, claude_content):
             codes_in_claude.add(match.group(1))
 

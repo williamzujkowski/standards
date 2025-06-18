@@ -654,10 +654,10 @@ standards:
         description: "Implementation guide"
     dependencies:
       requires: ["SEC:*"]
-      recommends: ["NIG", "CS:patterns", "TS:*"]
+      recommends: ["NIST-IG", "CS:patterns", "TS:*"]
 
-  NIG:
-    identifier: "NIG"
+  NIST-IG:
+    identifier: "NIST-IG"
     full_name: "NIST_IMPLEMENTATION_GUIDE.md"
     size: "8KB"
     token_estimate: 2500
@@ -791,7 +791,7 @@ versioning:
     CONT: "latest"  # Content Standards
     TOOL: "latest"  # Toolchain Standards
     COMPLIANCE: "latest"  # NIST Compliance Standards
-    NIG: "latest"  # NIST Implementation Guide
+    NIST-IG: "latest"  # NIST Implementation Guide
 
   # Version support policy
   support_policy:

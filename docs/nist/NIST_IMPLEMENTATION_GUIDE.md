@@ -3,7 +3,7 @@
 **Version:** 1.0.0
 **Last Updated:** 2025-01-18
 **Status:** Active
-**Standard Code:** NIG
+**Standard Code:** NIST-IG
 **Tokens:** ~2,500
 **Priority:** Critical
 
