@@ -637,4 +637,5 @@ To create new standards that integrate with this system:
 ## Related Standards
 
 - [Knowledge Management Standards](./docs/standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md) - Core architecture principles
+- [Model Context Protocol Standards](./docs/standards/MODEL_CONTEXT_PROTOCOL_STANDARDS.md) - LLM optimization patterns for MCP
 - [Compliance Standards](./docs/standards/COMPLIANCE_STANDARDS.md) - NIST 800-53r5 control tagging guidelines

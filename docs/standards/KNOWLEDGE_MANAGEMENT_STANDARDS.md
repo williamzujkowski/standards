@@ -24,7 +24,10 @@
 
 ## Overview
 
-This standard defines how to create, organize, and maintain comprehensive knowledge management systems for software projects. It codifies the approach used in this standards repository and provides a blueprint for other projects to implement similar systems.
+This standard defines how to create, organize, and maintain comprehensive
+knowledge management systems for software projects. It codifies the approach
+used in this standards repository and provides a blueprint for other projects
+to implement similar systems.
 
 ### When to Use This Standard
 
@@ -42,7 +45,9 @@ This standard defines how to create, organize, and maintain comprehensive knowle
 
 ### Real-World Implementation
 
-This standard codifies the approach used in this standards repository itself. Key implementations include:
+This standard codifies the approach used in this standards repository itself.
+Key implementations include:
+
 - **CLAUDE.md** - AI router with 90% token reduction
 - **MANIFEST.yaml** - Progressive loading metadata
 - **KICKSTART_PROMPT.md** - Natural language project analysis
@@ -58,6 +63,7 @@ This standard codifies the approach used in this standards repository itself. Ke
 Knowledge should be accessible at multiple levels of detail, allowing users to start simple and dive deeper as needed.
 
 **Implementation:**
+
 ```yaml
 # MANIFEST.yaml example
 standard:
@@ -81,6 +87,7 @@ standard:
 Documentation should be optimized for both human readers and AI assistants.
 
 **Example Structure:**
+
 ```markdown
 ## Section Name
 
@@ -96,7 +103,7 @@ Documentation should be optimized for both human readers and AI assistants.
 
 Knowledge should be organized in self-contained, reusable modules.
 
-```
+```text
 standards/
 ├── core/
 │   ├── CODING_STANDARDS.md
@@ -138,7 +145,7 @@ All documentation should be versioned, dated, and actively maintained.
 
 ### [REQUIRED] Repository Structure
 
-```
+```text
 project-root/
 ├── README.md                    # Entry point with quick start
 ├── CLAUDE.md                   # AI interface and routing
@@ -368,11 +375,13 @@ Provide structured data formats:
 Implement multiple detail levels:
 
 1. **Quick Reference** (< 100 tokens)
+
    ```markdown
    **Python Naming:** snake_case for functions, PascalCase for classes
    ```
 
 2. **Summary** (100-500 tokens)
+
    ```markdown
    ### Python Naming Conventions
    - Functions: snake_case (get_user_name)
@@ -566,6 +575,7 @@ context_suggestions:
 ## Implementation Checklist
 
 ### Phase 1: Foundation (Week 1)
+
 - [ ] Create repository structure
 - [ ] Set up README.md with clear navigation
 - [ ] Create CLAUDE.md or equivalent AI router
@@ -573,6 +583,7 @@ context_suggestions:
 - [ ] Set up version control patterns
 
 ### Phase 2: Core Documentation (Week 2-3)
+
 - [ ] Migrate/create core documentation
 - [ ] Add semantic versioning to all docs
 - [ ] Implement [REQUIRED]/[RECOMMENDED] tagging
@@ -580,6 +591,7 @@ context_suggestions:
 - [ ] Add code examples to all concepts
 
 ### Phase 3: AI Optimization (Week 4)
+
 - [ ] Add token counts to sections
 - [ ] Implement progressive loading patterns
 - [ ] Create natural language mappings
@@ -587,6 +599,7 @@ context_suggestions:
 - [ ] Test with various AI assistants
 
 ### Phase 4: Discovery & Search (Week 5)
+
 - [ ] Implement search optimization
 - [ ] Create discovery aids
 - [ ] Add smart suggestions
@@ -594,6 +607,7 @@ context_suggestions:
 - [ ] Create quick reference guides
 
 ### Phase 5: Automation (Week 6+)
+
 - [ ] Set up validation workflows
 - [ ] Implement auto-generation scripts
 - [ ] Create update notifications
@@ -601,6 +615,7 @@ context_suggestions:
 - [ ] Add metrics tracking
 
 ### Validation Checklist
+
 - [ ] All documents follow standard structure
 - [ ] Version numbers are consistent
 - [ ] Cross-references are bidirectional
@@ -623,7 +638,8 @@ context_suggestions:
 ## Appendix: Quick Reference
 
 ### Essential Files for Knowledge Management
-```
+
+```text
 README.md         # Entry point and navigation
 CLAUDE.md        # AI optimization layer
 MANIFEST.yaml    # Machine-readable metadata
@@ -632,6 +648,7 @@ CHANGELOG.md     # Version history
 ```
 
 ### Key Commands for Validation
+
 ```bash
 # Validate structure
 find . -name "*.md" -exec grep -L "Version:" {} \;
@@ -644,7 +661,8 @@ wc -w *.md | awk '{print $1/3 " tokens (est) - " $2}'
 ```
 
 ### AI Loading Patterns
-```
+
+```text
 @load KM:*                    # Load all sections
 @load KM:architecture         # Load specific section
 @summary KM                   # Get overview only
@@ -653,7 +671,10 @@ wc -w *.md | awk '{print $1/3 " tokens (est) - " $2}'
 
 ---
 
-**Note:** This standard represents best practices for knowledge management in technical projects. Adapt these patterns to your specific needs while maintaining the core principles of progressive disclosure, AI optimization, and semantic relationships.
+**Note:** This standard represents best practices for knowledge management in
+technical projects. Adapt these patterns to your specific needs while
+maintaining the core principles of progressive disclosure, AI optimization,
+and semantic relationships.
 
 ## Related Standards
 

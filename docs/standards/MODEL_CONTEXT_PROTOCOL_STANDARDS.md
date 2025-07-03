@@ -62,9 +62,9 @@ mcp-client test --server localhost:3000
 ### Prerequisites
 
 - Understanding of [CLAUDE.md](../core/CLAUDE.md) for LLM optimization
-- Familiarity with [CS:api](./CODING_STANDARDS.md#api-design) standards
-- Knowledge of [SEC:auth](./MODERN_SECURITY_STANDARDS.md#authentication) patterns
-- Background in event-driven architectures ([EVT:*](./EVENT_DRIVEN_STANDARDS.md))
+- Familiarity with [CS:api](CODING_STANDARDS.md#14-api-design) standards
+- Knowledge of [SEC:auth](MODERN_SECURITY_STANDARDS.md#api-authentication-and-authorization) patterns
+- Background in event-driven architectures ([EVT:*](EVENT_DRIVEN_STANDARDS.md))
 
 ### 🚀 Quick Reference
 
@@ -170,7 +170,7 @@ interface MCPResponse {
 **Priority:** High
 **Token Estimate:** ~150
 
-Implement progressive loading patterns aligned with [KM:progressive-disclosure](./KNOWLEDGE_MANAGEMENT_STANDARDS.md#progressive-disclosure):
+Implement progressive loading patterns aligned with [KM:progressive-disclosure](KNOWLEDGE_MANAGEMENT_STANDARDS.md#progressive-disclosure-system):
 
 ```python
 class ProgressiveResource:
@@ -350,7 +350,7 @@ class MCPServer:
 
 ### [REQUIRED] Error Handling
 
-Implement comprehensive error handling following [CS:error-handling](./CODING_STANDARDS.md#error-handling):
+Implement comprehensive error handling following [CS:error-handling](CODING_STANDARDS.md#6-error-handling):
 
 ```python
 class MCPError(Exception):
@@ -719,7 +719,7 @@ class APIResource(MCPResource):
 
 ### [REQUIRED] Authentication
 
-Implement authentication following [SEC:auth](./MODERN_SECURITY_STANDARDS.md#authentication):
+Implement authentication following [SEC:auth](MODERN_SECURITY_STANDARDS.md#api-authentication-and-authorization):
 
 ```python
 from abc import ABC, abstractmethod
@@ -776,7 +776,7 @@ class JWTAuthenticator(MCPAuthenticator):
 
 ### [REQUIRED] Input Validation
 
-Validate all inputs following [SEC:validation](./MODERN_SECURITY_STANDARDS.md#input-validation):
+Validate all inputs following [SEC:validation](MODERN_SECURITY_STANDARDS.md#4-api-security):
 
 ```python
 class MCPValidator:
@@ -898,7 +898,7 @@ class MCPPrivacyFilter:
 
 ### [REQUIRED] Test Suite Structure
 
-Follow [TS:*](./TESTING_STANDARDS.md) with MCP-specific tests:
+Follow [TS:*](TESTING_STANDARDS.md) with MCP-specific tests:
 
 ```python
 import pytest
@@ -1144,10 +1144,10 @@ class TestMCPPerformance:
 
 - [Model Context Protocol Specification](https://modelcontextprotocol.io)
 - [CLAUDE.md](../core/CLAUDE.md) - LLM optimization patterns
-- [CODING_STANDARDS.md](./CODING_STANDARDS.md) - General coding standards
-- [MODERN_SECURITY_STANDARDS.md](./MODERN_SECURITY_STANDARDS.md) - Security requirements
-- [TESTING_STANDARDS.md](./TESTING_STANDARDS.md) - Testing requirements
-- [EVENT_DRIVEN_STANDARDS.md](./EVENT_DRIVEN_STANDARDS.md) - Event patterns
+- [CODING_STANDARDS.md](CODING_STANDARDS.md) - General coding standards
+- [MODERN_SECURITY_STANDARDS.md](MODERN_SECURITY_STANDARDS.md) - Security requirements
+- [TESTING_STANDARDS.md](TESTING_STANDARDS.md) - Testing requirements
+- [EVENT_DRIVEN_STANDARDS.md](EVENT_DRIVEN_STANDARDS.md) - Event patterns
 
 ---
 
@@ -1194,7 +1194,7 @@ mcp-client call --tool database_query --params '{"query": "SELECT * FROM users"}
 
 ## Related Standards
 
-- [Knowledge Management Standards](./KNOWLEDGE_MANAGEMENT_STANDARDS.md) - Progressive disclosure patterns
-- [Event-Driven Architecture Standards](./EVENT_DRIVEN_STANDARDS.md) - Event handling patterns
-- [API Standards](./CODING_STANDARDS.md#api-design) - API design principles
-- [Security Standards](./MODERN_SECURITY_STANDARDS.md) - Security requirements
+- [Knowledge Management Standards](KNOWLEDGE_MANAGEMENT_STANDARDS.md) - Progressive disclosure patterns
+- [Event-Driven Architecture Standards](EVENT_DRIVEN_STANDARDS.md) - Event handling patterns
+- [API Standards](CODING_STANDARDS.md#14-api-design) - API design principles
+- [Security Standards](MODERN_SECURITY_STANDARDS.md) - Security requirements

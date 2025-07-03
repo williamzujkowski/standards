@@ -34,9 +34,11 @@ It aims to ensure consistency, quality, and maintainability across all related i
 This standard is fully mapped to NIST 800-53r5 controls. Look for `@nist` tags throughout.
 
 For implementation guidance:
-- **Quick Start**: [NIST_IMPLEMENTATION_GUIDE.md](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md)
+
+- **Quick Start**: [NIST_IMPLEMENTATION_GUIDE.md](../nist/NIST_IMPLEMENTATION_GUIDE.md)
 - **Detailed Standards**: [COMPLIANCE_STANDARDS.md](COMPLIANCE_STANDARDS.md)
-- **Control Reference**: [Quick Reference](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md#tagging-quick-reference)
+- **Control Reference**:
+  [Quick Reference](../nist/NIST_IMPLEMENTATION_GUIDE.md#tagging-quick-reference)
 
 ## 1. Zero Trust Architecture
 
@@ -45,6 +47,7 @@ For implementation guidance:
 ### 1.1 Zero Trust Principles
 
 #### Core Tenets **[REQUIRED]**
+
 ```yaml
 # Zero Trust Policy Configuration
 zero_trust_policy:
@@ -76,6 +79,7 @@ zero_trust_policy:
 ```
 
 #### Implementation Framework **[REQUIRED]**
+
 ```python
 # Zero Trust Access Control Framework
 # @nist ac-3 "Access enforcement implementation"
@@ -319,6 +323,7 @@ def setup_zero_trust():
 ### 1.2 Network Micro-Segmentation
 
 #### Software-Defined Perimeters **[REQUIRED]**
+
 ```yaml
 # Kubernetes Network Policies for Micro-segmentation
 apiVersion: networking.k8s.io/v1
@@ -388,6 +393,7 @@ spec:
 ```
 
 #### Service Mesh Security **[REQUIRED]**
+
 ```yaml
 # Istio Authorization Policies
 apiVersion: security.istio.io/v1beta1
@@ -451,6 +457,7 @@ spec:
 ### 2.1 Software Bill of Materials (SBOM)
 
 #### SBOM Generation **[REQUIRED]**
+
 ```yaml
 # GitHub Actions workflow for SBOM generation
 name: Generate SBOM
@@ -505,6 +512,7 @@ jobs:
 ```
 
 #### Dependency Verification **[REQUIRED]**
+
 ```python
 # Supply chain verification system
 import hashlib
@@ -640,6 +648,7 @@ gradle_verification = """
 ### 2.2 Container Image Security
 
 #### Image Scanning Pipeline **[REQUIRED]**
+
 ```yaml
 # Container security scanning workflow
 name: Container Security Scan
@@ -703,7 +712,8 @@ jobs:
           COSIGN_EXPERIMENTAL: 1
 
       - name: Generate SLSA provenance
-        uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v1.7.0
+        uses: slsa-framework/slsa-github-generator/\
+              .github/workflows/generator_container_slsa3.yml@v1.7.0
         with:
           image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           digest: ${{ steps.build.outputs.digest }}
@@ -718,6 +728,7 @@ jobs:
 ```
 
 #### Secure Container Configuration **[REQUIRED]**
+
 ```dockerfile
 # Secure Dockerfile example
 FROM node:18-alpine AS builder
@@ -776,6 +787,7 @@ CMD ["npm", "start"]
 ### 2.3 Code Signing and Attestation
 
 #### Sigstore Integration **[REQUIRED]**
+
 ```yaml
 # Sigstore signing workflow
 name: Sign and Attest
@@ -849,6 +861,7 @@ jobs:
 ### 3.1 Runtime Security
 
 #### Falco Security Monitoring **[REQUIRED]**
+
 ```yaml
 # Falco rules for runtime security
 - rule: Unexpected Network Traffic
@@ -910,6 +923,7 @@ jobs:
 ```
 
 #### Container Runtime Security **[REQUIRED]**
+
 ```yaml
 # gVisor runsc configuration
 apiVersion: node.k8s.io/v1
@@ -967,6 +981,7 @@ spec:
 ### 3.2 Pod Security Standards
 
 #### Pod Security Policies **[REQUIRED]**
+
 ```yaml
 # Pod Security Standards enforcement
 apiVersion: v1
@@ -1022,6 +1037,7 @@ volumes:
 ```
 
 #### Admission Controllers **[REQUIRED]**
+
 ```yaml
 # Open Policy Agent (OPA) Gatekeeper policies
 apiVersion: templates.gatekeeper.sh/v1beta1
@@ -1084,6 +1100,7 @@ spec:
 ### 3.3 Network Security
 
 #### Network Policies **[REQUIRED]**
+
 ```yaml
 # Default deny-all network policy
 apiVersion: networking.k8s.io/v1
@@ -1154,6 +1171,7 @@ spec:
 ### 4.1 API Gateway Security
 
 #### Rate Limiting and Throttling **[REQUIRED]**
+
 ```yaml
 # Kong API Gateway rate limiting
 apiVersion: configuration.konghq.com/v1
@@ -1191,6 +1209,7 @@ spec:
 ```
 
 #### API Authentication and Authorization **[REQUIRED]**
+
 ```python
 # FastAPI security implementation
 # @nist ia-2 "API authentication"
@@ -1379,6 +1398,7 @@ async def add_security_headers(request, call_next):
 ### 4.2 API Vulnerability Testing
 
 #### Automated Security Testing **[REQUIRED]**
+
 ```python
 # API security testing with OWASP ZAP
 import zapv2
@@ -1593,6 +1613,7 @@ if __name__ == "__main__":
 ### 5.1 Security in CI/CD Pipeline
 
 #### Comprehensive Security Pipeline **[REQUIRED]**
+
 ```yaml
 # .github/workflows/devsecops.yml
 name: DevSecOps Pipeline
@@ -1769,7 +1790,8 @@ jobs:
       # Kubernetes security scanning
       - name: Run Kubesec
         run: |
-          curl -sSL https://github.com/controlplaneio/kubesec/releases/latest/download/kubesec_linux_amd64.tar.gz | tar xz
+          curl -sSL https://github.com/controlplaneio/kubesec/releases/latest/\
+download/kubesec_linux_amd64.tar.gz | tar xz
           ./kubesec scan k8s/*.yaml
 
       # Cloud formation security
@@ -1832,7 +1854,8 @@ jobs:
           echo "- Static Analysis: ${{ needs.static-analysis.result }}" >> security-report.md
           echo "- Dependency Scan: ${{ needs.dependency-security.result }}" >> security-report.md
           echo "- Container Scan: ${{ needs.container-security.result }}" >> security-report.md
-          echo "- Infrastructure Scan: ${{ needs.infrastructure-security.result }}" >> security-report.md
+          echo "- Infrastructure Scan: ${{ needs.infrastructure-security.result }}" \
+            >> security-report.md
 
       - name: Upload Security Report
         uses: actions/upload-artifact@v3
@@ -1854,6 +1877,7 @@ jobs:
 ### 5.2 Security Gates and Policies
 
 #### Policy as Code **[REQUIRED]**
+
 ```python
 # Security policy engine
 from abc import ABC, abstractmethod
@@ -1916,7 +1940,8 @@ class CriticalVulnerabilityPolicy(SecurityPolicy):
                         file_path=v.get('file_path', 'package.json'),
                         line_number=None,
                         evidence=v['cve_id'],
-                        remediation=f"Update {v['package']} to version {v.get('fixed_version', 'latest')}"
+                        remediation=f"Update {v['package']} to version "
+                                   f"{v.get('fixed_version', 'latest')}"
                     ) for v in critical_deps
                 ]
             ))
@@ -1976,7 +2001,8 @@ class SecretsPolicy(SecurityPolicy):
                         file_path=finding['file'],
                         line_number=finding.get('line', None),
                         evidence=finding['match'][:50] + "...",
-                        remediation="Remove secret and use environment variables or secret management"
+                        remediation="Remove secret and use environment "
+                                   "variables or secret management"
                     ) for finding in secret_findings
                 ]
             ))
@@ -2090,7 +2116,8 @@ def main():
     evaluation_result = policy_engine.evaluate_all_policies(scan_results)
 
     # Output results
-    print(f"Policy evaluation: {'PASSED' if evaluation_result['policy_evaluation_passed'] else 'FAILED'}")
+    print(f"Policy evaluation: "
+          f"{'PASSED' if evaluation_result['policy_evaluation_passed'] else 'FAILED'}")
     print(f"Critical violations: {evaluation_result['critical_violations']}")
     print(f"High violations: {evaluation_result['high_violations']}")
 
@@ -2111,6 +2138,7 @@ if __name__ == "__main__":
 ## Implementation Checklist
 
 ### Zero Trust Architecture
+
 - [ ] Identity verification policies implemented
 - [ ] Network micro-segmentation configured
 - [ ] Risk-based access controls deployed
@@ -2118,6 +2146,7 @@ if __name__ == "__main__":
 - [ ] Policy engine operational
 
 ### Supply Chain Security
+
 - [ ] SBOM generation automated
 - [ ] Dependency verification enabled
 - [ ] Container signing implemented
@@ -2125,6 +2154,7 @@ if __name__ == "__main__":
 - [ ] Attestation pipeline configured
 
 ### Container Security
+
 - [ ] Runtime security monitoring active
 - [ ] Pod security standards enforced
 - [ ] Network policies configured
@@ -2132,6 +2162,7 @@ if __name__ == "__main__":
 - [ ] Image scanning automated
 
 ### API Security
+
 - [ ] Authentication and authorization implemented
 - [ ] Rate limiting configured
 - [ ] Input validation comprehensive
@@ -2139,6 +2170,7 @@ if __name__ == "__main__":
 - [ ] Vulnerability testing automated
 
 ### DevSecOps Integration
+
 - [ ] Security pipeline implemented
 - [ ] Policy as code deployed
 - [ ] Security gates configured
@@ -2146,6 +2178,7 @@ if __name__ == "__main__":
 - [ ] Compliance monitoring active
 
 ### Incident Response
+
 - [ ] Response procedures documented
 - [ ] Forensics capabilities ready
 - [ ] Communication plans established
