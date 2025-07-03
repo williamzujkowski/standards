@@ -40,8 +40,9 @@ It aims to ensure consistency, quality, and maintainability across all related i
 
 ### 1. Hypothesis Tests for Behavior Validation
 
-```
-When implementing a new feature or function, create hypothesis tests that validate expected behaviors:
+```text
+When implementing a new feature or function, create hypothesis tests that
+validate expected behaviors:
 
 1. For each function, identify the core hypothesis of what it should accomplish
 2. Write tests that:
@@ -73,7 +74,7 @@ def test_user_authentication_valid_credentials():
 
 ### 2. Regression Tests for Known Fail States
 
-```
+```text
 When fixing bugs or addressing edge cases, always create regression tests:
 
 1. For each bug fix, create a test that:
@@ -109,7 +110,7 @@ def test_calculation_with_zero_division_protection():
 
 ### 3. Benchmark Tests with SLA Enforcement
 
-```
+```text
 Implement benchmark tests that enforce Service Level Agreements (SLAs):
 
 1. Define clear performance metrics for your system:
@@ -165,8 +166,9 @@ def test_api_response_time_sla():
 
 ### 4. Grammatical Evolution (GE) for Fuzzing + Edge Discovery
 
-```
-Implement Grammatical Evolution (GE) for advanced fuzzing and edge case discovery:
+```text
+Implement Grammatical Evolution (GE) for advanced fuzzing and edge case
+discovery:
 
 1. Define a grammar that represents valid inputs for your system:
    - Create BNF (Backus-Naur Form) or similar grammar definition
@@ -213,16 +215,17 @@ def test_with_grammatical_evolution():
     edge_cases = results.filter(lambda r: r.status == 'failure')
 
     # Assert
-    assert not edge_cases.has_critical_failures(), f"Critical failures found: {edge_cases.critical_failures}"
+    assert not edge_cases.has_critical_failures(), \
+        f"Critical failures found: {edge_cases.critical_failures}"
 
-    # Add discovered edge cases to regression suite
+        # Add discovered edge cases to regression suite
     for case in edge_cases:
         add_to_regression_suite(case)
 ```
 
 ### 5. Structured Logs for Agent Feedback
 
-```
+```text
 Implement structured logging for comprehensive agent feedback:
 
 1. Design a structured logging system that captures:
@@ -283,7 +286,7 @@ def test_agent_logging_completeness():
 
 ### 6. Code Coverage Requirements
 
-```
+```text
 Implement comprehensive code coverage standards in your testing:
 
 1. Establish minimum code coverage thresholds:
@@ -333,7 +336,7 @@ def test_coverage_critical_components():
 
 ### 7. Static Analysis Rules
 
-```
+```text
 Implement static analysis rules to catch issues before runtime:
 
 1. Configure linters and static analyzers with appropriate rules:
@@ -390,7 +393,7 @@ repos:
 
 ### 8. Contract Testing Framework
 
-```
+```text
 Implement contract testing to verify interface stability between components:
 
 1. Define explicit contracts for all service interfaces:
@@ -443,7 +446,7 @@ def test_user_service_contract():
 
 ### 9. Mutation Testing Guidelines
 
-```
+```text
 Implement mutation testing to verify test quality:
 
 1. Apply systematic code mutations to verify test effectiveness:
@@ -498,12 +501,13 @@ def test_mutation_score():
     # Verify critical components
     for component in CRITICAL_COMPONENTS:
         component_score = stats["component_scores"].get(component, 0)
-        assert component_score >= 90, f"Critical component {component} has insufficient mutation score: {component_score}%"
+        assert component_score >= 90, \
+            f"Critical component {component} has insufficient mutation score: {component_score}%"
 ```
 
 ### 10. Property-Based Testing Framework
 
-```
+```text
 Implement property-based testing to discover edge cases:
 
 1. Define invariant properties your code must satisfy:
@@ -568,7 +572,7 @@ def test_serialization_roundtrip(data):
 
 <!-- @nist-controls: [si-10, si-11, ac-3, ac-6, ia-2, sc-8, sc-13, au-2] -->
 
-```
+```text
 Implement comprehensive security testing practices:
 
 1. Apply security testing at multiple levels:
@@ -642,8 +646,9 @@ def test_authorization_controls():
 
 ### 12. Resilience Testing Framework
 
-```
-Implement resilience testing to verify system stability under adverse conditions:
+```text
+Implement resilience testing to verify system stability under adverse
+conditions:
 
 1. Design chaos engineering experiments:
    - Service/dependency failures
@@ -714,7 +719,7 @@ def test_resilience_to_database_failure():
 
 ### 13. Documentation Testing
 
-```
+```text
 Implement documentation testing to ensure accuracy and reliability:
 
 1. Test all code examples in documentation:
@@ -786,12 +791,13 @@ def test_api_documentation_completeness():
         actual_params = get_endpoint_parameters(endpoint)
         documented_params = get_documented_parameters(endpoint)
         assert set(actual_params) == set(documented_params), \
-            f"Parameter mismatch for {endpoint}: actual {actual_params}, documented {documented_params}"
+            f"Parameter mismatch for {endpoint}: actual {actual_params}, " \
+            f"documented {documented_params}"
 ```
 
 ### 14. Integration Testing Patterns
 
-```
+```text
 Implement robust integration testing patterns:
 
 1. Define integration boundaries explicitly:
@@ -875,8 +881,9 @@ def test_user_registration_end_to_end():
 
 ### 15. Testability Guidelines
 
-```
-Implement testability guidelines to ensure code is designed for effective testing:
+```text
+Implement testability guidelines to ensure code is designed for effective
+testing:
 
 1. Design for testability:
    - Use dependency injection
@@ -960,7 +967,7 @@ def test_process_data_special_case():
 
 ## Master Prompt for Test Suite Generation
 
-```
+```text
 Generate a comprehensive test suite for this code that follows the Complete Testing Manifesto:
 
 1. Core Testing Principles:
@@ -992,7 +999,8 @@ For each test:
 - Write explicit assertions with descriptive failure messages
 - Categorize appropriately (unit, integration, security, etc.)
 
-The test suite should be maintainable, provide fast feedback, and serve as living documentation of the system's behavior and constraints.
+The test suite should be maintainable, provide fast feedback, and serve as
+living documentation of the system's behavior and constraints.
 
 ## Implementation
 
@@ -1014,5 +1022,6 @@ The test suite should be maintainable, provide fast feedback, and serve as livin
 ## Related Standards
 
 - [Knowledge Management Standards](KNOWLEDGE_MANAGEMENT_STANDARDS.md) - Documentation practices
-- [CREATING_STANDARDS_GUIDE.md](./docs/guides/CREATING_STANDARDS_GUIDE.md) - Standards creation guide
+- [CREATING_STANDARDS_GUIDE.md](../guides/CREATING_STANDARDS_GUIDE.md) - Standards creation guide
 - [COMPLIANCE_STANDARDS.md](COMPLIANCE_STANDARDS.md) - NIST compliance testing requirements
+- [Model Context Protocol Standards](MODEL_CONTEXT_PROTOCOL_STANDARDS.md) - MCP testing patterns

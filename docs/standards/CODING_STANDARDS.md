@@ -31,11 +31,13 @@
 This standard provides comprehensive guidelines and best practices for the subject area.
 It aims to ensure consistency, quality, and maintainability across all related implementations.
 
-Beyond testing, establishing clear coding standards is essential for maintaining high-quality, consistent, and maintainable software. Here's a comprehensive set of coding standards you should provide for LLM coding projects:
+Beyond testing, establishing clear coding standards is essential for maintaining
+high-quality, consistent, and maintainable software. Here's a comprehensive set
+of coding standards you should provide for LLM coding projects:
 
 ## 1. Code Style and Formatting
 
-```
+```text
 Implement consistent code style and formatting:
 
 1. Follow established style guides for your language:
@@ -77,7 +79,7 @@ Implement consistent code style and formatting:
 
 ## 2. Documentation Standards
 
-```
+```text
 Implement comprehensive documentation standards:
 
 1. Include documentation for all public interfaces:
@@ -117,7 +119,7 @@ Implement comprehensive documentation standards:
 
 ## 3. Architecture and Design Patterns
 
-```
+```text
 Implement architectural standards and design patterns:
 
 1. Establish clear architectural boundaries:
@@ -158,7 +160,7 @@ Implement architectural standards and design patterns:
 
 ## 4. Security Best Practices
 
-```
+```text
 Implement security best practices in all code:
 
 1. Apply input validation:
@@ -215,6 +217,7 @@ def check_permissions(user: User, resource: Resource) -> bool:
 ```
 
 **Common Security Pattern → NIST Control Mappings:**
+
 - Authentication code → `@nist ia-2`, `@nist ia-5`
 - Authorization logic → `@nist ac-3`, `@nist ac-6`
 - Password handling → `@nist ia-5`, `@nist ia-5.1`
@@ -224,7 +227,8 @@ def check_permissions(user: User, resource: Resource) -> bool:
 - Input validation → `@nist si-10`
 - Error handling → `@nist si-11`
 
-See [NIST_IMPLEMENTATION_GUIDE.md](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md) for:
+See [NIST_IMPLEMENTATION_GUIDE.md](../nist/NIST_IMPLEMENTATION_GUIDE.md) for:
+
 - Complete control mappings
 - Language-specific syntax
 - Automated tooling
@@ -232,7 +236,7 @@ See [NIST_IMPLEMENTATION_GUIDE.md](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md) for
 
 ## 5. Performance Optimization
 
-```
+```text
 Implement performance standards:
 
 1. Establish performance targets:
@@ -273,7 +277,7 @@ Implement performance standards:
 
 ## 6. Error Handling
 
-```
+```text
 Implement robust error handling standards:
 
 1. Define error handling strategy:
@@ -314,7 +318,7 @@ Implement robust error handling standards:
 
 ## 7. Resource Management
 
-```
+```text
 Implement effective resource management:
 
 1. Apply proper resource lifecycle management:
@@ -355,7 +359,7 @@ Implement effective resource management:
 
 ## 8. Dependency Management
 
-```
+```text
 Implement dependency management standards:
 
 1. Define dependency selection criteria:
@@ -396,7 +400,7 @@ Implement dependency management standards:
 
 ## 9. Version Control Practices
 
-```
+```text
 Implement effective version control standards:
 
 1. Define branch management strategy:
@@ -437,7 +441,7 @@ Implement effective version control standards:
 
 ## 10. Code Review Standards
 
-```
+```text
 Implement comprehensive code review standards:
 
 1. Define review scope:
@@ -478,7 +482,7 @@ Implement comprehensive code review standards:
 
 ## 11. Accessibility Standards
 
-```
+```text
 Implement accessibility standards:
 
 1. Apply semantic structure:
@@ -519,7 +523,7 @@ Implement accessibility standards:
 
 ## 12. Internationalization & Localization
 
-```
+```text
 Implement internationalization and localization standards:
 
 1. Apply proper text externalization:
@@ -560,7 +564,7 @@ Implement internationalization and localization standards:
 
 ## 13. Concurrency and Parallelism
 
-```
+```text
 Implement standards for concurrent and parallel code:
 
 1. Define concurrency models:
@@ -601,7 +605,7 @@ Implement standards for concurrent and parallel code:
 
 ## 14. API Design
 
-```
+```text
 Implement API design standards:
 
 1. Apply API design principles:
@@ -642,7 +646,7 @@ Implement API design standards:
 
 ## 15. Refactoring Guidelines
 
-```
+```text
 Implement refactoring standards:
 
 1. Define refactoring triggers:
@@ -683,7 +687,7 @@ Implement refactoring standards:
 
 ## 16. Sustainability and Green Coding
 
-```
+```text
 Implement standards for sustainable and eco-friendly code:
 
 1. Optimize resource efficiency:
@@ -724,7 +728,7 @@ Implement standards for sustainable and eco-friendly code:
 
 ## Master Prompt for Coding Standards Implementation
 
-```
+```text
 Generate code following these comprehensive coding standards:
 
 1. Style and Structure:
@@ -755,7 +759,9 @@ Generate code following these comprehensive coding standards:
    - Implement accessibility standards
    - Design for extensibility
 
-The code should be robust, efficient, secure, and maintainable. It should follow all applicable industry best practices and demonstrate a high level of craftsmanship.
+The code should be robust, efficient, secure, and maintainable. It should
+follow all applicable industry best practices and demonstrate a high level of
+craftsmanship.
 
 ## Implementation
 
@@ -777,5 +783,6 @@ The code should be robust, efficient, secure, and maintainable. It should follow
 ## Related Standards
 
 - [Knowledge Management Standards](KNOWLEDGE_MANAGEMENT_STANDARDS.md) - Documentation standards
-- [CREATING_STANDARDS_GUIDE.md](./docs/guides/CREATING_STANDARDS_GUIDE.md) - How to create standards
+- [CREATING_STANDARDS_GUIDE.md](../guides/CREATING_STANDARDS_GUIDE.md) - How to create standards
 - [COMPLIANCE_STANDARDS.md](COMPLIANCE_STANDARDS.md) - NIST compliance for secure coding
+- [Model Context Protocol Standards](MODEL_CONTEXT_PROTOCOL_STANDARDS.md) - MCP implementation patterns

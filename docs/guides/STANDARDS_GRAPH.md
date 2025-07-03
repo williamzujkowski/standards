@@ -52,6 +52,16 @@ DE:streaming → requires → EVT:kafka + CS:async
 DE:warehouse → requires → CS:sql + DE:modeling
 ```
 
+### MCP Dependencies
+```
+MCP:server → requires → CS:api + SEC:auth + CS:patterns
+MCP:client → requires → MCP:server + CS:error-handling
+MCP:tools → requires → MCP:server + CS:validation
+MCP:resources → requires → MCP:server + CS:patterns
+MCP:security → requires → SEC:auth + SEC:validation + LEG:privacy
+MCP:* → recommends → EVT:patterns + TS:integration + KM:progressive-disclosure
+```
+
 ## Complementary Standards
 
 ### When Using X, Also Consider Y
@@ -61,6 +71,8 @@ CN:kubernetes → consider → OBS:* + SEC:container + COST:k8s
 FE:* → consider → WD:* + SEO:technical + CS:performance
 DE:* → consider → LEG:privacy + SEC:encryption + TS:data
 PM:agile → consider → CS:architecture + TS:tdd + DOP:cicd
+MCP:server → consider → SEC:* + OBS:monitoring + CS:performance
+MCP:client → consider → CS:caching + TS:integration + OBS:metrics
 ```
 
 ## Progressive Enhancement Paths
@@ -130,6 +142,14 @@ Core: [CN:microservices + CS:api + EVT:*]
 Infrastructure: [CN:kubernetes + CN:service-mesh + DOP:gitops]
 Observability: [OBS:distributed + OBS:tracing + OBS:metrics]
 Reliability: [TS:chaos + CN:circuit-breaker + OBS:slo]
+```
+
+### AI Integration Platform
+```cluster
+Core: [MCP:* + CS:api + SEC:auth]
+Server: [MCP:server + MCP:security + OBS:monitoring]
+Client: [MCP:client + MCP:tools + CS:caching]
+Testing: [TS:integration + TS:performance + MCP:testing]
 ```
 
 ## Usage Examples

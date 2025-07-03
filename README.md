@@ -3,7 +3,7 @@
 **Battle-tested standards for modern software development with AI-powered kickstart and NIST 800-53r5 compliance**
 
 [![Version](https://img.shields.io/badge/version-latest-blue.svg)](https://github.com/williamzujkowski/standards)
-[![Standards](https://img.shields.io/badge/standards-23%20documents-green.svg)](https://github.com/williamzujkowski/standards)
+[![Standards](https://img.shields.io/badge/standards-24%20documents-green.svg)](https://github.com/williamzujkowski/standards)
 [![License](https://img.shields.io/badge/license-MIT-purple.svg)](LICENSE)
 [![Compliance](https://github.com/williamzujkowski/standards/actions/workflows/standards-compliance.yml/badge.svg)](https://github.com/williamzujkowski/standards/actions/workflows/standards-compliance.yml)
 [![NIST](https://img.shields.io/badge/NIST%20800--53r5-Compliant-brightgreen.svg)](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md)
@@ -78,8 +78,8 @@ Use our token-optimized loading system:
 
 ## 📚 What's Included
 
-### **23 Comprehensive Standards Documents**
-Complete coverage of modern software development practices from coding to deployment, security to compliance.
+### **24 Comprehensive Standards Documents**
+Complete coverage of modern software development practices from coding to deployment, security to compliance, including AI integration via Model Context Protocol.
 
 ### **🔐 NIST 800-53r5 Compliance Suite**
 - **Control Tagging**: `@nist` annotations for security features
@@ -131,6 +131,7 @@ Complete coverage of modern software development practices from coding to deploy
 - **[DEVOPS_PLATFORM_STANDARDS.md](./docs/standards/DEVOPS_PLATFORM_STANDARDS.md)** - CI/CD & Infrastructure as Code
 - **[OBSERVABILITY_STANDARDS.md](./docs/standards/OBSERVABILITY_STANDARDS.md)** - Monitoring, logging, tracing
 - **[EVENT_DRIVEN_STANDARDS.md](./docs/standards/EVENT_DRIVEN_STANDARDS.md)** - Event architecture patterns
+- **[MODEL_CONTEXT_PROTOCOL_STANDARDS.md](./docs/standards/MODEL_CONTEXT_PROTOCOL_STANDARDS.md)** - MCP server/client implementation
 
 ### 📊 **Business & Compliance**
 - **[PROJECT_MANAGEMENT_STANDARDS.md](./docs/standards/PROJECT_MANAGEMENT_STANDARDS.md)** - Agile & team practices
@@ -203,7 +204,7 @@ Complete coverage of modern software development practices from coding to deploy
 
 ## 📊 Why These Standards?
 
-- **Comprehensive**: 23 documents covering all aspects of modern development
+- **Comprehensive**: 24 documents covering all aspects of modern development
 - **Battle-Tested**: Based on real-world projects and industry best practices
 - **AI-Optimized**: 90% token reduction for efficient LLM usage
 - **Compliance-Ready**: NIST 800-53r5 controls integrated throughout

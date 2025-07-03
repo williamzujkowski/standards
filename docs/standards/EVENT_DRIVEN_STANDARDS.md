@@ -43,6 +43,7 @@ event_driven_principles:
 ```
 
 ### 1.2 Event Types and Classification
+
 ```json
 {
   "event_types": {
@@ -127,6 +128,7 @@ event_driven_principles:
 ```
 
 ### 2.2 Schema Evolution **[REQUIRED]**
+
 ```typescript
 // Event versioning strategy
 interface EventVersioning {
@@ -173,6 +175,7 @@ interface OrderCreatedV2 {
 ## 3. Message Brokers and Queues
 
 ### 3.1 Apache Kafka Configuration **[REQUIRED]**
+
 ```yaml
 # Kafka topic configuration
 topics:
@@ -214,6 +217,7 @@ consumer:
 ```
 
 ### 3.2 RabbitMQ Configuration **[REQUIRED]**
+
 ```yaml
 # RabbitMQ exchange and queue setup
 exchanges:
@@ -252,6 +256,7 @@ bindings:
 ## 4. Event Sourcing Patterns
 
 ### 4.1 Event Store Implementation **[REQUIRED]**
+
 ```typescript
 // Event store interface
 interface EventStore {
@@ -384,6 +389,7 @@ class EventSourcedRepository<T> {
 ## 5. CQRS Implementation
 
 ### 5.1 Command and Query Separation **[REQUIRED]**
+
 ```typescript
 // Command side
 interface Command {
@@ -512,6 +518,7 @@ class OrderProjection {
 ## 6. Saga Patterns
 
 ### 6.1 Orchestration Saga **[REQUIRED]**
+
 ```typescript
 // Saga orchestrator
 abstract class Saga {
@@ -632,6 +639,7 @@ class SagaManager {
 ```
 
 ### 6.2 Choreography Saga **[REQUIRED]**
+
 ```typescript
 // Event-driven saga using choreography
 class OrderCreatedHandler {
@@ -708,6 +716,7 @@ class InventoryReservedHandler {
 ## 7. Event Processing and Analytics
 
 ### 7.1 Stream Processing **[REQUIRED]**
+
 ```typescript
 // Real-time event processing with Kafka Streams
 import { KafkaStreams } from 'kafka-streams';
@@ -825,6 +834,7 @@ class FraudDetectionPattern implements EventPattern {
 ## Implementation Checklist
 
 ### Event-Driven Architecture
+
 - [ ] Event schema standards defined
 - [ ] Message broker configured
 - [ ] Event versioning strategy implemented
@@ -832,6 +842,7 @@ class FraudDetectionPattern implements EventPattern {
 - [ ] Event replay capability implemented
 
 ### Event Sourcing
+
 - [ ] Event store implemented
 - [ ] Aggregate design patterns applied
 - [ ] Snapshot mechanism configured
@@ -839,6 +850,7 @@ class FraudDetectionPattern implements EventPattern {
 - [ ] Projection rebuild capability ready
 
 ### CQRS Implementation
+
 - [ ] Command and query separation clear
 - [ ] Read model projections implemented
 - [ ] Eventually consistent reads handled
@@ -846,6 +858,7 @@ class FraudDetectionPattern implements EventPattern {
 - [ ] Command validation comprehensive
 
 ### Saga Patterns
+
 - [ ] Orchestration sagas implemented
 - [ ] Choreography patterns defined
 - [ ] Compensation logic tested
@@ -853,11 +866,21 @@ class FraudDetectionPattern implements EventPattern {
 - [ ] Timeout and retry mechanisms ready
 
 ### Event Processing
+
 - [ ] Stream processing configured
 - [ ] Complex event patterns defined
 - [ ] Real-time analytics implemented
 - [ ] Event correlation working
 - [ ] Performance monitoring active
+
+---
+
+## Related Standards
+
+- [Coding Standards](CODING_STANDARDS.md) - Event-driven code patterns
+- [Observability Standards](OBSERVABILITY_STANDARDS.md) - Event monitoring and tracing
+- [Model Context Protocol Standards](MODEL_CONTEXT_PROTOCOL_STANDARDS.md) - Event-driven MCP patterns
+- [Data Engineering Standards](DATA_ENGINEERING_STANDARDS.md) - Event streaming infrastructure
 
 ---
 
