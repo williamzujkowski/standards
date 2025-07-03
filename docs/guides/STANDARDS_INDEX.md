@@ -1,33 +1,29 @@
 # Standards Quick Reference Index
+
 **Auto-generated from actual standards files for instant LLM access**
 
 *Last Updated: January 2025*
 
-This index provides quick summaries of all standards sections. Use the codes below with `@load` syntax for efficient access.
-
+This index provides quick summaries of all standards sections. Use the codes below with `@load` 
+syntax for efficient access.
 
 ## 🎯 Core Standards (CS)
 
-
 | Code | Section | Summary |
-
 |------|---------|---------|
 | `CS:overview` | Comprehensive Coding Standards for LLM Projects | Version: 1.0.0 Last Updated: 2025-01-13 Status: Active Standard Code: CS |
 | `CS:1-code-style-and-for` | 1. Code Style and Formatting | Implement consistent code style and formatting: 1. Follow established style guides for your language |
 | `CS:2-documentation-stan` | 2. Documentation Standards | Implement comprehensive documentation standards: 1. Include documentation for all public interfaces: |
-| `CS:3-architecture-and-d` | 3. Architecture and Design Patterns | Implement architectural standards and design patterns: 1. Establish clear architectural boundaries:  |
+| `CS:3-architecture-and-d` | 3. Architecture and Design Patterns | Implement architectural standards and design patterns: 1. Establish clear architectural boundaries |
 | `CS:4-security-best-prac` | 4. Security Best Practices | Implement security best practices in all code: 1. Apply input validation: Validate all user input at |
 | `CS:5-performance-optimi` | 5. Performance Optimization | Implement performance standards: 1. Establish performance targets: Define response time goals |
 | `CS:6-error-handling` | 6. Error Handling | Implement robust error handling standards: 1. Define error handling strategy: Distinguish between re |
 | `CS:7-resource-managemen` | 7. Resource Management | Implement effective resource management: 1. Apply proper resource lifecycle management: Acquire reso |
 | `CS:8-dependency-managem` | 8. Dependency Management | Implement dependency management standards: 1. Define dependency selection criteria: Evaluate license |
 
-
 ## 🔒 Security Standards (SEC)
 
-
 | Code | Section | Summary |
-
 |------|---------|---------|
 | `SEC:overview` | Modern Security Standards | Version: 1.0.0 Last Updated: January 2025 Status: Active Standard Code: SEC |
 | `SEC:nist-compliance-inte` | NIST Compliance Integration | This standard is fully mapped to NIST 800-53r5 controls. Look for `@nist` tags throughout. For imple |
@@ -37,29 +33,24 @@ This index provides quick summaries of all standards sections. Use the codes bel
 | `SEC:4-api-security` | 4. API Security | <!-- @nist-controls: [ac-3, ac-6, ia-2, ia-5, sc-8, sc-13, si-10, au-2] --> apiVersion: configuratio |
 | `SEC:5-devsecops-integrat` | 5. DevSecOps Integration | name: DevSecOps Pipeline on: push: |
 | `SEC:implementation-check` | Implementation Checklist | [ ] Identity verification policies implemented [ ] Network micro-segmentation configured [ ] Risk-ba |
-
+| `SEC:related-standards` | Related Standards | Coding Standards - Secure coding practices Testing Standards - Security testing requirements Model C |
 
 ## 🧪 Testing Standards (TS)
 
-
 | Code | Section | Summary |
-
 |------|---------|---------|
 | `TS:overview` | Comprehensive Testing Manifesto for LLM Coding Projects | Version: 1.0.0 Last Updated: 2025-01-13 Status: Active Standard Code: TS |
 | `TS:core-testing-princip` | Core Testing Principles | <!-- @nist-controls: [si-10, si-11, au-2, au-3] --> When implementing a new feature or function, cre |
-| `TS:quality-assurance-st` | Quality Assurance Standards | Implement comprehensive code coverage standards in your testing: 1. Establish minimum code coverage  |
+| `TS:quality-assurance-st` | Quality Assurance Standards | Implement comprehensive code coverage standards in your testing: 1. Establish minimum code coverage |
 | `TS:security-and-resilie` | Security and Resilience | <!-- @nist-controls: [si-10, si-11, ac-3, ac-6, ia-2, sc-8, sc-13, au-2] --> Implement comprehensive |
 | `TS:documentation-and-in` | Documentation and Integration | Implement documentation testing to ensure accuracy and reliability: 1. Test all code examples in doc |
 | `TS:master-prompt-for-te` | Master Prompt for Test Suite Generation | Generate a comprehensive test suite for this code that follows the Complete Testing Manifesto: 1. Co |
 | `TS:implementation` | Implementation | 1. Review the relevant sections of this standard for your use case 2. Identify which guidelines appl |
 | `TS:related-standards` | Related Standards | Knowledge Management Standards - Documentation practices CREATING_STANDARDS_GUIDE.md - Standards cre |
 
-
 ## 💻 Frontend Standards (FE)
 
-
 | Code | Section | Summary |
-
 |------|---------|---------|
 | `FE:overview` | Frontend and Mobile Development Standards | Version: 1.0.0 Last Updated: January 2025 Status: Active Standard Code: FE |
 | `FE:1-frontend-architect` | 1. Frontend Architecture Standards | frontend-app/ ├── public/ # Static assets │ ├── index.html |
@@ -70,12 +61,9 @@ This index provides quick summaries of all standards sections. Use the codes bel
 | `FE:6-mobile-development` | 6. Mobile Development Standards | mobile-app/ ├── src/ │ ├── components/ # Reusable components |
 | `FE:implementation-check` | Implementation Checklist | [ ] Project structure follows standards [ ] TypeScript configured with strict settings [ ] Build sys |
 
-
 ## ☁️ Cloud Native Standards (CN)
 
-
 | Code | Section | Summary |
-
 |------|---------|---------|
 | `CN:overview` | Cloud-Native and Container Standards | Version: 1.0.0 Last Updated: January 2025 Status: Active Standard Code: CN |
 | `CN:1-container-standard` | 1. Container Standards | FROM node:18-alpine AS builder WORKDIR /app COPY package*.json ./ |
@@ -87,12 +75,9 @@ This index provides quick summaries of all standards sections. Use the codes bel
 | `CN:7-cloud-native-secur` | 7. Cloud-Native Security | name: Run Trivy vulnerability scanner uses: aquasecurity/trivy-action@master with: |
 | `CN:8-monitoring-and-obs` | 8. Monitoring and Observability | apiVersion: monitoring.coreos.com/v1 kind: ServiceMonitor metadata: |
 
-
 ## 📊 Data Engineering (DE)
 
-
 | Code | Section | Summary |
-
 |------|---------|---------|
 | `DE:overview` | Data Engineering Standards | Version: 1.0.0 Last Updated: January 2025 Status: Active Standard Code: DE |
 | `DE:1-data-pipeline-stan` | 1. Data Pipeline Standards | class DataPipeline: """Base class for all data pipelines.""" def __init__(self, config: PipelineConf |
@@ -102,12 +87,9 @@ This index provides quick summaries of all standards sections. Use the codes bel
 | `DE:5-analytics-engineer` | 5. Analytics Engineering | analytics/ ├── dbt_project.yml ├── packages.yml |
 | `DE:implementation-check` | Implementation Checklist | [ ] ETL/ELT pipelines follow standard structure [ ] Error handling and retry logic implemented [ ] D |
 
-
 ## 🔧 DevOps Standards (DOP)
 
-
 | Code | Section | Summary |
-
 |------|---------|---------|
 | `DOP:overview` | DevOps and Platform Engineering Standards | Version: 1.0.0 Last Updated: January 2025 Status: Active Standard Code: DOP |
 | `DOP:1-infrastructure-as-` | 1. Infrastructure as Code (IaC) | terraform { required_version = ">= 1.5.0" required_providers { |
@@ -119,12 +101,9 @@ This index provides quick summaries of all standards sections. Use the codes bel
 | `DOP:7-configuration-mana` | 7. Configuration Management | apiVersion: v1 kind: ConfigMap metadata: |
 | `DOP:8-release-management` | 8. Release Management | name: Release on: push: |
 
-
 ## 📈 Observability (OBS)
 
-
 | Code | Section | Summary |
-
 |------|---------|---------|
 | `OBS:overview` | Observability and Monitoring Standards | Version: 1.0.0 Last Updated: January 2025 Status: Active Standard Code: OBS |
 | `OBS:1-observability-prin` | 1. Observability Principles | <!-- @nist-controls: [au-2, au-3, au-4, au-5, au-6, au-9, si-4] --> observability: strategy: "three_ |
@@ -135,12 +114,9 @@ This index provides quick summaries of all standards sections. Use the codes bel
 | `OBS:6-alerting-and-incid` | 6. Alerting and Incident Response | groups: name: SLO_Alerts rules: |
 | `OBS:implementation-check` | Implementation Checklist | [ ] OpenTelemetry instrumentation implemented [ ] Three pillars (metrics, logs, traces) configured [ |
 
-
 ## 💰 Cost Optimization (COST)
 
-
 | Code | Section | Summary |
-
 |------|---------|---------|
 | `COST:overview` | Cost Optimization and FinOps Standards | Version: 1.0.0 Last Updated: January 2025 Status: Active Standard Code: COST |
 | `COST:1-finops-principles-` | 1. FinOps Principles and Framework | finops_principles: collaboration: description: "Teams work together to optimize cloud costs" |
@@ -149,12 +125,9 @@ This index provides quick summaries of all standards sections. Use the codes bel
 | `COST:4-cost-monitoring-an` | 4. Cost Monitoring and Alerting | import numpy as np import pandas as pd from sklearn.ensemble import IsolationForest |
 | `COST:implementation-check` | Implementation Checklist | [ ] FinOps principles documented and communicated [ ] Cross-functional team established [ ] Roles an |
 
-
 ## 📚 Knowledge Management (KM)
 
-
 | Code | Section | Summary |
-
 |------|---------|---------|
 | `KM:overview` | Knowledge Management Standards | Version: 1.0.0 Last Updated: January 2025 Status: Active Standard Code: KM |
 | `KM:-table-of-contents` | 📋 Table of Contents | 1. Overview 2. Core Principles 3. Knowledge Architecture |
@@ -166,12 +139,23 @@ This index provides quick summaries of all standards sections. Use the codes bel
 | `KM:implementation` | Implementation | [Practical examples and patterns] |
 | `KM:references` | References | [Related documents and resources] Use explicit tags to indicate requirement levels: Must be implemen |
 
+## 🤖 Model Context Protocol (MCP)
+
+| Code | Section | Summary |
+|------|---------|---------|
+| `MCP:overview` | Model Context Protocol Standards | Version: 1.0.0 Last Updated: 2025-07-02 Status: Active Standard Code: MCP |
+| `MCP:-micro-summary-100-t` | 🎯 Micro Summary (100 tokens) | MCP enables AI assistants to interact with external services through: Servers: Expose tools/resource |
+| `MCP:core-principles` | Core Principles | Summary: Minimize token usage while preserving essential context Priority: Critical Token Estimate: |
+| `MCP:mcp-architecture-sta` | MCP Architecture Standards | Section Summary: Define modular server structure, manifest requirements, and transport options Token |
+| `MCP:server-implementatio` | Server Implementation Standards | Section Summary: Base server class, error handling patterns, and implementation examples Tokens: ~25 |
+| `MCP:client-integration-s` | Client Integration Standards | Section Summary: Client interface, connection management, and intelligent caching Tokens: ~2000 Pr |
+| `MCP:tool-development-sta` | Tool Development Standards | Section Summary: Tool structure, parameter validation, and concrete examples Tokens: ~2200 Priorit |
+| `MCP:resource-management-` | Resource Management Standards | Section Summary: Resource contracts, caching strategies, and common resource types Tokens: ~1800 P |
+| `MCP:security-and-privacy` | Security and Privacy Standards | Section Summary: Authentication, input validation, and privacy controls Tokens: ~2500 Priority: Cr |
 
 ## 🌐 Unified Standards (UNIFIED)
 
-
 | Code | Section | Summary |
-
 |------|---------|---------|
 | `UNIFIED:overview` | Unified Software Development Standards | Version: 1.0.0 Last Updated: January 2025 Status: Active Standard Code: UNIFIED |
 | `UNIFIED:1-introduction` | 1. Introduction | This document establishes comprehensive software development standards to ensure consistent, high-qu |
@@ -180,15 +164,12 @@ This index provides quick summaries of all standards sections. Use the codes bel
 | `UNIFIED:4-testing-standards` | 4. Testing Standards | Test individual components in isolation Fast execution (< 100ms per test) No external dependencies |
 | `UNIFIED:5-operational-standa` | 5. Operational Standards | 1. Trunk-Based Development (Recommended) Short-lived feature branches Frequent integration |
 | `UNIFIED:6-specialized-standa` | 6. Specialized Standards | 1. Resource-Oriented Nouns, not verbs Hierarchical structure |
-| `UNIFIED:7-implementation-gui` | 7. Implementation Guide | 1. Week 1-2: Establish tooling and automation 2. Week 3-4: Implement core standards 3. Month 2: Add  |
+| `UNIFIED:7-implementation-gui` | 7. Implementation Guide | 1. Week 1-2: Establish tooling and automation 2. Week 3-4: Implement core standards 3. Month 2: Add |
 | `UNIFIED:8-templates-and-chec` | 8. Templates and Checklists | [ ] Code does what it's supposed to do [ ] Edge cases handled [ ] Error handling appropriate |
-
 
 ## 🔐 Compliance Standards (COMPLIANCE)
 
-
 | Code | Section | Summary |
-
 |------|---------|---------|
 | `COMPLIANCE:overview` | Compliance Standards | Version: 1.0.0 Last Updated: 2025-01-18 Status: Active Standard Code: COMPLIANCE |
 | `COMPLIANCE:purpose` | Purpose | This document establishes standards for integrating NIST 800-53r5 security controls into our develop |
@@ -200,12 +181,9 @@ This index provides quick summaries of all standards sections. Use the codes bel
 | `COMPLIANCE:compliance-workflow` | Compliance Workflow | graph LR A[Write Code] --> B{Security Feature?} B -->|Yes| C[Add NIST Tags] |
 | `COMPLIANCE:llm-integration` | LLM Integration | When working with code that needs NIST tags, provide this context: You are helping tag code with NIS |
 
-
 ## 📋 Additional Standards
 
-
 | Code | Section | Summary |
-
 |------|---------|---------|
 | `PM:overview` | Project Management Standards | Version: 2.0.0 Last Updated: January 2025 Status: Active Standard Code: PM |
 | `PM:1-core-principles` | 1. Core Principles | core_principles: customer_focus: Deliver value early and continuously |
@@ -231,7 +209,7 @@ This index provides quick summaries of all standards sections. Use the codes bel
 | `WD:3-typography-and-con` | 3. Typography and Content Layout | // styles/typography.scss // Modular type scale (1.250 - Major Third) $type-scale-ratio: 1.250; |
 | `WD:4-color-systems-and-` | 4. Color Systems and Theming | // styles/colors.scss // Semantic color system with light/dark theme support // Brand colors |
 | `WD:5-component-design-s` | 5. Component Design Systems | // components/Button/Button.tsx import React, { forwardRef } from 'react'; import { clsx } from 'cls |
-| `WD:when-to-use` | When to use | Primary actions: Use primary buttons for the main action on a page Secondary actions: Use secondary  |
+| `WD:when-to-use` | When to use | Primary actions: Use primary buttons for the main action on a page Secondary actions: Use secondary |
 | `WD:accessibility` | Accessibility | All buttons must have accessible labels Use aria-label for icon-only buttons Ensure sufficient color |
 | `WD:6-interaction-and-an` | 6. Interaction and Animation | // styles/motion.scss // Consistent animation system based on Material Design // Duration scale |
 | `SEO:overview` | SEO & Web Marketing Standards | Version: 1.0.0 Last Updated: January 2025 Status: Active Standard Code: SEO |
@@ -247,7 +225,7 @@ This index provides quick summaries of all standards sections. Use the codes bel
 | `EVT:1-event-driven-desig` | 1. Event-Driven Design Principles | event_driven_principles: "Events as first-class citizens" "Loose coupling between services" |
 | `EVT:2-event-schema-and-c` | 2. Event Schema and Contracts | { "$schema": "http://json-schema.org/draft-07/schema#", "title": "CloudEvent Schema", |
 | `EVT:3-message-brokers-an` | 3. Message Brokers and Queues | topics: order-events: partitions: 12 |
-| `EVT:4-event-sourcing-pat` | 4. Event Sourcing Patterns | // Event store interface interface EventStore { saveEvents(streamId: string, events: DomainEvent[],  |
+| `EVT:4-event-sourcing-pat` | 4. Event Sourcing Patterns | // Event store interface interface EventStore { saveEvents(streamId: string, events: DomainEvent[], |
 | `EVT:5-cqrs-implementatio` | 5. CQRS Implementation | // Command side interface Command { readonly id: string; |
 | `EVT:6-saga-patterns` | 6. Saga Patterns | // Saga orchestrator abstract class Saga { protected state: SagaState = SagaState.NotStarted; |
 | `EVT:7-event-processing-a` | 7. Event Processing and Analytics | // Real-time event processing with Kafka Streams import { KafkaStreams } from 'kafka-streams'; class |
@@ -262,35 +240,23 @@ This index provides quick summaries of all standards sections. Use the codes bel
 | `GH:-contributing` | 🤝 Contributing | Please read CONTRIBUTING.md for details. |
 | `GH:-license` | 📝 License | This project is licensed under the MIT License - see LICENSE. |
 | `CONT:overview` | Content Standards | Version: 1.0.0 Last Updated: January 2025 Status: Active Standard Code: CONT |
-| `CONT:1-content-strategy-a` | 1. Content Strategy and Governance | content_strategy: mission: statement: "Deliver clear, helpful, and accessible content that empowers  |
+| `CONT:1-content-strategy-a` | 1. Content Strategy and Governance | content_strategy: mission: statement: "Deliver clear, helpful, and accessible content that empowers |
 | `CONT:2-writing-guidelines` | 2. Writing Guidelines | grammar_standards: sentence_structure: preferred: |
 | `CONT:title-h1` | Title (H1) | Clear, descriptive, and keyword-rich Maximum 60 characters for SEO Accurately represents content |
 | `CONT:content-patterns` | Content Patterns | 1. Problem Statement: What issue does this solve? 2. Prerequisites: What's needed before starting 3. |
 | `CONT:3-tone-and-voice` | 3. Tone and Voice | brand_voice: personality_traits: primary: |
-| `CONT:api-reference-templa` | API Reference Template | Description: Brief explanation of what this endpoint does Method: `GET | POST | PUT | DELETE` URL: ` |
+| `CONT:api-reference-templa` | API Reference Template | Description: Brief explanation of what this endpoint does Method: `GET POST PUT DELETE` URL: |
 | `CONT:feature-name` | Feature Name | Clear learning objectives Expected outcomes Time to complete |
 | `CONT:5-editorial-standard` | 5. Editorial Standards | verification_standards: information_sources: primary: |
 | `TOOL:overview` | Toolchain Standards | Version: 1.0.0 Last Updated: 2025-01-13 Status: Active Standard Code: TOOL |
 | `TOOL:purpose` | Purpose | This document provides centralized, standardized tool recommendations for all development activities |
-| `TOOL:tool-selection-guide` | Tool Selection Guidelines | Tools are categorized into five recommendation levels: | Level | Description | Action | |-------|--- |
+| `TOOL:tool-selection-guide` | Tool Selection Guidelines | Tools are categorized into five recommendation levels: Level Description Action |
 | `TOOL:language-specific-to` | Language-Specific Toolchains | Formatter: `black` (v23.0+) - The uncompromising code formatter Import Sorter: `isort` (v5.0+) - Imp |
-| `TOOL:infrastructure-tools` | Infrastructure Tools | Container Runtime: `docker` (v24.0+) or `podman` (v4.0+) Orchestration: `kubernetes` (v1.28+) with ` |
+| `TOOL:infrastructure-tools` | Infrastructure Tools | Container Runtime: `docker` (v24.0+) or `podman` (v4.0+) Orchestration: `kubernetes` (v1.28+) with |
 | `TOOL:security-scanning` | Security Scanning | 1. Dependency Scanning: `dependabot` (GitHub) or `renovate` 2. Container Scanning: `trivy` for all c |
 | `TOOL:observability-stack` | Observability Stack | Collection: `prometheus` (v2.45+) Visualization: `grafana` (v10.0+) Alerting: Prometheus Alertmanage |
 | `TOOL:tool-configuration` | Tool Configuration | All tool configurations should be centralized: project-root/ ├── pyproject.toml # Python tools (blac |
 | `TOOL:migration-paths` | Migration Paths | pip install ruff ruff check --fix . [tool.ruff] |
-| `MCP:overview` | Model Context Protocol Standards | Version: 1.0.0 Last Updated: 2025-07-02 Status: Active Standard Code: MCP |
-| `MCP:core-principles` | Core Principles | Context Efficiency, Standardized Communication, Progressive Loading |
-| `MCP:mcp-architecture-stan` | MCP Architecture Standards | Define modular server structure, manifest requirements, and transport options |
-| `MCP:server-implementation` | Server Implementation Standards | Base server class, error handling patterns, and implementation examples |
-| `MCP:client-integration` | Client Integration Standards | Client interface, connection management, and intelligent caching |
-| `MCP:tool-development` | Tool Development Standards | Tool structure, parameter validation, and concrete examples |
-| `MCP:resource-management` | Resource Management Standards | Resource contracts, caching strategies, and common resource types |
-| `MCP:security-and-privacy` | Security and Privacy Standards | Authentication, input validation, and privacy controls |
-| `MCP:testing-and-validation` | Testing and Validation | Test patterns, integration tests, and performance benchmarks |
-| `MCP:performance-guidelines` | Performance Guidelines | Performance targets and optimization strategies |
-| `MCP:implementation-check` | Implementation Checklist | [ ] Set up MCP server structure [ ] Implement base server class [ ] Add authentication mechanism |
-
 
 ## 🚀 Quick Loading Examples
 
@@ -310,8 +276,8 @@ This index provides quick summaries of all standards sections. Use the codes bel
 
 ## 📊 Statistics
 
-- **Total Standards**: 21 documents
-- **Total Sections**: 171+ specialized topics
+- **Total Standards**: 22 documents
+- **Total Sections**: 181+ specialized topics
 - **Quick Load Time**: <100ms per section
 - **Token Savings**: ~95% compared to full document loading
 

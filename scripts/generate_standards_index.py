@@ -30,6 +30,7 @@ STANDARD_CODES = {
     "UNIFIED_STANDARDS.md": "UNIFIED",
     "COMPLIANCE_STANDARDS.md": "COMPLIANCE",
     "KNOWLEDGE_MANAGEMENT_STANDARDS.md": "KM",
+    "MODEL_CONTEXT_PROTOCOL_STANDARDS.md": "MCP",
     "VALIDATION_PATTERNS.md": "VAL",
 }
 
@@ -55,6 +56,7 @@ CATEGORIES = {
     "UNIFIED": "🌐 Unified Standards",
     "COMPLIANCE": "🔐 Compliance Standards",
     "KM": "📚 Knowledge Management",
+    "MCP": "🤖 Model Context Protocol",
     "VAL": "✅ Validation Patterns",
 }
 
@@ -173,6 +175,7 @@ This index provides quick summaries of all standards sections. Use the codes bel
         "OBS",
         "COST",
         "KM",
+        "MCP",
         "UNIFIED",
         "COMPLIANCE",
     ]:
