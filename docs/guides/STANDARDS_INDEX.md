@@ -1,9 +1,11 @@
 # Standards Quick Reference Index
+
 **Auto-generated from actual standards files for instant LLM access**
 
 *Last Updated: January 2025*
 
-This index provides quick summaries of all standards sections. Use the codes below with `@load` syntax for efficient access.
+This index provides quick summaries of all standards sections. Use the codes below with `@load` syntax for
+efficient access.
 
 
 ## 🎯 Core Standards (CS)
@@ -13,10 +15,10 @@ This index provides quick summaries of all standards sections. Use the codes bel
 
 |------|---------|---------|
 | `CS:overview` | Comprehensive Coding Standards for LLM Projects | Version: 1.0.0 Last Updated: 2025-01-13 Status: Active Standard Code: CS |
-| `CS:1-code-style-and-for` | 1. Code Style and Formatting | Implement consistent code style and formatting: 1. Follow established style guides for your language |
-| `CS:2-documentation-stan` | 2. Documentation Standards | Implement comprehensive documentation standards: 1. Include documentation for all public interfaces: |
-| `CS:3-architecture-and-d` | 3. Architecture and Design Patterns | Implement architectural standards and design patterns: 1. Establish clear architectural boundaries:  |
-| `CS:4-security-best-prac` | 4. Security Best Practices | Implement security best practices in all code: 1. Apply input validation: Validate all user input at |
+| `CS:1-code-style-and-for` | 1. Code Style and Formatting | Implement consistent code style and formatting: 1. Follow established style guides |
+| `CS:2-documentation-stan` | 2. Documentation Standards | Implement comprehensive documentation standards: 1. Include documentation for all public interfaces |
+| `CS:3-architecture-and-d` | 3. Architecture and Design Patterns | Implement architectural standards and design patterns: 1. Establish clear architectural boundaries |
+| `CS:4-security-best-prac` | 4. Security Best Practices | Implement security best practices in all code: 1. Apply input validation: Validate all user input |
 | `CS:5-performance-optimi` | 5. Performance Optimization | Implement performance standards: 1. Establish performance targets: Define response time goals |
 | `CS:6-error-handling` | 6. Error Handling | Implement robust error handling standards: 1. Define error handling strategy: Distinguish between re |
 | `CS:7-resource-managemen` | 7. Resource Management | Implement effective resource management: 1. Apply proper resource lifecycle management: Acquire reso |
@@ -37,6 +39,7 @@ This index provides quick summaries of all standards sections. Use the codes bel
 | `SEC:4-api-security` | 4. API Security | <!-- @nist-controls: [ac-3, ac-6, ia-2, ia-5, sc-8, sc-13, si-10, au-2] --> apiVersion: configuratio |
 | `SEC:5-devsecops-integrat` | 5. DevSecOps Integration | name: DevSecOps Pipeline on: push: |
 | `SEC:implementation-check` | Implementation Checklist | [ ] Identity verification policies implemented [ ] Network micro-segmentation configured [ ] Risk-ba |
+| `SEC:related-standards` | Related Standards | Coding Standards - Secure coding practices Testing Standards - Security testing requirements Model C |
 
 
 ## 🧪 Testing Standards (TS)
@@ -95,7 +98,7 @@ This index provides quick summaries of all standards sections. Use the codes bel
 
 |------|---------|---------|
 | `DE:overview` | Data Engineering Standards | Version: 1.0.0 Last Updated: January 2025 Status: Active Standard Code: DE |
-| `DE:1-data-pipeline-stan` | 1. Data Pipeline Standards | class DataPipeline: """Base class for all data pipelines.""" def __init__(self, config: PipelineConf |
+| `DE:1-data-pipeline-stan` | 1. Data Pipeline Standards | class DataPipeline: **Base class for all data pipelines.** def **init**(self, config: PipelineConf |
 | `DE:2-data-quality-and-g` | 2. Data Quality and Governance | from abc import ABC, abstractmethod from dataclasses import dataclass from typing import List, Dict, |
 | `DE:3-data-storage-and-m` | 3. Data Storage and Modeling | Dimension table example CREATE TABLE dim_customers ( customer_key BIGINT IDENTITY(1,1) PRIMARY KEY, |
 | `DE:4-streaming-data-pro` | 4. Streaming Data Processing | topics: name: "customer.events.v1" partitions: 12 |
@@ -127,7 +130,7 @@ This index provides quick summaries of all standards sections. Use the codes bel
 
 |------|---------|---------|
 | `OBS:overview` | Observability and Monitoring Standards | Version: 1.0.0 Last Updated: January 2025 Status: Active Standard Code: OBS |
-| `OBS:1-observability-prin` | 1. Observability Principles | <!-- @nist-controls: [au-2, au-3, au-4, au-5, au-6, au-9, si-4] --> observability: strategy: "three_ |
+| `OBS:1-observability-prin` | 1. Observability Principles | <!-- @nist-controls: [au-2, au-3, au-4, au-5, au-6, au-9, si-4] --> observability: strategy: "three\_ |
 | `OBS:2-metrics-and-monito` | 2. Metrics and Monitoring | global: scrape_interval: 15s evaluation_interval: 15s |
 | `OBS:3-distributed-tracin` | 3. Distributed Tracing | apiVersion: v1 kind: ConfigMap metadata: |
 | `OBS:4-logging-standards` | 4. Logging Standards | <!-- @nist-controls: [au-2, au-3, au-4, au-5, au-6, au-9] --> import json import logging |
@@ -165,6 +168,23 @@ This index provides quick summaries of all standards sections. Use the codes bel
 | `KM:core-content` | Core Content | [Main knowledge sections] |
 | `KM:implementation` | Implementation | [Practical examples and patterns] |
 | `KM:references` | References | [Related documents and resources] Use explicit tags to indicate requirement levels: Must be implemen |
+
+
+## 🔌 Model Context Protocol (MCP)
+
+
+| Code | Section | Summary |
+
+|------|---------|---------|
+| `MCP:overview` | Model Context Protocol Standards | Version: 1.0.0 Last Updated: 2025-07-02 Status: Active Standard Code: MCP |
+| `MCP:-micro-summary-100-t` | 🎯 Micro Summary (100 tokens) | MCP enables AI assistants to interact with external services through: Servers: Expose tools/resource |
+| `MCP:core-principles` | Core Principles | Summary: Minimize token usage while preserving essential context Priority: Critical Token Estimate:  |
+| `MCP:mcp-architecture-sta` | MCP Architecture Standards | Section Summary: Define modular server structure, manifest requirements, and transport options Token |
+| `MCP:server-implementatio` | Server Implementation Standards | Section Summary: Base server class, error handling patterns, and implementation examples Tokens: ~25 |
+| `MCP:client-integration-s` | Client Integration Standards | Section Summary: Client interface, connection management, and intelligent caching Tokens: ~2000 | Pr |
+| `MCP:tool-development-sta` | Tool Development Standards | Section Summary: Tool structure, parameter validation, and concrete examples Tokens: ~2200 | Priorit |
+| `MCP:resource-management-` | Resource Management Standards | Section Summary: Resource contracts, caching strategies, and common resource types Tokens: ~1800 | P |
+| `MCP:security-and-privacy` | Security and Privacy Standards | Section Summary: Authentication, input validation, and privacy controls Tokens: ~2500 | Priority: Cr |
 
 
 ## 🌐 Unified Standards (UNIFIED)
@@ -279,17 +299,15 @@ This index provides quick summaries of all standards sections. Use the codes bel
 | `TOOL:observability-stack` | Observability Stack | Collection: `prometheus` (v2.45+) Visualization: `grafana` (v10.0+) Alerting: Prometheus Alertmanage |
 | `TOOL:tool-configuration` | Tool Configuration | All tool configurations should be centralized: project-root/ ├── pyproject.toml # Python tools (blac |
 | `TOOL:migration-paths` | Migration Paths | pip install ruff ruff check --fix . [tool.ruff] |
-| `MCP:overview` | Model Context Protocol Standards | Version: 1.0.0 Last Updated: 2025-07-02 Status: Active Standard Code: MCP |
-| `MCP:core-principles` | Core Principles | Context Efficiency, Standardized Communication, Progressive Loading |
-| `MCP:mcp-architecture-stan` | MCP Architecture Standards | Define modular server structure, manifest requirements, and transport options |
-| `MCP:server-implementation` | Server Implementation Standards | Base server class, error handling patterns, and implementation examples |
-| `MCP:client-integration` | Client Integration Standards | Client interface, connection management, and intelligent caching |
-| `MCP:tool-development` | Tool Development Standards | Tool structure, parameter validation, and concrete examples |
-| `MCP:resource-management` | Resource Management Standards | Resource contracts, caching strategies, and common resource types |
-| `MCP:security-and-privacy` | Security and Privacy Standards | Authentication, input validation, and privacy controls |
-| `MCP:testing-and-validation` | Testing and Validation | Test patterns, integration tests, and performance benchmarks |
-| `MCP:performance-guidelines` | Performance Guidelines | Performance targets and optimization strategies |
-| `MCP:implementation-check` | Implementation Checklist | [ ] Set up MCP server structure [ ] Implement base server class [ ] Add authentication mechanism |
+| `VAL:overview` | Interactive Validation Patterns | Version: 1.0.0 Last Updated: 2025-01-13 Status: Active Standard Code: VAL |
+| `VAL:purpose` | Purpose | Real-time, interactive validation patterns for checking code and configuration compliance against st |
+| `VAL:real-time-code-valid` | Real-time Code Validation | @validate code: def my_function(x): return x \* 2 |
+| `VAL:validation-contexts` | Validation Contexts | @validate endpoint: @app.route('/users/<id>', methods=['GET']) def get_user(id): |
+| `VAL:validation-levels` | Validation Levels | @validate-quick [code] check:[syntax + critical-security] @validate [code] against:[relevant-standar |
+| `VAL:batch-validation` | Batch Validation | @validate project:[path] standards:[CS:\* + TS:\* + SEC:\*] output:[report.md] |
+| `VAL:fix-generation-patte` | Fix Generation Patterns | Issue: Missing error handling @generate fix for:[specific-issue] in-context:[surrounding-code] @gene |
+| `VAL:ide-integration-patt` | IDE Integration Patterns | @validate on:[save] check:[style + critical-issues] auto-fix:[safe-formatting] |
+| `VAL:cicd-validation` | CI/CD Validation | @validate staged:[files] enforce:[CS:style + SEC:secrets + TS:broken-tests] block-if:[violations] |
 
 
 ## 🚀 Quick Loading Examples
@@ -310,8 +328,8 @@ This index provides quick summaries of all standards sections. Use the codes bel
 
 ## 📊 Statistics
 
-- **Total Standards**: 21 documents
-- **Total Sections**: 171+ specialized topics
+- **Total Standards**: 22 documents
+- **Total Sections**: 190+ specialized topics
 - **Quick Load Time**: <100ms per section
 - **Token Savings**: ~95% compared to full document loading
 

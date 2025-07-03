@@ -30,6 +30,7 @@ STANDARD_CODES = {
     "UNIFIED_STANDARDS.md": "UNIFIED",
     "COMPLIANCE_STANDARDS.md": "COMPLIANCE",
     "KNOWLEDGE_MANAGEMENT_STANDARDS.md": "KM",
+    "MODEL_CONTEXT_PROTOCOL_STANDARDS.md": "MCP",
     "VALIDATION_PATTERNS.md": "VAL",
 }
 
@@ -55,6 +56,7 @@ CATEGORIES = {
     "UNIFIED": "🌐 Unified Standards",
     "COMPLIANCE": "🔐 Compliance Standards",
     "KM": "📚 Knowledge Management",
+    "MCP": "🔌 Model Context Protocol",
     "VAL": "✅ Validation Patterns",
 }
 
@@ -123,7 +125,11 @@ This index provides quick summaries of all standards sections. Use the codes bel
     category_data = defaultdict(list)
 
     for filename, code in STANDARD_CODES.items():
-        filepath = standards_dir / filename
+        # Handle VALIDATION_PATTERNS.md which is in docs/guides/
+        if filename == "VALIDATION_PATTERNS.md":
+            filepath = Path("docs/guides") / filename
+        else:
+            filepath = standards_dir / filename
         if not filepath.exists():
             continue
 
@@ -173,6 +179,7 @@ This index provides quick summaries of all standards sections. Use the codes bel
         "OBS",
         "COST",
         "KM",
+        "MCP",
         "UNIFIED",
         "COMPLIANCE",
     ]:
