@@ -861,4 +861,13 @@ class FraudDetectionPattern implements EventPattern {
 
 ---
 
+## Related Standards
+
+- [Coding Standards](CODING_STANDARDS.md) - Event-driven code patterns
+- [Observability Standards](OBSERVABILITY_STANDARDS.md) - Event monitoring and tracing
+- [Model Context Protocol Standards](MODEL_CONTEXT_PROTOCOL_STANDARDS.md) - Event-driven MCP patterns
+- [Data Engineering Standards](DATA_ENGINEERING_STANDARDS.md) - Event streaming infrastructure
+
+---
+
 **End of Event-Driven Architecture Standards**

@@ -657,4 +657,6 @@ wc -w *.md | awk '{print $1/3 " tokens (est) - " $2}'
 
 ## Related Standards
 
-- [CONTRIBUTING.md](./docs/core/CONTRIBUTING.md) - Contributing guidelines
+- [CONTRIBUTING.md](../core/CONTRIBUTING.md) - Contributing guidelines
+- [Model Context Protocol Standards](MODEL_CONTEXT_PROTOCOL_STANDARDS.md) - Progressive loading patterns for MCP
+- [Content Standards](CONTENT_STANDARDS.md) - Content structuring guidelines

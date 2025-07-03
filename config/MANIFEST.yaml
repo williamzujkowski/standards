@@ -196,6 +196,7 @@ standards:
       overview:
         tokens: 500
         priority: "high"
+        description: "Frontend development principles"
       react:
         tokens: 2500
         priority: "high"
@@ -233,6 +234,7 @@ standards:
       overview:
         tokens: 500
         priority: "high"
+        description: "Cloud native principles and patterns"
       docker:
         tokens: 1800
         priority: "high"
@@ -699,6 +701,62 @@ standards:
       recommends: ["SEC:*", "CS:patterns"]
       complements: ["COMPLIANCE:tagging", "COMPLIANCE:patterns"]
 
+  # Model Context Protocol Standards
+  MCP:
+    identifier: "MCP"
+    full_name: "MODEL_CONTEXT_PROTOCOL_STANDARDS.md"
+    size: "100KB"
+    token_estimate: 27000
+    sections:
+      overview:
+        tokens: 500
+        priority: "critical"
+        description: "Introduction to Model Context Protocol"
+      core-principles:
+        tokens: 800
+        priority: "critical"
+        description: "Context efficiency and standardized communication"
+      architecture:
+        tokens: 1500
+        priority: "high"
+        description: "MCP server and client architecture"
+      server-implementation:
+        tokens: 2500
+        priority: "high"
+        description: "Server implementation patterns and base classes"
+      client-integration:
+        tokens: 2000
+        priority: "high"
+        description: "Client implementation and caching strategies"
+      tool-development:
+        tokens: 2200
+        priority: "high"
+        description: "Tool structure and implementation examples"
+      resource-management:
+        tokens: 1800
+        priority: "medium"
+        description: "Resource definitions and types"
+      security:
+        tokens: 2500
+        priority: "critical"
+        description: "Authentication, validation, and privacy"
+      testing:
+        tokens: 2000
+        priority: "high"
+        description: "Testing patterns and integration tests"
+      performance:
+        tokens: 1200
+        priority: "medium"
+        description: "Performance targets and optimization"
+      checklist:
+        tokens: 800
+        priority: "medium"
+        description: "Implementation phases and validation"
+    dependencies:
+      requires: ["CS:api", "SEC:auth"]
+      recommends: ["EVT:patterns", "TS:integration", "KM:progressive-disclosure"]
+      enhances: ["CS:patterns", "SEC:validation"]
+
 # Loading strategies based on use case
 loading_strategies:
   minimal:
@@ -753,6 +811,16 @@ profiles:
     sections: ["overview", "patterns", "examples", "checklist"]
     priority: "high"
 
+  mcp_development:
+    standards: ["MCP:*", "CS:patterns", "SEC:auth", "TS:integration"]
+    sections: ["overview", "architecture", "server-implementation", "security"]
+    priority: "high"
+
+  mcp_client:
+    standards: ["MCP:client-integration", "MCP:tools", "CS:api"]
+    sections: ["overview", "patterns", "examples"]
+    priority: "medium"
+
 # Caching configuration
 cache:
   default_ttl: 3600  # 1 hour
@@ -792,6 +860,7 @@ versioning:
     TOOL: "latest"  # Toolchain Standards
     COMPLIANCE: "latest"  # NIST Compliance Standards
     NIST-IG: "latest"  # NIST Implementation Guide
+    MCP: "latest"  # Model Context Protocol Standards
 
   # Version support policy
   support_policy:

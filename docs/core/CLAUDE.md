@@ -5,13 +5,15 @@
 **Version:** 3.0.0
 **Last Updated:** January 2025
 
-> 🚀 **New:** Use [KICKSTART_PROMPT.md](./docs/guides/KICKSTART_PROMPT.md) for instant project analysis and implementation guidance!
+> 🚀 **New:** Use [KICKSTART_PROMPT.md](./docs/guides/KICKSTART_PROMPT.md)  
+> for instant project analysis and implementation guidance!
 
 ---
 
 ## 🧠 Intelligent Context System
 
 ### Auto-Detection
+
 ```yaml
 context:
   detect: [language, framework, project-type]
@@ -20,7 +22,8 @@ context:
 ```
 
 ### Context-Aware Loading
-```
+
+```text
 @load context:[auto] + history:[recent] + related:[graph-expansion]
 ```
 
@@ -29,7 +32,8 @@ context:
 ## 📚 Enhanced Standards Library
 
 ### Smart Loading Syntax
-```
+
+```text
 # Basic Loading
 @load CS:api                    # Single section
 @load [CS:* + TS:* + SEC:*]    # Multiple standards
@@ -48,6 +52,7 @@ context:
 ```
 
 ### Natural Language Mappings
+
 | Query | Standards Loaded | Context |
 |-------|------------------|---------|
 | "How to start NIST compliance?" | `NIST-IG:quick-start` | Setup guide |
@@ -63,6 +68,10 @@ context:
 | "Unified overview" | `UNIFIED:* + CS:overview + TS:overview` | Quick reference |
 | "All standards overview" | `UNIFIED:comprehensive` | Complete reference |
 | "Microservices setup" | `CN:microservices + EVT:* + OBS:distributed` | Distributed systems |
+| "MCP server setup" | `MCP:server + CS:patterns + SEC:auth` | MCP server implementation |
+| "Build MCP tools" | `MCP:tools + CS:api + TS:integration` | MCP tool development |
+| "MCP security" | `MCP:security + SEC:auth + SEC:validation` | Secure MCP implementation |
+| "Model Context Protocol" | `MCP:* + CS:api + EVT:patterns` | Full MCP standards |
 | "CI/CD pipeline" | `DOP:cicd + GH:actions + TS:*` | Automation setup |
 | "GDPR compliance" | `LEG:privacy + SEC:encryption + CS:audit` | Privacy focus |
 | "NIST compliance" | `COMPLIANCE:* + nist:moderate + evidence:patterns` | NIST 800-53r5 |
@@ -84,6 +93,7 @@ context:
 | "GitHub best practices" | `GH:* + DOP:cicd + SEC:github` | GitHub usage |
 
 ### Tool Selection Queries
+
 | Query | Tools Loaded | Purpose |
 |-------|--------------|---------|
 | "Setup Python project" | `tools:[python:required]` | Essential Python tools |
@@ -97,6 +107,7 @@ context:
 ## 🎯 Intelligent Task Routing
 
 ### Task-Based Loading 2.0
+
 ```yaml
 bug_fix:
   load: [TS:regression + CS:error-handling]
@@ -120,6 +131,16 @@ performance:
   analyze: [bottlenecks, cost-drivers]
   optimize: [code, infrastructure, queries]
 
+mcp_server:
+  load: [MCP:server + MCP:security + CS:patterns]
+  generate: [server-skeleton, manifest, transport-layer]
+  validate: [mcp-compliance, security-measures]
+
+mcp_integration:
+  load: [MCP:client + MCP:tools + TS:integration]
+  suggest: [transport-options, caching-strategies]
+  generate: [client-wrapper, tool-definitions]
+
 compliance_check:
   load: [COMPLIANCE:* + nist:all + evidence:patterns]
   analyze: [control-coverage, implementation-gaps]
@@ -137,7 +158,8 @@ quick_reference:
 ## 🤖 AI-Powered Features
 
 ### Compliance Assistant
-```
+
+```text
 @analyze [code] → compliance-report
 @fix [violations] → automated-fixes
 @suggest [improvements] → enhancement-plan
@@ -145,14 +167,16 @@ quick_reference:
 ```
 
 ### Code Generation
-```
+
+```text
 @generate [component] following:[standards] with:[patterns]
 @create [test-suite] covering:[requirements] style:[team-preference]
 @scaffold [project] using:[standards + templates]
 ```
 
 ### Interactive Validation
-```
+
+```text
 @validate live:[true] show:[inline-hints] fix:[auto-safe]
 @check pr:[url] comment:[violations] suggest:[fixes]
 ```
@@ -162,14 +186,16 @@ quick_reference:
 ## 📊 Standards Intelligence
 
 ### Relationship Graph
-```
+
+```text
 @show dependencies for:[CS:api]
 @find related to:[SEC:auth]
 @suggest path from:[current] to:[target-maturity]
 ```
 
 ### Version Management
-```
+
+```text
 @load CS:api version:[latest]
 @migrate from:[old] to:[new] generate:[migration-script]
 @diff versions:[previous...latest] impact:[current-project]
@@ -179,7 +205,8 @@ quick_reference:
 ```
 
 ### Learning Paths
-```
+
+```text
 @show progression for:[testing-maturity]
 @recommend next:[based-on-current-usage]
 @generate training:[personalized-plan]
@@ -190,21 +217,24 @@ quick_reference:
 ## 🔧 Advanced Operations
 
 ### Multi-Modal Support
-```
+
+```text
 @visualize architecture:[current] highlight:[violations]
 @generate diagram:[component-relationships] style:[mermaid]
 @explain standard:[CS:patterns] format:[interactive-tutorial]
 ```
 
 ### Batch Operations
-```
+
+```text
 @fix-all type:[docstring] style:[google] preview:[true]
 @update standards:[CS:previous→latest] project-wide:[true]
 @enforce standards:[critical-only] auto-fix:[true]
 ```
 
 ### Custom Workflows
-```
+
+```text
 @define workflow:[pre-release]
   - validate:[SEC:* + TS:coverage]
   - generate:[changelog, release-notes]
@@ -217,14 +247,16 @@ quick_reference:
 ## 💡 Contextual Templates
 
 ### Smart Templates
-```
+
+```text
 @template [api-endpoint] context:[fastapi + auth + postgres]
 @template [react-component] patterns:[hooks + testing + accessibility]
 @template [data-pipeline] style:[airflow + dbt + quality-checks]
 ```
 
 ### Adaptive Examples
-```
+
+```text
 @example [error-handling] for:[current-language] level:[team-expertise]
 @show [best-practice] adapted-to:[project-patterns]
 ```
@@ -234,14 +266,16 @@ quick_reference:
 ## 🔍 Semantic Search
 
 ### Natural Queries
-```
+
+```text
 "How to handle errors properly" → CS:error-handling + examples
 "Security best practices" → SEC:* prioritized by relevance
 "Make code faster" → CS:performance + OBS:profiling + patterns
 ```
 
 ### Smart Suggestions
-```
+
+```text
 Based on your current file:
 - Consider adding: [error-handling]
 - Related standard: [SEC:validation]
@@ -253,13 +287,15 @@ Based on your current file:
 ## 📈 Analytics and Insights
 
 ### Compliance Tracking
-```
+
+```text
 @report compliance:[current] trend:[30-days] gaps:[highlighted]
 @track adoption:[team] standards:[all] frequency:[weekly]
 ```
 
 ### Usage Analytics
-```
+
+```text
 Most used standards: [CS:api, TS:unit, SEC:auth]
 Compliance score: 87% (+5% this month)
 Top violations: [missing-docstrings, test-coverage]
@@ -270,6 +306,7 @@ Top violations: [missing-docstrings, test-coverage]
 ## 🚀 Quick Actions
 
 ### One-Line Commands
+
 | Command | Action |
 |---------|--------|
 | `@quick security-check` | Run security validation |
@@ -283,7 +320,8 @@ Top violations: [missing-docstrings, test-coverage]
 ## 🔧 Tool Management
 
 ### Tool Selection
-```
+
+```text
 @load tools:[language:level] → Load tools by recommendation level
 @suggest tools:[category] → Get tool recommendations
 @compare tools:[tool1 vs tool2] → Compare tool options
@@ -291,7 +329,8 @@ Top violations: [missing-docstrings, test-coverage]
 ```
 
 ### Tool Catalog Access
-```
+
+```text
 @show tools:[python:all] → List all Python tools
 @show tools:[required] → Show all required tools
 @show tools:[security:recommended] → Recommended security tools
@@ -299,14 +338,16 @@ Top violations: [missing-docstrings, test-coverage]
 ```
 
 ### Tool Configuration
-```
+
+```text
 @generate config:[black + ruff + mypy] → Generate tool configs
 @setup toolchain:[python + recommended] → Complete setup
 @validate tools:[current] → Check tool compliance
 ```
 
 ### Examples
-```
+
+```text
 # Setup new Python project with modern tools
 @load tools:[python:required + python:recommended]
 @generate config:[all] in:[pyproject.toml]
@@ -325,14 +366,16 @@ Top violations: [missing-docstrings, test-coverage]
 ## 🧩 Integration Patterns
 
 ### IDE Integration
-```
+
+```text
 @integrate with:[vscode|intellij|vim]
 @configure realtime:[validation + hints + fixes]
 @sync settings:[team-wide]
 ```
 
 ### CI/CD Integration
-```
+
+```text
 @generate workflow:[github-actions|gitlab-ci|jenkins]
 @configure gates:[quality + security + coverage]
 @report to:[slack|email|dashboard]
@@ -343,7 +386,8 @@ Top violations: [missing-docstrings, test-coverage]
 ## 🔐 Security-First Defaults
 
 ### Automatic Security
-```
+
+```text
 When loading any standard:
 - Include relevant security sections
 - Validate against OWASP Top 10
@@ -356,7 +400,8 @@ When loading any standard:
 ## 💾 Cache Management
 
 ### Smart Caching Directives
-```
+
+```text
 # Cache for session
 @cache standards:[CS:api, SEC:auth] duration:[session]
 @cache frequently-used:[CS:*, TS:unit] duration:[24h]
@@ -372,7 +417,8 @@ When loading any standard:
 ```
 
 ### Conditional Loading
-```
+
+```text
 @if-cached CS:api use:[cache] else:[@load CS:api]
 @fetch-if-modified CS:api since:[last-check]
 @use-cached-or-micro CS:api  # Use cache, fallback to micro
@@ -383,7 +429,8 @@ When loading any standard:
 ## 🚀 Lazy Loading Syntax
 
 ### Progressive Loading
-```
+
+```text
 @peek CS:api  # First 100 tokens preview
 @summary CS:api  # AI-generated summary
 @toc CS:api  # Table of contents only
@@ -391,14 +438,16 @@ When loading any standard:
 ```
 
 ### Section-Based Loading
-```
+
+```text
 @lazy-load CS:api sections:[overview]  # Start minimal
 @expand CS:api add:[patterns]  # Add more sections
 @load-on-demand CS:api  # Load sections as referenced
 ```
 
 ### Smart Chunking
-```
+
+```text
 @chunk CS:api size:[1000-tokens]  # Load in chunks
 @stream CS:api  # Progressive streaming
 @load CS:api until:[token-limit:5000]  # Stop at limit
@@ -409,7 +458,8 @@ When loading any standard:
 ## 🔍 Real-Time Validation
 
 ### Remote Validation Endpoints
-```
+
+```text
 @validate-remote code:[snippet] against:[CS:python]
 @check-remote url:[github.com/user/repo] standards:[SEC:*]
 @lint-remote file:[path] rules:[CS:style + TS:coverage]
@@ -419,7 +469,8 @@ When loading any standard:
 ```
 
 ### Live Validation
-```
+
+```text
 @validate-live enabled:[true] standards:[current-context]
 @auto-fix-remote violations:[safe-only]
 @suggest-fixes show:[inline] confidence:[high]
@@ -430,14 +481,16 @@ When loading any standard:
 ## 📝 Memory and Learning
 
 ### Session Context
-```
+
+```text
 @remember preferences:[style, patterns, standards]
 @learn from:[corrections, choices, feedback]
 @adapt to:[team-conventions, project-patterns]
 ```
 
 ### Cross-Reference Learning
-```
+
+```text
 When you use: [pattern-A]
 Also consider: [related-pattern-B]
 Teams like yours use: [pattern-C]
@@ -450,11 +503,13 @@ Teams like yours use: [pattern-C]
 ### NIST 800-53r5 Control Tagging
 
 When asked about NIST compliance, automatically load:
-```
+
+```text
 @load NIST_IMPLEMENTATION_GUIDE.md + COMPLIANCE_STANDARDS.md + context:[nist-moderate]
 ```
 
 Quick commands:
+
 - `@nist suggest` - Get control suggestions for current code
 - `@nist validate` - Check existing tags
 - `@nist implement [control]` - Get implementation guidance
@@ -465,8 +520,10 @@ Quick commands:
 See [NIST_IMPLEMENTATION_GUIDE.md](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md) for the complete quick start.
 
 ### Automated NIST Tagging
+
 When writing security-related code, automatically suggest NIST controls:
-```
+
+```text
 # Quick Reference
 Authentication → @nist ia-2, ia-5
 Authorization → @nist ac-2, ac-3, ac-6
@@ -480,7 +537,8 @@ Error handling → @nist si-11
 ```
 
 ### Control Context Loading
-```
+
+```text
 @load compliance:nist-moderate  # Load moderate baseline controls
 @load nist:[ac-* + ia-* + sc-*]  # Load specific families
 @load evidence:[code + config + test]  # Load evidence patterns
@@ -488,21 +546,24 @@ Error handling → @nist si-11
 ```
 
 ### Automated Analysis
-```
+
+```text
 @analyze [codebase] against:[standards] output:[report|suggestions|fixes]
 @audit [pull-request] using:[CS:* + TS:* + SEC:*] flag:[violations|improvements]
 @suggest improvements for:[file|module] based-on:[relevant-standards]
 ```
 
 ### Fix Generation
-```
+
+```text
 @fix [violation-type] in:[code-context] following:[standard-section]
 @fix-all [violation-type] in:[directory|project]
 @generate migration-script from:[old-standard] to:[new-standard]
 ```
 
 ### CI/CD Integration
-```
+
+```text
 @validate pull-request:[PR-URL]
 @comment violations on:[specific-lines]
 @block commit if:[critical-violations]
@@ -513,6 +574,7 @@ Error handling → @nist si-11
 ## ⚡ Quick Reference (No Loading Required)
 
 ### Instant Answers
+
 | Question | Answer | Reference |
 |----------|---------|-----------|
 | "Python naming?" | `snake_case` functions, `PascalCase` classes | CS:python |
@@ -522,6 +584,7 @@ Error handling → @nist si-11
 | "API versioning?" | URL path: `/api/v1/`, `/api/v2/` | CS:api |
 
 ### Quick Numbers
+
 - Max function: 50 lines
 - Max file: 500 lines
 - Session timeout: 30 min activity
@@ -533,7 +596,8 @@ Error handling → @nist si-11
 ## 🎓 Advanced Prompt Engineering
 
 ### Chain-of-Thought Pattern
-```
+
+```text
 Task: [DESCRIPTION]
 1. Identify context → @load smart:[context-aware]
 2. Analyze requirements → Required: [list], Recommended: [list]
@@ -541,14 +605,16 @@ Task: [DESCRIPTION]
 ```
 
 ### Few-Shot Learning
-```
+
+```text
 Example 1: Auth endpoint → @load [CS:api + SEC:auth]
 Example 2: Data endpoint → @load [CS:api + LEG:privacy]
 Your task: [REQUIREMENT] → Applying patterns...
 ```
 
 ### Progressive Refinement
-```
+
+```text
 Initial: @generate based-on:[requirements]
 + "Add auth" → @enhance with:[SEC:auth]
 + "Optimize" → @optimize using:[CS:performance]
@@ -563,6 +629,7 @@ Initial: @generate based-on:[requirements]
 ## 📝 Contributing New Standards
 
 To create new standards that integrate with this system:
+
 1. Use [STANDARD_TEMPLATE.md](./docs/guides/STANDARD_TEMPLATE.md) as your starting point
 2. Follow [CREATING_STANDARDS_GUIDE.md](./docs/guides/CREATING_STANDARDS_GUIDE.md) for integration
 3. Update this file with new loading patterns and mappings

@@ -2154,4 +2154,13 @@ if __name__ == "__main__":
 
 ---
 
+## Related Standards
+
+- [Coding Standards](CODING_STANDARDS.md) - Secure coding practices
+- [Testing Standards](TESTING_STANDARDS.md) - Security testing requirements
+- [Model Context Protocol Standards](MODEL_CONTEXT_PROTOCOL_STANDARDS.md) - Secure MCP implementation
+- [Compliance Standards](COMPLIANCE_STANDARDS.md) - NIST compliance requirements
+
+---
+
 **End of Modern Security Standards**

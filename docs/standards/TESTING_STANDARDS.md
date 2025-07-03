@@ -1014,5 +1014,6 @@ The test suite should be maintainable, provide fast feedback, and serve as livin
 ## Related Standards
 
 - [Knowledge Management Standards](KNOWLEDGE_MANAGEMENT_STANDARDS.md) - Documentation practices
-- [CREATING_STANDARDS_GUIDE.md](./docs/guides/CREATING_STANDARDS_GUIDE.md) - Standards creation guide
+- [CREATING_STANDARDS_GUIDE.md](../guides/CREATING_STANDARDS_GUIDE.md) - Standards creation guide
 - [COMPLIANCE_STANDARDS.md](COMPLIANCE_STANDARDS.md) - NIST compliance testing requirements
+- [Model Context Protocol Standards](MODEL_CONTEXT_PROTOCOL_STANDARDS.md) - MCP testing patterns

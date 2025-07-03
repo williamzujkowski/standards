@@ -777,5 +777,6 @@ The code should be robust, efficient, secure, and maintainable. It should follow
 ## Related Standards
 
 - [Knowledge Management Standards](KNOWLEDGE_MANAGEMENT_STANDARDS.md) - Documentation standards
-- [CREATING_STANDARDS_GUIDE.md](./docs/guides/CREATING_STANDARDS_GUIDE.md) - How to create standards
+- [CREATING_STANDARDS_GUIDE.md](../guides/CREATING_STANDARDS_GUIDE.md) - How to create standards
 - [COMPLIANCE_STANDARDS.md](COMPLIANCE_STANDARDS.md) - NIST compliance for secure coding
+- [Model Context Protocol Standards](MODEL_CONTEXT_PROTOCOL_STANDARDS.md) - MCP implementation patterns

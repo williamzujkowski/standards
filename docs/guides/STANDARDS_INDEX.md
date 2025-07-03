@@ -279,6 +279,17 @@ This index provides quick summaries of all standards sections. Use the codes bel
 | `TOOL:observability-stack` | Observability Stack | Collection: `prometheus` (v2.45+) Visualization: `grafana` (v10.0+) Alerting: Prometheus Alertmanage |
 | `TOOL:tool-configuration` | Tool Configuration | All tool configurations should be centralized: project-root/ ├── pyproject.toml # Python tools (blac |
 | `TOOL:migration-paths` | Migration Paths | pip install ruff ruff check --fix . [tool.ruff] |
+| `MCP:overview` | Model Context Protocol Standards | Version: 1.0.0 Last Updated: 2025-07-02 Status: Active Standard Code: MCP |
+| `MCP:core-principles` | Core Principles | Context Efficiency, Standardized Communication, Progressive Loading |
+| `MCP:mcp-architecture-stan` | MCP Architecture Standards | Define modular server structure, manifest requirements, and transport options |
+| `MCP:server-implementation` | Server Implementation Standards | Base server class, error handling patterns, and implementation examples |
+| `MCP:client-integration` | Client Integration Standards | Client interface, connection management, and intelligent caching |
+| `MCP:tool-development` | Tool Development Standards | Tool structure, parameter validation, and concrete examples |
+| `MCP:resource-management` | Resource Management Standards | Resource contracts, caching strategies, and common resource types |
+| `MCP:security-and-privacy` | Security and Privacy Standards | Authentication, input validation, and privacy controls |
+| `MCP:testing-and-validation` | Testing and Validation | Test patterns, integration tests, and performance benchmarks |
+| `MCP:performance-guidelines` | Performance Guidelines | Performance targets and optimization strategies |
+| `MCP:implementation-check` | Implementation Checklist | [ ] Set up MCP server structure [ ] Implement base server class [ ] Add authentication mechanism |
 
 
 ## 🚀 Quick Loading Examples
