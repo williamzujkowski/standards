@@ -75,7 +75,7 @@ jobs:
           fi
 
       - name: Security - Check for secrets
-        uses: trufflesecurity/trufflehog@42b1aada5db130c2cc311c38c85086f6c28ba518  # v3.82.13
+        uses: trufflesecurity/trufflehog@v3.82.13
         with:
           path: ./
 
