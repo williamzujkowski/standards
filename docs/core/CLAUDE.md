@@ -5,8 +5,17 @@
 **Version:** 3.0.0
 **Last Updated:** January 2025
 
-> 🚀 **New:** Use [KICKSTART_PROMPT.md](./docs/guides/KICKSTART_PROMPT.md)
+> 🚀 **New:** Use [KICKSTART_PROMPT.md](../guides/KICKSTART_PROMPT.md)
 > for instant project analysis and implementation guidance!
+
+---
+
+## TL;DR
+- **Advanced LLM interface** for comprehensive standards management with ~90% token efficiency through intelligent context loading
+- **Smart loading syntax** enables semantic queries like `@ask "How to build secure API"` that auto-loads relevant standards
+- **Task-based routing** automatically loads appropriate standards for bug fixes, new features, security, performance, and compliance
+- **AI-powered features** include automated compliance analysis, code generation following standards, and interactive validation
+- **Quick start:** Use `@load context:[auto]` for automatic detection or see the Kickstart Prompt guide above
 
 ---
 
@@ -517,7 +526,7 @@ Quick commands:
 - `@nist coverage report:[by-family|by-control|gaps]`
 - `@nist generate ssp:[auto-collect-evidence]`
 
-See [NIST_IMPLEMENTATION_GUIDE.md](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md) for the complete quick start.
+See [NIST_IMPLEMENTATION_GUIDE.md](../nist/NIST_IMPLEMENTATION_GUIDE.md) for the complete quick start.
 
 ### Automated NIST Tagging
 
@@ -630,13 +639,13 @@ Initial: @generate based-on:[requirements]
 
 To create new standards that integrate with this system:
 
-1. Use [STANDARD_TEMPLATE.md](./docs/guides/STANDARD_TEMPLATE.md) as your starting point
-2. Follow [CREATING_STANDARDS_GUIDE.md](./docs/guides/CREATING_STANDARDS_GUIDE.md) for integration
+1. Use [STANDARD_TEMPLATE.md](../guides/STANDARD_TEMPLATE.md) as your starting point
+2. Follow [CREATING_STANDARDS_GUIDE.md](../guides/CREATING_STANDARDS_GUIDE.md) for integration
 3. Update this file with new loading patterns and mappings
 
 ## Related Standards
 
-- [Knowledge Management Standards](./docs/standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md) - Core architecture principles
-- [Model Context Protocol Standards](./docs/standards/MODEL_CONTEXT_PROTOCOL_STANDARDS.md) -
+- [Knowledge Management Standards](../standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md) - Core architecture principles
+- [Model Context Protocol Standards](../standards/MODEL_CONTEXT_PROTOCOL_STANDARDS.md) -
   LLM optimization patterns for MCP
-- [Compliance Standards](./docs/standards/COMPLIANCE_STANDARDS.md) - NIST 800-53r5 control tagging guidelines
+- [Compliance Standards](../standards/COMPLIANCE_STANDARDS.md) - NIST 800-53r5 control tagging guidelines

@@ -28,13 +28,14 @@ jobs:
   validate-tags:
     name: Validate NIST Control Tags
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
         with:
           fetch-depth: 0  # Full history for better analysis
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8  # v4.0.2
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -91,13 +92,14 @@ jobs:
   suggest-controls:
     name: Suggest NIST Controls
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     if: github.event_name == 'pull_request'
     needs: validate-tags
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8  # v4.0.2
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -141,7 +143,7 @@ jobs:
 
       - name: Comment suggestions on PR
         if: steps.suggest.outputs.suggestions != ''
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
         with:
           script: |
             const suggestions = `${{ steps.suggest.outputs.suggestions }}`;
@@ -175,11 +177,12 @@ jobs:
   coverage-report:
     name: Generate Coverage Report
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8  # v4.0.2
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -189,13 +192,23 @@ jobs:
           cd standards/compliance
 
           # Count tagged controls
-          total_controls=$(grep -r "@nist [a-z][a-z]-[0-9]" ../../ --include="*.ts" --include="*.js" --include="*.py" --include="*.md" | grep -o "@nist [a-z][a-z]-[0-9]\+" | sort -u | wc -l)
+          total_controls=$(grep -r "@nist [a-z][a-z]-[0-9]" ../../ \
+            --include="*.ts" --include="*.js" --include="*.py" --include="*.md" | \
+            grep -o "@nist [a-z][a-z]-[0-9]\+" | sort -u | wc -l)
 
           # Count by family
-          ac_controls=$(grep -r "@nist ac-" ../../ --include="*.ts" --include="*.js" --include="*.py" | grep -o "@nist ac-[0-9]\+" | sort -u | wc -l)
-          au_controls=$(grep -r "@nist au-" ../../ --include="*.ts" --include="*.js" --include="*.py" | grep -o "@nist au-[0-9]\+" | sort -u | wc -l)
-          ia_controls=$(grep -r "@nist ia-" ../../ --include="*.ts" --include="*.js" --include="*.py" | grep -o "@nist ia-[0-9]\+" | sort -u | wc -l)
-          sc_controls=$(grep -r "@nist sc-" ../../ --include="*.ts" --include="*.js" --include="*.py" | grep -o "@nist sc-[0-9]\+" | sort -u | wc -l)
+          ac_controls=$(grep -r "@nist ac-" ../../ \
+            --include="*.ts" --include="*.js" --include="*.py" | \
+            grep -o "@nist ac-[0-9]\+" | sort -u | wc -l)
+          au_controls=$(grep -r "@nist au-" ../../ \
+            --include="*.ts" --include="*.js" --include="*.py" | \
+            grep -o "@nist au-[0-9]\+" | sort -u | wc -l)
+          ia_controls=$(grep -r "@nist ia-" ../../ \
+            --include="*.ts" --include="*.js" --include="*.py" | \
+            grep -o "@nist ia-[0-9]\+" | sort -u | wc -l)
+          sc_controls=$(grep -r "@nist sc-" ../../ \
+            --include="*.ts" --include="*.js" --include="*.py" | \
+            grep -o "@nist sc-[0-9]\+" | sort -u | wc -l)
 
           echo "total_controls=$total_controls" >> $GITHUB_OUTPUT
           echo "ac_controls=$ac_controls" >> $GITHUB_OUTPUT
@@ -204,8 +217,11 @@ jobs:
           echo "sc_controls=$sc_controls" >> $GITHUB_OUTPUT
 
       - name: Create coverage badge
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && env.GIST_SECRET != ''
-        uses: schneegans/dynamic-badges-action@v1.7.0
+        if: >
+          github.event_name == 'push' &&
+          github.ref == 'refs/heads/main' &&
+          env.GIST_SECRET != ''
+        uses: schneegans/dynamic-badges-action@7142847813c746736c986b42dec98541e49a2cea  # v1.7.0
         env:
           GIST_SECRET: ${{ secrets.GIST_SECRET }}
         with:
@@ -214,18 +230,21 @@ jobs:
           filename: nist-coverage.json
           label: NIST Controls
           message: ${{ steps.coverage.outputs.total_controls }} controls
-          color: ${{ steps.coverage.outputs.total_controls > 50 && 'green' || steps.coverage.outputs.total_controls > 25 && 'yellow' || 'red' }}
+          color: >
+            ${{ steps.coverage.outputs.total_controls > 50 && 'green' ||
+                steps.coverage.outputs.total_controls > 25 && 'yellow' || 'red' }}
 
   generate-ssp:
     name: Generate System Security Plan
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     needs: [validate-tags, coverage-report]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8  # v4.0.2
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -240,7 +259,7 @@ jobs:
           npm run generate-ssp -- --baseline ${{ env.BASELINE }} --format json
 
       - name: Upload SSP artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
         with:
           name: system-security-plan
           path: standards/compliance/oscal-output/ssp-*.json
@@ -249,12 +268,13 @@ jobs:
   collect-evidence:
     name: Collect Compliance Evidence
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8  # v4.0.2
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -274,7 +294,7 @@ jobs:
           ls -la oscal-output/
 
       - name: Upload evidence artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
         with:
           name: compliance-evidence-${{ github.run_number }}
           path: standards/compliance/oscal-output/assessment-results-*.json
@@ -290,6 +310,7 @@ jobs:
   compliance-summary:
     name: Compliance Summary
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     if: always()
     needs: [validate-tags, coverage-report, generate-ssp, collect-evidence]
     steps:

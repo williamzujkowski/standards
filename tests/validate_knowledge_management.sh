@@ -59,8 +59,8 @@ echo "----------------------"
 run_test "README.md exists" "test -f README.md"
 run_test "CLAUDE.md exists" "test -f docs/core/CLAUDE.md"
 run_test "MANIFEST.yaml exists" "test -f config/MANIFEST.yaml"
-run_test "docs/guides/STANDARDS_INDEX.md exists" "test -f docs/guides/STANDARDS_INDEX.md"
-run_test "docs/guides/STANDARDS_GRAPH.md exists" "test -f docs/guides/STANDARDS_GRAPH.md"
+run_test "docs/guides/docs/guides/STANDARDS_INDEX.md exists" "test -f docs/guides/docs/guides/STANDARDS_INDEX.md"
+run_test "docs/guides/docs/guides/STANDARDS_GRAPH.md exists" "test -f docs/guides/docs/guides/STANDARDS_GRAPH.md"
 run_test "CHANGELOG.md exists" "test -f CHANGELOG.md"
 
 echo ""
@@ -135,4 +135,3 @@ else
     echo -e "\n${RED}Some tests failed. Please review and fix the issues.${NC}"
     exit 1
 fi
-

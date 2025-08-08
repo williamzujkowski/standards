@@ -4,17 +4,18 @@ Token Efficiency Validation Tests
 Ensures documentation follows token-efficient patterns from KNOWLEDGE_MANAGEMENT_STANDARDS.md
 """
 
-import os
 import re
-import yaml
-from pathlib import Path
-from typing import Dict, List, Tuple
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Dict, List
+
+import yaml
 
 
 @dataclass
 class TokenMetrics:
     """Token usage metrics for a document"""
+
     file_name: str
     total_tokens: int
     section_tokens: Dict[str, int]
@@ -42,8 +43,7 @@ class TokenEfficiencyValidator:
         # Split into sections
         sections = self._split_sections(content)
         section_tokens = {
-            name: self.estimate_tokens(text)
-            for name, text in sections.items()
+            name: self.estimate_tokens(text) for name, text in sections.items()
         }
 
         total_tokens = sum(section_tokens.values())
@@ -55,7 +55,7 @@ class TokenEfficiencyValidator:
             total_tokens=total_tokens,
             section_tokens=section_tokens,
             efficiency_score=efficiency_score,
-            recommendations=recommendations
+            recommendations=recommendations,
         )
 
     def _split_sections(self, content: str) -> Dict[str, str]:
@@ -64,17 +64,17 @@ class TokenEfficiencyValidator:
         current_section = "header"
         current_content = []
 
-        for line in content.split('\n'):
-            if line.startswith('## '):
+        for line in content.split("\n"):
+            if line.startswith("## "):
                 if current_content:
-                    sections[current_section] = '\n'.join(current_content)
+                    sections[current_section] = "\n".join(current_content)
                 current_section = line[3:].strip()
                 current_content = []
             else:
                 current_content.append(line)
 
         if current_content:
-            sections[current_section] = '\n'.join(current_content)
+            sections[current_section] = "\n".join(current_content)
 
         return sections
 
@@ -91,20 +91,25 @@ class TokenEfficiencyValidator:
                 score -= 20
 
         # Reward progressive disclosure patterns
-        if any('quick' in name.lower() or 'summary' in name.lower() for name in sections):
+        if any(
+            "quick" in name.lower() or "summary" in name.lower() for name in sections
+        ):
             score += 5
 
         # Check for code example efficiency
-        code_blocks = len(re.findall(r'```', '\n'.join(sections.values())))
+        code_blocks = len(re.findall(r"```", "\n".join(sections.values())))
         if code_blocks > 0:
-            avg_tokens_per_block = sum(len(s) for s in sections.values()) / code_blocks / 4
+            avg_tokens_per_block = (
+                sum(len(s) for s in sections.values()) / code_blocks / 4
+            )
             if avg_tokens_per_block < 500:  # Concise examples
                 score += 5
 
         return max(0, min(100, score))
 
-    def _generate_recommendations(self, sections: Dict[str, str],
-                                 section_tokens: Dict[str, int]) -> List[str]:
+    def _generate_recommendations(
+        self, sections: Dict[str, str], section_tokens: Dict[str, int]
+    ) -> List[str]:
         """Generate token optimization recommendations"""
         recommendations = []
 
@@ -117,8 +122,9 @@ class TokenEfficiencyValidator:
                 )
 
         # Check for missing summaries
-        has_summary = any('summary' in name.lower() or 'overview' in name.lower()
-                         for name in sections)
+        has_summary = any(
+            "summary" in name.lower() or "overview" in name.lower() for name in sections
+        )
         if not has_summary:
             recommendations.append(
                 "Add a summary or overview section for quick reference (100-500 tokens)."
@@ -145,8 +151,8 @@ class TokenEfficiencyValidator:
 
         misalignments = {}
 
-        for code, standard in manifest.get('standards', {}).items():
-            file_name = standard.get('full_name') or standard.get('filename')
+        for code, standard in manifest.get("standards", {}).items():
+            file_name = standard.get("full_name") or standard.get("filename")
             if not file_name:
                 continue
 
@@ -158,16 +164,16 @@ class TokenEfficiencyValidator:
             with open(file_path) as f:
                 content = f.read()
 
-            for section_name, section_data in standard.get('sections', {}).items():
-                manifest_tokens = section_data.get('tokens', 0)
+            for section_name, section_data in standard.get("sections", {}).items():
+                manifest_tokens = section_data.get("tokens", 0)
 
                 # Try to find section in actual file
                 section_pattern = f"#+ {section_name.replace('-', ' ').title()}"
                 if re.search(section_pattern, content, re.IGNORECASE):
                     # Extract section content (simplified)
-                    section_start = content.lower().find(section_name.replace('-', ' '))
+                    section_start = content.lower().find(section_name.replace("-", " "))
                     if section_start > 0:
-                        section_text = content[section_start:section_start + 5000]
+                        section_text = content[section_start : section_start + 5000]
                         actual_tokens = self.estimate_tokens(section_text)
 
                         # Allow 30% variance
@@ -239,13 +245,15 @@ def main():
         "2. Add summary/overview sections (100-500 tokens)",
         "3. Use MANIFEST.yaml for progressive loading of large docs",
         "4. Split documents over 15,000 tokens",
-        "5. Keep code examples concise and focused"
+        "5. Keep code examples concise and focused",
     ]
 
     for rec in recommendations:
         print(f"  {rec}")
 
-    print("\nFor detailed progressive loading setup, see KNOWLEDGE_MANAGEMENT_STANDARDS.md")
+    print(
+        "\nFor detailed progressive loading setup, see KNOWLEDGE_MANAGEMENT_STANDARDS.md"
+    )
 
 
 if __name__ == "__main__":

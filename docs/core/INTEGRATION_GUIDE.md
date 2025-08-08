@@ -6,11 +6,11 @@
 
 For new projects, use our AI kickstart for instant guidance:
 
-1. Copy the kickstart prompt from [KICKSTART_PROMPT.md](./docs/guides/KICKSTART_PROMPT.md)
+1. Copy the kickstart prompt from [KICKSTART_PROMPT.md](../guides/KICKSTART_PROMPT.md)
 2. Paste into any LLM (ChatGPT, Claude, Gemini) with your project plan
 3. Get instant standards recommendations and implementation blueprint
 
-See [KICKSTART_ADVANCED.md](./docs/guides/KICKSTART_ADVANCED.md) for advanced patterns.
+See [KICKSTART_ADVANCED.md](../guides/KICKSTART_ADVANCED.md) for advanced patterns.
 
 ### Option 1: Direct Reference (Simplest)
 

@@ -1,0 +1,970 @@
+name: Regression Testing Framework
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  schedule:
+    # Run regression tests weekly on Saturdays at 4 AM UTC
+    - cron: '0 4 * * 6'
+  workflow_dispatch:
+    inputs:
+      test_scope:
+        description: 'Scope of regression testing'
+        required: false
+        default: 'full'
+        type: choice
+        options:
+          - 'full'
+          - 'performance'
+          - 'quality'
+          - 'security'
+      baseline_comparison:
+        description: 'Compare against baseline'
+        required: false
+        default: true
+        type: boolean
+
+env:
+  REGRESSION_VERSION: "1.0"
+  PYTHON_VERSION: "3.11"
+  BASELINE_BRANCH: "main"
+
+jobs:
+  establish-baseline:
+    name: Establish Performance Baseline
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    if: github.event_name == 'schedule' || github.event.inputs.baseline_comparison == 'true'
+    
+    outputs:
+      baseline_hash: ${{ steps.baseline.outputs.hash }}
+      baseline_metrics: ${{ steps.baseline.outputs.metrics }}
+      
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        with:
+          ref: ${{ env.BASELINE_BRANCH }}
+          fetch-depth: 0
+          
+      - name: Setup Python
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5.1.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pyyaml requests beautifulsoup4 time psutil
+          pip install pytest pytest-benchmark memory-profiler
+          
+      - name: Collect baseline metrics
+        id: baseline
+        run: |
+          echo "## 📊 Baseline Metrics Collection" > baseline-metrics.md
+          echo "" >> baseline-metrics.md
+          echo "**Branch:** ${{ env.BASELINE_BRANCH }}" >> baseline-metrics.md
+          echo "**Commit:** $(git rev-parse HEAD)" >> baseline-metrics.md
+          echo "**Date:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> baseline-metrics.md
+          echo "" >> baseline-metrics.md
+          
+          # Create baseline metrics collection script
+          cat > collect_baseline_metrics.py << 'EOF'
+          import time
+          import subprocess
+          import sys
+          import json
+          import os
+          import psutil
+          from pathlib import Path
+          from datetime import datetime
+          
+          def benchmark_script_execution(script_path, iterations=3):
+              """Benchmark script execution time and resource usage"""
+              if not Path(script_path).exists():
+                  return None
+                  
+              execution_times = []
+              memory_usage = []
+              
+              for i in range(iterations):
+                  # Monitor memory before execution
+                  process = psutil.Process()
+                  initial_memory = process.memory_info().rss / 1024 / 1024  # MB
+                  
+                  start_time = time.time()
+                  try:
+                      result = subprocess.run([sys.executable, script_path], 
+                                            capture_output=True, text=True, timeout=30)
+                      end_time = time.time()
+                      
+                      if result.returncode == 0:
+                          execution_times.append(end_time - start_time)
+                          
+                          # Monitor memory after execution
+                          final_memory = process.memory_info().rss / 1024 / 1024  # MB
+                          memory_usage.append(final_memory - initial_memory)
+                  except subprocess.TimeoutExpired:
+                      print(f"Script {script_path} timed out on iteration {i+1}")
+                      continue
+                  except Exception as e:
+                      print(f"Error running {script_path}: {e}")
+                      continue
+              
+              if execution_times:
+                  return {
+                      'mean_time': sum(execution_times) / len(execution_times),
+                      'min_time': min(execution_times),
+                      'max_time': max(execution_times),
+                      'mean_memory': sum(memory_usage) / len(memory_usage) if memory_usage else 0,
+                      'iterations': len(execution_times)
+                  }
+              return None
+          
+          def collect_repository_metrics():
+              """Collect repository-level metrics"""
+              metrics = {}
+              
+              # File count metrics
+              md_files = list(Path('.').rglob('*.md'))
+              py_files = list(Path('.').rglob('*.py'))
+              yaml_files = list(Path('.').rglob('*.yaml')) + list(Path('.').rglob('*.yml'))
+              json_files = list(Path('.').rglob('*.json'))
+              
+              # Filter out common ignored directories
+              ignored_dirs = ['node_modules', '.git', 'dist', 'target', 'build', '__pycache__']
+              
+              md_files = [f for f in md_files if not any(ignore in str(f) for ignore in ignored_dirs)]
+              py_files = [f for f in py_files if not any(ignore in str(f) for ignore in ignored_dirs)]
+              yaml_files = [f for f in yaml_files if not any(ignore in str(f) for ignore in ignored_dirs)]
+              json_files = [f for f in json_files if not any(ignore in str(f) for ignore in ignored_dirs)]
+              
+              metrics['file_counts'] = {
+                  'markdown_files': len(md_files),
+                  'python_files': len(py_files),
+                  'yaml_files': len(yaml_files),
+                  'json_files': len(json_files)
+              }
+              
+              # Content metrics
+              total_lines = 0
+              total_words = 0
+              total_size = 0
+              
+              for md_file in md_files:
+                  try:
+                      with open(md_file, 'r', encoding='utf-8') as f:
+                          content = f.read()
+                          total_lines += len(content.splitlines())
+                          total_words += len(content.split())
+                          total_size += len(content.encode('utf-8'))
+                  except:
+                      continue
+              
+              metrics['content_metrics'] = {
+                  'total_lines': total_lines,
+                  'total_words': total_words,
+                  'total_size_bytes': total_size,
+                  'avg_words_per_file': total_words / len(md_files) if md_files else 0
+              }
+              
+              return metrics
+          
+          def collect_validation_metrics():
+              """Collect validation performance metrics"""
+              validation_scripts = [
+                  'scripts/validate_standards_consistency.py',
+                  'scripts/validate_markdown_links.py',
+                  'scripts/calculate_compliance_score.py',
+                  'tests/validate_cross_references.py'
+              ]
+              
+              script_metrics = {}
+              
+              for script in validation_scripts:
+                  print(f"Benchmarking {script}...")
+                  benchmark = benchmark_script_execution(script)
+                  if benchmark:
+                      script_metrics[script] = benchmark
+                      print(f"  Mean execution time: {benchmark['mean_time']:.2f}s")
+                      print(f"  Memory usage: {benchmark['mean_memory']:.2f}MB")
+                  else:
+                      print(f"  Failed to benchmark")
+              
+              return script_metrics
+          
+          # Collect all baseline metrics
+          print("Collecting repository metrics...")
+          repo_metrics = collect_repository_metrics()
+          
+          print("Collecting validation metrics...")
+          validation_metrics = collect_validation_metrics()
+          
+          # Combine all metrics
+          baseline_data = {
+              'collection_date': datetime.now().isoformat(),
+              'commit_hash': os.environ.get('GITHUB_SHA', 'unknown'),
+              'repository_metrics': repo_metrics,
+              'validation_metrics': validation_metrics
+          }
+          
+          # Save baseline data
+          with open('baseline-metrics.json', 'w') as f:
+              json.dump(baseline_data, f, indent=2)
+          
+          print("Baseline metrics collection completed")
+          print(f"Repository files: {repo_metrics['file_counts']}")
+          print(f"Content size: {repo_metrics['content_metrics']['total_size_bytes']:,} bytes")
+          print(f"Validation scripts benchmarked: {len(validation_metrics)}")
+          EOF
+          
+          python collect_baseline_metrics.py > baseline-collection.log 2>&1
+          
+          # Process baseline results
+          if [ -f baseline-metrics.json ]; then
+            commit_hash=$(git rev-parse HEAD)
+            
+            echo "### 📋 Baseline Metrics Summary" >> baseline-metrics.md
+            echo "" >> baseline-metrics.md
+            
+            python -c "
+import json
+with open('baseline-metrics.json') as f:
+    data = json.load(f)
+
+repo = data['repository_metrics']
+validation = data['validation_metrics']
+
+print('| Metric | Value |')
+print('|--------|-------|')
+print(f'| Markdown Files | {repo[\"file_counts\"][\"markdown_files\"]} |')
+print(f'| Python Files | {repo[\"file_counts\"][\"python_files\"]} |')
+print(f'| Total Words | {repo[\"content_metrics\"][\"total_words\"]:,} |')
+print(f'| Total Size | {repo[\"content_metrics\"][\"total_size_bytes\"]:,} bytes |')
+print(f'| Validation Scripts | {len(validation)} |')
+" >> baseline-metrics.md
+            
+            echo "" >> baseline-metrics.md
+            echo "### ⏱️ Validation Performance" >> baseline-metrics.md
+            echo "" >> baseline-metrics.md
+            
+            python -c "
+import json
+with open('baseline-metrics.json') as f:
+    data = json.load(f)
+
+validation = data['validation_metrics']
+
+if validation:
+    print('| Script | Execution Time (s) | Memory Usage (MB) |')
+    print('|--------|-------------------|-------------------|')
+    for script, metrics in validation.items():
+        script_name = script.split('/')[-1]
+        print(f'| {script_name} | {metrics[\"mean_time\"]:.2f} | {metrics[\"mean_memory\"]:.2f} |')
+else:
+    print('No validation scripts were successfully benchmarked.')
+" >> baseline-metrics.md
+            
+            echo "hash=$commit_hash" >> $GITHUB_OUTPUT
+            
+            # Create compact metrics for comparison
+            metrics_summary=$(python -c "
+import json
+with open('baseline-metrics.json') as f:
+    data = json.load(f)
+summary = {
+    'total_words': data['repository_metrics']['content_metrics']['total_words'],
+    'total_files': sum(data['repository_metrics']['file_counts'].values()),
+    'validation_count': len(data['validation_metrics'])
+}
+print(json.dumps(summary))
+")
+            echo "metrics=$metrics_summary" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Failed to collect baseline metrics" >> baseline-metrics.md
+            echo "hash=unknown" >> $GITHUB_OUTPUT
+            echo "metrics={}" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Upload baseline metrics
+        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        with:
+          name: baseline-metrics
+          path: |
+            baseline-metrics.json
+            baseline-metrics.md
+          retention-days: 365  # Keep baseline for a year
+
+  performance-regression-test:
+    name: Performance Regression Testing
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: [establish-baseline]
+    if: always() && (github.event.inputs.test_scope == 'performance' || github.event.inputs.test_scope == 'full' || github.event_name == 'schedule')
+    
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        
+      - name: Setup Python
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5.1.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pyyaml requests beautifulsoup4 psutil
+          pip install pytest pytest-benchmark memory-profiler
+          
+      - name: Download baseline metrics
+        if: needs.establish-baseline.result == 'success'
+        uses: actions/download-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        with:
+          name: baseline-metrics
+          path: baseline-data/
+          
+      - name: Run current performance tests
+        id: current-performance
+        run: |
+          echo "## ⚡ Performance Regression Testing" > performance-regression.md
+          echo "" >> performance-regression.md
+          echo "**Commit:** $(git rev-parse HEAD)" >> performance-regression.md
+          echo "**Date:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> performance-regression.md
+          echo "" >> performance-regression.md
+          
+          # Reuse the baseline collection script for current metrics
+          cat > collect_current_metrics.py << 'EOF'
+          import time
+          import subprocess
+          import sys
+          import json
+          import os
+          import psutil
+          from pathlib import Path
+          from datetime import datetime
+          
+          def benchmark_script_execution(script_path, iterations=3):
+              """Benchmark script execution time and resource usage"""
+              if not Path(script_path).exists():
+                  return None
+                  
+              execution_times = []
+              memory_usage = []
+              
+              for i in range(iterations):
+                  process = psutil.Process()
+                  initial_memory = process.memory_info().rss / 1024 / 1024  # MB
+                  
+                  start_time = time.time()
+                  try:
+                      result = subprocess.run([sys.executable, script_path], 
+                                            capture_output=True, text=True, timeout=30)
+                      end_time = time.time()
+                      
+                      if result.returncode == 0:
+                          execution_times.append(end_time - start_time)
+                          final_memory = process.memory_info().rss / 1024 / 1024  # MB
+                          memory_usage.append(final_memory - initial_memory)
+                  except (subprocess.TimeoutExpired, Exception) as e:
+                      continue
+              
+              if execution_times:
+                  return {
+                      'mean_time': sum(execution_times) / len(execution_times),
+                      'min_time': min(execution_times),
+                      'max_time': max(execution_times),
+                      'mean_memory': sum(memory_usage) / len(memory_usage) if memory_usage else 0,
+                      'iterations': len(execution_times)
+                  }
+              return None
+          
+          def collect_repository_metrics():
+              """Collect repository-level metrics"""
+              md_files = list(Path('.').rglob('*.md'))
+              py_files = list(Path('.').rglob('*.py'))
+              yaml_files = list(Path('.').rglob('*.yaml')) + list(Path('.').rglob('*.yml'))
+              json_files = list(Path('.').rglob('*.json'))
+              
+              ignored_dirs = ['node_modules', '.git', 'dist', 'target', 'build', '__pycache__']
+              
+              md_files = [f for f in md_files if not any(ignore in str(f) for ignore in ignored_dirs)]
+              py_files = [f for f in py_files if not any(ignore in str(f) for ignore in ignored_dirs)]
+              yaml_files = [f for f in yaml_files if not any(ignore in str(f) for ignore in ignored_dirs)]
+              json_files = [f for f in json_files if not any(ignore in str(f) for ignore in ignored_dirs)]
+              
+              total_lines = 0
+              total_words = 0
+              total_size = 0
+              
+              for md_file in md_files:
+                  try:
+                      with open(md_file, 'r', encoding='utf-8') as f:
+                          content = f.read()
+                          total_lines += len(content.splitlines())
+                          total_words += len(content.split())
+                          total_size += len(content.encode('utf-8'))
+                  except:
+                      continue
+              
+              return {
+                  'file_counts': {
+                      'markdown_files': len(md_files),
+                      'python_files': len(py_files),
+                      'yaml_files': len(yaml_files),
+                      'json_files': len(json_files)
+                  },
+                  'content_metrics': {
+                      'total_lines': total_lines,
+                      'total_words': total_words,
+                      'total_size_bytes': total_size,
+                      'avg_words_per_file': total_words / len(md_files) if md_files else 0
+                  }
+              }
+          
+          # Benchmark validation scripts
+          validation_scripts = [
+              'scripts/validate_standards_consistency.py',
+              'scripts/validate_markdown_links.py',
+              'scripts/calculate_compliance_score.py',
+              'tests/validate_cross_references.py'
+          ]
+          
+          script_metrics = {}
+          for script in validation_scripts:
+              print(f"Benchmarking {script}...")
+              benchmark = benchmark_script_execution(script)
+              if benchmark:
+                  script_metrics[script] = benchmark
+                  print(f"  Mean time: {benchmark['mean_time']:.2f}s")
+              else:
+                  print(f"  Failed to benchmark")
+          
+          # Collect repository metrics
+          repo_metrics = collect_repository_metrics()
+          
+          # Save current metrics
+          current_data = {
+              'collection_date': datetime.now().isoformat(),
+              'commit_hash': os.environ.get('GITHUB_SHA', 'unknown'),
+              'repository_metrics': repo_metrics,
+              'validation_metrics': script_metrics
+          }
+          
+          with open('current-metrics.json', 'w') as f:
+              json.dump(current_data, f, indent=2)
+          
+          print("Current metrics collection completed")
+          print(f"Repository files: {repo_metrics['file_counts']}")
+          print(f"Validation scripts: {len(script_metrics)}")
+          EOF
+          
+          python collect_current_metrics.py > current-collection.log 2>&1
+          
+          # Compare with baseline if available
+          if [ -f baseline-data/baseline-metrics.json ] && [ -f current-metrics.json ]; then
+            echo "### 📊 Performance Comparison" >> performance-regression.md
+            echo "" >> performance-regression.md
+            
+            python -c "
+import json
+
+# Load baseline and current metrics
+with open('baseline-data/baseline-metrics.json') as f:
+    baseline = json.load(f)
+with open('current-metrics.json') as f:
+    current = json.load(f)
+
+# Compare validation performance
+baseline_validation = baseline['validation_metrics']
+current_validation = current['validation_metrics']
+
+print('| Script | Baseline (s) | Current (s) | Change | Status |')
+print('|--------|--------------|-------------|--------|--------|')
+
+performance_regressions = 0
+performance_improvements = 0
+
+for script in baseline_validation:
+    if script in current_validation:
+        baseline_time = baseline_validation[script]['mean_time']
+        current_time = current_validation[script]['mean_time']
+        change_percent = ((current_time - baseline_time) / baseline_time) * 100
+        
+        if change_percent > 20:  # 20% slower is a regression
+            status = '❌ Regression'
+            performance_regressions += 1
+        elif change_percent < -10:  # 10% faster is an improvement
+            status = '✅ Improvement'
+            performance_improvements += 1
+        else:
+            status = '➡️ Stable'
+        
+        script_name = script.split('/')[-1]
+        print(f'| {script_name} | {baseline_time:.2f} | {current_time:.2f} | {change_percent:+.1f}% | {status} |')
+
+print()
+print(f'Performance regressions: {performance_regressions}')
+print(f'Performance improvements: {performance_improvements}')
+
+# Save regression summary
+with open('regression-summary.json', 'w') as f:
+    json.dump({
+        'regressions': performance_regressions,
+        'improvements': performance_improvements,
+        'total_scripts_compared': len([s for s in baseline_validation if s in current_validation])
+    }, f)
+" >> performance-regression.md
+            
+            echo "" >> performance-regression.md
+            
+            # Check for regressions
+            regressions=$(python -c "import json; data=json.load(open('regression-summary.json')); print(data['regressions'])")
+            echo "performance_regressions=$regressions" >> $GITHUB_OUTPUT
+          else
+            echo "⚠️ Baseline metrics not available for comparison" >> performance-regression.md
+            echo "performance_regressions=0" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Upload performance results
+        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        with:
+          name: performance-regression-results
+          path: |
+            performance-regression.md
+            current-metrics.json
+            regression-summary.json
+          retention-days: 90
+
+  quality-regression-test:
+    name: Quality Regression Testing
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    if: github.event.inputs.test_scope == 'quality' || github.event.inputs.test_scope == 'full' || github.event_name == 'schedule'
+    
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        with:
+          fetch-depth: 50  # Get some history for comparison
+          
+      - name: Setup Python
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5.1.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pyyaml requests beautifulsoup4 textstat
+          
+      - name: Run quality regression tests
+        id: quality-regression
+        run: |
+          echo "## 📈 Quality Regression Testing" > quality-regression.md
+          echo "" >> quality-regression.md
+          echo "**Commit:** $(git rev-parse HEAD)" >> quality-regression.md
+          echo "**Date:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> quality-regression.md
+          echo "" >> quality-regression.md
+          
+          # Create quality regression testing script
+          cat > test_quality_regression.py << 'EOF'
+          import os
+          import subprocess
+          import json
+          import git
+          from pathlib import Path
+          from datetime import datetime, timedelta
+          import textstat
+          import re
+          
+          def get_recent_commits(days=7):
+              """Get commits from the last N days"""
+              try:
+                  repo = git.Repo('.')
+                  since = datetime.now() - timedelta(days=days)
+                  commits = list(repo.iter_commits(since=since, max_count=10))
+                  return [(commit.hexsha[:8], commit.committed_datetime, commit.message.split('\n')[0]) 
+                          for commit in commits]
+              except:
+                  return []
+          
+          def run_validation_checks():
+              """Run validation checks and collect results"""
+              checks = {
+                  'standards_consistency': 'scripts/validate_standards_consistency.py',
+                  'cross_references': 'tests/validate_cross_references.py',
+                  'markdown_links': 'scripts/validate_markdown_links.py'
+              }
+              
+              results = {}
+              for check_name, script_path in checks.items():
+                  if Path(script_path).exists():
+                      try:
+                          result = subprocess.run(['python', script_path], 
+                                                capture_output=True, text=True, timeout=30)
+                          results[check_name] = {
+                              'passed': result.returncode == 0,
+                              'output': result.stdout[:500]  # Limit output
+                          }
+                      except Exception as e:
+                          results[check_name] = {
+                              'passed': False,
+                              'error': str(e)
+                          }
+                  else:
+                      results[check_name] = {
+                          'passed': False,
+                          'error': f'Script {script_path} not found'
+                      }
+              
+              return results
+          
+          def analyze_content_quality():
+              """Analyze content quality metrics"""
+              md_files = list(Path('.').rglob('*.md'))
+              md_files = [f for f in md_files if not any(skip in str(f) for skip in 
+                         ['node_modules', '.git', 'dist'])]
+              
+              quality_metrics = {
+                  'total_files': len(md_files),
+                  'total_words': 0,
+                  'avg_readability': 0,
+                  'files_with_issues': 0
+              }
+              
+              readability_scores = []
+              files_with_issues = 0
+              
+              for md_file in md_files[:20]:  # Limit to first 20 files for performance
+                  try:
+                      with open(md_file, 'r', encoding='utf-8') as f:
+                          content = f.read()
+                      
+                      word_count = len(content.split())
+                      quality_metrics['total_words'] += word_count
+                      
+                      # Readability analysis
+                      plain_text = re.sub(r'[#*`\[\]()_-]', ' ', content)
+                      plain_text = re.sub(r'\s+', ' ', plain_text).strip()
+                      
+                      if len(plain_text) > 100:
+                          flesch_score = textstat.flesch_reading_ease(plain_text)
+                          readability_scores.append(flesch_score)
+                      
+                      # Basic quality checks
+                      if len(content) < 100:
+                          files_with_issues += 1
+                      elif not re.search(r'^#\s+', content, re.MULTILINE):
+                          files_with_issues += 1
+                  except:
+                      files_with_issues += 1
+                      continue
+              
+              if readability_scores:
+                  quality_metrics['avg_readability'] = sum(readability_scores) / len(readability_scores)
+              
+              quality_metrics['files_with_issues'] = files_with_issues
+              quality_metrics['quality_score'] = max(0, 100 - (files_with_issues / len(md_files) * 100))
+              
+              return quality_metrics
+          
+          # Run all quality tests
+          print("Running validation checks...")
+          validation_results = run_validation_checks()
+          
+          print("Analyzing content quality...")
+          content_quality = analyze_content_quality()
+          
+          print("Getting recent commits...")
+          recent_commits = get_recent_commits()
+          
+          # Compile quality regression data
+          quality_data = {
+              'test_date': datetime.now().isoformat(),
+              'commit_hash': os.environ.get('GITHUB_SHA', 'unknown'),
+              'validation_results': validation_results,
+              'content_quality': content_quality,
+              'recent_commits': recent_commits
+          }
+          
+          # Save quality data
+          with open('quality-regression.json', 'w') as f:
+              json.dump(quality_data, f, indent=2)
+          
+          # Calculate overall quality score
+          validation_score = sum(1 for result in validation_results.values() if result['passed'])
+          total_validations = len(validation_results)
+          validation_percentage = (validation_score / total_validations * 100) if total_validations > 0 else 0
+          
+          overall_quality = (validation_percentage + content_quality['quality_score']) / 2
+          
+          print(f"Quality regression testing completed")
+          print(f"Validation checks passed: {validation_score}/{total_validations}")
+          print(f"Content quality score: {content_quality['quality_score']:.1f}%")
+          print(f"Overall quality score: {overall_quality:.1f}%")
+          EOF
+          
+          python test_quality_regression.py > quality-regression.log 2>&1
+          
+          # Process quality results
+          if [ -f quality-regression.json ]; then
+            echo "### 🎯 Quality Test Results" >> quality-regression.md
+            echo "" >> quality-regression.md
+            
+            python -c "
+import json
+with open('quality-regression.json') as f:
+    data = json.load(f)
+
+validation = data['validation_results']
+content = data['content_quality']
+
+print('| Test Category | Status | Details |')
+print('|---------------|--------|---------|')
+
+# Validation results
+for test_name, result in validation.items():
+    status = '✅ Pass' if result['passed'] else '❌ Fail'
+    print(f'| {test_name.replace(\"_\", \" \").title()} | {status} | - |')
+
+# Content quality
+quality_score = content['quality_score']
+status = '✅ Good' if quality_score >= 80 else '⚠️ Needs Attention' if quality_score >= 60 else '❌ Poor'
+print(f'| Content Quality | {status} | {quality_score:.1f}% |')
+
+print()
+print(f'**Content Metrics:**')
+print(f'- Total Files: {content[\"total_files\"]}')
+print(f'- Total Words: {content[\"total_words\"]:,}')
+print(f'- Files with Issues: {content[\"files_with_issues\"]}')
+print(f'- Quality Score: {quality_score:.1f}%')
+" >> quality-regression.md
+            
+            echo "" >> quality-regression.md
+            
+            # Extract metrics for outputs
+            validation_failures=$(python -c "import json; data=json.load(open('quality-regression.json')); print(sum(1 for r in data['validation_results'].values() if not r['passed']))")
+            quality_score=$(python -c "import json; data=json.load(open('quality-regression.json')); print(data['content_quality']['quality_score'])")
+            
+            echo "validation_failures=$validation_failures" >> $GITHUB_OUTPUT
+            echo "quality_score=$quality_score" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Quality regression testing failed" >> quality-regression.md
+            echo "validation_failures=999" >> $GITHUB_OUTPUT
+            echo "quality_score=0" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Upload quality regression results
+        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        with:
+          name: quality-regression-results
+          path: |
+            quality-regression.md
+            quality-regression.json
+          retention-days: 90
+
+  regression-summary:
+    name: Regression Testing Summary
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [establish-baseline, performance-regression-test, quality-regression-test]
+    if: always()
+    
+    steps:
+      - name: Download all regression reports
+        uses: actions/download-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        with:
+          path: regression-reports
+          
+      - name: Create regression summary
+        id: create-summary
+        run: |
+          echo "# 🔍 Regression Testing Summary" > regression-summary.md
+          echo "" >> regression-summary.md
+          echo "**Date:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> regression-summary.md
+          echo "**Trigger:** ${{ github.event_name }}" >> regression-summary.md
+          echo "**Test Scope:** ${{ github.event.inputs.test_scope || 'full' }}" >> regression-summary.md
+          echo "" >> regression-summary.md
+          
+          # Test execution summary
+          echo "## 🎯 Test Execution Summary" >> regression-summary.md
+          echo "" >> regression-summary.md
+          echo "| Test Suite | Status | Result |" >> regression-summary.md
+          echo "|------------|--------|--------|" >> regression-summary.md
+          echo "| Baseline Establishment | ${{ needs.establish-baseline.result }} | - |" >> regression-summary.md
+          echo "| Performance Regression | ${{ needs.performance-regression-test.result }} | - |" >> regression-summary.md
+          echo "| Quality Regression | ${{ needs.quality-regression-test.result }} | - |" >> regression-summary.md
+          echo "" >> regression-summary.md
+          
+          # Performance results
+          if [ "${{ needs.performance-regression-test.result }}" = "success" ]; then
+            performance_regressions="${{ needs.performance-regression-test.outputs.performance_regressions || '0' }}"
+            echo "## ⚡ Performance Results" >> regression-summary.md
+            echo "" >> regression-summary.md
+            echo "- **Performance Regressions:** $performance_regressions" >> regression-summary.md
+            
+            if [ "$performance_regressions" -gt 0 ]; then
+              echo "- ⚠️ **Performance regressions detected** - Review detailed reports" >> regression-summary.md
+              performance_status="degraded"
+            else
+              echo "- ✅ **No performance regressions detected**" >> regression-summary.md
+              performance_status="stable"
+            fi
+            echo "" >> regression-summary.md
+          else
+            echo "## ❌ Performance Results" >> regression-summary.md
+            echo "" >> regression-summary.md
+            echo "Performance regression testing failed. Check logs for details." >> regression-summary.md
+            echo "" >> regression-summary.md
+            performance_status="failed"
+          fi
+          
+          # Quality results
+          if [ "${{ needs.quality-regression-test.result }}" = "success" ]; then
+            validation_failures="${{ needs.quality-regression-test.outputs.validation_failures || '0' }}"
+            quality_score="${{ needs.quality-regression-test.outputs.quality_score || '0' }}"
+            
+            echo "## 📈 Quality Results" >> regression-summary.md
+            echo "" >> regression-summary.md
+            echo "- **Validation Failures:** $validation_failures" >> regression-summary.md
+            echo "- **Quality Score:** $quality_score%" >> regression-summary.md
+            
+            if [ "$validation_failures" -gt 0 ] || (( $(echo "$quality_score < 75" | bc -l) )); then
+              echo "- ⚠️ **Quality issues detected** - Review validation results" >> regression-summary.md
+              quality_status="degraded"
+            else
+              echo "- ✅ **Quality standards maintained**" >> regression-summary.md
+              quality_status="stable"
+            fi
+            echo "" >> regression-summary.md
+          else
+            echo "## ❌ Quality Results" >> regression-summary.md
+            echo "" >> regression-summary.md
+            echo "Quality regression testing failed. Check logs for details." >> regression-summary.md
+            echo "" >> regression-summary.md
+            quality_status="failed"
+          fi
+          
+          # Overall assessment
+          echo "## 🏁 Overall Assessment" >> regression-summary.md
+          echo "" >> regression-summary.md
+          
+          overall_status="stable"
+          if [ "$performance_status" = "failed" ] || [ "$quality_status" = "failed" ]; then
+            overall_status="failed"
+            echo "❌ **Regression testing failed** - Critical issues detected" >> regression-summary.md
+          elif [ "$performance_status" = "degraded" ] || [ "$quality_status" = "degraded" ]; then
+            overall_status="degraded"
+            echo "⚠️ **Regressions detected** - Quality or performance has degraded" >> regression-summary.md
+          else
+            echo "✅ **No regressions detected** - System quality maintained" >> regression-summary.md
+          fi
+          echo "" >> regression-summary.md
+          
+          # Recommendations
+          echo "## 🎯 Recommendations" >> regression-summary.md
+          echo "" >> regression-summary.md
+          
+          case "$overall_status" in
+            "failed")
+              echo "### Immediate Actions Required" >> regression-summary.md
+              echo "1. 🔍 Investigate test failures immediately" >> regression-summary.md
+              echo "2. 📋 Review all error logs and artifacts" >> regression-summary.md
+              echo "3. 🔧 Fix critical issues before proceeding" >> regression-summary.md
+              echo "4. 🔄 Re-run regression tests after fixes" >> regression-summary.md
+              ;;
+            "degraded")
+              echo "### Performance/Quality Issues Detected" >> regression-summary.md
+              echo "1. 📊 Review detailed regression reports" >> regression-summary.md
+              echo "2. 🎯 Address specific performance/quality issues" >> regression-summary.md
+              echo "3. 📈 Monitor metrics after improvements" >> regression-summary.md
+              echo "4. 🔄 Schedule follow-up regression testing" >> regression-summary.md
+              ;;
+            *)
+              echo "### Maintenance Actions" >> regression-summary.md
+              echo "1. ✅ Continue current quality practices" >> regression-summary.md
+              echo "2. 📊 Review reports for optimization opportunities" >> regression-summary.md
+              echo "3. 🔄 Maintain regular regression testing schedule" >> regression-summary.md
+              echo "4. 📈 Monitor long-term quality trends" >> regression-summary.md
+              ;;
+          esac
+          echo "" >> regression-summary.md
+          
+          echo "## 📚 Available Reports" >> regression-summary.md
+          echo "" >> regression-summary.md
+          echo "Detailed regression testing reports are available as workflow artifacts:" >> regression-summary.md
+          echo "" >> regression-summary.md
+          echo "- **Baseline Metrics:** Repository and performance baseline data" >> regression-summary.md
+          echo "- **Performance Regression:** Detailed performance comparison and analysis" >> regression-summary.md
+          echo "- **Quality Regression:** Content quality and validation results" >> regression-summary.md
+          echo "" >> regression-summary.md
+          
+          echo "---" >> regression-summary.md
+          echo "*This summary was generated by the Regression Testing Framework*" >> regression-summary.md
+          
+          # Set outputs
+          echo "overall_status=$overall_status" >> $GITHUB_OUTPUT
+          echo "performance_status=$performance_status" >> $GITHUB_OUTPUT
+          echo "quality_status=$quality_status" >> $GITHUB_OUTPUT
+          
+      - name: Upload regression summary
+        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        with:
+          name: regression-testing-summary
+          path: regression-summary.md
+          retention-days: 180
+          
+      - name: Update step summary
+        run: |
+          cat regression-summary.md >> $GITHUB_STEP_SUMMARY
+          
+      - name: Create issue for regressions
+        if: steps.create-summary.outputs.overall_status == 'degraded' || steps.create-summary.outputs.overall_status == 'failed'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        with:
+          script: |
+            const status = '${{ steps.create-summary.outputs.overall_status }}';
+            const title = `🔍 Regression Testing Alert - ${status.toUpperCase()}`;
+            const body = `
+            ## Regression Testing Alert
+            
+            Regression testing has detected ${status} system quality.
+            
+            **Overall Status:** ${status}
+            **Performance Status:** ${{ steps.create-summary.outputs.performance_status }}
+            **Quality Status:** ${{ steps.create-summary.outputs.quality_status }}
+            
+            **Test Details:**
+            - **Trigger:** ${{ github.event_name }}
+            - **Commit:** ${{ github.sha }}
+            - **Date:** ${new Date().toUTCString()}
+            
+            ### Detected Issues:
+            ${status === 'failed' ? '- Critical test failures requiring immediate attention' : ''}
+            ${status === 'degraded' ? '- Performance or quality regressions detected' : ''}
+            
+            ### Immediate Actions Required:
+            1. 📊 Review the regression testing summary and detailed reports
+            2. 🔍 Investigate specific performance or quality issues
+            3. 🔧 Implement fixes for identified regressions
+            4. ✅ Validate fixes with follow-up testing
+            5. 📈 Monitor subsequent quality metrics
+            
+            **Workflow Link:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            
+            This issue was automatically created by the Regression Testing Framework.
+            `;
+            
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+              labels: ['regression-testing', 'automated', status, 'quality-alert']
+            });
+            
+      - name: Fail workflow if critical regressions detected
+        if: steps.create-summary.outputs.overall_status == 'failed'
+        run: |
+          echo "Critical regressions detected. Failing workflow to prevent deployment."
+          exit 1

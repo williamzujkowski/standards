@@ -4,11 +4,10 @@ Fix validation issues found by the test suite
 This script addresses common issues to bring the repository into compliance
 """
 
-import os
-import re
-import yaml
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
+
+import yaml
 
 
 class ValidationFixer:
@@ -31,7 +30,7 @@ class ValidationFixer:
 """
 
         for std_file in self.root.glob("*_STANDARDS.md"):
-            with open(std_file, 'r') as f:
+            with open(std_file, "r") as f:
                 content = f.read()
 
             # Check if headers already exist
@@ -39,11 +38,11 @@ class ValidationFixer:
                 print(f"  Adding headers to {std_file.name}")
 
                 # Find the first major heading
-                lines = content.split('\n')
+                lines = content.split("\n")
                 insert_pos = 0
 
                 for i, line in enumerate(lines):
-                    if line.startswith('# '):
+                    if line.startswith("# "):
                         insert_pos = i + 1
                         # Skip any immediate blank lines
                         while insert_pos < len(lines) and not lines[insert_pos].strip():
@@ -53,8 +52,8 @@ class ValidationFixer:
                 # Insert the header
                 lines.insert(insert_pos, header_template.format(date=self.today))
 
-                with open(std_file, 'w') as f:
-                    f.write('\n'.join(lines))
+                with open(std_file, "w") as f:
+                    f.write("\n".join(lines))
 
     def fix_manifest_completeness(self):
         """Add missing standards to MANIFEST.yaml"""
@@ -70,11 +69,11 @@ class ValidationFixer:
 
         # Check which are missing
         existing = set()
-        for code, data in manifest.get('standards', {}).items():
-            if 'full_name' in data:
-                existing.add(data['full_name'])
-            elif 'filename' in data:
-                existing.add(data['filename'])
+        for code, data in manifest.get("standards", {}).items():
+            if "full_name" in data:
+                existing.add(data["full_name"])
+            elif "filename" in data:
+                existing.add(data["filename"])
 
         for std_file in all_standards:
             if std_file.name not in existing:
@@ -98,7 +97,7 @@ class ValidationFixer:
             claude_content = f.read()
 
         missing_codes = []
-        for code in manifest.get('standards', {}).keys():
+        for code in manifest.get("standards", {}).keys():
             if f"`{code}:" not in claude_content:
                 missing_codes.append(code)
 
@@ -130,7 +129,7 @@ class ValidationFixer:
             "- Added version/status headers to standards files",
             "",
             "Manual Fixes Required:",
-            ""
+            "",
         ]
 
         # Check MANIFEST.yaml
@@ -140,14 +139,15 @@ class ValidationFixer:
             manifest = yaml.safe_load(f)
 
         existing = set()
-        for code, data in manifest.get('standards', {}).items():
-            if 'full_name' in data:
-                existing.add(data['full_name'])
+        for code, data in manifest.get("standards", {}).items():
+            if "full_name" in data:
+                existing.add(data["full_name"])
 
         for std_file in self.root.glob("*_STANDARDS.md"):
             if std_file.name not in existing:
                 code = self._generate_code(std_file.name)
-                manifest_issues.append(f"""
+                manifest_issues.append(
+                    f"""
   {code}:
     identifier: "{code}"
     full_name: "{std_file.name}"
@@ -160,7 +160,8 @@ class ValidationFixer:
         description: "TBD"
     dependencies:
       requires: []
-      recommends: []""")
+      recommends: []"""
+                )
 
         if manifest_issues:
             report.append("1. Add to MANIFEST.yaml under 'standards':")
@@ -174,7 +175,9 @@ class ValidationFixer:
 
         # Check for missing sections
         report.append("3. Add missing sections to standards files:")
-        report.append("   - Ensure each file has: Overview, Table of Contents, Implementation")
+        report.append(
+            "   - Ensure each file has: Overview, Table of Contents, Implementation"
+        )
         report.append("   - Use headings like: ## Overview, ## Table of Contents")
 
         return "\n".join(report)
@@ -182,13 +185,13 @@ class ValidationFixer:
     def _generate_code(self, filename: str) -> str:
         """Generate a 2-4 letter code from filename"""
         # Simple heuristic - take first letters of words
-        name = filename.replace('_STANDARDS.md', '').replace('.md', '')
-        words = name.split('_')
+        name = filename.replace("_STANDARDS.md", "").replace(".md", "")
+        words = name.split("_")
 
         if len(words) == 1:
             return words[0][:3].upper()
         else:
-            code = ''.join(w[0] for w in words[:4])
+            code = "".join(w[0] for w in words[:4])
             return code.upper()
 
 

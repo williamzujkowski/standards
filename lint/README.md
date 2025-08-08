@@ -223,4 +223,4 @@ SKIP=standards-metadata git commit -m "WIP"
 - [ ] Custom rule builder UI
 - [ ] Integration with documentation generators
 
-For more information, see [KNOWLEDGE_MANAGEMENT_STANDARDS.md](../KNOWLEDGE_MANAGEMENT_STANDARDS.md).
+For more information, see [KNOWLEDGE_MANAGEMENT_STANDARDS.md](../docs/standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md).

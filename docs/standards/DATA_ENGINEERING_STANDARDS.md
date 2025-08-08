@@ -24,6 +24,13 @@
 
 ---
 
+## TL;DR
+- **Modern data pipeline architecture** with ETL/ELT patterns, orchestration frameworks, and automated data quality checks
+- **Data governance framework** including lineage tracking, metadata management, and privacy compliance (GDPR/CCPA)
+- **Streaming and batch processing** standards using Apache Kafka, Spark, and cloud-native solutions
+- **Analytics engineering** practices with dbt, data modeling best practices, and self-service analytics platforms
+- **MLOps integration** for model deployment, monitoring, and feature stores in production data pipelines
+
 ## Overview
 
 This standard provides comprehensive guidelines and best practices for the subject area.

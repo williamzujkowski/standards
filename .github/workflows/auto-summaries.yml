@@ -14,14 +14,15 @@ on:
 jobs:
   generate-summaries:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
         with:
           fetch-depth: 0  # Full history for change detection
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5.1.0
         with:
           python-version: '3.11'
 
@@ -31,177 +32,13 @@ jobs:
           pip install openai tiktoken  # For AI summaries
 
       - name: Generate Standards Summary
-        run: |
-          cat > generate_summary.py << 'EOF'
-          import os
-          import yaml
-          import re
-          from datetime import datetime
-
-          def extract_summary(file_path, max_lines=3):
-              """Extract first few meaningful lines from a standard."""
-              with open(file_path, 'r') as f:
-                  lines = f.readlines()
-
-              summary_lines = []
-              in_code_block = False
-
-              for line in lines[2:]:  # Skip title and blank line
-                  line = line.strip()
-                  if line.startswith('```'):
-                      in_code_block = not in_code_block
-                      continue
-
-                  if not in_code_block and line and not line.startswith('#'):
-                      summary_lines.append(line)
-                      if len(summary_lines) >= max_lines:
-                          break
-
-              return ' '.join(summary_lines)
-
-          def generate_summary():
-              summary = f"# Standards Summary\n"
-              summary += f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M UTC')}\n\n"
-
-              # Load manifest for structure
-              with open('config/MANIFEST.yaml', 'r') as f:
-                  manifest = yaml.safe_load(f)
-
-              for std_code, std_info in manifest['standards'].items():
-                  file_name = std_info['full_name']
-                  file_path = f"docs/standards/{file_name}"
-                  if os.path.exists(file_path):
-                      excerpt = extract_summary(file_path)
-                      summary += f"## {std_code} - {file_name}\n"
-                      summary += f"{excerpt}\n\n"
-
-              with open('STANDARDS_SUMMARY.md', 'w') as f:
-                  f.write(summary)
-
-          if __name__ == "__main__":
-              generate_summary()
-          EOF
-
-          python generate_summary.py
+        run: python scripts/generate_summary.py
 
       - name: Generate Weekly Digest
-        run: |
-          cat > generate_digest.py << 'EOF'
-          import subprocess
-          import re
-          from datetime import datetime, timedelta
-
-          def get_recent_changes():
-              # Get commits from last week
-              week_ago = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
-              cmd = f"git log --since='{week_ago}' --pretty=format:'%h|%s|%an|%ad' --date=short"
-              result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
-
-              changes = []
-              for line in result.stdout.strip().split('\n'):
-                  if line:
-                      parts = line.split('|')
-                      if len(parts) == 4:
-                          changes.append({
-                              'hash': parts[0],
-                              'message': parts[1],
-                              'author': parts[2],
-                              'date': parts[3]
-                          })
-              return changes
-
-          def get_changed_files():
-              week_ago = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
-              cmd = f"git diff --name-only HEAD@{{'{week_ago}'}} HEAD"
-              result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
-              return [f for f in result.stdout.strip().split('\n') if f.endswith('.md')]
-
-          def generate_digest():
-              digest = f"# Weekly Standards Digest\n"
-              digest += f"**Week of:** {datetime.now().strftime('%Y-%m-%d')}\n\n"
-
-              # Recent changes
-              changes = get_recent_changes()
-              if changes:
-                  digest += "## Recent Updates\n\n"
-                  for change in changes[:10]:  # Top 10 changes
-                      digest += f"- **{change['date']}** - {change['message']} ({change['hash']})\n"
-                  digest += "\n"
-
-              # Changed files
-              files = get_changed_files()
-              if files:
-                  digest += "## Updated Standards\n\n"
-                  for file in sorted(files):
-                      if file != 'WEEKLY_DIGEST.md':
-                          digest += f"- {file}\n"
-                  digest += "\n"
-
-              # Quick stats
-              digest += "## Repository Stats\n\n"
-              digest += f"- Total standards documents: 21\n"
-              digest += f"- Total updates this week: {len(changes)}\n"
-              digest += f"- Files changed: {len(files)}\n"
-
-              with open('WEEKLY_DIGEST.md', 'w') as f:
-                  f.write(digest)
-
-          if __name__ == "__main__":
-              generate_digest()
-          EOF
-
-          python generate_digest.py
+        run: python scripts/generate_digest.py
 
       - name: Generate Quick Reference JSON
-        run: |
-          cat > generate_reference.py << 'EOF'
-          import json
-          import yaml
-          import os
-
-          def generate_reference():
-              # Load index
-              reference = {
-                  "version": "latest",
-                  "generated": datetime.now().isoformat(),
-                  "standards": {},
-                  "quick_answers": {}
-              }
-
-              # Parse STANDARDS_INDEX.md for quick lookups
-              with open('docs/guides/STANDARDS_INDEX.md', 'r') as f:
-                  content = f.read()
-
-              # Extract quick answers
-              for line in content.split('\n'):
-                  if '|' in line and 'CS:' in line or 'SEC:' in line or 'TS:' in line:
-                      parts = [p.strip() for p in line.split('|')]
-                      if len(parts) >= 3:
-                          code = parts[0].strip('`')
-                          if code and ':' in code:
-                              reference['standards'][code] = {
-                                  'section': parts[1],
-                                  'summary': parts[2]
-                              }
-
-              # Add quick answers
-              reference['quick_answers'] = {
-                  "python_naming": "snake_case for functions/variables, PascalCase for classes",
-                  "test_coverage": "85% overall, 95% critical paths, 90% new code",
-                  "api_versioning": "/api/v1/, /api/v2/ in URL path",
-                  "password_min": "12 characters minimum",
-                  "jwt_expiry": "1 hour for access tokens, 7 days for refresh"
-              }
-
-              with open('QUICK_REFERENCE.json', 'w') as f:
-                  json.dump(reference, f, indent=2)
-
-          if __name__ == "__main__":
-              from datetime import datetime
-              generate_reference()
-          EOF
-
-          python generate_reference.py
+        run: python scripts/generate_reference.py
 
       - name: Commit and Push
         run: |

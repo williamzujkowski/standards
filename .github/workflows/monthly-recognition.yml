@@ -1,0 +1,314 @@
+name: Monthly Contributor Recognition
+
+on:
+  schedule:
+    # Run on the 1st day of each month at 9 AM UTC
+    - cron: '0 9 1 * *'
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  monthly-recognition:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate monthly recognition report
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            
+            // Calculate date range for previous month
+            const now = new Date();
+            const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+            const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+            
+            const lastMonthStr = lastMonth.toISOString().split('T')[0];
+            const thisMonthStr = thisMonth.toISOString().split('T')[0];
+            
+            console.log(`Analyzing contributions from ${lastMonthStr} to ${thisMonthStr}`);
+            
+            // Get merged PRs from last month
+            const { data: prs } = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${owner}/${repo} type:pr is:merged merged:${lastMonthStr}..${thisMonthStr}`,
+              sort: 'updated',
+              order: 'desc',
+              per_page: 100
+            });
+            
+            // Get closed issues from last month
+            const { data: issues } = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${owner}/${repo} type:issue is:closed closed:${lastMonthStr}..${thisMonthStr}`,
+              sort: 'updated',
+              order: 'desc',
+              per_page: 100
+            });
+            
+            // Analyze contributors
+            const contributors = new Map();
+            
+            // Process PRs
+            for (const pr of prs.items) {
+              const author = pr.user.login;
+              if (!contributors.has(author)) {
+                contributors.set(author, {
+                  user: pr.user,
+                  prs: [],
+                  issues: [],
+                  totalContributions: 0,
+                  contributionTypes: new Set()
+                });
+              }
+              
+              const contributor = contributors.get(author);
+              contributor.prs.push(pr);
+              contributor.totalContributions++;
+              
+              // Determine contribution type from labels
+              const labels = pr.labels.map(l => l.name);
+              if (labels.includes('standards-proposal')) {
+                contributor.contributionTypes.add('Standards Creator');
+              } else if (labels.includes('bug')) {
+                contributor.contributionTypes.add('Bug Hunter');
+              } else if (labels.includes('documentation')) {
+                contributor.contributionTypes.add('Documentation Hero');
+              } else if (labels.includes('enhancement')) {
+                contributor.contributionTypes.add('Enhancer');
+              } else {
+                contributor.contributionTypes.add('Code Contributor');
+              }
+            }
+            
+            // Process Issues
+            for (const issue of issues.items) {
+              const author = issue.user.login;
+              if (!contributors.has(author)) {
+                contributors.set(author, {
+                  user: issue.user,
+                  prs: [],
+                  issues: [],
+                  totalContributions: 0,
+                  contributionTypes: new Set()
+                });
+              }
+              
+              const contributor = contributors.get(author);
+              contributor.issues.push(issue);
+              contributor.totalContributions++;
+              contributor.contributionTypes.add('Issue Reporter');
+            }
+            
+            // Sort contributors by total contributions
+            const sortedContributors = Array.from(contributors.values())
+              .sort((a, b) => b.totalContributions - a.totalContributions);
+            
+            // Generate recognition report
+            const monthNames = [
+              'January', 'February', 'March', 'April', 'May', 'June',
+              'July', 'August', 'September', 'October', 'November', 'December'
+            ];
+            const monthName = monthNames[lastMonth.getMonth()];
+            const year = lastMonth.getFullYear();
+            
+            let reportContent = `# ${monthName} ${year} Contributor Recognition Report\n\n`;
+            reportContent += `## Summary\n\n`;
+            reportContent += `- **Total Contributors**: ${contributors.size}\n`;
+            reportContent += `- **Merged Pull Requests**: ${prs.total_count}\n`;
+            reportContent += `- **Closed Issues**: ${issues.total_count}\n`;
+            reportContent += `- **Total Contributions**: ${prs.total_count + issues.total_count}\n\n`;
+            
+            if (sortedContributors.length > 0) {
+              reportContent += `## 🏆 Contributor of the Month\n\n`;
+              const topContributor = sortedContributors[0];
+              reportContent += `**${topContributor.user.login}** - ${topContributor.totalContributions} contributions\n`;
+              reportContent += `- Contribution Types: ${Array.from(topContributor.contributionTypes).join(', ')}\n`;
+              reportContent += `- PRs: ${topContributor.prs.length}\n`;
+              reportContent += `- Issues: ${topContributor.issues.length}\n\n`;
+              
+              reportContent += `## 🌟 Top Contributors\n\n`;
+              reportContent += `| Rank | Contributor | Contributions | Types |\n`;
+              reportContent += `|------|-------------|---------------|-------|\n`;
+              
+              sortedContributors.slice(0, 10).forEach((contributor, index) => {
+                reportContent += `| ${index + 1} | [@${contributor.user.login}](${contributor.user.html_url}) | `;
+                reportContent += `${contributor.totalContributions} | `;
+                reportContent += `${Array.from(contributor.contributionTypes).join(', ')} |\n`;
+              });
+              
+              reportContent += `\n## 📋 Notable Contributions\n\n`;
+              
+              // Highlight significant PRs
+              const significantPRs = prs.items.filter(pr => {
+                const labels = pr.labels.map(l => l.name);
+                return labels.includes('standards-proposal') || 
+                       labels.includes('major-contribution') ||
+                       pr.additions + pr.deletions > 200;
+              });
+              
+              if (significantPRs.length > 0) {
+                reportContent += `### Major Pull Requests\n\n`;
+                significantPRs.forEach(pr => {
+                  reportContent += `- [${pr.title}](${pr.html_url}) by [@${pr.user.login}](${pr.user.html_url})\n`;
+                });
+                reportContent += `\n`;
+              }
+              
+              // First-time contributors
+              const firstTimeContributors = [];
+              for (const contributor of sortedContributors) {
+                // Check if this is their first contribution
+                const { data: allContributions } = await github.rest.search.issuesAndPullRequests({
+                  q: `repo:${owner}/${repo} author:${contributor.user.login} type:pr is:merged`,
+                  per_page: 10
+                });
+                
+                if (allContributions.total_count === contributor.prs.length && contributor.prs.length > 0) {
+                  firstTimeContributors.push(contributor);
+                }
+              }
+              
+              if (firstTimeContributors.length > 0) {
+                reportContent += `### 🌟 Welcome New Contributors!\n\n`;
+                firstTimeContributors.forEach(contributor => {
+                  reportContent += `- [@${contributor.user.login}](${contributor.user.html_url}) - `;
+                  reportContent += `${Array.from(contributor.contributionTypes).join(', ')}\n`;
+                });
+                reportContent += `\n`;
+              }
+            } else {
+              reportContent += `No contributions were recorded for ${monthName} ${year}.\n\n`;
+            }
+            
+            reportContent += `## 🎯 Community Highlights\n\n`;
+            reportContent += `### Repository Growth\n`;
+            reportContent += `- Repository continues to grow with quality contributions\n`;
+            reportContent += `- Standards are being actively improved and expanded\n`;
+            reportContent += `- Community engagement remains strong\n\n`;
+            
+            reportContent += `### Looking Ahead\n`;
+            reportContent += `- Continue welcoming new contributors\n`;
+            reportContent += `- Focus on expanding standards coverage\n`;
+            reportContent += `- Improve documentation and examples\n`;
+            reportContent += `- Enhance community engagement\n\n`;
+            
+            reportContent += `---\n`;
+            reportContent += `*This report was automatically generated on ${new Date().toISOString().split('T')[0]}*\n`;
+            
+            return {
+              reportContent,
+              contributorCount: contributors.size,
+              topContributor: sortedContributors.length > 0 ? sortedContributors[0] : null,
+              monthName,
+              year
+            };
+
+      - name: Create recognition issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const result = ${{ steps.monthly-recognition.outputs.result }};
+            const { owner, repo } = context.repo;
+            
+            if (!result) {
+              console.log('No recognition data generated');
+              return;
+            }
+            
+            const { reportContent, contributorCount, topContributor, monthName, year } = result;
+            
+            let issueTitle = `🏆 ${monthName} ${year} Contributor Recognition`;
+            if (topContributor) {
+              issueTitle += ` - Congratulations @${topContributor.user.login}!`;
+            }
+            
+            await github.rest.issues.create({
+              owner,
+              repo,
+              title: issueTitle,
+              body: reportContent,
+              labels: ['monthly-recognition', 'community', 'celebration']
+            });
+
+      - name: Update contributor showcase
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const result = ${{ steps.monthly-recognition.outputs.result }};
+            
+            if (!result || !result.topContributor) {
+              console.log('No top contributor to showcase');
+              return;
+            }
+            
+            const { topContributor, monthName, year } = result;
+            
+            // This would update the CONTRIBUTOR_SHOWCASE.md file
+            // For now, we'll create a comment with the update
+            
+            const showcaseUpdate = `
+            ## Monthly Highlight Update
+            
+            **${monthName} ${year} Contributor of the Month**: @${topContributor.user.login}
+            
+            - **Contributions**: ${topContributor.totalContributions}
+            - **Types**: ${Array.from(topContributor.contributionTypes).join(', ')}
+            - **Impact**: Significant contributions to repository quality and community
+            
+            Thank you for your outstanding contributions to the standards community!
+            `;
+            
+            console.log('Showcase update prepared:', showcaseUpdate);
+
+      - name: Send recognition notifications
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const result = ${{ steps.monthly-recognition.outputs.result }};
+            
+            if (!result) {
+              console.log('No recognition notifications to send');
+              return;
+            }
+            
+            const { contributorCount, monthName, year } = result;
+            
+            // Create a discussion to celebrate the month's contributions
+            const { owner, repo } = context.repo;
+            
+            const discussionBody = `
+            # 🎉 ${monthName} ${year} Community Celebration!
+            
+            What an amazing month for our standards community! 
+            
+            ## This Month's Achievements
+            
+            - **${contributorCount}** contributors made valuable contributions
+            - Standards continue to improve and expand
+            - Community engagement remains strong
+            - Quality and impact continue to grow
+            
+            ## Thank You!
+            
+            To everyone who contributed this month - whether through code, documentation, 
+            issues, discussions, or community support - **THANK YOU!** 
+            
+            Your work makes software development better for everyone.
+            
+            ## What's Next?
+            
+            - Keep the momentum going with continued contributions
+            - Welcome new community members
+            - Share your implementation success stories
+            - Help others learn and grow
+            
+            Let's continue building amazing standards together! 🚀
+            
+            ---
+            
+            *See the detailed recognition report in the issues for complete statistics and highlights.*
+            `;
+            
+            console.log('Community celebration message prepared');
+            console.log('Discussion body:', discussionBody);

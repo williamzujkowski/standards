@@ -29,6 +29,134 @@
 This standard provides comprehensive guidelines and best practices for the subject area.
 It aims to ensure consistency, quality, and maintainability across all related implementations.
 
+### Cloud Native Architecture Overview
+
+```mermaid
+graph TB
+    subgraph "Development"
+        DEV[Developers]
+        IDE[IDEs/Tools]
+        GIT[Git Repository]
+    end
+    
+    subgraph "CI/CD Pipeline"
+        BUILD[Build & Test]
+        SCAN[Security Scan]
+        REGISTRY[Container Registry]
+    end
+    
+    subgraph "Kubernetes Cluster"
+        INGRESS[Ingress Controller]
+        PODS[Application Pods]
+        SERVICES[Services]
+        STORAGE[Persistent Storage]
+    end
+    
+    subgraph "Service Mesh"
+        ISTIO[Istio Control Plane]
+        ENVOY[Envoy Proxies]
+        MTLS[mTLS Communication]
+    end
+    
+    subgraph "Observability"
+        METRICS[Prometheus]
+        LOGS[Fluentd/Loki]
+        TRACES[Jaeger]
+        DASH[Grafana]
+    end
+    
+    subgraph "Infrastructure"
+        NODES[Kubernetes Nodes]
+        NETWORK[Pod Network]
+        VOLUMES[Storage Volumes]
+    end
+    
+    DEV --> IDE
+    IDE --> GIT
+    GIT --> BUILD
+    BUILD --> SCAN
+    SCAN --> REGISTRY
+    
+    REGISTRY --> PODS
+    INGRESS --> SERVICES
+    SERVICES --> PODS
+    PODS --> STORAGE
+    
+    ISTIO --> ENVOY
+    ENVOY -.-> PODS
+    ENVOY -.-> MTLS
+    
+    PODS --> METRICS
+    PODS --> LOGS
+    PODS --> TRACES
+    METRICS --> DASH
+    LOGS --> DASH
+    TRACES --> DASH
+    
+    PODS --> NODES
+    SERVICES --> NETWORK
+    STORAGE --> VOLUMES
+```
+
+### Container Lifecycle Management
+
+```mermaid
+sequenceDiagram
+    participant D as Developer
+    participant R as Registry
+    participant K as Kubernetes
+    participant P as Pod
+    participant M as Monitoring
+    
+    D->>R: Push Container Image
+    R->>R: Security Scan
+    R->>K: Image Available
+    K->>P: Create Pod
+    P->>P: Start Container
+    P->>M: Send Metrics
+    K->>P: Health Check
+    P-->>K: Health Status
+    
+    Note over P,M: Runtime Phase
+    P->>M: Logs & Traces
+    M->>M: Alert on Issues
+    
+    Note over K,P: Scaling Event
+    K->>P: Scale Up/Down
+    P->>P: Graceful Shutdown
+    P->>M: Final Metrics
+```
+
+### Deployment Strategies
+
+```mermaid
+graph LR
+    subgraph "Rolling Update"
+        A1[Version 1] --> A2[Version 1 + 2]
+        A2 --> A3[Version 2]
+    end
+    
+    subgraph "Blue-Green"
+        B1[Blue Environment]
+        B2[Green Environment]
+        B1 -.-> B2
+    end
+    
+    subgraph "Canary"
+        C1[Version 1: 90%]
+        C2[Version 2: 10%]
+        C1 -.-> C3[Version 2: 100%]
+        C2 -.-> C3
+    end
+    
+    subgraph "A/B Testing"
+        D1[Feature A: 50%]
+        D2[Feature B: 50%]
+        D1 --> D3[Winning Feature]
+        D2 --> D3
+    end
+```
+
 ## 1. Container Standards
 
 ### 1.1 Docker Best Practices

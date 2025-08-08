@@ -1,0 +1,153 @@
+name: Feature Request
+description: Suggest a new feature, enhancement, or improvement
+title: "[FEATURE] "
+labels: ["enhancement", "feature-request"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for your feature request! Please provide detailed information to help us understand your suggestion.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please confirm you have done the following
+      options:
+        - label: I have searched existing issues to ensure this isn't a duplicate
+          required: true
+        - label: I have reviewed the current standards and documentation
+          required: true
+        - label: I have considered if this fits within the project scope
+          required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Feature Category
+      description: What type of feature are you requesting?
+      options:
+        - New Standard
+        - Standard Enhancement
+        - Tool/Script Enhancement
+        - Documentation Improvement
+        - Workflow Improvement
+        - Integration Enhancement
+        - Testing Enhancement
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority Level
+      description: How important is this feature to you?
+      options:
+        - Critical - Blocks important work
+        - High - Significantly improves workflow
+        - Medium - Nice to have improvement
+        - Low - Minor convenience
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What problem does this feature solve? What's missing currently?
+      placeholder: Describe the problem or gap this feature would address...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the solution you'd like to see implemented
+      placeholder: Describe your proposed solution in detail...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions
+      description: Have you considered any alternative approaches?
+      placeholder: Describe any alternative solutions or workarounds you've considered...
+
+  - type: textarea
+    id: benefits
+    attributes:
+      label: Benefits and Impact
+      description: Who would benefit from this feature and how?
+      placeholder: |
+        - Target users: [developers, teams, organizations]
+        - Expected benefits: [improved productivity, better compliance, etc.]
+        - Potential impact: [how many people would benefit]
+    validations:
+      required: true
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples and Use Cases
+      description: Provide specific examples of how this feature would be used
+      placeholder: |
+        Example 1: [specific scenario]
+        Example 2: [another use case]
+        Example 3: [edge case consideration]
+
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Implementation Considerations
+      description: Any thoughts on how this could be implemented?
+      placeholder: |
+        - Technical approach ideas
+        - Required changes to existing standards
+        - Integration points
+        - Potential challenges
+
+  - type: checkboxes
+    id: standards_alignment
+    attributes:
+      label: Standards Alignment
+      description: How does this align with existing standards?
+      options:
+        - label: Extends existing standards naturally
+        - label: Fills a gap in current coverage
+        - label: Improves consistency across standards
+        - label: Enhances automation capabilities
+        - label: Supports better compliance tracking
+
+  - type: textarea
+    id: related_work
+    attributes:
+      label: Related Work and References
+      description: Any related standards, tools, or resources?
+      placeholder: |
+        - Related standards: [NIST, ISO, etc.]
+        - Similar tools or implementations
+        - Industry best practices
+        - Academic research or papers
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution Interest
+      description: Are you interested in helping implement this feature?
+      options:
+        - label: I would like to implement this feature myself
+        - label: I can help with design and planning
+        - label: I can provide testing and feedback
+        - label: I can help with documentation
+        - label: I need guidance on how to contribute
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: Any other context, mockups, or information
+      placeholder: Add any other context, screenshots, mockups, or examples here...

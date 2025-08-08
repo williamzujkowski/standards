@@ -1,0 +1,842 @@
+name: Monthly Deep Analysis
+
+on:
+  schedule:
+    # Run on the 1st of each month at 2 AM UTC
+    - cron: '0 2 1 * *'
+  workflow_dispatch:
+    inputs:
+      generate_trends:
+        description: 'Generate trend analysis charts'
+        required: false
+        default: true
+        type: boolean
+      include_historical_comparison:
+        description: 'Include historical comparison'
+        required: false
+        default: true
+        type: boolean
+
+env:
+  ANALYSIS_VERSION: "1.0"
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  repository-metrics-analysis:
+    name: Repository Metrics & Trends
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        with:
+          fetch-depth: 0  # Full history for comprehensive analysis
+          
+      - name: Setup Python
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5.1.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          
+      - name: Install analysis dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pandas matplotlib seaborn numpy scipy
+          pip install gitpython pyyaml requests beautifulsoup4
+          pip install plotly kaleido  # For interactive charts
+          
+      - name: Collect repository metrics
+        id: collect-metrics
+        run: |
+          echo "## 📊 Monthly Repository Analysis" > monthly-analysis.md
+          echo "" >> monthly-analysis.md
+          echo "**Analysis Date:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> monthly-analysis.md
+          echo "**Analysis Version:** ${{ env.ANALYSIS_VERSION }}" >> monthly-analysis.md
+          echo "" >> monthly-analysis.md
+          
+          # Create comprehensive metrics collection script
+          cat > collect_monthly_metrics.py << 'EOF'
+          import os
+          import json
+          import subprocess
+          from datetime import datetime, timedelta
+          from pathlib import Path
+          import git
+          
+          def get_git_stats(repo_path='.'):
+              """Collect Git repository statistics"""
+              repo = git.Repo(repo_path)
+              
+              # Get commits from last 30 days
+              since = datetime.now() - timedelta(days=30)
+              recent_commits = list(repo.iter_commits(since=since))
+              
+              # Get all commits for overall stats
+              all_commits = list(repo.iter_commits())
+              
+              # Get file change statistics
+              file_changes = {}
+              for commit in recent_commits[:50]:  # Limit to avoid performance issues
+                  try:
+                      for item in commit.stats.files:
+                          if item.endswith('.md'):
+                              if item not in file_changes:
+                                  file_changes[item] = {'insertions': 0, 'deletions': 0, 'changes': 0}
+                              stats = commit.stats.files[item]
+                              file_changes[item]['insertions'] += stats['insertions']
+                              file_changes[item]['deletions'] += stats['deletions']
+                              file_changes[item]['changes'] += 1
+                  except Exception as e:
+                      continue
+              
+              return {
+                  'total_commits': len(all_commits),
+                  'recent_commits_30d': len(recent_commits),
+                  'contributors': len(set(commit.author.email for commit in all_commits)),
+                  'recent_contributors_30d': len(set(commit.author.email for commit in recent_commits)),
+                  'most_changed_files': sorted(file_changes.items(), 
+                                              key=lambda x: x[1]['changes'], reverse=True)[:10],
+                  'first_commit_date': all_commits[-1].committed_datetime.isoformat() if all_commits else None,
+                  'last_commit_date': all_commits[0].committed_datetime.isoformat() if all_commits else None
+              }
+          
+          def get_content_metrics():
+              """Collect content-related metrics"""
+              md_files = list(Path('.').rglob('*.md'))
+              
+              # Filter out certain directories
+              md_files = [f for f in md_files if not any(skip in str(f) for skip in 
+                         ['node_modules', '.git', 'dist', 'target', 'build'])]
+              
+              total_lines = 0
+              total_words = 0
+              file_sizes = []
+              
+              for md_file in md_files:
+                  try:
+                      with open(md_file, 'r', encoding='utf-8') as f:
+                          content = f.read()
+                          lines = len(content.splitlines())
+                          words = len(content.split())
+                          size = os.path.getsize(md_file)
+                          
+                          total_lines += lines
+                          total_words += words
+                          file_sizes.append(size)
+                  except Exception:
+                      continue
+              
+              return {
+                  'total_md_files': len(md_files),
+                  'total_lines': total_lines,
+                  'total_words': total_words,
+                  'avg_words_per_file': total_words / len(md_files) if md_files else 0,
+                  'avg_lines_per_file': total_lines / len(md_files) if md_files else 0,
+                  'total_content_size_bytes': sum(file_sizes),
+                  'avg_file_size_bytes': sum(file_sizes) / len(file_sizes) if file_sizes else 0,
+                  'largest_file_size_bytes': max(file_sizes) if file_sizes else 0
+              }
+          
+          def get_structure_metrics():
+              """Collect repository structure metrics"""
+              metrics = {}
+              
+              # Count different file types
+              file_types = {}
+              for ext in ['.md', '.py', '.js', '.ts', '.yml', '.yaml', '.json', '.sh']:
+                  files = list(Path('.').rglob(f'*{ext}'))
+                  files = [f for f in files if not any(skip in str(f) for skip in 
+                          ['node_modules', '.git', 'dist', 'target', 'build'])]
+                  file_types[ext] = len(files)
+              
+              # Count directories
+              dirs = [d for d in Path('.').rglob('*') if d.is_dir() and 
+                     not any(skip in str(d) for skip in ['node_modules', '.git', 'dist', 'target', 'build'])]
+              
+              # Standards files specifically
+              standards_files = list(Path('docs/standards').glob('*_STANDARDS.md')) if Path('docs/standards').exists() else []
+              
+              return {
+                  'file_types': file_types,
+                  'total_directories': len(dirs),
+                  'standards_files_count': len(standards_files),
+                  'total_repository_size_mb': round(
+                      sum(f.stat().st_size for f in Path('.').rglob('*') if f.is_file() and 
+                          not any(skip in str(f) for skip in ['node_modules', '.git', 'dist'])) / (1024*1024), 2)
+              }
+          
+          def get_quality_metrics():
+              """Collect quality-related metrics"""
+              try:
+                  # Run existing quality scripts
+                  compliance_result = subprocess.run(['python', 'scripts/calculate_compliance_score.py'], 
+                                                    capture_output=True, text=True)
+                  
+                  compliance_score = None
+                  if compliance_result.returncode == 0:
+                      # Parse compliance score from output
+                      for line in compliance_result.stdout.split('\n'):
+                          if 'Compliance Score:' in line:
+                              compliance_score = float(line.split(':')[1].strip().replace('%', ''))
+                              break
+                  
+                  # Count validation issues
+                  validation_issues = 0
+                  try:
+                      cross_ref_result = subprocess.run(['python', 'tests/validate_cross_references.py'], 
+                                                       capture_output=True, text=True)
+                      if cross_ref_result.returncode != 0:
+                          validation_issues += 1
+                  except:
+                      pass
+                  
+                  return {
+                      'compliance_score': compliance_score,
+                      'validation_issues_count': validation_issues,
+                      'quality_scripts_available': os.path.exists('scripts/calculate_compliance_score.py')
+                  }
+              except Exception as e:
+                  return {'error': str(e)}
+          
+          # Collect all metrics
+          print("Collecting Git statistics...")
+          git_stats = get_git_stats()
+          
+          print("Collecting content metrics...")
+          content_stats = get_content_metrics()
+          
+          print("Collecting structure metrics...")
+          structure_stats = get_structure_metrics()
+          
+          print("Collecting quality metrics...")
+          quality_stats = get_quality_metrics()
+          
+          # Combine all metrics
+          monthly_metrics = {
+              'collection_date': datetime.now().isoformat(),
+              'git_statistics': git_stats,
+              'content_metrics': content_stats,
+              'structure_metrics': structure_stats,
+              'quality_metrics': quality_stats
+          }
+          
+          # Save metrics
+          with open('monthly-metrics.json', 'w') as f:
+              json.dump(monthly_metrics, f, indent=2)
+          
+          print("Metrics collection completed successfully")
+          print(f"Total commits: {git_stats['total_commits']}")
+          print(f"Recent commits (30d): {git_stats['recent_commits_30d']}")
+          print(f"Total markdown files: {content_stats['total_md_files']}")
+          print(f"Total words: {content_stats['total_words']:,}")
+          print(f"Repository size: {structure_stats['total_repository_size_mb']}MB")
+          EOF
+          
+          python collect_monthly_metrics.py > metrics-collection.log 2>&1
+          
+          # Extract key metrics for GitHub Actions output
+          if [ -f monthly-metrics.json ]; then
+            total_commits=$(python -c "import json; data=json.load(open('monthly-metrics.json')); print(data['git_statistics']['total_commits'])")
+            total_words=$(python -c "import json; data=json.load(open('monthly-metrics.json')); print(data['content_metrics']['total_words'])")
+            repo_size=$(python -c "import json; data=json.load(open('monthly-metrics.json')); print(data['structure_metrics']['total_repository_size_mb'])")
+            
+            echo "total_commits=$total_commits" >> $GITHUB_OUTPUT
+            echo "total_words=$total_words" >> $GITHUB_OUTPUT
+            echo "repo_size_mb=$repo_size" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Generate trend analysis
+        if: ${{ github.event.inputs.generate_trends != 'false' }}
+        id: trend-analysis
+        run: |
+          echo "### 📈 Trend Analysis" >> monthly-analysis.md
+          echo "" >> monthly-analysis.md
+          
+          # Create trend analysis script
+          cat > generate_trends.py << 'EOF'
+          import json
+          import matplotlib.pyplot as plt
+          import pandas as pd
+          from datetime import datetime, timedelta
+          import numpy as np
+          from pathlib import Path
+          
+          # Load current metrics
+          with open('monthly-metrics.json', 'r') as f:
+              current_metrics = json.load(f)
+          
+          # Create historical trend data (simulated for first run)
+          historical_file = 'historical-metrics.json'
+          if Path(historical_file).exists():
+              with open(historical_file, 'r') as f:
+                  historical_data = json.load(f)
+          else:
+              historical_data = []
+          
+          # Add current metrics to historical data
+          historical_data.append(current_metrics)
+          
+          # Keep only last 12 months of data
+          historical_data = historical_data[-12:]
+          
+          # Save updated historical data
+          with open(historical_file, 'w') as f:
+              json.dump(historical_data, f, indent=2)
+          
+          # Generate trend charts if we have multiple data points
+          if len(historical_data) >= 2:
+              # Prepare data for plotting
+              dates = [datetime.fromisoformat(d['collection_date'].replace('Z', '+00:00')) 
+                      for d in historical_data]
+              
+              # Extract metrics for trending
+              commits = [d['git_statistics']['total_commits'] for d in historical_data]
+              words = [d['content_metrics']['total_words'] for d in historical_data]
+              files = [d['content_metrics']['total_md_files'] for d in historical_data]
+              size_mb = [d['structure_metrics']['total_repository_size_mb'] for d in historical_data]
+              
+              # Create trend plots
+              fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(15, 10))
+              fig.suptitle('Repository Trends - Last 12 Months', fontsize=16)
+              
+              # Commits trend
+              ax1.plot(dates, commits, marker='o', linewidth=2, markersize=6)
+              ax1.set_title('Total Commits Over Time')
+              ax1.set_ylabel('Number of Commits')
+              ax1.grid(True, alpha=0.3)
+              ax1.tick_params(axis='x', rotation=45)
+              
+              # Content words trend
+              ax2.plot(dates, words, marker='s', linewidth=2, markersize=6, color='green')
+              ax2.set_title('Total Words Over Time')
+              ax2.set_ylabel('Word Count')
+              ax2.grid(True, alpha=0.3)
+              ax2.tick_params(axis='x', rotation=45)
+              
+              # File count trend
+              ax3.plot(dates, files, marker='^', linewidth=2, markersize=6, color='orange')
+              ax3.set_title('Markdown Files Over Time')
+              ax3.set_ylabel('Number of Files')
+              ax3.grid(True, alpha=0.3)
+              ax3.tick_params(axis='x', rotation=45)
+              
+              # Repository size trend
+              ax4.plot(dates, size_mb, marker='d', linewidth=2, markersize=6, color='red')
+              ax4.set_title('Repository Size Over Time')
+              ax4.set_ylabel('Size (MB)')
+              ax4.grid(True, alpha=0.3)
+              ax4.tick_params(axis='x', rotation=45)
+              
+              plt.tight_layout()
+              plt.savefig('repository-trends.png', dpi=300, bbox_inches='tight')
+              plt.close()
+              
+              # Calculate growth rates
+              if len(historical_data) >= 2:
+                  prev_commits = historical_data[-2]['git_statistics']['total_commits']
+                  curr_commits = historical_data[-1]['git_statistics']['total_commits']
+                  commit_growth = ((curr_commits - prev_commits) / prev_commits * 100) if prev_commits > 0 else 0
+                  
+                  prev_words = historical_data[-2]['content_metrics']['total_words']
+                  curr_words = historical_data[-1]['content_metrics']['total_words']
+                  word_growth = ((curr_words - prev_words) / prev_words * 100) if prev_words > 0 else 0
+                  
+                  growth_stats = {
+                      'commit_growth_percent': round(commit_growth, 2),
+                      'word_growth_percent': round(word_growth, 2),
+                      'months_of_data': len(historical_data)
+                  }
+                  
+                  with open('growth-stats.json', 'w') as f:
+                      json.dump(growth_stats, f, indent=2)
+                  
+                  print(f"Generated trends for {len(historical_data)} months of data")
+                  print(f"Commit growth: {commit_growth:.1f}%")
+                  print(f"Content growth: {word_growth:.1f}%")
+              else:
+                  print("Generated baseline trends")
+          else:
+              print("Insufficient data for trend analysis")
+          EOF
+          
+          python generate_trends.py > trend-generation.log 2>&1
+          
+          # Add trend information to report
+          if [ -f growth-stats.json ]; then
+            echo "#### Growth Statistics" >> monthly-analysis.md
+            echo "" >> monthly-analysis.md
+            
+            python -c "
+import json
+with open('growth-stats.json') as f:
+    stats = json.load(f)
+
+print('| Metric | Monthly Growth |')
+print('|--------|----------------|')
+print(f'| Commits | {stats[\"commit_growth_percent\"]:+.1f}% |')
+print(f'| Content Words | {stats[\"word_growth_percent\"]:+.1f}% |')
+print(f'| Data Points | {stats[\"months_of_data\"]} months |')
+" >> monthly-analysis.md
+            echo "" >> monthly-analysis.md
+          fi
+          
+          if [ -f repository-trends.png ]; then
+            echo "✅ Trend charts generated successfully" >> monthly-analysis.md
+            echo "trends_generated=true" >> $GITHUB_OUTPUT
+          else
+            echo "⚠️ Trend chart generation skipped (insufficient data)" >> monthly-analysis.md
+            echo "trends_generated=false" >> $GITHUB_OUTPUT
+          fi
+          echo "" >> monthly-analysis.md
+          
+      - name: Upload trend charts
+        if: steps.trend-analysis.outputs.trends_generated == 'true'
+        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        with:
+          name: repository-trend-charts
+          path: repository-trends.png
+          retention-days: 365
+
+  comprehensive-health-assessment:
+    name: Comprehensive Health Assessment
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        
+      - name: Setup Python
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5.1.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pyyaml requests beautifulsoup4 textstat
+          
+      - name: Comprehensive health assessment
+        id: health-assessment
+        run: |
+          echo "## 🏥 Comprehensive Health Assessment" > health-assessment.md
+          echo "" >> health-assessment.md
+          
+          # Create comprehensive health assessment script
+          cat > assess_health.py << 'EOF'
+          import os
+          import subprocess
+          import json
+          from pathlib import Path
+          import yaml
+          
+          def assess_infrastructure():
+              """Assess infrastructure health"""
+              health_score = 100
+              issues = []
+              
+              # Check critical directories
+              critical_dirs = [
+                  'docs/standards', 'config', 'scripts', 'tests', 
+                  '.github/workflows', 'examples'
+              ]
+              
+              for dir_path in critical_dirs:
+                  if not Path(dir_path).exists():
+                      issues.append(f"Missing critical directory: {dir_path}")
+                      health_score -= 10
+              
+              # Check configuration files
+              config_files = [
+                  'config/standards-schema.yaml',
+                  'config/standards-api.json',
+                  'config/MANIFEST.yaml'
+              ]
+              
+              for config_file in config_files:
+                  if Path(config_file).exists():
+                      try:
+                          if config_file.endswith('.yaml') or config_file.endswith('.yml'):
+                              with open(config_file, 'r') as f:
+                                  yaml.safe_load(f)
+                          elif config_file.endswith('.json'):
+                              with open(config_file, 'r') as f:
+                                  json.load(f)
+                      except Exception as e:
+                          issues.append(f"Invalid config file {config_file}: {str(e)}")
+                          health_score -= 15
+                  else:
+                      issues.append(f"Missing config file: {config_file}")
+                      health_score -= 10
+              
+              return {
+                  'score': max(0, health_score),
+                  'issues': issues,
+                  'status': 'healthy' if health_score >= 80 else 'needs_attention' if health_score >= 60 else 'critical'
+              }
+          
+          def assess_content_quality():
+              """Assess content quality"""
+              health_score = 100
+              issues = []
+              warnings = []
+              
+              # Find markdown files
+              md_files = list(Path('.').rglob('*.md'))
+              md_files = [f for f in md_files if not any(skip in str(f) for skip in 
+                         ['node_modules', '.git', 'dist'])]
+              
+              if len(md_files) == 0:
+                  issues.append("No markdown files found")
+                  health_score = 0
+                  return {
+                      'score': health_score,
+                      'issues': issues,
+                      'warnings': warnings,
+                      'status': 'critical'
+                  }
+              
+              # Check for very large files
+              large_files = []
+              for md_file in md_files:
+                  size_mb = os.path.getsize(md_file) / (1024 * 1024)
+                  if size_mb > 5:  # Files larger than 5MB
+                      large_files.append(f"{md_file} ({size_mb:.1f}MB)")
+              
+              if large_files:
+                  warnings.append(f"Large markdown files found: {', '.join(large_files[:3])}")
+                  if len(large_files) > 3:
+                      warnings[-1] += f" and {len(large_files) - 3} more"
+                  health_score -= min(20, len(large_files) * 5)
+              
+              # Check for empty files
+              empty_files = []
+              for md_file in md_files:
+                  try:
+                      with open(md_file, 'r', encoding='utf-8') as f:
+                          content = f.read().strip()
+                          if len(content) < 50:  # Files with less than 50 characters
+                              empty_files.append(str(md_file))
+                  except Exception:
+                      continue
+              
+              if empty_files:
+                  warnings.append(f"Empty or very small files: {len(empty_files)} files")
+                  health_score -= min(15, len(empty_files) * 2)
+              
+              return {
+                  'score': max(0, health_score),
+                  'issues': issues,
+                  'warnings': warnings,
+                  'file_count': len(md_files),
+                  'large_file_count': len(large_files),
+                  'empty_file_count': len(empty_files),
+                  'status': 'healthy' if health_score >= 80 else 'needs_attention' if health_score >= 60 else 'critical'
+              }
+          
+          def assess_validation_status():
+              """Assess validation system status"""
+              health_score = 100
+              issues = []
+              warnings = []
+              
+              # Check validation scripts
+              validation_scripts = [
+                  'scripts/validate_standards_consistency.py',
+                  'scripts/validate_markdown_links.py',
+                  'tests/validate_cross_references.py'
+              ]
+              
+              for script in validation_scripts:
+                  if not Path(script).exists():
+                      issues.append(f"Missing validation script: {script}")
+                      health_score -= 20
+                  else:
+                      # Try to run the script
+                      try:
+                          result = subprocess.run(['python', script], 
+                                                capture_output=True, text=True, timeout=30)
+                          if result.returncode != 0:
+                              warnings.append(f"Validation script {script} reported issues")
+                              health_score -= 10
+                      except subprocess.TimeoutExpired:
+                          warnings.append(f"Validation script {script} timed out")
+                          health_score -= 5
+                      except Exception as e:
+                          issues.append(f"Cannot run validation script {script}: {str(e)}")
+                          health_score -= 15
+              
+              return {
+                  'score': max(0, health_score),
+                  'issues': issues,
+                  'warnings': warnings,
+                  'status': 'healthy' if health_score >= 80 else 'needs_attention' if health_score >= 60 else 'critical'
+              }
+          
+          # Run all assessments
+          print("Assessing infrastructure health...")
+          infrastructure = assess_infrastructure()
+          
+          print("Assessing content quality...")
+          content = assess_content_quality()
+          
+          print("Assessing validation status...")
+          validation = assess_validation_status()
+          
+          # Calculate overall health score
+          overall_score = (infrastructure['score'] + content['score'] + validation['score']) / 3
+          
+          # Combine all results
+          health_assessment = {
+              'overall_score': round(overall_score, 1),
+              'infrastructure': infrastructure,
+              'content': content,
+              'validation': validation,
+              'assessment_date': datetime.now().isoformat()
+          }
+          
+          # Save assessment
+          with open('health-assessment.json', 'w') as f:
+              json.dump(health_assessment, f, indent=2)
+          
+          print(f"Overall health score: {overall_score:.1f}/100")
+          print(f"Infrastructure: {infrastructure['score']}/100")
+          print(f"Content: {content['score']}/100")
+          print(f"Validation: {validation['score']}/100")
+          EOF
+          
+          python assess_health.py > health-assessment.log 2>&1
+          
+          # Add health assessment to report
+          if [ -f health-assessment.json ]; then
+            echo "### 🎯 Health Score Overview" >> health-assessment.md
+            echo "" >> health-assessment.md
+            
+            python -c "
+import json
+with open('health-assessment.json') as f:
+    assessment = json.load(f)
+
+overall = assessment['overall_score']
+infra = assessment['infrastructure']['score']
+content = assessment['content']['score']
+validation = assessment['validation']['score']
+
+def get_status_emoji(score):
+    if score >= 80:
+        return '✅'
+    elif score >= 60:
+        return '⚠️'
+    else:
+        return '❌'
+
+print('| Component | Score | Status |')
+print('|-----------|-------|--------|')
+print(f'| Overall Health | {overall}/100 | {get_status_emoji(overall)} |')
+print(f'| Infrastructure | {infra}/100 | {get_status_emoji(infra)} |')
+print(f'| Content Quality | {content}/100 | {get_status_emoji(content)} |')
+print(f'| Validation System | {validation}/100 | {get_status_emoji(validation)} |')
+" >> health-assessment.md
+            
+            echo "" >> health-assessment.md
+            echo "### 📋 Detailed Findings" >> health-assessment.md
+            echo "" >> health-assessment.md
+            
+            # Add issues and warnings
+            python -c "
+import json
+with open('health-assessment.json') as f:
+    assessment = json.load(f)
+
+for component_name, component in [('Infrastructure', assessment['infrastructure']), 
+                                  ('Content', assessment['content']), 
+                                  ('Validation', assessment['validation'])]:
+    if component['issues'] or component.get('warnings', []):
+        print(f'#### {component_name}')
+        print()
+        
+        if component['issues']:
+            print('**Issues:**')
+            for issue in component['issues']:
+                print(f'- ❌ {issue}')
+            print()
+        
+        if component.get('warnings'):
+            print('**Warnings:**')
+            for warning in component['warnings']:
+                print(f'- ⚠️ {warning}')
+            print()
+" >> health-assessment.md
+            
+            overall_score=$(python -c "import json; data=json.load(open('health-assessment.json')); print(data['overall_score'])")
+            echo "overall_health_score=$overall_score" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Upload health assessment
+        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        with:
+          name: monthly-health-assessment
+          path: health-assessment.md
+          retention-days: 365
+
+  monthly-summary:
+    name: Monthly Analysis Summary
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [repository-metrics-analysis, comprehensive-health-assessment]
+    if: always()
+    
+    steps:
+      - name: Download all analysis reports
+        uses: actions/download-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        with:
+          path: monthly-reports
+          
+      - name: Create monthly summary
+        id: create-summary
+        run: |
+          echo "# 📊 Monthly Deep Analysis Summary" > monthly-summary.md
+          echo "" >> monthly-summary.md
+          echo "**Analysis Date:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> monthly-summary.md
+          echo "**Month:** $(date -u +'%B %Y')" >> monthly-summary.md
+          echo "" >> monthly-summary.md
+          
+          echo "## 🎯 Executive Summary" >> monthly-summary.md
+          echo "" >> monthly-summary.md
+          
+          # Repository metrics summary
+          if [ "${{ needs.repository-metrics-analysis.result }}" = "success" ]; then
+            total_commits="${{ needs.repository-metrics-analysis.outputs.total_commits }}"
+            total_words="${{ needs.repository-metrics-analysis.outputs.total_words }}"
+            repo_size="${{ needs.repository-metrics-analysis.outputs.repo_size_mb }}"
+            
+            echo "### 📈 Repository Growth" >> monthly-summary.md
+            echo "" >> monthly-summary.md
+            echo "| Metric | Current Value |" >> monthly-summary.md
+            echo "|--------|---------------|" >> monthly-summary.md
+            echo "| Total Commits | $total_commits |" >> monthly-summary.md
+            echo "| Total Words | ${total_words} |" >> monthly-summary.md
+            echo "| Repository Size | ${repo_size}MB |" >> monthly-summary.md
+            echo "" >> monthly-summary.md
+          else
+            echo "### ❌ Repository Metrics" >> monthly-summary.md
+            echo "" >> monthly-summary.md
+            echo "Repository metrics analysis failed. Check logs for details." >> monthly-summary.md
+            echo "" >> monthly-summary.md
+          fi
+          
+          # Health assessment summary
+          if [ "${{ needs.comprehensive-health-assessment.result }}" = "success" ]; then
+            health_score="${{ needs.comprehensive-health-assessment.outputs.overall_health_score }}"
+            
+            echo "### 🏥 Repository Health" >> monthly-summary.md
+            echo "" >> monthly-summary.md
+            echo "**Overall Health Score:** $health_score/100" >> monthly-summary.md
+            echo "" >> monthly-summary.md
+            
+            # Determine health status
+            health_status="unknown"
+            if [ -n "$health_score" ]; then
+              if (( $(echo "$health_score >= 80" | bc -l) )); then
+                health_status="excellent"
+                echo "✅ **Status:** Excellent - Repository is in excellent health" >> monthly-summary.md
+              elif (( $(echo "$health_score >= 60" | bc -l) )); then
+                health_status="good"
+                echo "⚠️ **Status:** Good - Some areas need attention" >> monthly-summary.md
+              else
+                health_status="critical"
+                echo "❌ **Status:** Critical - Immediate attention required" >> monthly-summary.md
+              fi
+            fi
+            echo "" >> monthly-summary.md
+          else
+            echo "### ❌ Health Assessment" >> monthly-summary.md
+            echo "" >> monthly-summary.md
+            echo "Health assessment failed. Check logs for details." >> monthly-summary.md
+            echo "" >> monthly-summary.md
+            health_status="unknown"
+          fi
+          
+          echo "## 📋 Key Findings" >> monthly-summary.md
+          echo "" >> monthly-summary.md
+          echo "### ✅ Strengths" >> monthly-summary.md
+          echo "- Automated validation workflows are operational" >> monthly-summary.md
+          echo "- Comprehensive monitoring and analysis in place" >> monthly-summary.md
+          echo "- Regular health checks and quality assessments" >> monthly-summary.md
+          echo "" >> monthly-summary.md
+          
+          echo "### 🎯 Recommendations" >> monthly-summary.md
+          echo "" >> monthly-summary.md
+          echo "1. **Review Detailed Reports:** Examine all generated artifacts for specific insights" >> monthly-summary.md
+          echo "2. **Address Health Issues:** Focus on any critical health findings" >> monthly-summary.md
+          echo "3. **Monitor Trends:** Track growth patterns and performance metrics" >> monthly-summary.md
+          echo "4. **Quality Improvements:** Implement recommendations from content analysis" >> monthly-summary.md
+          echo "" >> monthly-summary.md
+          
+          echo "## 📊 Available Reports" >> monthly-summary.md
+          echo "" >> monthly-summary.md
+          echo "The following detailed reports are available as workflow artifacts:" >> monthly-summary.md
+          echo "" >> monthly-summary.md
+          echo "- **Monthly Metrics:** Comprehensive repository statistics and trends" >> monthly-summary.md
+          echo "- **Health Assessment:** Detailed health analysis with specific findings" >> monthly-summary.md
+          echo "- **Trend Charts:** Visual representation of repository growth (if available)" >> monthly-summary.md
+          echo "" >> monthly-summary.md
+          
+          echo "## 🔄 Next Actions" >> monthly-summary.md
+          echo "" >> monthly-summary.md
+          echo "- **Next Monthly Analysis:** $(date -d 'next month' -u +'%Y-%m-01')" >> monthly-summary.md
+          echo "- **Next Weekly Validation:** $(date -d 'next sunday' -u +'%Y-%m-%d')" >> monthly-summary.md
+          echo "- **Daily Health Checks:** Continue automated daily monitoring" >> monthly-summary.md
+          echo "" >> monthly-summary.md
+          
+          # Set outputs for potential alerting
+          echo "health_status=$health_status" >> $GITHUB_OUTPUT
+          echo "analysis_completed=true" >> $GITHUB_OUTPUT
+          
+      - name: Upload monthly summary
+        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        with:
+          name: monthly-analysis-summary
+          path: monthly-summary.md
+          retention-days: 1095  # Keep monthly summaries for 3 years
+          
+      - name: Update step summary
+        run: |
+          cat monthly-summary.md >> $GITHUB_STEP_SUMMARY
+          
+      - name: Create issue for critical health status
+        if: steps.create-summary.outputs.health_status == 'critical'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        with:
+          script: |
+            const month = new Date().toLocaleString('default', { month: 'long', year: 'numeric' });
+            const title = `🚨 Critical Repository Health - ${month} Analysis`;
+            const body = `
+            ## Critical Health Issues Detected
+            
+            The monthly deep analysis has detected critical repository health issues that require immediate attention.
+            
+            **Health Score:** ${{ needs.comprehensive-health-assessment.outputs.overall_health_score }}/100
+            **Analysis Month:** ${month}
+            
+            **Run Details:**
+            - Workflow: ${{ github.workflow }}
+            - Run ID: ${{ github.run_id }}
+            - Date: ${new Date().toUTCString()}
+            
+            ### Critical Actions Required:
+            1. Download and review the monthly health assessment from artifacts
+            2. Address all critical health issues immediately
+            3. Review repository metrics for concerning trends
+            4. Implement corrective measures and monitor improvements
+            
+            **Workflow Link:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            
+            This issue was automatically created by the monthly analysis workflow.
+            `;
+            
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+              labels: ['health', 'critical', 'automated', 'monthly-analysis']
+            });

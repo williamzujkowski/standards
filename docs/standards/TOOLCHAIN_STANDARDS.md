@@ -13,7 +13,7 @@ This standard provides comprehensive guidelines and best practices for the subje
 It aims to ensure consistency, quality, and maintainability across all related implementations.
 
 ## Purpose
-This document provides centralized, standardized tool recommendations for all development activities. All tool selections are managed through the [TOOLS_CATALOG.yaml](./config/TOOLS_CATALOG.yaml) for easy updates and customization.
+This document provides centralized, standardized tool recommendations for all development activities. All tool selections are managed through the [TOOLS_CATALOG.yaml](../../config/TOOLS_CATALOG.yaml) for easy updates and customization.
 
 ## Table of Contents
 1. [Tool Selection Guidelines](#tool-selection-guidelines)

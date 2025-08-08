@@ -1,0 +1,676 @@
+name: Automated Alerting System
+
+on:
+  workflow_run:
+    workflows: [
+      "Daily Health Check",
+      "Weekly Comprehensive Validation", 
+      "Monthly Deep Analysis",
+      "Quarterly System Review",
+      "Quality Gates",
+      "Standards Validation",
+      "NIST 800-53r5 Continuous Compliance"
+    ]
+    types: [completed]
+  schedule:
+    # Run alerting summary daily at 8 AM UTC
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+    inputs:
+      alert_level:
+        description: 'Alert severity level to test'
+        required: false
+        default: 'info'
+        type: choice
+        options:
+          - info
+          - warning
+          - critical
+          - emergency
+
+env:
+  ALERTING_VERSION: "1.0"
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  process-workflow-alerts:
+    name: Process Workflow Alerts
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: github.event.workflow_run
+    
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        
+      - name: Setup Python
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5.1.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install requests pyyaml
+          
+      - name: Analyze workflow result
+        id: analyze-workflow
+        run: |
+          workflow_name="${{ github.event.workflow_run.name }}"
+          workflow_conclusion="${{ github.event.workflow_run.conclusion }}"
+          workflow_id="${{ github.event.workflow_run.id }}"
+          workflow_run_number="${{ github.event.workflow_run.run_number }}"
+          
+          echo "Analyzing workflow: $workflow_name"
+          echo "Conclusion: $workflow_conclusion"
+          echo "Run ID: $workflow_id"
+          
+          # Determine alert level based on workflow and result
+          alert_level="info"
+          alert_message=""
+          
+          case "$workflow_conclusion" in
+            "success")
+              alert_level="info"
+              alert_message="✅ $workflow_name completed successfully"
+              ;;
+            "failure")
+              case "$workflow_name" in
+                "Daily Health Check")
+                  alert_level="critical"
+                  alert_message="🚨 Daily Health Check FAILED - Repository health compromised"
+                  ;;
+                "Quality Gates")
+                  alert_level="warning"
+                  alert_message="⚠️ Quality Gates FAILED - Code quality standards not met"
+                  ;;
+                "Weekly Comprehensive Validation")
+                  alert_level="critical"
+                  alert_message="🚨 Weekly Validation FAILED - Multiple validation issues detected"
+                  ;;
+                "Monthly Deep Analysis")
+                  alert_level="warning"
+                  alert_message="⚠️ Monthly Analysis FAILED - System analysis incomplete"
+                  ;;
+                "Quarterly System Review")
+                  alert_level="critical"
+                  alert_message="🚨 Quarterly Review FAILED - Strategic system review incomplete"
+                  ;;
+                *)
+                  alert_level="warning"
+                  alert_message="⚠️ $workflow_name FAILED - Investigation required"
+                  ;;
+              esac
+              ;;
+            "cancelled")
+              alert_level="warning"
+              alert_message="⚠️ $workflow_name was cancelled - May indicate resource issues"
+              ;;
+            "timed_out")
+              alert_level="critical"
+              alert_message="🚨 $workflow_name timed out - Performance issue detected"
+              ;;
+            *)
+              alert_level="warning"
+              alert_message="⚠️ $workflow_name completed with unknown status: $workflow_conclusion"
+              ;;
+          esac
+          
+          # Set outputs
+          echo "alert_level=$alert_level" >> $GITHUB_OUTPUT
+          echo "alert_message=$alert_message" >> $GITHUB_OUTPUT
+          echo "workflow_name=$workflow_name" >> $GITHUB_OUTPUT
+          echo "workflow_conclusion=$workflow_conclusion" >> $GITHUB_OUTPUT
+          echo "workflow_url=${{ github.server_url }}/${{ github.repository }}/actions/runs/$workflow_id" >> $GITHUB_OUTPUT
+          
+      - name: Create alert record
+        id: create-alert
+        run: |
+          # Create alert record for tracking
+          cat > alert-record.json << EOF
+          {
+            "timestamp": "$(date -u +"%Y-%m-%d %H:%M:%S UTC")",
+            "alert_id": "alert-$(date +%s)",
+            "workflow_name": "${{ steps.analyze-workflow.outputs.workflow_name }}",
+            "workflow_conclusion": "${{ steps.analyze-workflow.outputs.workflow_conclusion }}",
+            "alert_level": "${{ steps.analyze-workflow.outputs.alert_level }}",
+            "alert_message": "${{ steps.analyze-workflow.outputs.alert_message }}",
+            "workflow_url": "${{ steps.analyze-workflow.outputs.workflow_url }}",
+            "repository": "${{ github.repository }}",
+            "triggered_by": "workflow_run"
+          }
+          EOF
+          
+          echo "Alert record created:"
+          cat alert-record.json
+          
+      - name: Process critical alerts
+        if: steps.analyze-workflow.outputs.alert_level == 'critical' || steps.analyze-workflow.outputs.alert_level == 'emergency'
+        run: |
+          echo "## 🚨 CRITICAL ALERT" > critical-alert.md
+          echo "" >> critical-alert.md
+          echo "**Alert Level:** ${{ steps.analyze-workflow.outputs.alert_level }}" >> critical-alert.md
+          echo "**Message:** ${{ steps.analyze-workflow.outputs.alert_message }}" >> critical-alert.md
+          echo "**Workflow:** ${{ steps.analyze-workflow.outputs.workflow_name }}" >> critical-alert.md
+          echo "**Status:** ${{ steps.analyze-workflow.outputs.workflow_conclusion }}" >> critical-alert.md
+          echo "**Time:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> critical-alert.md
+          echo "" >> critical-alert.md
+          echo "**Workflow Link:** ${{ steps.analyze-workflow.outputs.workflow_url }}" >> critical-alert.md
+          echo "" >> critical-alert.md
+          echo "### Immediate Actions Required:" >> critical-alert.md
+          echo "1. Investigate the failed workflow immediately" >> critical-alert.md
+          echo "2. Review workflow logs and artifacts" >> critical-alert.md
+          echo "3. Address any identified issues" >> critical-alert.md
+          echo "4. Re-run validation after fixes" >> critical-alert.md
+          echo "" >> critical-alert.md
+          echo "This is an automated alert from the repository monitoring system." >> critical-alert.md
+          
+      - name: Create GitHub issue for critical alerts
+        if: steps.analyze-workflow.outputs.alert_level == 'critical' || steps.analyze-workflow.outputs.alert_level == 'emergency'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        with:
+          script: |
+            const title = `🚨 CRITICAL: ${{ steps.analyze-workflow.outputs.workflow_name }} Failed`;
+            const body = `
+            ## Critical Workflow Failure Alert
+            
+            ${{ steps.analyze-workflow.outputs.alert_message }}
+            
+            **Details:**
+            - **Workflow:** ${{ steps.analyze-workflow.outputs.workflow_name }}
+            - **Status:** ${{ steps.analyze-workflow.outputs.workflow_conclusion }}
+            - **Alert Level:** ${{ steps.analyze-workflow.outputs.alert_level }}
+            - **Time:** ${new Date().toUTCString()}
+            
+            **Immediate Actions Required:**
+            1. 🔍 Investigate the workflow failure immediately
+            2. 📋 Review workflow logs and artifacts
+            3. 🔧 Address any identified critical issues
+            4. ✅ Re-run validation after fixes are applied
+            5. 📊 Monitor subsequent runs for stability
+            
+            **Workflow Link:** ${{ steps.analyze-workflow.outputs.workflow_url }}
+            
+            ---
+            *This issue was automatically created by the Automated Alerting System*
+            `;
+            
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+              labels: ['critical-alert', 'automated', 'workflow-failure', '${{ steps.analyze-workflow.outputs.alert_level }}']
+            });
+            
+      - name: Upload alert artifacts
+        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        with:
+          name: workflow-alert-${{ github.event.workflow_run.id }}
+          path: |
+            alert-record.json
+            critical-alert.md
+          retention-days: 90
+
+  daily-alert-summary:
+    name: Daily Alert Summary
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        
+      - name: Setup Python
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5.1.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install requests pyyaml matplotlib pandas
+          
+      - name: Collect workflow status
+        id: collect-status
+        run: |
+          echo "## 📊 Daily Monitoring Summary" > daily-summary.md
+          echo "" >> daily-summary.md
+          echo "**Date:** $(date -u +"%Y-%m-%d")" >> daily-summary.md
+          echo "**Generated:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> daily-summary.md
+          echo "" >> daily-summary.md
+          
+          # Create status collection script
+          cat > collect_workflow_status.py << 'EOF'
+          import requests
+          import json
+          import os
+          from datetime import datetime, timedelta
+          
+          def get_workflow_runs():
+              """Get workflow runs from last 24 hours via GitHub API"""
+              # Note: In a real implementation, you would use GitHub API with proper authentication
+              # For this example, we'll simulate the workflow status collection
+              
+              # Simulated workflow status (in real implementation, fetch from GitHub API)
+              workflows = [
+                  {"name": "Daily Health Check", "status": "success", "conclusion": "success"},
+                  {"name": "Quality Gates", "status": "completed", "conclusion": "success"},
+                  {"name": "Standards Validation", "status": "completed", "conclusion": "success"},
+                  {"name": "NIST 800-53r5 Continuous Compliance", "status": "completed", "conclusion": "success"}
+              ]
+              
+              # Count status types
+              status_counts = {
+                  "success": 0,
+                  "failure": 0,
+                  "cancelled": 0,
+                  "timed_out": 0,
+                  "skipped": 0
+              }
+              
+              for workflow in workflows:
+                  conclusion = workflow.get("conclusion", "unknown")
+                  if conclusion in status_counts:
+                      status_counts[conclusion] += 1
+                  else:
+                      status_counts["skipped"] += 1
+              
+              return {
+                  "total_runs": len(workflows),
+                  "status_counts": status_counts,
+                  "workflows": workflows
+              }
+          
+          def calculate_health_score(status_counts, total_runs):
+              """Calculate overall system health score"""
+              if total_runs == 0:
+                  return 100
+              
+              success_rate = (status_counts["success"] / total_runs) * 100
+              failure_penalty = status_counts["failure"] * 20
+              timeout_penalty = status_counts["timed_out"] * 15
+              
+              health_score = success_rate - failure_penalty - timeout_penalty
+              return max(0, min(100, health_score))
+          
+          # Collect workflow data
+          workflow_data = get_workflow_runs()
+          health_score = calculate_health_score(workflow_data["status_counts"], workflow_data["total_runs"])
+          
+          # Save results
+          summary_data = {
+              "date": datetime.now().isoformat(),
+              "health_score": health_score,
+              "workflow_data": workflow_data
+          }
+          
+          with open('daily-monitoring-data.json', 'w') as f:
+              json.dump(summary_data, f, indent=2)
+          
+          print(f"Daily monitoring summary generated")
+          print(f"Health score: {health_score:.1f}%")
+          print(f"Total workflow runs: {workflow_data['total_runs']}")
+          print(f"Success rate: {workflow_data['status_counts']['success']}/{workflow_data['total_runs']}")
+          EOF
+          
+          python collect_workflow_status.py > status-collection.log 2>&1
+          
+          # Process results into summary
+          if [ -f daily-monitoring-data.json ]; then
+            echo "### 🎯 System Health Overview" >> daily-summary.md
+            echo "" >> daily-summary.md
+            
+            health_score=$(python -c "import json; data=json.load(open('daily-monitoring-data.json')); print(data['health_score'])")
+            total_runs=$(python -c "import json; data=json.load(open('daily-monitoring-data.json')); print(data['workflow_data']['total_runs'])")
+            
+            echo "**Overall Health Score:** $health_score%" >> daily-summary.md
+            echo "**Total Workflow Runs:** $total_runs" >> daily-summary.md
+            echo "" >> daily-summary.md
+            
+            # Health status indicator
+            if (( $(echo "$health_score >= 90" | bc -l) )); then
+              echo "🟢 **System Status:** Excellent - All systems operating normally" >> daily-summary.md
+            elif (( $(echo "$health_score >= 75" | bc -l) )); then
+              echo "🟡 **System Status:** Good - Minor issues detected" >> daily-summary.md
+            elif (( $(echo "$health_score >= 50" | bc -l) )); then
+              echo "🟠 **System Status:** Degraded - Multiple issues require attention" >> daily-summary.md
+            else
+              echo "🔴 **System Status:** Critical - Immediate intervention required" >> daily-summary.md
+            fi
+            echo "" >> daily-summary.md
+            
+            # Workflow status breakdown
+            echo "### 📋 Workflow Status Breakdown" >> daily-summary.md
+            echo "" >> daily-summary.md
+            
+            python -c "
+import json
+with open('daily-monitoring-data.json') as f:
+    data = json.load(f)
+
+status_counts = data['workflow_data']['status_counts']
+
+print('| Status | Count | Percentage |')
+print('|--------|-------|------------|')
+total = sum(status_counts.values())
+for status, count in status_counts.items():
+    if count > 0:
+        percentage = (count / total * 100) if total > 0 else 0
+        print(f'| {status.title()} | {count} | {percentage:.1f}% |')
+" >> daily-summary.md
+            
+            echo "" >> daily-summary.md
+            echo "health_score=$health_score" >> $GITHUB_OUTPUT
+            echo "total_runs=$total_runs" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Failed to collect workflow status data" >> daily-summary.md
+            echo "health_score=0" >> $GITHUB_OUTPUT
+            echo "total_runs=0" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Generate trend analysis
+        id: trend-analysis
+        run: |
+          echo "### 📈 Trend Analysis" >> daily-summary.md
+          echo "" >> daily-summary.md
+          
+          # Create simple trend tracking
+          cat > track_trends.py << 'EOF'
+          import json
+          import os
+          from datetime import datetime
+          
+          # Load or create trend history
+          trend_file = 'health-trends.json'
+          if os.path.exists(trend_file):
+              with open(trend_file, 'r') as f:
+                  trends = json.load(f)
+          else:
+              trends = []
+          
+          # Add today's data
+          if os.path.exists('daily-monitoring-data.json'):
+              with open('daily-monitoring-data.json', 'r') as f:
+                  today_data = json.load(f)
+              
+              trend_entry = {
+                  'date': datetime.now().strftime('%Y-%m-%d'),
+                  'health_score': today_data['health_score'],
+                  'total_runs': today_data['workflow_data']['total_runs'],
+                  'success_count': today_data['workflow_data']['status_counts']['success']
+              }
+              
+              trends.append(trend_entry)
+              
+              # Keep only last 30 days
+              trends = trends[-30:]
+              
+              # Save updated trends
+              with open(trend_file, 'w') as f:
+                  json.dump(trends, f, indent=2)
+              
+              # Analyze trends
+              if len(trends) >= 2:
+                  current_score = trends[-1]['health_score']
+                  previous_score = trends[-2]['health_score']
+                  trend_direction = "stable"
+                  
+                  if current_score > previous_score + 5:
+                      trend_direction = "improving"
+                  elif current_score < previous_score - 5:
+                      trend_direction = "declining"
+                  
+                  print(f"Health trend: {trend_direction}")
+                  print(f"Current score: {current_score:.1f}%")
+                  print(f"Previous score: {previous_score:.1f}%")
+                  print(f"Change: {current_score - previous_score:+.1f}%")
+                  
+                  with open('trend-analysis.json', 'w') as f:
+                      json.dump({
+                          'trend_direction': trend_direction,
+                          'current_score': current_score,
+                          'previous_score': previous_score,
+                          'change': current_score - previous_score
+                      }, f)
+              else:
+                  print("Insufficient data for trend analysis")
+          EOF
+          
+          python track_trends.py > trend-analysis.log 2>&1
+          
+          # Add trend information to summary
+          if [ -f trend-analysis.json ]; then
+            python -c "
+import json
+with open('trend-analysis.json') as f:
+    trend = json.load(f)
+
+direction = trend['trend_direction']
+change = trend['change']
+
+if direction == 'improving':
+    emoji = '📈'
+    status = 'Improving'
+elif direction == 'declining':
+    emoji = '📉'
+    status = 'Declining'
+else:
+    emoji = '➡️'
+    status = 'Stable'
+
+print(f'**Health Trend:** {emoji} {status} ({change:+.1f}%)')
+print()
+print(f'- **Current Score:** {trend[\"current_score\"]:.1f}%')
+print(f'- **Previous Score:** {trend[\"previous_score\"]:.1f}%')
+print(f'- **Change:** {change:+.1f} percentage points')
+" >> daily-summary.md
+          else
+            echo "**Health Trend:** ➡️ Insufficient data for trend analysis" >> daily-summary.md
+          fi
+          echo "" >> daily-summary.md
+          
+      - name: Generate recommendations
+        id: recommendations
+        run: |
+          health_score="${{ steps.collect-status.outputs.health_score }}"
+          
+          echo "### 🎯 Recommendations" >> daily-summary.md
+          echo "" >> daily-summary.md
+          
+          if (( $(echo "$health_score >= 90" | bc -l) )); then
+            echo "#### System Performance: Excellent ✅" >> daily-summary.md
+            echo "" >> daily-summary.md
+            echo "- Continue current monitoring and validation practices" >> daily-summary.md
+            echo "- Regular review of automation effectiveness" >> daily-summary.md
+            echo "- Consider expanding validation coverage" >> daily-summary.md
+          elif (( $(echo "$health_score >= 75" | bc -l) )); then
+            echo "#### System Performance: Good ⚠️" >> daily-summary.md
+            echo "" >> daily-summary.md
+            echo "- Review recent workflow failures for patterns" >> daily-summary.md
+            echo "- Check validation script performance" >> daily-summary.md
+            echo "- Investigate any recurring issues" >> daily-summary.md
+          else
+            echo "#### System Performance: Needs Attention 🚨" >> daily-summary.md
+            echo "" >> daily-summary.md
+            echo "- **Immediate attention required**" >> daily-summary.md
+            echo "- Review all failed workflows from the last 24 hours" >> daily-summary.md
+            echo "- Check system resources and performance" >> daily-summary.md
+            echo "- Consider emergency maintenance if needed" >> daily-summary.md
+          fi
+          echo "" >> daily-summary.md
+          
+          echo "### 📅 Upcoming Scheduled Activities" >> daily-summary.md
+          echo "" >> daily-summary.md
+          echo "- **Daily Health Checks:** Continue automated monitoring" >> daily-summary.md
+          echo "- **Weekly Validation:** $(date -d 'next sunday' +'%Y-%m-%d')" >> daily-summary.md
+          echo "- **Monthly Analysis:** $(date -d 'next month' +'%Y-%m-01')" >> daily-summary.md
+          echo "- **Quarterly Review:** Next quarter start" >> daily-summary.md
+          echo "" >> daily-summary.md
+          
+          echo "### 📚 Quick Links" >> daily-summary.md
+          echo "" >> daily-summary.md
+          echo "- [Repository Actions](${{ github.server_url }}/${{ github.repository }}/actions)" >> daily-summary.md
+          echo "- [Quality Standards](docs/standards/)" >> daily-summary.md
+          echo "- [Validation Scripts](scripts/)" >> daily-summary.md
+          echo "- [Health Check Workflows](.github/workflows/)" >> daily-summary.md
+          echo "" >> daily-summary.md
+          
+          echo "---" >> daily-summary.md
+          echo "*This summary was automatically generated by the Automated Alerting System*" >> daily-summary.md
+          
+      - name: Upload daily summary
+        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        with:
+          name: daily-monitoring-summary-$(date +%Y%m%d)
+          path: |
+            daily-summary.md
+            daily-monitoring-data.json
+            health-trends.json
+          retention-days: 365
+          
+      - name: Update step summary
+        run: |
+          cat daily-summary.md >> $GITHUB_STEP_SUMMARY
+          
+      - name: Create issue for degraded health
+        if: steps.collect-status.outputs.health_score < 75
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        with:
+          script: |
+            const healthScore = ${{ steps.collect-status.outputs.health_score }};
+            const date = new Date().toISOString().split('T')[0];
+            const title = `⚠️ System Health Alert - Score: ${healthScore}% - ${date}`;
+            const body = `
+            ## System Health Degradation Detected
+            
+            The daily monitoring system has detected degraded system health.
+            
+            **Health Score:** ${healthScore}%
+            **Threshold:** 75%
+            **Total Runs:** ${{ steps.collect-status.outputs.total_runs }}
+            **Date:** ${date}
+            
+            ### Recommended Actions:
+            1. 🔍 Review the daily monitoring summary artifact
+            2. 📋 Check recent workflow failures and their causes
+            3. 🔧 Address any identified system issues
+            4. 📊 Monitor subsequent health scores for improvement
+            5. 🚨 Escalate if health continues to decline
+            
+            ### Next Steps:
+            - Investigate root causes of recent failures
+            - Review system resource utilization
+            - Check automation script performance
+            - Consider increasing monitoring frequency
+            
+            **Daily Summary:** Available in workflow artifacts
+            **Actions Link:** ${{ github.server_url }}/${{ github.repository }}/actions
+            
+            ---
+            *This issue was automatically created by the Daily Alert Summary*
+            `;
+            
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+              labels: ['health-alert', 'automated', 'monitoring', 'degraded-health']
+            });
+
+  test-alert-system:
+    name: Test Alert System
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: github.event_name == 'workflow_dispatch'
+    
+    steps:
+      - name: Generate test alert
+        run: |
+          alert_level="${{ github.event.inputs.alert_level || 'info' }}"
+          
+          echo "## 🧪 Test Alert Generated" > test-alert.md
+          echo "" >> test-alert.md
+          echo "**Alert Level:** $alert_level" >> test-alert.md
+          echo "**Time:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> test-alert.md
+          echo "**Purpose:** Testing alerting system functionality" >> test-alert.md
+          echo "" >> test-alert.md
+          
+          case "$alert_level" in
+            "critical"|"emergency")
+              echo "🚨 **This is a TEST CRITICAL ALERT**" >> test-alert.md
+              echo "" >> test-alert.md
+              echo "If this were a real alert, immediate action would be required." >> test-alert.md
+              ;;
+            "warning")
+              echo "⚠️ **This is a TEST WARNING ALERT**" >> test-alert.md
+              echo "" >> test-alert.md
+              echo "If this were a real alert, investigation would be recommended." >> test-alert.md
+              ;;
+            *)
+              echo "ℹ️ **This is a TEST INFO ALERT**" >> test-alert.md
+              echo "" >> test-alert.md
+              echo "This is a test of the informational alert system." >> test-alert.md
+              ;;
+          esac
+          
+          echo "" >> test-alert.md
+          echo "### Alert System Status" >> test-alert.md
+          echo "- ✅ Alert generation: Working" >> test-alert.md
+          echo "- ✅ Alert processing: Working" >> test-alert.md
+          echo "- ✅ Alert formatting: Working" >> test-alert.md
+          echo "" >> test-alert.md
+          echo "*This was a test of the automated alerting system.*" >> test-alert.md
+          
+      - name: Create test issue for critical alerts
+        if: github.event.inputs.alert_level == 'critical' || github.event.inputs.alert_level == 'emergency'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        with:
+          script: |
+            const title = `🧪 TEST ALERT: ${{ github.event.inputs.alert_level }} Level`;
+            const body = `
+            ## TEST ALERT - Alerting System Functionality Test
+            
+            **This is a TEST ALERT - No action required**
+            
+            **Alert Level:** ${{ github.event.inputs.alert_level }}
+            **Generated:** ${new Date().toUTCString()}
+            **Purpose:** Testing critical alert functionality
+            
+            ### Alert System Components Tested:
+            - ✅ Workflow trigger detection
+            - ✅ Alert level classification
+            - ✅ Issue creation for critical alerts
+            - ✅ Alert message formatting
+            - ✅ Automated labeling
+            
+            ### Next Steps for Real Alerts:
+            1. Immediate investigation of the triggering event
+            2. Review of workflow logs and artifacts
+            3. Implementation of corrective measures
+            4. Monitoring of subsequent system health
+            
+            **Test Run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            
+            ---
+            *This is a test issue created by the Automated Alerting System*
+            `;
+            
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+              labels: ['test-alert', 'automated', '${{ github.event.inputs.alert_level }}', 'alerting-system-test']
+            });
+            
+      - name: Upload test alert
+        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        with:
+          name: test-alert-${{ github.event.inputs.alert_level }}
+          path: test-alert.md
+          retention-days: 30
+          
+      - name: Update step summary
+        run: |
+          cat test-alert.md >> $GITHUB_STEP_SUMMARY

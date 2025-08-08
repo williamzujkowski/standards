@@ -290,6 +290,6 @@ Access metrics:
 ## 📚 Related Documentation
 
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
-- [CONTRIBUTING.md](./docs/core/CONTRIBUTING.md) - How workflows affect contributions
-- [tests/README.md](./tests/README.md) - Test suite documentation
+- [CONTRIBUTING.md](./CONTRIBUTING.md) - How workflows affect contributions
+- [tests/README.md](../../tests/README.md) - Test suite documentation
 - .github/workflows/ - Workflow source files directory

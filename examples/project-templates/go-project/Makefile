@@ -38,7 +38,7 @@ coverage-html: coverage ## Generate HTML coverage report
 lint: ## Run linters (golangci-lint)
 	@echo "Running golangci-lint..."
 	golangci-lint run --timeout=5m
-	
+
 	@echo "\nChecking formatting..."
 	@if [ -n "$$(gofmt -l .)" ]; then \
 		echo "❌ The following files need formatting:"; \
@@ -47,10 +47,10 @@ lint: ## Run linters (golangci-lint)
 	else \
 		echo "✅ All files are properly formatted"; \
 	fi
-	
+
 	@echo "\nChecking cyclomatic complexity..."
 	gocyclo -over 10 .
-	
+
 	@echo "\nRunning staticcheck..."
 	staticcheck ./...
 
@@ -64,7 +64,7 @@ security-check: ## Run security checks
 	@echo "Running security scan with gosec..."
 	gosec -fmt=json -out=security-report.json ./... || true
 	gosec ./...
-	
+
 	@echo "\nChecking for vulnerabilities..."
 	govulncheck ./...
 

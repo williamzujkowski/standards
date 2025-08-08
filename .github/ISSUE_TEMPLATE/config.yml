@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Community Discussion
+    url: https://github.com/williamzujkowski/standards/discussions
+    about: Ask questions and discuss standards with the community
+  - name: Security Issues
+    url: https://github.com/williamzujkowski/standards/security/advisories/new
+    about: Please report security vulnerabilities through GitHub Security Advisories
+  - name: Standards Documentation
+    url: https://github.com/williamzujkowski/standards/tree/main/docs
+    about: Browse comprehensive documentation and implementation guides

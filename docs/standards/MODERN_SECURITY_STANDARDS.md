@@ -11,6 +11,13 @@
 **Last Updated:** January 2025
 **Status:** Active
 
+## TL;DR
+- **Zero Trust Architecture** implementing "never trust, always verify" with continuous authentication and micro-segmentation
+- **Supply chain security** through dependency scanning, SBOM generation, and automated vulnerability management
+- **DevSecOps integration** shifting security left with automated scanning, policy-as-code, and security gates in CI/CD
+- **Cloud-native security** for containers, Kubernetes, and serverless with runtime protection and compliance automation
+- **Implementation priority:** Start with IAM and API security, add supply chain scanning, then implement full Zero Trust
+
 ## Table of Contents
 
 1. [Zero Trust Architecture](#1-zero-trust-architecture)
@@ -43,6 +50,102 @@ For implementation guidance:
 ## 1. Zero Trust Architecture
 
 <!-- @nist-controls: [ac-2, ac-3, ac-6, ia-2, ia-5, au-2, sc-8] -->
+
+### Zero Trust Architecture Overview
+
+```mermaid
+graph TB
+    subgraph "External Entities"
+        USER[Remote User]
+        DEVICE[User Device]
+        PARTNER[Partner Systems]
+    end
+    
+    subgraph "Identity Layer"
+        IAM[Identity Provider]
+        MFA[Multi-Factor Auth]
+        DEVICE_REG[Device Registry]
+    end
+    
+    subgraph "Policy Engine"
+        POLICY[Policy Engine]
+        RISK[Risk Assessment]
+        CONTEXT[Context Analysis]
+    end
+    
+    subgraph "Enforcement Points"
+        GATEWAY[API Gateway]
+        PROXY[Network Proxy]
+        FIREWALL[Micro-Firewall]
+    end
+    
+    subgraph "Protected Resources"
+        APP1[Application 1]
+        APP2[Application 2]
+        DATA[(Sensitive Data)]
+    end
+    
+    subgraph "Monitoring"
+        SIEM[SIEM]
+        ANALYTICS[Behavioral Analytics]
+        AUDIT[Audit Logs]
+    end
+    
+    USER --> DEVICE
+    DEVICE --> IAM
+    DEVICE --> MFA
+    DEVICE --> DEVICE_REG
+    
+    IAM --> POLICY
+    MFA --> POLICY
+    DEVICE_REG --> POLICY
+    
+    POLICY --> RISK
+    POLICY --> CONTEXT
+    
+    RISK --> GATEWAY
+    CONTEXT --> GATEWAY
+    POLICY --> PROXY
+    POLICY --> FIREWALL
+    
+    GATEWAY --> APP1
+    PROXY --> APP2
+    FIREWALL --> DATA
+    
+    GATEWAY --> SIEM
+    PROXY --> ANALYTICS
+    FIREWALL --> AUDIT
+    
+    PARTNER -.-> GATEWAY
+```
+
+### Zero Trust Decision Flow
+
+```mermaid
+graph TD
+    REQUEST[Access Request] --> IDENTIFY[Identify User/Device]
+    IDENTIFY --> VERIFY[Verify Identity]
+    VERIFY --> ASSESS[Assess Risk]
+    
+    ASSESS --> RISK_SCORE{Risk Score}
+    RISK_SCORE -->|Low| GRANT[Grant Access]
+    RISK_SCORE -->|Medium| STEP_UP[Step-up Authentication]
+    RISK_SCORE -->|High| DENY[Deny Access]
+    
+    STEP_UP --> ADDITIONAL_AUTH[Additional Authentication]
+    ADDITIONAL_AUTH --> SUCCESS{Auth Success?}
+    SUCCESS -->|Yes| GRANT
+    SUCCESS -->|No| DENY
+    
+    GRANT --> MONITOR[Continuous Monitoring]
+    MONITOR --> BEHAVIOR{Normal Behavior?}
+    BEHAVIOR -->|Yes| CONTINUE[Continue Access]
+    BEHAVIOR -->|No| CHALLENGE[Challenge User]
+    
+    CHALLENGE --> VERIFY
+    DENY --> LOG[Log Attempt]
+    LOG --> ALERT[Alert Security Team]
+```
 
 ### 1.1 Zero Trust Principles
 
@@ -1611,6 +1714,94 @@ if __name__ == "__main__":
 ## 5. DevSecOps Integration
 
 ### 5.1 Security in CI/CD Pipeline
+
+### DevSecOps Pipeline Flow
+
+```mermaid
+graph TD
+    subgraph "Developer Workflow"
+        DEV[Developer] --> CODE[Write Code]
+        CODE --> COMMIT[Git Commit]
+        COMMIT --> PUSH[Git Push]
+    end
+    
+    subgraph "Pre-commit Hooks"
+        PUSH --> SECRET_SCAN[Secret Scanning]
+        SECRET_SCAN --> LINT[Security Linting]
+        LINT --> UNIT_TEST[Unit Tests]
+    end
+    
+    subgraph "CI Pipeline"
+        UNIT_TEST --> SAST[SAST Scanning]
+        SAST --> DEPS[Dependency Scan]
+        DEPS --> BUILD[Build Artifact]
+        BUILD --> IMAGE[Container Build]
+    end
+    
+    subgraph "Security Testing"
+        IMAGE --> CONTAINER_SCAN[Container Scan]
+        CONTAINER_SCAN --> DAST[DAST Testing]
+        DAST --> COMPLIANCE[Compliance Check]
+    end
+    
+    subgraph "Policy Gates"
+        COMPLIANCE --> POLICY[Policy Evaluation]
+        POLICY --> APPROVE{Approved?}
+        APPROVE -->|No| BLOCK[Block Deployment]
+        APPROVE -->|Yes| SIGN[Sign Artifacts]
+    end
+    
+    subgraph "Deployment"
+        SIGN --> DEPLOY[Deploy to Staging]
+        DEPLOY --> RUNTIME[Runtime Security]
+        RUNTIME --> PROD[Production Deploy]
+    end
+    
+    subgraph "Monitoring"
+        PROD --> MONITOR[Security Monitoring]
+        MONITOR --> INCIDENT[Incident Response]
+        INCIDENT --> FEEDBACK[Feedback Loop]
+        FEEDBACK --> DEV
+    end
+    
+    BLOCK --> NOTIFY[Notify Developer]
+    NOTIFY --> DEV
+```
+
+### Security Gate Decision Matrix
+
+```mermaid
+graph LR
+    subgraph "Critical Gates"
+        A[Secrets Found] --> BLOCK1[❌ BLOCK]
+        B[Critical CVE] --> BLOCK2[❌ BLOCK]
+        C[License Issues] --> BLOCK3[❌ BLOCK]
+    end
+    
+    subgraph "Warning Gates"
+        D[High CVE] --> WARN1[⚠️ WARN]
+        E[Code Quality] --> WARN2[⚠️ WARN]
+        F[Missing Tests] --> WARN3[⚠️ WARN]
+    end
+    
+    subgraph "Info Gates"
+        G[Medium CVE] --> INFO1[ℹ️ INFO]
+        H[Optimization] --> INFO2[ℹ️ INFO]
+        I[Documentation] --> INFO3[ℹ️ INFO]
+    end
+    
+    BLOCK1 --> STOP[Stop Pipeline]
+    BLOCK2 --> STOP
+    BLOCK3 --> STOP
+    
+    WARN1 --> REVIEW[Manual Review]
+    WARN2 --> REVIEW
+    WARN3 --> REVIEW
+    
+    INFO1 --> CONTINUE[Continue Pipeline]
+    INFO2 --> CONTINUE
+    INFO3 --> CONTINUE
+```
 
 #### Comprehensive Security Pipeline **[REQUIRED]**
 

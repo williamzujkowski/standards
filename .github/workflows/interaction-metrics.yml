@@ -1,0 +1,310 @@
+name: Community Interaction Metrics
+
+on:
+  schedule:
+    # Run weekly on Sundays at 10 AM UTC
+    - cron: '0 10 * * 0'
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  collect-metrics:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Collect community metrics
+        id: metrics
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            
+            // Calculate date ranges
+            const now = new Date();
+            const lastWeek = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            const lastMonth = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+            
+            const lastWeekStr = lastWeek.toISOString().split('T')[0];
+            const lastMonthStr = lastMonth.toISOString().split('T')[0];
+            const nowStr = now.toISOString().split('T')[0];
+            
+            console.log(`Collecting metrics from ${lastWeekStr} to ${nowStr}`);
+            
+            // Get repository statistics
+            const { data: repoData } = await github.rest.repos.get({
+              owner,
+              repo
+            });
+            
+            // Get recent issues
+            const { data: recentIssues } = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${owner}/${repo} type:issue created:${lastWeekStr}..${nowStr}`,
+              sort: 'created',
+              order: 'desc'
+            });
+            
+            // Get recent PRs
+            const { data: recentPRs } = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${owner}/${repo} type:pr created:${lastWeekStr}..${nowStr}`,
+              sort: 'created',
+              order: 'desc'
+            });
+            
+            // Get merged PRs this week
+            const { data: mergedPRs } = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${owner}/${repo} type:pr is:merged merged:${lastWeekStr}..${nowStr}`,
+              sort: 'updated',
+              order: 'desc'
+            });
+            
+            // Get closed issues this week
+            const { data: closedIssues } = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${owner}/${repo} type:issue is:closed closed:${lastWeekStr}..${nowStr}`,
+              sort: 'updated',
+              order: 'desc'
+            });
+            
+            // Calculate unique contributors
+            const allContributors = new Set();
+            recentIssues.items.forEach(item => allContributors.add(item.user.login));
+            recentPRs.items.forEach(item => allContributors.add(item.user.login));
+            
+            // Analyze contribution patterns
+            const contributionAnalysis = {
+              newIssues: recentIssues.total_count,
+              newPRs: recentPRs.total_count,
+              mergedPRs: mergedPRs.total_count,
+              closedIssues: closedIssues.total_count,
+              uniqueContributors: allContributors.size,
+              totalStars: repoData.stargazers_count,
+              totalForks: repoData.forks_count,
+              totalWatchers: repoData.subscribers_count
+            };
+            
+            // Get issue response times (sample recent issues)
+            let avgResponseTime = 0;
+            let responsiveIssues = 0;
+            
+            for (const issue of recentIssues.items.slice(0, 10)) {
+              try {
+                const { data: comments } = await github.rest.issues.listComments({
+                  owner,
+                  repo,
+                  issue_number: issue.number,
+                  per_page: 1
+                });
+                
+                if (comments.length > 0) {
+                  const issueCreated = new Date(issue.created_at);
+                  const firstResponse = new Date(comments[0].created_at);
+                  const responseTimeHours = (firstResponse - issueCreated) / (1000 * 60 * 60);
+                  
+                  if (responseTimeHours >= 0) {
+                    avgResponseTime += responseTimeHours;
+                    responsiveIssues++;
+                  }
+                }
+              } catch (error) {
+                console.log(`Error getting comments for issue ${issue.number}`);
+              }
+            }
+            
+            if (responsiveIssues > 0) {
+              avgResponseTime = avgResponseTime / responsiveIssues;
+            }
+            
+            // Calculate health score
+            let healthScore = 0;
+            
+            // Activity score (0-30 points)
+            const totalActivity = contributionAnalysis.newIssues + contributionAnalysis.newPRs;
+            healthScore += Math.min(totalActivity * 3, 30);
+            
+            // Resolution score (0-25 points)  
+            const resolutionRate = totalActivity > 0 ? 
+              (contributionAnalysis.closedIssues + contributionAnalysis.mergedPRs) / totalActivity : 0;
+            healthScore += resolutionRate * 25;
+            
+            // Contributor diversity score (0-25 points)
+            healthScore += Math.min(contributionAnalysis.uniqueContributors * 5, 25);
+            
+            // Response time score (0-20 points)
+            if (avgResponseTime > 0) {
+              if (avgResponseTime <= 24) healthScore += 20;
+              else if (avgResponseTime <= 72) healthScore += 15;
+              else if (avgResponseTime <= 168) healthScore += 10;
+              else healthScore += 5;
+            }
+            
+            return {
+              ...contributionAnalysis,
+              avgResponseTimeHours: Math.round(avgResponseTime * 100) / 100,
+              healthScore: Math.round(healthScore),
+              weekStarting: lastWeekStr,
+              weekEnding: nowStr
+            };
+
+      - name: Generate metrics report
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const metrics = ${{ steps.metrics.outputs.result }};
+            const { owner, repo } = context.repo;
+            
+            if (!metrics) {
+              console.log('No metrics data available');
+              return;
+            }
+            
+            // Generate weekly report
+            const reportTitle = `📊 Weekly Community Metrics - ${metrics.weekStarting} to ${metrics.weekEnding}`;
+            
+            let reportBody = `# Weekly Community Health Report\n\n`;
+            
+            reportBody += `## 📈 Activity Overview\n\n`;
+            reportBody += `| Metric | This Week | Status |\n`;
+            reportBody += `|--------|-----------|--------|\n`;
+            reportBody += `| New Issues | ${metrics.newIssues} | ${metrics.newIssues >= 5 ? '🟢' : metrics.newIssues >= 2 ? '🟡' : '🔴'} |\n`;
+            reportBody += `| New Pull Requests | ${metrics.newPRs} | ${metrics.newPRs >= 3 ? '🟢' : metrics.newPRs >= 1 ? '🟡' : '🔴'} |\n`;
+            reportBody += `| Merged PRs | ${metrics.mergedPRs} | ${metrics.mergedPRs >= 2 ? '🟢' : metrics.mergedPRs >= 1 ? '🟡' : '🔴'} |\n`;
+            reportBody += `| Closed Issues | ${metrics.closedIssues} | ${metrics.closedIssues >= 3 ? '🟢' : metrics.closedIssues >= 1 ? '🟡' : '🔴'} |\n`;
+            reportBody += `| Unique Contributors | ${metrics.uniqueContributors} | ${metrics.uniqueContributors >= 5 ? '🟢' : metrics.uniqueContributors >= 2 ? '🟡' : '🔴'} |\n\n`;
+            
+            reportBody += `## 🏆 Repository Health\n\n`;
+            reportBody += `**Overall Health Score: ${metrics.healthScore}/100**\n\n`;
+            
+            let healthStatus = '';
+            if (metrics.healthScore >= 80) healthStatus = '🟢 Excellent';
+            else if (metrics.healthScore >= 60) healthStatus = '🟡 Good';
+            else if (metrics.healthScore >= 40) healthStatus = '🟠 Fair';
+            else healthStatus = '🔴 Needs Attention';
+            
+            reportBody += `Status: ${healthStatus}\n\n`;
+            
+            reportBody += `### Health Factors\n\n`;
+            reportBody += `- **Community Activity**: ${(metrics.newIssues + metrics.newPRs)} new contributions\n`;
+            reportBody += `- **Resolution Rate**: ${metrics.closedIssues + metrics.mergedPRs} items resolved\n`;
+            reportBody += `- **Contributor Diversity**: ${metrics.uniqueContributors} unique contributors\n`;
+            
+            if (metrics.avgResponseTimeHours > 0) {
+              reportBody += `- **Response Time**: Average ${metrics.avgResponseTimeHours} hours\n`;
+            }
+            
+            reportBody += `\n## 📊 Repository Statistics\n\n`;
+            reportBody += `- **Total Stars**: ${metrics.totalStars} ⭐\n`;
+            reportBody += `- **Total Forks**: ${metrics.totalForks} 🍴\n`;
+            reportBody += `- **Watchers**: ${metrics.totalWatchers} 👀\n\n`;
+            
+            reportBody += `## 🎯 Key Insights\n\n`;
+            
+            if (metrics.uniqueContributors > 5) {
+              reportBody += `- 🌟 Strong contributor diversity with ${metrics.uniqueContributors} unique contributors\n`;
+            } else if (metrics.uniqueContributors < 2) {
+              reportBody += `- ⚠️ Low contributor diversity - consider outreach efforts\n`;
+            }
+            
+            if (metrics.mergedPRs >= metrics.newPRs * 0.8) {
+              reportBody += `- ✅ Excellent PR merge rate - contributions are being processed efficiently\n`;
+            } else if (metrics.mergedPRs < metrics.newPRs * 0.3) {
+              reportBody += `- 📝 Consider reviewing PR backlog and providing faster feedback\n`;
+            }
+            
+            if (metrics.avgResponseTimeHours > 0 && metrics.avgResponseTimeHours <= 24) {
+              reportBody += `- ⚡ Excellent response time - community feels supported\n`;
+            } else if (metrics.avgResponseTimeHours > 72) {
+              reportBody += `- ⏰ Consider improving response times to maintain engagement\n`;
+            }
+            
+            const totalActivity = metrics.newIssues + metrics.newPRs;
+            if (totalActivity >= 8) {
+              reportBody += `- 🚀 High community activity - repository is thriving\n`;
+            } else if (totalActivity < 3) {
+              reportBody += `- 📢 Consider community engagement initiatives to increase activity\n`;
+            }
+            
+            reportBody += `\n## 🔄 Next Week Focus\n\n`;
+            
+            if (metrics.healthScore < 60) {
+              reportBody += `- **Priority**: Improve community health score\n`;
+              reportBody += `- **Actions**: Increase response times, encourage contributions\n`;
+            } else {
+              reportBody += `- **Priority**: Maintain current momentum\n`;
+              reportBody += `- **Actions**: Continue supporting contributors and community growth\n`;
+            }
+            
+            reportBody += `- **Community**: Welcome new contributors and recognize existing ones\n`;
+            reportBody += `- **Quality**: Continue maintaining high standards for contributions\n`;
+            reportBody += `- **Engagement**: Foster discussions and knowledge sharing\n\n`;
+            
+            reportBody += `---\n`;
+            reportBody += `*This report is automatically generated weekly to track community health and engagement.*\n`;
+            reportBody += `*Next report: ${new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}*\n`;
+            
+            return {
+              title: reportTitle,
+              body: reportBody,
+              metrics: metrics
+            };
+
+      - name: Create metrics issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const report = ${{ steps.generate-metrics-report.outputs.result }};
+            const { owner, repo } = context.repo;
+            
+            if (!report) {
+              console.log('No report generated');
+              return;
+            }
+            
+            const issue = await github.rest.issues.create({
+              owner,
+              repo,
+              title: report.title,
+              body: report.body,
+              labels: ['metrics', 'community-health', 'weekly-report']
+            });
+            
+            console.log(`Created metrics report: ${issue.data.html_url}`);
+            
+            // If health score is concerning, add priority label
+            if (report.metrics.healthScore < 50) {
+              await github.rest.issues.addLabels({
+                owner,
+                repo,
+                issue_number: issue.data.number,
+                labels: ['priority', 'needs-attention']
+              });
+            }
+
+      - name: Update health dashboard
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const report = ${{ steps.generate-metrics-report.outputs.result }};
+            
+            if (!report) {
+              console.log('No metrics to update dashboard');
+              return;
+            }
+            
+            // This would typically update a health dashboard file or external service
+            // For now, we'll log the key metrics
+            
+            console.log('=== COMMUNITY HEALTH DASHBOARD UPDATE ===');
+            console.log(`Health Score: ${report.metrics.healthScore}/100`);
+            console.log(`New Issues: ${report.metrics.newIssues}`);
+            console.log(`New PRs: ${report.metrics.newPRs}`);
+            console.log(`Merged PRs: ${report.metrics.mergedPRs}`);
+            console.log(`Unique Contributors: ${report.metrics.uniqueContributors}`);
+            console.log(`Response Time: ${report.metrics.avgResponseTimeHours} hours`);
+            console.log('=========================================');
+            
+            // In a real implementation, this could:
+            // - Update a dashboard file in the repository
+            // - Send metrics to an external monitoring service
+            // - Update a community health page
+            // - Trigger alerts if metrics are concerning

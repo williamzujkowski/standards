@@ -4,8 +4,8 @@ Thank you for your interest in contributing to our comprehensive standards repos
 
 ## 📋 Quick Links
 
-- **Creating new standards?** See [CREATING_STANDARDS_GUIDE.md](./docs/guides/CREATING_STANDARDS_GUIDE.md)
-- **Use our template:** [STANDARD_TEMPLATE.md](./docs/guides/STANDARD_TEMPLATE.md)
+- **Creating new standards?** See [CREATING_STANDARDS_GUIDE.md](../guides/CREATING_STANDARDS_GUIDE.md)
+- **Use our template:** [STANDARD_TEMPLATE.md](../guides/STANDARD_TEMPLATE.md)
 - **Report issues:** [GitHub Issues](https://github.com/williamzujkowski/standards/issues)
 
 ## 🚀 Ways to Contribute
@@ -25,7 +25,7 @@ Thank you for your interest in contributing to our comprehensive standards repos
 - Security enhancements
 
 ### 3. Create New Standards
-Follow our [Creating Standards Guide](./docs/guides/CREATING_STANDARDS_GUIDE.md) to add new standards.
+Follow our [Creating Standards Guide](../guides/CREATING_STANDARDS_GUIDE.md) to add new standards.
 
 ### 4. Update Existing Standards
 - Fix typos and grammar
@@ -89,9 +89,9 @@ Follow our [Creating Standards Guide](./docs/guides/CREATING_STANDARDS_GUIDE.md)
 ## 🤖 For LLMs Contributing
 
 When creating PRs via LLMs:
-1. Follow [CREATING_STANDARDS_GUIDE.md](./docs/guides/CREATING_STANDARDS_GUIDE.md) precisely
+1. Follow [CREATING_STANDARDS_GUIDE.md](../guides/CREATING_STANDARDS_GUIDE.md) precisely
 2. Ensure all integration points are updated
-3. Validate against [STANDARD_TEMPLATE.md](./docs/guides/STANDARD_TEMPLATE.md)
+3. Validate against [STANDARD_TEMPLATE.md](../guides/STANDARD_TEMPLATE.md)
 4. Include rationale for changes in PR description
 
 ## 📄 License
@@ -104,5 +104,5 @@ Your contributions help make software development better for everyone. We apprec
 
 ## Related Standards
 
-- [GitHub Platform Standards](./docs/standards/GITHUB_PLATFORM_STANDARDS.md) - Best practices for GitHub usage
-- [Knowledge Management Standards](./docs/standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md) - Documentation standards
+- [GitHub Platform Standards](../standards/GITHUB_PLATFORM_STANDARDS.md) - Best practices for GitHub usage
+- [Knowledge Management Standards](../standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md) - Documentation standards

@@ -757,6 +757,166 @@ standards:
       recommends: ["EVT:patterns", "TS:integration", "KM:progressive-disclosure"]
       enhances: ["CS:patterns", "SEC:validation"]
 
+  # Database Standards
+  DATABASE:
+    identifier: "DBS"
+    full_name: "DATABASE_STANDARDS.md"
+    size: "11KB"
+    token_estimate: 3000
+    sections:
+      overview:
+        tokens: 200
+        priority: "high"
+        description: "Database design and management principles"
+      sql-design:
+        tokens: 600
+        priority: "high"
+        description: "SQL design patterns and best practices"
+      nosql-patterns:
+        tokens: 500
+        priority: "medium"
+        description: "NoSQL design patterns and strategies"
+      data-modeling:
+        tokens: 400
+        priority: "high"
+        description: "Data modeling standards and normalization"
+      query-optimization:
+        tokens: 300
+        priority: "medium"
+        description: "Query performance and optimization"
+      migration-strategies:
+        tokens: 350
+        priority: "medium"
+        description: "Schema and data migration patterns"
+      security-standards:
+        tokens: 300
+        priority: "critical"
+        description: "Database security and access control"
+      backup-recovery:
+        tokens: 200
+        priority: "medium"
+        description: "Backup strategies and recovery procedures"
+      monitoring-performance:
+        tokens: 250
+        priority: "medium"
+        description: "Database monitoring and performance tuning"
+      checklist:
+        tokens: 200
+        priority: "low"
+        description: "Implementation checklist"
+    dependencies:
+      requires: ["CS:patterns"]
+      recommends: ["DE:modeling", "SEC:encryption", "OBS:monitoring"]
+      enhances: ["DE:pipelines", "CN:kubernetes"]
+
+  # Microservices Architecture Standards
+  MICROSERVICES:
+    identifier: "MSA" 
+    full_name: "MICROSERVICES_STANDARDS.md"
+    size: "60KB"
+    token_estimate: 16000
+    sections:
+      overview:
+        tokens: 400
+        priority: "high"
+        description: "Microservices architecture principles"
+      service-design:
+        tokens: 1500
+        priority: "critical"
+        description: "Domain-driven design and service boundaries"
+      communication:
+        tokens: 2500
+        priority: "high"
+        description: "Synchronous and asynchronous communication patterns"
+      service-discovery:
+        tokens: 1200
+        priority: "high"
+        description: "Service registry and load balancing"
+      resilience:
+        tokens: 2000
+        priority: "critical"
+        description: "Circuit breakers, retries, and bulkhead patterns"
+      data-management:
+        tokens: 2500
+        priority: "high"
+        description: "Database per service and saga patterns"
+      security:
+        tokens: 1500
+        priority: "critical"
+        description: "Service-to-service authentication and API gateway security"
+      testing:
+        tokens: 1800
+        priority: "high"
+        description: "Testing pyramid and contract testing"
+      deployment:
+        tokens: 1500
+        priority: "high"
+        description: "Container orchestration and service mesh"
+      api-gateway:
+        tokens: 1000
+        priority: "medium"
+        description: "API gateway patterns and BFF implementation"
+      migration:
+        tokens: 800
+        priority: "medium"
+        description: "Strangler fig pattern and monolith decomposition"
+      checklist:
+        tokens: 300
+        priority: "low"
+        description: "Implementation and readiness checklist"
+    dependencies:
+      requires: ["CN:kubernetes", "CS:patterns"]
+      recommends: ["SEC:api", "EVT:patterns", "OBS:tracing", "TS:integration"]
+      enhances: ["CN:microservices", "SEC:auth"]
+
+  # ML/AI Standards
+  ML_AI:
+    identifier: "ML"
+    full_name: "ML_AI_STANDARDS.md"
+    size: "13KB"
+    token_estimate: 3500
+    sections:
+      overview:
+        tokens: 200
+        priority: "high"
+        description: "ML/AI development and operations principles"
+      mlops-principles:
+        tokens: 400
+        priority: "critical"
+        description: "MLOps core principles and infrastructure as code"
+      model-lifecycle:
+        tokens: 600
+        priority: "high"
+        description: "Model development lifecycle and feature engineering"
+      deployment-serving:
+        tokens: 500
+        priority: "high"
+        description: "Model deployment patterns and A/B testing"
+      monitoring-maintenance:
+        tokens: 400
+        priority: "high"
+        description: "Model performance monitoring and drift detection"
+      ai-ethics:
+        tokens: 600
+        priority: "critical"
+        description: "Fairness, bias detection, and model interpretability"
+      data-pipeline:
+        tokens: 300
+        priority: "medium"
+        description: "Data validation and ML pipeline patterns"
+      experimentation:
+        tokens: 400
+        priority: "medium"
+        description: "Experiment tracking and hyperparameter optimization"
+      checklist:
+        tokens: 300
+        priority: "low"
+        description: "ML project implementation checklist"
+    dependencies:
+      requires: ["DE:pipelines", "CS:patterns"]
+      recommends: ["CN:kubernetes", "SEC:encryption", "OBS:monitoring", "TS:integration"]
+      enhances: ["DE:modeling", "CS:performance"]
+
 # Loading strategies based on use case
 loading_strategies:
   minimal:
@@ -821,6 +981,21 @@ profiles:
     sections: ["overview", "patterns", "examples"]
     priority: "medium"
 
+  database_design:
+    standards: ["DATABASE:*", "DE:modeling", "SEC:encryption"]
+    sections: ["overview", "sql-design", "data-modeling", "security-standards"]
+    priority: "high"
+
+  microservices_development:
+    standards: ["MICROSERVICES:*", "CN:kubernetes", "SEC:api", "EVT:patterns"]
+    sections: ["overview", "service-design", "communication", "resilience"]
+    priority: "high"
+
+  ml_pipeline:
+    standards: ["ML_AI:*", "DE:pipelines", "CN:kubernetes", "OBS:monitoring"]
+    sections: ["overview", "mlops-principles", "model-lifecycle", "monitoring-maintenance"]
+    priority: "high"
+
 # Caching configuration
 cache:
   default_ttl: 3600  # 1 hour
@@ -861,6 +1036,9 @@ versioning:
     COMPLIANCE: "latest"  # NIST Compliance Standards
     NIST-IG: "latest"  # NIST Implementation Guide
     MCP: "latest"  # Model Context Protocol Standards
+    DATABASE: "latest"  # Database Standards
+    MICROSERVICES: "latest"  # Microservices Architecture Standards
+    ML_AI: "latest"  # ML/AI Standards
 
   # Version support policy
   support_policy:

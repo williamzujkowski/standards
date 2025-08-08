@@ -1,0 +1,473 @@
+name: Daily Health Check
+
+on:
+  schedule:
+    # Run daily at 6 AM UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    inputs:
+      force_full_scan:
+        description: 'Force full repository scan'
+        required: false
+        default: false
+        type: boolean
+
+env:
+  HEALTH_CHECK_VERSION: "1.0"
+  
+jobs:
+  infrastructure-health:
+    name: Infrastructure Health Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        with:
+          fetch-depth: 0  # Full history for trend analysis
+          
+      - name: Setup Python
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5.1.0
+        with:
+          python-version: '3.11'
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8  # v4.0.2
+        with:
+          node-version: '18'
+          
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pyyaml yamllint requests beautifulsoup4 tiktoken
+          
+      - name: Check repository structure
+        id: repo-structure
+        run: |
+          echo "## Repository Structure Health" > health-report.md
+          echo "" >> health-report.md
+          
+          # Check critical directories
+          critical_dirs=(
+            "docs/standards"
+            "config"
+            "scripts"
+            "tests"
+            ".github/workflows"
+            "examples"
+          )
+          
+          missing_dirs=""
+          for dir in "${critical_dirs[@]}"; do
+            if [ ! -d "$dir" ]; then
+              missing_dirs="$missing_dirs $dir"
+            fi
+          done
+          
+          if [ -n "$missing_dirs" ]; then
+            echo "❌ Missing critical directories:$missing_dirs" >> health-report.md
+            echo "structure_health=failed" >> $GITHUB_OUTPUT
+          else
+            echo "✅ All critical directories present" >> health-report.md
+            echo "structure_health=passed" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Validate configuration files
+        id: config-health
+        run: |
+          echo "" >> health-report.md
+          echo "## Configuration Health" >> health-report.md
+          echo "" >> health-report.md
+          
+          config_status="passed"
+          
+          # Validate YAML files
+          for yaml_file in config/*.yaml config/*.yml .github/workflows/*.yml; do
+            if [ -f "$yaml_file" ]; then
+              if ! yamllint "$yaml_file" > /dev/null 2>&1; then
+                echo "❌ Invalid YAML: $yaml_file" >> health-report.md
+                config_status="failed"
+              fi
+            fi
+          done
+          
+          # Validate JSON files
+          for json_file in config/*.json; do
+            if [ -f "$json_file" ]; then
+              if ! python -m json.tool "$json_file" > /dev/null 2>&1; then
+                echo "❌ Invalid JSON: $json_file" >> health-report.md
+                config_status="failed"
+              fi
+            fi
+          done
+          
+          if [ "$config_status" = "passed" ]; then
+            echo "✅ All configuration files valid" >> health-report.md
+          fi
+          
+          echo "config_health=$config_status" >> $GITHUB_OUTPUT
+          
+      - name: Check script health
+        id: script-health
+        run: |
+          echo "" >> health-report.md
+          echo "## Script Health" >> health-report.md
+          echo "" >> health-report.md
+          
+          script_status="passed"
+          
+          # Check Python scripts syntax
+          for py_script in scripts/*.py tests/*.py; do
+            if [ -f "$py_script" ]; then
+              if ! python -m py_compile "$py_script" 2>/dev/null; then
+                echo "❌ Python syntax error: $py_script" >> health-report.md
+                script_status="failed"
+              fi
+            fi
+          done
+          
+          # Check shell scripts syntax
+          for sh_script in scripts/*.sh tests/*.sh; do
+            if [ -f "$sh_script" ]; then
+              if ! bash -n "$sh_script" 2>/dev/null; then
+                echo "❌ Shell syntax error: $sh_script" >> health-report.md
+                script_status="failed"
+              fi
+            fi
+          done
+          
+          if [ "$script_status" = "passed" ]; then
+            echo "✅ All scripts have valid syntax" >> health-report.md
+          fi
+          
+          echo "script_health=$script_status" >> $GITHUB_OUTPUT
+
+  content-health:
+    name: Content Health Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        
+      - name: Setup Python
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5.1.0
+        with:
+          python-version: '3.11'
+          
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pyyaml requests beautifulsoup4 markdown
+          
+      - name: Check markdown link health
+        id: link-health
+        run: |
+          echo "## Link Health Check" > content-health.md
+          echo "" >> content-health.md
+          
+          if python scripts/validate_markdown_links.py > link-results.txt 2>&1; then
+            echo "✅ All markdown links are valid" >> content-health.md
+            echo "link_health=passed" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Found broken links:" >> content-health.md
+            echo '```' >> content-health.md
+            cat link-results.txt >> content-health.md
+            echo '```' >> content-health.md
+            echo "link_health=failed" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Check standards consistency
+        id: standards-health
+        run: |
+          echo "" >> content-health.md
+          echo "## Standards Consistency" >> content-health.md
+          echo "" >> content-health.md
+          
+          if python scripts/validate_standards_consistency.py > standards-results.txt 2>&1; then
+            echo "✅ Standards schema is consistent" >> content-health.md
+            echo "standards_health=passed" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Standards consistency issues:" >> content-health.md
+            echo '```' >> content-health.md
+            cat standards-results.txt >> content-health.md
+            echo '```' >> content-health.md
+            echo "standards_health=failed" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Check cross-references
+        id: cross-ref-health
+        run: |
+          echo "" >> content-health.md
+          echo "## Cross-Reference Health" >> content-health.md
+          echo "" >> content-health.md
+          
+          if python tests/validate_cross_references.py > cross-ref-results.txt 2>&1; then
+            echo "✅ All cross-references are valid" >> content-health.md
+            echo "cross_ref_health=passed" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Cross-reference issues found:" >> content-health.md
+            echo '```' >> content-health.md
+            cat cross-ref-results.txt >> content-health.md
+            echo '```' >> content-health.md
+            echo "cross_ref_health=failed" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Upload content health report
+        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        with:
+          name: content-health-report
+          path: content-health.md
+          retention-days: 30
+
+  security-health:
+    name: Security Health Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        
+      - name: Security scan with Trivy
+        uses: aquasecurity/trivy-action@84384bd6e777ef152729993b8145ea352e9dd3ef  # v0.17.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          output: 'trivy-results.txt'
+          
+      - name: Check for secrets
+        uses: trufflesecurity/trufflehog@42b1aada5db130c2cc311c38c85086f6c28ba518  # v3.82.13
+        with:
+          path: ./
+          base: main
+          head: HEAD
+          
+      - name: Check file permissions
+        id: permissions-health
+        run: |
+          echo "## File Permissions Health" > security-health.md
+          echo "" >> security-health.md
+          
+          # Check for files with execute permissions that shouldn't have them
+          suspicious_files=$(find . -type f -name "*.md" -o -name "*.json" -o -name "*.yaml" -o -name "*.yml" | xargs ls -la | grep "^-rwx" || true)
+          
+          if [ -n "$suspicious_files" ]; then
+            echo "⚠️ Files with suspicious execute permissions:" >> security-health.md
+            echo '```' >> security-health.md
+            echo "$suspicious_files" >> security-health.md
+            echo '```' >> security-health.md
+            echo "permissions_health=warning" >> $GITHUB_OUTPUT
+          else
+            echo "✅ File permissions look normal" >> security-health.md
+            echo "permissions_health=passed" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Upload security health report
+        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        with:
+          name: security-health-report
+          path: security-health.md
+          retention-days: 30
+
+  performance-health:
+    name: Performance Health Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+        
+      - name: Check repository size
+        id: size-health
+        run: |
+          echo "## Repository Size Health" > performance-health.md
+          echo "" >> performance-health.md
+          
+          # Calculate repository size
+          repo_size=$(du -sh . | cut -f1)
+          repo_size_mb=$(du -sm . | cut -f1)
+          
+          echo "Repository size: $repo_size" >> performance-health.md
+          echo "" >> performance-health.md
+          
+          if [ "$repo_size_mb" -gt 500 ]; then
+            echo "⚠️ Repository is large (>500MB)" >> performance-health.md
+            echo "size_health=warning" >> $GITHUB_OUTPUT
+          elif [ "$repo_size_mb" -gt 1000 ]; then
+            echo "❌ Repository is very large (>1GB)" >> performance-health.md
+            echo "size_health=failed" >> $GITHUB_OUTPUT
+          else
+            echo "✅ Repository size is healthy" >> performance-health.md
+            echo "size_health=passed" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Check for large files
+        id: large-files-health
+        run: |
+          echo "" >> performance-health.md
+          echo "### Large Files Check" >> performance-health.md
+          echo "" >> performance-health.md
+          
+          # Find files larger than 5MB (excluding OSCAL catalogs)
+          large_files=$(find . -type f -size +5M -not -path "./.git/*" -not -path "*/oscal/catalogs/*" -not -name "*catalog*.json" -not -path "*/node_modules/*" | head -10)
+          
+          if [ -n "$large_files" ]; then
+            echo "⚠️ Large files found (>5MB):" >> performance-health.md
+            echo '```' >> performance-health.md
+            echo "$large_files" | while read file; do
+              size=$(du -h "$file" | cut -f1)
+              echo "$size - $file"
+            done >> performance-health.md
+            echo '```' >> performance-health.md
+            echo "large_files_health=warning" >> $GITHUB_OUTPUT
+          else
+            echo "✅ No large files found" >> performance-health.md
+            echo "large_files_health=passed" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Upload performance health report
+        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        with:
+          name: performance-health-report
+          path: performance-health.md
+          retention-days: 30
+
+  health-summary:
+    name: Health Check Summary
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [infrastructure-health, content-health, security-health, performance-health]
+    if: always()
+    
+    steps:
+      - name: Download all health reports
+        uses: actions/download-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        with:
+          path: health-reports
+          
+      - name: Create summary
+        id: create-summary
+        run: |
+          echo "## 🏥 Daily Health Check Summary" > health-summary.md
+          echo "" >> health-summary.md
+          echo "**Date:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> health-summary.md
+          echo "**Version:** ${{ env.HEALTH_CHECK_VERSION }}" >> health-summary.md
+          echo "" >> health-summary.md
+          
+          echo "### 📊 Health Status Overview" >> health-summary.md
+          echo "" >> health-summary.md
+          echo "| Component | Status |" >> health-summary.md
+          echo "|-----------|--------|" >> health-summary.md
+          
+          # Infrastructure Health
+          infra_status="${{ needs.infrastructure-health.outputs.structure_health }}"
+          config_status="${{ needs.infrastructure-health.outputs.config_health }}"
+          script_status="${{ needs.infrastructure-health.outputs.script_health }}"
+          
+          if [ "$infra_status" = "passed" ] && [ "$config_status" = "passed" ] && [ "$script_status" = "passed" ]; then
+            echo "| Infrastructure | ✅ Healthy |" >> health-summary.md
+          else
+            echo "| Infrastructure | ❌ Issues Found |" >> health-summary.md
+          fi
+          
+          # Content Health
+          link_status="${{ needs.content-health.outputs.link_health }}"
+          standards_status="${{ needs.content-health.outputs.standards_health }}"
+          cross_ref_status="${{ needs.content-health.outputs.cross_ref_health }}"
+          
+          if [ "$link_status" = "passed" ] && [ "$standards_status" = "passed" ] && [ "$cross_ref_status" = "passed" ]; then
+            echo "| Content | ✅ Healthy |" >> health-summary.md
+          else
+            echo "| Content | ❌ Issues Found |" >> health-summary.md
+          fi
+          
+          # Security Health
+          permissions_status="${{ needs.security-health.outputs.permissions_health }}"
+          if [ "$permissions_status" = "passed" ]; then
+            echo "| Security | ✅ Healthy |" >> health-summary.md
+          elif [ "$permissions_status" = "warning" ]; then
+            echo "| Security | ⚠️ Warnings |" >> health-summary.md
+          else
+            echo "| Security | ❌ Issues Found |" >> health-summary.md
+          fi
+          
+          # Performance Health
+          size_status="${{ needs.performance-health.outputs.size_health }}"
+          large_files_status="${{ needs.performance-health.outputs.large_files_health }}"
+          
+          if [ "$size_status" = "passed" ] && [ "$large_files_status" = "passed" ]; then
+            echo "| Performance | ✅ Healthy |" >> health-summary.md
+          elif [ "$size_status" = "warning" ] || [ "$large_files_status" = "warning" ]; then
+            echo "| Performance | ⚠️ Warnings |" >> health-summary.md
+          else
+            echo "| Performance | ❌ Issues Found |" >> health-summary.md
+          fi
+          
+          echo "" >> health-summary.md
+          echo "### 📋 Detailed Reports" >> health-summary.md
+          echo "" >> health-summary.md
+          echo "Detailed health reports are available as workflow artifacts." >> health-summary.md
+          echo "" >> health-summary.md
+          echo "### 🔧 Next Steps" >> health-summary.md
+          echo "" >> health-summary.md
+          echo "- Review detailed reports for any failed health checks" >> health-summary.md
+          echo "- Address critical issues immediately" >> health-summary.md
+          echo "- Monitor warnings for potential future problems" >> health-summary.md
+          echo "- Check weekly validation results for trends" >> health-summary.md
+          
+          # Determine overall health
+          overall_health="healthy"
+          if [ "$infra_status" != "passed" ] || [ "$config_status" != "passed" ] || [ "$script_status" != "passed" ] || 
+             [ "$link_status" != "passed" ] || [ "$standards_status" != "passed" ] || [ "$cross_ref_status" != "passed" ]; then
+            overall_health="unhealthy"
+          elif [ "$permissions_status" = "warning" ] || [ "$size_status" = "warning" ] || [ "$large_files_status" = "warning" ]; then
+            overall_health="warnings"
+          fi
+          
+          echo "overall_health=$overall_health" >> $GITHUB_OUTPUT
+          
+      - name: Upload health summary
+        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        with:
+          name: health-summary
+          path: health-summary.md
+          retention-days: 90
+          
+      - name: Update GitHub step summary
+        run: |
+          cat health-summary.md >> $GITHUB_STEP_SUMMARY
+          
+      - name: Create issue for critical health problems
+        if: steps.create-summary.outputs.overall_health == 'unhealthy'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        with:
+          script: |
+            const title = `🚨 Critical Repository Health Issues - ${new Date().toISOString().split('T')[0]}`;
+            const body = `
+            ## Critical Health Check Failures Detected
+            
+            The daily health check has detected critical issues that require immediate attention.
+            
+            **Run Details:**
+            - Workflow: ${{ github.workflow }}
+            - Run ID: ${{ github.run_id }}
+            - Date: ${new Date().toUTCString()}
+            
+            ### Actions Required:
+            1. Review the detailed health reports in the workflow artifacts
+            2. Address all failed health checks immediately
+            3. Re-run the health check after fixes are applied
+            
+            **Workflow Link:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            
+            This issue was automatically created by the daily health check workflow.
+            `;
+            
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+              labels: ['health-check', 'critical', 'automated']
+            });

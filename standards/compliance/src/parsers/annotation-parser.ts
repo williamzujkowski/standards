@@ -115,7 +115,7 @@ export abstract class BaseAnnotationParser {
 
     // Handle multi-control format: @nist-controls: [ac-2, ac-3]
     const multiControlPattern = /@nist-controls:\s*\[([^\]]+)\]/gi;
-    let multiMatch;
+    let multiMatch: RegExpExecArray | null;
 
     while ((multiMatch = multiControlPattern.exec(text)) !== null) {
       const controls = multiMatch[1].split(',').map(c => c.trim());
@@ -129,7 +129,7 @@ export abstract class BaseAnnotationParser {
             file: filePath,
             line: startPos.line + lineOffset,
             column: startPos.column + columnOffset,
-            context: multiMatch[0]
+            context: multiMatch![0]  // Use non-null assertion since we know it's not null here
           });
         }
       });

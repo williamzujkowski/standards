@@ -23,6 +23,31 @@
 
 ---
 
+## 📁 File Organization Guidelines
+
+### Generated Reports
+Generated reports and summaries should be placed in `reports/generated/` to keep the root directory clean. This includes:
+- Testing reports
+- Implementation summaries  
+- Validation reports
+- Weekly digests
+
+### Important Files Not to Commit
+The following files/directories are automatically ignored by `.gitignore`:
+- `.claude-flow/` - Claude Flow runtime data
+- `node_modules/` - Node.js dependencies
+- `__pycache__/` - Python cache files
+- `.vscode/`, `.idea/` - IDE configuration
+- `*.log` - Log files
+- `*.bak`, `*.orig`, `*.tmp` - Backup/temporary files
+
+### Development Setup
+Run `./scripts/setup-development.sh` to set up your development environment with:
+- Pre-commit hooks for code quality
+- Python virtual environment
+- Required dependencies
+- Proper directory structure
+
 ## 🎯 Quick Start Guide
 
 ### 🚀 **Option 1: AI-Powered Project Kickstart** (Recommended)

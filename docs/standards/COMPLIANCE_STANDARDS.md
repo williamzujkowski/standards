@@ -597,6 +597,6 @@ Format:
 - [MODERN_SECURITY_STANDARDS.md](MODERN_SECURITY_STANDARDS.md) - Security implementation standards
 - [CODING_STANDARDS.md](CODING_STANDARDS.md) - General coding standards
 - [TESTING_STANDARDS.md](TESTING_STANDARDS.md) - Security testing requirements
-- [CLAUDE.md](./docs/core/CLAUDE.md) - LLM context for compliance
+- [CLAUDE.md](../core/CLAUDE.md) - LLM context for compliance
 - [UNIFIED_STANDARDS.md](UNIFIED_STANDARDS.md) - Comprehensive standards overview
-- [NIST_IMPLEMENTATION_GUIDE.md](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md) - Quick start guide for NIST compliance
+- [NIST_IMPLEMENTATION_GUIDE.md](../nist/NIST_IMPLEMENTATION_GUIDE.md) - Quick start guide for NIST compliance

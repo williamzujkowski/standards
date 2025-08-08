@@ -1,0 +1,27 @@
+title: "[HELP] "
+body: |
+  # Implementation Help Request
+
+  ## What You're Trying to Achieve
+  <!-- Clear description of your goal -->
+
+  ## Current Situation
+  <!-- Where you are now and what you've tried -->
+
+  ## Specific Challenge
+  <!-- What specifically is blocking you? -->
+
+  ## Environment Context
+  <!-- Technical environment, constraints, requirements -->
+
+  ## What You've Tried
+  <!-- Solutions you've already attempted -->
+
+  ## Ideal Outcome
+  <!-- What would a successful solution look like? -->
+
+  ## Timeline
+  <!-- When do you need to resolve this? -->
+
+labels: ["help-wanted", "implementation"]
+assignees: []

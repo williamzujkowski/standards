@@ -1,0 +1,30 @@
+title: "[RFC] "
+body: |
+  # Request for Comments (RFC)
+
+  ## Proposal Summary
+  <!-- Brief, clear summary of what you're proposing -->
+
+  ## Background and Motivation
+  <!-- What problem does this solve? Why is this needed? -->
+
+  ## Detailed Proposal
+  <!-- Comprehensive description of your proposal -->
+
+  ## Implementation Approach
+  <!-- How would this be implemented? -->
+
+  ## Alternatives Considered
+  <!-- What other approaches did you consider? -->
+
+  ## Impact Assessment
+  <!-- Who would be affected and how? -->
+
+  ## Questions for Community
+  <!-- Specific questions you'd like community input on -->
+
+  ## References and Research
+  <!-- Related work, standards, or research -->
+
+labels: ["rfc", "community-input"]
+assignees: []

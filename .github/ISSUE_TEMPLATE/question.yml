@@ -1,0 +1,229 @@
+name: Question or Support
+description: Ask a question about standards implementation or usage
+title: "[QUESTION] "
+labels: ["question", "support"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have a question about implementing or using the standards? We're here to help! Please provide as much context as possible.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please confirm you have done the following
+      options:
+        - label: I have searched existing issues and discussions
+          required: true
+        - label: I have reviewed the relevant documentation
+          required: true
+        - label: I have checked the FAQ and troubleshooting guides
+          required: true
+
+  - type: dropdown
+    id: question_category
+    attributes:
+      label: Question Category
+      description: What area does your question relate to?
+      options:
+        - Standards Implementation
+        - Tool Configuration
+        - Compliance Requirements
+        - Best Practices
+        - Integration Issues
+        - Performance Questions
+        - Security Concerns
+        - Process Questions
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: expertise_level
+    attributes:
+      label: Your Experience Level
+      description: How familiar are you with this area?
+      options:
+        - Beginner - New to this technology/standard
+        - Intermediate - Some experience
+        - Advanced - Experienced but stuck on specific issue
+        - Expert - Deep knowledge but edge case question
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: What would you like to know?
+      placeholder: Please ask your question clearly and specifically...
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context and Background
+      description: Provide context about your situation
+      placeholder: |
+        Project Context:
+        - [Type of project or system]
+        - [Scale and complexity]
+        - [Key constraints or requirements]
+
+        What You're Trying to Achieve:
+        - [Your specific goals]
+        - [Success criteria]
+        - [Timeline considerations]
+
+        Current Situation:
+        - [What you've tried so far]
+        - [Current setup or implementation]
+        - [Specific challenges you're facing]
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment Details
+      description: Relevant technical environment information
+      placeholder: |
+        Technology Stack:
+        - [Programming languages]
+        - [Frameworks and libraries]
+        - [Infrastructure and platforms]
+
+        Environment:
+        - [Development/staging/production]
+        - [Operating system]
+        - [Tool versions]
+
+        Constraints:
+        - [Regulatory requirements]
+        - [Organizational policies]
+        - [Technical limitations]
+
+  - type: textarea
+    id: attempted_solutions
+    attributes:
+      label: What You've Tried
+      description: What approaches have you already attempted?
+      placeholder: |
+        Attempted Solutions:
+        1. [Approach 1]: [Result/outcome]
+        2. [Approach 2]: [Result/outcome]
+        3. [Approach 3]: [Result/outcome]
+
+        Research Done:
+        - [Documentation reviewed]
+        - [Similar projects or examples studied]
+        - [Community resources consulted]
+
+  - type: textarea
+    id: specific_blockers
+    attributes:
+      label: Specific Blockers or Confusion
+      description: What specifically is blocking you or causing confusion?
+      placeholder: |
+        Specific Issues:
+        - [Exact error messages or unexpected behavior]
+        - [Concepts that are unclear]
+        - [Decision points where you're unsure]
+
+        Error Details:
+        - [Code snippets that aren't working]
+        - [Configuration that seems incorrect]
+        - [Unexpected results]
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: Urgency Level
+      description: How urgently do you need an answer?
+      options:
+        - Low - General curiosity or future planning
+        - Medium - Would help with current work
+        - High - Blocking current development
+        - Critical - Production issue or deadline
+    validations:
+      required: true
+
+  - type: textarea
+    id: desired_outcome
+    attributes:
+      label: Desired Outcome
+      description: What kind of answer or guidance would be most helpful?
+      placeholder: |
+        What Would Help Most:
+        - [Specific guidance you're looking for]
+        - [Type of solution you prefer]
+        - [Level of detail needed]
+
+        Format Preferences:
+        - [Step-by-step instructions]
+        - [Code examples]
+        - [Conceptual explanation]
+        - [Links to resources]
+        - [Tool recommendations]
+
+  - type: checkboxes
+    id: help_type
+    attributes:
+      label: Type of Help Needed
+      description: What kind of assistance would be most valuable?
+      options:
+        - label: Step-by-step implementation guidance
+        - label: Best practices and recommendations
+        - label: Code review and feedback
+        - label: Architecture advice
+        - label: Tool selection guidance
+        - label: Troubleshooting specific issues
+        - label: Understanding compliance requirements
+        - label: Performance optimization advice
+        - label: Security considerations
+        - label: Integration strategies
+
+  - type: textarea
+    id: related_standards
+    attributes:
+      label: Related Standards and Resources
+      description: Which standards or resources are you working with?
+      placeholder: |
+        Relevant Standards:
+        - [Specific standards documents]
+        - [Sections or requirements you're implementing]
+
+        Related Resources:
+        - [Tools you're using]
+        - [Documentation you've referenced]
+        - [Examples you've studied]
+
+  - type: checkboxes
+    id: follow_up
+    attributes:
+      label: Follow-up Interest
+      description: How would you like to engage further?
+      options:
+        - label: I'd like to discuss this in more detail
+        - label: I can provide additional information if needed
+        - label: I'd be interested in contributing documentation about this
+        - label: I'd like to help others with similar questions
+        - label: I might have follow-up questions
+        - label: I can test and validate proposed solutions
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Information
+      description: Anything else that might be relevant to your question?
+      placeholder: |
+        Additional Context:
+        - [Any other relevant details]
+        - [Screenshots or logs if applicable]
+        - [Links to related discussions or issues]
+
+        Community Value:
+        - [How this might help others]
+        - [Whether this could become FAQ content]
+        - [If this reveals documentation gaps]

@@ -1,0 +1,126 @@
+name: Bug Report
+description: Report a bug or issue with existing standards, documentation, or tooling
+title: "[BUG] "
+labels: ["bug", "triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report a bug! Please fill out this form to help us understand and fix the issue.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please confirm you have done the following
+      options:
+        - label: I have searched existing issues to ensure this isn't a duplicate
+          required: true
+        - label: I have read the contributing guidelines
+          required: true
+        - label: I have checked the latest version of the standards
+          required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: Which category does this bug affect?
+      options:
+        - Standards Documentation
+        - Code Examples
+        - Validation Scripts
+        - GitHub Workflows
+        - Tools Configuration
+        - Cross-references
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is
+      placeholder: Describe the bug...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Scroll down to '...'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: A clear description of what you expected to happen
+      placeholder: What should have happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: A clear description of what actually happened
+      placeholder: What actually happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Please provide relevant environment details
+      placeholder: |
+        - OS: [e.g. Ubuntu 22.04, macOS 14.0, Windows 11]
+        - Tool versions: [e.g. Python 3.11, Node.js 18.x, Docker 24.x]
+        - Browser: [if applicable]
+        - Standards version/commit: [e.g. latest, commit hash]
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Add any other context about the problem here
+      placeholder: Any additional information that might be helpful...
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots/Logs
+      description: If applicable, add screenshots or paste relevant logs
+      placeholder: Paste logs or drag and drop screenshots here...
+
+  - type: checkboxes
+    id: impact
+    attributes:
+      label: Impact Assessment
+      description: How does this bug affect you?
+      options:
+        - label: Blocks development work
+        - label: Causes incorrect implementation
+        - label: Makes documentation unclear
+        - label: Affects tool functionality
+        - label: Minor inconvenience
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution Interest
+      description: Are you interested in helping to fix this issue?
+      options:
+        - label: I would like to work on fixing this issue
+        - label: I need guidance on how to contribute
+        - label: I can provide additional testing

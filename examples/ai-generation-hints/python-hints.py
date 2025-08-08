@@ -6,19 +6,18 @@ Usage:
 @generate python:[component-type] with:[CS:python + TS:pytest + SEC:*]
 """
 
-from typing import TypeVar, Generic, Optional, Dict, Any, List, Union
-from dataclasses import dataclass
-from enum import Enum
-import logging
-from datetime import datetime
-from contextlib import contextmanager
 import functools
+import logging
+from contextlib import contextmanager
+from dataclasses import dataclass
+from datetime import datetime
+from typing import Any, Dict, Generic, Optional, TypeVar
 
 logger = logging.getLogger(__name__)
 
 # Type definitions for better AI understanding
-T = TypeVar('T')
-E = TypeVar('E', bound=Exception)
+T = TypeVar("T")
+E = TypeVar("E", bound=Exception)
 
 
 @dataclass
@@ -27,16 +26,17 @@ class Result(Generic[T, E]):
     Standard Result type for error handling (CS:error-handling).
     Following functional programming patterns for explicit error handling.
     """
+
     success: bool
     value: Optional[T] = None
     error: Optional[E] = None
 
     @classmethod
-    def ok(cls, value: T) -> 'Result[T, E]':
+    def ok(cls, value: T) -> "Result[T, E]":
         return cls(success=True, value=value)
 
     @classmethod
-    def err(cls, error: E) -> 'Result[T, E]':
+    def err(cls, error: E) -> "Result[T, E]":
         return cls(success=False, error=error)
 
 
@@ -61,7 +61,7 @@ class StandardAPIEndpoint:
                 return Result.err(ValueError("Input must be a dictionary"))
 
             # Required fields
-            required_fields = ['field1', 'field2']  # Customize based on endpoint
+            required_fields = ["field1", "field2"]  # Customize based on endpoint
             for field in required_fields:
                 if field not in data:
                     return Result.err(ValueError(f"Missing required field: {field}"))
@@ -85,9 +85,7 @@ class StandardAPIEndpoint:
         return True
 
     async def handle_request(
-        self,
-        request_data: Dict[str, Any],
-        user_context: Dict[str, Any]
+        self, request_data: Dict[str, Any], user_context: Dict[str, Any]
     ) -> Result[Dict[str, Any], Exception]:
         """
         Standard request handler following all security and error handling standards.
@@ -102,11 +100,10 @@ class StandardAPIEndpoint:
         # Generate request ID for tracing (OBS:tracing)
         request_id = generate_request_id()
 
-        with log_context(request_id=request_id, user_id=user_context.get('user_id')):
+        with log_context(request_id=request_id, user_id=user_context.get("user_id")):
             # Rate limiting check (SEC:api)
             if not self.rate_limit_check(
-                user_context.get('user_id', 'anonymous'),
-                self.__class__.__name__
+                user_context.get("user_id", "anonymous"), self.__class__.__name__
             ):
                 return Result.err(Exception("Rate limit exceeded"))
 
@@ -121,10 +118,10 @@ class StandardAPIEndpoint:
 
                 # Audit logging (CS:audit)
                 log_audit_event(
-                    'api_request',
-                    user_context.get('user_id'),
+                    "api_request",
+                    user_context.get("user_id"),
                     endpoint=self.__class__.__name__,
-                    success=True
+                    success=True,
                 )
 
                 return Result.ok(result)
@@ -134,11 +131,11 @@ class StandardAPIEndpoint:
 
                 # Audit logging for failures
                 log_audit_event(
-                    'api_request',
-                    user_context.get('user_id'),
+                    "api_request",
+                    user_context.get("user_id"),
                     endpoint=self.__class__.__name__,
                     success=False,
-                    error=str(e)
+                    error=str(e),
                 )
 
                 return Result.err(e)
@@ -216,9 +213,11 @@ def test_{function_name}_parametrized(input_data, expected):
 
 # Helper functions following standards
 
+
 def generate_request_id() -> str:
     """Generate unique request ID for tracing (OBS:tracing)."""
     import uuid
+
     return str(uuid.uuid4())
 
 
@@ -226,6 +225,7 @@ def generate_request_id() -> str:
 def log_context(**kwargs):
     """Context manager for structured logging (OBS:logging)."""
     import contextvars
+
     context = contextvars.copy_context()
     for key, value in kwargs.items():
         context[key] = value
@@ -233,22 +233,20 @@ def log_context(**kwargs):
 
 
 def log_audit_event(
-    event_type: str,
-    user_id: Optional[str],
-    **additional_fields
+    event_type: str, user_id: Optional[str], **additional_fields
 ) -> None:
     """
     Log audit event following CS:audit + LEG:compliance standards.
     """
-    audit_logger = logging.getLogger('audit')
+    audit_logger = logging.getLogger("audit")
     audit_logger.info(
         "Audit Event",
         extra={
-            'event_type': event_type,
-            'user_id': user_id,
-            'timestamp': datetime.utcnow().isoformat(),
-            'additional': additional_fields
-        }
+            "event_type": event_type,
+            "user_id": user_id,
+            "timestamp": datetime.utcnow().isoformat(),
+            "additional": additional_fields,
+        },
     )
 
 

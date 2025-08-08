@@ -1,0 +1,338 @@
+name: Standards Proposal
+description: Propose a new standard or major update to existing standards
+title: "[STANDARD] "
+labels: ["standards-proposal", "needs-review"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for proposing a new standard! This template will help ensure your proposal includes all necessary information for review and implementation.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please confirm you have done the following
+      options:
+        - label: I have read the Standards Creation Guide
+          required: true
+        - label: I have reviewed existing standards to avoid duplication
+          required: true
+        - label: I have considered the scope and impact of this standard
+          required: true
+        - label: I have identified the target audience for this standard
+          required: true
+
+  - type: input
+    id: standard_name
+    attributes:
+      label: Proposed Standard Name
+      description: What is the name of the proposed standard?
+      placeholder: e.g., "API Security Standards", "Container Orchestration Standards"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Standards Category
+      description: Which category does this standard belong to?
+      options:
+        - Cloud & Infrastructure
+        - Security & Compliance
+        - Development & Coding
+        - Data & Analytics
+        - DevOps & Automation
+        - Testing & Quality
+        - Documentation & Knowledge
+        - Project Management
+        - AI & Machine Learning
+        - Frontend & UX
+        - Integration & APIs
+        - Other (specify in description)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: standard_type
+    attributes:
+      label: Standard Type
+      description: What type of standard is this?
+      options:
+        - Technical Implementation Standard
+        - Process and Methodology Standard
+        - Documentation Standard
+        - Compliance Framework
+        - Tool Configuration Standard
+        - Quality Assurance Standard
+    validations:
+      required: true
+
+  - type: textarea
+    id: executive_summary
+    attributes:
+      label: Executive Summary
+      description: Provide a brief summary of the proposed standard (2-3 sentences)
+      placeholder: A concise overview of what this standard addresses and its main objectives...
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem_statement
+    attributes:
+      label: Problem Statement and Justification
+      description: What problem does this standard solve? Why is it needed?
+      placeholder: |
+        - Current challenges or gaps
+        - Pain points in existing practices
+        - Business or technical justification
+        - Industry trends or requirements driving this need
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and Objectives
+      description: Define the scope and specific objectives of this standard
+      placeholder: |
+        Scope:
+        - What is included in this standard
+        - What is explicitly excluded
+        - Boundaries and limitations
+
+        Objectives:
+        - Primary goals
+        - Success criteria
+        - Measurable outcomes
+    validations:
+      required: true
+
+  - type: textarea
+    id: target_audience
+    attributes:
+      label: Target Audience
+      description: Who will use this standard and in what contexts?
+      placeholder: |
+        Primary Audience:
+        - [e.g., Backend developers, DevOps engineers, Security teams]
+        
+        Secondary Audience:
+        - [e.g., Project managers, Architects, QA teams]
+        
+        Use Contexts:
+        - [e.g., Microservices development, Cloud deployment, Security audits]
+    validations:
+      required: true
+
+  - type: textarea
+    id: key_requirements
+    attributes:
+      label: Key Requirements and Principles
+      description: What are the core requirements and guiding principles?
+      placeholder: |
+        Core Requirements:
+        1. [Mandatory requirement 1]
+        2. [Mandatory requirement 2]
+        3. [Mandatory requirement 3]
+
+        Guiding Principles:
+        - [Principle 1: e.g., Security by design]
+        - [Principle 2: e.g., Performance optimization]
+        - [Principle 3: e.g., Maintainability]
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical_approach
+    attributes:
+      label: Technical Approach and Architecture
+      description: Describe the technical approach and any architectural considerations
+      placeholder: |
+        Technical Approach:
+        - [High-level technical strategy]
+        - [Key technologies or frameworks]
+        - [Integration patterns]
+
+        Architecture Considerations:
+        - [System design principles]
+        - [Scalability requirements]
+        - [Performance considerations]
+
+  - type: textarea
+    id: compliance_frameworks
+    attributes:
+      label: Compliance and Regulatory Alignment
+      description: How does this standard align with existing compliance frameworks?
+      placeholder: |
+        Relevant Frameworks:
+        - NIST Cybersecurity Framework
+        - ISO 27001/27002
+        - SOC 2 Type II
+        - GDPR/Privacy regulations
+        - Industry-specific regulations
+
+        Alignment Details:
+        - [How this standard supports compliance]
+        - [Specific controls or requirements addressed]
+
+  - type: textarea
+    id: implementation_plan
+    attributes:
+      label: Implementation Plan
+      description: Proposed approach for implementing this standard
+      placeholder: |
+        Phase 1: [Initial implementation]
+        - Timeline: [estimated duration]
+        - Deliverables: [what will be produced]
+        - Resources needed: [skills, tools, time]
+
+        Phase 2: [Rollout and adoption]
+        - Timeline: [estimated duration]
+        - Training requirements: [what training is needed]
+        - Migration considerations: [from current practices]
+
+        Phase 3: [Monitoring and improvement]
+        - Success metrics: [how to measure adoption and effectiveness]
+        - Feedback collection: [how to gather and incorporate feedback]
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples and Use Cases
+      description: Provide concrete examples of how this standard would be applied
+      placeholder: |
+        Example 1: [Specific scenario]
+        - Context: [when this applies]
+        - Implementation: [how it would be done]
+        - Outcome: [expected result]
+
+        Example 2: [Another scenario]
+        - Context: [different context]
+        - Implementation: [implementation approach]
+        - Outcome: [expected benefits]
+
+  - type: textarea
+    id: tools_and_automation
+    attributes:
+      label: Tools and Automation
+      description: What tools, scripts, or automation would support this standard?
+      placeholder: |
+        Required Tools:
+        - [Essential tools for implementation]
+        - [Validation and testing tools]
+
+        Automation Opportunities:
+        - [Scripts for setup/configuration]
+        - [Automated compliance checking]
+        - [CI/CD integration points]
+
+        Template and Boilerplate:
+        - [Code templates]
+        - [Configuration templates]
+        - [Documentation templates]
+
+  - type: textarea
+    id: metrics
+    attributes:
+      label: Success Metrics and KPIs
+      description: How will success be measured?
+      placeholder: |
+        Quantitative Metrics:
+        - [Specific measurable outcomes]
+        - [Performance improvements]
+        - [Compliance scores]
+
+        Qualitative Metrics:
+        - [Developer experience improvements]
+        - [Reduced complexity]
+        - [Improved maintainability]
+
+        Adoption Metrics:
+        - [Usage tracking]
+        - [Team adoption rates]
+        - [Community engagement]
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies and Prerequisites
+      description: What existing standards, tools, or knowledge are required?
+      placeholder: |
+        Standard Dependencies:
+        - [Related standards that must be implemented first]
+        - [Complementary standards]
+
+        Technical Dependencies:
+        - [Required tools or platforms]
+        - [Minimum versions or capabilities]
+
+        Knowledge Prerequisites:
+        - [Required skills or experience]
+        - [Training requirements]
+
+  - type: textarea
+    id: risks_challenges
+    attributes:
+      label: Risks and Challenges
+      description: What are the potential risks and mitigation strategies?
+      placeholder: |
+        Technical Risks:
+        - [Risk 1]: [Mitigation strategy]
+        - [Risk 2]: [Mitigation strategy]
+
+        Adoption Risks:
+        - [Resistance to change]: [Change management approach]
+        - [Complexity concerns]: [Simplification strategies]
+
+        Resource Risks:
+        - [Time constraints]: [Phased approach]
+        - [Skill gaps]: [Training and support]
+
+  - type: checkboxes
+    id: integration_points
+    attributes:
+      label: Integration with Existing Standards
+      description: How does this standard integrate with existing ones?
+      options:
+        - label: Extends existing security standards
+        - label: Complements development standards
+        - label: Integrates with CI/CD workflows
+        - label: Supports compliance frameworks
+        - label: Enhances documentation standards
+        - label: Works with existing toolchain
+
+  - type: checkboxes
+    id: contribution_commitment
+    attributes:
+      label: Contribution Commitment
+      description: What is your commitment to developing this standard?
+      options:
+        - label: I will lead the development of this standard
+        - label: I will contribute significantly to the development
+        - label: I will provide subject matter expertise and review
+        - label: I will help with testing and validation
+        - label: I will assist with documentation and examples
+        - label: I need collaborators to help develop this standard
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context and References
+      description: Any additional information, references, or context
+      placeholder: |
+        Industry References:
+        - [Relevant industry standards or best practices]
+        - [Research papers or white papers]
+        - [Tool documentation or case studies]
+
+        Related Work:
+        - [Similar standards in other organizations]
+        - [Open source projects with relevant approaches]
+        - [Academic or industry research]
+
+        Additional Context:
+        - [Any other relevant information]
+        - [Historical context or background]
+        - [Future considerations or roadmap alignment]

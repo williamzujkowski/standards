@@ -461,7 +461,7 @@ export class OSCALSystemSecurityPlanGenerator {
           uuid: this.generateUUID(),
           description: e.description,
           "implementation-status": {
-            state: analysis.status
+            state: this.mapAnalysisStatusToSSPStatus(analysis.status)
           }
         }))
       });
@@ -739,6 +739,19 @@ export class OSCALSystemSecurityPlanGenerator {
 
   private generateComponentUUID(componentType: string): string {
     return `component-${componentType}-${this.generateUUID()}`;
+  }
+
+  private mapAnalysisStatusToSSPStatus(analysisStatus: 'implemented' | 'partially-implemented' | 'not-implemented'): 'implemented' | 'partially-implemented' | 'planned' | 'alternative' | 'not-applicable' {
+    switch (analysisStatus) {
+      case 'implemented':
+        return 'implemented';
+      case 'partially-implemented':
+        return 'partially-implemented';
+      case 'not-implemented':
+        return 'planned'; // Map not-implemented to planned for SSP context
+      default:
+        return 'not-applicable';
+    }
   }
 
   private sanitizeId(str: string): string {

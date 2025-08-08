@@ -11,8 +11,9 @@ jobs:
   # Language-agnostic checks
   general-compliance:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
 
       - name: Check file formatting
         run: |
@@ -74,7 +75,7 @@ jobs:
           fi
 
       - name: Security - Check for secrets
-        uses: trufflesecurity/trufflehog@main
+        uses: trufflesecurity/trufflehog@42b1aada5db130c2cc311c38c85086f6c28ba518  # v3.82.13
         with:
           path: ./
 
@@ -84,11 +85,12 @@ jobs:
       contains(github.repository, 'python') ||
       contains(github.repository, 'py')
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5.1.0
         with:
           python-version: '3.11'
 
@@ -122,11 +124,12 @@ jobs:
       contains(github.repository, 'ts') ||
       contains(github.repository, 'node')
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8  # v4.0.2
         with:
           node-version: '18'
 
@@ -150,11 +153,12 @@ jobs:
   go-compliance:
     if: contains(github.repository, 'go')
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
 
       - name: Setup Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491  # v5.0.0
         with:
           go-version: '1.21'
 
@@ -180,11 +184,12 @@ jobs:
       contains(github.repository, 'web') ||
       contains(github.repository, 'frontend')
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
 
       - name: Lighthouse CI
-        uses: treosh/lighthouse-ci-action@v10
+        uses: treosh/lighthouse-ci-action@2f8dda6cf4de7d73b29853c3f29e73a01e297bd8  # v12.1.0
         with:
           urls: |
             http://localhost:3000
@@ -192,7 +197,7 @@ jobs:
           temporaryPublicStorage: true
 
       - name: Accessibility check
-        uses: a11ywatch/github-action@v2
+        uses: a11ywatch/github-action@318a611fdbb84063900abb38aec60e459c63b1e2  # v2.1.12
         with:
           WEBSITE_URL: ${{ github.event.repository.homepage }}
           WCAG_LEVEL: AA

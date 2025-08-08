@@ -9,17 +9,18 @@ on:
 jobs:
   validate-standards:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8  # v4.0.2
         with:
           node-version: '18'
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5.1.0
         with:
           python-version: '3.11'
 
@@ -33,110 +34,17 @@ jobs:
           python -m json.tool config/standards-api.json > /dev/null
 
       - name: Check Standards Schema Consistency
-        run: |
-          # Validate that standards referenced in various files exist
-          python -c "
-          import yaml
-          import json
-          import sys
-
-          # Load standards schema
-          with open('config/standards-schema.yaml', 'r') as f:
-              schema = yaml.safe_load(f)
-
-          # Load API rules
-          with open('config/standards-api.json', 'r') as f:
-              rules = json.load(f)
-
-          # Validate all rule standards exist in schema
-          standard_ids = {std['id'] for std in schema['standards'].values()}
-
-          errors = []
-          for rule in rules['rules']:
-              std_ref = rule['standard'].split(':')[0]
-              if std_ref not in standard_ids:
-                  errors.append(f'Rule {rule[\"id\"]} references unknown standard: {std_ref}')
-
-          if errors:
-              print('Validation errors:')
-              for error in errors:
-                  print(f'  - {error}')
-              sys.exit(1)
-          else:
-              print('All standards references are valid')
-          "
+        run: python scripts/validate_standards_consistency.py
 
       - name: Validate Markdown Standards Links
-        run: |
-          # Check that all markdown files referenced in CLAUDE.md exist
-          python -c "
-          import re
-          import os
-          import sys
-
-          errors = []
-
-          with open('CLAUDE.md', 'r') as f:
-              content = f.read()
-
-          # Find all .md file references
-          md_files = re.findall(r'`([A-Z_]+\.md)`', content)
-
-          for md_file in md_files:
-              if not os.path.exists(md_file):
-                  errors.append(f'Referenced file does not exist: {md_file}')
-
-          if errors:
-              print('Missing files:')
-              for error in errors:
-                  print(f'  - {error}')
-              sys.exit(1)
-          else:
-              print('All referenced markdown files exist')
-          "
+        run: python scripts/validate_markdown_links.py
 
       - name: Check Standards Compliance Score
         id: compliance
-        run: |
-          # Calculate compliance score based on rules
-          python -c "
-          import json
-
-          with open('standards-api.json', 'r') as f:
-              rules = json.load(f)
-
-          total_rules = len(rules['rules'])
-          required_rules = len([r for r in rules['rules'] if r['severity'] == 'required'])
-
-          score = (required_rules / total_rules) * 100 if total_rules > 0 else 0
-
-          print(f'Compliance Score: {score:.1f}%')
-          print(f'Total Rules: {total_rules}')
-          print(f'Required Rules: {required_rules}')
-
-          # Output for GitHub Actions
-          print(f'::set-output name=score::{score:.1f}')
-          print(f'::set-output name=total::{total_rules}')
-          print(f'::set-output name=required::{required_rules}')
-          "
+        run: python scripts/calculate_compliance_score.py
 
       - name: Validate Standards Graph
-        run: |
-          # Check for circular dependencies in standards graph
-          python -c "
-          import re
-
-          # Simple validation - in real implementation would parse the graph properly
-          with open('docs/guides/STANDARDS_GRAPH.md', 'r') as f:
-              content = f.read()
-
-          # Check that graph syntax is valid
-          if '→ requires →' in content and '→ conflicts →' in content:
-              print('Standards graph syntax appears valid')
-          else:
-              print('ERROR: Standards graph missing required relationship types')
-              exit(1)
-          "
+        run: python scripts/validate_standards_graph.py
 
       - name: Generate Validation Report
         if: always()
@@ -155,14 +63,14 @@ jobs:
 
       - name: Upload Validation Report
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
         with:
           name: validation-report
           path: validation-report.md
 
       - name: Comment PR with Validation Results
         if: github.event_name == 'pull_request'
-        uses: actions/github-script@v6
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
         with:
           script: |
             const score = '${{ steps.compliance.outputs.score }}';

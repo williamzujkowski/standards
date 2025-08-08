@@ -1,0 +1,202 @@
+name: Welcome New Contributors
+
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened]
+
+jobs:
+  welcome:
+    runs-on: ubuntu-latest
+    if: github.event.sender.login != 'github-actions[bot]'
+    
+    steps:
+      - name: Check if first-time contributor
+        id: check-contributor
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const author = context.payload.sender.login;
+            
+            // Check if this is their first contribution
+            const { data: contributions } = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${owner}/${repo} author:${author} type:pr`,
+            });
+            
+            const isFirstTime = contributions.total_count === 0 || 
+              (context.eventName === 'pull_request' && contributions.total_count === 1);
+            
+            console.log(`Author: ${author}, Contributions: ${contributions.total_count}, First time: ${isFirstTime}`);
+            
+            return {
+              isFirstTime,
+              author,
+              eventType: context.eventName
+            };
+
+      - name: Welcome new contributor
+        if: fromJSON(steps.check-contributor.outputs.result).isFirstTime
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const result = ${{ steps.check-contributor.outputs.result }};
+            const { owner, repo } = context.repo;
+            const author = result.author;
+            const eventType = result.eventType;
+            
+            let welcomeMessage = '';
+            
+            if (eventType === 'issues') {
+              welcomeMessage = `
+            # Welcome to Standards Repository! 👋
+            
+            Thank you for opening your first issue, @${author}! We're excited to have you as part of our community.
+            
+            ## Getting Started
+            
+            To help us assist you better, please ensure your issue includes:
+            - Clear description of the problem or suggestion
+            - Relevant context and environment details
+            - Steps to reproduce (for bugs)
+            - Expected vs actual behavior
+            
+            ## Community Resources
+            
+            - 📚 **Documentation**: [Browse our comprehensive guides](https://github.com/${owner}/${repo}/tree/main/docs)
+            - 🤝 **Contributing**: [Learn how to contribute](https://github.com/${owner}/${repo}/blob/main/docs/core/CONTRIBUTING.md)
+            - 💬 **Discussions**: [Join community discussions](https://github.com/${owner}/${repo}/discussions)
+            - 📋 **Standards**: [Explore our standards catalog](https://github.com/${owner}/${repo}/tree/main/docs/standards)
+            
+            ## Next Steps
+            
+            1. Check out our [Standards Creation Guide](https://github.com/${owner}/${repo}/blob/main/docs/guides/CREATING_STANDARDS_GUIDE.md)
+            2. Review relevant [standards documentation](https://github.com/${owner}/${repo}/tree/main/docs/standards)
+            3. Join our [community discussions](https://github.com/${owner}/${repo}/discussions) for Q&A and collaboration
+            
+            A maintainer will review your issue soon. Feel free to ask questions or provide additional details!
+            
+            ---
+            *This is an automated welcome message. For urgent issues, please use appropriate issue labels.*
+            `;
+            } else if (eventType === 'pull_request') {
+              welcomeMessage = `
+            # Welcome New Contributor! 🎉
+            
+            Thank you for your first pull request, @${author}! This is fantastic - we appreciate your contribution to improving our standards.
+            
+            ## What Happens Next
+            
+            1. **Automated Checks**: Our CI/CD pipeline will run automated validation
+            2. **Review Process**: A maintainer will review your changes
+            3. **Feedback**: We'll provide constructive feedback to help improve the contribution
+            4. **Merge**: Once approved, your changes will be merged
+            
+            ## Contribution Guidelines
+            
+            Please ensure your PR includes:
+            - [ ] Clear description of changes made
+            - [ ] All relevant checklists completed
+            - [ ] Tests pass (if applicable)
+            - [ ] Documentation updated
+            - [ ] Follows our [coding standards](https://github.com/${owner}/${repo}/blob/main/docs/standards/CODING_STANDARDS.md)
+            
+            ## Community Resources
+            
+            - 📖 **Contributor Guide**: [How to contribute effectively](https://github.com/${owner}/${repo}/blob/main/docs/core/CONTRIBUTING.md)
+            - 🏗️ **Standards Template**: [Creating new standards](https://github.com/${owner}/${repo}/blob/main/docs/guides/STANDARD_TEMPLATE.md)
+            - 🔧 **Tools**: [Development tools and setup](https://github.com/${owner}/${repo}/tree/main/tools-config)
+            - 💡 **Examples**: [Implementation examples](https://github.com/${owner}/${repo}/tree/main/examples)
+            
+            ## Need Help?
+            
+            - Ask questions in the PR comments
+            - Join our [discussions](https://github.com/${owner}/${repo}/discussions)
+            - Review our [documentation](https://github.com/${owner}/${repo}/tree/main/docs)
+            - Check out [existing standards](https://github.com/${owner}/${repo}/tree/main/docs/standards) for examples
+            
+            ## Recognition
+            
+            Your contribution will be:
+            - ✅ Acknowledged in our contributor list
+            - 📝 Mentioned in the changelog (for significant contributions)
+            - 🏆 Featured in our contributor showcase
+            
+            Thank you for helping make software development standards better for everyone! 🚀
+            
+            ---
+            *This is an automated welcome message. A human maintainer will review your PR soon.*
+            `;
+            }
+            
+            if (eventType === 'issues') {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: context.issue.number,
+                body: welcomeMessage
+              });
+            } else if (eventType === 'pull_request') {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: context.issue.number,
+                body: welcomeMessage
+              });
+            }
+
+      - name: Add first-time contributor label
+        if: fromJSON(steps.check-contributor.outputs.result).isFirstTime
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const result = ${{ steps.check-contributor.outputs.result }};
+            const { owner, repo } = context.repo;
+            
+            // Add first-time contributor label
+            await github.rest.issues.addLabels({
+              owner,
+              repo,
+              issue_number: context.issue.number,
+              labels: ['first-time-contributor', 'welcome']
+            });
+
+      - name: Assign mentor for new contributors
+        if: fromJSON(steps.check-contributor.outputs.result).isFirstTime && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            
+            // List of available mentors (can be configured)
+            const mentors = ['williamzujkowski']; // Add more mentors as needed
+            
+            // Assign a mentor (round-robin or random)
+            const assignedMentor = mentors[Math.floor(Math.random() * mentors.length)];
+            
+            await github.rest.issues.addAssignees({
+              owner,
+              repo,
+              issue_number: context.issue.number,
+              assignees: [assignedMentor]
+            });
+            
+            // Add a comment about mentorship
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: context.issue.number,
+              body: `
+            ## Mentorship Assignment 🤝
+            
+            @${assignedMentor} has been assigned as your mentor for this contribution. They will:
+            
+            - Provide guidance on our standards and processes
+            - Help review your code and provide constructive feedback
+            - Answer questions about implementation approaches
+            - Support you through the contribution process
+            
+            Feel free to ask questions or request help anytime!
+            `
+            });

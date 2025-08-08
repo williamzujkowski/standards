@@ -1,8 +1,43 @@
 // Export all OSCAL type definitions
 export * from './oscal-catalog';
 export * from './oscal-enhanced';
-export * from './oscal-ssp';
-export * from './oscal-assessment';
+
+// Export SSP types with explicit names to avoid conflicts
+export {
+  OSCALSystemSecurityPlan,
+  OSCALSystemCharacteristics,
+  OSCALSystemImplementation,
+  OSCALByComponent,
+  OSCALComponentImplementation,
+  OSCALSystemComponent,
+  OSCALInventoryItem,
+  OSCALSystemUser,
+  OSCALDataFlow,
+  OSCALInformationType,
+  OSCALImpact as OSCALImpactValue,
+  OSCALSecurityImpactLevel as OSCALSecurityImpact,
+  OSCALControlImplementation,
+  OSCALImplementedRequirement,
+  OSCALImplementationStatement,
+  OSCALImplementationStatus as SSPImplementationStatus,
+  OSCALResponsibleRole as SSPResponsibleRole,
+  OSCALResponsibility as SSPResponsibleParty
+} from './oscal-ssp';
+
+// Export Assessment types with explicit names to avoid conflicts
+export {
+  OSCALAssessmentResults,
+  OSCALLocalDefinitions,
+  OSCALActivity,
+  OSCALMethod,
+  OSCALResult,
+  OSCALFinding,
+  OSCALObservation,
+  OSCALRisk,
+  OSCALCharacterization,
+  OSCALFacet,
+  OSCALImplementationStatus as AssessmentImplementationStatus
+} from './oscal-assessment';
 
 // OSCAL Profile types
 export interface OSCALProfile {

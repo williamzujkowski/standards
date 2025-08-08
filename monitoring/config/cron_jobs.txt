@@ -1,0 +1,17 @@
+# Standards Repository Monitoring Cron Jobs
+# Add these to your crontab with: crontab -e
+
+# Run monitoring every hour
+0 * * * * cd /home/william/git/standards && ./monitoring/run_monitoring.sh >> ./monitoring/logs/cron.log 2>&1
+
+# Generate daily report at 6 AM
+0 6 * * * cd /home/william/git/standards && python3 ./monitoring/automated_reports.py --daily >> ./monitoring/logs/daily_reports.log 2>&1
+
+# Generate weekly report on Sundays at 7 AM
+0 7 * * 0 cd /home/william/git/standards && python3 ./monitoring/automated_reports.py --weekly >> ./monitoring/logs/weekly_reports.log 2>&1
+
+# Generate monthly report on the 1st of each month at 8 AM
+0 8 1 * * cd /home/william/git/standards && python3 ./monitoring/automated_reports.py --monthly >> ./monitoring/logs/monthly_reports.log 2>&1
+
+# Health check every 6 hours
+0 */6 * * * cd /home/william/git/standards && python3 ./monitoring/health_monitor.py >> ./monitoring/logs/health_check.log 2>&1

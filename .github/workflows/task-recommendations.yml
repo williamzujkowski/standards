@@ -1,0 +1,633 @@
+name: Skill-Based Task Recommendations
+
+on:
+  issues:
+    types: [opened, labeled]
+  pull_request:
+    types: [opened, closed]
+  schedule:
+    # Run weekly to update recommendations
+    - cron: '0 14 * * 1' # Monday at 2 PM UTC
+  workflow_dispatch:
+
+jobs:
+  recommend-tasks:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Analyze contributor skills and preferences
+        id: analyze-contributors
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            
+            // Get recent contributors and their contribution patterns
+            const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+            
+            // Get recent merged PRs to analyze contributor skills
+            const { data: recentPRs } = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${owner}/${repo} type:pr is:merged merged:>${thirtyDaysAgo}`,
+              sort: 'updated',
+              order: 'desc',
+              per_page: 100
+            });
+            
+            // Analyze contributor patterns
+            const contributorProfiles = new Map();
+            
+            for (const pr of recentPRs.items) {
+              const author = pr.user.login;
+              
+              if (!contributorProfiles.has(author)) {
+                contributorProfiles.set(author, {
+                  user: pr.user,
+                  contributions: [],
+                  skills: new Set(),
+                  interests: new Set(),
+                  experienceLevel: 'intermediate',
+                  preferredContributions: new Set()
+                });
+              }
+              
+              const profile = contributorProfiles.get(author);
+              profile.contributions.push(pr);
+              
+              // Analyze PR to determine skills and interests
+              const labels = pr.labels.map(l => l.name);
+              const title = pr.title.toLowerCase();
+              const body = pr.body ? pr.body.toLowerCase() : '';
+              
+              // Determine technical skills
+              if (labels.includes('documentation') || title.includes('doc') || title.includes('readme')) {
+                profile.skills.add('documentation');
+                profile.interests.add('technical-writing');
+              }
+              
+              if (labels.includes('standards-proposal') || labels.includes('new-standard')) {
+                profile.skills.add('standards-development');
+                profile.interests.add('architecture');
+              }
+              
+              if (labels.includes('bug') || title.includes('fix')) {
+                profile.skills.add('debugging');
+                profile.interests.add('quality-assurance');
+              }
+              
+              if (labels.includes('enhancement') || labels.includes('feature')) {
+                profile.skills.add('feature-development');
+                profile.interests.add('innovation');
+              }
+              
+              if (title.includes('test') || title.includes('validation')) {
+                profile.skills.add('testing');
+                profile.interests.add('quality-assurance');
+              }
+              
+              if (title.includes('security') || title.includes('compliance')) {
+                profile.skills.add('security');
+                profile.interests.add('compliance');
+              }
+              
+              if (title.includes('automation') || title.includes('script') || title.includes('workflow')) {
+                profile.skills.add('automation');
+                profile.interests.add('devops');
+              }
+              
+              // Detect programming languages
+              if (body.includes('python') || title.includes('python')) {
+                profile.skills.add('python');
+              }
+              if (body.includes('javascript') || body.includes('typescript') || title.includes('js') || title.includes('ts')) {
+                profile.skills.add('javascript');
+              }
+              if (body.includes('golang') || body.includes('go ') || title.includes('go ')) {
+                profile.skills.add('golang');
+              }
+              
+              // Determine experience level based on contribution complexity
+              const linesChanged = (pr.additions || 0) + (pr.deletions || 0);
+              if (linesChanged > 500) {
+                profile.experienceLevel = 'advanced';
+              } else if (linesChanged > 100) {
+                profile.experienceLevel = 'intermediate';
+              } else if (profile.contributions.length === 1) {
+                profile.experienceLevel = 'beginner';
+              }
+            }
+            
+            return Array.from(contributorProfiles.entries()).map(([username, profile]) => ({
+              username,
+              ...profile,
+              skills: Array.from(profile.skills),
+              interests: Array.from(profile.interests),
+              preferredContributions: Array.from(profile.preferredContributions)
+            }));
+
+      - name: Get available tasks
+        id: get-tasks
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            
+            // Get open issues that need contributors
+            const { data: openIssues } = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${owner}/${repo} type:issue is:open`,
+              sort: 'created',
+              order: 'desc',
+              per_page: 100
+            });
+            
+            // Categorize issues by skill requirements and difficulty
+            const categorizedTasks = {
+              beginner: [],
+              intermediate: [],
+              advanced: [],
+              documentation: [],
+              standards: [],
+              automation: [],
+              security: [],
+              testing: []
+            };
+            
+            for (const issue of openIssues.items) {
+              const labels = issue.labels.map(l => l.name);
+              const title = issue.title.toLowerCase();
+              const body = issue.body ? issue.body.toLowerCase() : '';
+              
+              const task = {
+                number: issue.number,
+                title: issue.title,
+                url: issue.html_url,
+                labels: labels,
+                created: issue.created_at,
+                difficulty: 'intermediate',
+                skills: [],
+                category: 'general'
+              };
+              
+              // Determine difficulty
+              if (labels.includes('good first issue') || labels.includes('beginner-friendly')) {
+                task.difficulty = 'beginner';
+                categorizedTasks.beginner.push(task);
+              } else if (labels.includes('advanced') || labels.includes('complex')) {
+                task.difficulty = 'advanced';
+                categorizedTasks.advanced.push(task);
+              } else {
+                categorizedTasks.intermediate.push(task);
+              }
+              
+              // Categorize by type
+              if (labels.includes('documentation') || title.includes('doc')) {
+                task.category = 'documentation';
+                task.skills.push('technical-writing', 'documentation');
+                categorizedTasks.documentation.push(task);
+              }
+              
+              if (labels.includes('standards-proposal') || labels.includes('enhancement')) {
+                task.category = 'standards';
+                task.skills.push('standards-development', 'architecture');
+                categorizedTasks.standards.push(task);
+              }
+              
+              if (labels.includes('automation') || title.includes('script') || title.includes('workflow')) {
+                task.category = 'automation';
+                task.skills.push('automation', 'scripting');
+                categorizedTasks.automation.push(task);
+              }
+              
+              if (labels.includes('security') || title.includes('security') || title.includes('compliance')) {
+                task.category = 'security';
+                task.skills.push('security', 'compliance');
+                categorizedTasks.security.push(task);
+              }
+              
+              if (labels.includes('testing') || title.includes('test') || title.includes('validation')) {
+                task.category = 'testing';
+                task.skills.push('testing', 'quality-assurance');
+                categorizedTasks.testing.push(task);
+              }
+            }
+            
+            return categorizedTasks;
+
+      - name: Generate personalized recommendations
+        id: generate-recommendations
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const contributors = ${{ steps.analyze-contributors.outputs.result }};
+            const tasks = ${{ steps.get-tasks.outputs.result }};
+            
+            if (!contributors || !tasks) {
+              console.log('No data available for recommendations');
+              return [];
+            }
+            
+            const recommendations = [];
+            
+            for (const contributor of contributors) {
+              if (contributor.contributions.length === 0) continue;
+              
+              const userRecommendations = {
+                username: contributor.username,
+                experienceLevel: contributor.experienceLevel,
+                skills: contributor.skills,
+                interests: contributor.interests,
+                recommendedTasks: []
+              };
+              
+              // Get tasks matching user's experience level
+              const levelTasks = tasks[contributor.experienceLevel] || [];
+              
+              // Get tasks matching user's skills and interests
+              const allTasks = [
+                ...tasks.documentation,
+                ...tasks.standards,
+                ...tasks.automation,
+                ...tasks.security,
+                ...tasks.testing,
+                ...tasks.beginner,
+                ...tasks.intermediate,
+                ...tasks.advanced
+              ];
+              
+              // Score tasks based on skill/interest match
+              const scoredTasks = allTasks.map(task => {
+                let score = 0;
+                
+                // Base score for difficulty match
+                if (task.difficulty === contributor.experienceLevel) {
+                  score += 10;
+                } else if (
+                  (contributor.experienceLevel === 'advanced' && task.difficulty === 'intermediate') ||
+                  (contributor.experienceLevel === 'intermediate' && task.difficulty === 'beginner')
+                ) {
+                  score += 5;
+                }
+                
+                // Score for skill matches
+                for (const skill of task.skills) {
+                  if (contributor.skills.includes(skill)) {
+                    score += 8;
+                  }
+                  if (contributor.interests.includes(skill)) {
+                    score += 5;
+                  }
+                }
+                
+                // Bonus for category interest
+                if (contributor.interests.includes(task.category)) {
+                  score += 3;
+                }
+                
+                return { ...task, score };
+              });
+              
+              // Get top recommendations
+              userRecommendations.recommendedTasks = scoredTasks
+                .filter(task => task.score > 0)
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 5);
+              
+              if (userRecommendations.recommendedTasks.length > 0) {
+                recommendations.push(userRecommendations);
+              }
+            }
+            
+            return recommendations;
+
+      - name: Create recommendation issue
+        if: steps.generate-recommendations.outputs.result != '[]'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const recommendations = ${{ steps.generate-recommendations.outputs.result }};
+            const { owner, repo } = context.repo;
+            
+            if (!recommendations || recommendations.length === 0) {
+              console.log('No recommendations to create');
+              return;
+            }
+            
+            const currentDate = new Date().toISOString().split('T')[0];
+            
+            let issueBody = `# 🎯 Weekly Task Recommendations - ${currentDate}\n\n`;
+            issueBody += `Based on recent contribution patterns, here are personalized task recommendations for our active contributors.\n\n`;
+            
+            issueBody += `## How This Works\n\n`;
+            issueBody += `Our system analyzes recent contributions to understand:\n`;
+            issueBody += `- Your technical skills and experience level\n`;
+            issueBody += `- Your contribution preferences and interests\n`;
+            issueBody += `- The types of tasks you excel at\n\n`;
+            issueBody += `Tasks are matched based on difficulty, skills required, and your demonstrated interests.\n\n`;
+            
+            for (const rec of recommendations) {
+              issueBody += `## @${rec.username}\n\n`;
+              issueBody += `**Experience Level**: ${rec.experienceLevel}\n`;
+              issueBody += `**Skills**: ${rec.skills.join(', ')}\n`;
+              issueBody += `**Interests**: ${rec.interests.join(', ')}\n\n`;
+              
+              issueBody += `### Recommended Tasks\n\n`;
+              
+              for (const task of rec.recommendedTasks) {
+                issueBody += `- [${task.title}](${task.url}) `;
+                issueBody += `(${task.difficulty}, Score: ${task.score})\n`;
+                issueBody += `  - **Category**: ${task.category}\n`;
+                issueBody += `  - **Skills**: ${task.skills.join(', ')}\n`;
+                issueBody += `  - **Labels**: ${task.labels.join(', ')}\n\n`;
+              }
+              
+              issueBody += `---\n\n`;
+            }
+            
+            issueBody += `## For All Contributors\n\n`;
+            issueBody += `### 🌟 Good First Issues\n`;
+            issueBody += `Perfect for new contributors or trying new areas:\n\n`;
+            
+            const goodFirstIssues = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${owner}/${repo} type:issue is:open label:"good first issue"`,
+              sort: 'created',
+              order: 'desc',
+              per_page: 5
+            });
+            
+            for (const issue of goodFirstIssues.data.items) {
+              issueBody += `- [${issue.title}](${issue.html_url})\n`;
+            }
+            
+            issueBody += `\n### 🆘 Help Wanted\n`;
+            issueBody += `Issues where we especially need community support:\n\n`;
+            
+            const helpWantedIssues = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${owner}/${repo} type:issue is:open label:"help wanted"`,
+              sort: 'created',
+              order: 'desc',
+              per_page: 5
+            });
+            
+            for (const issue of helpWantedIssues.data.items) {
+              issueBody += `- [${issue.title}](${issue.html_url})\n`;
+            }
+            
+            issueBody += `\n## How to Claim a Task\n\n`;
+            issueBody += `1. Comment on the issue expressing interest\n`;
+            issueBody += `2. Ask questions if you need clarification\n`;
+            issueBody += `3. Wait for confirmation from maintainers\n`;
+            issueBody += `4. Start working and ask for help when needed\n\n`;
+            
+            issueBody += `## Feedback\n\n`;
+            issueBody += `Help us improve these recommendations:\n`;
+            issueBody += `- Are the suggested tasks a good match for your skills?\n`;
+            issueBody += `- What other types of tasks interest you?\n`;
+            issueBody += `- How can we better understand your preferences?\n\n`;
+            
+            issueBody += `*These recommendations are updated weekly based on contribution activity.*\n`;
+            
+            const issue = await github.rest.issues.create({
+              owner,
+              repo,
+              title: `🎯 Weekly Task Recommendations - ${currentDate}`,
+              body: issueBody,
+              labels: ['task-recommendations', 'community', 'weekly']
+            });
+            
+            console.log(`Created task recommendations: ${issue.data.html_url}`);
+
+  validate-contribution:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'opened'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate contribution quality
+        id: validate
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const pr = context.payload.pull_request;
+            
+            // Analysis criteria
+            const validation = {
+              hasDescription: false,
+              hasChecklist: false,
+              appropriateSize: false,
+              followsNaming: false,
+              hasTests: false,
+              hasDocumentation: false,
+              followsTemplates: false,
+              score: 0,
+              feedback: []
+            };
+            
+            // Check PR description
+            if (pr.body && pr.body.length > 50) {
+              validation.hasDescription = true;
+              validation.score += 15;
+            } else {
+              validation.feedback.push('⚠️ Add a detailed description explaining what this PR accomplishes');
+            }
+            
+            // Check for checklist usage
+            if (pr.body && pr.body.includes('- [')) {
+              validation.hasChecklist = true;
+              validation.score += 10;
+            } else {
+              validation.feedback.push('📋 Use the PR template checklist to ensure completeness');
+            }
+            
+            // Check PR size (reasonable for review)
+            const totalChanges = (pr.additions || 0) + (pr.deletions || 0);
+            if (totalChanges > 0 && totalChanges < 1000) {
+              validation.appropriateSize = true;
+              validation.score += 10;
+            } else if (totalChanges >= 1000) {
+              validation.feedback.push('📏 Consider breaking large PRs into smaller, reviewable chunks');
+            }
+            
+            // Check title naming convention
+            const title = pr.title.toLowerCase();
+            const hasPrefix = title.startsWith('add:') || title.startsWith('fix:') || 
+                             title.startsWith('update:') || title.startsWith('feat:') ||
+                             title.startsWith('docs:') || title.startsWith('refactor:');
+            
+            if (hasPrefix) {
+              validation.followsNaming = true;
+              validation.score += 10;
+            } else {
+              validation.feedback.push('🏷️ Use conventional commit prefixes (add:, fix:, update:, etc.)');
+            }
+            
+            // Get changed files to check for tests and documentation
+            try {
+              const { data: files } = await github.rest.pulls.listFiles({
+                owner,
+                repo,
+                pull_number: pr.number
+              });
+              
+              const hasTestFiles = files.some(file => 
+                file.filename.includes('test') || 
+                file.filename.includes('spec') ||
+                file.filename.endsWith('.test.js') ||
+                file.filename.endsWith('.test.py')
+              );
+              
+              const hasDocFiles = files.some(file => 
+                file.filename.endsWith('.md') ||
+                file.filename.includes('doc') ||
+                file.filename.includes('README')
+              );
+              
+              if (hasTestFiles) {
+                validation.hasTests = true;
+                validation.score += 15;
+              } else if (files.some(file => file.filename.endsWith('.py') || file.filename.endsWith('.js'))) {
+                validation.feedback.push('🧪 Consider adding tests for new functionality');
+              }
+              
+              if (hasDocFiles) {
+                validation.hasDocumentation = true;
+                validation.score += 15;
+              } else {
+                validation.feedback.push('📚 Consider updating documentation for your changes');
+              }
+              
+              // Check if follows template structure for standards
+              const hasStandardsFiles = files.some(file => 
+                file.filename.includes('/standards/') && file.filename.endsWith('.md')
+              );
+              
+              if (hasStandardsFiles) {
+                // Check if it follows standard template structure
+                const standardsFile = files.find(file => 
+                  file.filename.includes('/standards/') && file.filename.endsWith('.md')
+                );
+                
+                if (standardsFile && standardsFile.patch) {
+                  const content = standardsFile.patch;
+                  const hasRequiredSections = content.includes('## TLDR') && 
+                                            content.includes('## Requirements') &&
+                                            content.includes('## Implementation');
+                  
+                  if (hasRequiredSections) {
+                    validation.followsTemplates = true;
+                    validation.score += 25;
+                  } else {
+                    validation.feedback.push('📋 Ensure standards follow the required template structure');
+                  }
+                }
+              } else {
+                validation.followsTemplates = true;
+                validation.score += 10; // Not applicable, so give points
+              }
+              
+            } catch (error) {
+              console.log('Could not analyze files:', error.message);
+            }
+            
+            return validation;
+
+      - name: Provide validation feedback
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const validation = ${{ steps.validate.outputs.result }};
+            const { owner, repo } = context.repo;
+            const pr = context.payload.pull_request;
+            
+            let scoreLevel = '';
+            let emoji = '';
+            
+            if (validation.score >= 80) {
+              scoreLevel = 'Excellent';
+              emoji = '🌟';
+            } else if (validation.score >= 60) {
+              scoreLevel = 'Good';
+              emoji = '👍';
+            } else if (validation.score >= 40) {
+              scoreLevel = 'Fair';
+              emoji = '⚠️';
+            } else {
+              scoreLevel = 'Needs Improvement';
+              emoji = '🔧';
+            }
+            
+            let feedbackComment = `## ${emoji} Contribution Quality Assessment\n\n`;
+            feedbackComment += `**Score: ${validation.score}/100 - ${scoreLevel}**\n\n`;
+            
+            feedbackComment += `### ✅ What's Working Well\n\n`;
+            
+            if (validation.hasDescription) feedbackComment += `- Detailed description provided\n`;
+            if (validation.hasChecklist) feedbackComment += `- Checklist used for completeness\n`;
+            if (validation.appropriateSize) feedbackComment += `- Appropriate size for review\n`;
+            if (validation.followsNaming) feedbackComment += `- Follows naming conventions\n`;
+            if (validation.hasTests) feedbackComment += `- Includes test coverage\n`;
+            if (validation.hasDocumentation) feedbackComment += `- Documentation included\n`;
+            if (validation.followsTemplates) feedbackComment += `- Follows required templates\n`;
+            
+            if (validation.feedback.length > 0) {
+              feedbackComment += `\n### 🚀 Suggestions for Improvement\n\n`;
+              for (const suggestion of validation.feedback) {
+                feedbackComment += `- ${suggestion}\n`;
+              }
+            }
+            
+            feedbackComment += `\n### 📚 Helpful Resources\n\n`;
+            feedbackComment += `- [Contributing Guidelines](https://github.com/${owner}/${repo}/blob/main/docs/core/CONTRIBUTING.md)\n`;
+            feedbackComment += `- [Standards Template](https://github.com/${owner}/${repo}/blob/main/docs/guides/STANDARD_TEMPLATE.md)\n`;
+            feedbackComment += `- [Code of Conduct](https://github.com/${owner}/${repo}/blob/main/docs/core/CODE_OF_CONDUCT.md)\n`;
+            
+            feedbackComment += `\n### 🤝 Next Steps\n\n`;
+            
+            if (validation.score >= 60) {
+              feedbackComment += `Great work! A maintainer will review your contribution soon. `;
+              feedbackComment += `Feel free to address any suggestions above to make it even better.\n\n`;
+            } else {
+              feedbackComment += `Please consider addressing the suggestions above. `;
+              feedbackComment += `Don't hesitate to ask questions if you need clarification!\n\n`;
+            }
+            
+            feedbackComment += `*This automated assessment helps ensure high-quality contributions. `;
+            feedbackComment += `A human reviewer will provide additional feedback.*\n`;
+            
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: pr.number,
+              body: feedbackComment
+            });
+            
+            // Add appropriate labels based on validation
+            const labelsToAdd = [];
+            
+            if (validation.score >= 80) {
+              labelsToAdd.push('high-quality');
+            } else if (validation.score < 40) {
+              labelsToAdd.push('needs-improvement');
+            }
+            
+            if (validation.hasTests) {
+              labelsToAdd.push('has-tests');
+            }
+            
+            if (validation.hasDocumentation) {
+              labelsToAdd.push('has-documentation');
+            }
+            
+            if (labelsToAdd.length > 0) {
+              await github.rest.issues.addLabels({
+                owner,
+                repo,
+                issue_number: pr.number,
+                labels: labelsToAdd
+              });
+            }

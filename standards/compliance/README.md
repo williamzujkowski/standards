@@ -103,7 +103,7 @@ Monitors repository changes and:
 
 ## Integration with Knowledge Management Standards
 
-This platform deeply integrates with the repository's [Knowledge Management Standards](../../KNOWLEDGE_MANAGEMENT_STANDARDS.md):
+This platform deeply integrates with the repository's [Knowledge Management Standards](../../docs/standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md):
 
 ### Semantic Organization
 - Uses KM taxonomy for classifying security concepts
@@ -197,7 +197,7 @@ While focused on NIST 800-53r5, the architecture supports:
 
 ## Contributing
 
-This platform is designed to be extended. See [CREATING_STANDARDS_GUIDE.md](../../CREATING_STANDARDS_GUIDE.md) for:
+This platform is designed to be extended. See [CREATING_STANDARDS_GUIDE.md](../../docs/guides/CREATING_STANDARDS_GUIDE.md) for:
 - Adding new control mappings
 - Extending semantic analysis
 - Creating custom evidence collectors

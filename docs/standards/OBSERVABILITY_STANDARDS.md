@@ -11,6 +11,13 @@
 **Last Updated:** January 2025
 **Status:** Active
 
+## TL;DR
+- **Three pillars approach** combining metrics, logs, and distributed traces for complete system observability
+- **Service Level Objectives (SLOs)** driving monitoring strategy with error budgets and automated alerting
+- **Distributed tracing** standards using OpenTelemetry for end-to-end request visibility across microservices
+- **Smart alerting** with runbooks, incident response automation, and noise reduction through alert correlation
+- **Implementation path:** Start with basic metrics/logs, add tracing for critical paths, then implement SLOs and automation
+
 ## Table of Contents
 
 1. [Observability Principles](#1-observability-principles)

@@ -1,0 +1,245 @@
+name: Documentation Improvement
+description: Report issues or suggest improvements to documentation
+title: "[DOCS] "
+labels: ["documentation", "improvement"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping improve our documentation! Clear and comprehensive documentation is essential for standards adoption.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please confirm you have done the following
+      options:
+        - label: I have searched existing issues for similar documentation requests
+          required: true
+        - label: I have reviewed the current documentation thoroughly
+          required: true
+        - label: I have checked if this applies to multiple documents
+          required: true
+
+  - type: dropdown
+    id: doc_type
+    attributes:
+      label: Documentation Type
+      description: What type of documentation needs improvement?
+      options:
+        - Standards Documentation
+        - API Documentation
+        - Setup/Installation Guides
+        - Code Examples
+        - Architecture Documentation
+        - Process Documentation
+        - Tool Configuration Guides
+        - Troubleshooting Guides
+        - Reference Materials
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Issue Type
+      description: What kind of documentation issue is this?
+      options:
+        - Missing Information
+        - Incorrect Information
+        - Outdated Content
+        - Unclear Instructions
+        - Missing Examples
+        - Broken Links
+        - Poor Organization
+        - Formatting Issues
+        - Accessibility Issues
+        - Translation Needed
+    validations:
+      required: true
+
+  - type: textarea
+    id: affected_docs
+    attributes:
+      label: Affected Documentation
+      description: Which documents or sections are affected?
+      placeholder: |
+        - Document name: [e.g., CODING_STANDARDS.md]
+        - Section: [e.g., "Error Handling" section]
+        - Line numbers: [if applicable]
+        - Related files: [any related documentation]
+    validations:
+      required: true
+
+  - type: textarea
+    id: current_state
+    attributes:
+      label: Current State
+      description: Describe the current state of the documentation
+      placeholder: |
+        Current Content:
+        [Quote or describe the existing content that needs improvement]
+
+        Issues with Current Content:
+        - [Specific problem 1]
+        - [Specific problem 2]
+        - [Specific problem 3]
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_improvement
+    attributes:
+      label: Proposed Improvement
+      description: Describe what should be changed or added
+      placeholder: |
+        Suggested Changes:
+        [Detailed description of proposed improvements]
+
+        Proposed Content:
+        [If suggesting new content, provide draft text or outline]
+
+        Benefits:
+        - [How this improves user experience]
+        - [How this reduces confusion]
+        - [How this supports better implementation]
+    validations:
+      required: true
+
+  - type: textarea
+    id: user_impact
+    attributes:
+      label: User Impact
+      description: Who is affected and how?
+      placeholder: |
+        Affected Users:
+        - [Primary affected user groups]
+        - [Secondary affected user groups]
+
+        Impact Level:
+        - [How this affects new users]
+        - [How this affects experienced users]
+        - [Frequency of impact]
+
+        Pain Points:
+        - [Specific problems users face]
+        - [Workarounds currently needed]
+    validations:
+      required: true
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: Urgency Level
+      description: How urgent is this documentation improvement?
+      options:
+        - Critical - Prevents successful implementation
+        - High - Causes significant confusion or errors
+        - Medium - Improves clarity and usability
+        - Low - Minor enhancement or convenience
+    validations:
+      required: true
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples and Use Cases
+      description: Provide specific examples where better documentation would help
+      placeholder: |
+        Scenario 1:
+        - [When users encounter this]
+        - [What they're trying to accomplish]
+        - [Where current docs fall short]
+
+        Scenario 2:
+        - [Another situation]
+        - [User goals]
+        - [Documentation gaps]
+
+  - type: textarea
+    id: suggested_structure
+    attributes:
+      label: Suggested Structure or Format
+      description: Any ideas about how the improved documentation should be organized?
+      placeholder: |
+        Proposed Structure:
+        1. [Section 1]
+        2. [Section 2]
+        3. [Section 3]
+
+        Format Suggestions:
+        - [Visual elements needed]
+        - [Code examples to include]
+        - [Cross-references to add]
+        - [Interactive elements]
+
+  - type: checkboxes
+    id: documentation_types
+    attributes:
+      label: Additional Documentation Needs
+      description: What additional formats would be helpful?
+      options:
+        - label: Code examples in multiple languages
+        - label: Step-by-step tutorials
+        - label: Video demonstrations
+        - label: Interactive examples
+        - label: Architecture diagrams
+        - label: Flow charts or decision trees
+        - label: Troubleshooting guides
+        - label: FAQ section
+        - label: Glossary of terms
+        - label: Quick reference cards
+
+  - type: textarea
+    id: research
+    attributes:
+      label: Research and References
+      description: Any research or references that support these improvements?
+      placeholder: |
+        Industry Best Practices:
+        - [Relevant industry standards]
+        - [Documentation patterns that work well]
+
+        User Feedback:
+        - [Comments or issues from users]
+        - [Survey results or user research]
+
+        Similar Projects:
+        - [How other projects handle this]
+        - [Good examples to follow]
+
+  - type: checkboxes
+    id: contribution_offer
+    attributes:
+      label: Contribution Offer
+      description: How would you like to help with this improvement?
+      options:
+        - label: I can write the improved documentation
+        - label: I can provide detailed content outline
+        - label: I can create examples and code snippets
+        - label: I can review and test proposed changes
+        - label: I can help with technical accuracy review
+        - label: I can assist with formatting and style
+        - label: I can provide subject matter expertise
+        - label: I need guidance on how to contribute
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: Any other information that would be helpful
+      placeholder: |
+        Related Issues:
+        - [Links to related issues or discussions]
+
+        Timeline Considerations:
+        - [Any deadlines or time-sensitive aspects]
+
+        Dependencies:
+        - [Other documentation that should be updated together]
+        - [Standards or tools that need to align]
+
+        Additional Notes:
+        - [Any other relevant information]

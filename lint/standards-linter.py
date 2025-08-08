@@ -4,19 +4,21 @@ Standards Repository Linter
 Comprehensive linting for markdown standards based on KNOWLEDGE_MANAGEMENT_STANDARDS.md
 """
 
+import json
 import re
 import sys
-import yaml
-import json
-from pathlib import Path
-from typing import List, Dict, Tuple, Optional
-from dataclasses import dataclass
 from collections import defaultdict
+from dataclasses import dataclass
+from pathlib import Path
+from typing import List, Optional
+
+import yaml
 
 
 @dataclass
 class LintIssue:
     """Represents a linting issue"""
+
     file: str
     line: int
     column: int
@@ -60,7 +62,7 @@ class StandardsLinter:
         """Lint a single file"""
         with open(file_path) as f:
             content = f.read()
-            lines = content.split('\n')
+            lines = content.split("\n")
 
         # Run all file-level checks
         self._check_metadata(file_path, lines)
@@ -73,43 +75,59 @@ class StandardsLinter:
 
     def _check_metadata(self, file_path: Path, lines: List[str]):
         """Check for required metadata headers"""
-        header_area = '\n'.join(lines[:20])
+        header_area = "\n".join(lines[:20])
 
         # Version check with semantic versioning pattern
-        version_pattern = r'^\*\*Version:\*\*\s+\d+\.\d+\.\d+\s*$'
+        version_pattern = r"^\*\*Version:\*\*\s+\d+\.\d+\.\d+\s*$"
         if not any(re.match(version_pattern, line) for line in lines[:20]):
             self._add_issue(
-                file_path, 1, 1, "metadata-version",
-                "error", "Missing or invalid version metadata",
-                "Add: **Version:** X.Y.Z"
+                file_path,
+                1,
+                1,
+                "metadata-version",
+                "error",
+                "Missing or invalid version metadata",
+                "Add: **Version:** X.Y.Z",
             )
 
         # Last Updated check
-        date_pattern = r'^\*\*Last Updated:\*\*\s+\d{4}-\d{2}-\d{2}\s*$'
+        date_pattern = r"^\*\*Last Updated:\*\*\s+\d{4}-\d{2}-\d{2}\s*$"
         if not any(re.match(date_pattern, line) for line in lines[:20]):
             self._add_issue(
-                file_path, 1, 1, "metadata-date",
-                "error", "Missing or invalid Last Updated metadata",
-                "Add: **Last Updated:** YYYY-MM-DD"
+                file_path,
+                1,
+                1,
+                "metadata-date",
+                "error",
+                "Missing or invalid Last Updated metadata",
+                "Add: **Last Updated:** YYYY-MM-DD",
             )
 
         # Status check
-        status_pattern = r'^\*\*Status:\*\*\s+(Draft|Active|Deprecated)\s*$'
+        status_pattern = r"^\*\*Status:\*\*\s+(Draft|Active|Deprecated)\s*$"
         if not any(re.match(status_pattern, line) for line in lines[:20]):
             self._add_issue(
-                file_path, 1, 1, "metadata-status",
-                "error", "Missing or invalid Status metadata",
-                "Add: **Status:** Active/Draft/Deprecated"
+                file_path,
+                1,
+                1,
+                "metadata-status",
+                "error",
+                "Missing or invalid Status metadata",
+                "Add: **Status:** Active/Draft/Deprecated",
             )
 
         # Standard Code check (for non-UNIFIED files)
         if file_path.name != "UNIFIED_STANDARDS.md":
-            code_pattern = r'^\*\*Standard Code:\*\*\s+[A-Z]{2,4}\s*$'
+            code_pattern = r"^\*\*Standard Code:\*\*\s+[A-Z]{2,4}\s*$"
             if not any(re.match(code_pattern, line) for line in lines[:20]):
                 self._add_issue(
-                    file_path, 1, 1, "metadata-code",
-                    "warning", "Missing Standard Code metadata",
-                    "Add: **Standard Code:** XX (2-4 letters)"
+                    file_path,
+                    1,
+                    1,
+                    "metadata-code",
+                    "warning",
+                    "Missing Standard Code metadata",
+                    "Add: **Standard Code:** XX (2-4 letters)",
                 )
 
     def _check_structure(self, file_path: Path, content: str, lines: List[str]):
@@ -117,54 +135,77 @@ class StandardsLinter:
         # Table of Contents
         if "Table of Contents" not in content and "## Contents" not in content:
             self._add_issue(
-                file_path, 1, 1, "structure-toc",
-                "warning", "Missing Table of Contents",
-                "Add a Table of Contents section"
+                file_path,
+                1,
+                1,
+                "structure-toc",
+                "warning",
+                "Missing Table of Contents",
+                "Add a Table of Contents section",
             )
 
         # Required sections
         required_sections = ["Overview", "Implementation"]
         for section in required_sections:
-            pattern = rf'^#{1,3}\s+{section}'
+            pattern = rf"^#{1,3}\s+{section}"
             if not re.search(pattern, content, re.MULTILINE):
                 self._add_issue(
-                    file_path, 1, 1, f"structure-{section.lower()}",
-                    "error", f"Missing required section: {section}",
-                    f"Add ## {section} section"
+                    file_path,
+                    1,
+                    1,
+                    f"structure-{section.lower()}",
+                    "error",
+                    f"Missing required section: {section}",
+                    f"Add ## {section} section",
                 )
 
         # Implementation Checklist
-        if "Implementation Checklist" not in content and "checklist" not in content.lower():
+        if (
+            "Implementation Checklist" not in content
+            and "checklist" not in content.lower()
+        ):
             self._add_issue(
-                file_path, 1, 1, "structure-checklist",
-                "warning", "Missing Implementation Checklist",
-                "Add an Implementation Checklist section"
+                file_path,
+                1,
+                1,
+                "structure-checklist",
+                "warning",
+                "Missing Implementation Checklist",
+                "Add an Implementation Checklist section",
             )
 
     def _check_requirement_tags(self, file_path: Path, content: str, lines: List[str]):
         """Check for [REQUIRED] and [RECOMMENDED] tags"""
         if "[REQUIRED]" not in content and "[RECOMMENDED]" not in content:
             self._add_issue(
-                file_path, 1, 1, "tags-missing",
-                "warning", "No [REQUIRED] or [RECOMMENDED] tags found",
-                "Add requirement level tags to important sections"
+                file_path,
+                1,
+                1,
+                "tags-missing",
+                "warning",
+                "No [REQUIRED] or [RECOMMENDED] tags found",
+                "Add requirement level tags to important sections",
             )
 
         # Check tag formatting
-        tag_pattern = r'\[(REQUIRED|RECOMMENDED|OPTIONAL)\]'
+        tag_pattern = r"\[(REQUIRED|RECOMMENDED|OPTIONAL)\]"
         for i, line in enumerate(lines):
             if re.search(tag_pattern, line):
                 # Tags should be in headers or at start of line
-                if not (line.strip().startswith('#') or line.strip().startswith('[')):
+                if not (line.strip().startswith("#") or line.strip().startswith("[")):
                     self._add_issue(
-                        file_path, i+1, 1, "tags-placement",
-                        "warning", "Requirement tag should be in header or at start of line",
-                        "Move tag to header: ### [REQUIRED] Section Name"
+                        file_path,
+                        i + 1,
+                        1,
+                        "tags-placement",
+                        "warning",
+                        "Requirement tag should be in header or at start of line",
+                        "Move tag to header: ### [REQUIRED] Section Name",
                     )
 
     def _check_cross_references(self, file_path: Path, content: str, lines: List[str]):
         """Check cross-reference validity and format"""
-        link_pattern = r'\[([^\]]+)\]\(([^)]+)\)'
+        link_pattern = r"\[([^\]]+)\]\(([^)]+)\)"
 
         for i, line in enumerate(lines):
             for match in re.finditer(link_pattern, line):
@@ -172,21 +213,31 @@ class StandardsLinter:
                 link_target = match.group(2)
 
                 # Check relative links
-                if link_target.startswith('./'):
-                    target_path = (file_path.parent / link_target.split('#')[0]).resolve()
+                if link_target.startswith("./"):
+                    target_path = (
+                        file_path.parent / link_target.split("#")[0]
+                    ).resolve()
                     if not target_path.exists():
                         self._add_issue(
-                            file_path, i+1, match.start(), "xref-broken",
-                            "error", f"Broken link: {link_target}",
-                            "Fix the link path or remove"
+                            file_path,
+                            i + 1,
+                            match.start(),
+                            "xref-broken",
+                            "error",
+                            f"Broken link: {link_target}",
+                            "Fix the link path or remove",
                         )
 
                 # Check link text quality
-                if link_text.lower() in ['here', 'click here', 'this']:
+                if link_text.lower() in ["here", "click here", "this"]:
                     self._add_issue(
-                        file_path, i+1, match.start(), "xref-text",
-                        "warning", f"Non-descriptive link text: '{link_text}'",
-                        "Use descriptive link text"
+                        file_path,
+                        i + 1,
+                        match.start(),
+                        "xref-text",
+                        "warning",
+                        f"Non-descriptive link text: '{link_text}'",
+                        "Use descriptive link text",
                     )
 
     def _check_token_efficiency(self, file_path: Path, content: str):
@@ -197,92 +248,132 @@ class StandardsLinter:
 
         if estimated_tokens > 15000:
             self._add_issue(
-                file_path, 1, 1, "tokens-total",
-                "warning", f"Document has ~{estimated_tokens} tokens (high)",
-                "Consider splitting into multiple documents"
+                file_path,
+                1,
+                1,
+                "tokens-total",
+                "warning",
+                f"Document has ~{estimated_tokens} tokens (high)",
+                "Consider splitting into multiple documents",
             )
 
         # Check section sizes
-        sections = re.split(r'^##\s+', content, flags=re.MULTILINE)
+        sections = re.split(r"^##\s+", content, flags=re.MULTILINE)
         for i, section in enumerate(sections[1:], 1):  # Skip first split
             section_words = len(section.split())
             section_tokens = int(section_words * 0.75)
 
             if section_tokens > 3000:
                 # Find section name
-                section_name = section.split('\n')[0].strip()
+                section_name = section.split("\n")[0].strip()
                 self._add_issue(
-                    file_path, 1, 1, "tokens-section",
-                    "info", f"Section '{section_name}' has ~{section_tokens} tokens",
-                    "Consider using progressive disclosure or splitting"
+                    file_path,
+                    1,
+                    1,
+                    "tokens-section",
+                    "info",
+                    f"Section '{section_name}' has ~{section_tokens} tokens",
+                    "Consider using progressive disclosure or splitting",
                 )
 
     def _check_formatting(self, file_path: Path, lines: List[str]):
         """Check formatting issues"""
         for i, line in enumerate(lines):
             # Trailing whitespace
-            if line.endswith(' ') or line.endswith('\t'):
+            if line.endswith(" ") or line.endswith("\t"):
                 self._add_issue(
-                    file_path, i+1, len(line), "format-trailing",
-                    "error", "Trailing whitespace",
-                    "Remove trailing spaces"
+                    file_path,
+                    i + 1,
+                    len(line),
+                    "format-trailing",
+                    "error",
+                    "Trailing whitespace",
+                    "Remove trailing spaces",
                 )
 
             # Line length (except URLs and code blocks)
-            if len(line) > 120 and not line.strip().startswith('http') and not line.strip().startswith('```'):
+            if (
+                len(line) > 120
+                and not line.strip().startswith("http")
+                and not line.strip().startswith("```")
+            ):
                 self._add_issue(
-                    file_path, i+1, 121, "format-line-length",
-                    "warning", f"Line too long ({len(line)} > 120)",
-                    "Break line at appropriate point"
+                    file_path,
+                    i + 1,
+                    121,
+                    "format-line-length",
+                    "warning",
+                    f"Line too long ({len(line)} > 120)",
+                    "Break line at appropriate point",
                 )
 
             # Multiple blank lines
-            if i > 0 and line == '' and lines[i-1] == '':
-                if i > 1 and lines[i-2] == '':
+            if i > 0 and line == "" and lines[i - 1] == "":
+                if i > 1 and lines[i - 2] == "":
                     self._add_issue(
-                        file_path, i+1, 1, "format-blank-lines",
-                        "warning", "Multiple consecutive blank lines",
-                        "Use at most 2 consecutive blank lines"
+                        file_path,
+                        i + 1,
+                        1,
+                        "format-blank-lines",
+                        "warning",
+                        "Multiple consecutive blank lines",
+                        "Use at most 2 consecutive blank lines",
                     )
 
     def _check_code_examples(self, file_path: Path, content: str, lines: List[str]):
         """Check code example quality"""
-        code_blocks = re.findall(r'```(\w*)\n(.*?)\n```', content, re.DOTALL)
+        code_blocks = re.findall(r"```(\w*)\n(.*?)\n```", content, re.DOTALL)
 
         if not code_blocks and "Implementation" in content:
             self._add_issue(
-                file_path, 1, 1, "examples-missing",
-                "warning", "No code examples found",
-                "Add practical code examples"
+                file_path,
+                1,
+                1,
+                "examples-missing",
+                "warning",
+                "No code examples found",
+                "Add practical code examples",
             )
 
         for lang, code in code_blocks:
             if not lang:
                 # Find line number
                 for i, line in enumerate(lines):
-                    if line == '```' and i+1 < len(lines) and lines[i+1].strip() == code.split('\n')[0].strip():
+                    if (
+                        line == "```"
+                        and i + 1 < len(lines)
+                        and lines[i + 1].strip() == code.split("\n")[0].strip()
+                    ):
                         self._add_issue(
-                            file_path, i+1, 1, "examples-language",
-                            "warning", "Code block missing language specifier",
-                            "Add language after ``` (e.g., ```python)"
+                            file_path,
+                            i + 1,
+                            1,
+                            "examples-language",
+                            "warning",
+                            "Code block missing language specifier",
+                            "Add language after ``` (e.g., ```python)",
                         )
                         break
 
     def _check_manifest_completeness(self):
         """Check all standards are in MANIFEST.yaml"""
         manifest_files = set()
-        for code, data in self.manifest.get('standards', {}).items():
-            if 'full_name' in data:
-                manifest_files.add(data['full_name'])
-            elif 'filename' in data:
-                manifest_files.add(data['filename'])
+        for code, data in self.manifest.get("standards", {}).items():
+            if "full_name" in data:
+                manifest_files.add(data["full_name"])
+            elif "filename" in data:
+                manifest_files.add(data["filename"])
 
         for std_file in self.standards_files:
             if std_file.name not in manifest_files:
                 self._add_issue(
-                    std_file, 1, 1, "manifest-missing",
-                    "error", "Not found in MANIFEST.yaml",
-                    f"Add entry for {std_file.name} to MANIFEST.yaml"
+                    std_file,
+                    1,
+                    1,
+                    "manifest-missing",
+                    "error",
+                    "Not found in MANIFEST.yaml",
+                    f"Add entry for {std_file.name} to MANIFEST.yaml",
                 )
 
     def _check_index_coverage(self):
@@ -295,9 +386,13 @@ class StandardsLinter:
             for std_file in self.standards_files:
                 if std_file.name not in index_content:
                     self._add_issue(
-                        std_file, 1, 1, "index-missing",
-                        "warning", "Not found in STANDARDS_INDEX.md",
-                        f"Add {std_file.name} to index"
+                        std_file,
+                        1,
+                        1,
+                        "index-missing",
+                        "warning",
+                        "Not found in STANDARDS_INDEX.md",
+                        f"Add {std_file.name} to index",
                     )
 
     def _check_graph_relationships(self):
@@ -312,37 +407,56 @@ class StandardsLinter:
             for rel_type in rel_types:
                 if rel_type not in graph_content:
                     self._add_issue(
-                        graph_path, 1, 1, f"graph-{rel_type}",
-                        "info", f"Missing '{rel_type}' relationship type",
-                        f"Document {rel_type} relationships"
+                        graph_path,
+                        1,
+                        1,
+                        f"graph-{rel_type}",
+                        "info",
+                        f"Missing '{rel_type}' relationship type",
+                        f"Document {rel_type} relationships",
                     )
 
-    def _add_issue(self, file_path: Path, line: int, column: int,
-                   rule: str, severity: str, message: str,
-                   fix_suggestion: Optional[str] = None):
+    def _add_issue(
+        self,
+        file_path: Path,
+        line: int,
+        column: int,
+        rule: str,
+        severity: str,
+        message: str,
+        fix_suggestion: Optional[str] = None,
+    ):
         """Add a linting issue"""
-        self.issues.append(LintIssue(
-            file=str(file_path.relative_to(self.root)),
-            line=line,
-            column=column,
-            rule=rule,
-            severity=severity,
-            message=message,
-            fix_suggestion=fix_suggestion
-        ))
+        self.issues.append(
+            LintIssue(
+                file=str(file_path.relative_to(self.root)),
+                line=line,
+                column=column,
+                rule=rule,
+                severity=severity,
+                message=message,
+                fix_suggestion=fix_suggestion,
+            )
+        )
 
     def format_report(self, format_type: str = "text") -> str:
         """Format the linting report"""
         if format_type == "json":
-            return json.dumps([{
-                "file": issue.file,
-                "line": issue.line,
-                "column": issue.column,
-                "rule": issue.rule,
-                "severity": issue.severity,
-                "message": issue.message,
-                "fix": issue.fix_suggestion
-            } for issue in self.issues], indent=2)
+            return json.dumps(
+                [
+                    {
+                        "file": issue.file,
+                        "line": issue.line,
+                        "column": issue.column,
+                        "rule": issue.rule,
+                        "severity": issue.severity,
+                        "message": issue.message,
+                        "fix": issue.fix_suggestion,
+                    }
+                    for issue in self.issues
+                ],
+                indent=2,
+            )
 
         # Group by file
         by_file = defaultdict(list)
@@ -363,14 +477,18 @@ class StandardsLinter:
             f"  Errors: {counts['error']}",
             f"  Warnings: {counts['warning']}",
             f"  Info: {counts['info']}",
-            ""
+            "",
         ]
 
         for file, issues in sorted(by_file.items()):
             lines.append(f"\n{file}:")
             for issue in sorted(issues, key=lambda x: (x.line, x.column)):
-                severity_icon = {"error": "✗", "warning": "⚠", "info": "ℹ"}.get(issue.severity, "?")
-                lines.append(f"  {issue.line}:{issue.column} {severity_icon} [{issue.rule}] {issue.message}")
+                severity_icon = {"error": "✗", "warning": "⚠", "info": "ℹ"}.get(
+                    issue.severity, "?"
+                )
+                lines.append(
+                    f"  {issue.line}:{issue.column} {severity_icon} [{issue.rule}] {issue.message}"
+                )
                 if issue.fix_suggestion:
                     lines.append(f"         Fix: {issue.fix_suggestion}")
 
@@ -383,8 +501,12 @@ def main():
 
     parser = argparse.ArgumentParser(description="Lint standards repository")
     parser.add_argument("path", nargs="?", default=".", help="Path to repository root")
-    parser.add_argument("--format", choices=["text", "json"], default="text", help="Output format")
-    parser.add_argument("--fix", action="store_true", help="Apply automatic fixes (not implemented)")
+    parser.add_argument(
+        "--format", choices=["text", "json"], default="text", help="Output format"
+    )
+    parser.add_argument(
+        "--fix", action="store_true", help="Apply automatic fixes (not implemented)"
+    )
 
     args = parser.parse_args()
 

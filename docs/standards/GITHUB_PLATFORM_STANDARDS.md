@@ -164,8 +164,8 @@ Detailed installation instructions.
 
 ## 📖 Documentation
 
-- [Contributing Guide](./docs/core/CONTRIBUTING.md)
-- [Code of Conduct](./docs/core/CODE_OF_CONDUCT.md)
+- [Contributing Guide](../core/CONTRIBUTING.md)
+- [Code of Conduct](../core/CODE_OF_CONDUCT.md)
 
 ## 🧪 Testing
 
@@ -182,11 +182,11 @@ npm test -- --grep "test name"
 
 ## 🤝 Contributing
 
-Please read [CONTRIBUTING.md](./docs/core/CONTRIBUTING.md) for details.
+Please read [CONTRIBUTING.md](../core/CONTRIBUTING.md) for details.
 
 ## 📝 License
 
-This project is licensed under the MIT License - see [LICENSE](./LICENSE).
+This project is licensed under the MIT License - see [LICENSE](../../LICENSE).
 ```
 
 #### CONTRIBUTING Template **[REQUIRED]**
@@ -195,7 +195,7 @@ This project is licensed under the MIT License - see [LICENSE](./LICENSE).
 
 ## Code of Conduct
 
-Please read our [Code of Conduct](./docs/core/CODE_OF_CONDUCT.md).
+Please read our [Code of Conduct](../core/CODE_OF_CONDUCT.md).
 
 ## How to Contribute
 

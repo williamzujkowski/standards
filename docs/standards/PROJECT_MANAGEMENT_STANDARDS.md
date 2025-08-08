@@ -425,7 +425,7 @@ risk_management:
       - SWOT analysis
       - Expert interviews
       - Historical data
-      - Security/compliance review (see [NIST_IMPLEMENTATION_GUIDE.md](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md))
+      - Security/compliance review (see [NIST_IMPLEMENTATION_GUIDE.md](../nist/NIST_IMPLEMENTATION_GUIDE.md))
 
   assessment:
     probability: [Low, Medium, High]
@@ -727,7 +727,7 @@ improvement:
     - Monitor NIST control coverage
     - Review security feature tagging
     - Update compliance documentation
-    - See [NIST Implementation Guide](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md)
+    - See [NIST Implementation Guide](../nist/NIST_IMPLEMENTATION_GUIDE.md)
     - Measure impact
 ```
 

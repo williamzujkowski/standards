@@ -151,11 +151,11 @@ config:
   ignore:
     # Ignore specific rule IDs
     rules: []
-      # - "generic.secrets.security.detected-generic-secret"
+    # - "generic.secrets.security.detected-generic-secret"
 
     # Ignore files
     paths: []
-      # - "legacy/*.py"
+    # - "legacy/*.py"
 
   # Auto-fix settings
   autofix: false  # Don't auto-fix in CI

@@ -31,6 +31,9 @@ STANDARD_CODES = {
     "COMPLIANCE_STANDARDS.md": "COMPLIANCE",
     "KNOWLEDGE_MANAGEMENT_STANDARDS.md": "KM",
     "MODEL_CONTEXT_PROTOCOL_STANDARDS.md": "MCP",
+    "DATABASE_STANDARDS.md": "DBS",
+    "MICROSERVICES_STANDARDS.md": "MSA", 
+    "ML_AI_STANDARDS.md": "ML",
     "VALIDATION_PATTERNS.md": "VAL",
 }
 
@@ -57,6 +60,9 @@ CATEGORIES = {
     "COMPLIANCE": "🔐 Compliance Standards",
     "KM": "📚 Knowledge Management",
     "MCP": "🤖 Model Context Protocol",
+    "DBS": "🗄️ Database Standards",
+    "MSA": "🏗️ Microservices Architecture",
+    "ML": "🤖 ML/AI Standards",
     "VAL": "✅ Validation Patterns",
 }
 
@@ -176,6 +182,9 @@ This index provides quick summaries of all standards sections. Use the codes bel
         "COST",
         "KM",
         "MCP",
+        "DBS",
+        "MSA",
+        "ML",
         "UNIFIED",
         "COMPLIANCE",
     ]:
