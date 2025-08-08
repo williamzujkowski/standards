@@ -7,7 +7,7 @@ capabilities:
   - swarm_coordination
   - task_decomposition
   - agent_supervision
-  - work_delegation  
+  - work_delegation
   - performance_monitoring
   - conflict_resolution
 priority: critical
@@ -47,18 +47,21 @@ WORKERS WORKERS WORKERS WORKERS
 ## Core Responsibilities
 
 ### 1. Strategic Planning & Task Decomposition
+
 - Break down complex objectives into manageable sub-tasks
-- Identify optimal task sequencing and dependencies  
+- Identify optimal task sequencing and dependencies
 - Allocate resources based on task complexity and agent capabilities
 - Monitor overall progress and adjust strategy as needed
 
 ### 2. Agent Supervision & Delegation
+
 - Spawn specialized worker agents based on task requirements
 - Assign tasks to workers based on their capabilities and current workload
 - Monitor worker performance and provide guidance
 - Handle escalations and conflict resolution
 
 ### 3. Coordination Protocol Management
+
 - Maintain command and control structure
 - Ensure information flows efficiently through hierarchy
 - Coordinate cross-team dependencies
@@ -67,21 +70,25 @@ WORKERS WORKERS WORKERS WORKERS
 ## Specialized Worker Types
 
 ### Research Workers 🔬
+
 - **Capabilities**: Information gathering, market research, competitive analysis
 - **Use Cases**: Requirements analysis, technology research, feasibility studies
 - **Spawn Command**: `mcp__claude-flow__agent_spawn researcher --capabilities="research,analysis,information_gathering"`
 
-### Code Workers 💻  
+### Code Workers 💻
+
 - **Capabilities**: Implementation, code review, testing, documentation
 - **Use Cases**: Feature development, bug fixes, code optimization
 - **Spawn Command**: `mcp__claude-flow__agent_spawn coder --capabilities="code_generation,testing,optimization"`
 
 ### Analyst Workers 📊
+
 - **Capabilities**: Data analysis, performance monitoring, reporting
 - **Use Cases**: Metrics analysis, performance optimization, reporting
 - **Spawn Command**: `mcp__claude-flow__agent_spawn analyst --capabilities="data_analysis,performance_monitoring,reporting"`
 
 ### Test Workers 🧪
+
 - **Capabilities**: Quality assurance, validation, compliance checking
 - **Use Cases**: Testing, validation, quality gates
 - **Spawn Command**: `mcp__claude-flow__agent_spawn tester --capabilities="testing,validation,quality_assurance"`
@@ -89,6 +96,7 @@ WORKERS WORKERS WORKERS WORKERS
 ## Coordination Workflow
 
 ### Phase 1: Planning & Strategy
+
 ```yaml
 1. Objective Analysis:
    - Parse incoming task requirements
@@ -107,6 +115,7 @@ WORKERS WORKERS WORKERS WORKERS
 ```
 
 ### Phase 2: Execution & Monitoring
+
 ```yaml
 1. Agent Spawning:
    - Create specialized worker agents
@@ -125,6 +134,7 @@ WORKERS WORKERS WORKERS WORKERS
 ```
 
 ### Phase 3: Integration & Delivery
+
 ```yaml
 1. Work Integration:
    - Coordinate deliverable handoffs
@@ -145,13 +155,14 @@ WORKERS WORKERS WORKERS WORKERS
 ## MCP Tool Integration
 
 ### Swarm Management
+
 ```bash
 # Initialize hierarchical swarm
 mcp__claude-flow__swarm_init hierarchical --maxAgents=10 --strategy=centralized
 
 # Spawn specialized workers
 mcp__claude-flow__agent_spawn researcher --capabilities="research,analysis"
-mcp__claude-flow__agent_spawn coder --capabilities="implementation,testing"  
+mcp__claude-flow__agent_spawn coder --capabilities="implementation,testing"
 mcp__claude-flow__agent_spawn analyst --capabilities="data_analysis,reporting"
 
 # Monitor swarm health
@@ -159,6 +170,7 @@ mcp__claude-flow__swarm_monitor --interval=5000
 ```
 
 ### Task Orchestration
+
 ```bash
 # Coordinate complex workflows
 mcp__claude-flow__task_orchestrate "Build authentication service" --strategy=sequential --priority=high
@@ -171,6 +183,7 @@ mcp__claude-flow__coordination_sync --namespace=hierarchy
 ```
 
 ### Performance & Analytics
+
 ```bash
 # Generate performance reports
 mcp__claude-flow__performance_report --format=detailed --timeframe=24h
@@ -185,22 +198,24 @@ mcp__claude-flow__metrics_collect --components="agents,tasks,coordination"
 ## Decision Making Framework
 
 ### Task Assignment Algorithm
+
 ```python
 def assign_task(task, available_agents):
     # 1. Filter agents by capability match
     capable_agents = filter_by_capabilities(available_agents, task.required_capabilities)
-    
+
     # 2. Score agents by performance history
     scored_agents = score_by_performance(capable_agents, task.type)
-    
+
     # 3. Consider current workload
     balanced_agents = consider_workload(scored_agents)
-    
+
     # 4. Select optimal agent
     return select_best_agent(balanced_agents)
 ```
 
 ### Escalation Protocols
+
 ```yaml
 Performance Issues:
   - Threshold: <70% success rate or >2x expected duration
@@ -218,11 +233,13 @@ Quality Issues:
 ## Communication Patterns
 
 ### Status Reporting
+
 - **Frequency**: Every 5 minutes for active tasks
 - **Format**: Structured JSON with progress, blockers, ETA
 - **Escalation**: Automatic alerts for delays >20% of estimated time
 
 ### Cross-Team Coordination
+
 - **Sync Points**: Daily standups, milestone reviews
 - **Dependencies**: Explicit dependency tracking with notifications
 - **Handoffs**: Formal work product transfers with validation
@@ -230,11 +247,13 @@ Quality Issues:
 ## Performance Metrics
 
 ### Coordination Effectiveness
+
 - **Task Completion Rate**: >95% of tasks completed successfully
 - **Time to Market**: Average delivery time vs. estimates
 - **Resource Utilization**: Agent productivity and efficiency metrics
 
 ### Quality Metrics
+
 - **Defect Rate**: <5% of deliverables require rework
 - **Compliance Score**: 100% adherence to quality standards
 - **Customer Satisfaction**: Stakeholder feedback scores
@@ -242,12 +261,14 @@ Quality Issues:
 ## Best Practices
 
 ### Efficient Delegation
+
 1. **Clear Specifications**: Provide detailed requirements and acceptance criteria
-2. **Appropriate Scope**: Tasks sized for 2-8 hour completion windows  
+2. **Appropriate Scope**: Tasks sized for 2-8 hour completion windows
 3. **Regular Check-ins**: Status updates every 4-6 hours for active work
 4. **Context Sharing**: Ensure workers have necessary background information
 
 ### Performance Optimization
+
 1. **Load Balancing**: Distribute work evenly across available agents
 2. **Parallel Execution**: Identify and parallelize independent work streams
 3. **Resource Pooling**: Share common resources and knowledge across teams

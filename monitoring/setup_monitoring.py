@@ -18,45 +18,46 @@ import shutil
 from pathlib import Path
 import logging
 
+
 class MonitoringSetup:
     """Setup and configure the monitoring system"""
-    
+
     def __init__(self, repo_path=None):
         self.repo_path = repo_path or os.getcwd()
-        self.monitoring_dir = os.path.join(self.repo_path, 'monitoring')
-        
+        self.monitoring_dir = os.path.join(self.repo_path, "monitoring")
+
         # Setup logging
-        logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
+        logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
         self.logger = logging.getLogger(__name__)
-    
+
     def setup_directories(self):
         """Create necessary directory structure"""
         directories = [
-            'monitoring',
-            'monitoring/metrics',
-            'monitoring/reports',
-            'monitoring/health',
-            'monitoring/logs',
-            'monitoring/config'
+            "monitoring",
+            "monitoring/metrics",
+            "monitoring/reports",
+            "monitoring/health",
+            "monitoring/logs",
+            "monitoring/config",
         ]
-        
+
         self.logger.info("Creating directory structure...")
         for dir_path in directories:
             full_path = os.path.join(self.repo_path, dir_path)
             os.makedirs(full_path, exist_ok=True)
             self.logger.info(f"✓ Created {dir_path}")
-    
+
     def create_config_files(self):
         """Create configuration files"""
         self.logger.info("Creating configuration files...")
-        
+
         # Main monitoring configuration
         monitoring_config = {
             "monitoring": {
                 "enabled": True,
                 "interval_minutes": 60,
                 "retention_days": 30,
-                "log_level": "INFO"
+                "log_level": "INFO",
             },
             "health_checks": {
                 "file_integrity": True,
@@ -66,19 +67,19 @@ class MonitoringSetup:
                 "git_health": True,
                 "system_resources": True,
                 "security_validation": True,
-                "compliance_checking": True
+                "compliance_checking": True,
             },
             "performance_monitoring": {
                 "enabled": True,
                 "continuous_monitoring": False,
                 "benchmark_scripts": True,
-                "resource_tracking": True
+                "resource_tracking": True,
             },
             "analytics": {
                 "enabled": True,
                 "track_usage": True,
                 "collect_metrics": True,
-                "generate_insights": True
+                "generate_insights": True,
             },
             "reporting": {
                 "daily_summary": True,
@@ -87,8 +88,8 @@ class MonitoringSetup:
                 "alert_threshold": {
                     "health_score": 80,
                     "performance_degradation": 20,
-                    "error_rate": 5
-                }
+                    "error_rate": 5,
+                },
             },
             "notifications": {
                 "email": {
@@ -97,26 +98,28 @@ class MonitoringSetup:
                     "smtp_port": 587,
                     "username": "",
                     "password": "",
-                    "recipients": []
+                    "recipients": [],
                 },
                 "slack_webhook": "",
                 "discord_webhook": "",
-                "teams_webhook": ""
+                "teams_webhook": "",
             },
             "dashboard": {
                 "enabled": True,
                 "port": 8080,
                 "host": "localhost",
-                "auto_refresh_minutes": 5
-            }
+                "auto_refresh_minutes": 5,
+            },
         }
-        
-        config_path = os.path.join(self.monitoring_dir, 'config', 'monitoring_config.json')
-        with open(config_path, 'w') as f:
+
+        config_path = os.path.join(
+            self.monitoring_dir, "config", "monitoring_config.json"
+        )
+        with open(config_path, "w") as f:
             json.dump(monitoring_config, f, indent=2)
-        
+
         self.logger.info(f"✓ Created monitoring configuration: {config_path}")
-        
+
         # Performance thresholds configuration
         thresholds_config = {
             "performance_thresholds": {
@@ -129,7 +132,7 @@ class MonitoringSetup:
                 "memory_usage_warning": 80,
                 "memory_usage_critical": 95,
                 "cpu_usage_warning": 80,
-                "cpu_usage_critical": 95
+                "cpu_usage_critical": 95,
             },
             "health_thresholds": {
                 "critical": {
@@ -138,7 +141,7 @@ class MonitoringSetup:
                     "dependency_errors_percent": 15,
                     "system_cpu_percent": 95,
                     "system_memory_percent": 95,
-                    "disk_usage_percent": 95
+                    "disk_usage_percent": 95,
                 },
                 "warning": {
                     "broken_links_percent": 5,
@@ -146,21 +149,21 @@ class MonitoringSetup:
                     "dependency_errors_percent": 5,
                     "system_cpu_percent": 80,
                     "system_memory_percent": 80,
-                    "disk_usage_percent": 85
-                }
-            }
+                    "disk_usage_percent": 85,
+                },
+            },
         }
-        
-        thresholds_path = os.path.join(self.monitoring_dir, 'config', 'thresholds.json')
-        with open(thresholds_path, 'w') as f:
+
+        thresholds_path = os.path.join(self.monitoring_dir, "config", "thresholds.json")
+        with open(thresholds_path, "w") as f:
             json.dump(thresholds_config, f, indent=2)
-        
+
         self.logger.info(f"✓ Created thresholds configuration: {thresholds_path}")
-    
+
     def create_wrapper_scripts(self):
         """Create wrapper scripts for easy execution"""
         self.logger.info("Creating wrapper scripts...")
-        
+
         # Create run_monitoring.sh
         monitoring_script = f"""#!/bin/bash
 # Standards Repository Monitoring Wrapper Script
@@ -200,14 +203,14 @@ fi
 
 echo "✅ Monitoring completed successfully!"
 """
-        
-        script_path = os.path.join(self.monitoring_dir, 'run_monitoring.sh')
-        with open(script_path, 'w') as f:
+
+        script_path = os.path.join(self.monitoring_dir, "run_monitoring.sh")
+        with open(script_path, "w") as f:
             f.write(monitoring_script)
-        
+
         os.chmod(script_path, 0o755)
         self.logger.info(f"✓ Created monitoring script: {script_path}")
-        
+
         # Create start_dashboard.sh
         dashboard_script = f"""#!/bin/bash
 # Start Monitoring Dashboard
@@ -228,21 +231,21 @@ else
     exit 1
 fi
 """
-        
-        dashboard_script_path = os.path.join(self.monitoring_dir, 'start_dashboard.sh')
-        with open(dashboard_script_path, 'w') as f:
+
+        dashboard_script_path = os.path.join(self.monitoring_dir, "start_dashboard.sh")
+        with open(dashboard_script_path, "w") as f:
             f.write(dashboard_script)
-        
+
         os.chmod(dashboard_script_path, 0o755)
         self.logger.info(f"✓ Created dashboard script: {dashboard_script_path}")
-    
+
     def check_dependencies(self):
         """Check and install required dependencies"""
         self.logger.info("Checking dependencies...")
-        
-        required_packages = ['psutil', 'pyyaml']
+
+        required_packages = ["psutil", "pyyaml"]
         missing_packages = []
-        
+
         for package in required_packages:
             try:
                 __import__(package)
@@ -250,24 +253,29 @@ fi
             except ImportError:
                 missing_packages.append(package)
                 self.logger.warning(f"✗ {package} is missing")
-        
+
         if missing_packages:
-            self.logger.info(f"Installing missing packages: {', '.join(missing_packages)}")
+            self.logger.info(
+                f"Installing missing packages: {', '.join(missing_packages)}"
+            )
             try:
-                subprocess.run([
-                    sys.executable, '-m', 'pip', 'install'
-                ] + missing_packages, check=True)
+                subprocess.run(
+                    [sys.executable, "-m", "pip", "install"] + missing_packages,
+                    check=True,
+                )
                 self.logger.info("✓ Dependencies installed successfully")
             except subprocess.CalledProcessError as e:
                 self.logger.error(f"Failed to install dependencies: {e}")
-                self.logger.info("Please install manually: pip install " + " ".join(missing_packages))
+                self.logger.info(
+                    "Please install manually: pip install " + " ".join(missing_packages)
+                )
         else:
             self.logger.info("✓ All dependencies are satisfied")
-    
+
     def create_cron_jobs(self):
         """Create cron job suggestions for automated monitoring"""
         self.logger.info("Creating cron job configuration...")
-        
+
         cron_config = f"""# Standards Repository Monitoring Cron Jobs
 # Add these to your crontab with: crontab -e
 
@@ -286,27 +294,29 @@ fi
 # Health check every 6 hours
 0 */6 * * * cd {self.repo_path} && python3 ./monitoring/health_monitor.py >> ./monitoring/logs/health_check.log 2>&1
 """
-        
-        cron_path = os.path.join(self.monitoring_dir, 'config', 'cron_jobs.txt')
-        with open(cron_path, 'w') as f:
+
+        cron_path = os.path.join(self.monitoring_dir, "config", "cron_jobs.txt")
+        with open(cron_path, "w") as f:
             f.write(cron_config)
-        
+
         self.logger.info(f"✓ Created cron configuration: {cron_path}")
-        self.logger.info("To enable automated monitoring, add the cron jobs with: crontab -e")
-    
+        self.logger.info(
+            "To enable automated monitoring, add the cron jobs with: crontab -e"
+        )
+
     def create_requirements_file(self):
         """Create requirements file for monitoring dependencies"""
         requirements = """# Standards Repository Monitoring Requirements
 psutil>=5.8.0
 pyyaml>=6.0
 """
-        
-        req_path = os.path.join(self.monitoring_dir, 'requirements.txt')
-        with open(req_path, 'w') as f:
+
+        req_path = os.path.join(self.monitoring_dir, "requirements.txt")
+        with open(req_path, "w") as f:
             f.write(requirements)
-        
+
         self.logger.info(f"✓ Created requirements file: {req_path}")
-    
+
     def create_readme(self):
         """Create README for the monitoring system"""
         readme_content = f"""# Standards Repository Monitoring System
@@ -472,41 +482,41 @@ Enable debug logging by setting log level to "DEBUG" in configuration.
 ### Support
 For issues or questions, check the logs in `monitoring/logs/` for detailed error information.
 """
-        
-        readme_path = os.path.join(self.monitoring_dir, 'README.md')
-        with open(readme_path, 'w') as f:
+
+        readme_path = os.path.join(self.monitoring_dir, "README.md")
+        with open(readme_path, "w") as f:
             f.write(readme_content)
-        
+
         self.logger.info(f"✓ Created README: {readme_path}")
-    
+
     def run_initial_health_check(self):
         """Run initial health check to verify setup"""
         self.logger.info("Running initial health check...")
-        
+
         try:
             # Import and run health monitor
             sys.path.append(self.monitoring_dir)
             from health_monitor import HealthMonitor
-            
+
             monitor = HealthMonitor(self.repo_path)
             health_report = monitor.run_comprehensive_health_check()
-            
+
             self.logger.info(f"✓ Initial health check completed")
             self.logger.info(f"  Overall Status: {health_report['overall_status']}")
             self.logger.info(f"  Health Score: {health_report['health_score']}/100")
-            
-            if health_report['alerts']:
+
+            if health_report["alerts"]:
                 self.logger.warning(f"  Issues found: {len(health_report['alerts'])}")
-                for alert in health_report['alerts'][:3]:
+                for alert in health_report["alerts"][:3]:
                     self.logger.warning(f"    - {alert}")
-            
+
         except Exception as e:
             self.logger.error(f"Initial health check failed: {e}")
-    
+
     def setup_monitoring_system(self):
         """Run complete setup process"""
         self.logger.info("🚀 Setting up Standards Repository Monitoring System...")
-        
+
         try:
             self.setup_directories()
             self.check_dependencies()
@@ -516,32 +526,41 @@ For issues or questions, check the logs in `monitoring/logs/` for detailed error
             self.create_requirements_file()
             self.create_readme()
             self.run_initial_health_check()
-            
+
             self.logger.info("✅ Monitoring system setup completed successfully!")
             self.logger.info(f"📁 Monitoring directory: {self.monitoring_dir}")
             self.logger.info("📖 See monitoring/README.md for usage instructions")
             self.logger.info("🌐 Start dashboard with: ./monitoring/start_dashboard.sh")
-            self.logger.info("⚙️  Enable automation with cron jobs from: monitoring/config/cron_jobs.txt")
-            
+            self.logger.info(
+                "⚙️  Enable automation with cron jobs from: monitoring/config/cron_jobs.txt"
+            )
+
         except Exception as e:
             self.logger.error(f"Setup failed: {e}")
             raise
 
+
 def main():
     import argparse
-    
-    parser = argparse.ArgumentParser(description='Setup Standards Repository Monitoring System')
-    parser.add_argument('--repo-path', help='Path to repository (default: current directory)')
-    parser.add_argument('--force', action='store_true', help='Force overwrite existing files')
-    
+
+    parser = argparse.ArgumentParser(
+        description="Setup Standards Repository Monitoring System"
+    )
+    parser.add_argument(
+        "--repo-path", help="Path to repository (default: current directory)"
+    )
+    parser.add_argument(
+        "--force", action="store_true", help="Force overwrite existing files"
+    )
+
     args = parser.parse_args()
-    
+
     if args.repo_path and not os.path.exists(args.repo_path):
         print(f"❌ Repository path does not exist: {args.repo_path}")
         return 1
-    
+
     setup = MonitoringSetup(repo_path=args.repo_path)
-    
+
     try:
         setup.setup_monitoring_system()
         return 0
@@ -549,5 +568,6 @@ def main():
         print(f"❌ Setup failed: {e}")
         return 1
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     exit(main())

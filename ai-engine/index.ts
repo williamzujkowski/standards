@@ -1,9 +1,9 @@
 /**
  * AI Engine Orchestrator
- * 
+ *
  * Main entry point for the Advanced AI/LLM Optimization Engine
  * Coordinates all AI components for intelligent standards management.
- * 
+ *
  * Version: 1.0.0
  * Last Updated: 2025-01-20
  */
@@ -26,7 +26,7 @@ export class AIEngine {
 
   constructor(rootPath: string = process.cwd()) {
     console.log('🚀 Initializing AI Engine for Standards Management...');
-    
+
     this.generator = new IntelligentGenerator(rootPath);
     this.recommender = new RecommendationEngine(rootPath);
     this.optimizer = new ContextOptimizer(rootPath);
@@ -195,7 +195,7 @@ export class AIEngine {
 
     } catch (error) {
       console.error('❌ Error processing query:', error);
-      
+
       // Record failed interaction
       const failedInteraction: UserInteraction = {
         timestamp: new Date(),
@@ -343,7 +343,7 @@ export class AIEngine {
    */
   async getSystemMetrics(): Promise<any> {
     const learningReport = await this.learningEngine.generateLearningReport();
-    
+
     return {
       user_satisfaction: learningReport.user_satisfaction,
       patterns_discovered: learningReport.summary.patterns_discovered,
@@ -461,9 +461,9 @@ export type {
 if (require.main === module) {
   async function demo() {
     const engine = new AIEngine();
-    
+
     console.log('\n🧪 Running AI Engine Demo...\n');
-    
+
     // Demo 1: Natural language query
     console.log('Demo 1: Natural language query processing');
     const response = await engine.processQuery(
@@ -478,9 +478,9 @@ if (require.main === module) {
         }
       }
     );
-    
+
     console.log('Query Response:', JSON.stringify(response, null, 2));
-    
+
     // Demo 2: Code generation
     console.log('\nDemo 2: AI-assisted code generation');
     const generation = await engine.generateCode({
@@ -489,17 +489,17 @@ if (require.main === module) {
       standards: ['FE:react', 'SEC:auth'],
       context: { language: 'typescript' }
     }, 'demo-user');
-    
+
     console.log('Generation Result:', JSON.stringify(generation, null, 2));
-    
+
     // Demo 3: Learning cycle
     console.log('\nDemo 3: System learning cycle');
     const learning = await engine.performLearningCycle();
-    
+
     console.log('Learning Results:', JSON.stringify(learning, null, 2));
-    
+
     console.log('\n✅ AI Engine Demo Complete!\n');
   }
-  
+
   demo().catch(console.error);
 }

@@ -77,9 +77,11 @@ Recognition for substantial contributions that significantly impact the reposito
 **Contributor of the Month**: *To be determined based on contributions*
 
 **Notable Contributions This Month:**
+
 - *Awaiting monthly contributions*
 
 **Community Impact Stories:**
+
 - *Success stories and implementations to be shared*
 
 ### Achievement Unlocks
@@ -87,6 +89,7 @@ Recognition for substantial contributions that significantly impact the reposito
 Our contributors earn badges for different types of contributions:
 
 #### Contribution Badges
+
 - 🌟 **First Contribution**: Made your first contribution to the repository
 - 📋 **Standards Creator**: Created or significantly enhanced a standard
 - 🐛 **Bug Hunter**: Fixed bugs or issues in the repository
@@ -98,13 +101,15 @@ Our contributors earn badges for different types of contributions:
 - 🚀 **Innovation Driver**: Introduced innovative approaches or technologies
 
 #### Milestone Badges
+
 - 🥉 **Regular Contributor**: 5+ merged contributions
-- 🥈 **Dedicated Contributor**: 15+ merged contributions  
+- 🥈 **Dedicated Contributor**: 15+ merged contributions
 - 🥇 **Core Contributor**: 30+ merged contributions
 - 💎 **Distinguished Contributor**: 50+ merged contributions
 - 👑 **Legendary Contributor**: 100+ merged contributions
 
 #### Special Recognition
+
 - 🌍 **Global Impact**: Contributions that impact multiple organizations
 - 🏛️ **Standards Influencer**: Contributions that influence industry practices
 - 🎓 **Community Educator**: Created educational content and resources
@@ -128,7 +133,7 @@ Our contributors earn badges for different types of contributions:
 <!-- Individual success stories -->
 
 > *"Contributing to the standards repository has..."*
-> 
+>
 > – *Contributor testimonials to be added*
 
 ### Project Implementations
@@ -261,6 +266,7 @@ Long-term, high-impact contributors may receive emeritus status:
 ### Nominate Someone
 
 To nominate a contributor for recognition:
+
 1. Create a [Showcase Discussion](https://github.com/williamzujkowski/standards/discussions/new?category=showcase)
 2. Use the showcase template to provide details
 3. Tag relevant contributors and maintainers
@@ -268,6 +274,7 @@ To nominate a contributor for recognition:
 ### Update Your Information
 
 To update your contributor profile:
+
 1. Create an issue with the "contributor-update" label
 2. Provide the information you'd like to update
 3. Include verification if needed
@@ -275,6 +282,7 @@ To update your contributor profile:
 ### Recognition Questions
 
 For questions about recognition:
+
 - Create a [General Discussion](https://github.com/williamzujkowski/standards/discussions)
 - Contact maintainers through appropriate channels
 - Review our [Community Engagement](COMMUNITY_ENGAGEMENT.md) guidelines

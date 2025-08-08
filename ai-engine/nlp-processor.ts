@@ -1,9 +1,9 @@
 /**
  * Natural Language Query Processing Engine
- * 
+ *
  * Advanced NLP system for understanding user queries, extracting intent,
  * and translating natural language to standards loading commands.
- * 
+ *
  * Version: 1.0.0
  * Last Updated: 2025-01-20
  */
@@ -29,7 +29,7 @@ interface QueryIntent {
   urgency_level: 'low' | 'medium' | 'high' | 'immediate';
 }
 
-type IntentType = 
+type IntentType =
   | 'load_standards'
   | 'generate_code'
   | 'validate_implementation'
@@ -197,7 +197,7 @@ export class NLPProcessor {
     this.contextManager = new ContextManager();
     this.commandGenerator = new CommandGenerator();
     this.vocabularyBuilder = new VocabularyBuilder();
-    
+
     this.initializeNLP();
   }
 
@@ -294,7 +294,7 @@ export class NLPProcessor {
   async expandVocabulary(newTerms: Array<{term: string, meaning: string, category: string}>): Promise<void> {
     await this.vocabularyBuilder.addTerms(newTerms);
     await this.vocabularyBuilder.rebuildIndices();
-    
+
     console.log(`📖 Expanded vocabulary with ${newTerms.length} new terms`);
   }
 
@@ -352,7 +352,7 @@ export class NLPProcessor {
   private async preprocessQuery(query: string): Promise<NLPQuery> {
     // Basic text normalization
     let normalized = query.toLowerCase();
-    
+
     // Handle common abbreviations
     const abbreviations: Record<string, string> = {
       'api': 'application programming interface',
@@ -410,7 +410,7 @@ export class NLPProcessor {
     });
 
     const clarificationNeeded = ambiguousTerms.length > 0;
-    const suggestedClarifications = ambiguousTerms.map(term => 
+    const suggestedClarifications = ambiguousTerms.map(term =>
       `Did you mean "${term.possible_meanings[0]}" when you said "${term.term}"?`
     );
 
@@ -484,12 +484,12 @@ export class NLPProcessor {
         recommendations.push('Consider including tests with your generated code');
         recommendations.push('Review security standards for the generated code');
         break;
-      
+
       case 'security_review':
         recommendations.push('Include compliance standards in your review');
         recommendations.push('Consider automated security scanning tools');
         break;
-      
+
       case 'optimize_performance':
         recommendations.push('Include observability metrics in your optimization');
         recommendations.push('Consider cost implications of performance changes');
@@ -563,7 +563,7 @@ export class NLPProcessor {
     ];
 
     // Filter patterns that start with partial query
-    const matching = patterns.filter(pattern => 
+    const matching = patterns.filter(pattern =>
       pattern.toLowerCase().startsWith(partialQuery.toLowerCase())
     );
 
@@ -617,10 +617,10 @@ export class NLPProcessor {
   }
 
   private explainConstraints(constraints: ConstraintEntity[]): string {
-    const constraintDescriptions = constraints.map(c => 
+    const constraintDescriptions = constraints.map(c =>
       `${c.type}: ${c.requirement}`
     ).join(', ');
-    
+
     return `I'll take into account these constraints: ${constraintDescriptions}.`;
   }
 
@@ -846,7 +846,7 @@ class EntityExtractor {
 
   private extractActions(text: string): ActionEntity[] {
     const actions: ActionEntity[] = [];
-    
+
     const actionPatterns = [
       { verb: 'create', pattern: /create|make|build|generate/ },
       { verb: 'load', pattern: /load|fetch|get|show/ },
@@ -1027,7 +1027,7 @@ class ContextManager {
 
   updateContext(turn: ConversationTurn): void {
     this.conversationHistory.push(turn);
-    
+
     // Keep only recent history
     if (this.conversationHistory.length > 20) {
       this.conversationHistory = this.conversationHistory.slice(-20);
@@ -1052,15 +1052,15 @@ class CommandGenerator {
       case 'load_standards':
         commands.push(...this.generateLoadCommands(query));
         break;
-      
+
       case 'generate_code':
         commands.push(...this.generateCodeCommands(query));
         break;
-      
+
       case 'validate_implementation':
         commands.push(...this.generateValidationCommands(query));
         break;
-      
+
       default:
         commands.push(...this.generateDefaultCommands(query));
     }
@@ -1101,7 +1101,7 @@ class CommandGenerator {
     if (targets.length > 0 && technologies.length > 0) {
       const target = targets[0];
       const tech = technologies[0];
-      
+
       commands.push({
         command: `@generate ${tech.name}:[${target.name}] with:[CS:${tech.name} + SEC:* + TS:*]`,
         description: `Generate a ${target.name} using ${tech.name} following standards`,

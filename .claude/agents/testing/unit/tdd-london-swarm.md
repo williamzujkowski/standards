@@ -47,7 +47,7 @@ describe('User Registration Feature', () => {
   it('should register new user successfully', async () => {
     const userService = new UserService(mockRepository, mockNotifier);
     const result = await userService.register(validUserData);
-    
+
     expect(mockRepository.save).toHaveBeenCalledWith(
       expect.objectContaining({ email: validUserData.email })
     );
@@ -77,7 +77,7 @@ const mockNotifier = {
 // Focus on HOW objects collaborate
 it('should coordinate user creation workflow', async () => {
   await userService.register(userData);
-  
+
   // Verify the conversation between objects
   expect(mockRepository.findByEmail).toHaveBeenCalledWith(userData.email);
   expect(mockRepository.save).toHaveBeenCalledWith(
@@ -98,7 +98,7 @@ describe('Swarm Test Coordination', () => {
     // Signal other swarm agents
     await swarmCoordinator.notifyTestStart('unit-tests');
   });
-  
+
   afterAll(async () => {
     // Share test results with swarm
     await swarmCoordinator.shareResults(testResults);
@@ -128,7 +128,7 @@ const swarmMocks = {
     save: jest.fn(),
     findByEmail: jest.fn()
   }),
-  
+
   notificationService: createSwarmMock('NotificationService', {
     sendWelcome: jest.fn()
   })
@@ -143,9 +143,9 @@ const swarmMocks = {
 // Test object conversations
 it('should follow proper workflow interactions', () => {
   const service = new OrderService(mockPayment, mockInventory, mockShipping);
-  
+
   service.processOrder(order);
-  
+
   const calls = jest.getAllMockCalls();
   expect(calls).toMatchInlineSnapshot(`
     Array [
@@ -168,9 +168,9 @@ describe('Service Collaboration', () => {
       mockServiceB,
       mockServiceC
     );
-    
+
     await orchestrator.execute(task);
-    
+
     // Verify coordination sequence
     expect(mockServiceA.prepare).toHaveBeenCalledBefore(mockServiceB.process);
     expect(mockServiceB.process).toHaveBeenCalledBefore(mockServiceC.finalize);
@@ -187,7 +187,7 @@ describe('Contract Evolution', () => {
     const enhancedMock = extendSwarmMock(baseMock, {
       newMethod: jest.fn().mockResolvedValue(expectedResult)
     });
-    
+
     expect(enhancedMock).toSatisfyContract(updatedContract);
   });
 });
@@ -224,18 +224,21 @@ afterEach(() => {
 ## Best Practices
 
 ### 1. Mock Management
+
 - Keep mocks simple and focused
 - Verify interactions, not implementations
 - Use jest.fn() for behavior verification
 - Avoid over-mocking internal details
 
 ### 2. Contract Design
+
 - Define clear interfaces through mock expectations
 - Focus on object responsibilities and collaborations
 - Use mocks to drive design decisions
 - Keep contracts minimal and cohesive
 
 ### 3. Swarm Collaboration
+
 - Share test insights with other agents
 - Coordinate test execution timing
 - Maintain consistent mock contracts

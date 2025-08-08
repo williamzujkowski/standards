@@ -1,9 +1,9 @@
 /**
  * Context-Aware Loading Optimization Engine
- * 
+ *
  * Intelligent system that optimizes standards loading based on context,
  * usage patterns, and user preferences for maximum efficiency.
- * 
+ *
  * Version: 1.0.0
  * Last Updated: 2025-01-20
  */
@@ -309,7 +309,7 @@ export class ContextOptimizer {
 
   private analyzeSessionTrends(history: SessionAction[]): any {
     const recentActions = history.slice(-20); // Last 20 actions
-    
+
     return {
       common_patterns: this.findCommonPatterns(recentActions),
       success_rate: this.calculateSuccessRate(recentActions),
@@ -450,7 +450,7 @@ export class ContextOptimizer {
 
   private findFrequentStandards(history: SessionAction[]): Array<{standard: string, frequency: number}> {
     const frequency = new Map<string, number>();
-    
+
     history.forEach(action => {
       if (action.action === 'load') {
         frequency.set(action.target, (frequency.get(action.target) || 0) + 1);
@@ -465,7 +465,7 @@ export class ContextOptimizer {
 
   private findPeakHours(history: SessionAction[]): number[] {
     const hourCounts = new Array(24).fill(0);
-    
+
     history.forEach(action => {
       const hour = action.timestamp.getHours();
       hourCounts[hour]++;
@@ -521,7 +521,7 @@ export class ContextOptimizer {
   private findCommonPatterns(actions: SessionAction[]): string[] {
     // Simplified pattern detection
     const sequences = new Map<string, number>();
-    
+
     for (let i = 0; i < actions.length - 1; i++) {
       const sequence = `${actions[i].target}->${actions[i + 1].target}`;
       sequences.set(sequence, (sequences.get(sequence) || 0) + 1);
@@ -535,21 +535,21 @@ export class ContextOptimizer {
 
   private calculateSuccessRate(actions: SessionAction[]): number {
     if (actions.length === 0) return 0.5;
-    
+
     const successCount = actions.filter(action => action.success).length;
     return successCount / actions.length;
   }
 
   private calculateAverageTime(actions: SessionAction[]): number {
     if (actions.length === 0) return 1000;
-    
+
     const totalTime = actions.reduce((sum, action) => sum + action.time_spent, 0);
     return totalTime / actions.length;
   }
 
   private findPreferredOrder(actions: SessionAction[]): string[] {
     const orderMap = new Map<string, number>();
-    
+
     actions.forEach((action, index) => {
       orderMap.set(action.target, index);
     });
@@ -581,7 +581,7 @@ export class ContextOptimizer {
   private updateLoadingHistory(userId: string, sessionData: SessionAction[]): void {
     const history = this.loadingHistory.get(userId) || [];
     history.push(...sessionData);
-    
+
     // Keep only recent history
     this.loadingHistory.set(userId, history.slice(-1000));
     this.saveLoadingHistory();
@@ -720,13 +720,13 @@ class PerformanceMonitor {
   getAverageLoadingTime(standard: string): number {
     const times = this.metrics.get(standard) || [];
     if (times.length === 0) return 1000;
-    
+
     return times.reduce((sum, time) => sum + time, 0) / times.length;
   }
 
   getPerformanceReport(): any {
     const report: any = {};
-    
+
     this.metrics.forEach((times, standard) => {
       report[standard] = {
         average: this.getAverageLoadingTime(standard),

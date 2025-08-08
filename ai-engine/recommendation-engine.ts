@@ -1,9 +1,9 @@
 /**
  * Intelligent Standards Recommendation Engine
- * 
+ *
  * Advanced AI-powered recommendation system that analyzes code patterns,
  * understands project context, and suggests relevant standards.
- * 
+ *
  * Version: 1.0.0
  * Last Updated: 2025-01-20
  */
@@ -285,7 +285,7 @@ export class RecommendationEngine {
 
       for (const connectedNode of connectedNodes) {
         const edge = this.getEdge(node.id, connectedNode.id);
-        
+
         recommendations.push({
           standard: connectedNode.id,
           confidence: edge ? edge.strength * node.success_rate : 0.5,
@@ -359,7 +359,7 @@ export class RecommendationEngine {
       // Calculate composite score
       const scoreA = this.calculateCompositeScore(a, context);
       const scoreB = this.calculateCompositeScore(b, context);
-      
+
       return scoreB - scoreA;
     });
   }
@@ -367,7 +367,7 @@ export class RecommendationEngine {
   private calculateCompositeScore(rec: Recommendation, context: RecommendationContext): number {
     const priorityWeight = { critical: 1.0, high: 0.8, medium: 0.6, low: 0.4 }[rec.priority];
     const effortWeight = { minimal: 1.0, moderate: 0.8, significant: 0.6 }[rec.implementation_effort];
-    
+
     return (
       rec.confidence * 0.4 +
       priorityWeight * 0.3 +
@@ -378,7 +378,7 @@ export class RecommendationEngine {
 
   private initializeKnowledgeGraph(): void {
     const graphPath = join(this.rootPath, 'standards/compliance/semantic/knowledge-graph.json');
-    
+
     if (existsSync(graphPath)) {
       try {
         const data = JSON.parse(readFileSync(graphPath, 'utf-8'));
@@ -416,7 +416,7 @@ export class RecommendationEngine {
 
   private async saveKnowledgeGraph(): Promise<void> {
     const graphPath = join(this.rootPath, 'standards/compliance/semantic/knowledge-graph.json');
-    
+
     const data = {
       version: this.knowledgeGraph.metadata.version,
       created: this.knowledgeGraph.metadata.last_updated.toISOString(),
@@ -591,7 +591,7 @@ export class RecommendationEngine {
         node.category === 'performance' ? 1 : 0,
         node.type === 'standard' ? 1 : 0
       ];
-      
+
       node.embedding = embedding;
     });
   }
@@ -623,7 +623,7 @@ export class RecommendationEngine {
       }
 
       // Check performance requirements
-      if (context.performance_requirements.length > 0 && 
+      if (context.performance_requirements.length > 0 &&
           (node.category === 'performance' || node.id.includes('performance'))) {
         relevance += 0.8;
       }
@@ -659,7 +659,7 @@ export class RecommendationEngine {
 
   private calculatePriority(nodePriority: number, edgeStrength: number): 'critical' | 'high' | 'medium' | 'low' {
     const score = (nodePriority / 10) * edgeStrength;
-    
+
     if (score >= 0.8) return 'critical';
     if (score >= 0.6) return 'high';
     if (score >= 0.4) return 'medium';
@@ -716,26 +716,26 @@ export class RecommendationEngine {
   private async findSemanticallySimilarStandards(pattern: any): Promise<Array<{id: string, similarity: number}>> {
     // Simplified semantic similarity calculation
     const similar: Array<{id: string, similarity: number}> = [];
-    
+
     this.knowledgeGraph.nodes.forEach(node => {
       if (node.type === 'standard') {
         // Calculate similarity based on tags and description
         let similarity = 0;
-        
+
         if (node.description.toLowerCase().includes(pattern.description.toLowerCase())) {
           similarity += 0.8;
         }
-        
+
         if (node.tags.some(tag => pattern.keywords?.includes(tag))) {
           similarity += 0.6;
         }
-        
+
         if (similarity > 0.3) {
           similar.push({ id: node.id, similarity });
         }
       }
     });
-    
+
     return similar.sort((a, b) => b.similarity - a.similarity);
   }
 }
@@ -746,7 +746,7 @@ export class RecommendationEngine {
 class SemanticAnalyzer {
   async parseQuery(query: string): Promise<SemanticQuery> {
     const lowerQuery = query.toLowerCase();
-    
+
     // Simple intent detection
     let intent: SemanticQuery['intent'] = 'implementation';
     if (lowerQuery.includes('optimize') || lowerQuery.includes('performance')) {
@@ -820,7 +820,7 @@ class SemanticAnalyzer {
 
   private extractKeywords(query: string): string[] {
     const stopWords = new Set(['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by']);
-    
+
     return query
       .toLowerCase()
       .split(/\W+/)
@@ -830,7 +830,7 @@ class SemanticAnalyzer {
 
   private extractContext(query: string): string[] {
     const contextCues: string[] = [];
-    
+
     if (query.includes('new project') || query.includes('starting')) {
       contextCues.push('greenfield');
     }
@@ -840,7 +840,7 @@ class SemanticAnalyzer {
     if (query.includes('team') || query.includes('organization')) {
       contextCues.push('collaborative');
     }
-    
+
     return contextCues;
   }
 }
@@ -857,7 +857,7 @@ class MLRecommendationEngine {
 
     // Collaborative filtering based on similar contexts
     const similarContexts = this.findSimilarContexts(context);
-    
+
     for (const similar of similarContexts) {
       for (const rec of similar.recommendations) {
         recommendations.push({

@@ -27,6 +27,7 @@
 ---
 
 ## TL;DR
+
 - **Domain-driven design** for service boundaries based on business capabilities with autonomous team ownership
 - **Communication patterns** including synchronous REST/gRPC and asynchronous messaging with proper service discovery
 - **Resilience patterns** implementing circuit breakers, retries, timeouts, and bulkheads for fault tolerance
@@ -48,7 +49,7 @@ graph TB
         MOBILE[Mobile App]
         API_GW[API Gateway]
     end
-    
+
     subgraph "Service Layer"
         USER[User Service]
         ORDER[Order Service]
@@ -56,7 +57,7 @@ graph TB
         PAYMENT[Payment Service]
         NOTIFICATION[Notification Service]
     end
-    
+
     subgraph "Data Layer"
         USER_DB[(User DB<br/>PostgreSQL)]
         ORDER_DB[(Order DB<br/>PostgreSQL)]
@@ -64,38 +65,38 @@ graph TB
         PAYMENT_DB[(Payment DB<br/>PostgreSQL)]
         CACHE[(Redis Cache)]
     end
-    
+
     subgraph "Infrastructure"
         MSG_BROKER[Message Broker<br/>Apache Kafka]
         SERVICE_MESH[Service Mesh<br/>Istio]
         MONITORING[Monitoring<br/>Prometheus/Grafana]
     end
-    
+
     WEB --> API_GW
     MOBILE --> API_GW
     API_GW --> USER
     API_GW --> ORDER
     API_GW --> INVENTORY
     API_GW --> PAYMENT
-    
+
     USER --> USER_DB
     ORDER --> ORDER_DB
     INVENTORY --> INV_DB
     PAYMENT --> PAYMENT_DB
-    
+
     ORDER --> MSG_BROKER
     INVENTORY --> MSG_BROKER
     PAYMENT --> MSG_BROKER
     NOTIFICATION --> MSG_BROKER
-    
+
     USER --> CACHE
     ORDER --> CACHE
-    
+
     SERVICE_MESH -.-> USER
     SERVICE_MESH -.-> ORDER
     SERVICE_MESH -.-> INVENTORY
     SERVICE_MESH -.-> PAYMENT
-    
+
     MONITORING -.-> USER
     MONITORING -.-> ORDER
     MONITORING -.-> INVENTORY
@@ -111,25 +112,25 @@ graph LR
         USER_DATA[User Data]
         AUTH[Authentication]
     end
-    
+
     subgraph "Order Domain"
         ORDER_SVC[Order Service]
         ORDER_DATA[Order Data]
         ORDER_PROC[Order Processing]
     end
-    
+
     subgraph "Inventory Domain"
         INV_SVC[Inventory Service]
         INV_DATA[Product Data]
         STOCK[Stock Management]
     end
-    
+
     subgraph "Payment Domain"
         PAY_SVC[Payment Service]
         PAY_DATA[Payment Data]
         PAY_PROC[Payment Processing]
     end
-    
+
     USER_SVC --> USER_DATA
     USER_SVC --> AUTH
     ORDER_SVC --> ORDER_DATA
@@ -138,7 +139,7 @@ graph LR
     INV_SVC --> STOCK
     PAY_SVC --> PAY_DATA
     PAY_SVC --> PAY_PROC
-    
+
     ORDER_SVC -.->|Events| INV_SVC
     ORDER_SVC -.->|Events| PAY_SVC
     PAY_SVC -.->|Events| ORDER_SVC
@@ -157,6 +158,7 @@ service_design_principles:
 ```
 
 #### Bounded Context Definition
+
 ```json
 {
   "service_boundaries": {
@@ -185,6 +187,7 @@ service_design_principles:
 ### 1.2 Service Sizing Guidelines **[REQUIRED]**
 
 #### Team-Based Sizing
+
 ```yaml
 service_sizing:
   criteria:
@@ -192,7 +195,7 @@ service_sizing:
     - cognitive_load: "Single developer can understand entire service"
     - deployment_independence: "Can be deployed without coordinating with other teams"
     - data_boundary: "Clear data ownership with minimal shared data"
-  
+
   anti_patterns:
     - nano_services: "Too fine-grained, causing operational overhead"
     - distributed_monolith: "Services too tightly coupled"
@@ -206,12 +209,12 @@ service_sizing:
 interface OrderService {
   // API versioning in URL
   readonly apiVersion: 'v1' | 'v2';
-  
+
   // Clear operation contracts
   createOrder(request: CreateOrderRequest): Promise<OrderResponse>;
   getOrder(orderId: string): Promise<Order>;
   updateOrderStatus(orderId: string, status: OrderStatus): Promise<void>;
-  
+
   // Event contracts
   publishEvent(event: OrderEvent): Promise<void>;
 }
@@ -244,7 +247,7 @@ graph TD
         GRPC[gRPC Service]
         GRAPHQL[GraphQL Gateway]
     end
-    
+
     subgraph "Asynchronous Communication"
         PUB[Publisher Service]
         BROKER[Message Broker]
@@ -252,22 +255,22 @@ graph TD
         SUB2[Subscriber Service 2]
         SUB3[Subscriber Service 3]
     end
-    
+
     subgraph "Communication Flow"
         REQUEST[Request/Response]
         EVENT[Event-Driven]
         SAGA[Saga Pattern]
     end
-    
+
     CLIENT --> REST
     CLIENT --> GRPC
     CLIENT --> GRAPHQL
-    
+
     PUB --> BROKER
     BROKER --> SUB1
     BROKER --> SUB2
     BROKER --> SUB3
-    
+
     REST -.-> REQUEST
     GRPC -.-> REQUEST
     PUB -.-> EVENT
@@ -284,13 +287,13 @@ graph LR
         C[Data Queries] --> D[GraphQL]
         E[Internal APIs] --> F[gRPC]
     end
-    
+
     subgraph "Asynchronous Operations"
         G[Order Processing] --> H[Event Streaming]
         I[Notifications] --> J[Message Queue]
         K[Data Synchronization] --> L[Event Sourcing]
     end
-    
+
     subgraph "Hybrid Patterns"
         M[File Processing] --> N[Request + Events]
         O[Bulk Operations] --> P[Batch + Streaming]
@@ -300,6 +303,7 @@ graph LR
 ### 2.1 Synchronous Communication **[REQUIRED]**
 
 #### REST API Standards
+
 ```yaml
 rest_api_standards:
   design:
@@ -307,7 +311,7 @@ rest_api_standards:
     - http_verbs: ["GET", "POST", "PUT", "PATCH", "DELETE"]
     - status_codes: "Use appropriate HTTP status codes"
     - versioning: "URL path versioning (/api/v1/resources)"
-    
+
   implementation:
     timeout_ms: 3000
     retry_attempts: 3
@@ -316,6 +320,7 @@ rest_api_standards:
 ```
 
 #### gRPC Implementation
+
 ```protobuf
 // proto/order_service.proto
 syntax = "proto3";
@@ -328,10 +333,10 @@ import "google/protobuf/empty.proto";
 service OrderService {
   // Unary RPC
   rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
-  
+
   // Server streaming for real-time updates
   rpc WatchOrderStatus(WatchOrderRequest) returns (stream OrderStatusUpdate);
-  
+
   // Client streaming for batch operations
   rpc BatchCreateOrders(stream CreateOrderRequest) returns (BatchCreateResponse);
 }
@@ -346,6 +351,7 @@ message CreateOrderRequest {
 ### 2.2 Asynchronous Communication **[REQUIRED]**
 
 #### Message-Based Communication
+
 ```python
 # messaging/async_communication.py
 from typing import Dict, Any, Optional
@@ -356,23 +362,23 @@ from abc import ABC, abstractmethod
 
 class MessageBroker(ABC):
     """Base class for message broker implementations"""
-    
+
     @abstractmethod
     async def publish(self, topic: str, message: Dict[str, Any]) -> None:
         pass
-    
+
     @abstractmethod
     async def subscribe(self, topic: str, handler: callable) -> None:
         pass
 
 class EventDrivenService:
     """Base class for event-driven microservices"""
-    
+
     def __init__(self, service_name: str, broker: MessageBroker):
         self.service_name = service_name
         self.broker = broker
         self.event_handlers = {}
-    
+
     async def publish_event(self, event_type: str, data: Dict[str, Any]) -> None:
         """Publish domain event following CloudEvents spec"""
         event = {
@@ -384,9 +390,9 @@ class EventDrivenService:
             "data": data,
             "datacontenttype": "application/json"
         }
-        
+
         await self.broker.publish(event_type, event)
-    
+
     def register_handler(self, event_type: str):
         """Decorator for registering event handlers"""
         def decorator(handler):
@@ -417,7 +423,7 @@ communication_patterns:
       - "REST for public APIs"
       - "gRPC for internal services"
       - "GraphQL for flexible queries"
-  
+
   asynchronous:
     use_cases:
       - "Event notifications"
@@ -457,7 +463,7 @@ class ServiceInstance:
 
 class ServiceRegistry:
     """Service registry with health checking"""
-    
+
     def __init__(self, backend: str = "consul"):
         if backend == "consul":
             self.client = consul.Consul()
@@ -465,9 +471,9 @@ class ServiceRegistry:
             self.client = etcd3.client()
         else:
             raise ValueError(f"Unsupported backend: {backend}")
-        
+
         self.backend = backend
-    
+
     async def register(self, service: ServiceInstance) -> None:
         """Register service with health check"""
         if self.backend == "consul":
@@ -484,22 +490,22 @@ class ServiceRegistry:
                     deregister="30s"
                 )
             )
-    
+
     async def discover(self, service_name: str) -> List[ServiceInstance]:
         """Discover healthy service instances"""
         if self.backend == "consul":
             _, services = self.client.health.service(
-                service_name, 
+                service_name,
                 passing=True
             )
-            
+
             return [
                 ServiceInstance(
                     service_name=svc['Service']['Service'],
                     instance_id=svc['Service']['ID'],
                     host=svc['Service']['Address'],
                     port=svc['Service']['Port'],
-                    metadata=dict(zip(svc['Service']['Tags'][::2], 
+                    metadata=dict(zip(svc['Service']['Tags'][::2],
                                     svc['Service']['Tags'][1::2])),
                     health_check_url=f"http://{svc['Service']['Address']}:{svc['Service']['Port']}/health",
                     registered_at=datetime.now()
@@ -519,18 +525,18 @@ import time
 
 class LoadBalancer:
     """Client-side load balancer with multiple strategies"""
-    
+
     def __init__(self, strategy: str = "round_robin"):
         self.strategy = strategy
         self.counters = defaultdict(int)
         self.weights = {}
         self.response_times = defaultdict(list)
-    
+
     def select_instance(self, instances: List[ServiceInstance]) -> Optional[ServiceInstance]:
         """Select instance based on strategy"""
         if not instances:
             return None
-        
+
         if self.strategy == "round_robin":
             return self._round_robin(instances)
         elif self.strategy == "least_connections":
@@ -541,13 +547,13 @@ class LoadBalancer:
             return self._response_time_based(instances)
         else:
             return random.choice(instances)
-    
+
     def _round_robin(self, instances: List[ServiceInstance]) -> ServiceInstance:
         """Round-robin selection"""
         key = instances[0].service_name
         self.counters[key] = (self.counters[key] + 1) % len(instances)
         return instances[self.counters[key]]
-    
+
     def record_response_time(self, instance: ServiceInstance, response_time: float):
         """Record response time for adaptive load balancing"""
         key = f"{instance.host}:{instance.port}"
@@ -585,7 +591,7 @@ class CircuitBreakerConfig:
 
 class CircuitBreaker:
     """Circuit breaker pattern implementation"""
-    
+
     def __init__(self, config: CircuitBreakerConfig):
         self.config = config
         self.state = CircuitState.CLOSED
@@ -593,7 +599,7 @@ class CircuitBreaker:
         self.success_count = 0
         self.last_failure_time = None
         self._lock = threading.Lock()
-    
+
     def call(self, func: Callable, *args, **kwargs) -> Any:
         """Execute function with circuit breaker protection"""
         with self._lock:
@@ -602,7 +608,7 @@ class CircuitBreaker:
                     self.state = CircuitState.HALF_OPEN
                 else:
                     raise Exception("Circuit breaker is OPEN")
-        
+
         try:
             result = func(*args, **kwargs)
             self._on_success()
@@ -610,7 +616,7 @@ class CircuitBreaker:
         except self.config.expected_exception as e:
             self._on_failure()
             raise e
-    
+
     def _on_success(self):
         """Handle successful call"""
         with self._lock:
@@ -620,7 +626,7 @@ class CircuitBreaker:
                 if self.success_count >= self.config.success_threshold:
                     self.state = CircuitState.CLOSED
                     self.success_count = 0
-    
+
     def _on_failure(self):
         """Handle failed call"""
         with self._lock:
@@ -631,10 +637,10 @@ class CircuitBreaker:
                 self.success_count = 0
             elif self.failure_count >= self.config.failure_threshold:
                 self.state = CircuitState.OPEN
-    
+
     def _should_attempt_reset(self) -> bool:
         """Check if circuit should attempt reset"""
-        return (self.last_failure_time and 
+        return (self.last_failure_time and
                 time.time() - self.last_failure_time >= self.config.recovery_timeout)
 
 # Decorator usage
@@ -647,11 +653,11 @@ def circuit_breaker(failure_threshold=5, recovery_timeout=60):
                 recovery_timeout=recovery_timeout
             )
         )
-        
+
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             return breaker.call(func, *args, **kwargs)
-        
+
         return wrapper
     return decorator
 
@@ -675,17 +681,17 @@ T = TypeVar('T')
 
 class RetryStrategy:
     """Base retry strategy"""
-    
+
     def calculate_delay(self, attempt: int) -> float:
         raise NotImplementedError
 
 class ExponentialBackoff(RetryStrategy):
     """Exponential backoff with jitter"""
-    
+
     def __init__(self, base_delay: float = 1.0, max_delay: float = 60.0):
         self.base_delay = base_delay
         self.max_delay = max_delay
-    
+
     def calculate_delay(self, attempt: int) -> float:
         delay = min(self.base_delay * (2 ** attempt), self.max_delay)
         # Add jitter to prevent thundering herd
@@ -699,7 +705,7 @@ async def retry_async(
 ) -> T:
     """Retry async function with strategy"""
     last_exception = None
-    
+
     for attempt in range(max_attempts):
         try:
             return await func()
@@ -708,7 +714,7 @@ async def retry_async(
             if attempt < max_attempts - 1:
                 delay = strategy.calculate_delay(attempt)
                 await asyncio.sleep(delay)
-    
+
     raise last_exception
 
 # Decorator for retry
@@ -716,7 +722,7 @@ def with_retry(max_attempts=3, strategy=None, exceptions=(Exception,)):
     """Decorator for adding retry logic"""
     if strategy is None:
         strategy = ExponentialBackoff()
-    
+
     def decorator(func):
         @wraps(func)
         async def async_wrapper(*args, **kwargs):
@@ -726,7 +732,7 @@ def with_retry(max_attempts=3, strategy=None, exceptions=(Exception,)):
                 strategy=strategy,
                 exceptions=exceptions
             )
-        
+
         @wraps(func)
         def sync_wrapper(*args, **kwargs):
             last_exception = None
@@ -739,12 +745,12 @@ def with_retry(max_attempts=3, strategy=None, exceptions=(Exception,)):
                         delay = strategy.calculate_delay(attempt)
                         time.sleep(delay)
             raise last_exception
-        
+
         if asyncio.iscoroutinefunction(func):
             return async_wrapper
         else:
             return sync_wrapper
-    
+
     return decorator
 ```
 
@@ -759,14 +765,14 @@ from contextlib import asynccontextmanager
 
 class Bulkhead:
     """Bulkhead pattern for resource isolation"""
-    
+
     def __init__(self, max_concurrent_calls: int, max_wait_duration: float = 0):
         self.semaphore = asyncio.Semaphore(max_concurrent_calls)
         self.max_wait_duration = max_wait_duration
         self.active_calls = 0
         self.rejected_calls = 0
         self._lock = threading.Lock()
-    
+
     @asynccontextmanager
     async def acquire(self):
         """Acquire bulkhead permit"""
@@ -779,7 +785,7 @@ class Bulkhead:
                 )
             else:
                 acquired = await self.semaphore.acquire()
-            
+
             if acquired:
                 with self._lock:
                     self.active_calls += 1
@@ -788,18 +794,18 @@ class Bulkhead:
                 with self._lock:
                     self.rejected_calls += 1
                 raise Exception("Bulkhead rejected call")
-        
+
         except asyncio.TimeoutError:
             with self._lock:
                 self.rejected_calls += 1
             raise Exception("Bulkhead timeout")
-        
+
         finally:
             if acquired:
                 self.semaphore.release()
                 with self._lock:
                     self.active_calls -= 1
-    
+
     def get_metrics(self) -> dict:
         """Get bulkhead metrics"""
         with self._lock:
@@ -832,20 +838,20 @@ data_management_patterns:
       - "No direct database access between services"
       - "Data accessed only through service APIs"
       - "Choose appropriate database for use case"
-    
+
     implementation:
       user_service:
         database: "PostgreSQL"
         reason: "ACID compliance for user data"
-      
+
       product_catalog:
         database: "MongoDB"
         reason: "Flexible schema for product attributes"
-      
+
       session_service:
         database: "Redis"
         reason: "Fast key-value access for sessions"
-      
+
       analytics_service:
         database: "ClickHouse"
         reason: "Columnar storage for analytics"
@@ -877,38 +883,38 @@ class SagaStep:
 
 class SagaOrchestrator:
     """Orchestration-based saga implementation"""
-    
+
     def __init__(self, saga_id: str = None):
         self.saga_id = saga_id or str(uuid.uuid4())
         self.steps: List[SagaStep] = []
         self.state = SagaState.PENDING
         self.completed_steps: List[str] = []
         self.context: Dict[str, Any] = {}
-    
+
     def add_step(self, step: SagaStep):
         """Add step to saga"""
         self.steps.append(step)
-    
+
     async def execute(self) -> Dict[str, Any]:
         """Execute saga with automatic compensation on failure"""
         self.state = SagaState.RUNNING
-        
+
         try:
             # Execute all steps
             for step in self.steps:
                 result = await self._execute_step(step)
                 self.context[step.name] = result
                 self.completed_steps.append(step.name)
-            
+
             self.state = SagaState.COMPLETED
             return self.context
-        
+
         except Exception as e:
             # Compensate in reverse order
             await self._compensate()
             self.state = SagaState.FAILED
             raise e
-    
+
     async def _execute_step(self, step: SagaStep) -> Any:
         """Execute single step with retry"""
         for attempt in range(step.retry_count):
@@ -918,11 +924,11 @@ class SagaOrchestrator:
                 if attempt == step.retry_count - 1:
                     raise e
                 await asyncio.sleep(2 ** attempt)
-    
+
     async def _compensate(self):
         """Run compensation for completed steps"""
         self.state = SagaState.COMPENSATING
-        
+
         for step_name in reversed(self.completed_steps):
             step = next(s for s in self.steps if s.name == step_name)
             try:
@@ -934,35 +940,35 @@ class SagaOrchestrator:
 # Example: Order processing saga
 async def create_order_saga(order_data: dict) -> dict:
     saga = SagaOrchestrator()
-    
+
     # Step 1: Reserve inventory
     saga.add_step(SagaStep(
         name="reserve_inventory",
         action=lambda ctx: inventory_service.reserve_items(order_data["items"]),
         compensation=lambda ctx: inventory_service.release_items(ctx["reserve_inventory"])
     ))
-    
+
     # Step 2: Process payment
     saga.add_step(SagaStep(
         name="process_payment",
         action=lambda ctx: payment_service.charge(order_data["payment_info"]),
         compensation=lambda ctx: payment_service.refund(ctx["process_payment"])
     ))
-    
+
     # Step 3: Create shipment
     saga.add_step(SagaStep(
         name="create_shipment",
         action=lambda ctx: shipping_service.create_shipment(order_data["shipping_info"]),
         compensation=lambda ctx: shipping_service.cancel_shipment(ctx["create_shipment"])
     ))
-    
+
     # Step 4: Update order status
     saga.add_step(SagaStep(
         name="update_order",
         action=lambda ctx: order_service.confirm_order(order_data["order_id"]),
         compensation=lambda ctx: order_service.cancel_order(order_data["order_id"])
     ))
-    
+
     return await saga.execute()
 ```
 
@@ -985,23 +991,23 @@ class Event:
 
 class EventStore:
     """Event store for persisting events"""
-    
+
     async def append_events(self, events: List[Event]) -> None:
         """Append events to store"""
         pass
-    
+
     async def get_events(self, aggregate_id: str, from_version: int = 0) -> List[Event]:
         """Get events for aggregate"""
         pass
 
 class AggregateRoot:
     """Base class for event-sourced aggregates"""
-    
+
     def __init__(self, aggregate_id: str):
         self.aggregate_id = aggregate_id
         self.version = 0
         self.uncommitted_events: List[Event] = []
-    
+
     def apply_event(self, event: Event):
         """Apply event to aggregate state"""
         handler_name = f"_handle_{event.event_type.lower()}"
@@ -1009,7 +1015,7 @@ class AggregateRoot:
         if handler:
             handler(event.event_data)
         self.version = event.event_version
-    
+
     def raise_event(self, event_type: str, event_data: Dict[str, Any]):
         """Raise new domain event"""
         event = Event(
@@ -1020,12 +1026,12 @@ class AggregateRoot:
         )
         self.apply_event(event)
         self.uncommitted_events.append(event)
-    
+
     async def save(self, event_store: EventStore):
         """Save uncommitted events"""
         await event_store.append_events(self.uncommitted_events)
         self.uncommitted_events.clear()
-    
+
     @classmethod
     async def load(cls, aggregate_id: str, event_store: EventStore):
         """Load aggregate from events"""
@@ -1043,7 +1049,7 @@ class Order(AggregateRoot):
         self.items = []
         self.status = "pending"
         self.total_amount = 0
-    
+
     def create(self, customer_id: str, items: List[dict]):
         """Create new order"""
         self.raise_event("OrderCreated", {
@@ -1051,19 +1057,19 @@ class Order(AggregateRoot):
             "items": items,
             "total_amount": sum(item["price"] * item["quantity"] for item in items)
         })
-    
+
     def confirm(self):
         """Confirm order"""
         if self.status != "pending":
             raise ValueError("Order is not pending")
         self.raise_event("OrderConfirmed", {})
-    
+
     def _handle_ordercreated(self, data: dict):
         self.customer_id = data["customer_id"]
         self.items = data["items"]
         self.total_amount = data["total_amount"]
         self.status = "pending"
-    
+
     def _handle_orderconfirmed(self, data: dict):
         self.status = "confirmed"
 ```
@@ -1080,21 +1086,22 @@ service_authentication:
     mutual_tls:
       description: "Certificate-based authentication"
       use_cases: ["High security", "Zero-trust networks"]
-    
+
     api_keys:
       description: "Shared secret authentication"
       use_cases: ["Simple services", "Internal APIs"]
-    
+
     oauth2_client_credentials:
       description: "Token-based authentication"
       use_cases: ["Standard approach", "Third-party integration"]
-    
+
     service_mesh:
       description: "Transparent authentication via sidecar"
       use_cases: ["Kubernetes environments", "Large deployments"]
 ```
 
 #### JWT-Based Service Authentication
+
 ```python
 # security/service_auth.py
 import jwt
@@ -1106,14 +1113,14 @@ import httpx
 
 class ServiceAuthenticator:
     """JWT-based service authentication"""
-    
+
     def __init__(self, service_name: str, private_key_path: str, public_keys_url: str):
         self.service_name = service_name
         self.private_key = self._load_private_key(private_key_path)
         self.public_keys_url = public_keys_url
         self.public_keys_cache = {}
         self.cache_expiry = 0
-    
+
     def generate_token(self, target_service: str, scopes: List[str] = None) -> str:
         """Generate JWT for service-to-service auth"""
         now = int(time.time())
@@ -1127,18 +1134,18 @@ class ServiceAuthenticator:
             "jti": str(uuid.uuid4()),
             "scopes": scopes or []
         }
-        
+
         return jwt.encode(claims, self.private_key, algorithm="RS256")
-    
+
     async def verify_token(self, token: str) -> Dict[str, Any]:
         """Verify incoming service token"""
         # Decode header to get issuer
         header = jwt.get_unverified_header(token)
         claims = jwt.decode(token, options={"verify_signature": False})
-        
+
         # Get public key for issuer
         public_key = await self._get_public_key(claims["iss"])
-        
+
         # Verify token
         return jwt.decode(
             token,
@@ -1146,7 +1153,7 @@ class ServiceAuthenticator:
             algorithms=["RS256"],
             audience=self.service_name
         )
-    
+
     async def _get_public_key(self, service_name: str):
         """Get public key for service with caching"""
         if time.time() > self.cache_expiry:
@@ -1155,7 +1162,7 @@ class ServiceAuthenticator:
                 response = await client.get(self.public_keys_url)
                 self.public_keys_cache = response.json()
                 self.cache_expiry = time.time() + 3600  # 1 hour
-        
+
         return self.public_keys_cache.get(service_name)
 
 # Middleware for service authentication
@@ -1165,14 +1172,14 @@ async def service_auth_middleware(request, call_next):
         auth_header = request.headers.get("Authorization")
         if not auth_header or not auth_header.startswith("Bearer "):
             return JSONResponse(status_code=401, content={"error": "Unauthorized"})
-        
+
         token = auth_header.split(" ")[1]
         try:
             claims = await authenticator.verify_token(token)
             request.state.service_claims = claims
         except jwt.InvalidTokenError:
             return JSONResponse(status_code=401, content={"error": "Invalid token"})
-    
+
     return await call_next(request)
 ```
 
@@ -1199,7 +1206,7 @@ class APIGatewaySecurity {
       }
     });
   }
-  
+
   // Request validation
   validateRequest(schema: any) {
     return (req: Request, res: Response, next: NextFunction) => {
@@ -1210,7 +1217,7 @@ class APIGatewaySecurity {
       next();
     };
   }
-  
+
   // API key validation
   validateAPIKey() {
     return async (req: Request, res: Response, next: NextFunction) => {
@@ -1218,17 +1225,17 @@ class APIGatewaySecurity {
       if (!apiKey) {
         return res.status(401).json({ error: 'API key required' });
       }
-      
+
       const keyData = await this.validateKey(apiKey as string);
       if (!keyData.valid) {
         return res.status(401).json({ error: 'Invalid API key' });
       }
-      
+
       req.user = keyData.user;
       next();
     };
   }
-  
+
   // Security headers
   applySecurityHeaders() {
     return helmet({
@@ -1262,12 +1269,12 @@ testing_pyramid:
     percentage: 70
     scope: "Individual service components"
     tools: ["Jest", "Pytest", "JUnit"]
-    
+
   integration_tests:
     percentage: 20
     scope: "Service dependencies and contracts"
     tools: ["Testcontainers", "WireMock", "Pact"]
-    
+
   end_to_end_tests:
     percentage: 10
     scope: "Complete user journeys"
@@ -1284,10 +1291,10 @@ from typing import Dict, Any
 
 class ContractTest:
     """Consumer-driven contract testing"""
-    
+
     def __init__(self, consumer_name: str, provider_name: str):
         self.pact = Consumer(consumer_name).has_pact_with(Provider(provider_name))
-    
+
     def test_order_service_contract(self):
         """Test contract between order and inventory service"""
         # Define expected interaction
@@ -1298,14 +1305,14 @@ class ContractTest:
                 "available": Like(True)
             })
         }
-        
+
         # Setup interaction
         (self.pact
          .given('Products exist in inventory')
          .upon_receiving('a request to check availability')
          .with_request('POST', '/inventory/check-availability')
          .will_respond_with(200, body=expected))
-        
+
         with self.pact:
             # Consumer test code
             result = inventory_client.check_availability(["PROD-123"])
@@ -1315,19 +1322,19 @@ class ContractTest:
 @pytest.mark.contract
 class TestInventoryProvider:
     """Verify provider meets contract"""
-    
+
     def test_verify_contract(self):
         verifier = Verifier(
             provider='inventory-service',
             provider_base_url='http://localhost:8080'
         )
-        
+
         success, logs = verifier.verify_pacts(
             './pacts/order-service-inventory-service.json',
             verbose=True,
             provider_states_setup_url='http://localhost:8080/pact/setup'
         )
-        
+
         assert success == 0
 ```
 
@@ -1342,11 +1349,11 @@ import httpx
 
 class ChaosMonkey:
     """Chaos engineering for microservices"""
-    
+
     def __init__(self, failure_rate: float = 0.1):
         self.failure_rate = failure_rate
         self.experiments = []
-    
+
     def add_latency(self, min_ms: int = 100, max_ms: int = 1000):
         """Add random latency to requests"""
         async def experiment(request_func: Callable) -> Any:
@@ -1354,25 +1361,25 @@ class ChaosMonkey:
                 delay = random.randint(min_ms, max_ms) / 1000
                 await asyncio.sleep(delay)
             return await request_func()
-        
+
         self.experiments.append(experiment)
-    
+
     def add_failure(self, exception_type: type = Exception):
         """Randomly fail requests"""
         async def experiment(request_func: Callable) -> Any:
             if random.random() < self.failure_rate:
                 raise exception_type("Chaos monkey induced failure")
             return await request_func()
-        
+
         self.experiments.append(experiment)
-    
+
     def add_network_partition(self, services: List[str]):
         """Simulate network partition between services"""
         async def experiment(request_func: Callable, target_service: str) -> Any:
             if target_service in services and random.random() < self.failure_rate:
                 raise httpx.NetworkError("Network partition")
             return await request_func()
-        
+
         self.experiments.append(experiment)
 
 # Integration with service calls
@@ -1386,10 +1393,10 @@ async def call_service_with_chaos(service_url: str) -> dict:
         async with httpx.AsyncClient() as client:
             response = await client.get(service_url)
             return response.json()
-    
+
     for experiment in chaos_monkey.experiments:
         make_request = lambda: experiment(make_request)
-    
+
     return await make_request()
 ```
 
@@ -1574,30 +1581,30 @@ import logging
 
 class DistributedTracing:
     """Distributed tracing setup for microservices"""
-    
+
     def __init__(self, service_name: str, jaeger_endpoint: str):
         # Set up tracing
         trace.set_tracer_provider(TracerProvider())
         tracer_provider = trace.get_tracer_provider()
-        
+
         # Configure Jaeger exporter
         jaeger_exporter = JaegerExporter(
             agent_host_name=jaeger_endpoint,
             agent_port=6831,
         )
-        
+
         # Add span processor
         span_processor = BatchSpanProcessor(jaeger_exporter)
         tracer_provider.add_span_processor(span_processor)
-        
+
         # Set up propagator
         self.propagator = TraceContextTextMapPropagator()
-        
+
         # Auto-instrument HTTP requests
         RequestsInstrumentor().instrument()
-        
+
         self.tracer = trace.get_tracer(service_name)
-    
+
     def create_span(self, name: str, attributes: Dict[str, Any] = None):
         """Create a new span"""
         span = self.tracer.start_span(name)
@@ -1605,12 +1612,12 @@ class DistributedTracing:
             for key, value in attributes.items():
                 span.set_attribute(key, value)
         return span
-    
+
     def inject_context(self, headers: Dict[str, str]):
         """Inject trace context into headers"""
         inject(headers)
         return headers
-    
+
     def extract_context(self, headers: Dict[str, str]):
         """Extract trace context from headers"""
         return extract(headers)
@@ -1618,16 +1625,16 @@ class DistributedTracing:
 # Middleware for automatic tracing
 class TracingMiddleware:
     """FastAPI middleware for distributed tracing"""
-    
+
     def __init__(self, app, tracer):
         self.app = app
         self.tracer = tracer
-    
+
     async def __call__(self, scope, receive, send):
         if scope["type"] == "http":
             headers = dict(scope["headers"])
             context = self.tracer.extract_context(headers)
-            
+
             with self.tracer.create_span(
                 f"{scope['method']} {scope['path']}",
                 attributes={
@@ -1675,7 +1682,7 @@ class MobileBFF {
   private userService: UserServiceClient;
   private orderService: OrderServiceClient;
   private productService: ProductServiceClient;
-  
+
   // GraphQL schema optimized for mobile
   private typeDefs = gql`
     type User {
@@ -1684,7 +1691,7 @@ class MobileBFF {
       avatar: String
       recentOrders(limit: Int = 5): [OrderSummary!]!
     }
-    
+
     type OrderSummary {
       id: ID!
       status: String!
@@ -1692,12 +1699,12 @@ class MobileBFF {
       itemCount: Int!
       createdAt: String!
     }
-    
+
     type Query {
       me: User
       homeScreenData: HomeScreen!
     }
-    
+
     type HomeScreen {
       user: User!
       featuredProducts: [Product!]!
@@ -1705,7 +1712,7 @@ class MobileBFF {
       recommendations: [Product!]!
     }
   `;
-  
+
   // Optimized resolvers with batching
   private resolvers = {
     Query: {
@@ -1717,7 +1724,7 @@ class MobileBFF {
           dataSources.productAPI.getFeaturedProducts(),
           dataSources.recommendationAPI.getForUser(user.id)
         ]);
-        
+
         return {
           user: userData,
           activeOrders: orders,
@@ -1726,7 +1733,7 @@ class MobileBFF {
         };
       }
     },
-    
+
     User: {
       recentOrders: (user, { limit }) => {
         // Use DataLoader for batching
@@ -1734,7 +1741,7 @@ class MobileBFF {
       }
     }
   };
-  
+
   // DataLoader for efficient batching
   private createOrderLoader() {
     return new DataLoader(async (keys) => {
@@ -1765,23 +1772,23 @@ class ServiceCall:
 
 class APIAggregator:
     """API Gateway aggregation pattern"""
-    
+
     def __init__(self, service_registry: ServiceRegistry):
         self.service_registry = service_registry
         self.client = httpx.AsyncClient(timeout=30.0)
-    
+
     async def aggregate(self, calls: List[ServiceCall]) -> Dict[str, Any]:
         """Aggregate multiple service calls"""
         tasks = []
-        
+
         for call in calls:
             service_url = await self.service_registry.get_service_url(call.service)
             task = self._make_call(service_url, call)
             tasks.append((call.service, task, call.required))
-        
+
         results = {}
         errors = []
-        
+
         # Execute all calls in parallel
         for service_name, task, required in tasks:
             try:
@@ -1791,16 +1798,16 @@ class APIAggregator:
                     errors.append(f"{service_name}: {str(e)}")
                 else:
                     results[service_name] = None
-        
+
         if errors:
             raise HTTPException(status_code=503, detail={"errors": errors})
-        
+
         return results
-    
+
     async def _make_call(self, service_url: str, call: ServiceCall) -> Any:
         """Make individual service call with circuit breaker"""
         url = f"{service_url}{call.endpoint}"
-        
+
         @circuit_breaker(failure_threshold=5, recovery_timeout=60)
         async def execute():
             if call.method == "GET":
@@ -1809,10 +1816,10 @@ class APIAggregator:
                 response = await self.client.post(url, json=call.payload)
             else:
                 raise ValueError(f"Unsupported method: {call.method}")
-            
+
             response.raise_for_status()
             return response.json()
-        
+
         return await execute()
 
 # Example usage
@@ -1844,9 +1851,9 @@ async def get_user_dashboard(user_id: str):
             required=False
         )
     ]
-    
+
     results = await aggregator.aggregate(calls)
-    
+
     # Transform and combine results
     return {
         "user": results["user-service"],
@@ -1872,21 +1879,21 @@ from functools import wraps
 
 class StranglerFigProxy:
     """Gradually migrate from monolith to microservices"""
-    
+
     def __init__(self, monolith_url: str, service_registry: ServiceRegistry):
         self.monolith_url = monolith_url
         self.service_registry = service_registry
         self.migration_rules = {}
         self.metrics = defaultdict(int)
-    
-    def register_migration(self, path_pattern: str, service_name: str, 
+
+    def register_migration(self, path_pattern: str, service_name: str,
                          percentage: float = 100.0):
         """Register migration rule for path"""
         self.migration_rules[path_pattern] = {
             "service": service_name,
             "percentage": percentage
         }
-    
+
     async def route_request(self, path: str, method: str, **kwargs) -> Any:
         """Route request to monolith or microservice"""
         # Check if path has migration rule
@@ -1897,29 +1904,29 @@ class StranglerFigProxy:
                     return await self._call_microservice(
                         rule["service"], path, method, **kwargs
                     )
-        
+
         # Default to monolith
         return await self._call_monolith(path, method, **kwargs)
-    
-    async def _call_microservice(self, service_name: str, path: str, 
+
+    async def _call_microservice(self, service_name: str, path: str,
                                method: str, **kwargs) -> Any:
         """Call microservice"""
         service_url = await self.service_registry.get_service_url(service_name)
         url = f"{service_url}{path}"
-        
+
         self.metrics[f"microservice_{service_name}"] += 1
-        
+
         async with httpx.AsyncClient() as client:
             response = await client.request(method, url, **kwargs)
             response.raise_for_status()
             return response.json()
-    
+
     async def _call_monolith(self, path: str, method: str, **kwargs) -> Any:
         """Call monolith"""
         url = f"{self.monolith_url}{path}"
-        
+
         self.metrics["monolith"] += 1
-        
+
         async with httpx.AsyncClient() as client:
             response = await client.request(method, url, **kwargs)
             response.raise_for_status()
@@ -1968,7 +1975,7 @@ CREATE TABLE user_service.users_cdc (
 );
 
 -- Trigger for CDC
-CREATE OR REPLACE FUNCTION capture_user_changes() 
+CREATE OR REPLACE FUNCTION capture_user_changes()
 RETURNS TRIGGER AS $$
 BEGIN
     IF TG_OP = 'INSERT' THEN
@@ -1999,20 +2006,20 @@ migration_checklist:
     - [ ] "Map data dependencies"
     - [ ] "Define service contracts"
     - [ ] "Create migration roadmap"
-  
+
   implementation:
     - [ ] "Set up service infrastructure (CI/CD, monitoring)"
     - [ ] "Implement service with feature toggle"
     - [ ] "Set up data synchronization"
     - [ ] "Implement strangler fig proxy"
     - [ ] "Add comprehensive monitoring"
-  
+
   validation:
     - [ ] "Compare outputs between monolith and service"
     - [ ] "Performance testing"
     - [ ] "Load testing"
     - [ ] "Chaos engineering tests"
-  
+
   cutover:
     - [ ] "Gradual traffic migration (canary deployment)"
     - [ ] "Monitor error rates and performance"
@@ -2039,7 +2046,7 @@ anti_patterns:
       - "Define clear service boundaries"
       - "Use asynchronous communication"
       - "Implement circuit breakers"
-  
+
   chatty_services:
     description: "Excessive inter-service communication"
     symptoms:
@@ -2050,7 +2057,7 @@ anti_patterns:
       - "Redesign service boundaries"
       - "Use API aggregation"
       - "Implement caching"
-  
+
   shared_data_store:
     description: "Multiple services sharing database"
     symptoms:
@@ -2061,7 +2068,7 @@ anti_patterns:
       - "Database per service"
       - "Event-driven synchronization"
       - "CQRS pattern"
-  
+
   sync_communication_overuse:
     description: "Everything is synchronous REST"
     symptoms:
@@ -2087,37 +2094,37 @@ readiness_checklist:
     - [ ] "API contracts documented"
     - [ ] "Data ownership established"
     - [ ] "Communication patterns chosen"
-  
+
   infrastructure:
     - [ ] "Container orchestration platform"
     - [ ] "Service discovery mechanism"
     - [ ] "API gateway deployed"
     - [ ] "Message broker configured"
-  
+
   resilience:
     - [ ] "Circuit breakers implemented"
     - [ ] "Retry logic with backoff"
     - [ ] "Timeout configurations"
     - [ ] "Bulkhead isolation"
-  
+
   observability:
     - [ ] "Distributed tracing" # See OBS standard
     - [ ] "Centralized logging"
     - [ ] "Metrics collection"
     - [ ] "Health check endpoints"
-  
+
   security:
     - [ ] "Service authentication"
     - [ ] "API authorization"
     - [ ] "Secrets management"
     - [ ] "Network policies"
-  
+
   deployment:
     - [ ] "CI/CD pipelines" # See CN standard
     - [ ] "Blue-green deployments"
     - [ ] "Canary releases"
     - [ ] "Rollback procedures"
-  
+
   testing:
     - [ ] "Unit tests (>70% coverage)"
     - [ ] "Integration tests"
@@ -2133,26 +2140,31 @@ readiness_checklist:
 ### Core Integration Standards
 
 #### Cloud Native Standards
+
 - **[CLOUD_NATIVE_STANDARDS.md](./CLOUD_NATIVE_STANDARDS.md)** - Container and Kubernetes standards
 - **Cross-reference**: Use CN:kubernetes section for microservice deployment patterns
 - **Integration**: Service mesh and container orchestration patterns
 
-#### Event-Driven Standards  
+#### Event-Driven Standards
+
 - **[EVENT_DRIVEN_STANDARDS.md](./EVENT_DRIVEN_STANDARDS.md)** - Event-driven patterns for microservices
 - **Cross-reference**: Use EVT:patterns section for asynchronous communication
 - **Integration**: Message brokers and saga pattern implementation
 
 #### Security Standards
-- **[MODERN_SECURITY_STANDARDS.md](./MODERN_SECURITY_STANDARDS.md)** - Security patterns for distributed systems  
+
+- **[MODERN_SECURITY_STANDARDS.md](./MODERN_SECURITY_STANDARDS.md)** - Security patterns for distributed systems
 - **Cross-reference**: Use SEC:api section for service-to-service authentication
 - **Integration**: API gateway security and zero-trust architecture
 
 #### Observability Standards
+
 - **[OBSERVABILITY_STANDARDS.md](./OBSERVABILITY_STANDARDS.md)** - Monitoring and tracing standards
 - **Cross-reference**: Use OBS:tracing section for distributed tracing setup
 - **Integration**: Service mesh observability and SLO management
 
 #### Testing Standards
+
 - **[TESTING_STANDARDS.md](./TESTING_STANDARDS.md)** - Comprehensive testing practices
 - **Cross-reference**: Use TS:integration section for contract testing patterns
 - **Integration**: Microservices testing pyramid and chaos engineering
@@ -2160,11 +2172,13 @@ readiness_checklist:
 ### Supporting Standards
 
 #### Database Standards
+
 - **[DATABASE_STANDARDS.md](./DATABASE_STANDARDS.md)** - Database per service patterns
 - **Cross-reference**: Use DBS:migration-strategies for data decomposition
 - **Integration**: Database per service and data consistency patterns
 
 #### Coding Standards
+
 - **[CODING_STANDARDS.md](./CODING_STANDARDS.md)** - Service implementation patterns
 - **Cross-reference**: Use CS:patterns section for microservice code structure
 - **Integration**: API design and error handling in distributed systems

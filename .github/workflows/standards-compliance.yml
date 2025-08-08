@@ -30,9 +30,19 @@ jobs:
             }
           else
             echo "Script not found, using fallback check..."
-            # Fallback to basic check if script doesn't exist
-            ! grep -r '[[:space:]]$' \
-              --include="*.md" --include="*.yml" --include="*.yaml" .
+            # Fallback to basic check if script doesn't exist, excluding node_modules
+            files_with_whitespace=$(find . -type f \( -name "*.md" -o -name "*.yml" -o -name "*.yaml" \) \
+              -not -path "./.git/*" \
+              -not -path "./node_modules/*" \
+              -not -path "./standards/compliance/node_modules/*" \
+              -exec grep -l '[[:space:]]$' {} \; 2>/dev/null)
+            if [ -n "$files_with_whitespace" ]; then
+              echo "❌ Trailing whitespace found in files"
+              echo "$files_with_whitespace"
+              exit 1
+            else
+              echo "✅ No trailing whitespace found"
+            fi
           fi
 
       - name: Validate YAML files

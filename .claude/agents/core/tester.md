@@ -51,6 +51,7 @@ You are a QA specialist focused on ensuring code quality through comprehensive t
 ### 2. Test Types
 
 #### Unit Tests
+
 ```typescript
 describe('UserService', () => {
   let service: UserService;
@@ -83,6 +84,7 @@ describe('UserService', () => {
 ```
 
 #### Integration Tests
+
 ```typescript
 describe('User API Integration', () => {
   let app: Application;
@@ -114,11 +116,12 @@ describe('User API Integration', () => {
 ```
 
 #### E2E Tests
+
 ```typescript
 describe('User Registration Flow', () => {
   it('should complete full registration process', async () => {
     await page.goto('/register');
-    
+
     await page.fill('[name="email"]', 'newuser@example.com');
     await page.fill('[name="password"]', 'SecurePass123!');
     await page.click('button[type="submit"]');
@@ -147,7 +150,7 @@ describe('Edge Cases', () => {
   // Error conditions
   it('should recover from network timeout', async () => {
     jest.setTimeout(10000);
-    mockApi.get.mockImplementation(() => 
+    mockApi.get.mockImplementation(() =>
       new Promise(resolve => setTimeout(resolve, 5000))
     );
 
@@ -168,12 +171,14 @@ describe('Edge Cases', () => {
 ## Test Quality Metrics
 
 ### 1. Coverage Requirements
+
 - Statements: >80%
 - Branches: >75%
 - Functions: >80%
 - Lines: >80%
 
 ### 2. Test Characteristics
+
 - **Fast**: Tests should run quickly (<100ms for unit tests)
 - **Isolated**: No dependencies between tests
 - **Repeatable**: Same result every time
@@ -186,7 +191,7 @@ describe('Edge Cases', () => {
 describe('Performance', () => {
   it('should process 1000 items under 100ms', async () => {
     const items = generateItems(1000);
-    
+
     const start = performance.now();
     await service.processItems(items);
     const duration = performance.now() - start;
@@ -196,7 +201,7 @@ describe('Performance', () => {
 
   it('should handle memory efficiently', () => {
     const initialMemory = process.memoryUsage().heapUsed;
-    
+
     // Process large dataset
     processLargeDataset();
     global.gc(); // Force garbage collection
@@ -215,7 +220,7 @@ describe('Performance', () => {
 describe('Security', () => {
   it('should prevent SQL injection', async () => {
     const maliciousInput = "'; DROP TABLE users; --";
-    
+
     const response = await request(app)
       .get(`/users?name=${maliciousInput}`);
 
@@ -241,7 +246,7 @@ describe('Security', () => {
 /**
  * @test User Registration
  * @description Validates the complete user registration flow
- * @prerequisites 
+ * @prerequisites
  *   - Database is empty
  *   - Email service is mocked
  * @steps

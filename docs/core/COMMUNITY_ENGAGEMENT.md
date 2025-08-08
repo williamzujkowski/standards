@@ -5,6 +5,7 @@ This document outlines how our community engages, collaborates, and grows togeth
 ## Community Vision
 
 We strive to create a welcoming, inclusive, and collaborative community where:
+
 - **Knowledge is shared freely** and openly
 - **Diverse perspectives** are valued and encouraged
 - **Quality standards** are developed through collective expertise
@@ -16,13 +17,15 @@ We strive to create a welcoming, inclusive, and collaborative community where:
 ### 1. GitHub Discussions
 
 **Purpose**: Primary forum for community conversation
-**Best for**: 
+**Best for**:
+
 - Brainstorming and ideation
 - Seeking implementation advice
 - Sharing experiences and best practices
 - Building consensus on proposals
 
 **Discussion Categories**:
+
 - **📋 Standards Proposals (RFC)**: Formal requests for new standards or major changes
 - **🤝 Implementation Help**: Get help implementing existing standards
 - **🎯 Showcase**: Share your implementations and success stories
@@ -34,6 +37,7 @@ We strive to create a welcoming, inclusive, and collaborative community where:
 
 **Purpose**: Specific, actionable items that need resolution
 **Best for**:
+
 - Bug reports and fixes
 - Feature requests
 - Documentation improvements
@@ -43,6 +47,7 @@ We strive to create a welcoming, inclusive, and collaborative community where:
 
 **Purpose**: Contributing changes and improvements
 **Best for**:
+
 - Submitting code and documentation
 - Proposing specific solutions
 - Collaborative review and refinement
@@ -50,21 +55,26 @@ We strive to create a welcoming, inclusive, and collaborative community where:
 ## Community Roles
 
 ### Contributors
+
 **Who**: Anyone making contributions to the repository
 **Responsibilities**:
+
 - Follow community guidelines and code of conduct
 - Provide constructive feedback and suggestions
 - Help maintain quality standards
 - Support other community members
 
 **Recognition**:
+
 - Contributor badges and acknowledgments
 - Mention in release notes
 - Featured in community showcase
 
 ### Reviewers
+
 **Who**: Experienced contributors who help review contributions
 **Responsibilities**:
+
 - Review pull requests and provide feedback
 - Ensure standards compliance and quality
 - Mentor new contributors
@@ -73,16 +83,20 @@ We strive to create a welcoming, inclusive, and collaborative community where:
 **How to become**: Show consistent, high-quality contributions and express interest
 
 ### Maintainers
+
 **Who**: Core team members responsible for repository health
 **Responsibilities**:
+
 - Guide project direction and strategy
 - Make final decisions on contributions
 - Maintain community standards and guidelines
 - Facilitate community engagement
 
 ### Standards Champions
+
 **Who**: Domain experts leading specific standards development
 **Responsibilities**:
+
 - Lead development of standards in their domain
 - Drive adoption and implementation
 - Represent the community in their field
@@ -92,22 +106,26 @@ We strive to create a welcoming, inclusive, and collaborative community where:
 
 ### Regular Activities
 
-**Weekly**: 
+**Weekly**:
+
 - Review and respond to new issues and discussions
 - Welcome new contributors
 - Update project boards and tracking
 
 **Monthly**:
+
 - Community office hours (virtual meetings)
 - Standards review and updates
 - Contributor recognition and highlights
 
 **Quarterly**:
+
 - Community health assessment
 - Strategic planning and roadmap updates
 - Major release planning and communication
 
 **Annually**:
+
 - Community survey and feedback collection
 - Governance and process review
 - Community awards and recognition
@@ -148,24 +166,28 @@ We strive to create a welcoming, inclusive, and collaborative community where:
 ## Communication Guidelines
 
 ### Be Constructive
+
 - Provide specific, actionable feedback
 - Explain the reasoning behind suggestions
 - Offer alternatives when pointing out problems
 - Focus on improving the work, not criticizing the person
 
 ### Be Respectful
+
 - Use professional, inclusive language
 - Acknowledge different perspectives and experiences
 - Be patient with new contributors and learners
 - Celebrate others' contributions and achievements
 
 ### Be Clear
+
 - Use clear, concise language
 - Provide context and background when needed
 - Ask clarifying questions when uncertain
 - Summarize long discussions for newcomers
 
 ### Be Responsive
+
 - Respond to comments and questions promptly
 - Acknowledge receipt of feedback
 - Update status on ongoing discussions
@@ -176,12 +198,14 @@ We strive to create a welcoming, inclusive, and collaborative community where:
 ### Mentorship Program
 
 **For New Contributors**:
+
 - Automatic assignment of experienced mentors
 - Guidance on standards, processes, and tools
 - Support through first contributions
 - Career development and learning opportunities
 
 **For Mentors**:
+
 - Recognition and acknowledgment
 - Training and development resources
 - Community of practice with other mentors
@@ -190,12 +214,14 @@ We strive to create a welcoming, inclusive, and collaborative community where:
 ### Learning Resources
 
 **Documentation**:
+
 - Comprehensive guides and tutorials
 - Video walkthroughs and demonstrations
 - Interactive examples and templates
 - Best practices and lessons learned
 
 **Workshops**:
+
 - Regular skills development sessions
 - Domain-specific deep dives
 - Tool training and certification
@@ -213,6 +239,7 @@ We strive to create a welcoming, inclusive, and collaborative community where:
 ### Community Health Metrics
 
 We track community health through:
+
 - **Participation**: Issue activity, PR submissions, discussion engagement
 - **Diversity**: Contributor demographics and perspective representation
 - **Quality**: Standards adoption, implementation success, user satisfaction
@@ -237,12 +264,14 @@ We track community health through:
 ### Contribution Recognition
 
 **Immediate Recognition**:
+
 - Automated thank you messages
 - Contribution badges and labels
 - Social media highlights
 - Newsletter mentions
 
 **Ongoing Recognition**:
+
 - Contributor hall of fame
 - Annual community awards
 - Conference speaking opportunities
@@ -251,12 +280,14 @@ We track community health through:
 ### Success Celebration
 
 **Individual Success**:
+
 - Implementation showcases
 - Success story features
 - Expert spotlights
 - Career advancement support
 
 **Community Success**:
+
 - Milestone celebrations
 - Impact assessments
 - Success metrics sharing
@@ -291,6 +322,7 @@ We track community health through:
 ## Community Resources
 
 ### Essential Links
+
 - [GitHub Discussions](https://github.com/williamzujkowski/standards/discussions)
 - [Contributing Guide](CONTRIBUTING.md)
 - [Code of Conduct](CODE_OF_CONDUCT.md)
@@ -298,6 +330,7 @@ We track community health through:
 - [Standards Index](../guides/STANDARDS_INDEX.md)
 
 ### External Communities
+
 - Industry standards organizations
 - Professional associations
 - Academic research groups
@@ -305,6 +338,7 @@ We track community health through:
 - Corporate standards initiatives
 
 ### Tools and Platforms
+
 - GitHub for collaboration and version control
 - Markdown for documentation
 - Automation for validation and quality
@@ -314,6 +348,7 @@ We track community health through:
 ## Future Vision
 
 We envision a thriving community that:
+
 - **Sets the standard** for software development excellence
 - **Influences industry practices** through high-quality, practical standards
 - **Supports career growth** for all community members
@@ -325,6 +360,7 @@ Join us in building this vision and making software development better for every
 ## Contact and Support
 
 For questions about community engagement:
+
 - Create a [GitHub Discussion](https://github.com/williamzujkowski/standards/discussions)
 - Open an [Issue](https://github.com/williamzujkowski/standards/issues)
 - Contact maintainers through appropriate channels

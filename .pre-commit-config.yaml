@@ -10,7 +10,7 @@ repos:
   # ============================================================================
   # SECURITY CHECKS (Critical - Run First)
   # ============================================================================
-  
+
   # Secret Detection - Gitleaks (industry standard)
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.18.0
@@ -19,7 +19,7 @@ repos:
         name: Detect secrets and credentials
         description: Scans for hardcoded secrets, API keys, and credentials
         args: [--verbose, --report-format, json, --report-path, .gitleaks-report.json]
-        
+
   # Advanced secret detection (fallback)
   - repo: https://github.com/Yelp/detect-secrets
     rev: v1.4.0
@@ -28,11 +28,11 @@ repos:
         name: Detect additional secret patterns
         args: [--baseline, .secrets.baseline, --force-use-all-plugins]
         exclude: \.gitleaks-report\.json$|\.secrets\.baseline$
-        
+
   # ============================================================================
   # FILE INTEGRITY & SIZE CHECKS
   # ============================================================================
-  
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
@@ -48,17 +48,17 @@ repos:
               monitoring/.*\.json$|
               .*node_modules/.*$
           )$
-          
+
       # Critical file validation
       - id: check-merge-conflict
         name: Check for merge conflict markers
-        
+
       - id: detect-private-key
         name: Detect private keys
-        
+
       - id: check-case-conflict
         name: Check for case conflicts
-        
+
       - id: mixed-line-ending
         name: Fix mixed line endings
         args: [--fix=lf]
@@ -66,7 +66,7 @@ repos:
   # ============================================================================
   # FORMATTING & WHITESPACE (Safe fixes)
   # ============================================================================
-  
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
@@ -74,7 +74,7 @@ repos:
       - id: trailing-whitespace
         name: Remove trailing whitespace
         args: [--markdown-linebreak-ext=md]
-        
+
       - id: end-of-file-fixer
         name: Ensure files end with newline
         exclude: |
@@ -82,7 +82,7 @@ repos:
               .*\.(png|jpg|jpeg|gif|bmp|ico|svg|pdf|woff|woff2|ttf|otf|eot|zip|tar\.gz|tgz)$|
               .*\.min\.(js|css)$
           )$
-          
+
       # JSON validation and formatting
       - id: check-json
         name: Validate JSON syntax
@@ -92,7 +92,7 @@ repos:
               package-lock\.json$|
               .*node_modules/.*\.json$
           )$
-        
+
       - id: pretty-format-json
         name: Format JSON files
         args: [--autofix, --indent=2]
@@ -107,7 +107,7 @@ repos:
   # ============================================================================
   # SYNTAX VALIDATION
   # ============================================================================
-        
+
   # YAML validation
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
@@ -121,7 +121,7 @@ repos:
               .*\.example\.ya?ml$
           )$
         args: [--allow-multiple-documents]
-        
+
   # Advanced YAML linting
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.35.1
@@ -129,14 +129,14 @@ repos:
       - id: yamllint
         name: Advanced YAML linting
         args: [-c, .yamllint.yaml]
-        
+
   # TOML validation
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
       - id: check-toml
         name: Validate TOML syntax
-        
+
   # XML validation
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
@@ -147,7 +147,7 @@ repos:
   # ============================================================================
   # MARKDOWN QUALITY
   # ============================================================================
-  
+
   # Markdown linting
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.39.0
@@ -166,7 +166,7 @@ repos:
   # ============================================================================
   # GITIGNORE COMPLIANCE
   # ============================================================================
-  
+
   - repo: local
     hooks:
       - id: gitignore-compliance
@@ -176,7 +176,7 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
-        
+
       - id: large-file-check
         name: Custom large file detection (>1MB)
         entry: bash
@@ -188,7 +188,7 @@ repos:
   # ============================================================================
   # PROJECT-SPECIFIC VALIDATION
   # ============================================================================
-  
+
   - repo: local
     hooks:
       - id: standards-metadata
@@ -224,7 +224,7 @@ repos:
         files: _STANDARDS\.md$
         pass_filenames: false
         args: [--summary-only]
-        
+
       - id: no-debug-statements
         name: Prevent debug statements
         entry: bash -c 'grep -rn --include="*.py" --include="*.js" --include="*.ts" "console\.log\|debugger\|pdb\.set_trace\|breakpoint()" . && exit 1 || exit 0'
@@ -234,7 +234,7 @@ repos:
   # ============================================================================
   # CODE QUALITY & LINTING
   # ============================================================================
-  
+
   # Shell script security and quality
   - repo: https://github.com/shellcheck-py/shellcheck-py
     rev: v0.10.0.1
@@ -293,7 +293,7 @@ repos:
   # ============================================================================
   # WORKFLOW PROTECTION
   # ============================================================================
-  
+
   # Prevent direct commits to protected branches
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
@@ -305,7 +305,7 @@ repos:
   # ============================================================================
   # FINAL VALIDATION
   # ============================================================================
-  
+
   - repo: local
     hooks:
       - id: final-security-check
@@ -315,7 +315,7 @@ repos:
         pass_filenames: false
         always_run: true
         stages: [commit]
-        
+
 # ============================================================================
 # CONFIGURATION
 # ============================================================================

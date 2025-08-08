@@ -1,9 +1,9 @@
 /**
  * Intelligent AI Code Generation Engine
- * 
+ *
  * Enhanced AI-assisted code generation with context awareness,
  * intelligent recommendations, and adaptive learning.
- * 
+ *
  * Version: 1.0.0
  * Last Updated: 2025-01-20
  */
@@ -121,12 +121,12 @@ export class IntelligentGenerator {
    */
   async analyzeProject(): Promise<ProjectContext> {
     console.log('🔍 Analyzing project context...');
-    
+
     this.projectAnalysis = await this.contextAnalyzer.analyze();
-    
+
     // Update usage patterns based on analysis
     this.updateUsagePatterns('project_analysis', this.projectAnalysis);
-    
+
     return this.projectAnalysis;
   }
 
@@ -173,7 +173,7 @@ export class IntelligentGenerator {
     };
 
     console.log(`✅ Generated ${files.length} files with ${recommendations.length} recommendations`);
-    
+
     return result;
   }
 
@@ -334,7 +334,7 @@ class ContextAnalyzer {
 
   private detectPrimaryLanguage(): string {
     const extensions = new Map<string, number>();
-    
+
     try {
       const output = execSync('find . -type f -name "*.ts" -o -name "*.js" -o -name "*.py" -o -name "*.go" | head -100', {
         cwd: this.rootPath,
@@ -401,7 +401,7 @@ class ContextAnalyzer {
     if (existsSync(join(this.rootPath, 'package.json'))) return 'nodejs';
     if (existsSync(join(this.rootPath, 'requirements.txt'))) return 'python';
     if (existsSync(join(this.rootPath, 'go.mod'))) return 'go';
-    
+
     return 'general';
   }
 
@@ -525,7 +525,7 @@ class ContextAnalyzer {
       const lines = content.split('\n').length;
       const functions = (content.match(/function|def |func /g) || []).length;
       const conditionals = (content.match(/if|else|switch|case/g) || []).length;
-      
+
       return Math.min(10, Math.round((lines / 50) + functions + (conditionals * 0.5)));
     } catch (error) {
       return 1;
@@ -536,7 +536,7 @@ class ContextAnalyzer {
     try {
       const content = readFileSync(join(this.rootPath, filePath), 'utf-8');
       const imports: string[] = [];
-      
+
       // Extract JavaScript/TypeScript imports
       const jsImports = content.match(/import.*from\s+['"]([^'"]+)['"]/g) || [];
       jsImports.forEach(imp => {
@@ -907,7 +907,7 @@ class TemplateEngine {
 
     if (context.language === 'typescript' && context.framework === 'react') {
       const componentName = this.extractComponentName(request.requirements);
-      
+
       files.push({
         path: `src/components/${componentName}/${componentName}.tsx`,
         content: this.generateReactComponent(componentName, recommendations),
@@ -936,10 +936,10 @@ class TemplateEngine {
     recommendations: Recommendation[]
   ): Promise<GeneratedFile[]> {
     const files: GeneratedFile[] = [];
-    
+
     if (context.language === 'typescript') {
       const serviceName = this.extractServiceName(request.requirements);
-      
+
       files.push({
         path: `src/services/${serviceName}.service.ts`,
         content: this.generateTypeScriptService(serviceName, recommendations),
@@ -949,7 +949,7 @@ class TemplateEngine {
       });
     } else if (context.language === 'python') {
       const serviceName = this.extractServiceName(request.requirements);
-      
+
       files.push({
         path: `src/services/${serviceName}_service.py`,
         content: this.generatePythonService(serviceName, recommendations),
@@ -968,7 +968,7 @@ class TemplateEngine {
     recommendations: Recommendation[]
   ): Promise<GeneratedFile[]> {
     const files: GeneratedFile[] = [];
-    
+
     if (context.framework === 'express') {
       files.push({
         path: `src/routes/api.ts`,
@@ -1129,10 +1129,10 @@ describe('${name}', () => {
 
   it('handles loading state', async () => {
     render(<${name} id="test-id" />);
-    
+
     // Initially shows loading
     expect(screen.getByRole('status')).toBeInTheDocument();
-    
+
     // Wait for content to load
     await waitFor(() => {
       expect(screen.queryByRole('status')).not.toBeInTheDocument();
@@ -1167,7 +1167,7 @@ describe('${name}', () => {
 
   private generateTypeScriptService(name: string, recommendations: Recommendation[]): string {
     const hasSecurityRec = recommendations.some(r => r.type === 'security');
-    
+
     return `/**
  * ${name} Service
  * Generated with AI assistance following coding standards
@@ -1205,16 +1205,16 @@ export class ${name}Service {
   async get(id: string, options?: ${name}Options): Promise<Result<${name}Data>> {
     try {
       ${hasSecurityRec ? 'const validatedId = validateInput(id);' : 'const validatedId = id;'}
-      
+
       const response = await this.makeRequest(\`/\${validatedId}\`, 'GET', undefined, options);
-      
+
       if (!response.ok) {
         return Result.err(new Error(\`Failed to get ${name.toLowerCase()}: \${response.statusText}\`));
       }
 
       const data = await response.json();
       ${hasSecurityRec ? 'const sanitizedData = sanitizeData(data);' : 'const sanitizedData = data;'}
-      
+
       return Result.ok(sanitizedData);
     } catch (error) {
       return Result.err(error instanceof Error ? error : new Error(String(error)));
@@ -1227,9 +1227,9 @@ export class ${name}Service {
   async create(data: Partial<${name}Data>, options?: ${name}Options): Promise<Result<${name}Data>> {
     try {
       ${hasSecurityRec ? 'const validatedData = validateInput(data);' : 'const validatedData = data;'}
-      
+
       const response = await this.makeRequest('/', 'POST', validatedData, options);
-      
+
       if (!response.ok) {
         return Result.err(new Error(\`Failed to create ${name.toLowerCase()}: \${response.statusText}\`));
       }
@@ -1248,9 +1248,9 @@ export class ${name}Service {
     try {
       ${hasSecurityRec ? 'const validatedId = validateInput(id);' : 'const validatedId = id;'}
       ${hasSecurityRec ? 'const validatedData = validateInput(data);' : 'const validatedData = data;'}
-      
+
       const response = await this.makeRequest(\`/\${validatedId}\`, 'PUT', validatedData, options);
-      
+
       if (!response.ok) {
         return Result.err(new Error(\`Failed to update ${name.toLowerCase()}: \${response.statusText}\`));
       }
@@ -1268,9 +1268,9 @@ export class ${name}Service {
   async delete(id: string, options?: ${name}Options): Promise<Result<void>> {
     try {
       ${hasSecurityRec ? 'const validatedId = validateInput(id);' : 'const validatedId = id;'}
-      
+
       const response = await this.makeRequest(\`/\${validatedId}\`, 'DELETE', undefined, options);
-      
+
       if (!response.ok) {
         return Result.err(new Error(\`Failed to delete ${name.toLowerCase()}: \${response.statusText}\`));
       }
@@ -1317,7 +1317,7 @@ export class ${name}Service {
 
   private generatePythonService(name: string, recommendations: Recommendation[]): string {
     const hasSecurityRec = recommendations.some(r => r.type === 'security');
-    
+
     return `"""
 ${name} Service
 Generated with AI assistance following Python coding standards
@@ -1363,20 +1363,20 @@ class ${name}Service:
         """Get ${name.lower()} by ID"""
         try:
             ${hasSecurityRec ? "validated_id = validate_input(item_id)" : "validated_id = item_id"}
-            
+
             config = {**self.options.__dict__, **(options.__dict__ if options else {})}
-            
+
             # Make HTTP request
             response = await self._make_request(f"/{validated_id}", "GET", config=config)
-            
+
             if not response.get("success"):
                 return Result.err(Exception(f"Failed to get ${name.lower()}: {response.get('error')}"))
 
             data = response.get("data")
             ${hasSecurityRec ? "sanitized_data = sanitize_data(data)" : "sanitized_data = data"}
-            
+
             return Result.ok(${name}Data(**sanitized_data))
-            
+
         except Exception as e:
             logger.error(f"Error getting ${name.lower()}: {e}", exc_info=True)
             return Result.err(e)
@@ -1385,17 +1385,17 @@ class ${name}Service:
         """Create new ${name.lower()}"""
         try:
             ${hasSecurityRec ? "validated_data = validate_input(data)" : "validated_data = data"}
-            
+
             config = {**self.options.__dict__, **(options.__dict__ if options else {})}
-            
+
             response = await self._make_request("/", "POST", body=validated_data, config=config)
-            
+
             if not response.get("success"):
                 return Result.err(Exception(f"Failed to create ${name.lower()}: {response.get('error')}"))
 
             result_data = response.get("data")
             return Result.ok(${name}Data(**result_data))
-            
+
         except Exception as e:
             logger.error(f"Error creating ${name.lower()}: {e}", exc_info=True)
             return Result.err(e)
@@ -1405,17 +1405,17 @@ class ${name}Service:
         try:
             ${hasSecurityRec ? "validated_id = validate_input(item_id)" : "validated_id = item_id"}
             ${hasSecurityRec ? "validated_data = validate_input(data)" : "validated_data = data"}
-            
+
             config = {**self.options.__dict__, **(options.__dict__ if options else {})}
-            
+
             response = await self._make_request(f"/{validated_id}", "PUT", body=validated_data, config=config)
-            
+
             if not response.get("success"):
                 return Result.err(Exception(f"Failed to update ${name.lower()}: {response.get('error')}"))
 
             result_data = response.get("data")
             return Result.ok(${name}Data(**result_data))
-            
+
         except Exception as e:
             logger.error(f"Error updating ${name.lower()}: {e}", exc_info=True)
             return Result.err(e)
@@ -1424,16 +1424,16 @@ class ${name}Service:
         """Delete ${name.lower()}"""
         try:
             ${hasSecurityRec ? "validated_id = validate_input(item_id)" : "validated_id = item_id"}
-            
+
             config = {**self.options.__dict__, **(options.__dict__ if options else {})}
-            
+
             response = await self._make_request(f"/{validated_id}", "DELETE", config=config)
-            
+
             if not response.get("success"):
                 return Result.err(Exception(f"Failed to delete ${name.lower()}: {response.get('error')}"))
 
             return Result.ok(None)
-            
+
         except Exception as e:
             logger.error(f"Error deleting ${name.lower()}: {e}", exc_info=True)
             return Result.err(e)
@@ -1447,10 +1447,10 @@ class ${name}Service:
     ) -> Dict[str, Any]:
         """Make HTTP request with retry logic"""
         import aiohttp
-        
+
         url = f"{self.base_url}{endpoint}"
         config = config or {}
-        
+
         headers = {
             "Content-Type": "application/json",
             ${hasSecurityRec ? '"X-Requested-With": "XMLHttpRequest",' : ""}
@@ -1459,7 +1459,7 @@ class ${name}Service:
         for attempt in range(config.get("retries", 3)):
             try:
                 timeout = aiohttp.ClientTimeout(total=config.get("timeout", 30.0))
-                
+
                 async with aiohttp.ClientSession(timeout=timeout) as session:
                     async with session.request(
                         method,
@@ -1473,12 +1473,12 @@ class ${name}Service:
                         else:
                             error_text = await response.text()
                             return {"success": False, "error": f"HTTP {response.status}: {error_text}"}
-                            
+
             except asyncio.TimeoutError:
                 if attempt == config.get("retries", 3) - 1:
                     return {"success": False, "error": "Request timeout"}
                 await asyncio.sleep(2 ** attempt)  # Exponential backoff
-                
+
             except Exception as e:
                 if attempt == config.get("retries", 3) - 1:
                     return {"success": False, "error": str(e)}
@@ -1490,7 +1490,7 @@ class ${name}Service:
 
   private generateExpressAPI(recommendations: Recommendation[]): string {
     const hasSecurityRec = recommendations.some(r => r.type === 'security');
-    
+
     return `import express from 'express';
 import { Request, Response, NextFunction } from 'express';
 ${hasSecurityRec ? "import rateLimit from 'express-rate-limit';" : ""}
@@ -1528,16 +1528,16 @@ const validateInput = (req: Request, res: Response, next: NextFunction) => {
 // Error handling middleware
 const handleError = (error: Error, req: Request, res: Response, next: NextFunction) => {
   console.error('API Error:', error);
-  
+
   ${hasSecurityRec ? `
   // Don't expose internal errors in production
-  const message = process.env.NODE_ENV === 'production' 
-    ? 'Internal server error' 
+  const message = process.env.NODE_ENV === 'production'
+    ? 'Internal server error'
     : error.message;
   ` : `
   const message = error.message;
   `}
-  
+
   res.status(500).json({ error: message });
 };
 
@@ -1546,7 +1546,7 @@ router.get('/items', async (req: Request, res: Response, next: NextFunction) => 
   try {
     // Implement get logic
     const items = []; // Replace with actual data fetch
-    
+
     res.json({ success: true, data: items });
   } catch (error) {
     next(error);
@@ -1557,21 +1557,21 @@ router.get('/items', async (req: Request, res: Response, next: NextFunction) => 
 router.get('/items/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
-    
+
     ${hasSecurityRec ? `
     // Validate ID parameter
     if (!id || !/^[a-zA-Z0-9-_]+$/.test(id)) {
       return res.status(400).json({ error: 'Invalid ID format' });
     }
     ` : ""}
-    
+
     // Implement get by ID logic
     const item = {}; // Replace with actual data fetch
-    
+
     if (!item) {
       return res.status(404).json({ error: 'Item not found' });
     }
-    
+
     res.json({ success: true, data: item });
   } catch (error) {
     next(error);
@@ -1582,7 +1582,7 @@ router.get('/items/:id', async (req: Request, res: Response, next: NextFunction)
 router.post('/items', validateInput, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const data = req.body;
-    
+
     ${hasSecurityRec ? `
     // Sanitize input data
     const sanitizedData = {
@@ -1592,10 +1592,10 @@ router.post('/items', validateInput, async (req: Request, res: Response, next: N
     ` : `
     const sanitizedData = data;
     `}
-    
+
     // Implement create logic
     const newItem = {}; // Replace with actual creation
-    
+
     res.status(201).json({ success: true, data: newItem });
   } catch (error) {
     next(error);
@@ -1607,17 +1607,17 @@ router.put('/items/:id', validateInput, async (req: Request, res: Response, next
   try {
     const { id } = req.params;
     const data = req.body;
-    
+
     ${hasSecurityRec ? `
     // Validate ID and sanitize data
     if (!id || !/^[a-zA-Z0-9-_]+$/.test(id)) {
       return res.status(400).json({ error: 'Invalid ID format' });
     }
     ` : ""}
-    
+
     // Implement update logic
     const updatedItem = {}; // Replace with actual update
-    
+
     res.json({ success: true, data: updatedItem });
   } catch (error) {
     next(error);
@@ -1628,21 +1628,21 @@ router.put('/items/:id', validateInput, async (req: Request, res: Response, next
 router.delete('/items/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
-    
+
     ${hasSecurityRec ? `
     // Validate ID parameter
     if (!id || !/^[a-zA-Z0-9-_]+$/.test(id)) {
       return res.status(400).json({ error: 'Invalid ID format' });
     }
     ` : ""}
-    
+
     // Implement delete logic
     const result = true; // Replace with actual deletion
-    
+
     if (!result) {
       return res.status(404).json({ error: 'Item not found' });
     }
-    
+
     res.json({ success: true, message: 'Item deleted successfully' });
   } catch (error) {
     next(error);
@@ -1658,7 +1658,7 @@ export default router;
 
   private generateFastAPI(recommendations: Recommendation[]): string {
     const hasSecurityRec = recommendations.some(r => r.type === 'security');
-    
+
     return `"""
 FastAPI Router
 Generated with AI assistance following Python and API standards
@@ -1682,7 +1682,7 @@ ${hasSecurityRec ? "security = HTTPBearer()" : ""}
 class ItemBase(BaseModel):
     name: str = Field(..., min_length=1, max_length=100)
     description: Optional[str] = Field(None, max_length=500)
-    
+
     ${hasSecurityRec ? `
     @validator('name')
     def validate_name(cls, v):
@@ -1738,9 +1738,9 @@ async def get_items(
         # Implement get items logic
         items = []  # Replace with actual data fetch
         total = 0   # Replace with actual count
-        
+
         ${hasSecurityRec ? "logger.info(f'User {current_user[\"user_id\"]} requested items')" : ""}
-        
+
         return ItemListResponse(
             items=items,
             total=total,
@@ -1763,18 +1763,18 @@ async def get_item(
     """Get item by ID"""
     try:
         ${hasSecurityRec ? "validated_id = validate_input(item_id)" : "validated_id = item_id"}
-        
+
         # Implement get item logic
         item = None  # Replace with actual data fetch
-        
+
         if not item:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Item not found"
             )
-        
+
         ${hasSecurityRec ? "logger.info(f'User {current_user[\"user_id\"]} requested item {validated_id}')" : ""}
-        
+
         return ItemResponse(**item)
     except HTTPException:
         raise
@@ -1795,12 +1795,12 @@ async def create_item(
     try:
         item_data = item.dict()
         ${hasSecurityRec ? "sanitized_data = sanitize_data(item_data)" : "sanitized_data = item_data"}
-        
+
         # Implement create logic
         new_item = {}  # Replace with actual creation
-        
+
         ${hasSecurityRec ? "logger.info(f'User {current_user[\"user_id\"]} created item')" : ""}
-        
+
         return ItemResponse(**new_item)
     except Exception as e:
         logger.error(f"Error creating item: {e}", exc_info=True)
@@ -1821,18 +1821,18 @@ async def update_item(
         ${hasSecurityRec ? "validated_id = validate_input(item_id)" : "validated_id = item_id"}
         item_data = item.dict(exclude_unset=True)
         ${hasSecurityRec ? "sanitized_data = sanitize_data(item_data)" : "sanitized_data = item_data"}
-        
+
         # Implement update logic
         updated_item = {}  # Replace with actual update
-        
+
         if not updated_item:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Item not found"
             )
-        
+
         ${hasSecurityRec ? "logger.info(f'User {current_user[\"user_id\"]} updated item {validated_id}')" : ""}
-        
+
         return ItemResponse(**updated_item)
     except HTTPException:
         raise
@@ -1852,18 +1852,18 @@ async def delete_item(
     """Delete item"""
     try:
         ${hasSecurityRec ? "validated_id = validate_input(item_id)" : "validated_id = item_id"}
-        
+
         # Implement delete logic
         result = True  # Replace with actual deletion
-        
+
         if not result:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Item not found"
             )
-        
+
         ${hasSecurityRec ? "logger.info(f'User {current_user[\"user_id\"]} deleted item {validated_id}')" : ""}
-        
+
         return {"success": True, "message": "Item deleted successfully"}
     except HTTPException:
         raise
@@ -1884,11 +1884,11 @@ export { IntelligentGenerator };
 if (require.main === module) {
   async function main() {
     const generator = new IntelligentGenerator();
-    
+
     // Analyze current project
     const context = await generator.analyzeProject();
     console.log('Project Analysis:', JSON.stringify(context, null, 2));
-    
+
     // Test generation
     const request: GenerationRequest = {
       type: 'component',
@@ -1903,10 +1903,10 @@ if (require.main === module) {
         aiAssistanceLevel: 'comprehensive'
       }
     };
-    
+
     const result = await generator.generate(request);
     console.log('Generation Result:', JSON.stringify(result, null, 2));
   }
-  
+
   main().catch(console.error);
 }

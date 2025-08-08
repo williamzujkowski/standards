@@ -15,6 +15,7 @@
 ## 🆕 What's New
 
 ### 🔐 NIST 800-53r5 Compliance Integration
+
 - **Automated Control Tagging**: Tag security features with `@nist` annotations
 - **VS Code Extension**: Real-time NIST control suggestions
 - **CI/CD Integration**: Automated compliance checking and SSP generation
@@ -26,14 +27,18 @@
 ## 📁 File Organization Guidelines
 
 ### Generated Reports
+
 Generated reports and summaries should be placed in `reports/generated/` to keep the root directory clean. This includes:
+
 - Testing reports
-- Implementation summaries  
+- Implementation summaries
 - Validation reports
 - Weekly digests
 
 ### Important Files Not to Commit
+
 The following files/directories are automatically ignored by `.gitignore`:
+
 - `.claude-flow/` - Claude Flow runtime data
 - `node_modules/` - Node.js dependencies
 - `__pycache__/` - Python cache files
@@ -42,7 +47,9 @@ The following files/directories are automatically ignored by `.gitignore`:
 - `*.bak`, `*.orig`, `*.tmp` - Backup/temporary files
 
 ### Development Setup
+
 Run `./scripts/setup-development.sh` to set up your development environment with:
+
 - Pre-commit hooks for code quality
 - Python virtual environment
 - Required dependencies
@@ -84,6 +91,7 @@ chmod +x setup-project.sh
 ### 🤖 **For AI/LLM Users**
 
 Use our token-optimized loading system:
+
 ```
 # Basic usage
 @load [CS:python + TS:pytest + SEC:*]
@@ -104,9 +112,11 @@ Use our token-optimized loading system:
 ## 📚 What's Included
 
 ### **24 Comprehensive Standards Documents**
+
 Complete coverage of modern software development practices from coding to deployment, security to compliance, including AI integration via Model Context Protocol.
 
 ### **🔐 NIST 800-53r5 Compliance Suite**
+
 - **Control Tagging**: `@nist` annotations for security features
 - **VS Code Extension**: Real-time control suggestions
 - **Annotation Framework**: Multi-language parsers (JS/TS, Python, Go, Java, YAML)
@@ -115,6 +125,7 @@ Complete coverage of modern software development practices from coding to deploy
 - **LLM Prompts**: Compliance-focused AI assistance
 
 ### **AI-Powered Features**
+
 - 90% token reduction with CLAUDE.md
 - Natural language to standards mapping
 - Instant project kickstart analysis
@@ -122,6 +133,7 @@ Complete coverage of modern software development practices from coding to deploy
 - NIST control suggestions
 
 ### **Ready-to-Use Templates**
+
 - Language configs (Python, JS/TS, Go)
 - NIST-tagged security templates
 - CI/CD workflows with compliance checks
@@ -129,6 +141,7 @@ Complete coverage of modern software development practices from coding to deploy
 - Tool configurations
 
 ### **Integration Tools**
+
 - Automated setup scripts
 - NIST compliance checking
 - SSP generation
@@ -140,6 +153,7 @@ Complete coverage of modern software development practices from coding to deploy
 ## 📂 Standards Categories
 
 ### 💻 **Development & Engineering**
+
 - **[UNIFIED_STANDARDS.md](./docs/standards/UNIFIED_STANDARDS.md)** - Master document with all core standards
 - **[CODING_STANDARDS.md](./docs/standards/CODING_STANDARDS.md)** - Language-specific best practices
 - **[TESTING_STANDARDS.md](./docs/standards/TESTING_STANDARDS.md)** - Comprehensive testing methodologies
@@ -148,10 +162,12 @@ Complete coverage of modern software development practices from coding to deploy
 - **[KNOWLEDGE_MANAGEMENT_STANDARDS.md](./docs/standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md)** - Documentation architecture patterns
 
 ### 🎨 **Frontend & Design**
+
 - **[FRONTEND_MOBILE_STANDARDS.md](./docs/standards/FRONTEND_MOBILE_STANDARDS.md)** - React/Vue/Angular & mobile
 - **[WEB_DESIGN_UX_STANDARDS.md](./docs/standards/WEB_DESIGN_UX_STANDARDS.md)** - Design systems & accessibility
 
 ### 🔧 **Operations & Infrastructure**
+
 - **[CLOUD_NATIVE_STANDARDS.md](./docs/standards/CLOUD_NATIVE_STANDARDS.md)** - Container & microservices patterns
 - **[DEVOPS_PLATFORM_STANDARDS.md](./docs/standards/DEVOPS_PLATFORM_STANDARDS.md)** - CI/CD & Infrastructure as Code
 - **[OBSERVABILITY_STANDARDS.md](./docs/standards/OBSERVABILITY_STANDARDS.md)** - Monitoring, logging, tracing
@@ -159,12 +175,14 @@ Complete coverage of modern software development practices from coding to deploy
 - **[MODEL_CONTEXT_PROTOCOL_STANDARDS.md](./docs/standards/MODEL_CONTEXT_PROTOCOL_STANDARDS.md)** - MCP server/client implementation
 
 ### 📊 **Business & Compliance**
+
 - **[PROJECT_MANAGEMENT_STANDARDS.md](./docs/standards/PROJECT_MANAGEMENT_STANDARDS.md)** - Agile & team practices
 - **[COST_OPTIMIZATION_STANDARDS.md](./docs/standards/COST_OPTIMIZATION_STANDARDS.md)** - FinOps & resource optimization
 - **[LEGAL_COMPLIANCE_STANDARDS.md](./docs/standards/LEGAL_COMPLIANCE_STANDARDS.md)** - Privacy & regulatory compliance
 - **[SEO_WEB_MARKETING_STANDARDS.md](./docs/standards/SEO_WEB_MARKETING_STANDARDS.md)** - Technical SEO & marketing
 
 ### 🔐 **NIST 800-53r5 Compliance**
+
 - **[NIST_IMPLEMENTATION_GUIDE.md](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md)** - 🚀 Quick start guide (15 min setup)
 - **[COMPLIANCE_STANDARDS.md](./docs/standards/COMPLIANCE_STANDARDS.md)** - Detailed control tagging standards
 - **[NIST_QUICK_REFERENCE.md](./docs/nist/NIST_QUICK_REFERENCE.md)** - Essential controls cheat sheet
@@ -172,6 +190,7 @@ Complete coverage of modern software development practices from coding to deploy
 - **[prompts/nist-compliance/](./prompts/nist-compliance/)** - LLM prompts for compliance
 
 ### 🤖 **AI/LLM Integration**
+
 - **[CLAUDE.md](./docs/core/CLAUDE.md)** - Primary LLM interface (90% token reduction)
 - **[KICKSTART_PROMPT.md](./docs/guides/KICKSTART_PROMPT.md)** - Universal project kickstart prompt
 - **[KICKSTART_ADVANCED.md](./docs/guides/KICKSTART_ADVANCED.md)** - Advanced kickstart patterns
@@ -182,17 +201,20 @@ Complete coverage of modern software development practices from coding to deploy
 ## 🛠️ Integration Options
 
 ### **For New Projects**
+
 1. Use the AI Kickstart (Option 1) for instant guidance
 2. Run setup script (Option 2) for automated structure
 3. Copy relevant templates from `examples/project-templates/`
 
 ### **For Existing Projects**
+
 1. Read **[INTEGRATION_GUIDE.md](./docs/core/INTEGRATION_GUIDE.md)** for strategies
 2. Perform gap analysis using standard checklists
 3. Prioritize: Security → Testing → Core Standards
 4. Use **[ADOPTION_CHECKLIST.md](./docs/guides/ADOPTION_CHECKLIST.md)** for phased adoption
 
 ### **Quick Integration Methods**
+
 - **Git Submodule**: `git submodule add https://github.com/williamzujkowski/standards.git .standards`
 - **Direct Copy**: Copy CLAUDE.md + relevant standards to your project
 - **Remote Access**: Use standards directly via LLM without downloading
@@ -202,12 +224,14 @@ Complete coverage of modern software development practices from coding to deploy
 ## 🌟 Essential Links
 
 ### **Getting Started**
+
 - 🚀 [KICKSTART_PROMPT.md](./docs/guides/KICKSTART_PROMPT.md) - AI project analyzer
 - 📚 [UNIFIED_STANDARDS.md](./docs/standards/UNIFIED_STANDARDS.md) - Complete standards reference
 - 🤖 [CLAUDE.md](./docs/core/CLAUDE.md) - LLM optimization interface
 - ✅ [ADOPTION_CHECKLIST.md](./docs/guides/ADOPTION_CHECKLIST.md) - Implementation roadmap
 
 ### **Templates & Tools**
+
 - 📁 [Project Templates](./examples/project-templates/) - Language-specific configs
 - 🔐 [NIST Templates](./examples/nist-templates/) - Security components with controls
 - 🔧 [Setup Script](./scripts/setup-project.sh) - Automated project setup
@@ -218,6 +242,7 @@ Complete coverage of modern software development practices from coding to deploy
 - 📖 [Creating Standards Guide](./docs/guides/CREATING_STANDARDS_GUIDE.md) - How to contribute standards
 
 ### **Advanced Features**
+
 - 🧩 [KICKSTART_ADVANCED.md](./docs/guides/KICKSTART_ADVANCED.md) - Advanced kickstart patterns
 - 📋 [TOOLS_CATALOG.yaml](./config/TOOLS_CATALOG.yaml) - Centralized tool management
 - 🔍 [STANDARDS_INDEX.md](./docs/guides/STANDARDS_INDEX.md) - Quick reference summaries
@@ -242,6 +267,7 @@ Complete coverage of modern software development practices from coding to deploy
 ## 🤝 Contributing
 
 We welcome contributions! Please:
+
 - Report issues or suggest improvements
 - Submit PRs with clear descriptions
 - Follow existing format and structure
@@ -253,11 +279,13 @@ We welcome contributions! Please:
 ### 🧪 Quality Assurance
 
 **Testing Suite** - Validate standards compliance:
+
 ```bash
 cd tests && ./validate_knowledge_management.sh
 ```
 
 **Linting System** - Enforce standards automatically:
+
 ```bash
 cd lint && ./setup-hooks.sh  # One-time setup
 pre-commit run --all-files    # Manual check
@@ -294,6 +322,7 @@ ln -s $(pwd) ~/.vscode/extensions/nist-compliance-helper
 ```
 
 **Features:**
+
 - 🎯 Real-time NIST control suggestions while coding
 - 📝 Code snippets for common security patterns
 - 🔍 Hover information for control details
@@ -324,6 +353,7 @@ Our TypeScript-based compliance platform in `standards/compliance/` provides:
 - **Knowledge Graphs**: Semantic analysis of control relationships
 
 **Quick Start:**
+
 ```bash
 cd standards/compliance
 ./quickstart.sh

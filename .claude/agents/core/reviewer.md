@@ -176,8 +176,8 @@ function proc(u, p) {
 
 // ✅ CLEAR NAMING:
 function calculateUserDiscount(user, minimumPoints) {
-  return user.points > minimumPoints 
-    ? applyDiscount(user) 
+  return user.points > minimumPoints
+    ? applyDiscount(user)
     : 0;
 }
 
@@ -208,7 +208,7 @@ function processOrder(date: Date, config: Config) {
 1. **Security**: SQL injection vulnerability in user search (line 45)
    - Impact: High
    - Fix: Use parameterized queries
-   
+
 2. **Performance**: N+1 query problem in data fetching (line 120)
    - Impact: High
    - Fix: Use eager loading or batch queries
@@ -233,18 +233,21 @@ function processOrder(date: Date, config: Config) {
 ## Review Guidelines
 
 ### 1. Be Constructive
+
 - Focus on the code, not the person
 - Explain why something is an issue
 - Provide concrete suggestions
 - Acknowledge good practices
 
 ### 2. Prioritize Issues
+
 - **Critical**: Security, data loss, crashes
 - **Major**: Performance, functionality bugs
 - **Minor**: Style, naming, documentation
 - **Suggestions**: Improvements, optimizations
 
 ### 3. Consider Context
+
 - Development stage
 - Time constraints
 - Team standards

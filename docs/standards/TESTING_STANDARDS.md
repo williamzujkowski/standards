@@ -47,29 +47,29 @@ graph TD
         INT[Integration Tests<br/>🔧 Some, Medium Cost]
         UNIT[Unit Tests<br/>⚡ Many, Fast, Cheap]
     end
-    
+
     subgraph "Testing Types"
         FUNC[Functional Testing]
         PERF[Performance Testing]
         SEC[Security Testing]
         COMPAT[Compatibility Testing]
     end
-    
+
     subgraph "Quality Gates"
         COVERAGE[Code Coverage > 80%]
         MUTATION[Mutation Score > 70%]
         STATIC[Static Analysis Pass]
         CONTRACTS[Contract Tests Pass]
     end
-    
+
     UNIT --> INT
     INT --> UI
-    
+
     UNIT -.-> FUNC
     INT -.-> PERF
     UI -.-> SEC
     UI -.-> COMPAT
-    
+
     UNIT --> COVERAGE
     FUNC --> MUTATION
     STATIC --> COVERAGE
@@ -81,36 +81,36 @@ graph TD
 ```mermaid
 graph TD
     START[New Feature/Fix] --> TYPE{What are you testing?}
-    
+
     TYPE -->|Pure Function| UNIT_TEST[Unit Test]
     TYPE -->|API Endpoint| API_TEST[API Test]
     TYPE -->|Database Logic| DB_TEST[Database Test]
     TYPE -->|UI Component| COMPONENT_TEST[Component Test]
     TYPE -->|User Journey| E2E_TEST[E2E Test]
-    
+
     UNIT_TEST --> PROPERTY[Property-Based Test?]
     PROPERTY -->|Yes| PROP_TEST[Generate Property Tests]
     PROPERTY -->|No| EXAMPLE_TEST[Example-Based Tests]
-    
+
     API_TEST --> CONTRACT[Contract Test]
     CONTRACT --> SECURITY[Security Test]
-    
+
     DB_TEST --> MIGRATION[Migration Test]
     MIGRATION --> PERFORMANCE[Performance Test]
-    
+
     COMPONENT_TEST --> VISUAL[Visual Regression Test]
     VISUAL --> ACCESSIBILITY[A11y Test]
-    
+
     E2E_TEST --> BROWSER[Cross-Browser Test]
     BROWSER --> MOBILE[Mobile Test]
-    
+
     PROP_TEST --> COVERAGE[Coverage Check]
     EXAMPLE_TEST --> COVERAGE
     SECURITY --> COVERAGE
     PERFORMANCE --> COVERAGE
     ACCESSIBILITY --> COVERAGE
     MOBILE --> COVERAGE
-    
+
     COVERAGE --> PASS{All Pass?}
     PASS -->|Yes| DEPLOY[Ready to Deploy]
     PASS -->|No| FIX[Fix Issues]

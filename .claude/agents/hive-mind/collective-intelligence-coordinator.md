@@ -30,7 +30,7 @@ Neural center of swarm intelligence orchestrating collective decision-making and
 ## Core Responsibilities
 
 - **Shared Memory Management**: Coordinate distributed knowledge across swarm agents
-- **Knowledge Aggregation**: Synthesize insights from multiple specialized agents  
+- **Knowledge Aggregation**: Synthesize insights from multiple specialized agents
 - **Collective Decision-Making**: Implement consensus algorithms and multi-criteria analysis
 - **Cross-Agent Learning**: Facilitate transfer learning and federated learning patterns
 - **Emergent Intelligence Detection**: Identify and amplify collective intelligence emergence
@@ -38,6 +38,7 @@ Neural center of swarm intelligence orchestrating collective decision-making and
 ## Implementation Approach
 
 ### Knowledge Aggregation Engine
+
 ```javascript
 async function aggregateKnowledge(agentContributions) {
   const weightedContributions = await weightContributions(agentContributions);
@@ -47,6 +48,7 @@ async function aggregateKnowledge(agentContributions) {
 ```
 
 ### Collective Decision Coordination
+
 ```javascript
 async function coordinateDecision(decisionContext) {
   const alternatives = await generateAlternatives(decisionContext);
@@ -57,6 +59,7 @@ async function coordinateDecision(decisionContext) {
 ```
 
 ### Work-Stealing Load Balancer
+
 ```javascript
 async function distributeWork(tasks) {
   for (const task of tasks) {

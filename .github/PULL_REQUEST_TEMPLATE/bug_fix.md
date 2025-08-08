@@ -6,6 +6,7 @@
 <!-- Clear description of the bug being fixed -->
 
 ### Related Issues
+
 - Fixes #
 - Related to #
 
@@ -13,6 +14,7 @@
 <!-- What caused this bug? -->
 
 ### Impact Assessment
+
 - [ ] Critical - Production blocking
 - [ ] High - Affects many users
 - [ ] Medium - Affects some users
@@ -28,30 +30,33 @@
 
 ### Files Changed
 <!-- List of files modified -->
-- 
-- 
-- 
+-
+-
+-
 
 ### Changes Made
 <!-- Specific changes made to fix the bug -->
-- 
-- 
-- 
+-
+-
+-
 
 ## Testing and Validation
 
 ### Bug Reproduction
+
 - [ ] Bug successfully reproduced before fix
 - [ ] Clear reproduction steps documented
 - [ ] Root cause confirmed through debugging
 
 ### Fix Validation
+
 - [ ] Fix resolves the reported issue
 - [ ] No regression in existing functionality
 - [ ] Edge cases tested and handled
 - [ ] Error scenarios validated
 
 ### Test Coverage
+
 - [ ] Unit tests added/updated
 - [ ] Integration tests added/updated
 - [ ] Manual testing completed
@@ -63,6 +68,7 @@
 ## Code Quality
 
 ### Code Review
+
 - [ ] Code follows project standards
 - [ ] Solution is clean and maintainable
 - [ ] No unnecessary changes included
@@ -70,12 +76,14 @@
 - [ ] Error handling is appropriate
 
 ### Security Considerations
+
 - [ ] No security vulnerabilities introduced
 - [ ] Security best practices followed
 - [ ] Input validation maintained
 - [ ] Access controls preserved
 
 ### Performance Impact
+
 - [ ] No negative performance impact
 - [ ] Performance testing completed (if applicable)
 - [ ] Resource usage considered
@@ -84,6 +92,7 @@
 ## Documentation
 
 ### Documentation Updates
+
 - [ ] Code comments updated
 - [ ] README updated (if applicable)
 - [ ] Standards documentation updated (if applicable)
@@ -91,6 +100,7 @@
 - [ ] Known issues documentation updated
 
 ### Examples and Samples
+
 - [ ] Examples updated to reflect fix
 - [ ] Sample configurations corrected
 - [ ] Template files updated
@@ -99,6 +109,7 @@
 ## Standards Compliance
 
 ### Standards Affected
+
 - [ ] CODING_STANDARDS.md
 - [ ] SECURITY_STANDARDS.md
 - [ ] TESTING_STANDARDS.md
@@ -106,6 +117,7 @@
 - [ ] Other: _______________
 
 ### Compliance Validation
+
 - [ ] Fix follows coding standards
 - [ ] Security guidelines maintained
 - [ ] Testing requirements met
@@ -117,6 +129,7 @@
 <!-- Analysis of why this bug occurred -->
 
 ### Prevention Measures
+
 - [ ] Additional validation added
 - [ ] Test coverage improved
 - [ ] Code review process enhanced
@@ -124,6 +137,7 @@
 - [ ] Configuration validation added
 
 ### Monitoring and Detection
+
 - [ ] Monitoring added to detect similar issues
 - [ ] Alerts configured (if applicable)
 - [ ] Logging improved for debugging
@@ -132,6 +146,7 @@
 ## Backward Compatibility
 
 ### Compatibility Assessment
+
 - [ ] Fully backward compatible
 - [ ] Minor breaking change (documented)
 - [ ] Major breaking change (migration guide provided)
@@ -140,6 +155,7 @@
 <!-- If breaking changes, provide migration guidance -->
 
 ### Deployment Impact
+
 - [ ] No special deployment requirements
 - [ ] Configuration changes required
 - [ ] Database changes required
@@ -148,12 +164,14 @@
 ## Communication
 
 ### User Communication
+
 - [ ] Bug fix will be communicated to affected users
 - [ ] Documentation updated to reflect fix
 - [ ] Known workarounds can be removed
 - [ ] Support team notified
 
 ### Team Communication
+
 - [ ] Development team informed
 - [ ] Operations team notified (if applicable)
 - [ ] Product team updated
@@ -162,11 +180,13 @@
 ## Verification Steps
 
 ### Manual Verification
-1. 
-2. 
-3. 
+
+1.
+2.
+3.
 
 ### Automated Verification
+
 - [ ] CI/CD pipeline passes
 - [ ] All tests pass
 - [ ] Linting and quality checks pass
@@ -174,13 +194,14 @@
 
 ### Production Verification
 <!-- Steps to verify fix in production -->
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ## Risk Assessment
 
 ### Risk Level
+
 - [ ] Low risk - Isolated fix
 - [ ] Medium risk - Some dependencies
 - [ ] High risk - Core functionality change
@@ -194,6 +215,7 @@
 ## Post-Deployment
 
 ### Monitoring Plan
+
 - [ ] Monitor for related issues
 - [ ] Track fix effectiveness
 - [ ] Watch for performance impact
@@ -201,11 +223,12 @@
 
 ### Success Criteria
 <!-- How to measure fix success -->
-- 
-- 
-- 
+-
+-
+-
 
 ### Follow-up Actions
+
 - [ ] Update issue tracking
 - [ ] Close related issues
 - [ ] Update knowledge base
@@ -227,6 +250,7 @@
 ## Reviewer Checklist
 
 Please verify:
+
 - [ ] Bug is clearly understood and documented
 - [ ] Fix addresses root cause, not just symptoms
 - [ ] Testing is comprehensive and appropriate

@@ -811,7 +811,7 @@ standards:
 
   # Microservices Architecture Standards
   MICROSERVICES:
-    identifier: "MSA" 
+    identifier: "MSA"
     full_name: "MICROSERVICES_STANDARDS.md"
     size: "60KB"
     token_estimate: 16000

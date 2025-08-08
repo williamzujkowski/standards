@@ -3,6 +3,7 @@
 ## Overview
 
 ### Type of Change
+
 - [ ] Bug fix (non-breaking change which fixes an issue)
 - [ ] New feature (non-breaking change which adds functionality)
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
@@ -28,9 +29,9 @@
 
 ### Changes Made
 <!-- Describe the changes in detail -->
-- 
-- 
-- 
+-
+-
+-
 
 ## Standards Compliance
 
@@ -44,6 +45,7 @@
 - [ ] Other: _______________
 
 ### Compliance Validation
+
 - [ ] Changes follow existing coding standards
 - [ ] Security guidelines have been followed
 - [ ] Documentation standards are met
@@ -59,6 +61,7 @@
 <!-- Any architectural decisions or implications -->
 
 ### Performance Impact
+
 - [ ] No performance impact
 - [ ] Positive performance impact
 - [ ] Potential performance impact (explain below)
@@ -66,6 +69,7 @@
 <!-- If performance impact, explain: -->
 
 ### Security Considerations
+
 - [ ] No security implications
 - [ ] Security improvements included
 - [ ] Potential security considerations (explain below)
@@ -75,6 +79,7 @@
 ## Testing
 
 ### Testing Strategy
+
 - [ ] Unit tests added/updated
 - [ ] Integration tests added/updated
 - [ ] Manual testing completed
@@ -86,9 +91,9 @@
 
 ### Manual Testing Steps
 <!-- Provide steps for manual testing -->
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ### Test Results
 <!-- Summarize testing results -->
@@ -96,6 +101,7 @@
 ## Documentation
 
 ### Documentation Updates
+
 - [ ] Code comments added/updated
 - [ ] README files updated
 - [ ] Standards documentation updated
@@ -104,6 +110,7 @@
 - [ ] Changelog updated
 
 ### Documentation Review
+
 - [ ] Documentation is clear and comprehensive
 - [ ] Examples are practical and working
 - [ ] Cross-references are accurate
@@ -113,10 +120,11 @@
 
 ### Integration Points
 <!-- List systems, tools, or standards that integrate with these changes -->
-- 
-- 
+-
+-
 
 ### Dependencies
+
 - [ ] No new dependencies
 - [ ] New dependencies added (list below)
 - [ ] Dependencies updated (list below)
@@ -124,6 +132,7 @@
 <!-- If dependencies changed, list them: -->
 
 ### Backward Compatibility
+
 - [ ] Fully backward compatible
 - [ ] Backward compatible with migration path
 - [ ] Breaking changes (migration guide provided)
@@ -131,6 +140,7 @@
 ## Validation Checklist
 
 ### Code Quality
+
 - [ ] Code follows project style guidelines
 - [ ] Self-review of code completed
 - [ ] Code is self-documenting with clear naming
@@ -140,6 +150,7 @@
 - [ ] Performance considerations addressed
 
 ### Standards Compliance
+
 - [ ] Follows STANDARD_TEMPLATE.md structure (if applicable)
 - [ ] Includes TLDR section (if applicable)
 - [ ] Cross-references are complete and accurate
@@ -147,6 +158,7 @@
 - [ ] Compliance mappings are accurate (if applicable)
 
 ### Repository Health
+
 - [ ] No merge conflicts
 - [ ] CI/CD pipelines pass
 - [ ] Pre-commit hooks pass
@@ -155,6 +167,7 @@
 - [ ] File organization follows repository structure
 
 ### Review Readiness
+
 - [ ] PR title is descriptive and follows convention
 - [ ] Description explains the "why" not just the "what"
 - [ ] Changes are logically grouped in commits
@@ -174,13 +187,14 @@
 
 ### Specific Questions for Reviewers
 <!-- Any specific questions or concerns for reviewers -->
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ## Deployment and Rollout
 
 ### Deployment Considerations
+
 - [ ] No special deployment requirements
 - [ ] Requires configuration changes
 - [ ] Requires database migrations
@@ -195,6 +209,7 @@
 ## Post-Merge Actions
 
 ### Follow-up Tasks
+
 - [ ] Update related documentation
 - [ ] Notify relevant teams
 - [ ] Schedule training/demos
@@ -222,6 +237,7 @@
 <!-- For reviewers to complete -->
 
 ### Technical Review
+
 - [ ] Code quality meets standards
 - [ ] Logic is sound and efficient
 - [ ] Error handling is appropriate
@@ -229,6 +245,7 @@
 - [ ] Performance considerations addressed
 
 ### Standards Review
+
 - [ ] Follows established patterns
 - [ ] Documentation is complete
 - [ ] Examples are practical
@@ -236,6 +253,7 @@
 - [ ] Compliance requirements met
 
 ### Final Approval
+
 - [ ] Ready for merge
 - [ ] Post-merge actions identified
 - [ ] Deployment plan understood

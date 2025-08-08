@@ -117,10 +117,10 @@ body:
       placeholder: |
         Primary Audience:
         - [e.g., Backend developers, DevOps engineers, Security teams]
-        
+
         Secondary Audience:
         - [e.g., Project managers, Architects, QA teams]
-        
+
         Use Contexts:
         - [e.g., Microservices development, Cloud deployment, Security audits]
     validations:

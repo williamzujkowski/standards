@@ -5,19 +5,25 @@ This directory contains specialized swarm coordination agents designed to work w
 ## Available Agents
 
 ### 1. Hierarchical Coordinator (`hierarchical-coordinator.md`)
+
 **Architecture**: Queen-led hierarchy with specialized workers
+
 - **Use Cases**: Complex projects requiring central coordination
 - **Strengths**: Clear command structure, efficient resource allocation
 - **Best For**: Large-scale development, multi-team coordination
 
-### 2. Mesh Coordinator (`mesh-coordinator.md`) 
+### 2. Mesh Coordinator (`mesh-coordinator.md`)
+
 **Architecture**: Peer-to-peer distributed network
+
 - **Use Cases**: Fault-tolerant distributed processing
 - **Strengths**: High resilience, no single point of failure
 - **Best For**: Critical systems, high-availability requirements
 
 ### 3. Adaptive Coordinator (`adaptive-coordinator.md`)
+
 **Architecture**: Dynamic topology switching with ML optimization
+
 - **Use Cases**: Variable workloads requiring optimization
 - **Strengths**: Self-optimizing, learns from experience
 - **Best For**: Production systems, long-running processes
@@ -39,14 +45,14 @@ This directory contains specialized swarm coordination agents designed to work w
 
 ```
 Hierarchical: ⭐⭐⭐⭐⭐ Coordination Efficiency
-              ⭐⭐⭐⭐   Fault Tolerance  
+              ⭐⭐⭐⭐   Fault Tolerance
               ⭐⭐⭐⭐⭐ Scalability
 
 Mesh:         ⭐⭐⭐     Coordination Efficiency
               ⭐⭐⭐⭐⭐ Fault Tolerance
               ⭐⭐⭐     Scalability
 
-Adaptive:     ⭐⭐⭐⭐⭐ Coordination Efficiency  
+Adaptive:     ⭐⭐⭐⭐⭐ Coordination Efficiency
               ⭐⭐⭐⭐⭐ Fault Tolerance
               ⭐⭐⭐⭐⭐ Scalability
 ```
@@ -56,12 +62,14 @@ Adaptive:     ⭐⭐⭐⭐⭐ Coordination Efficiency
 All swarm coordinators leverage the following MCP tools:
 
 ### Core Coordination Tools
+
 - `mcp__claude-flow__swarm_init` - Initialize swarm topology
-- `mcp__claude-flow__agent_spawn` - Create specialized worker agents  
+- `mcp__claude-flow__agent_spawn` - Create specialized worker agents
 - `mcp__claude-flow__task_orchestrate` - Coordinate complex workflows
 - `mcp__claude-flow__swarm_monitor` - Real-time performance monitoring
 
 ### Advanced Features
+
 - `mcp__claude-flow__neural_patterns` - Pattern recognition and learning
 - `mcp__claude-flow__daa_consensus` - Distributed decision making
 - `mcp__claude-flow__topology_optimize` - Dynamic topology optimization
@@ -70,6 +78,7 @@ All swarm coordinators leverage the following MCP tools:
 ## Usage Examples
 
 ### Hierarchical Coordination
+
 ```bash
 # Initialize hierarchical swarm for development project
 claude-flow agent spawn hierarchical-coordinator "Build authentication microservice"
@@ -81,7 +90,8 @@ claude-flow agent spawn hierarchical-coordinator "Build authentication microserv
 # 4. Generate comprehensive reports
 ```
 
-### Mesh Coordination  
+### Mesh Coordination
+
 ```bash
 # Initialize mesh network for distributed processing
 claude-flow agent spawn mesh-coordinator "Process user analytics data"
@@ -94,6 +104,7 @@ claude-flow agent spawn mesh-coordinator "Process user analytics data"
 ```
 
 ### Adaptive Coordination
+
 ```bash
 # Initialize adaptive swarm for production optimization
 claude-flow agent spawn adaptive-coordinator "Optimize system performance"
@@ -108,14 +119,16 @@ claude-flow agent spawn adaptive-coordinator "Optimize system performance"
 ## Architecture Decision Framework
 
 ### When to Use Hierarchical
+
 - ✅ Well-defined project structure
-- ✅ Clear resource hierarchy 
+- ✅ Clear resource hierarchy
 - ✅ Need for centralized decision making
 - ✅ Large team coordination required
 - ❌ High fault tolerance critical
 - ❌ Network partitioning likely
 
 ### When to Use Mesh
+
 - ✅ High availability requirements
 - ✅ Distributed processing needs
 - ✅ Network reliability concerns
@@ -124,6 +137,7 @@ claude-flow agent spawn adaptive-coordinator "Optimize system performance"
 - ❌ Resource constraints exist
 
 ### When to Use Adaptive
+
 - ✅ Variable workload patterns
 - ✅ Long-running production systems
 - ✅ Performance optimization critical
@@ -136,6 +150,7 @@ claude-flow agent spawn adaptive-coordinator "Optimize system performance"
 Each coordinator provides comprehensive metrics:
 
 ### Key Performance Indicators
+
 - **Task Completion Rate**: Percentage of successful task completion
 - **Agent Utilization**: Efficiency of resource usage
 - **Coordination Overhead**: Communication and management costs
@@ -143,9 +158,11 @@ Each coordinator provides comprehensive metrics:
 - **Learning Convergence**: Adaptation effectiveness (adaptive only)
 
 ### Monitoring Dashboards
+
 Real-time visibility into:
+
 - Swarm topology and agent status
-- Task queues and execution pipelines  
+- Task queues and execution pipelines
 - Performance metrics and trends
 - Error rates and failure patterns
 - Resource utilization and capacity
@@ -153,18 +170,21 @@ Real-time visibility into:
 ## Best Practices
 
 ### Design Principles
+
 1. **Start Simple**: Begin with hierarchical for well-understood problems
 2. **Scale Gradually**: Add complexity as requirements grow
 3. **Monitor Continuously**: Track performance and adapt strategies
 4. **Plan for Failure**: Design fault tolerance from the beginning
 
 ### Operational Guidelines
+
 1. **Agent Sizing**: Right-size swarms for workload (5-15 agents typical)
 2. **Resource Planning**: Ensure adequate compute/memory for coordination overhead
 3. **Network Design**: Consider latency and bandwidth for distributed topologies
 4. **Security**: Implement proper authentication and authorization
 
 ### Troubleshooting
+
 - **Poor Performance**: Check agent capability matching and load distribution
 - **Coordination Failures**: Verify network connectivity and consensus thresholds
 - **Resource Exhaustion**: Monitor and scale agent pools proactively

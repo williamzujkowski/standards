@@ -38,61 +38,61 @@ graph TB
         IDE[IDEs/Tools]
         GIT[Git Repository]
     end
-    
+
     subgraph "CI/CD Pipeline"
         BUILD[Build & Test]
         SCAN[Security Scan]
         REGISTRY[Container Registry]
     end
-    
+
     subgraph "Kubernetes Cluster"
         INGRESS[Ingress Controller]
         PODS[Application Pods]
         SERVICES[Services]
         STORAGE[Persistent Storage]
     end
-    
+
     subgraph "Service Mesh"
         ISTIO[Istio Control Plane]
         ENVOY[Envoy Proxies]
         MTLS[mTLS Communication]
     end
-    
+
     subgraph "Observability"
         METRICS[Prometheus]
         LOGS[Fluentd/Loki]
         TRACES[Jaeger]
         DASH[Grafana]
     end
-    
+
     subgraph "Infrastructure"
         NODES[Kubernetes Nodes]
         NETWORK[Pod Network]
         VOLUMES[Storage Volumes]
     end
-    
+
     DEV --> IDE
     IDE --> GIT
     GIT --> BUILD
     BUILD --> SCAN
     SCAN --> REGISTRY
-    
+
     REGISTRY --> PODS
     INGRESS --> SERVICES
     SERVICES --> PODS
     PODS --> STORAGE
-    
+
     ISTIO --> ENVOY
     ENVOY -.-> PODS
     ENVOY -.-> MTLS
-    
+
     PODS --> METRICS
     PODS --> LOGS
     PODS --> TRACES
     METRICS --> DASH
     LOGS --> DASH
     TRACES --> DASH
-    
+
     PODS --> NODES
     SERVICES --> NETWORK
     STORAGE --> VOLUMES
@@ -107,7 +107,7 @@ sequenceDiagram
     participant K as Kubernetes
     participant P as Pod
     participant M as Monitoring
-    
+
     D->>R: Push Container Image
     R->>R: Security Scan
     R->>K: Image Available
@@ -116,11 +116,11 @@ sequenceDiagram
     P->>M: Send Metrics
     K->>P: Health Check
     P-->>K: Health Status
-    
+
     Note over P,M: Runtime Phase
     P->>M: Logs & Traces
     M->>M: Alert on Issues
-    
+
     Note over K,P: Scaling Event
     K->>P: Scale Up/Down
     P->>P: Graceful Shutdown
@@ -135,20 +135,20 @@ graph LR
         A1[Version 1] --> A2[Version 1 + 2]
         A2 --> A3[Version 2]
     end
-    
+
     subgraph "Blue-Green"
         B1[Blue Environment]
         B2[Green Environment]
         B1 -.-> B2
     end
-    
+
     subgraph "Canary"
         C1[Version 1: 90%]
         C2[Version 2: 10%]
         C1 -.-> C3[Version 2: 100%]
         C2 -.-> C3
     end
-    
+
     subgraph "A/B Testing"
         D1[Feature A: 50%]
         D2[Feature B: 50%]
@@ -164,6 +164,7 @@ graph LR
 #### Image Building **[REQUIRED]**
 
 ##### Multi-Stage Builds
+
 ```dockerfile
 # Build stage
 FROM node:18-alpine AS builder
@@ -182,6 +183,7 @@ CMD ["node", "server.js"]
 ```
 
 ##### Image Optimization Rules
+
 1. **Base Image Selection**
    - Use official images
    - Prefer Alpine or distroless
@@ -203,6 +205,7 @@ CMD ["node", "server.js"]
 #### Container Configuration **[REQUIRED]**
 
 ##### Resource Limits
+
 ```yaml
 resources:
   requests:
@@ -214,6 +217,7 @@ resources:
 ```
 
 ##### Health Checks
+
 ```dockerfile
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
   CMD curl -f http://localhost:3000/health || exit 1
@@ -222,7 +226,9 @@ HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
 ### 1.2 Container Registry Standards
 
 #### Registry Management **[REQUIRED]**
+
 1. **Image Naming**
+
    ```
    registry.example.com/namespace/app-name:version
    ```
@@ -239,6 +245,7 @@ HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
    - Delete untagged after 7 days
 
 #### Security Scanning **[REQUIRED]**
+
 - Scan on push
 - Block critical vulnerabilities
 - Daily scans of production images
@@ -251,6 +258,7 @@ HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
 ### 2.1 Resource Management
 
 #### Namespace Strategy **[REQUIRED]**
+
 ```yaml
 apiVersion: v1
 kind: Namespace
@@ -264,11 +272,13 @@ metadata:
 ```
 
 ##### Namespace Patterns
+
 - Environment-based: `app-dev`, `app-staging`, `app-prod`
 - Team-based: `team-frontend`, `team-backend`
 - Feature-based: `feature-x-preview`
 
 #### Resource Quotas **[REQUIRED]**
+
 ```yaml
 apiVersion: v1
 kind: ResourceQuota
@@ -286,6 +296,7 @@ spec:
 ### 2.2 Workload Standards
 
 #### Deployment Configuration **[REQUIRED]**
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -343,6 +354,7 @@ spec:
 ```
 
 #### Pod Standards **[REQUIRED]**
+
 1. **Labels**
    - `app`: Application name
    - `version`: Application version
@@ -364,6 +376,7 @@ spec:
 ### 2.3 Service Standards
 
 #### Service Types **[REQUIRED]**
+
 ```yaml
 apiVersion: v1
 kind: Service
@@ -380,6 +393,7 @@ spec:
 ```
 
 #### Ingress Configuration **[REQUIRED]**
+
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -409,6 +423,7 @@ spec:
 ### 2.4 Configuration Management
 
 #### ConfigMaps and Secrets **[REQUIRED]**
+
 ```yaml
 # ConfigMap for non-sensitive data
 apiVersion: v1
@@ -432,6 +447,7 @@ stringData:
 ```
 
 ##### Best Practices
+
 1. **Separation of Concerns**
    - ConfigMaps for configuration
    - Secrets for sensitive data
@@ -446,6 +462,7 @@ stringData:
 ### 2.5 RBAC Standards
 
 #### Service Account Configuration **[REQUIRED]**
+
 ```yaml
 apiVersion: v1
 kind: ServiceAccount
@@ -482,6 +499,7 @@ subjects:
 ### 3.1 Terraform Standards
 
 #### Project Structure **[REQUIRED]**
+
 ```
 terraform/
 ├── environments/
@@ -501,6 +519,7 @@ terraform/
 ```
 
 #### Coding Standards **[REQUIRED]**
+
 ```hcl
 # Resource naming convention
 resource "aws_instance" "web_server" {
@@ -539,6 +558,7 @@ variable "instance_type" {
 ```
 
 #### State Management **[REQUIRED]**
+
 ```hcl
 terraform {
   backend "s3" {
@@ -554,6 +574,7 @@ terraform {
 ### 3.2 GitOps Standards
 
 #### Repository Structure **[REQUIRED]**
+
 ```
 gitops-repo/
 ├── apps/
@@ -576,6 +597,7 @@ gitops-repo/
 ```
 
 #### ArgoCD Application **[REQUIRED]**
+
 ```yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -602,6 +624,7 @@ spec:
 ### 3.3 CI/CD Pipeline Standards
 
 #### Pipeline Stages **[REQUIRED]**
+
 ```yaml
 # .gitlab-ci.yml or similar
 stages:
@@ -640,6 +663,7 @@ security-scan:
 ### 4.1 Function Standards
 
 #### Function Design **[REQUIRED]**
+
 ```javascript
 // AWS Lambda example
 exports.handler = async (event, context) => {
@@ -682,6 +706,7 @@ exports.handler = async (event, context) => {
 ```
 
 #### Configuration Standards **[REQUIRED]**
+
 ```yaml
 # serverless.yml
 service: myapp
@@ -719,6 +744,7 @@ functions:
 ### 4.2 Event-Driven Patterns
 
 #### Event Bridge Standards **[REQUIRED]**
+
 ```json
 {
   "version": "0",
@@ -745,6 +771,7 @@ functions:
 ```
 
 #### Message Queue Standards **[REQUIRED]**
+
 ```javascript
 // SQS Message Handler
 const processMessage = async (message) => {
@@ -786,6 +813,7 @@ const processMessage = async (message) => {
 ### 5.1 Istio Standards
 
 #### Service Mesh Configuration **[REQUIRED]**
+
 ```yaml
 # VirtualService
 apiVersion: networking.istio.io/v1beta1
@@ -841,6 +869,7 @@ spec:
 ```
 
 #### Traffic Management **[REQUIRED]**
+
 ```yaml
 # Circuit Breaker
 apiVersion: networking.istio.io/v1beta1
@@ -861,6 +890,7 @@ spec:
 ### 5.2 Security Policies
 
 #### mTLS Configuration **[REQUIRED]**
+
 ```yaml
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
@@ -897,6 +927,7 @@ spec:
 ### 6.1 AWS Standards
 
 #### Resource Tagging **[REQUIRED]**
+
 ```json
 {
   "Tags": [
@@ -912,6 +943,7 @@ spec:
 ```
 
 #### IAM Best Practices **[REQUIRED]**
+
 ```json
 {
   "Version": "2012-10-17",
@@ -928,6 +960,7 @@ spec:
 ```
 
 ##### Least Privilege Policy
+
 ```json
 {
   "Version": "2012-10-17",
@@ -951,6 +984,7 @@ spec:
 ### 6.2 Azure Standards
 
 #### Resource Groups **[REQUIRED]**
+
 ```bash
 # Naming convention
 rg-<app>-<environment>-<region>-<instance>
@@ -960,6 +994,7 @@ rg-myapp-prod-eastus-001
 ```
 
 #### Azure Policy **[REQUIRED]**
+
 ```json
 {
   "properties": {
@@ -991,6 +1026,7 @@ rg-myapp-prod-eastus-001
 ### 6.3 GCP Standards
 
 #### Project Structure **[REQUIRED]**
+
 ```
 Organization
 ├── Folders
@@ -1006,6 +1042,7 @@ Organization
 ```
 
 #### IAM Bindings **[REQUIRED]**
+
 ```yaml
 # Terraform example
 resource "google_project_iam_binding" "app_developers" {
@@ -1031,6 +1068,7 @@ resource "google_project_iam_binding" "app_developers" {
 ### 7.1 Container Security
 
 #### Image Scanning **[REQUIRED]**
+
 ```yaml
 # GitHub Actions example
 - name: Run Trivy vulnerability scanner
@@ -1043,6 +1081,7 @@ resource "google_project_iam_binding" "app_developers" {
 ```
 
 #### Runtime Security **[REQUIRED]**
+
 ```yaml
 # Falco rules
 - rule: Unauthorized Process
@@ -1060,6 +1099,7 @@ resource "google_project_iam_binding" "app_developers" {
 ### 7.2 Network Policies
 
 #### Default Deny **[REQUIRED]**
+
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -1073,6 +1113,7 @@ spec:
 ```
 
 #### Application Policies **[REQUIRED]**
+
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -1112,6 +1153,7 @@ spec:
 ### 7.3 Secrets Management
 
 #### External Secrets **[REQUIRED]**
+
 ```yaml
 apiVersion: external-secrets.io/v1beta1
 kind: SecretStore
@@ -1155,6 +1197,7 @@ spec:
 ### 8.1 Metrics Standards
 
 #### Prometheus Metrics **[REQUIRED]**
+
 ```yaml
 # ServiceMonitor
 apiVersion: monitoring.coreos.com/v1
@@ -1172,6 +1215,7 @@ spec:
 ```
 
 #### Custom Metrics **[REQUIRED]**
+
 ```go
 // Metric naming convention
 var (
@@ -1201,6 +1245,7 @@ var (
 ### 8.2 Logging Standards
 
 #### Structured Logging **[REQUIRED]**
+
 ```json
 {
   "timestamp": "2023-10-12T15:30:00Z",
@@ -1219,6 +1264,7 @@ var (
 ```
 
 #### Log Aggregation **[REQUIRED]**
+
 ```yaml
 # Fluentd configuration
 <source>
@@ -1256,6 +1302,7 @@ var (
 ### 8.3 Tracing Standards
 
 #### OpenTelemetry **[REQUIRED]**
+
 ```javascript
 const { NodeTracerProvider } = require('@opentelemetry/node');
 const { Resource } = require('@opentelemetry/resources');
@@ -1290,6 +1337,7 @@ httpInstrumentation.enable();
 ## Implementation Checklist
 
 ### Container Adoption
+
 - [ ] Dockerfiles use multi-stage builds
 - [ ] Images scanned for vulnerabilities
 - [ ] Resource limits defined
@@ -1297,6 +1345,7 @@ httpInstrumentation.enable();
 - [ ] Non-root user configured
 
 ### Kubernetes Adoption
+
 - [ ] Namespace strategy defined
 - [ ] RBAC policies implemented
 - [ ] Resource quotas set
@@ -1304,6 +1353,7 @@ httpInstrumentation.enable();
 - [ ] Secrets externalized
 
 ### Infrastructure as Code
+
 - [ ] Terraform modules created
 - [ ] State management configured
 - [ ] GitOps repository setup
@@ -1311,6 +1361,7 @@ httpInstrumentation.enable();
 - [ ] Environment promotion defined
 
 ### Serverless Implementation
+
 - [ ] Function sizing optimized
 - [ ] Cold start mitigation
 - [ ] Event schemas defined
@@ -1318,6 +1369,7 @@ httpInstrumentation.enable();
 - [ ] Monitoring configured
 
 ### Security Implementation
+
 - [ ] Image signing enabled
 - [ ] Runtime security active
 - [ ] Network policies enforced
@@ -1325,6 +1377,7 @@ httpInstrumentation.enable();
 - [ ] Compliance scanning enabled
 
 ### Observability Setup
+
 - [ ] Metrics collection configured
 - [ ] Distributed tracing enabled
 - [ ] Log aggregation working
