@@ -1,0 +1,91 @@
+# Gitleaks Configuration File
+# For detecting secrets in the codebase
+
+title = "Standards Repository Secret Detection"
+
+# Allow list for false positives
+[allowlist]
+description = "Allowlist for standards repository"
+paths = [
+    '''node_modules''',
+    '''\.git''',
+    '''dist''',
+    '''build''',
+    '''venv''',
+    '''\.vscode''',
+]
+
+# Specific patterns to ignore
+regexes = [
+    '''example\.com''',
+    '''localhost''',
+    '''127\.0\.0\.1''',
+    '''your_.*_here''',
+    '''<your-.*>''',
+    '''EXAMPLE_.*''',
+]
+
+# Additional rules for common patterns
+[[rules]]
+id = "aws-access-key"
+description = "AWS Access Key"
+regex = '''(A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}'''
+tags = ["aws", "credentials"]
+
+[[rules]]
+id = "aws-secret-key"
+description = "AWS Secret Key"
+regex = '''(?i)aws(.{0,20})?(?-i)['\"]?[0-9a-zA-Z\/+]{40}['\"]?'''
+tags = ["aws", "credentials"]
+
+[[rules]]
+id = "github-token"
+description = "GitHub Token"
+regex = '''ghp_[0-9a-zA-Z]{36}'''
+tags = ["github", "token"]
+
+[[rules]]
+id = "github-oauth"
+description = "GitHub OAuth"
+regex = '''gho_[0-9a-zA-Z]{36}'''
+tags = ["github", "oauth"]
+
+[[rules]]
+id = "private-key"
+description = "Private Key"
+regex = '''-----BEGIN (RSA|DSA|EC|PGP) PRIVATE KEY-----'''
+tags = ["key", "private"]
+
+[[rules]]
+id = "generic-api-key"
+description = "Generic API Key"
+regex = '''(?i)(api_key|apikey|api-key)(.{0,20})?['\"]?[0-9a-zA-Z]{32,45}['\"]?'''
+tags = ["api", "generic"]
+
+[[rules]]
+id = "generic-secret"
+description = "Generic Secret"
+regex = '''(?i)(secret|password|passwd|pwd)(.{0,20})?['\"]?[0-9a-zA-Z]{16,}['\"]?'''
+tags = ["secret", "generic"]
+
+# Entropy checks for high-entropy strings
+[[rules]]
+id = "high-entropy-string"
+description = "High Entropy String"
+regex = '''[0-9a-zA-Z\-_]{40,}'''
+entropy = 4.5
+tags = ["entropy"]
+
+# Database connection strings
+[[rules]]
+id = "database-connection-string"
+description = "Database Connection String"
+regex = '''(?i)(mongodb|postgres|postgresql|mysql|mssql|oracle|jdbc):\/\/[^:]+:[^@]+@[^\/]+'''
+tags = ["database", "connection"]
+
+# NPM tokens
+[[rules]]
+id = "npm-token"
+description = "NPM Token"
+regex = '''//registry.npmjs.org/:_authToken=[0-9a-f-]+'''
+tags = ["npm", "token"]

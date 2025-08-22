@@ -342,7 +342,6 @@ dist
 # ===========================
 .secrets.baseline
 .gitleaks-report.json
-.gitleaks.toml
 *.pem
 *.key
 *.cert
