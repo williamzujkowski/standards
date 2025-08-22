@@ -5,7 +5,7 @@ Brief description of changes made.
 ## Standards Affected
 
 - [ ] NIST standards
-- [ ] OWASP standards  
+- [ ] OWASP standards
 - [ ] Supply chain standards
 - [ ] CISA guidance
 - [ ] Other (specify):

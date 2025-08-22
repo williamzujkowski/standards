@@ -376,3 +376,7 @@ monitoring/reports/*.txt
 # Generated documentation (if applicable)
 # Uncomment if these are generated
 # QUICK_REFERENCE.json
+# Large OSCAL catalog files
+catalogs/nist-800-53r5-catalog.json
+standards/compliance/oscal/catalogs/nist-800-53r5-catalog.json
+standards/compliance/dist/oscal/catalogs/

@@ -65,5 +65,5 @@ This document serves as a placeholder and reminder. When OWASP Top 10:2025 is re
 
 ---
 
-*Last checked: 2025-08-22*  
+*Last checked: 2025-08-22*
 *Next review: 2025-11-22*

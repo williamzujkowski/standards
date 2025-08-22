@@ -241,7 +241,7 @@ db.execute(query, [userId]);
 Link to other standards:
 
 ```markdown
-See [NIST SP 800-53 Rev. 5](../nist/sp800-53r5.md) for detailed controls.
+See [NIST SP 800-53 Rev. 5](standards/nist/sp800-53r5.md) for detailed controls.
 ```
 
 ## Questions?

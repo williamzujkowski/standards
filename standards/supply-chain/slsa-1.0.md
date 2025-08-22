@@ -177,7 +177,7 @@ policy:
     requirements:
       slsa_level: 2
 
-# SLSA Level 3 for critical components  
+# SLSA Level 3 for critical components
   - pattern: "critical/*"
     requirements:
       slsa_level: 3

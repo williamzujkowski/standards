@@ -46,7 +46,7 @@ SLSA v1.1 is the current approved specification for Supply chain Levels for Soft
 - Focus on build integrity and provenance generation
 - Progressive hardening of build environments
 
-### Source Track Requirements  
+### Source Track Requirements
 
 - Version control requirements
 - Code review and approval processes
