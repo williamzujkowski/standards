@@ -1,0 +1,12 @@
+{
+  "_metadata": {
+    "initialized": "2025-08-22",
+    "note": "Initial placeholder - will be updated on first scheduled run",
+    "source": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+  },
+  "catalogVersion": "2025.08.22",
+  "count": 0,
+  "dateReleased": "2025-08-22T00:00:00.000Z",
+  "title": "CISA Catalog of Known Exploited Vulnerabilities",
+  "vulnerabilities": []
+}

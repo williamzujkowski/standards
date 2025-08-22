@@ -1,0 +1,71 @@
+name: New Standard Request
+description: Propose adding a new standard to the repository
+title: "[STANDARD]: "
+labels: ["enhancement", "standard"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template to propose adding a new security or compliance standard to the repository.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Brief description of the standard and why it should be included
+      placeholder: "Example: NIST SP 800-63 provides guidelines for digital identity..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: Which category does this standard belong to?
+      options:
+        - NIST
+        - OWASP
+        - Supply Chain
+        - CISA
+        - Other (specify in summary)
+    validations:
+      required: true
+
+  - type: input
+    id: source_url
+    attributes:
+      label: Authoritative Source URL
+      description: Primary/official URL for the standard (not blogs or secondary sources)
+      placeholder: "https://csrc.nist.gov/pubs/..."
+    validations:
+      required: true
+
+  - type: input
+    id: proposed_location
+    attributes:
+      label: Proposed Location
+      description: Where should this standard be placed in the repository?
+      placeholder: "/standards/nist/sp800-63.md"
+    validations:
+      required: true
+
+  - type: textarea
+    id: key_requirements
+    attributes:
+      label: Key Requirements/Controls
+      description: List 3-5 key requirements or controls from this standard
+      placeholder: |
+        - Requirement 1
+        - Requirement 2
+        - Requirement 3
+
+  - type: checkboxes
+    id: verification
+    attributes:
+      label: Source Verification
+      description: Confirm the source is authoritative
+      options:
+        - label: I confirm this is a primary source or I have marked claims as UNKNOWN
+          required: true
+        - label: I have verified the URL is accessible and current
+          required: true

@@ -1,0 +1,132 @@
+{
+  "standards": [
+    {
+      "category": "nist",
+      "doc_version": "Rev. 5",
+      "id": "nist-sp-800-53r5",
+      "path": "/standards/nist/sp800-53r5.md",
+      "retrieved": "2025-08-22",
+      "source_url": "https://doi.org/10.6028/NIST.SP.800-53r5",
+      "title": "NIST SP 800-53 Rev. 5 - Security and Privacy Controls"
+    },
+    {
+      "category": "nist",
+      "doc_version": "Update 1",
+      "id": "nist-sp-800-53b",
+      "path": null,
+      "retrieved": "2025-08-22",
+      "source_url": "https://csrc.nist.gov/pubs/sp/800/53/b/upd1/final",
+      "title": "NIST SP 800-53B - Control Baselines"
+    },
+    {
+      "category": "nist",
+      "doc_version": "Rev. 3",
+      "id": "nist-sp-800-171r3",
+      "path": "/standards/nist/sp800-171r3.md",
+      "retrieved": "2025-08-22",
+      "source_url": "https://csrc.nist.gov/pubs/sp/800/171/r3/final",
+      "title": "NIST SP 800-171 Rev. 3 - Protecting CUI"
+    },
+    {
+      "category": "nist",
+      "doc_version": "v1.1",
+      "id": "nist-sp-800-218",
+      "path": "/standards/nist/sp800-218-ssdf.md",
+      "retrieved": "2025-08-22",
+      "source_url": "https://csrc.nist.gov/pubs/sp/800/218/final",
+      "title": "NIST SP 800-218 - SSDF v1.1"
+    },
+    {
+      "category": "nist",
+      "doc_version": "1.0",
+      "id": "nist-ai-rmf-10",
+      "path": "/standards/nist/ai-rmf-1.0.md",
+      "retrieved": "2025-08-22",
+      "source_url": "https://nvlpubs.nist.gov/nistpubs/ai/nist.ai.100-1.pdf",
+      "title": "NIST AI RMF 1.0"
+    },
+    {
+      "category": "nist",
+      "doc_version": "1.0",
+      "id": "nist-ai-rmf-genai",
+      "path": "/standards/nist/ai-rmf-genai-profile.md",
+      "retrieved": "2025-08-22",
+      "source_url": "https://doi.org/10.6028/NIST.AI.600-1",
+      "title": "NIST AI RMF Generative AI Profile"
+    },
+    {
+      "category": "owasp",
+      "doc_version": "2021",
+      "id": "owasp-top10-2021",
+      "path": "/standards/owasp/top10-2021.md",
+      "retrieved": "2025-08-22",
+      "source_url": "https://owasp.org/Top10/",
+      "title": "OWASP Top 10 2021"
+    },
+    {
+      "category": "owasp",
+      "doc_version": "2023",
+      "id": "owasp-api-top10-2023",
+      "path": "/standards/owasp/api-top10-2023.md",
+      "retrieved": "2025-08-22",
+      "source_url": "https://owasp.org/API-Security/editions/2023/en/0x00-header/",
+      "title": "OWASP API Security Top 10 2023"
+    },
+    {
+      "category": "supply-chain",
+      "doc_version": "1.0",
+      "id": "slsa-10",
+      "path": "/standards/supply-chain/slsa-1.0.md",
+      "retrieved": "2025-08-22",
+      "source_url": "https://slsa.dev/spec/v1.0/",
+      "title": "SLSA v1.0 (Retired)"
+    },
+    {
+      "category": "supply-chain",
+      "doc_version": "1.1",
+      "id": "slsa-11",
+      "path": "/standards/supply-chain/slsa-1.1.md",
+      "retrieved": "2025-08-22",
+      "source_url": "https://slsa.dev/spec/v1.1/",
+      "title": "SLSA v1.1 (Current)"
+    },
+    {
+      "category": "supply-chain",
+      "doc_version": "1st edition",
+      "id": "cyclonedx-ecma-424",
+      "path": "/standards/supply-chain/cyclonedx-sbom.md",
+      "retrieved": "2025-08-22",
+      "source_url": "https://ecma-international.org/publications-and-standards/standards/ecma-424/",
+      "title": "CycloneDX SBOM - ECMA-424"
+    },
+    {
+      "category": "supply-chain",
+      "doc_version": "1.0",
+      "id": "in-toto",
+      "path": "/standards/supply-chain/in-toto.md",
+      "retrieved": "2025-08-22",
+      "source_url": "https://in-toto.io/docs/specs/",
+      "title": "in-toto Supply Chain Security Framework"
+    },
+    {
+      "category": "cisa",
+      "doc_version": null,
+      "id": "cisa-secure-by-design",
+      "path": "/standards/cisa/secure-by-design.md",
+      "retrieved": "2025-08-22",
+      "source_url": "https://www.cisa.gov/resources-tools/resources/secure-by-design",
+      "title": "CISA Secure by Design Principles"
+    },
+    {
+      "category": "cisa",
+      "doc_version": null,
+      "id": "cisa-kev",
+      "path": "/standards/cisa/kev-process.md",
+      "retrieved": "2025-08-22",
+      "source_url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+      "title": "CISA Known Exploited Vulnerabilities Catalog"
+    }
+  ],
+  "updated": "2025-08-22",
+  "version": "1.0.0"
+}

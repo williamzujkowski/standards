@@ -1,0 +1,35 @@
+# CODEOWNERS file for standards repository
+# Syntax documentation: https://docs.github.com/articles/about-code-owners
+#
+# These owners will be the default owners for everything in the repo.
+# Unless a later match takes precedence, @williamzujkowski will be
+# requested for review when someone opens a pull request.
+
+# Global owners
+* @williamzujkowski
+
+# Standards documentation
+/standards/** @williamzujkowski
+
+# Documentation
+/docs/** @williamzujkowski
+
+# Scripts and automation
+/scripts/** @williamzujkowski
+
+# CI/CD workflows
+/.github/workflows/** @williamzujkowski
+
+# GitHub configuration
+/.github/** @williamzujkowski
+
+# Configuration files
+*.yml @williamzujkowski
+*.yaml @williamzujkowski
+*.json @williamzujkowski
+
+# Core documentation
+README.md @williamzujkowski
+CONTRIBUTING.md @williamzujkowski
+SECURITY.md @williamzujkowski
+CLAIMS.md @williamzujkowski

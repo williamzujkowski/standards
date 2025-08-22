@@ -74,6 +74,7 @@ standards/
 ## Changes Made
 
 ### 1. **Created New Directory Structure**
+
 - `docs/core/` - Core documentation files
 - `docs/standards/` - All standards documents
 - `docs/nist/` - NIST-specific documents
@@ -81,17 +82,20 @@ standards/
 - `config/` - Configuration files
 
 ### 2. **Moved Files**
+
 - **42 markdown files** moved from root to appropriate subdirectories
 - **4 configuration files** moved to `config/`
 - **4 scripts** consolidated into `scripts/`
 
 ### 3. **Updated References**
+
 - **500+ file references** updated across all documents
 - All cross-references now use relative paths
 - Internal references within same directory simplified
 - README.md updated with new paths
 
 ### 4. **Validation Results**
+
 - ✅ All 10 validation tests passing
 - ✅ No broken links
 - ✅ All cross-references valid
@@ -121,11 +125,13 @@ standards/
 ## Migration Notes
 
 For users with existing clones:
+
 1. Pull the latest changes
 2. Update any scripts that reference old paths
 3. The reorganization maintains all functionality
 
 For CI/CD:
+
 - GitHub Actions workflows continue to work
 - Test paths have been updated
 - No action required
@@ -133,6 +139,7 @@ For CI/CD:
 ## Backward Compatibility
 
 While the files have moved, all functionality remains:
+
 - Loading patterns in CLAUDE.md work unchanged
 - API endpoints updated automatically
 - Test suite adapted to new structure

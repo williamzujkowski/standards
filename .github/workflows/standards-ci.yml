@@ -1,0 +1,111 @@
+name: Standards CI
+
+on:
+  pull_request:
+  push:
+    branches: [main, review_and_overhaul]
+  schedule:
+    - cron: "17 6 * * *"  # Daily link check at 6:17 AM UTC
+
+permissions:
+  contents: read
+  security-events: write
+  id-token: write
+
+jobs:
+  markdownlint:
+    name: Markdown Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run markdownlint
+        uses: DavidAnson/markdownlint-cli2-action@v18
+        with:
+          globs: "**/*.md"
+          config: ".markdownlint.yaml"
+        continue-on-error: true  # Allow to continue for now
+
+  link-check:
+    name: Link Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@v2.1.0
+        with:
+          args: --verbose --no-progress --accept 403,429,503 --exclude-mail "**/*.md"
+          fail: false  # Don't fail on broken links for now
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+  scorecard:
+    name: OpenSSF Scorecard
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Run analysis
+        uses: ossf/scorecard-action@v2.4.0
+        with:
+          results_file: results.sarif
+          results_format: sarif
+          publish_results: true
+        continue-on-error: true
+
+      - name: Upload SARIF
+        uses: github/codeql-action/upload-sarif@v3
+        if: success() || failure()
+        with:
+          sarif_file: results.sarif
+        continue-on-error: true
+
+  claims-anchors:
+    name: Verify Claim Anchors
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check claim anchors
+        run: |
+          chmod +x scripts/check-claim-anchors.sh
+          ./scripts/check-claim-anchors.sh
+
+  registry-validate:
+    name: Validate Standards Registry
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Validate registry
+        run: |
+          node scripts/validate-registry.js
+
+  # Future: CodeQL analysis for code repositories
+  # codeql:
+  #   name: CodeQL Analysis
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     security-events: write
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: github/codeql-action/init@v3
+  #     - uses: github/codeql-action/analyze@v3

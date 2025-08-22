@@ -2,10 +2,11 @@
 
 **Battle-tested standards for modern software development with AI-powered kickstart and NIST 800-53r5 compliance**
 
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/williamzujkowski/standards/badge)](https://scorecard.dev/viewer/?uri=github.com/williamzujkowski/standards)
+[![Standards CI](https://github.com/williamzujkowski/standards/actions/workflows/standards-ci.yml/badge.svg)](https://github.com/williamzujkowski/standards/actions/workflows/standards-ci.yml)
 [![Version](https://img.shields.io/badge/version-latest-blue.svg)](https://github.com/williamzujkowski/standards)
 [![Standards](https://img.shields.io/badge/standards-24%20documents-green.svg)](https://github.com/williamzujkowski/standards)
 [![License](https://img.shields.io/badge/license-MIT-purple.svg)](LICENSE)
-[![Compliance](https://github.com/williamzujkowski/standards/actions/workflows/standards-compliance.yml/badge.svg)](https://github.com/williamzujkowski/standards/actions/workflows/standards-compliance.yml)
 [![NIST](https://img.shields.io/badge/NIST%20800--53r5-Compliant-brightgreen.svg)](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md)
 
 ---
