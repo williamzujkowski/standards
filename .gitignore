@@ -340,7 +340,6 @@ dist
 # ===========================
 # Security Files
 # ===========================
-.secrets.baseline
 .gitleaks-report.json
 .gitleaks.toml
 *.pem
