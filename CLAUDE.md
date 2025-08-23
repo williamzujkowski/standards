@@ -5,7 +5,7 @@
 ### Quick Load by Product Type
 ```
 @load product:api              # REST/GraphQL API service
-@load product:web-service       # Full-stack web application  
+@load product:web-service       # Full-stack web application
 @load product:frontend-web      # React/Vue/Angular SPA
 @load product:mobile           # iOS/Android application
 @load product:data-pipeline    # ETL/ELT data workflow

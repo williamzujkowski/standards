@@ -1,6 +1,6 @@
 # Using the Product Matrix for Standards Auto-Loading
 
-**Version:** 1.0.0  
+**Version:** 1.0.0
 **Last Updated:** 2025-08-23
 
 ## Overview
@@ -14,7 +14,7 @@ The Product Matrix (`config/product-matrix.yaml`) provides intelligent mapping f
 ```yaml
 Available Product Types:
 - web-service       # Full-stack web application
-- api              # REST/GraphQL API service  
+- api              # REST/GraphQL API service
 - cli              # Command-line tool
 - frontend-web     # SPA/MPA web application
 - mobile           # iOS/Android app
@@ -254,7 +254,7 @@ Mix and match for unique requirements:
 
 This loads web-service base standards but overrides:
 - Frontend framework to Vue
-- Database to MongoDB  
+- Database to MongoDB
 - Deployment to Kubernetes
 
 ## Validation

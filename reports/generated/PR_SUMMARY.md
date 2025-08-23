@@ -1,7 +1,7 @@
 # Pull Request: Standards Router + Kickstart Alignment, Product Matrix, and NIST Path Tightening
 
-**Date:** 2025-08-23  
-**Branch:** 2025-08-22  
+**Date:** 2025-08-23
+**Branch:** 2025-08-22
 **Target:** master
 
 ## 📋 Summary

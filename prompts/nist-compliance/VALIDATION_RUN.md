@@ -1,6 +1,6 @@
 # NIST Compliance Validation Run
 
-**Version:** 1.0.0  
+**Version:** 1.0.0
 **Last Updated:** 2025-08-23
 
 ## Overview
