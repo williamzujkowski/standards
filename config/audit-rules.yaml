@@ -33,6 +33,15 @@ orphans:
     - ".hive-mind/**"        # Hive Mind sessions
     - ".swarm/**"            # Swarm coordination
     - ".nist/**"             # NIST tooling
+    - ".ruff_cache/**"       # Ruff linter cache
+    - ".pytest_cache/**"     # Pytest cache
+    - ".benchmarks/**"       # Benchmark data
+    - "**/.swarm/**"         # Swarm coordination (all levels)
+    - "**/.claude-flow/**"   # Claude Flow runtime (all levels)
+    - "**/.pytest_cache/**"  # Pytest cache (all levels)
+    - "**/__pycache__/**"    # Python cache (all levels)
+    - "**/.benchmarks/**"    # Benchmark data (all levels)
+    - "**/.ruff_cache/**"    # Ruff cache (all levels)
     - "project_plan.md"      # Planning document (intentional)
     - "standards/compliance/IMPLEMENTATION_SUMMARY.md" # Generated report
 

@@ -6,6 +6,7 @@ Generated: 2025-08-23
 
 Total issues found: 27
 
+
 ## Orphaned Files (0)
 
 Files not linked from any other document:
@@ -22,49 +23,49 @@ Standards documents not referencing UNIFIED_STANDARDS.md:
 
 ✅ All filenames follow conventions
 
-## Directories Missing README (27)
+## Directories Missing README (18)
 
-- .benchmarks/
-- .ruff_cache/
-- .pytest_cache/v/
 - scripts/.benchmarks/
 - scripts/tests/
 - scripts/__pycache__/
 - tests/.swarm/
 - tests/.claude-flow/
-- .ruff_cache/0.2.1/
-- .ruff_cache/0.11.13/
-- .pytest_cache/v/cache/
 - examples/nist-templates/quickstart/.swarm/
 - examples/nist-templates/quickstart/.benchmarks/
 - examples/nist-templates/quickstart/.claude-flow/
 - examples/nist-templates/quickstart/scripts/
 - examples/nist-templates/quickstart/__pycache__/
-- examples/nist-templates/quickstart/.pytest_cache/v/
-- examples/nist-templates/quickstart/.claude-flow/metrics/
 - examples/nist-templates/quickstart/scripts/tests/
 - examples/nist-templates/quickstart/.pytest_cache/v/cache/
-- scripts/.pytest_cache/v/
 - scripts/tests/__pycache__/
 - scripts/.pytest_cache/v/cache/
+- docs/nist/.swarm/
+- docs/nist/.claude-flow/
 - docs/standards/.swarm/
 - docs/standards/.claude-flow/
-- docs/standards/.claude-flow/metrics/
-- tests/.claude-flow/metrics/
 
 ## Structure Violations (0)
 
 ✅ Repository structure follows standards
 
-## Hub Violations (0)
+## Hub Violations (9)
 
-✅ All hub-link requirements satisfied
+Files that must be linked from required hub(s) but are not:
+- docs/guides/ADOPTION_CHECKLIST.md
+- docs/guides/CREATING_STANDARDS_GUIDE.md
+- docs/guides/KICKSTART_ADVANCED.md
+- docs/guides/KICKSTART_PROMPT.md
+- docs/guides/LLM_TRAINING.md
+- docs/guides/STANDARDS_GRAPH.md
+- docs/guides/STANDARD_TEMPLATE.md
+- docs/guides/USING_PRODUCT_MATRIX.md
+- docs/guides/VALIDATION_PATTERNS.md
 
 ## Recommendations
 
-1. __Fix broken links__: Update or remove broken internal links
-2. __Link orphaned files__: Add references or extend exclusions in config/audit-rules.yaml
-3. __Add cross-references__: Link standards to UNIFIED_STANDARDS.md
-4. __Standardize names__: Rename files to follow conventions
-5. __Add READMEs__: Create README.md for directories lacking them
-6. __Satisfy hub rules__: Ensure required hub(s) link to required files
+1. **Fix broken links**: Update or remove broken internal links
+2. **Link orphaned files**: Add references or extend exclusions in config/audit-rules.yaml
+3. **Add cross-references**: Link standards to UNIFIED_STANDARDS.md
+4. **Standardize names**: Rename files to follow conventions
+5. **Add READMEs**: Create README.md for directories lacking them
+6. **Satisfy hub rules**: Ensure required hub(s) link to required files
