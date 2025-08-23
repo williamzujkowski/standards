@@ -52,7 +52,7 @@ jobs:
         id: validate
         run: |
           echo "NIST validation check - simplified version"
-          
+
           # Get changed files
           if [ "${{ github.event_name }}" == "pull_request" ]; then
             changed_files=$(git diff --name-only origin/${{ github.base_ref }}...HEAD 2>/dev/null || echo "")
@@ -67,7 +67,7 @@ jobs:
               grep -q "@nist" "$file" 2>/dev/null && echo "✓ $file has NIST tags" || echo "ℹ $file has no NIST tags"
             fi
           done || true
-          
+
           echo "Validation complete"
 
       - name: Check for untagged security code
