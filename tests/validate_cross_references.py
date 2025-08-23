@@ -25,8 +25,19 @@ class ValidationResult:
 class StandardsValidator:
     """Validates cross-references and completeness of standards documentation"""
 
-    def __init__(self, root_path: str = "."):
-        self.root = Path(root_path)
+    def __init__(self, root_path: str = None):
+        if root_path is None:
+            # Find the project root by looking for MANIFEST.yaml
+            current = Path(__file__).parent
+            while current != current.parent:
+                if (current / "config" / "MANIFEST.yaml").exists():
+                    self.root = current
+                    break
+                current = current.parent
+            else:
+                self.root = Path(".")
+        else:
+            self.root = Path(root_path)
         self.standards_files = self._find_standards_files()
         self.errors = []
         self.warnings = []
@@ -100,7 +111,7 @@ class StandardsValidator:
         # Extract standard codes from natural language mappings
         codes_in_claude = set()
         code_pattern = (
-            r"`([A-Z][A-Z\-]*?):[^`]*`"  # Allow uppercase letters and hyphens
+            r"`([A-Z][A-Z\-_]*?):[^`]*`"  # Allow uppercase letters, hyphens, and underscores
         )
         for match in re.finditer(code_pattern, claude_content):
             codes_in_claude.add(match.group(1))
@@ -256,7 +267,9 @@ class StandardsValidator:
 
             missing = []
             for section in required_sections:
-                if f"## {section}" not in content and f"# {section}" not in content:
+                # Allow variations like "Implementation Checklist" or "8. Implementation"
+                pattern = re.compile(rf"^##?\s*\d*\.?\s*{re.escape(section)}", re.MULTILINE | re.IGNORECASE)
+                if not pattern.search(content):
                     missing.append(section)
 
             if missing:
