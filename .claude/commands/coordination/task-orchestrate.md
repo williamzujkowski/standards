@@ -3,16 +3,19 @@
 Orchestrate complex tasks across the swarm.
 
 ## Usage
+
 ```bash
 npx claude-flow task orchestrate [options]
 ```
 
 ## Options
+
 - `--task <description>` - Task description
 - `--strategy <type>` - Orchestration strategy
 - `--priority <level>` - Task priority (low, medium, high, critical)
 
 ## Examples
+
 ```bash
 # Orchestrate development task
 npx claude-flow task orchestrate --task "Implement user authentication"

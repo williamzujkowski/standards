@@ -1,34 +1,42 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "commonjs",
-    "lib": ["ES2022"],
-    "outDir": "./dist",
-    "rootDir": "./",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
+    "baseUrl": ".",
     "declaration": true,
     "declarationMap": true,
-    "sourceMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": [
+      "ES2022"
+    ],
+    "module": "commonjs",
     "moduleResolution": "node",
-    "baseUrl": ".",
+    "outDir": "./dist",
     "paths": {
-      "@oscal/*": ["oscal/*"],
-      "@semantic/*": ["semantic/*"],
-      "@automation/*": ["automation/*"]
-    }
+      "@automation/*": [
+        "automation/*"
+      ],
+      "@oscal/*": [
+        "oscal/*"
+      ],
+      "@semantic/*": [
+        "semantic/*"
+      ]
+    },
+    "resolveJsonModule": true,
+    "rootDir": "./",
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "ES2022"
   },
-  "include": [
-    "**/*.ts",
-    "oscal/**/*.json",
-    "semantic/**/*.json"
-  ],
   "exclude": [
     "node_modules",
     "dist",
     "**/*.test.ts"
+  ],
+  "include": [
+    "**/*.ts",
+    "oscal/**/*.json",
+    "semantic/**/*.json"
   ]
 }

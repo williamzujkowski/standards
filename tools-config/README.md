@@ -5,16 +5,19 @@ This directory contains standardized configuration files for development tools r
 ## 📁 Configuration Files
 
 ### Security Tools
+
 - `trivy.yaml` - Container and dependency scanning configuration
 - `semgrep.yaml` - SAST rules and custom patterns
 - `.gitleaks.toml` - Secret scanning configuration
 
 ### CI/CD Templates
+
 - `github-actions-security.yml` - Security scanning workflow
 - `github-actions-python.yml` - Python CI/CD template
 - `github-actions-node.yml` - Node.js CI/CD template
 
 ### Linting Configurations
+
 - `ruff.toml` - Python linting rules
 - `eslint-strict.json` - Strict ESLint configuration
 

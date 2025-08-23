@@ -3,16 +3,19 @@
 Manage operation cache for performance.
 
 ## Usage
+
 ```bash
 npx claude-flow optimization cache-manage [options]
 ```
 
 ## Options
+
 - `--action <type>` - Action (view, clear, optimize)
 - `--max-size <mb>` - Maximum cache size
 - `--ttl <seconds>` - Time to live
 
 ## Examples
+
 ```bash
 # View cache stats
 npx claude-flow optimization cache-manage --action view

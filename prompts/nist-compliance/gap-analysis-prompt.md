@@ -1,6 +1,7 @@
 # NIST Gap Analysis Prompt
 
 ## Purpose
+
 Use this prompt to identify missing NIST controls and prioritize implementation efforts.
 
 ## The Prompt
@@ -19,10 +20,13 @@ Application Overview:
 Currently Implemented Controls:
 [LIST YOUR IMPLEMENTED CONTROLS OR PASTE SCAN RESULTS]
 ```
+
 Example:
+
 - ia-2: Basic username/password authentication
 - sc-8: HTTPS for all communications
 - au-2: Application logs to stdout
+
 ```
 
 Security Features in Place:
@@ -74,6 +78,7 @@ Please provide:
 ## Usage Examples
 
 ### Example 1: Web Application
+
 ```
 Perform a NIST 800-53r5 gap analysis for my application against the MODERATE baseline.
 
@@ -99,6 +104,7 @@ Security Features in Place:
 ```
 
 ### Example 2: API Service
+
 ```
 Perform a NIST 800-53r5 gap analysis for my application against the MODERATE baseline.
 
@@ -179,12 +185,14 @@ The LLM should provide:
 ## Customization Options
 
 ### For Different Baselines
+
 ```
 Perform analysis against the [LOW/MODERATE/HIGH] baseline.
 Note: MODERATE is typical for most applications.
 ```
 
 ### For Specific Industries
+
 ```
 Include industry-specific requirements:
 - Healthcare: HIPAA considerations
@@ -193,6 +201,7 @@ Include industry-specific requirements:
 ```
 
 ### For Resource Constraints
+
 ```
 Constraints to consider:
 - Team size: [NUMBER] developers

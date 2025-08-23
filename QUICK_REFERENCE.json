@@ -1,12 +1,12 @@
 {
-  "version": "latest",
   "generated": "2025-07-19T23:48:58.464981",
-  "standards": {},
   "quick_answers": {
-    "python_naming": "snake_case for functions/variables, PascalCase for classes",
-    "test_coverage": "85% overall, 95% critical paths, 90% new code",
     "api_versioning": "/api/v1/, /api/v2/ in URL path",
+    "jwt_expiry": "1 hour for access tokens, 7 days for refresh",
     "password_min": "12 characters minimum",
-    "jwt_expiry": "1 hour for access tokens, 7 days for refresh"
-  }
+    "python_naming": "snake_case for functions/variables, PascalCase for classes",
+    "test_coverage": "85% overall, 95% critical paths, 90% new code"
+  },
+  "standards": {},
+  "version": "latest"
 }

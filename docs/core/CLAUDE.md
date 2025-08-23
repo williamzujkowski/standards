@@ -11,6 +11,7 @@
 ---
 
 ## TL;DR
+
 - **Advanced LLM interface** for comprehensive standards management with ~90% token efficiency through intelligent context loading
 - **Smart loading syntax** enables semantic queries like `@ask "How to build secure API"` that auto-loads relevant standards
 - **Task-based routing** automatically loads appropriate standards for bug fixes, new features, security, performance, and compliance

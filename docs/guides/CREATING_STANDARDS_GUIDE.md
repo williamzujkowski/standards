@@ -81,6 +81,7 @@ def get_user(id):
 - **[RECOMMENDED]**: Should be implemented unless there's a good reason not to
 
 Example:
+
 ```markdown
 ### [REQUIRED] Error Handling
 
@@ -223,12 +224,14 @@ def get_user(id):
 ```
 
 #### Better Approach: Dependency Injection
+
 ```python
 # DO THIS INSTEAD
 class UserService:
     def __init__(self, db_connection):
         self.db = db_connection
 ```
+
 ```
 
 ### 4. Link to Related Standards

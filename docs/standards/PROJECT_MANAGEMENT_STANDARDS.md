@@ -865,6 +865,7 @@ tool_categories:
 ## Quick Reference
 
 ### Sprint Checklist
+
 ```yaml
 sprint_checklist:
   before:
@@ -884,6 +885,7 @@ sprint_checklist:
 ```
 
 ### RACI Template
+
 ```yaml
 raci_template:
   decisions:
@@ -893,6 +895,7 @@ raci_template:
 ```
 
 ### Risk Register Template
+
 ```yaml
 risk_template:
   fields:

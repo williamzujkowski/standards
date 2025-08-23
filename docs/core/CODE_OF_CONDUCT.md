@@ -56,4 +56,4 @@ Related Standards: [GITHUB_PLATFORM_STANDARDS.md](../standards/GITHUB_PLATFORM_S
 
 ## Related Standards
 
-- [GitHub Platform Standards](../standards/GITHUB_PLATFORM_STANDARDS.md) - Repository best practices
+* [GitHub Platform Standards](../standards/GITHUB_PLATFORM_STANDARDS.md) - Repository best practices

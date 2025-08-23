@@ -82,7 +82,7 @@ class StandardsValidator:
             manifest = yaml.safe_load(f)
 
         standards_in_manifest = set()
-        for code, data in manifest.get("standards", {}).items():
+        for _code, data in manifest.get("standards", {}).items():
             if "full_name" in data:
                 standards_in_manifest.add(data["full_name"])
             elif "filename" in data:
@@ -94,9 +94,7 @@ class StandardsValidator:
                 missing.append(std_file.name)
 
         if missing:
-            return ValidationResult(
-                False, f"Missing {len(missing)} standards in MANIFEST.yaml", missing
-            )
+            return ValidationResult(False, f"Missing {len(missing)} standards in MANIFEST.yaml", missing)
         return ValidationResult(True, "All standards present in MANIFEST.yaml")
 
     def test_claude_routing_coverage(self) -> ValidationResult:
@@ -110,9 +108,7 @@ class StandardsValidator:
 
         # Extract standard codes from natural language mappings
         codes_in_claude = set()
-        code_pattern = (
-            r"`([A-Z][A-Z\-_]*?):[^`]*`"  # Allow uppercase letters, hyphens, and underscores
-        )
+        code_pattern = r"`([A-Z][A-Z\-_]*?):[^`]*`"  # Allow uppercase letters, hyphens, and underscores
         for match in re.finditer(code_pattern, claude_content):
             codes_in_claude.add(match.group(1))
 
@@ -240,9 +236,7 @@ class StandardsValidator:
 
             missing_fields = []
             for field in required_fields:
-                if (
-                    field not in content[:1000]
-                ):  # Check header area (increased for YAML frontmatter)
+                if field not in content[:1000]:  # Check header area (increased for YAML frontmatter)
                     missing_fields.append(field)
 
             if missing_fields:
@@ -321,9 +315,7 @@ class StandardsValidator:
                     broken_links.append(f"{std_file.name} -> {target_path}")
 
         if broken_links:
-            return ValidationResult(
-                False, f"Found {len(broken_links)} broken links", broken_links[:10]
-            )
+            return ValidationResult(False, f"Found {len(broken_links)} broken links", broken_links[:10])
         return ValidationResult(True, "All cross-references are valid")
 
     def test_index_coverage(self) -> ValidationResult:
@@ -341,9 +333,7 @@ class StandardsValidator:
             try:
                 with open(std_file) as f:
                     file_content = f.read()
-                    code_match = re.search(
-                        r"\*\*Standard Code:\*\*\s*(\w+)", file_content
-                    )
+                    code_match = re.search(r"\*\*Standard Code:\*\*\s*(\w+)", file_content)
                     if code_match:
                         code = code_match.group(1)
                         # Check if code is in index
@@ -383,9 +373,7 @@ class StandardsValidator:
                 missing.append(pattern)
 
         if missing:
-            return ValidationResult(
-                False, "Missing relationship types in STANDARDS_GRAPH.md", missing
-            )
+            return ValidationResult(False, "Missing relationship types in STANDARDS_GRAPH.md", missing)
         return ValidationResult(True, "All relationship types defined")
 
     def test_readme_references(self) -> ValidationResult:
@@ -412,9 +400,7 @@ class StandardsValidator:
                 missing.append(std)
 
         if missing:
-            return ValidationResult(
-                False, f"Missing {len(missing)} major standards in README.md", missing
-            )
+            return ValidationResult(False, f"Missing {len(missing)} major standards in README.md", missing)
         return ValidationResult(True, "All major standards referenced in README")
 
 

@@ -1,0 +1,66 @@
+[tool.black]
+line-length = 120
+target-version = ['py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | build
+  | dist
+  | node_modules
+  | __pycache__
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 120
+multi_line_output = 3
+include_trailing_comma = true
+
+[tool.ruff]
+line-length = 120
+target-version = "py38"
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "B",  # flake8-bugbear
+    "S",  # flake8-bandit
+    "I",  # isort
+    "N",  # pep8-naming
+    "UP", # pyupgrade
+]
+ignore = [
+    "E501",  # line too long - handled by formatter
+    "E722",  # bare except - sometimes needed
+    "S101",  # use of assert detected
+    "S103",  # chmod permissions
+    "S105",  # possible hardcoded password
+    "S106",  # possible hardcoded password
+    "S110",  # try-except-pass - acceptable in some cases
+    "S324",  # MD5 hash - used for checksums, not security
+    "S602",  # subprocess with shell=True
+    "S603",  # subprocess untrusted input
+    "S607",  # partial executable path
+    "B007",  # unused loop variable
+]
+exclude = [
+    ".git",
+    ".venv",
+    "build",
+    "dist",
+    "node_modules",
+    "__pycache__",
+    "*.egg-info",
+    ".mypy_cache",
+    ".pytest_cache",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]  # Allow assert in tests
+"scripts/*" = ["S603", "S607"]  # Allow subprocess calls in scripts
+"monitoring/*" = ["S602", "S607", "E722"]  # Allow shell commands and bare except in monitoring

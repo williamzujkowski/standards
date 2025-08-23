@@ -62,10 +62,13 @@ It aims to ensure consistency, quality, and maintainability across all related i
 ## 1. Introduction
 
 ### Purpose
+
 This document establishes comprehensive software development standards to ensure consistent, high-quality, and maintainable code across all projects. These standards apply to all software development activities regardless of programming language or platform.
 
 ### Scope
+
 These standards cover:
+
 - Code development and formatting
 - Testing and quality assurance
 - Security and performance
@@ -73,12 +76,14 @@ These standards cover:
 - Documentation requirements
 
 ### How to Use This Document
+
 1. **New Projects**: Review sections 2-3 for foundational standards
 2. **Existing Projects**: Use section 7 for gradual adoption
 3. **Quick Reference**: Section 2 provides essential standards at a glance
 4. **Templates**: Section 8 offers ready-to-use templates
 
 ### Enforcement
+
 - Standards marked as **[REQUIRED]** must be followed
 - Standards marked as **[RECOMMENDED]** should be followed unless justified
 - Exceptions require documented approval and mitigation plans
@@ -90,6 +95,7 @@ These standards cover:
 ### Essential Standards Checklist
 
 #### Code Quality
+
 - [ ] Code follows language-specific style guide **[REQUIRED]**
 - [ ] All public interfaces have documentation **[REQUIRED]**
 - [ ] Functions are under 50 lines **[RECOMMENDED]**
@@ -97,18 +103,21 @@ These standards cover:
 - [ ] Zero high-severity static analysis warnings **[REQUIRED]**
 
 #### Security
+
 - [ ] All inputs validated **[REQUIRED]**
 - [ ] Authentication/authorization implemented **[REQUIRED]**
 - [ ] No secrets in code **[REQUIRED]**
 - [ ] Dependencies scanned for vulnerabilities **[REQUIRED]**
 
 #### Testing
+
 - [ ] Unit tests for all business logic **[REQUIRED]**
 - [ ] Integration tests for all APIs **[REQUIRED]**
 - [ ] Performance tests for critical paths **[RECOMMENDED]**
 - [ ] Security tests for all endpoints **[REQUIRED]**
 
 #### Operations
+
 - [ ] Code reviewed before merge **[REQUIRED]**
 - [ ] CI/CD pipeline passes **[REQUIRED]**
 - [ ] Monitoring configured **[REQUIRED]**
@@ -121,6 +130,7 @@ These standards cover:
 ### 3.1 Code Style and Formatting
 
 #### Principles
+
 1. **Consistency** over personal preference
 2. **Readability** over cleverness
 3. **Maintainability** over optimization
@@ -128,6 +138,7 @@ These standards cover:
 #### Requirements
 
 ##### Language-Specific Style Guides **[REQUIRED]**
+
 - **Python**: PEP 8 with Black formatter (88 char lines)
 - **JavaScript/TypeScript**: Prettier with ESLint
 - **Java**: Google Java Style Guide
@@ -136,6 +147,7 @@ These standards cover:
 - **Other languages**: Adopt most popular community standard
 
 ##### Universal Naming Conventions **[REQUIRED]**
+
 | Element | Convention | Example |
 |---------|------------|---------|
 | Classes | PascalCase | `UserAccount`, `DataProcessor` |
@@ -146,6 +158,7 @@ These standards cover:
 | Interfaces | 'I' prefix or 'able' suffix | `IUserService`, `Serializable` |
 
 ##### Code Organization **[REQUIRED]**
+
 1. **File Structure**
    - One class/module per file (exceptions for tightly coupled classes)
    - Logical grouping in directories
@@ -164,6 +177,7 @@ These standards cover:
    - Line length: Language-specific (80-120 chars)
 
 ##### Automation **[REQUIRED]**
+
 - Pre-commit hooks for formatting
 - CI/CD enforcement
 - IDE/editor configuration shared in repository
@@ -173,6 +187,7 @@ These standards cover:
 #### Documentation Levels
 
 ##### Code-Level Documentation **[REQUIRED]**
+
 1. **Public Interfaces**
    - Purpose and behavior
    - Parameters with types and constraints
@@ -189,6 +204,7 @@ These standards cover:
    - TODO/FIXME with issue tracking references
 
 ##### Project-Level Documentation **[REQUIRED]**
+
 1. **README**
    - Project purpose and goals
    - Quick start guide
@@ -214,6 +230,7 @@ These standards cover:
    - Versioning strategy
 
 ##### Documentation Standards **[REQUIRED]**
+
 - Use consistent format (JSDoc, Sphinx, etc.)
 - Keep documentation next to code
 - Update documentation with code changes
@@ -225,6 +242,7 @@ These standards cover:
 #### Design Principles **[REQUIRED]**
 
 ##### SOLID Principles
+
 1. **Single Responsibility**: One reason to change
 2. **Open/Closed**: Open for extension, closed for modification
 3. **Liskov Substitution**: Subtypes must be substitutable
@@ -232,6 +250,7 @@ These standards cover:
 5. **Dependency Inversion**: Depend on abstractions
 
 ##### Additional Principles
+
 - **DRY** (Don't Repeat Yourself)
 - **KISS** (Keep It Simple, Stupid)
 - **YAGNI** (You Aren't Gonna Need It)
@@ -241,6 +260,7 @@ These standards cover:
 #### Architectural Patterns **[RECOMMENDED]**
 
 ##### Layered Architecture
+
 ```
 ┌─────────────────────┐
 │   Presentation      │  UI, API endpoints
@@ -254,6 +274,7 @@ These standards cover:
 ```
 
 ##### Component Guidelines
+
 1. **Clear Boundaries**: Well-defined interfaces between components
 2. **Loose Coupling**: Minimize dependencies
 3. **High Cohesion**: Related functionality together
@@ -261,6 +282,7 @@ These standards cover:
 5. **Event-Driven**: Where appropriate for scalability
 
 #### Design Patterns Usage **[RECOMMENDED]**
+
 - Use patterns to solve specific problems, not everywhere
 - Document pattern usage and rationale
 - Prefer simple solutions over complex patterns
@@ -275,16 +297,19 @@ These standards cover:
 #### Security Principles **[REQUIRED]**
 
 ##### Defense in Depth
+
 - Multiple layers of security
 - Assume any layer can fail
 - Security at every tier
 
 ##### Least Privilege
+
 - Minimum necessary permissions
 - Time-limited access
 - Regular permission audits
 
 ##### Secure by Default
+
 - Deny by default
 - Opt-in for dangerous features
 - Safe default configurations
@@ -292,6 +317,7 @@ These standards cover:
 #### Implementation Requirements **[REQUIRED]**
 
 ##### Input Validation
+
 1. **Validate All Inputs**
    - User inputs
    - API parameters
@@ -313,6 +339,7 @@ These standards cover:
    - Path traversal prevention
 
 ##### Authentication and Authorization
+
 1. **Authentication**
    - Industry standards (OAuth 2.0, OpenID Connect)
    - Multi-factor authentication for sensitive operations
@@ -328,6 +355,7 @@ These standards cover:
    - Regular permission reviews
 
 ##### Data Protection
+
 1. **Encryption**
    - TLS 1.2+ for data in transit
    - AES-256 for data at rest
@@ -342,6 +370,7 @@ These standards cover:
    - PII/PHI compliance
 
 ##### Security Testing **[REQUIRED]**
+
 - Static Application Security Testing (SAST)
 - Dynamic Application Security Testing (DAST)
 - Dependency vulnerability scanning
@@ -353,6 +382,7 @@ These standards cover:
 #### Performance Requirements **[REQUIRED]**
 
 ##### Define Targets
+
 1. **Response Time**
    - Page load: < 3 seconds
    - API calls: < 500ms (p95)
@@ -398,6 +428,7 @@ These standards cover:
    - Parallel processing where applicable
 
 ##### Performance Testing **[REQUIRED]**
+
 - Load testing before release
 - Stress testing for capacity planning
 - Continuous performance monitoring
@@ -408,6 +439,7 @@ These standards cover:
 #### Error Handling Strategy **[REQUIRED]**
 
 ##### Error Classification
+
 1. **Recoverable Errors**
    - Retry with backoff
    - Fallback mechanisms
@@ -443,6 +475,7 @@ These standards cover:
    - Log with appropriate severity
 
 4. **Logging Standards**
+
    ```
    ERROR: System failures requiring immediate attention
    WARN:  Recoverable issues or degraded performance
@@ -456,6 +489,7 @@ These standards cover:
 #### Resource Lifecycle **[REQUIRED]**
 
 ##### Acquisition and Release
+
 1. **Late Acquisition**: Get resources when needed
 2. **Early Release**: Free resources immediately after use
 3. **Automatic Management**: Use language features (RAII, using, with)
@@ -496,24 +530,28 @@ These standards cover:
 #### Test Categories **[REQUIRED]**
 
 ##### Unit Tests
+
 - Test individual components in isolation
 - Fast execution (< 100ms per test)
 - No external dependencies
 - High code coverage (> 85%)
 
 ##### Integration Tests
+
 - Test component interactions
 - Test with real dependencies
 - Slower but more realistic
 - Focus on interfaces and contracts
 
 ##### End-to-End Tests
+
 - Test complete user workflows
 - Production-like environment
 - Limited in number (test pyramid)
 - Critical user journeys only
 
 ##### Performance Tests
+
 - Benchmark critical operations
 - Load testing for capacity
 - Stress testing for limits
@@ -522,6 +560,7 @@ These standards cover:
 #### Testing Patterns **[REQUIRED]**
 
 ##### Arrange-Act-Assert (AAA)
+
 ```
 // Arrange: Set up test data and conditions
 // Act: Execute the operation being tested
@@ -529,11 +568,13 @@ These standards cover:
 ```
 
 ##### Test Naming Convention
+
 ```
 test_[unit]_[scenario]_[expected_result]
 ```
 
 ##### Test Independence
+
 - No shared state between tests
 - Tests can run in any order
 - Each test sets up its own data
@@ -544,12 +585,14 @@ test_[unit]_[scenario]_[expected_result]
 #### Coverage Requirements **[REQUIRED]**
 
 ##### Minimum Coverage
+
 - Overall: 85% line coverage
 - Critical paths: 95% coverage
 - New code: 90% coverage
 - Utility functions: 100% coverage
 
 ##### Coverage Metrics
+
 1. **Line Coverage**: Lines executed
 2. **Branch Coverage**: All conditional paths
 3. **Function Coverage**: All functions called
@@ -558,12 +601,14 @@ test_[unit]_[scenario]_[expected_result]
 #### Static Analysis **[REQUIRED]**
 
 ##### Code Quality Tools
+
 - Language-specific linters
 - Style checkers
 - Complexity analyzers
 - Security scanners
 
 ##### Quality Gates
+
 - Zero high-severity issues
 - Complexity thresholds
 - Duplication limits
@@ -572,12 +617,14 @@ test_[unit]_[scenario]_[expected_result]
 #### Test Quality **[REQUIRED]**
 
 ##### Mutation Testing
+
 - Verify test effectiveness
 - 80% mutation score minimum
 - Focus on critical logic
 - Regular mutation testing runs
 
 ##### Property-Based Testing
+
 - Generate test inputs automatically
 - Test invariants and properties
 - Find edge cases
@@ -588,6 +635,7 @@ test_[unit]_[scenario]_[expected_result]
 #### Security Testing **[REQUIRED]**
 
 ##### Vulnerability Testing
+
 1. **OWASP Top 10**
    - Injection attacks
    - Broken authentication
@@ -607,6 +655,7 @@ test_[unit]_[scenario]_[expected_result]
    - Infrastructure as Code scanning
 
 ##### Penetration Testing **[RECOMMENDED]**
+
 - Annual for critical systems
 - Before major releases
 - Third-party validation
@@ -615,6 +664,7 @@ test_[unit]_[scenario]_[expected_result]
 #### Resilience Testing **[RECOMMENDED]**
 
 ##### Chaos Engineering
+
 1. **Failure Scenarios**
    - Service failures
    - Network partitions
@@ -630,6 +680,7 @@ test_[unit]_[scenario]_[expected_result]
    - Learn and improve
 
 ##### Load Testing
+
 - Normal load patterns
 - Peak load scenarios
 - Sustained load tests
@@ -645,6 +696,7 @@ test_[unit]_[scenario]_[expected_result]
 #### Git Standards **[REQUIRED]**
 
 ##### Branching Strategy
+
 1. **Trunk-Based Development** (Recommended)
    - Short-lived feature branches
    - Frequent integration
@@ -658,7 +710,9 @@ test_[unit]_[scenario]_[expected_result]
    - Hotfix branches
 
 ##### Commit Standards
+
 1. **Message Format**
+
    ```
    type(scope): subject
 
@@ -683,6 +737,7 @@ test_[unit]_[scenario]_[expected_result]
    - Atomic commits
 
 ##### Code Review **[REQUIRED]**
+
 - All code reviewed before merge
 - At least one approval required
 - Automated checks must pass
@@ -693,12 +748,14 @@ test_[unit]_[scenario]_[expected_result]
 #### Pipeline Stages **[REQUIRED]**
 
 ##### Build Stage
+
 1. **Compilation/Packaging**
 2. **Dependency Resolution**
 3. **Asset Generation**
 4. **Version Tagging**
 
 ##### Test Stage
+
 1. **Unit Tests**
 2. **Integration Tests**
 3. **Security Scans**
@@ -706,6 +763,7 @@ test_[unit]_[scenario]_[expected_result]
 5. **Performance Tests** (for critical paths)
 
 ##### Deploy Stage
+
 1. **Environment Validation**
 2. **Configuration Management**
 3. **Database Migrations**
@@ -714,6 +772,7 @@ test_[unit]_[scenario]_[expected_result]
 6. **Rollback Capability**
 
 #### Pipeline Requirements **[REQUIRED]**
+
 - All stages automated
 - Fail fast on errors
 - Parallel execution where possible
@@ -725,18 +784,21 @@ test_[unit]_[scenario]_[expected_result]
 #### Deployment Strategies **[RECOMMENDED]**
 
 ##### Blue-Green Deployment
+
 - Two identical environments
 - Switch traffic after validation
 - Quick rollback capability
 - Zero downtime
 
 ##### Canary Deployment
+
 - Gradual rollout
 - Monitor key metrics
 - Automatic rollback on errors
 - Risk mitigation
 
 ##### Feature Flags
+
 - Deploy code without activation
 - Gradual feature rollout
 - A/B testing capability
@@ -767,12 +829,14 @@ test_[unit]_[scenario]_[expected_result]
 #### Monitoring Layers **[REQUIRED]**
 
 ##### Infrastructure Monitoring
+
 - Server metrics (CPU, memory, disk)
 - Network performance
 - Container/orchestration health
 - Database performance
 
 ##### Application Monitoring
+
 - Response times
 - Error rates
 - Throughput
@@ -780,6 +844,7 @@ test_[unit]_[scenario]_[expected_result]
 - User experience metrics
 
 ##### Log Aggregation
+
 - Centralized logging
 - Structured log format
 - Log retention policy
@@ -788,18 +853,21 @@ test_[unit]_[scenario]_[expected_result]
 #### Observability Standards **[REQUIRED]**
 
 ##### Distributed Tracing
+
 - Request correlation IDs
 - Service-to-service tracing
 - Performance bottleneck identification
 - Error propagation tracking
 
 ##### Metrics Collection
+
 - Time-series data
 - Custom business metrics
 - SLI/SLO tracking
 - Anomaly detection
 
 ##### Alerting Strategy
+
 1. **Alert Levels**
    - Critical: Immediate action required
    - Warning: Attention needed
@@ -816,12 +884,14 @@ test_[unit]_[scenario]_[expected_result]
 #### Incident Response **[REQUIRED]**
 
 ##### Severity Levels
+
 1. **SEV1**: Complete outage, data loss risk
 2. **SEV2**: Major functionality impaired
 3. **SEV3**: Minor functionality impaired
 4. **SEV4**: Minimal impact
 
 ##### Response Process
+
 1. **Detection**
    - Automated monitoring
    - User reports
@@ -845,6 +915,7 @@ test_[unit]_[scenario]_[expected_result]
    - Process improvements
 
 #### Runbooks **[RECOMMENDED]**
+
 - Common incident procedures
 - Step-by-step instructions
 - Contact information
@@ -860,6 +931,7 @@ test_[unit]_[scenario]_[expected_result]
 #### API Principles **[REQUIRED]**
 
 ##### RESTful Design
+
 1. **Resource-Oriented**
    - Nouns, not verbs
    - Hierarchical structure
@@ -879,6 +951,7 @@ test_[unit]_[scenario]_[expected_result]
    - 5xx: Server error
 
 ##### API Versioning **[REQUIRED]**
+
 1. **Strategies**
    - URL versioning (/v1/resource)
    - Header versioning
@@ -891,6 +964,7 @@ test_[unit]_[scenario]_[expected_result]
    - Sunset policies
 
 #### API Security **[REQUIRED]**
+
 - Authentication required
 - Rate limiting implemented
 - Input validation
@@ -902,12 +976,14 @@ test_[unit]_[scenario]_[expected_result]
 #### Design Principles **[REQUIRED]**
 
 ##### Normalization
+
 - Third normal form minimum
 - Denormalize for performance (justified)
 - Maintain referential integrity
 - Document deviations
 
 ##### Performance Considerations
+
 1. **Indexing Strategy**
    - Primary keys
    - Foreign keys
@@ -922,6 +998,7 @@ test_[unit]_[scenario]_[expected_result]
    - Pagination strategies
 
 #### Data Integrity **[REQUIRED]**
+
 - Constraints at database level
 - Application-level validation
 - Transaction management
@@ -932,6 +1009,7 @@ test_[unit]_[scenario]_[expected_result]
 #### WCAG Compliance **[REQUIRED for web apps]**
 
 ##### Level AA Compliance
+
 1. **Perceivable**
    - Text alternatives
    - Captions and transcripts
@@ -956,6 +1034,7 @@ test_[unit]_[scenario]_[expected_result]
    - Status messages
 
 #### Testing Requirements **[REQUIRED]**
+
 - Automated accessibility scanning
 - Keyboard navigation testing
 - Screen reader testing
@@ -966,18 +1045,21 @@ test_[unit]_[scenario]_[expected_result]
 #### I18n Standards **[REQUIRED for global apps]**
 
 ##### Text Handling
+
 - Externalize all strings
 - Support Unicode
 - Handle text direction
 - Variable text length
 
 ##### Localization Support
+
 - Date/time formats
 - Number formats
 - Currency display
 - Cultural considerations
 
 ##### Implementation
+
 - Resource bundles
 - Locale detection
 - Fallback mechanisms
@@ -988,24 +1070,28 @@ test_[unit]_[scenario]_[expected_result]
 #### Model Development **[REQUIRED for ML projects]**
 
 ##### Data Governance
+
 - Data quality standards
 - Privacy compliance
 - Bias detection
 - Version control for datasets
 
 ##### Model Management
+
 - Experiment tracking
 - Model versioning
 - Performance monitoring
 - Drift detection
 
 ##### Ethical Considerations
+
 - Fairness metrics
 - Explainability
 - Human oversight
 - Impact assessment
 
 #### Deployment Standards **[REQUIRED]**
+
 - A/B testing framework
 - Rollback capabilities
 - Performance benchmarks
@@ -1018,12 +1104,14 @@ test_[unit]_[scenario]_[expected_result]
 ### Adoption Strategy
 
 #### New Projects
+
 1. **Week 1-2**: Establish tooling and automation
 2. **Week 3-4**: Implement core standards
 3. **Month 2**: Add specialized standards
 4. **Month 3**: Full compliance
 
 #### Existing Projects
+
 1. **Phase 1**: Critical security and testing standards
 2. **Phase 2**: Code quality and documentation
 3. **Phase 3**: Operational standards
@@ -1032,6 +1120,7 @@ test_[unit]_[scenario]_[expected_result]
 ### Tooling Setup
 
 #### Essential Tools
+
 1. **Code Quality**
    - Linters and formatters
    - Pre-commit hooks
@@ -1055,6 +1144,7 @@ test_[unit]_[scenario]_[expected_result]
 ### Training Requirements
 
 #### Team Training
+
 1. **Standards Overview**: All team members
 2. **Tool Training**: Hands-on sessions
 3. **Security Training**: Annual requirement
@@ -1063,6 +1153,7 @@ test_[unit]_[scenario]_[expected_result]
 ### Compliance Tracking
 
 #### Metrics
+
 - Code coverage trends
 - Static analysis scores
 - Security scan results
@@ -1070,6 +1161,7 @@ test_[unit]_[scenario]_[expected_result]
 - Incident frequency
 
 #### Reporting
+
 - Weekly team dashboards
 - Monthly management reports
 - Quarterly reviews
@@ -1082,30 +1174,35 @@ test_[unit]_[scenario]_[expected_result]
 ### Code Review Checklist
 
 #### Functionality
+
 - [ ] Code does what it's supposed to do
 - [ ] Edge cases handled
 - [ ] Error handling appropriate
 - [ ] No obvious bugs
 
 #### Quality
+
 - [ ] Follows coding standards
 - [ ] Well-structured and organized
 - [ ] No code duplication
 - [ ] Appropriate abstractions
 
 #### Testing
+
 - [ ] Adequate test coverage
 - [ ] Tests are meaningful
 - [ ] Tests follow standards
 - [ ] All tests pass
 
 #### Security
+
 - [ ] Input validation present
 - [ ] No hardcoded secrets
 - [ ] Authentication/authorization correct
 - [ ] No security vulnerabilities
 
 #### Documentation
+
 - [ ] Public APIs documented
 - [ ] Complex logic explained
 - [ ] README updated if needed
@@ -1175,6 +1272,7 @@ Brief description of changes
 ### Appendix A: Language-Specific Examples
 
 #### Python Example
+
 ```python
 """Module documentation explaining purpose."""
 
@@ -1219,6 +1317,7 @@ class UserService:
 ```
 
 #### JavaScript/TypeScript Example
+
 ```typescript
 /**
  * Service for managing user operations.
@@ -1255,6 +1354,7 @@ export class UserService {
 ### Appendix B: Tool Configurations
 
 #### ESLint Configuration
+
 ```json
 {
   "extends": [
@@ -1270,6 +1370,7 @@ export class UserService {
 ```
 
 #### Pre-commit Configuration
+
 ```yaml
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -1294,18 +1395,21 @@ repos:
 ### Appendix C: References and Resources
 
 #### Standards Bodies
+
 - ISO/IEC 25010 - Software Quality Model
 - IEEE Software Engineering Standards
 - OWASP Security Guidelines
 - W3C Accessibility Guidelines
 
 #### Books and Guides
+
 - "Clean Code" by Robert Martin
 - "Design Patterns" by Gang of Four
 - "Site Reliability Engineering" by Google
 - "The Phoenix Project" by Gene Kim
 
 #### Online Resources
+
 - Language-specific style guides
 - Cloud provider best practices
 - Security frameworks (NIST, CIS)
@@ -1322,6 +1426,7 @@ repos:
 ## Review Schedule
 
 This document should be reviewed:
+
 - Quarterly by development teams
 - Annually by architecture board
 - As needed for major technology changes
@@ -1329,6 +1434,7 @@ This document should be reviewed:
 ## Exception Process
 
 To request an exception to these standards:
+
 1. Document the specific standard
 2. Provide business/technical justification
 3. Propose alternative approach
@@ -1549,6 +1655,7 @@ The repository includes comprehensive integration tools to facilitate standards 
 ### Customization Approach
 
 Each extended standard can be customized for your organization by:
+
 - Selecting relevant sections based on your technology choices
 - Adapting examples to your specific tools and platforms
 - Adding organization-specific policies and procedures
@@ -1568,6 +1675,7 @@ Each extended standard can be customized for your organization by:
 <!-- @nist-controls: [various - see individual sections] -->
 
 For comprehensive NIST 800-53r5 compliance implementation, see:
+
 - **[NIST_IMPLEMENTATION_GUIDE.md](../nist/NIST_IMPLEMENTATION_GUIDE.md)** - Quick start guide
 - **[COMPLIANCE_STANDARDS.md](COMPLIANCE_STANDARDS.md)** - Detailed tagging standards
 

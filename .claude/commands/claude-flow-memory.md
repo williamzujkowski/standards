@@ -8,6 +8,7 @@ description: Interact with Claude-Flow memory system
 The memory system provides persistent storage for cross-session and cross-agent collaboration with CRDT-based conflict resolution.
 
 ## Store Information
+
 ```bash
 # Store with default namespace
 ./claude-flow memory store "key" "value"
@@ -17,6 +18,7 @@ The memory system provides persistent storage for cross-session and cross-agent 
 ```
 
 ## Query Memory
+
 ```bash
 # Search across all namespaces
 ./claude-flow memory query "authentication"
@@ -26,6 +28,7 @@ The memory system provides persistent storage for cross-session and cross-agent 
 ```
 
 ## Memory Statistics
+
 ```bash
 # Show overall statistics
 ./claude-flow memory stats
@@ -35,6 +38,7 @@ The memory system provides persistent storage for cross-session and cross-agent 
 ```
 
 ## Export/Import
+
 ```bash
 # Export all memory
 ./claude-flow memory export full-backup.json
@@ -47,6 +51,7 @@ The memory system provides persistent storage for cross-session and cross-agent 
 ```
 
 ## Cleanup Operations
+
 ```bash
 # Clean entries older than 30 days
 ./claude-flow memory cleanup --days 30
@@ -56,6 +61,7 @@ The memory system provides persistent storage for cross-session and cross-agent 
 ```
 
 ## 🗂️ Namespaces
+
 - **default** - General storage
 - **agents** - Agent-specific data and state
 - **tasks** - Task information and results
@@ -71,16 +77,19 @@ The memory system provides persistent storage for cross-session and cross-agent 
 ## 🎯 Best Practices
 
 ### Naming Conventions
+
 - Use descriptive, searchable keys
 - Include timestamp for time-sensitive data
 - Prefix with component name for clarity
 
 ### Organization
+
 - Use namespaces to categorize data
 - Store related data together
 - Keep values concise but complete
 
 ### Maintenance
+
 - Regular backups with export
 - Clean old data periodically
 - Monitor storage statistics
@@ -89,6 +98,7 @@ The memory system provides persistent storage for cross-session and cross-agent 
 ## Examples
 
 ### Store SPARC context:
+
 ```bash
 ./claude-flow memory store "spec_auth_requirements" "OAuth2 + JWT with refresh tokens" --namespace spec
 ./claude-flow memory store "arch_api_design" "RESTful microservices with GraphQL gateway" --namespace arch
@@ -96,12 +106,14 @@ The memory system provides persistent storage for cross-session and cross-agent 
 ```
 
 ### Query project decisions:
+
 ```bash
 ./claude-flow memory query "authentication" --namespace arch --limit 5
 ./claude-flow memory query "test results" --namespace test
 ```
 
 ### Backup project memory:
+
 ```bash
 ./claude-flow memory export project-$(date +%Y%m%d).json --namespace project
 ```

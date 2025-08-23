@@ -1,9 +1,11 @@
 # Agent Memory Storage
 
 ## Purpose
+
 This directory stores agent-specific memory data, configurations, and persistent state information for individual Claude agents in the orchestration system.
 
 ## Structure
+
 Each agent gets its own subdirectory for isolated memory storage:
 
 ```
@@ -21,6 +23,7 @@ memory/agents/
 ```
 
 ## Usage Guidelines
+
 1. **Agent Isolation**: Each agent should only read/write to its own directory
 2. **Shared Resources**: Use the `shared/` directory for cross-agent information
 3. **State Persistence**: Update state.json whenever agent status changes
@@ -28,4 +31,5 @@ memory/agents/
 5. **Cleanup**: Remove directories for terminated agents periodically
 
 ## Last Updated
+
 2025-08-08T02:54:16.439Z

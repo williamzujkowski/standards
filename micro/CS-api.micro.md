@@ -1,12 +1,14 @@
 # CS:api - API Design Micro Standard (500 tokens max)
 
 ## Quick Rules
+
 - REST over HTTP/HTTPS
 - Version in URL: `/api/v1/`, `/api/v2/`
 - JSON request/response
 - Status codes: 200 OK, 201 Created, 400 Bad Request, 401 Unauthorized, 404 Not Found, 500 Server Error
 
 ## URL Patterns
+
 ```
 GET    /api/v1/users          # List
 GET    /api/v1/users/{id}     # Get one
@@ -16,6 +18,7 @@ DELETE /api/v1/users/{id}     # Delete
 ```
 
 ## Error Response
+
 ```json
 {
   "error": {
@@ -28,6 +31,7 @@ DELETE /api/v1/users/{id}     # Delete
 ```
 
 ## Pagination
+
 ```
 GET /api/v1/users?page=2&limit=20
 Response headers:
@@ -37,11 +41,13 @@ X-Per-Page: 20
 ```
 
 ## Authentication
+
 - Bearer token in header: `Authorization: Bearer <token>`
 - API keys for service-to-service
 - Rate limiting: 1000 req/hour per user
 
 ## Must Have
+
 ✓ Input validation
 ✓ Error handling
 ✓ Rate limiting
@@ -51,6 +57,7 @@ X-Per-Page: 20
 ✓ CORS headers for web clients
 
 ## Example
+
 ```python
 @app.post("/api/v1/users")
 @validate_input(UserSchema)

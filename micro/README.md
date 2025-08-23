@@ -28,6 +28,7 @@ https://raw.githubusercontent.com/williamzujkowski/standards/main/micro/CS-api.m
 ## Format Rules
 
 Each micro standard must:
+
 - Be under 500 tokens
 - Include only essential rules
 - Provide 1-2 code examples max

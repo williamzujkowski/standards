@@ -75,7 +75,7 @@ class StandardsLinter:
 
     def _check_metadata(self, file_path: Path, lines: List[str]):
         """Check for required metadata headers"""
-        header_area = "\n".join(lines[:20])
+        "\n".join(lines[:20])
 
         # Version check with semantic versioning pattern
         version_pattern = r"^\*\*Version:\*\*\s+\d+\.\d+\.\d+\s*$"
@@ -160,10 +160,7 @@ class StandardsLinter:
                 )
 
         # Implementation Checklist
-        if (
-            "Implementation Checklist" not in content
-            and "checklist" not in content.lower()
-        ):
+        if "Implementation Checklist" not in content and "checklist" not in content.lower():
             self._add_issue(
                 file_path,
                 1,
@@ -214,9 +211,7 @@ class StandardsLinter:
 
                 # Check relative links
                 if link_target.startswith("./"):
-                    target_path = (
-                        file_path.parent / link_target.split("#")[0]
-                    ).resolve()
+                    target_path = (file_path.parent / link_target.split("#")[0]).resolve()
                     if not target_path.exists():
                         self._add_issue(
                             file_path,
@@ -259,7 +254,7 @@ class StandardsLinter:
 
         # Check section sizes
         sections = re.split(r"^##\s+", content, flags=re.MULTILINE)
-        for i, section in enumerate(sections[1:], 1):  # Skip first split
+        for _i, section in enumerate(sections[1:], 1):  # Skip first split
             section_words = len(section.split())
             section_tokens = int(section_words * 0.75)
 
@@ -292,11 +287,7 @@ class StandardsLinter:
                 )
 
             # Line length (except URLs and code blocks)
-            if (
-                len(line) > 120
-                and not line.strip().startswith("http")
-                and not line.strip().startswith("```")
-            ):
+            if len(line) > 120 and not line.strip().startswith("http") and not line.strip().startswith("```"):
                 self._add_issue(
                     file_path,
                     i + 1,
@@ -339,11 +330,7 @@ class StandardsLinter:
             if not lang:
                 # Find line number
                 for i, line in enumerate(lines):
-                    if (
-                        line == "```"
-                        and i + 1 < len(lines)
-                        and lines[i + 1].strip() == code.split("\n")[0].strip()
-                    ):
+                    if line == "```" and i + 1 < len(lines) and lines[i + 1].strip() == code.split("\n")[0].strip():
                         self._add_issue(
                             file_path,
                             i + 1,
@@ -358,7 +345,7 @@ class StandardsLinter:
     def _check_manifest_completeness(self):
         """Check all standards are in MANIFEST.yaml"""
         manifest_files = set()
-        for code, data in self.manifest.get("standards", {}).items():
+        for _code, data in self.manifest.get("standards", {}).items():
             if "full_name" in data:
                 manifest_files.add(data["full_name"])
             elif "filename" in data:
@@ -483,12 +470,8 @@ class StandardsLinter:
         for file, issues in sorted(by_file.items()):
             lines.append(f"\n{file}:")
             for issue in sorted(issues, key=lambda x: (x.line, x.column)):
-                severity_icon = {"error": "✗", "warning": "⚠", "info": "ℹ"}.get(
-                    issue.severity, "?"
-                )
-                lines.append(
-                    f"  {issue.line}:{issue.column} {severity_icon} [{issue.rule}] {issue.message}"
-                )
+                severity_icon = {"error": "✗", "warning": "⚠", "info": "ℹ"}.get(issue.severity, "?")
+                lines.append(f"  {issue.line}:{issue.column} {severity_icon} [{issue.rule}] {issue.message}")
                 if issue.fix_suggestion:
                     lines.append(f"         Fix: {issue.fix_suggestion}")
 
@@ -501,12 +484,8 @@ def main():
 
     parser = argparse.ArgumentParser(description="Lint standards repository")
     parser.add_argument("path", nargs="?", default=".", help="Path to repository root")
-    parser.add_argument(
-        "--format", choices=["text", "json"], default="text", help="Output format"
-    )
-    parser.add_argument(
-        "--fix", action="store_true", help="Apply automatic fixes (not implemented)"
-    )
+    parser.add_argument("--format", choices=["text", "json"], default="text", help="Output format")
+    parser.add_argument("--fix", action="store_true", help="Apply automatic fixes (not implemented)")
 
     args = parser.parse_args()
 

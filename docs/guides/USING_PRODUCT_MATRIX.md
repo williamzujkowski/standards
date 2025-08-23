@@ -46,6 +46,7 @@ Or combine with specific overrides:
 **Scenario:** Building a REST API with FastAPI, PostgreSQL, and Docker.
 
 **Product Type Detection:**
+
 ```yaml
 Detected: api
 Language: python
@@ -55,11 +56,13 @@ Infrastructure: docker
 ```
 
 **Standards Loading:**
+
 ```
 @load [product:api + CS:python + TS:pytest + DB:postgresql + CN:docker]
 ```
 
 **Resolved Standards:**
+
 - **CS:python** - Python coding standards (PEP 8, type hints)
 - **TS:pytest** - Pytest testing framework
 - **SEC:auth** - API authentication (OAuth2, JWT)
@@ -72,6 +75,7 @@ Infrastructure: docker
 - **NIST-IG:base** - NIST 800-53r5 controls (auto-included with SEC)
 
 **Implementation Steps:**
+
 1. Project structure follows Python package conventions
 2. FastAPI router organization per `CS:python`
 3. Pytest fixtures and parametrized tests per `TS:pytest`
@@ -87,6 +91,7 @@ Infrastructure: docker
 **Scenario:** Building a React SPA with TypeScript, Material-UI, and AWS deployment.
 
 **Product Type Detection:**
+
 ```yaml
 Detected: frontend-web
 Language: typescript
@@ -96,11 +101,13 @@ Deployment: aws-s3-cloudfront
 ```
 
 **Standards Loading:**
+
 ```
 @load [product:frontend-web + FE:react + WD:material-design + DOP:aws]
 ```
 
 **Resolved Standards:**
+
 - **FE:react** - React component patterns
 - **FE:design-system** - Design system architecture
 - **FE:accessibility** - WCAG 2.1 AA compliance
@@ -113,6 +120,7 @@ Deployment: aws-s3-cloudfront
 - **OBS:web-vitals** - Core Web Vitals monitoring
 
 **Implementation Steps:**
+
 1. Component structure: `/components`, `/pages`, `/hooks`
 2. TypeScript strict mode with no implicit any
 3. Material-UI theming with custom palette
@@ -127,6 +135,7 @@ Deployment: aws-s3-cloudfront
 **Scenario:** Building an ETL pipeline with Apache Airflow, handling PII data.
 
 **Product Type Detection:**
+
 ```yaml
 Detected: data-pipeline
 Orchestrator: airflow
@@ -136,11 +145,13 @@ Processing: spark
 ```
 
 **Standards Loading:**
+
 ```
 @load [product:data-pipeline + DE:airflow + SEC:data-classification + LEG:gdpr]
 ```
 
 **Resolved Standards:**
+
 - **DE:orchestration** - Airflow DAG best practices
 - **DE:data-quality** - Data validation checks
 - **DE:airflow** - Airflow-specific patterns
@@ -154,6 +165,7 @@ Processing: spark
 - **NIST-IG:base** - NIST privacy controls
 
 **Implementation Steps:**
+
 1. DAG structure: one DAG per data source
 2. Idempotent tasks with proper retry logic
 3. Data quality checks using Great Expectations
@@ -168,10 +180,13 @@ Processing: spark
 ## Wildcard Expansion
 
 ### Security Wildcard (`SEC:*`)
+
 ```
 @load [CS:python + SEC:*]
 ```
+
 Expands to:
+
 - SEC:auth
 - SEC:secrets
 - SEC:input-validation
@@ -180,10 +195,13 @@ Expands to:
 - NIST-IG:base (automatically included)
 
 ### Testing Wildcard (`TS:*`)
+
 ```
 @load [CS:javascript + TS:*]
 ```
+
 Expands to:
+
 - TS:unit
 - TS:integration
 - TS:e2e
@@ -195,11 +213,13 @@ Expands to:
 When a language is detected, the matrix automatically maps generic codes:
 
 **Python Detection:**
+
 - `CS` → `CS:python`
 - `TS` → `TS:pytest`
 - `TOOL` → `TOOL:python`
 
 **TypeScript Detection:**
+
 - `CS` → `CS:typescript`
 - `TS` → `TS:vitest`
 - `TOOL` → `TOOL:nodejs`
@@ -209,15 +229,19 @@ When a language is detected, the matrix automatically maps generic codes:
 Quick presets for common technology stacks:
 
 ### MERN Stack
+
 ```
 @load stack:mern
 ```
+
 Loads: MongoDB, Express, React, Node.js standards
 
 ### JAMstack
+
 ```
 @load stack:jamstack
 ```
+
 Loads: Static site generation, CDN, API standards
 
 ## NIST Auto-Inclusion
@@ -253,6 +277,7 @@ Mix and match for unique requirements:
 ```
 
 This loads web-service base standards but overrides:
+
 - Frontend framework to Vue
 - Database to MongoDB
 - Deployment to Kubernetes

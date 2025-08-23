@@ -6,6 +6,7 @@
 <!-- Name of the new standard -->
 
 ### Category
+
 - [ ] Cloud & Infrastructure
 - [ ] Security & Compliance
 - [ ] Development & Coding
@@ -19,6 +20,7 @@
 - [ ] Integration & APIs
 
 ### Related Issues
+
 - Implements #
 - Addresses #
 
@@ -36,6 +38,7 @@
 ## Implementation Checklist
 
 ### Structure Compliance
+
 - [ ] Follows STANDARD_TEMPLATE.md structure
 - [ ] Includes TLDR section
 - [ ] Contains Introduction with clear purpose
@@ -48,6 +51,7 @@
 - [ ] Contains proper Conclusion
 
 ### Content Quality
+
 - [ ] Requirements are specific and actionable
 - [ ] Examples are practical and tested
 - [ ] Language is prescriptive and clear
@@ -57,6 +61,7 @@
 - [ ] Provides troubleshooting information
 
 ### Examples and Code
+
 - [ ] Code examples are complete and working
 - [ ] Multiple language examples provided (where applicable)
 - [ ] Examples follow best practices
@@ -66,6 +71,7 @@
 - [ ] Tool setup examples provided
 
 ### Integration and Cross-References
+
 - [ ] Related standards are identified and linked
 - [ ] STANDARDS_INDEX.md updated
 - [ ] Cross-references are bidirectional
@@ -73,6 +79,7 @@
 - [ ] Dependencies clearly stated
 
 ### Validation and Tools
+
 - [ ] Validation scripts provided (if applicable)
 - [ ] Tool configurations included
 - [ ] Automation examples provided
@@ -82,11 +89,13 @@
 ## Compliance Framework Alignment
 
 ### NIST Framework Alignment
+
 - [ ] Mapped to relevant NIST controls
 - [ ] Security considerations addressed
 - [ ] Compliance validation included
 
 ### Industry Standards
+
 - [ ] Aligns with industry best practices
 - [ ] References authoritative sources
 - [ ] Considers regulatory requirements
@@ -94,6 +103,7 @@
 ## Review and Testing
 
 ### Self-Review
+
 - [ ] Thoroughly reviewed all content
 - [ ] Tested all code examples
 - [ ] Verified all links and references
@@ -101,11 +111,13 @@
 - [ ] Validated compliance mappings
 
 ### Peer Review
+
 - [ ] SME review completed (if applicable)
 - [ ] Technical accuracy verified
 - [ ] Practical applicability confirmed
 
 ### Integration Testing
+
 - [ ] Tested with existing standards
 - [ ] Verified cross-references work
 - [ ] Confirmed no conflicts with other standards
@@ -113,11 +125,13 @@
 ## Documentation Impact
 
 ### New Documentation
+
 - [ ] Standard document complete
 - [ ] Examples and templates provided
 - [ ] Tool configurations included
 
 ### Updated Documentation
+
 - [ ] STANDARDS_INDEX.md updated
 - [ ] Related standards updated with cross-references
 - [ ] CHANGELOG.md updated
@@ -126,11 +140,13 @@
 ## Community Consideration
 
 ### Feedback Integration
+
 - [ ] Community feedback incorporated (if applicable)
 - [ ] Addresses identified gaps or needs
 - [ ] Considers diverse use cases
 
 ### Future Maintenance
+
 - [ ] Maintenance plan considered
 - [ ] Update triggers identified
 - [ ] Version control strategy planned
@@ -138,11 +154,13 @@
 ## Post-Merge Actions
 
 ### Immediate Actions
+
 - [ ] Verify all links work correctly
 - [ ] Test generated index and references
 - [ ] Confirm CI/CD pipelines pass
 
 ### Follow-up Tasks
+
 - [ ] Monitor for community feedback
 - [ ] Plan education and adoption activities
 - [ ] Schedule periodic review
@@ -163,6 +181,7 @@
 ## Reviewer Focus Areas
 
 Please pay special attention to:
+
 - [ ] Alignment with existing standards ecosystem
 - [ ] Practical applicability of requirements
 - [ ] Quality and completeness of examples

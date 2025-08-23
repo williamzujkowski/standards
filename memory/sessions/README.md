@@ -1,9 +1,11 @@
 # Session Memory Storage
 
 ## Purpose
+
 This directory stores session-based memory data, conversation history, and contextual information for development sessions using the Claude-Flow orchestration system.
 
 ## Structure
+
 Sessions are organized by date and session ID for easy retrieval:
 
 ```
@@ -22,6 +24,7 @@ memory/sessions/
 ```
 
 ## Usage Guidelines
+
 1. **Session Isolation**: Each session gets its own directory
 2. **Metadata Completeness**: Always fill out session metadata
 3. **Conversation Logging**: Document all significant interactions
@@ -29,4 +32,5 @@ memory/sessions/
 5. **State Preservation**: Snapshot coordination state regularly
 
 ## Last Updated
+
 2025-08-08T02:54:16.439Z

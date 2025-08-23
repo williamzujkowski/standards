@@ -11,6 +11,7 @@ Thank you for your interest in contributing to our comprehensive standards repos
 ## 🚀 Ways to Contribute
 
 ### 1. Report Issues
+
 - Bug reports
 - Unclear documentation
 - Missing examples
@@ -18,6 +19,7 @@ Thank you for your interest in contributing to our comprehensive standards repos
 - Outdated practices
 
 ### 2. Suggest Improvements
+
 - Enhanced examples
 - Additional patterns
 - Tool recommendations
@@ -25,9 +27,11 @@ Thank you for your interest in contributing to our comprehensive standards repos
 - Security enhancements
 
 ### 3. Create New Standards
+
 Follow our [Creating Standards Guide](../guides/CREATING_STANDARDS_GUIDE.md) to add new standards.
 
 ### 4. Update Existing Standards
+
 - Fix typos and grammar
 - Update deprecated practices
 - Add missing examples
@@ -40,11 +44,13 @@ Follow our [Creating Standards Guide](../guides/CREATING_STANDARDS_GUIDE.md) to 
 2. **Create a feature branch**: `git checkout -b feature/your-improvement`
 3. **Make your changes**
 4. **Validate your changes**:
+
    ```bash
    # Run validation checks
    yamllint .
    markdownlint '**/*.md'
    ```
+
 5. **Commit with clear message**: `git commit -m "Add: [brief description]"`
 6. **Push to your fork**: `git push origin feature/your-improvement`
 7. **Open a Pull Request**
@@ -62,18 +68,21 @@ Follow our [Creating Standards Guide](../guides/CREATING_STANDARDS_GUIDE.md) to 
 ## 🎨 Style Guidelines
 
 ### Markdown
+
 - Use clear, descriptive headings
 - Include code examples with syntax highlighting
 - Use tables for structured data
 - Add links to related standards
 
 ### Code Examples
+
 - Provide examples in multiple languages (Python, JS/TS, Go)
 - Include both good and bad examples
 - Add comments explaining key concepts
 - Ensure examples are production-ready
 
 ### Tone
+
 - Be prescriptive and clear
 - Avoid ambiguity
 - Use active voice
@@ -89,6 +98,7 @@ Follow our [Creating Standards Guide](../guides/CREATING_STANDARDS_GUIDE.md) to 
 ## 🤖 For LLMs Contributing
 
 When creating PRs via LLMs:
+
 1. Follow [CREATING_STANDARDS_GUIDE.md](../guides/CREATING_STANDARDS_GUIDE.md) precisely
 2. Ensure all integration points are updated
 3. Validate against [STANDARD_TEMPLATE.md](../guides/STANDARD_TEMPLATE.md)

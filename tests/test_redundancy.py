@@ -48,7 +48,7 @@ class RedundancyChecker:
                 continue
 
             try:
-                with open(md_file, "r", encoding="utf-8") as f:
+                with open(md_file, encoding="utf-8") as f:
                     content = f.read()
 
                 # Extract sections
@@ -82,11 +82,9 @@ class RedundancyChecker:
                 self.warnings.append(f"Could not read {md_file.name}: {e}")
 
         # Report duplicates
-        for hash_val, locations in content_hashes.items():
+        for _hash_val, locations in content_hashes.items():
             if len(locations) > 1:
-                self.errors.append(
-                    f"Duplicate content found in: {[loc['file'] for loc in locations]}"
-                )
+                self.errors.append(f"Duplicate content found in: {[loc['file'] for loc in locations]}")
 
     def check_cross_references(self):
         """Check that all referenced files exist"""
@@ -98,16 +96,14 @@ class RedundancyChecker:
 
         for md_file in md_files:
             try:
-                with open(md_file, "r", encoding="utf-8") as f:
+                with open(md_file, encoding="utf-8") as f:
                     content = f.read()
 
                 # Find markdown links
                 links = re.findall(r"\[([^\]]+)\]\(([^)]+)\)", content)
 
-                for link_text, link_url in links:
-                    if link_url.startswith("./") or (
-                        link_url.endswith(".md") and not link_url.startswith("http")
-                    ):
+                for _link_text, link_url in links:
+                    if link_url.startswith("./") or (link_url.endswith(".md") and not link_url.startswith("http")):
                         # Remove anchor references
                         clean_url = link_url.split("#")[0]
                         if clean_url:  # Skip pure anchors like #section
@@ -141,24 +137,20 @@ class RedundancyChecker:
                                 if ".vscode" in clean_path and clean_path.endswith("/"):
                                     # This is likely a directory reference, skip it
                                     continue
-                                self.errors.append(
-                                    f"{md_file.name} references non-existent file: {link_url}"
-                                )
+                                self.errors.append(f"{md_file.name} references non-existent file: {link_url}")
             except Exception as e:
-                self.warnings.append(
-                    f"Could not check references in {md_file.name}: {e}"
-                )
+                self.warnings.append(f"Could not check references in {md_file.name}: {e}")
 
     def check_manifest_sync(self):
         """Check that MANIFEST.yaml is in sync with actual files"""
         print("\n📋 Checking MANIFEST.yaml sync...")
 
         try:
-            with open(self.repo_path / "config/MANIFEST.yaml", "r") as f:
+            with open(self.repo_path / "config/MANIFEST.yaml") as f:
                 manifest = yaml.safe_load(f)
 
             # Check each standard in manifest exists
-            for code, standard in manifest.get("standards", {}).items():
+            for _code, standard in manifest.get("standards", {}).items():
                 filename = standard.get("full_name")
                 if filename:
                     # Check in multiple possible locations
@@ -172,23 +164,19 @@ class RedundancyChecker:
                     file_found = any(path.exists() for path in possible_paths)
 
                     if not file_found:
-                        self.errors.append(
-                            f"MANIFEST.yaml references non-existent file: {filename}"
-                        )
+                        self.errors.append(f"MANIFEST.yaml references non-existent file: {filename}")
 
             # Check all _STANDARDS.md files are in manifest
             standards_dir = self.repo_path / "docs/standards"
             for std_file in standards_dir.glob("*_STANDARDS.md"):
                 if std_file.name != "UNIFIED_STANDARDS.md":
                     found = False
-                    for code, standard in manifest.get("standards", {}).items():
+                    for _code, standard in manifest.get("standards", {}).items():
                         if standard.get("full_name") == std_file.name:
                             found = True
                             break
                     if not found:
-                        self.warnings.append(
-                            f"{std_file.name} not referenced in MANIFEST.yaml"
-                        )
+                        self.warnings.append(f"{std_file.name} not referenced in MANIFEST.yaml")
 
         except Exception as e:
             self.errors.append(f"Could not check MANIFEST.yaml: {e}")
@@ -228,15 +216,13 @@ class RedundancyChecker:
                 # Try old location
                 api_path = self.repo_path / "standards-api.json"
 
-            with open(api_path, "r") as f:
+            with open(api_path) as f:
                 api_data = json.load(f)
 
             # Check that all remote commands have endpoints
             for cmd, details in api_data.get("remote_commands", {}).items():
                 if "endpoint" not in details and "uses" not in details:
-                    self.warnings.append(
-                        f"Remote command {cmd} missing endpoint or uses reference"
-                    )
+                    self.warnings.append(f"Remote command {cmd} missing endpoint or uses reference")
 
             # Check that direct_access section exists
             if "direct_access" not in api_data:

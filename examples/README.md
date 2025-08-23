@@ -30,6 +30,7 @@ The `ai-generation-hints` directory contains language-specific templates that se
 ### Python Hints (`python-hints.py`)
 
 Demonstrates:
+
 - Result type pattern for error handling
 - API endpoint templates with security
 - Test generation templates
@@ -37,6 +38,7 @@ Demonstrates:
 - Type hints and documentation
 
 Usage:
+
 ```
 @generate python:[component] with:[CS:python + TS:pytest + SEC:*]
 ```
@@ -44,6 +46,7 @@ Usage:
 ### TypeScript Hints (`typescript-hints.ts`)
 
 Demonstrates:
+
 - React component patterns with hooks
 - TypeScript type safety
 - API service with retry logic
@@ -51,6 +54,7 @@ Demonstrates:
 - Test templates for React Testing Library
 
 Usage:
+
 ```
 @generate typescript:[component] with:[FE:react + CS:typescript + TS:jest]
 ```
@@ -60,22 +64,26 @@ Usage:
 The `project-templates` directory contains ready-to-use project configurations:
 
 ### Docker Templates
+
 - `Dockerfile.standards` - Production-ready Dockerfile with security best practices
 - `docker-compose.standards.yml` - Multi-service orchestration template
 
 ### Language-Specific Project Templates
 
 #### Python Project
+
 - `pyproject.toml` - Modern Python project configuration
 - Includes: Black, isort, mypy, pytest configurations
 - Poetry/pip-tools compatible
 
 #### JavaScript Project
+
 - `package.json` - Node.js project with ESLint, Prettier, Jest
 - Scripts for linting, testing, and building
 - TypeScript support ready
 
 #### Go Project
+
 - `Makefile` - Build, test, and deployment automation
 - Follows Go module structure
 - Includes linting and security scanning
@@ -83,10 +91,12 @@ The `project-templates` directory contains ready-to-use project configurations:
 ### Infrastructure Templates
 
 #### Kubernetes
+
 - `deployment.standards.yaml` - Production-grade deployment manifest
 - Includes: Resource limits, health checks, security contexts
 
 #### Terraform
+
 - `main.tf` - Infrastructure as Code template
 - Follows Terraform best practices
 - Includes provider configuration and state management
@@ -103,6 +113,7 @@ The `project-templates` directory contains ready-to-use project configurations:
 ### For Developers
 
 1. Copy project templates to bootstrap new projects:
+
    ```bash
    # Python project
    cp -r examples/project-templates/python-project/* my-new-project/

@@ -16,6 +16,7 @@ A comprehensive collection of prompts for LLMs to assist with NIST 800-53r5 comp
 ## Control Suggestion Prompts
 
 ### Basic Control Suggestion
+
 ```
 Given the following code snippet, suggest relevant NIST 800-53r5 controls from the moderate baseline. For each suggested control, explain why it applies and where to add the @nist tag.
 
@@ -28,6 +29,7 @@ Output format:
 ```
 
 ### Pattern-Based Control Mapping
+
 ```
 Analyze the following code for security patterns and map them to NIST 800-53r5 controls:
 
@@ -51,6 +53,7 @@ For each pattern found, provide:
 ```
 
 ### Security Feature Detection
+
 ```
 Review this code module and identify all security-relevant features that should be tagged with NIST controls:
 
@@ -68,6 +71,7 @@ For each security feature:
 ## Implementation Guidance Prompts
 
 ### Control Implementation Guide
+
 ```
 Provide implementation guidance for NIST control [CONTROL-ID] in [LANGUAGE]:
 
@@ -85,6 +89,7 @@ Include:
 ```
 
 ### Language-Specific Implementation
+
 ```
 Show me how to implement [SECURITY_FEATURE] following NIST [CONTROL-ID] in [LANGUAGE]:
 
@@ -102,6 +107,7 @@ Provide:
 ```
 
 ### Multi-Control Implementation
+
 ```
 I need to implement a [FEATURE] that satisfies these NIST controls:
 - [CONTROL-1]: [DESCRIPTION]
@@ -120,6 +126,7 @@ Show me an implementation that:
 ## Code Review Prompts
 
 ### Compliance Review
+
 ```
 Review the following code for NIST 800-53r5 compliance:
 
@@ -139,6 +146,7 @@ Provide:
 ```
 
 ### Control Validation
+
 ```
 Validate that the following code correctly implements NIST control [CONTROL-ID]:
 
@@ -158,6 +166,7 @@ Output:
 ```
 
 ### Security Pattern Analysis
+
 ```
 Analyze this codebase for security patterns and their NIST control coverage:
 
@@ -176,6 +185,7 @@ Identify:
 ## Evidence Generation Prompts
 
 ### Evidence Documentation
+
 ```
 Generate evidence documentation for NIST control [CONTROL-ID] based on this implementation:
 
@@ -190,6 +200,7 @@ Create:
 ```
 
 ### Test Evidence Creation
+
 ```
 Create test cases that demonstrate compliance with NIST control [CONTROL-ID]:
 
@@ -205,6 +216,7 @@ Generate:
 ```
 
 ### Configuration Evidence
+
 ```
 Document configuration settings that implement NIST control [CONTROL-ID]:
 
@@ -225,6 +237,7 @@ Provide:
 ## Gap Analysis Prompts
 
 ### Baseline Gap Analysis
+
 ```
 Perform a gap analysis against NIST 800-53r5 [LOW/MODERATE/HIGH] baseline:
 
@@ -240,6 +253,7 @@ Identify:
 ```
 
 ### Control Family Analysis
+
 ```
 Analyze coverage for NIST control family [FAMILY-CODE] (e.g., AC, AU, IA):
 
@@ -258,6 +272,7 @@ Provide:
 ```
 
 ### Risk-Based Gap Analysis
+
 ```
 Identify high-risk gaps in NIST compliance for a [APPLICATION TYPE]:
 
@@ -281,6 +296,7 @@ Prioritize gaps by:
 ## Documentation Prompts
 
 ### SSP Section Generation
+
 ```
 Generate System Security Plan (SSP) content for NIST control [CONTROL-ID]:
 
@@ -299,6 +315,7 @@ Create:
 ```
 
 ### Control Mapping Documentation
+
 ```
 Create a control mapping document for [APPLICATION/MODULE]:
 
@@ -314,6 +331,7 @@ Generate:
 ```
 
 ### Developer Guide Creation
+
 ```
 Write a developer guide for implementing NIST controls in our [PROJECT TYPE]:
 
@@ -333,6 +351,7 @@ Include:
 ## Usage Examples
 
 ### Example 1: Reviewing Authentication Code
+
 ```
 Prompt:
 Review the following authentication function for NIST compliance and suggest appropriate control tags:
@@ -347,26 +366,32 @@ def login(username, password):
 ```
 
 Expected Output:
+
 - Missing @nist ia-2 tag for authentication
 - Missing @nist au-2 for audit logging
 - Missing @nist ac-7 for failed attempt handling
 - Missing @nist si-10 for input validation
 - Suggested implementation improvements for each control
+
 ```
 
 ### Example 2: Implementation Guidance Request
 ```
+
 Prompt:
 Show me how to implement password complexity validation for NIST ia-5.1 in Python with proper annotations.
 
 Expected Output:
 [Complete implementation with regex patterns, error messages, and test cases]
+
 ```
 
 ### Example 3: Gap Analysis
 ```
+
 Prompt:
 My web application has the following NIST controls implemented:
+
 - ia-2 (basic authentication)
 - au-2 (some logging)
 - sc-8 (HTTPS)
@@ -375,6 +400,7 @@ What controls am I missing for moderate baseline, and which should I prioritize?
 
 Expected Output:
 [Prioritized list with implementation effort and risk ratings]
+
 ```
 
 ---
@@ -418,6 +444,7 @@ done
 ## Prompt Templates for CI/CD
 
 ### PR Review Template
+
 ```yaml
 name: NIST Compliance Review
 prompt: |
@@ -439,6 +466,7 @@ prompt: |
 ```
 
 ### Automated Documentation
+
 ```yaml
 name: Generate Control Evidence
 prompt: |
@@ -460,6 +488,7 @@ prompt: |
 ## Continuous Improvement
 
 These prompts should be:
+
 - Updated as NIST standards evolve
 - Customized for your organization
 - Refined based on LLM performance

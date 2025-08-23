@@ -27,6 +27,7 @@ function login(username, password) {
 ### Snippets
 
 Use these prefixes for quick insertion:
+
 - `nist` - Basic control tag
 - `nist-auth` - Authentication controls
 - `nist-authz` - Authorization controls
@@ -39,6 +40,7 @@ Use these prefixes for quick insertion:
 ### Commands
 
 Access these commands via Command Palette (Ctrl/Cmd+Shift+P):
+
 - `NIST: Suggest Controls for Current Function` - Get control suggestions
 - `NIST: Validate Control Tags in File` - Check all tags in current file
 - `NIST: Generate Compliance Report` - Create project-wide report
@@ -77,6 +79,7 @@ Configure in VS Code settings:
 ## Development
 
 To modify or extend:
+
 1. Open the extension folder in VS Code
 2. Run `npm run watch` to compile TypeScript
 3. Press F5 to launch Extension Development Host

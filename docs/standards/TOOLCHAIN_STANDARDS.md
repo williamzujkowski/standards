@@ -16,9 +16,11 @@ This standard provides comprehensive guidelines and best practices for the subje
 It aims to ensure consistency, quality, and maintainability across all related implementations.
 
 ## Purpose
+
 This document provides centralized, standardized tool recommendations for all development activities. All tool selections are managed through the [TOOLS_CATALOG.yaml](../../config/TOOLS_CATALOG.yaml) for easy updates and customization.
 
 ## Table of Contents
+
 1. [Tool Selection Guidelines](#tool-selection-guidelines)
 2. [Language-Specific Toolchains](#language-specific-toolchains)
 3. [Infrastructure Tools](#infrastructure-tools)
@@ -59,22 +61,26 @@ Tools are categorized into five recommendation levels:
 ### 🐍 Python Toolchain
 
 #### **[REQUIRED]** Core Tools
+
 - **Formatter**: `black` (v23.0+) - The uncompromising code formatter
 - **Import Sorter**: `isort` (v5.0+) - Import statement organization
 - **Type Checker**: `mypy` (v1.0+) - Static type checking
 - **Test Framework**: `pytest` (v7.0+) - Modern testing framework
 
 #### **[RECOMMENDED]** Enhanced Development
+
 - **Linter**: `ruff` (v0.1.0+) - Fast, modern linter (replaces flake8)
 - **Package Manager**: `poetry` (v1.5+) - Dependency management
 - **Security Scanner**: `bandit` (v1.7+) - Find common security issues
 - **Property Testing**: `hypothesis` (v6.0+) - Generate test cases
 
 #### **[LEGACY]** Migration Required
+
 - `flake8` → Migrate to `ruff`
 - `pip` alone → Migrate to `poetry` or `pip-tools`
 
 #### Quick Setup
+
 ```bash
 # Install all required Python tools
 pip install black isort mypy pytest pytest-cov
@@ -88,22 +94,26 @@ poetry add --group dev black isort mypy pytest ruff bandit
 ### 🟨 JavaScript/TypeScript Toolchain
 
 #### **[REQUIRED]** Core Tools
+
 - **Linter**: `eslint` (v8.0+) - Pluggable linting utility
 - **Formatter**: `prettier` (v3.0+) - Opinionated code formatter
 - **Test Framework**: `jest` (v29.0+) - Delightful JavaScript testing
 - **Type System**: `typescript` (v5.0+) - For TypeScript projects
 
 #### **[RECOMMENDED]** Enhanced Development
+
 - **Package Manager**: `pnpm` (v8.0+) - Fast, disk space efficient
 - **Build Tool**: `vite` (v5.0+) - Next generation frontend tooling
 - **E2E Testing**: `cypress` (v13.0+) - Fast, reliable testing
 
 #### **[OPTIONAL]** Alternatives
+
 - **Build**: `webpack` (v5.0+) or `esbuild` (v0.19+)
 - **Testing**: `playwright` (v1.40+) for cross-browser testing
 - **Package Manager**: `npm` (v10.0+) if pnpm unavailable
 
 #### Quick Setup
+
 ```bash
 # Initialize with pnpm
 pnpm init
@@ -118,11 +128,13 @@ echo '{"semi": false, "singleQuote": true}' > .prettierrc
 ### 🐹 Go Toolchain
 
 #### **[REQUIRED]** Core Tools
+
 - **Linter**: `golangci-lint` (v1.55+) - Fast linters runner
 - **Testing**: Built-in `go test` with `-race` and `-cover` flags
 - **Building**: Built-in `go build` with optimization flags
 
 #### Quick Setup
+
 ```bash
 # Install golangci-lint
 go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
@@ -138,30 +150,36 @@ golangci-lint run --init
 ### 🐳 Containerization
 
 #### **[REQUIRED]**
+
 - **Container Runtime**: `docker` (v24.0+) or `podman` (v4.0+)
 
 #### **[RECOMMENDED]**
+
 - **Orchestration**: `kubernetes` (v1.28+) with `kubectl`, `helm`, `kustomize`
 - **Container Scanning**: `trivy` (v0.48+) - Comprehensive vulnerability scanner
 
 ### 🏗️ Infrastructure as Code
 
 #### **[RECOMMENDED]**
+
 - **Primary IaC**: `terraform` (v1.6+) - Write, Plan, Create Infrastructure
 - **State Management**: Use remote state (S3, Azure Storage, GCS)
 - **Module Registry**: Leverage existing modules when possible
 
 #### **[OPTIONAL]**
+
 - **Configuration**: `ansible` (v2.15+) - For configuration management
 - **Alternative IaC**: `pulumi` (v3.0+) - Infrastructure with real programming languages
 
 ### 🔄 CI/CD Pipelines
 
 #### **[RECOMMENDED]**
+
 - **GitHub Projects**: GitHub Actions (built-in)
 - **GitLab Projects**: GitLab CI (built-in)
 
 #### **[LEGACY]**
+
 - **Jenkins**: Only for existing installations
 
 ---
@@ -188,17 +206,20 @@ golangci-lint run --init
 ### 📊 Metrics & Monitoring
 
 #### **[RECOMMENDED]** Open Source Stack
+
 - **Collection**: `prometheus` (v2.45+)
 - **Visualization**: `grafana` (v10.0+)
 - **Alerting**: Prometheus Alertmanager
 
 #### **[OPTIONAL]** Commercial Solutions
+
 - **APM**: Datadog, New Relic, or AppDynamics
 - **Error Tracking**: `sentry` (recommended even with APM)
 
 ### 📝 Logging
 
 #### **[RECOMMENDED]**
+
 - **Collection**: `fluentd` or `fluent-bit`
 - **Storage**: Elasticsearch or cloud-native solutions
 - **Visualization**: Kibana or Grafana
@@ -206,6 +227,7 @@ golangci-lint run --init
 ### 🔗 Distributed Tracing
 
 #### **[RECOMMENDED]**
+
 - **Framework**: OpenTelemetry (vendor-neutral)
 - **Backend**: Jaeger or cloud provider solutions
 
@@ -244,6 +266,7 @@ Standard configurations for all tools are available in the [examples/project-tem
 ### 🚀 Legacy Tool Migration
 
 #### Python: flake8 → ruff
+
 ```bash
 # Install ruff
 pip install ruff
@@ -258,6 +281,7 @@ select = ["E", "F", "W", "C", "N"]
 ```
 
 #### JavaScript: npm/yarn → pnpm
+
 ```bash
 # Install pnpm
 npm install -g pnpm

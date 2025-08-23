@@ -29,6 +29,7 @@ Both are intentionally orphaned scaffolding/planning documents.
 ## 🔗 Kickstart/Router Alignment Notes
 
 ### Updated Files:
+
 1. **CLAUDE.md** (router):
    - AUTO-LINKS sections added for badges
    - Fast path loading maintained
@@ -92,6 +93,7 @@ make validate  # ✅ All validations pass
 ## 📝 Intentional Exclusions
 
 ### Already Excluded in audit-rules.yaml:
+
 - `.claude/**` - Agent definitions (modular design)
 - `memory/**` - Session management files
 - `prompts/**` - Individual prompt files
@@ -99,12 +101,14 @@ make validate  # ✅ All validations pass
 - `.vscode/**`, `.git/**`, `node_modules/**` - Tool/system files
 
 ### Recommended Additional Exclusions:
+
 - `project_plan.md` - Planning document
 - `standards/compliance/IMPLEMENTATION_SUMMARY.md` - Generated report
 
 ## 📦 Artifacts
 
 ### Generated Reports:
+
 - `reports/generated/linkcheck.txt` - No broken links
 - `reports/generated/structure-audit.md` - 2 orphans, 0 real violations
 - `reports/generated/structure-audit.json` - Machine-readable gates
@@ -112,6 +116,7 @@ make validate  # ✅ All validations pass
 - `reports/generated/standards-inventory.json` - 60 standards cataloged
 
 ### Updated Hubs with AUTO-LINKS:
+
 - `docs/standards/UNIFIED_STANDARDS.md` - 24 standards linked
 - `docs/guides/STANDARDS_INDEX.md` - 10 guides linked
 - `docs/core/README.md` - 9 core docs linked
@@ -126,6 +131,7 @@ make validate  # ✅ All validations pass
 ## 🚀 CI/CD Status
 
 The `.github/workflows/lint-and-validate.yml` workflow includes:
+
 - ✅ Audit gates job enforcing hard limits
 - ✅ Hub population via ensure-hub-links.py
 - ✅ JSON-based gate validation
@@ -144,6 +150,7 @@ The `.github/workflows/lint-and-validate.yml` workflow includes:
 ## 🎯 Summary
 
 All hard gates have been satisfied:
+
 - Zero broken internal links achieved
 - Hub linking complete via AUTO-LINKS sections
 - Only 2 intentional orphans remain (well under limit of 5)

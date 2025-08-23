@@ -15,6 +15,7 @@
 **Status:** Active
 
 ## TL;DR
+
 - **Modern frontend architecture** with component-based design, state management patterns, and performance optimization strategies
 - **Framework standards** for React, Vue, and Angular including project structure, coding patterns, and best practices
 - **Mobile development** guidelines covering React Native, Flutter, and native development with cross-platform considerations
@@ -44,6 +45,7 @@ It aims to ensure consistency, quality, and maintainability across all related i
 ### 1.1 Project Structure
 
 #### Modern Frontend Structure **[REQUIRED]**
+
 ```
 frontend-app/
 ├── public/                     # Static assets
@@ -79,6 +81,7 @@ frontend-app/
 ```
 
 #### Component Organization **[REQUIRED]**
+
 ```typescript
 // components/Button/index.ts
 export { Button } from './Button';
@@ -153,6 +156,7 @@ describe('Button', () => {
 ### 1.2 TypeScript Configuration
 
 #### Strict TypeScript Setup **[REQUIRED]**
+
 ```json
 {
   "compilerOptions": {
@@ -199,6 +203,7 @@ describe('Button', () => {
 ```
 
 #### Type Safety Patterns **[REQUIRED]**
+
 ```typescript
 // types/api.types.ts
 export interface ApiResponse<T> {
@@ -282,6 +287,7 @@ export const apiService = new ApiService();
 ### 1.3 Build and Bundling
 
 #### Webpack Configuration **[REQUIRED]**
+
 ```javascript
 // webpack.config.js
 const path = require('path');
@@ -393,6 +399,7 @@ module.exports = {
 ### 2.1 React Standards
 
 #### Component Patterns **[REQUIRED]**
+
 ```typescript
 // Custom Hooks Pattern
 import { useState, useEffect, useCallback } from 'react';
@@ -575,6 +582,7 @@ Tabs.Panel = ({ id, children }) => {
 ```
 
 #### Performance Optimization **[REQUIRED]**
+
 ```typescript
 // Memoization and optimization patterns
 import React, { memo, useMemo, useCallback } from 'react';
@@ -672,6 +680,7 @@ export const AppRouter: React.FC = () => {
 ### 2.2 Vue.js Standards
 
 #### Composition API Patterns **[REQUIRED]**
+
 ```vue
 <!-- UserProfile.vue -->
 <template>
@@ -822,6 +831,7 @@ export function useUser(): UseUserReturn {
 ### 2.3 Angular Standards
 
 #### Component and Service Patterns **[REQUIRED]**
+
 ```typescript
 // user-profile.component.ts
 import { Component, Input, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
@@ -958,6 +968,7 @@ export class UserService {
 ### 3.1 Redux Toolkit Standards
 
 #### Store Configuration **[REQUIRED]**
+
 ```typescript
 // store/index.ts
 import { configureStore } from '@reduxjs/toolkit';
@@ -1103,6 +1114,7 @@ export const useAppDispatch = () => useDispatch<AppDispatch>();
 ### 3.2 Zustand Standards
 
 #### Simple State Management **[RECOMMENDED]**
+
 ```typescript
 // store/userStore.ts
 import { create } from 'zustand';
@@ -1215,6 +1227,7 @@ export const useUserError = () => useUserStore(state => state.error);
 ### 3.3 Context API Patterns
 
 #### Provider Pattern **[REQUIRED]**
+
 ```typescript
 // contexts/ThemeContext.tsx
 import React, { createContext, useContext, useReducer, ReactNode } from 'react';
@@ -1320,6 +1333,7 @@ export const useTheme = () => {
 ### 4.1 Core Web Vitals
 
 #### Performance Monitoring **[REQUIRED]**
+
 ```typescript
 // utils/performance.ts
 interface PerformanceMetrics {
@@ -1425,6 +1439,7 @@ export const checkPerformanceBudget = () => {
 ```
 
 #### Image Optimization **[REQUIRED]**
+
 ```typescript
 // components/OptimizedImage.tsx
 import React, { useState, useRef, useEffect } from 'react';
@@ -1530,6 +1545,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
 ### 4.2 Bundle Optimization
 
 #### Code Splitting Strategies **[REQUIRED]**
+
 ```typescript
 // utils/loadable.tsx
 import React, { Suspense, ComponentType } from 'react';
@@ -1626,6 +1642,7 @@ module.exports = {
 ### 5.1 Service Worker Implementation
 
 #### Service Worker Strategy **[REQUIRED]**
+
 ```typescript
 // service-worker.ts
 const CACHE_NAME = 'app-v1.0.0';
@@ -1772,6 +1789,7 @@ async function doBackgroundSync() {
 ```
 
 #### PWA Manifest Configuration **[REQUIRED]**
+
 ```json
 {
   "name": "Modern Web Application",
@@ -1881,6 +1899,7 @@ async function doBackgroundSync() {
 ### 5.2 Offline Functionality
 
 #### Offline Data Management **[REQUIRED]**
+
 ```typescript
 // utils/offlineStorage.ts
 interface OfflineAction {
@@ -2062,6 +2081,7 @@ export function useOffline() {
 ### 6.1 React Native Standards
 
 #### Project Structure **[REQUIRED]**
+
 ```
 mobile-app/
 ├── src/
@@ -2094,6 +2114,7 @@ mobile-app/
 ```
 
 #### Component Development **[REQUIRED]**
+
 ```typescript
 // components/Button/Button.tsx
 import React from 'react';
@@ -2239,6 +2260,7 @@ const styles = StyleSheet.create({
 ```
 
 #### Navigation Setup **[REQUIRED]**
+
 ```typescript
 // navigation/AppNavigator.tsx
 import React from 'react';
@@ -2332,6 +2354,7 @@ export const AppNavigator = () => {
 ### 6.2 Platform-Specific Optimizations
 
 #### iOS Guidelines **[REQUIRED]**
+
 ```typescript
 // utils/platform.ts
 import { Platform, Dimensions } from 'react-native';
@@ -2397,6 +2420,7 @@ export const useKeyboardHeight = () => {
 ```
 
 #### Android Guidelines **[REQUIRED]**
+
 ```xml
 <!-- android/app/src/main/res/values/styles.xml -->
 <resources>
@@ -2452,6 +2476,7 @@ export const requestPermissions = async () => {
 ## Implementation Checklist
 
 ### Frontend Architecture
+
 - [ ] Project structure follows standards
 - [ ] TypeScript configured with strict settings
 - [ ] Build system optimized
@@ -2459,6 +2484,7 @@ export const requestPermissions = async () => {
 - [ ] Error boundaries implemented
 
 ### Framework Implementation
+
 - [ ] Framework-specific patterns applied
 - [ ] Performance optimizations implemented
 - [ ] Code splitting configured
@@ -2466,6 +2492,7 @@ export const requestPermissions = async () => {
 - [ ] Testing framework integrated
 
 ### Performance Optimization
+
 - [ ] Core Web Vitals monitored
 - [ ] Images optimized
 - [ ] Bundle size optimized
@@ -2473,6 +2500,7 @@ export const requestPermissions = async () => {
 - [ ] Caching strategies applied
 
 ### PWA Features
+
 - [ ] Service worker implemented
 - [ ] Manifest configured
 - [ ] Offline functionality working
@@ -2480,6 +2508,7 @@ export const requestPermissions = async () => {
 - [ ] Installation prompts added
 
 ### Mobile Development
+
 - [ ] Platform-specific optimizations
 - [ ] Navigation configured
 - [ ] Performance optimized
@@ -2487,6 +2516,7 @@ export const requestPermissions = async () => {
 - [ ] Testing on real devices
 
 ### Testing and Quality
+
 - [ ] Unit tests comprehensive
 - [ ] Integration tests working
 - [ ] E2E tests automated

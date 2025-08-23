@@ -44,12 +44,14 @@ Analyzes documentation for token efficiency:
 ## 🚀 Running the Tests
 
 ### Run All Tests
+
 ```bash
 cd tests
 ./validate_knowledge_management.sh
 ```
 
 ### Run Individual Test Suites
+
 ```bash
 # Cross-reference validation
 python3 validate_cross_references.py
@@ -64,6 +66,7 @@ bash validate_knowledge_management.sh
 ## 📊 Test Output
 
 ### Success Output
+
 ```
 ✓ PASS - Manifest Completeness
   All standards present in MANIFEST.yaml
@@ -74,6 +77,7 @@ SUMMARY: 10 passed, 0 failed
 ```
 
 ### Failure Output
+
 ```
 ✗ FAIL - Bidirectional Links
   Found 3 unidirectional links
@@ -109,6 +113,7 @@ To add new validation tests:
 3. **Document**: Update this README with new test coverage
 
 Example test method:
+
 ```python
 def test_new_validation(self) -> ValidationResult:
     """Test: Description of what this validates"""

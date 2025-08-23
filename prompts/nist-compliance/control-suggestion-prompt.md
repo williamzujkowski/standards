@@ -1,6 +1,7 @@
 # NIST Control Suggestion Prompt
 
 ## Purpose
+
 Use this prompt when you have code that needs NIST control tagging but you're unsure which controls apply.
 
 ## The Prompt
@@ -10,7 +11,9 @@ You are a NIST 800-53r5 compliance expert. Analyze the following code and sugges
 
 Code to analyze:
 ```
+
 [INSERT YOUR CODE HERE]
+
 ```
 
 For each security-relevant feature in the code:
@@ -50,6 +53,7 @@ Example output:
 ## Usage Example
 
 ### Input:
+
 ```python
 def login(username, password):
     user = get_user(username)
@@ -60,6 +64,7 @@ def login(username, password):
 ```
 
 ### Expected Output:
+
 ```
 - Line 1-6: User authentication function
   - Suggested control: @nist ia-2 "User authentication implementation"
@@ -81,7 +86,9 @@ Missing security features for moderate baseline:
 ## Variations
 
 ### For Specific Languages
+
 Add to the prompt:
+
 ```
 The code is written in [LANGUAGE]. Use idiomatic comment syntax for @nist tags:
 - Python: # @nist
@@ -91,13 +98,17 @@ The code is written in [LANGUAGE]. Use idiomatic comment syntax for @nist tags:
 ```
 
 ### For Specific Baselines
+
 Modify the prompt:
+
 ```
 Suggest controls from the [LOW/MODERATE/HIGH] baseline only.
 ```
 
 ### For Specific Domains
+
 Add context:
+
 ```
 This is a [healthcare/financial/government] application that must comply with [HIPAA/PCI-DSS/FISMA].
 ```

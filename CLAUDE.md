@@ -3,6 +3,7 @@
 ## 🚀 Fast Path: Standards Auto-Loading
 
 ### Quick Load by Product Type
+
 ```
 @load product:api              # REST/GraphQL API service
 @load product:web-service       # Full-stack web application
@@ -13,6 +14,7 @@
 ```
 
 ### Custom Combinations
+
 ```
 @load [product:api + CS:python + TS:pytest]       # Python API
 @load [product:frontend-web + FE:react + SEC:*]   # React with all security
@@ -20,6 +22,7 @@
 ```
 
 ### How It Works
+
 1. **Reads** `config/product-matrix.yaml` for product mappings
 2. **Resolves** standard codes (CS, TS, SEC, etc.) to specific docs
 3. **Expands** wildcards (SEC:* → all security standards)
@@ -27,6 +30,7 @@
 5. **Loads** relevant standards from `docs/standards/` and related paths
 
 ### Routing Contracts
+
 - **Input**: `@load` directive with product type and/or standard codes
 - **Processing**: Matrix resolution → wildcard expansion → NIST inclusion
 - **Output**: Loaded standards with implementation guidance
@@ -342,9 +346,11 @@ Never save working files, text/mds and tests to the root folder.
 > excluding non-doc trees, auto-populating hubs, and aligning Kickstart ↔ Router ↔ Product Matrix.
 
 ## ROLE
+
 You are **Senior Standards Orchestrator** for this repository. You remediate documentation structure, enforce policy gates, align the Kickstart/Router flow, and produce a merge-ready PR.
 
 ## INPUTS (templated)
+
 - Repo URL: {{repo_url|default:"https://github.com/williamzujkowski/standards"}}
 - Working branch: {{working_branch|default:"audit-gates-final/{{today}}"}}
 - Orphan limit (gate): {{orphan_limit|default:"5"}}
@@ -352,16 +358,19 @@ You are **Senior Standards Orchestrator** for this repository. You remediate doc
 - PR number (if updating an open PR): {{pr_number|default:""}}
 
 ## SCOPE & EXCLUSIONS
+
 Exclude from orphan math & hub rules:
 `.claude/**`, `subagents/**`, `memory/**`, `prompts/**`, `reports/generated/**`, `.vscode/**`, `.git/**`, `node_modules/**`, `__pycache__/**`, `.github/**`
 Also exclude any items listed in `{{extra_exclusions}}`.
 
 ## GATES (hard fail if violated)
+
 - **Broken internal links = 0**
 - **Hub violations = 0**
 - **Orphans ≤ {{orphan_limit}}**
 
 ## GROUND TRUTH FILES
+
 - Kickstart: `docs/guides/KICKSTART_PROMPT.md`
 - Router: `CLAUDE.md` (this file) & `docs/core/*`
 - Product Matrix: `config/product-matrix.yaml`
@@ -369,7 +378,9 @@ Also exclude any items listed in `{{extra_exclusions}}`.
 - CI workflow: `.github/workflows/lint-and-validate.yml`
 
 ## REQUIRED HUB RULES
+
 Ensure `config/audit-rules.yaml` includes:
+
 - `docs/standards/**/*.md` → `docs/standards/UNIFIED_STANDARDS.md`
 - `docs/guides/**/*.md` → `docs/guides/STANDARDS_INDEX.md`
 - `docs/core/**/*.md` → `docs/core/README.md`
@@ -382,56 +393,80 @@ Ensure `config/audit-rules.yaml` includes:
 - `badges/**/*.md` → `README.md`
 
 ## OPERATING RULES
+
 - Be **idempotent**: no duplicate `AUTO-LINKS` blocks; minimal diffs.
 - Treat regex-looking text as **code**, not links; fence or inline-backtick it.
 - Prefer linking docs into hubs over exclusions; exclude only truly non-navigable scaffolding.
 
 ## EXECUTION PLAN (authoritative)
+
 1) Branch
+
 ```
 git checkout -b {{working_branch}} || git checkout {{working_branch}}
 ```
+
 2) Policy
+
 - Ensure `config/audit-rules.yaml` exists with the exclusions & hub rules above; append `{{extra_exclusions}}` if provided.
+
 3) Populate hubs
+
 ```
 python3 scripts/ensure-hub-links.py
 ```
+
 4) Audit & Gate
+
 ```
 python3 scripts/generate-audit-reports.py
 ```
+
 Read `reports/generated/structure-audit.json` and enforce:
+
 - `broken_links == 0`
 - `hub_violations == 0`
 - `orphans <= {{orphan_limit}}`
 If any fail: fix (link or exclude) and re-run until green.
+
 5) Kickstart ↔ Router alignment
+
 - `docs/guides/KICKSTART_PROMPT.md` references product-matrix usage & router.
 - `CLAUDE.md`/`docs/core/*` expose fast-path load (e.g., `@load product:api`) aligned with repo convention.
+
 6) Standards inventory
+
 ```
 python3 scripts/generate-standards-inventory.py
 ```
+
 7) NIST quickstart
+
 ```
 cd examples/nist-templates/quickstart
 make test && make nist-check && make validate
 cd -
 ```
+
 8) CI gate (must exist)
+
 - `.github/workflows/lint-and-validate.yml` job reads `structure-audit.json` and **fails** if (broken>0 OR hubs>0 OR orphans>{{orphan_limit}}). Upload artifacts: `linkcheck.txt`, `structure-audit.md/json`, `hub-matrix.tsv`.
+
 9) PR
+
 - If `{{pr_number}}` empty:
+
   ```
   git add -A
   git commit -m "audit: enforce links=0 hubs=0 orphans<={{orphan_limit}} + router/kickstart alignment"
   git push --set-upstream origin {{working_branch}}
   ```
+
   Open PR titled: `Finalize audit gates (links=0, hubs=0, orphans≤{{orphan_limit}}) + router/kickstart alignment`
 - Else, update PR `#{{pr_number}}`.
 
 ## EXPECTED ARTIFACTS
+
 - `reports/generated/linkcheck.txt`
 - `reports/generated/structure-audit.md`
 - `reports/generated/structure-audit.json`
@@ -440,6 +475,7 @@ cd -
 - Updated hub READMEs with `AUTO-LINKS` sections
 
 ## OUTPUT FORMAT (STRICT)
+
 1. Diffstat
 2. Gate Summary: `broken=0 hubs=0 orphans=N (limit={{orphan_limit}})`
 3. Remaining Orphans (if any): one per line → `link|exclude  <path>  <hub-target or policy-line>`
@@ -448,6 +484,7 @@ cd -
 6. PR Body (Markdown): Before→After table; gate compliance; intentional exclusions; artifact locations
 
 ## SUCCESS CRITERIA (MUST PRINT)
+
 - `Broken links: 0`
 - `Hub violations: 0`
 - `Orphans (post-policy): ≤ {{orphan_limit}}`

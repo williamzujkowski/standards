@@ -14,16 +14,19 @@ This directory contains a comprehensive monitoring system for the standards repo
 ## Quick Start
 
 ### 1. Install Dependencies
+
 ```bash
 pip install -r monitoring/requirements.txt
 ```
 
 ### 2. Run Initial Setup
+
 ```bash
 python3 monitoring/setup_monitoring.py
 ```
 
 ### 3. Start Monitoring
+
 ```bash
 # One-time monitoring run
 ./monitoring/run_monitoring.sh
@@ -33,6 +36,7 @@ python3 monitoring/setup_monitoring.py
 ```
 
 ### 4. Enable Automated Monitoring (Optional)
+
 ```bash
 # Add cron jobs for automated monitoring
 crontab -e
@@ -88,6 +92,7 @@ All monitoring logs are stored in `monitoring/logs/`:
 ## Manual Commands
 
 ### Generate Reports
+
 ```bash
 # Daily summary
 python3 monitoring/automated_reports.py --daily
@@ -100,6 +105,7 @@ python3 monitoring/automated_reports.py --monthly
 ```
 
 ### Run Health Checks
+
 ```bash
 # Full health check
 python3 monitoring/health_monitor.py
@@ -109,6 +115,7 @@ python3 monitoring/performance_monitor.py
 ```
 
 ### Collect Analytics
+
 ```bash
 # Collect all metrics
 python3 monitoring/analytics_collector.py
@@ -117,13 +124,16 @@ python3 monitoring/analytics_collector.py
 ## Customization
 
 ### Thresholds
+
 Edit `monitoring/config/thresholds.json` to adjust warning and critical thresholds for:
+
 - Performance metrics
 - Health checks
 - Resource usage
 - Error rates
 
 ### Notifications
+
 Configure email, Slack, or other notifications in `monitoring/config/monitoring_config.json`:
 
 ```json
@@ -141,7 +151,9 @@ Configure email, Slack, or other notifications in `monitoring/config/monitoring_
 ```
 
 ### Dashboard
+
 Customize dashboard settings:
+
 - Port and host configuration
 - Auto-refresh intervals
 - Chart configurations
@@ -156,9 +168,11 @@ Customize dashboard settings:
 4. **Cron Jobs Not Running**: Check cron logs and file paths
 
 ### Debug Mode
+
 Enable debug logging by setting log level to "DEBUG" in configuration.
 
 ### Support
+
 For issues or questions, check the logs in `monitoring/logs/` for detailed error information.
 
 ## Catalog (auto)

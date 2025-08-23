@@ -45,7 +45,9 @@ Added to README.md line 9.
 ## 📝 Notes for Operators
 
 ### Branch Protection Reminder
+
 Configure branch protection in repository settings:
+
 1. Go to Settings → Branches
 2. Add rule for `master` branch
 3. Require status checks to pass:
@@ -56,7 +58,9 @@ Configure branch protection in repository settings:
    - ✅ NIST Quickstart Validation
 
 ### Scheduled Run Artifacts
+
 Find artifacts for scheduled runs:
+
 1. Go to Actions → lint-and-validate
 2. Filter by: `event:schedule`
 3. Download artifacts:
@@ -69,12 +73,14 @@ Find artifacts for scheduled runs:
 ## 🔧 Configuration Updates
 
 ### audit-rules.yaml
+
 - Added comprehensive documentation header
 - Added `limits` section with explicit gate values
 - Documented all exclusions with rationale
 - Added intentional orphans to exclusion list
 
 ### Workflow Changes
+
 - Re-enabled strict hub enforcement (removed temporary bypass)
 - Added scheduled weekly audit (Monday 05:17 UTC)
 - All artifact uploads use `actions/upload-artifact@v4`
@@ -82,6 +88,7 @@ Find artifacts for scheduled runs:
 ## 🔗 NIST & OSCAL References
 
 The audit gates support NIST 800-53r5 compliance:
+
 - [NIST SP 800-53 Rev 5](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final) - Security and Privacy Controls
 - [OSCAL](https://pages.nist.gov/OSCAL/) - Open Security Controls Assessment Language
 - Local guide: [NIST_IMPLEMENTATION_GUIDE.md](docs/nist/NIST_IMPLEMENTATION_GUIDE.md)
@@ -89,7 +96,9 @@ The audit gates support NIST 800-53r5 compliance:
 ## 💡 Future Considerations
 
 ### Model Context Protocol (MCP) Integration
+
 For connecting external tools/repos:
+
 - [Model Context Protocol Introduction](https://modelcontextprotocol.io/introduction)
 - [MCP Documentation](https://modelcontextprotocol.info/docs/)
 - Local guide: [MODEL_CONTEXT_PROTOCOL_STANDARDS.md](docs/standards/MODEL_CONTEXT_PROTOCOL_STANDARDS.md)

@@ -3,16 +3,19 @@
 Learn patterns from successful operations.
 
 ## Usage
+
 ```bash
 npx claude-flow training pattern-learn [options]
 ```
 
 ## Options
+
 - `--source <type>` - Pattern source
 - `--threshold <score>` - Success threshold
 - `--save <name>` - Save pattern set
 
 ## Examples
+
 ```bash
 # Learn from all ops
 npx claude-flow training pattern-learn

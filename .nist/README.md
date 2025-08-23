@@ -5,6 +5,7 @@ The `.nist/control-context.json` file provides a comprehensive context for LLMs 
 ## Overview
 
 This system enables:
+
 - 🤖 **Smart Control Suggestions** - Pattern-based control recommendations
 - 📚 **Implementation Guidance** - Language-specific examples and libraries
 - 🎯 **Project Context** - Baseline and focus area customization
@@ -14,6 +15,7 @@ This system enables:
 ## Structure
 
 ### Project Configuration
+
 ```json
 {
   "project": {
@@ -26,13 +28,17 @@ This system enables:
 ```
 
 ### Control Descriptions
+
 Enhanced control information with:
+
 - Implementation guidance
 - Common patterns
 - Project-specific examples
 
 ### Implementation Patterns
+
 Language-specific examples for common security patterns:
+
 - Authentication
 - Authorization
 - Encryption
@@ -40,6 +46,7 @@ Language-specific examples for common security patterns:
 - Validation
 
 ### Auto-tagging Rules
+
 Pattern matching for automatic control suggestions based on code content.
 
 ## Usage
@@ -66,6 +73,7 @@ npm run nist-context update-baseline high
 ### In Your IDE
 
 The VS Code extension uses this context to provide:
+
 - Real-time control suggestions
 - Implementation snippets
 - Evidence type hints
@@ -73,6 +81,7 @@ The VS Code extension uses this context to provide:
 ### With LLMs
 
 When using AI assistants, reference the context:
+
 ```
 Load the NIST context from .nist/control-context.json
 Suggest controls for the following authentication code...
@@ -83,6 +92,7 @@ Suggest controls for the following authentication code...
 ### Adding Project-Specific Controls
 
 Edit `control-context.json` to add custom controls:
+
 ```json
 "controlDescriptions": {
   "custom-1": {
@@ -98,6 +108,7 @@ Edit `control-context.json` to add custom controls:
 ### Updating Auto-tagging Rules
 
 Add patterns for your codebase:
+
 ```json
 "autoTaggingRules": {
   "patterns": [
@@ -113,6 +124,7 @@ Add patterns for your codebase:
 ### Language-Specific Examples
 
 Add examples for your tech stack:
+
 ```json
 "implementationPatterns": {
   "your_pattern": {
@@ -130,15 +142,19 @@ Add examples for your tech stack:
 ## Integration Points
 
 ### Git Hooks
+
 Pre-commit hooks use this context to suggest missing controls.
 
 ### CI/CD
+
 GitHub Actions use this context for compliance validation.
 
 ### Documentation
+
 SSP generator uses this context for control descriptions.
 
 ### Testing
+
 Test generators use implementation patterns for security tests.
 
 ## Best Practices
@@ -151,15 +167,18 @@ Test generators use implementation patterns for security tests.
 ## Troubleshooting
 
 ### Context Not Loading
+
 - Check file exists: `.nist/control-context.json`
 - Validate JSON syntax
 - Ensure read permissions
 
 ### No Suggestions
+
 - Check auto-tagging is enabled
 - Review pattern regex syntax
 - Verify code matches patterns
 
 ### Wrong Language Examples
+
 - Update `primaryLanguages` in project config
 - Add language-specific patterns

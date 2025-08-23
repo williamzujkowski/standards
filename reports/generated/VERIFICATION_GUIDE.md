@@ -313,6 +313,7 @@ git diff --stat
 ```
 
 Expected output showing:
+
 - ~18 new files
 - ~2 modified files
 - ~2000+ lines added

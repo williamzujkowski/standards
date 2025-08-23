@@ -3,16 +3,19 @@
 Update neural models with new data.
 
 ## Usage
+
 ```bash
 npx claude-flow training model-update [options]
 ```
 
 ## Options
+
 - `--model <name>` - Model to update
 - `--incremental` - Incremental update
 - `--validate` - Validate after update
 
 ## Examples
+
 ```bash
 # Update all models
 npx claude-flow training model-update

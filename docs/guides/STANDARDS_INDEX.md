@@ -1,4 +1,5 @@
 # Standards Quick Reference Index
+
 **Auto-generated from actual standards files for instant LLM access**
 
 *Last Updated: January 2025*
@@ -98,7 +99,7 @@ This index provides quick summaries of all standards sections. Use the codes bel
 |------|---------|---------|
 | `DE:overview` | Data Engineering Standards | Version: 1.0.0 Last Updated: January 2025 Status: Active Standard Code: DE |
 | `DE:tldr` | TL;DR | Modern data pipeline architecture with ETL/ELT patterns, orchestration frameworks, and automated dat |
-| `DE:1-data-pipeline-stan` | 1. Data Pipeline Standards | class DataPipeline: """Base class for all data pipelines.""" def __init__(self, config: PipelineConf |
+| `DE:1-data-pipeline-stan` | 1. Data Pipeline Standards | class DataPipeline: """Base class for all data pipelines.""" def **init**(self, config: PipelineConf |
 | `DE:2-data-quality-and-g` | 2. Data Quality and Governance | from abc import ABC, abstractmethod from dataclasses import dataclass from typing import List, Dict, |
 | `DE:3-data-storage-and-m` | 3. Data Storage and Modeling | Dimension table example CREATE TABLE dim_customers ( customer_key BIGINT IDENTITY(1,1) PRIMARY KEY, |
 | `DE:4-streaming-data-pro` | 4. Streaming Data Processing | topics: name: "customer.events.v1" partitions: 12 |
@@ -131,7 +132,7 @@ This index provides quick summaries of all standards sections. Use the codes bel
 |------|---------|---------|
 | `OBS:overview` | Observability and Monitoring Standards | Version: 1.0.0 Last Updated: January 2025 Status: Active Standard Code: OBS |
 | `OBS:tldr` | TL;DR | Three pillars approach combining metrics, logs, and distributed traces for complete system observabi |
-| `OBS:1-observability-prin` | 1. Observability Principles | <!-- @nist-controls: [au-2, au-3, au-4, au-5, au-6, au-9, si-4] --> observability: strategy: "three_ |
+| `OBS:1-observability-prin` | 1. Observability Principles | <!-- @nist-controls: [au-2, au-3, au-4, au-5, au-6, au-9, si-4] --> observability: strategy: "three_|
 | `OBS:2-metrics-and-monito` | 2. Metrics and Monitoring | global: scrape_interval: 15s evaluation_interval: 15s |
 | `OBS:3-distributed-tracin` | 3. Distributed Tracing | apiVersion: v1 kind: ConfigMap metadata: |
 | `OBS:4-logging-standards` | 4. Logging Standards | <!-- @nist-controls: [au-2, au-3, au-4, au-5, au-6, au-9] --> import json import logging |

@@ -5,6 +5,7 @@ This directory contains comprehensive linting tools to enforce standards complia
 ## 🚀 Quick Start
 
 ### Setup Pre-commit Hooks
+
 ```bash
 cd lint
 ./setup-hooks.sh
@@ -13,6 +14,7 @@ cd lint
 This will install and configure all linting tools automatically.
 
 ### Manual Linting
+
 ```bash
 # Run Python linter
 python lint/standards-linter.py
@@ -28,12 +30,14 @@ pre-commit run --all-files
 ## 📋 Linting Components
 
 ### 1. Markdown Linting (`.markdownlint.yaml`)
+
 - General markdown formatting rules
 - Customized for standards documents
 - Allows [REQUIRED]/[RECOMMENDED] emphasis patterns
 - Permits longer lines for comprehensive documentation
 
 ### 2. Custom Standards Linter (`standards-linter.py`)
+
 Enforces repository-specific rules:
 
 - **Metadata Requirements**
@@ -60,6 +64,7 @@ Enforces repository-specific rules:
   - Progressive disclosure recommendations
 
 ### 3. Pre-commit Hooks (`.pre-commit-config.yaml`)
+
 Automatically runs before each commit:
 
 - **File Checks**
@@ -86,6 +91,7 @@ Automatically runs before each commit:
   - Token efficiency analysis
 
 ### 4. YAML Linting (`.yamllint.yaml`)
+
 - Consistent indentation (2 spaces)
 - Line length limits
 - Proper spacing rules
@@ -93,7 +99,9 @@ Automatically runs before each commit:
 ## 🔧 Custom Rules
 
 ### JavaScript Rules (`custom-rules.js`)
+
 Node.js-based custom rules for:
+
 - Version metadata validation
 - Section requirement checking
 - Cross-reference validation
@@ -101,7 +109,9 @@ Node.js-based custom rules for:
 - Token efficiency analysis
 
 ### Python Linter Features
+
 The Python linter provides:
+
 - Comprehensive rule checking
 - Multiple output formats (text, JSON)
 - Detailed fix suggestions
@@ -111,6 +121,7 @@ The Python linter provides:
 ## 📊 Linting Reports
 
 ### Text Format (Default)
+
 ```
 Standards Linting Report
 ==================================================
@@ -128,6 +139,7 @@ CODING_STANDARDS.md:
 ```
 
 ### JSON Format
+
 ```bash
 python lint/standards-linter.py --format json
 ```
@@ -144,6 +156,7 @@ python lint/standards-linter.py --format json
 ### Disabling Rules
 
 For specific files:
+
 ```markdown
 <!-- markdownlint-disable MD013 -->
 Long line that should not be wrapped
@@ -151,6 +164,7 @@ Long line that should not be wrapped
 ```
 
 For specific commits:
+
 ```bash
 git commit --no-verify -m "Emergency fix"
 ```
@@ -171,6 +185,7 @@ pre-commit validate-config
 ## 🔄 CI/CD Integration
 
 The linting system integrates with GitHub Actions:
+
 - Runs on all pull requests
 - Blocks merge on errors
 - Provides inline comments on issues
@@ -188,22 +203,26 @@ The linting system integrates with GitHub Actions:
 ### Common Issues
 
 **Pre-commit not found**
+
 ```bash
 pip install --user pre-commit
 export PATH="$HOME/.local/bin:$PATH"
 ```
 
 **Markdownlint errors**
+
 ```bash
 npm install -g markdownlint-cli
 ```
 
 **Python dependencies**
+
 ```bash
 pip install pyyaml
 ```
 
 ### Skipping Hooks Temporarily
+
 ```bash
 SKIP=standards-metadata git commit -m "WIP"
 ```

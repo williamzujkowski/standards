@@ -8,7 +8,6 @@ import hashlib
 import hmac
 import logging
 import secrets
-import time
 from datetime import datetime, timedelta
 from typing import Any, Dict, Optional
 
@@ -153,9 +152,7 @@ class AuthenticationService:
             return True
 
         # @nist au-2 "Audit events"
-        logger.warning(
-            f"Authorization denied: {username} attempted to access {required_role} resource"
-        )
+        logger.warning(f"Authorization denied: {username} attempted to access {required_role} resource")
         return False
 
     def validate_session(self, session_token: str) -> bool:
@@ -210,9 +207,7 @@ class AuthenticationService:
 
         @nist sc-13 "Cryptographic protection"
         """
-        return hashlib.pbkdf2_hmac(
-            "sha256", password.encode("utf-8"), self.salt, 100000  # iterations
-        )
+        return hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), self.salt, 100000)  # iterations
 
     def _verify_password(self, password: str, password_hash: bytes) -> bool:
         """
@@ -245,9 +240,7 @@ class AuthenticationService:
 
 
 # Example usage with input validation
-def handle_login_request(
-    auth_service: AuthenticationService, request_data: dict
-) -> dict:
+def handle_login_request(auth_service: AuthenticationService, request_data: dict) -> dict:
     """
     Handle login API request with input validation.
 

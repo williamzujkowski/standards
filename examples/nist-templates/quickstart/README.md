@@ -107,6 +107,7 @@ Add to your GitHub Actions workflow:
 ## Local Development
 
 1. **Install the Git Hook**:
+
    ```bash
    ./scripts/setup-nist-hooks.sh
    ```
@@ -116,6 +117,7 @@ Add to your GitHub Actions workflow:
    - Get real-time control suggestions
 
 3. **Run Pre-commit Checks**:
+
    ```bash
    git add auth-service.py
    git commit -m "Add authentication service"
@@ -125,17 +127,20 @@ Add to your GitHub Actions workflow:
 ## Verification Steps
 
 1. **Check Tag Coverage**:
+
    ```bash
    grep -o "@nist [a-z][a-z]-[0-9]\+" auth-service.py | sort -u
    ```
 
 2. **Validate Format**:
+
    ```bash
    # Should match: @nist xx-# where xx is lowercase
    grep "@nist" auth-service.py | grep -v "@nist [a-z][a-z]-[0-9]"
    ```
 
 3. **Run Security Tests**:
+
    ```bash
    python -m pytest test_auth_service.py -k security
    ```

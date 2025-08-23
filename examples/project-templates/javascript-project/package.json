@@ -1,28 +1,6 @@
 {
-  "name": "standards-compliant-project",
-  "version": "1.0.0",
-  "description": "A JavaScript/TypeScript project following comprehensive standards",
-  "main": "dist/index.js",
-  "type": "module",
-  "scripts": {
-    "dev": "nodemon --exec tsx src/index.ts",
-    "build": "tsc && vite build",
-    "start": "node dist/index.js",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage --coverageThreshold='{\"global\":{\"branches\":85,\"functions\":85,\"lines\":85,\"statements\":85}}'",
-    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
-    "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
-    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
-    "type-check": "tsc --noEmit",
-    "security:check": "npm audit --audit-level=high",
-    "pre-commit": "lint-staged",
-    "prepare": "husky install",
-    "quality:check": "npm run lint && npm run type-check && npm run test:coverage",
-    "standards:check": "npm run quality:check && npm run security:check"
-  },
   "dependencies": {},
+  "description": "A JavaScript/TypeScript project following comprehensive standards",
   "devDependencies": {
     "@types/jest": "latest",
     "@types/node": "latest",
@@ -48,18 +26,7 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{json,css,md}": [
-      "prettier --write"
-    ]
-  },
   "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node",
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!src/**/*.d.ts",
@@ -75,12 +42,45 @@
         "statements": 85
       }
     },
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    },
+    "preset": "ts-jest",
+    "testEnvironment": "node",
     "testMatch": [
       "<rootDir>/src/**/*.test.{js,jsx,ts,tsx}",
       "<rootDir>/src/**/*.spec.{js,jsx,ts,tsx}"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
     ],
-    "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/src/$1"
-    }
-  }
+    "*.{json,css,md}": [
+      "prettier --write"
+    ]
+  },
+  "main": "dist/index.js",
+  "name": "standards-compliant-project",
+  "scripts": {
+    "build": "tsc && vite build",
+    "dev": "nodemon --exec tsx src/index.ts",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
+    "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
+    "pre-commit": "lint-staged",
+    "prepare": "husky install",
+    "quality:check": "npm run lint && npm run type-check && npm run test:coverage",
+    "security:check": "npm audit --audit-level=high",
+    "standards:check": "npm run quality:check && npm run security:check",
+    "start": "node dist/index.js",
+    "test": "jest",
+    "test:coverage": "jest --coverage --coverageThreshold='{\"global\":{\"branches\":85,\"functions\":85,\"lines\":85,\"statements\":85}}'",
+    "test:watch": "jest --watch",
+    "type-check": "tsc --noEmit"
+  },
+  "type": "module",
+  "version": "1.0.0"
 }

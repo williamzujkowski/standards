@@ -9,15 +9,18 @@ Copy this prompt into any web-based LLM chat (ChatGPT, Claude, Gemini, etc.) alo
 I need help implementing a project based on my project plan. I'll provide the plan content below, and I'd like you to:
 
 ### 1. **Analyze & Identify** (Auto-Detection)
+
 - Detect the project type, tech stack, and languages
 - Identify frameworks, databases, and infrastructure needs
 - Recognize architectural patterns and deployment targets
 - Note any compliance or security requirements
 
 ### 2. **Standards Mapping** (From: https://github.com/williamzujkowski/standards)
+>
 > 💡 **Note**: For creating new standards, see [CREATING_STANDARDS_GUIDE.md](https://github.com/williamzujkowski/standards/blob/master/CREATING_STANDARDS_GUIDE.md)
 
 #### Using the Standards Router (CLAUDE.md) & Product Matrix
+
 After Tech Stack Analysis, the router at `CLAUDE.md` resolves bundles from `config/product-matrix.yaml`:
 
 ```
@@ -27,6 +30,7 @@ After Tech Stack Analysis, the router at `CLAUDE.md` resolves bundles from `conf
 ```
 
 The router (`CLAUDE.md` at repository root) provides:
+
 - **Fast Path Loading**: Reads `config/product-matrix.yaml` for product mappings
 - **Wildcard Expansion**: `SEC:*` expands to all security standards + NIST-IG:base
 - **Language Detection**: Auto-maps CS/TS to language-specific implementations
@@ -35,6 +39,7 @@ The router (`CLAUDE.md` at repository root) provides:
 See [USING_PRODUCT_MATRIX.md](./USING_PRODUCT_MATRIX.md) for detailed examples.
 
 Based on the detected technologies, recommend relevant standards:
+
 - **Code Standards (CS):** Language-specific best practices
 - **Testing Standards (TS):** Testing frameworks and coverage requirements
 - **Security Standards (SEC):** Security patterns and authentication
@@ -45,7 +50,9 @@ Based on the detected technologies, recommend relevant standards:
 - **NIST Compliance (NIST-IG):** NIST 800-53r5 control tagging ([NIST_IMPLEMENTATION_GUIDE.md](https://github.com/williamzujkowski/standards/blob/master/NIST_IMPLEMENTATION_GUIDE.md))
 
 ### 3. **Implementation Blueprint**
+
 Create a structured implementation plan with:
+
 - Project scaffold/boilerplate structure
 - Core dependencies and toolchain setup
 - Development workflow (git flow, CI/CD)
@@ -55,7 +62,9 @@ Create a structured implementation plan with:
 - Deployment pipeline and monitoring
 
 ### 4. **Code Generation**
+
 Provide starter code for:
+
 - Project configuration files (package.json, pyproject.toml, etc.)
 - CI/CD pipeline configuration
 - Docker/container setup if applicable
@@ -64,7 +73,9 @@ Provide starter code for:
 - Security configurations and middleware
 
 ### 5. **Quality Gates**
+
 Define automated checks for:
+
 - Code style and linting rules
 - Test coverage thresholds
 - Security scanning requirements
@@ -72,7 +83,9 @@ Define automated checks for:
 - Documentation standards
 
 ### 6. **Tool Recommendations**
+
 Suggest modern tools for:
+
 - **Required:** Essential tools for the detected stack
 - **Recommended:** Tools that enhance developer experience
 - **Optional:** Nice-to-have tools for advanced workflows
@@ -86,6 +99,7 @@ Suggest modern tools for:
 ---
 
 ## Additional Context (Optional):
+
 - Team size: [small/medium/large]
 - Experience level: [beginner/intermediate/expert]
 - Timeline: [MVP/short-term/long-term]
@@ -96,6 +110,7 @@ Suggest modern tools for:
 ## Expected Output Format:
 
 1. **Tech Stack Analysis**
+
    ```yaml
    detected:
      languages: [...]
@@ -105,6 +120,7 @@ Suggest modern tools for:
    ```
 
 2. **Standards Recommendations**
+
    ```
    Essential Standards:
    - CS:[language] - Core language patterns
@@ -118,6 +134,7 @@ Suggest modern tools for:
    ```
 
 3. **Project Structure**
+
    ```
    project-root/
    ├── src/
@@ -127,6 +144,7 @@ Suggest modern tools for:
    ```
 
 4. **Quick Start Commands**
+
    ```bash
    # Initialize project
    # Install dependencies

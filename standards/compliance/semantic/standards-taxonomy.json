@@ -1,86 +1,164 @@
 {
-  "version": "1.0.0",
   "created": "2025-01-15",
   "description": "Semantic taxonomy for classifying repository standards in relation to NIST controls",
-
-  "taxonomies": {
-    "security_domains": {
-      "access_management": {
-        "includes": ["authentication", "authorization", "identity_management", "session_management"],
-        "nist_families": ["ac", "ia"],
-        "common_standards": ["SECURITY_STANDARDS.md", "API_STANDARDS.md#authentication"]
-      },
-      "data_protection": {
-        "includes": ["encryption", "data_classification", "data_handling", "privacy"],
-        "nist_families": ["sc", "mp"],
-        "common_standards": ["SECURITY_STANDARDS.md#encryption", "LEGAL_STANDARDS.md#privacy"]
-      },
-      "audit_monitoring": {
-        "includes": ["logging", "monitoring", "alerting", "forensics"],
-        "nist_families": ["au", "si"],
-        "common_standards": ["OBSERVABILITY_STANDARDS.md", "SECURITY_STANDARDS.md#logging"]
-      },
-      "configuration_security": {
-        "includes": ["baseline_configs", "hardening", "patch_management", "change_control"],
-        "nist_families": ["cm", "sa"],
-        "common_standards": ["DEVOPS_STANDARDS.md", "CONTAINER_NETWORKING_STANDARDS.md"]
-      }
-    },
-
-    "implementation_types": {
-      "technical": {
-        "description": "Technical implementations in code or configuration",
-        "evidence_types": ["code", "configuration", "infrastructure"],
-        "verification_methods": ["static_analysis", "dynamic_testing", "configuration_scanning"]
-      },
-      "administrative": {
-        "description": "Policy and procedure implementations",
-        "evidence_types": ["documentation", "process_artifacts"],
-        "verification_methods": ["document_review", "process_validation"]
-      },
-      "operational": {
-        "description": "Operational practices and monitoring",
-        "evidence_types": ["logs", "metrics", "alerts"],
-        "verification_methods": ["log_analysis", "metric_evaluation", "incident_review"]
-      }
-    },
-
-    "maturity_levels": {
-      "initial": {
-        "description": "Basic implementation present",
-        "indicators": ["minimal_documentation", "basic_controls", "manual_processes"]
-      },
-      "defined": {
-        "description": "Documented and standardized implementation",
-        "indicators": ["documented_processes", "standard_configurations", "basic_automation"]
-      },
-      "managed": {
-        "description": "Monitored and measured implementation",
-        "indicators": ["automated_monitoring", "metrics_collection", "regular_reviews"]
-      },
-      "optimized": {
-        "description": "Continuously improved implementation",
-        "indicators": ["automated_optimization", "predictive_analytics", "proactive_improvements"]
-      }
-    }
-  },
-
   "relationship_types": {
-    "implements": {
-      "description": "Standard directly implements the control requirement",
-      "strength": 1.0
-    },
-    "supports": {
-      "description": "Standard provides supporting capabilities for the control",
-      "strength": 0.7
-    },
     "documents": {
       "description": "Standard documents procedures for the control",
       "strength": 0.5
     },
+    "implements": {
+      "description": "Standard directly implements the control requirement",
+      "strength": 1.0
+    },
     "references": {
       "description": "Standard references or relates to the control",
       "strength": 0.3
+    },
+    "supports": {
+      "description": "Standard provides supporting capabilities for the control",
+      "strength": 0.7
     }
-  }
+  },
+  "taxonomies": {
+    "implementation_types": {
+      "administrative": {
+        "description": "Policy and procedure implementations",
+        "evidence_types": [
+          "documentation",
+          "process_artifacts"
+        ],
+        "verification_methods": [
+          "document_review",
+          "process_validation"
+        ]
+      },
+      "operational": {
+        "description": "Operational practices and monitoring",
+        "evidence_types": [
+          "logs",
+          "metrics",
+          "alerts"
+        ],
+        "verification_methods": [
+          "log_analysis",
+          "metric_evaluation",
+          "incident_review"
+        ]
+      },
+      "technical": {
+        "description": "Technical implementations in code or configuration",
+        "evidence_types": [
+          "code",
+          "configuration",
+          "infrastructure"
+        ],
+        "verification_methods": [
+          "static_analysis",
+          "dynamic_testing",
+          "configuration_scanning"
+        ]
+      }
+    },
+    "maturity_levels": {
+      "defined": {
+        "description": "Documented and standardized implementation",
+        "indicators": [
+          "documented_processes",
+          "standard_configurations",
+          "basic_automation"
+        ]
+      },
+      "initial": {
+        "description": "Basic implementation present",
+        "indicators": [
+          "minimal_documentation",
+          "basic_controls",
+          "manual_processes"
+        ]
+      },
+      "managed": {
+        "description": "Monitored and measured implementation",
+        "indicators": [
+          "automated_monitoring",
+          "metrics_collection",
+          "regular_reviews"
+        ]
+      },
+      "optimized": {
+        "description": "Continuously improved implementation",
+        "indicators": [
+          "automated_optimization",
+          "predictive_analytics",
+          "proactive_improvements"
+        ]
+      }
+    },
+    "security_domains": {
+      "access_management": {
+        "common_standards": [
+          "SECURITY_STANDARDS.md",
+          "API_STANDARDS.md#authentication"
+        ],
+        "includes": [
+          "authentication",
+          "authorization",
+          "identity_management",
+          "session_management"
+        ],
+        "nist_families": [
+          "ac",
+          "ia"
+        ]
+      },
+      "audit_monitoring": {
+        "common_standards": [
+          "OBSERVABILITY_STANDARDS.md",
+          "SECURITY_STANDARDS.md#logging"
+        ],
+        "includes": [
+          "logging",
+          "monitoring",
+          "alerting",
+          "forensics"
+        ],
+        "nist_families": [
+          "au",
+          "si"
+        ]
+      },
+      "configuration_security": {
+        "common_standards": [
+          "DEVOPS_STANDARDS.md",
+          "CONTAINER_NETWORKING_STANDARDS.md"
+        ],
+        "includes": [
+          "baseline_configs",
+          "hardening",
+          "patch_management",
+          "change_control"
+        ],
+        "nist_families": [
+          "cm",
+          "sa"
+        ]
+      },
+      "data_protection": {
+        "common_standards": [
+          "SECURITY_STANDARDS.md#encryption",
+          "LEGAL_STANDARDS.md#privacy"
+        ],
+        "includes": [
+          "encryption",
+          "data_classification",
+          "data_handling",
+          "privacy"
+        ],
+        "nist_families": [
+          "sc",
+          "mp"
+        ]
+      }
+    }
+  },
+  "version": "1.0.0"
 }

@@ -15,11 +15,13 @@ Generated: 2025-08-23
 ## ✅ Gate Summary
 
 **Before Phase 5:**
+
 - broken=0 ✅
 - hubs=48 ❌ (false positives from merge commit evaluation)
 - orphans=0 ✅ (limit=5)
 
 **After Phase 5 (Expected):**
+
 - broken=0 ✅
 - hubs=0 ✅ (deterministic parsing + PR head checkout)
 - orphans=0 ✅ (limit=5)
@@ -44,6 +46,7 @@ Generated: 2025-08-23
 ✅ **CI: pull_request evaluates PR head (ref=head.sha)**
 
 Updated in `.github/workflows/lint-and-validate.yml`:
+
 - `link-check` job: Uses `ref: ${{ github.event.pull_request.head.sha || '' }}`
 - `structure-audit` job: Uses `ref: ${{ github.event.pull_request.head.sha || '' }}`
 - `audit-gates` job: Uses `ref: ${{ github.event.pull_request.head.sha || '' }}`
@@ -55,11 +58,13 @@ This ensures that PR CI evaluates the PR's updated audit code, not a merge commi
 ✅ **Unit tests: hub enforcement passes**
 
 Created `scripts/tests/test_hub_enforcement.py` with:
+
 - `test_parse_autolinks_section`: Validates deterministic AUTO-LINKS parsing
 - `test_hub_graph_with_autolinks`: Confirms AUTO-LINKS create proper inbound edges
 - `test_hub_violations_detection`: Verifies hub violations are correctly identified
 
 Test execution added to CI in `audit-gates` job:
+
 ```yaml
 - name: Audit unit tests (hub)
   run: |
@@ -77,21 +82,25 @@ Test execution added to CI in `audit-gates` job:
 ## 💡 Technical Implementation
 
 ### 1. PR Head Checkout
+
 - Modified workflow to explicitly checkout `${{ github.event.pull_request.head.sha }}` for PR events
 - Prevents evaluation of merge commits that lack updated audit scripts
 - Keeps default behavior for push/schedule events
 
 ### 2. Deterministic AUTO-LINKS Parsing
+
 - Added `parse_autolinks_section()` function for explicit parsing of AUTO-LINKS blocks
 - Treats AUTO-LINKS content as authoritative inbound edges
 - Avoids Markdown renderer ambiguities
 
 ### 3. Unit Test Coverage
+
 - Comprehensive tests validate hub enforcement logic
 - Tests run in CI before audit generation
 - Catches regressions early in development cycle
 
 ### 4. Strict Enforcement
+
 - Hub violations remain a hard gate (`hubs > 0` fails the run)
 - No temporary bypasses or relaxations
 - Zero-tolerance policy maintained
@@ -99,10 +108,12 @@ Test execution added to CI in `audit-gates` job:
 ## 📝 Notes
 
 The 48 hub violations were false positives caused by:
+
 1. CI evaluating a merge commit instead of the PR head
 2. The merge commit not containing the updated audit scripts that recognize AUTO-LINKS
 
 Phase 5 fixes ensure:
+
 1. PR CI always uses the PR's actual code
 2. AUTO-LINKS are parsed deterministically
 3. Hub enforcement is tested and validated

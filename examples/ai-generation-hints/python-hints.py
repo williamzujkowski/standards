@@ -102,9 +102,7 @@ class StandardAPIEndpoint:
 
         with log_context(request_id=request_id, user_id=user_context.get("user_id")):
             # Rate limiting check (SEC:api)
-            if not self.rate_limit_check(
-                user_context.get("user_id", "anonymous"), self.__class__.__name__
-            ):
+            if not self.rate_limit_check(user_context.get("user_id", "anonymous"), self.__class__.__name__):
                 return Result.err(Exception("Rate limit exceeded"))
 
             # Input validation (SEC:validation)
@@ -232,9 +230,7 @@ def log_context(**kwargs):
     yield
 
 
-def log_audit_event(
-    event_type: str, user_id: Optional[str], **additional_fields
-) -> None:
+def log_audit_event(event_type: str, user_id: Optional[str], **additional_fields) -> None:
     """
     Log audit event following CS:audit + LEG:compliance standards.
     """

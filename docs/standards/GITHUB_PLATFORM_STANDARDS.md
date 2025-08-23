@@ -36,6 +36,7 @@ It aims to ensure consistency, quality, and maintainability across all related i
 ### 1.1 Repository Structure
 
 #### Base Repository Layout **[REQUIRED]**
+
 ```
 project-name/
 ├── .github/                    # GitHub-specific files
@@ -58,6 +59,7 @@ project-name/
 ```
 
 #### Repository Settings **[REQUIRED]**
+
 ```yaml
 # .github/settings.yml (using GitHub Settings App)
 repository:
@@ -98,6 +100,7 @@ branches:
 ### 1.2 Branch Protection
 
 #### Protection Rules **[REQUIRED]**
+
 ```yaml
 # Branch protection for main/master
 protection_rules:
@@ -131,6 +134,7 @@ protection_rules:
 ### 1.3 Repository Templates
 
 #### README Template **[REQUIRED]**
+
 ```markdown
 # Project Name
 
@@ -190,6 +194,7 @@ Please read [CONTRIBUTING.md](../core/CONTRIBUTING.md) for details.
 ## 📝 License
 
 This project is licensed under the MIT License - see [LICENSE](../../LICENSE).
+
 ```
 
 #### CONTRIBUTING Template **[REQUIRED]**
@@ -243,6 +248,7 @@ npm run dev
 ### Commit Messages
 
 Follow [Conventional Commits](https://www.conventionalcommits.org/):
+
 - `feat:` New feature
 - `fix:` Bug fix
 - `docs:` Documentation
@@ -250,6 +256,7 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/):
 - `refactor:` Code restructuring
 - `test:` Tests
 - `chore:` Maintenance
+
 ```
 
 ---
@@ -373,6 +380,7 @@ jobs:
 ### 2.2 Advanced Workflows
 
 #### Release Workflow **[REQUIRED]**
+
 ```yaml
 # .github/workflows/release.yml
 name: Release
@@ -433,6 +441,7 @@ jobs:
 ```
 
 #### Deployment Workflow **[REQUIRED]**
+
 ```yaml
 # .github/workflows/deploy.yml
 name: Deploy
@@ -481,6 +490,7 @@ jobs:
 ### 2.3 Reusable Workflows
 
 #### Shared Workflow **[REQUIRED]**
+
 ```yaml
 # .github/workflows/reusable-test.yml
 name: Reusable Test Workflow
@@ -520,6 +530,7 @@ jobs:
 ```
 
 #### Using Reusable Workflow
+
 ```yaml
 # .github/workflows/ci.yml
 name: CI
@@ -538,6 +549,7 @@ jobs:
 ### 2.4 GitHub Actions Best Practices
 
 #### Action Security **[REQUIRED]**
+
 ```yaml
 # Pin actions to commit SHA for security
 steps:
@@ -554,6 +566,7 @@ steps:
 ```
 
 #### Caching Strategy **[RECOMMENDED]**
+
 ```yaml
 # Cache dependencies
 - name: Cache node modules
@@ -577,6 +590,7 @@ steps:
 ```
 
 #### Matrix Builds **[RECOMMENDED]**
+
 ```yaml
 strategy:
   matrix:
@@ -596,6 +610,7 @@ strategy:
 ### 3.1 Static Site Configuration
 
 #### Jekyll Configuration **[REQUIRED]**
+
 ```yaml
 # _config.yml
 title: Project Documentation
@@ -632,6 +647,7 @@ defaults:
 ```
 
 #### GitHub Pages Workflow **[REQUIRED]**
+
 ```yaml
 # .github/workflows/deploy-pages.yml
 name: Deploy to GitHub Pages
@@ -689,6 +705,7 @@ jobs:
 ### 3.2 Custom Domain Setup
 
 #### DNS Configuration **[REQUIRED]**
+
 ```
 # CNAME file in repository root
 docs.example.com
@@ -707,6 +724,7 @@ CNAME   www     username.github.io     300
 ### 3.3 Documentation Site Structure
 
 #### Documentation Layout **[REQUIRED]**
+
 ```
 docs/
 ├── _config.yml
@@ -729,6 +747,7 @@ docs/
 ```
 
 #### Front Matter Template **[REQUIRED]**
+
 ```markdown
 ---
 layout: default
@@ -763,6 +782,7 @@ Content here...
 ### 4.1 Security Configuration
 
 #### Dependabot Configuration **[REQUIRED]**
+
 ```yaml
 # .github/dependabot.yml
 version: 2
@@ -807,6 +827,7 @@ updates:
 ```
 
 #### Security Policy **[REQUIRED]**
+
 ```markdown
 # Security Policy
 
@@ -836,6 +857,7 @@ Do not disclose security issues publicly until patched.
 ```
 
 #### Code Scanning **[REQUIRED]**
+
 ```yaml
 # .github/workflows/codeql.yml
 name: "CodeQL"
@@ -884,6 +906,7 @@ jobs:
 ### 4.2 Compliance Automation
 
 #### License Scanning **[REQUIRED]**
+
 ```yaml
 # .github/workflows/license-scan.yml
 name: License Scan
@@ -912,6 +935,7 @@ jobs:
 ```
 
 #### SBOM Generation **[REQUIRED]**
+
 ```yaml
 # Generate Software Bill of Materials
 - name: Generate SBOM
@@ -933,6 +957,7 @@ jobs:
 ### 5.1 Issue Templates
 
 #### Bug Report Template **[REQUIRED]**
+
 ```yaml
 # .github/ISSUE_TEMPLATE/bug_report.yml
 name: Bug Report
@@ -1009,6 +1034,7 @@ body:
 ```
 
 #### Feature Request Template **[REQUIRED]**
+
 ```yaml
 # .github/ISSUE_TEMPLATE/feature_request.yml
 name: Feature Request
@@ -1057,6 +1083,7 @@ body:
 ### 5.2 Project Automation
 
 #### Project Board Automation **[REQUIRED]**
+
 ```yaml
 # .github/workflows/project-automation.yml
 name: Project Automation
@@ -1080,6 +1107,7 @@ jobs:
 ```
 
 #### Auto-labeling **[REQUIRED]**
+
 ```yaml
 # .github/labeler.yml
 documentation:
@@ -1114,6 +1142,7 @@ dependencies:
 ### 5.3 Release Management
 
 #### Release Drafter **[REQUIRED]**
+
 ```yaml
 # .github/release-drafter.yml
 name-template: 'v$RESOLVED_VERSION'
@@ -1157,6 +1186,7 @@ template: |
 ```
 
 #### Changelog Generation **[REQUIRED]**
+
 ```yaml
 # .github/workflows/changelog.yml
 name: Changelog
@@ -1197,6 +1227,7 @@ jobs:
 ### 6.1 Essential GitHub Apps
 
 #### Recommended Apps **[RECOMMENDED]**
+
 ```yaml
 # Essential GitHub Apps to install:
 apps:
@@ -1241,6 +1272,7 @@ apps:
 ### 6.2 Webhook Configuration
 
 #### Webhook Setup **[RECOMMENDED]**
+
 ```javascript
 // Example webhook handler
 const crypto = require('crypto');
@@ -1296,6 +1328,7 @@ app.post('/webhook', express.json(), verifyGitHubWebhook, (req, res) => {
 ### 7.1 GitHub CLI Automation
 
 #### CLI Scripts **[RECOMMENDED]**
+
 ```bash
 #!/bin/bash
 # scripts/github-automation.sh
@@ -1346,6 +1379,7 @@ generate_release() {
 ### 7.2 GitHub API Usage
 
 #### API Automation **[RECOMMENDED]**
+
 ```javascript
 // GitHub API client setup
 const { Octokit } = require("@octokit/rest");
@@ -1415,6 +1449,7 @@ async function bulkUpdateIssues(labels, milestone) {
 ### 7.3 Code Spaces Configuration
 
 #### DevContainer Setup **[RECOMMENDED]**
+
 ```json
 // .devcontainer/devcontainer.json
 {
@@ -1456,6 +1491,7 @@ async function bulkUpdateIssues(labels, milestone) {
 ## Implementation Checklist
 
 ### Repository Setup
+
 - [ ] Repository structure follows standards
 - [ ] Branch protection configured
 - [ ] CODEOWNERS file created
@@ -1463,6 +1499,7 @@ async function bulkUpdateIssues(labels, milestone) {
 - [ ] Security policy defined
 
 ### CI/CD Pipeline
+
 - [ ] Basic CI workflow implemented
 - [ ] Security scanning enabled
 - [ ] Deployment automation configured
@@ -1470,6 +1507,7 @@ async function bulkUpdateIssues(labels, milestone) {
 - [ ] Artifact management setup
 
 ### GitHub Pages
+
 - [ ] Documentation site configured
 - [ ] Custom domain setup (if needed)
 - [ ] Automatic deployment enabled
@@ -1477,6 +1515,7 @@ async function bulkUpdateIssues(labels, milestone) {
 - [ ] Analytics configured
 
 ### Security & Compliance
+
 - [ ] Dependabot enabled
 - [ ] CodeQL scanning active
 - [ ] Secret scanning enabled
@@ -1484,6 +1523,7 @@ async function bulkUpdateIssues(labels, milestone) {
 - [ ] SBOM generation automated
 
 ### Project Management
+
 - [ ] Project boards configured
 - [ ] Automation rules created
 - [ ] Labels standardized
@@ -1491,6 +1531,7 @@ async function bulkUpdateIssues(labels, milestone) {
 - [ ] Team permissions set
 
 ### Advanced Features
+
 - [ ] GitHub Apps installed
 - [ ] Webhooks configured (if needed)
 - [ ] API integrations built

@@ -8,7 +8,6 @@ Test suite for authentication service with NIST compliance checks.
 
 import os
 import sys
-import time
 import unittest
 from datetime import datetime, timedelta
 
@@ -169,9 +168,7 @@ class TestAuthenticationService(unittest.TestCase):
 
         for password, expected in test_cases:
             result = self.auth._validate_password_strength(password)
-            self.assertEqual(
-                result, expected, f"Password '{password}' validation failed"
-            )
+            self.assertEqual(result, expected, f"Password '{password}' validation failed")
 
 
 if __name__ == "__main__":

@@ -24,6 +24,7 @@ This document provides step-by-step instructions to validate the NIST 800-53r5 c
 ```
 
 Expected output:
+
 ```
 🔧 Setting up NIST compliance git hooks...
 Installing pre-commit hook...
@@ -42,6 +43,7 @@ make nist-check
 ```
 
 Expected output:
+
 ```
 Checking NIST control tags...
 =================================
@@ -73,6 +75,7 @@ git commit -m "Test NIST hook"
 ```
 
 Expected hook output:
+
 ```
 🔍 NIST 800-53r5 Compliance Check
 =================================
@@ -106,6 +109,7 @@ git commit -m "Add security code"
 ```
 
 Expected warning:
+
 ```
 ⚠️  Security code without NIST tags: test_security.py
   Suggested NIST controls:
@@ -124,6 +128,7 @@ make validate
 ```
 
 Expected output:
+
 ```
 Running linters...
 Running tests...
@@ -207,6 +212,7 @@ make ci
 ```
 
 Expected output:
+
 ```
 Installing dependencies...
 Running linters...
@@ -220,6 +226,7 @@ CI validation complete
 ## Validation Checklist
 
 ### ✅ Local Development
+
 - [ ] NIST hooks installed (`./scripts/setup-nist-hooks.sh`)
 - [ ] Pre-commit hook triggers on git commit
 - [ ] Warnings shown for security code without tags
@@ -227,12 +234,14 @@ CI validation complete
 - [ ] VS Code extension provides suggestions (if installed)
 
 ### ✅ Quickstart Example
+
 - [ ] `make nist-check` shows 14+ unique controls
 - [ ] `make test` passes all tests
 - [ ] `make validate` completes successfully
 - [ ] Example service runs (`make run`)
 
 ### ✅ CI/CD Pipeline
+
 - [ ] GitHub Actions workflow configured
 - [ ] CI checks run on pull requests
 - [ ] Warnings generated for missing tags
@@ -264,6 +273,7 @@ export BLOCK_ON_MISSING=false  # Don't block commits
 ### CI Failures
 
 Check the logs for:
+
 1. Missing dependencies (install in workflow)
 2. Path issues (use correct relative paths)
 3. Permission errors (ensure scripts are executable)

@@ -4,28 +4,31 @@ Ensure hub files contain AUTO-LINKS sections pointing to all documents under the
 """
 
 import re
-import yaml
 from pathlib import Path
-from typing import List, Dict, Tuple
+from typing import Dict, List
+
+import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 
+
 def load_audit_rules() -> Dict:
     """Load audit rules configuration."""
-    config_path = ROOT / 'config/audit-rules.yaml'
-    with open(config_path, 'r') as f:
+    config_path = ROOT / "config/audit-rules.yaml"
+    with open(config_path) as f:
         return yaml.safe_load(f)
+
 
 def find_files_matching_pattern(pattern: str) -> List[Path]:
     """Find all files matching a glob pattern."""
     files = []
-    glob_pattern = pattern.replace('**', '*')
+    pattern.replace("**", "*")
 
     # Convert pattern to Path glob
-    if '**' in pattern:
+    if "**" in pattern:
         # Recursive glob
-        base_parts = pattern.split('**')[0].rstrip('/')
-        suffix = pattern.split('**')[1].lstrip('/')
+        base_parts = pattern.split("**")[0].rstrip("/")
+        suffix = pattern.split("**")[1].lstrip("/")
         base_path = ROOT / base_parts if base_parts else ROOT
 
         if base_path.exists():
@@ -39,6 +42,7 @@ def find_files_matching_pattern(pattern: str) -> List[Path]:
                 files.append(file_path)
 
     return sorted(files)
+
 
 def generate_auto_links_section(files: List[Path], hub_path: Path) -> str:
     """Generate AUTO-LINKS section content."""
@@ -58,14 +62,15 @@ def generate_auto_links_section(files: List[Path], hub_path: Path) -> str:
             rel_path = file_path.relative_to(hub_dir)
         except ValueError:
             # File is not in a subdirectory of hub
-            rel_path = Path('../') * len(hub_dir.relative_to(ROOT).parts) / file_path.relative_to(ROOT)
+            rel_path = Path("../") * len(hub_dir.relative_to(ROOT).parts) / file_path.relative_to(ROOT)
 
         # Create link
-        title = file_path.stem.replace('_', ' ').replace('-', ' ').title()
+        title = file_path.stem.replace("_", " ").replace("-", " ").title()
         link = f"- [{title}]({rel_path})"
         lines.append(link)
 
-    return '\n'.join(lines) if lines else "_(no documents found)_"
+    return "\n".join(lines) if lines else "_(no documents found)_"
+
 
 def update_hub_file(hub_path: Path, pattern: str, files: List[Path]):
     """Update or create hub file with AUTO-LINKS section."""
@@ -74,10 +79,10 @@ def update_hub_file(hub_path: Path, pattern: str, files: List[Path]):
 
     # Read existing content or create new
     if hub_path.exists():
-        content = hub_path.read_text(encoding='utf-8')
+        content = hub_path.read_text(encoding="utf-8")
     else:
         # Create minimal README
-        hub_name = hub_path.parent.name.replace('-', ' ').replace('_', ' ').title()
+        hub_name = hub_path.parent.name.replace("-", " ").replace("_", " ").title()
         content = f"""# {hub_name}
 
 This is the hub page for {hub_name.lower()} documentation.
@@ -110,15 +115,13 @@ This is the hub page for {hub_name.lower()} documentation.
         if "## Contents" in content:
             # Add after Contents heading
             content = content.replace(
-                "## Contents",
-                f"## Contents\n\n{auto_links_marker}\n\n{links_content}\n\n{auto_links_end}"
+                "## Contents", f"## Contents\n\n{auto_links_marker}\n\n{links_content}\n\n{auto_links_end}"
             )
         else:
             # Add before navigation or at end
             if "## Navigation" in content:
                 content = content.replace(
-                    "## Navigation",
-                    f"{auto_links_marker}\n\n{links_content}\n\n{auto_links_end}\n\n## Navigation"
+                    "## Navigation", f"{auto_links_marker}\n\n{links_content}\n\n{auto_links_end}\n\n## Navigation"
                 )
             elif "---" in content:
                 # Add before first horizontal rule
@@ -129,8 +132,9 @@ This is the hub page for {hub_name.lower()} documentation.
                 content += f"\n\n{auto_links_marker}\n\n{links_content}\n\n{auto_links_end}\n"
 
     # Write updated content
-    hub_path.write_text(content, encoding='utf-8')
+    hub_path.write_text(content, encoding="utf-8")
     print(f"  ✅ Updated hub: {hub_path.relative_to(ROOT)}")
+
 
 def main():
     """Main execution."""
@@ -139,15 +143,15 @@ def main():
     # Load audit rules
     rules = load_audit_rules()
 
-    if 'require_link_from' not in rules.get('orphans', {}):
+    if "require_link_from" not in rules.get("orphans", {}):
         print("  ⚠️  No hub requirements found in audit rules")
         return
 
-    hub_requirements = rules['orphans']['require_link_from']
+    hub_requirements = rules["orphans"]["require_link_from"]
 
     for requirement in hub_requirements:
-        pattern = requirement['pattern']
-        hubs = requirement.get('hubs', [])
+        pattern = requirement["pattern"]
+        hubs = requirement.get("hubs", [])
 
         if not hubs:
             continue
@@ -165,5 +169,6 @@ def main():
 
     print("\n✅ Hub links ensured")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

@@ -58,25 +58,25 @@ def parse_autolinks_section(text: str) -> List[Tuple[str, str]]:
     """Return list of (text, link) from AUTO-LINKS blocks only - deterministic parse."""
     links = []
     start_idx = 0
-    
+
     while True:
         start = text.find(AUTO_BEGIN, start_idx)
         if start == -1:
             break
-        
+
         end = text.find(AUTO_END, start)
         if end == -1:
             break
-        
+
         # Extract the block between markers
-        block = text[start + len(AUTO_BEGIN):end]
-        
+        block = text[start + len(AUTO_BEGIN) : end]
+
         # Extract all markdown links from this block
         for match in LINK_REGEX.findall(block):
             links.append(match)
-        
+
         start_idx = end + len(AUTO_END)
-    
+
     return links
 
 
@@ -137,7 +137,9 @@ def resolve_internal_link(source_file: Path, link: str) -> Tuple[bool, str]:
     return False, normalize_repo_path(target_path)
 
 
-def check_links_in_file(filepath: Path) -> Tuple[List[Tuple[str, str]], List[Tuple[str, str]], List[Tuple[str, str, str]]]:
+def check_links_in_file(
+    filepath: Path,
+) -> Tuple[List[Tuple[str, str]], List[Tuple[str, str]], List[Tuple[str, str, str]]]:
     internal_links: List[Tuple[str, str]] = []
     external_links: List[Tuple[str, str]] = []
     broken_links: List[Tuple[str, str, str]] = []
@@ -184,32 +186,32 @@ def matches_any(path: str, patterns: Iterable[str]) -> bool:
         # Convert ** patterns for proper matching
         if "**" in pat:
             # Convert pattern to work with pathlib
-            path_obj = Path(path)
-            pattern_obj = Path(pat)
-            
+            Path(path)
+            Path(pat)
+
             # Simple implementation: check if path matches the pattern structure
             # e.g., "docs/standards/**/*.md" should match "docs/standards/FOO.md"
             # and "docs/standards/subdir/BAR.md"
-            
+
             # Split pattern into parts
             pattern_parts = pat.split("/")
             path_parts = path.split("/")
-            
+
             # Find where ** appears
             if "**" in pattern_parts:
                 star_idx = pattern_parts.index("**")
-                
+
                 # Check prefix matches
                 if star_idx > 0:
                     prefix = pattern_parts[:star_idx]
                     if len(path_parts) < len(prefix):
                         continue
-                    if path_parts[:len(prefix)] != prefix:
+                    if path_parts[: len(prefix)] != prefix:
                         continue
-                
+
                 # Check suffix matches (if any after **)
                 if star_idx < len(pattern_parts) - 1:
-                    suffix = pattern_parts[star_idx + 1:]
+                    suffix = pattern_parts[star_idx + 1 :]
                     # The suffix might contain wildcards
                     if len(suffix) == 1 and "*" in suffix[0]:
                         # Just check extension
@@ -217,7 +219,7 @@ def matches_any(path: str, patterns: Iterable[str]) -> bool:
                             return True
                     elif len(path_parts) >= len(suffix):
                         # Match the suffix parts
-                        if all(fnmatch.fnmatch(p, s) for p, s in zip(path_parts[-len(suffix):], suffix)):
+                        if all(fnmatch.fnmatch(p, s) for p, s in zip(path_parts[-len(suffix) :], suffix)):
                             return True
                 else:
                     # No suffix after **, so everything under prefix matches
@@ -226,6 +228,7 @@ def matches_any(path: str, patterns: Iterable[str]) -> bool:
                 # No ** in this pattern but it's inside a ** block?
                 # This shouldn't happen, but use path-aware matching anyway
                 from pathlib import PurePath
+
                 try:
                     if PurePath(path).match(pat):
                         return True
@@ -236,6 +239,7 @@ def matches_any(path: str, patterns: Iterable[str]) -> bool:
             # No ** in pattern, use path-aware matching
             # Use pathlib's match() which respects path boundaries
             from pathlib import PurePath
+
             try:
                 if PurePath(path).match(pat):
                     return True
@@ -246,7 +250,9 @@ def matches_any(path: str, patterns: Iterable[str]) -> bool:
     return False
 
 
-def build_link_graph(all_md_files: List[Path]) -> Tuple[Dict[str, Set[str]], List[Tuple[str, str, str]], List[Tuple[str, str, str]]]:
+def build_link_graph(
+    all_md_files: List[Path],
+) -> Tuple[Dict[str, Set[str]], List[Tuple[str, str, str]], List[Tuple[str, str, str]]]:
     graph: Dict[str, Set[str]] = {}
     all_broken: List[Tuple[str, str, str]] = []
     all_external: List[Tuple[str, str, str]] = []
@@ -297,7 +303,6 @@ def compute_orphans(graph: Dict[str, Set[str]], rules: Dict) -> List[str]:
             orphans.append(f)
 
     return sorted(orphans)
-
 
 
 def enforce_hub_rules(graph: Dict[str, Set[str]], rules: Dict) -> Tuple[List[str], Dict[str, Dict[str, bool]]]:
@@ -387,9 +392,7 @@ def analyze_repository_structure(rules: Dict) -> Dict:
             if name.upper() not in ("README.MD", "UNIFIED_STANDARDS.MD"):
                 stem = name.rsplit(".", 1)[0]
                 if not stem.replace("_", "").isupper():
-                    issues["non_conforming_names"].append(
-                        f"{rel} - Standards should be UPPERCASE_WITH_UNDERSCORES.md"
-                    )
+                    issues["non_conforming_names"].append(f"{rel} - Standards should be UPPERCASE_WITH_UNDERSCORES.md")
 
     # Legacy cross-ref hint (info only)
     for md in all_md_files:
@@ -409,7 +412,9 @@ def analyze_repository_structure(rules: Dict) -> Dict:
         if not d.is_dir():
             continue
         rel = normalize_repo_path(d)
-        if matches_any(rel, rules["orphans"]["exclude"] + [".git/**", "__pycache__/**", "node_modules/**", "reports/generated/**"]):
+        if matches_any(
+            rel, rules["orphans"]["exclude"] + [".git/**", "__pycache__/**", "node_modules/**", "reports/generated/**"]
+        ):
             continue
         if rel and rel != "." and not (d / "README.md").exists():
             issues["missing_readmes"].append(rel)
@@ -420,7 +425,9 @@ def analyze_repository_structure(rules: Dict) -> Dict:
 
     # Write hub matrix
     OUTDIR.mkdir(parents=True, exist_ok=True)
-    hubs_order: List[str] = sorted({h for r in rules.get("orphans", {}).get("require_link_from", []) for h in r.get("hubs", [])})
+    hubs_order: List[str] = sorted(
+        {h for r in rules.get("orphans", {}).get("require_link_from", []) for h in r.get("hubs", [])}
+    )
     with open(OUTDIR / "hub-matrix.tsv", "w", encoding="utf-8") as f:
         f.write("file\t" + "\t".join(hubs_order) + "\n")
         for file in sorted(hub_matrix.keys()):

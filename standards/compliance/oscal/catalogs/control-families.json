@@ -1,39 +1,98 @@
 {
   "families": {
     "ac": {
-      "id": "ac",
-      "title": "Access Control",
+      "common_implementations": [
+        "rbac",
+        "abac",
+        "oauth",
+        "saml",
+        "ldap",
+        "mfa"
+      ],
       "description": "The Access Control family provides policy and procedures for ensuring that users have appropriate access to systems and data",
-      "semantic_domains": ["authentication", "authorization", "identity_management", "access_management"],
-      "common_implementations": ["rbac", "abac", "oauth", "saml", "ldap", "mfa"]
+      "id": "ac",
+      "semantic_domains": [
+        "authentication",
+        "authorization",
+        "identity_management",
+        "access_management"
+      ],
+      "title": "Access Control"
     },
     "au": {
-      "id": "au",
-      "title": "Audit and Accountability",
+      "common_implementations": [
+        "syslog",
+        "splunk",
+        "elastic",
+        "cloudwatch",
+        "audit_logs"
+      ],
       "description": "The Audit and Accountability family provides policy and procedures for system auditing and individual accountability",
-      "semantic_domains": ["logging", "monitoring", "audit_trails", "event_correlation"],
-      "common_implementations": ["syslog", "splunk", "elastic", "cloudwatch", "audit_logs"]
+      "id": "au",
+      "semantic_domains": [
+        "logging",
+        "monitoring",
+        "audit_trails",
+        "event_correlation"
+      ],
+      "title": "Audit and Accountability"
     },
     "cm": {
-      "id": "cm",
-      "title": "Configuration Management",
+      "common_implementations": [
+        "git",
+        "ansible",
+        "terraform",
+        "puppet",
+        "chef",
+        "kubernetes"
+      ],
       "description": "The Configuration Management family provides policy and procedures for establishing and maintaining baseline configurations",
-      "semantic_domains": ["baseline_configuration", "change_control", "version_control", "configuration_tracking"],
-      "common_implementations": ["git", "ansible", "terraform", "puppet", "chef", "kubernetes"]
+      "id": "cm",
+      "semantic_domains": [
+        "baseline_configuration",
+        "change_control",
+        "version_control",
+        "configuration_tracking"
+      ],
+      "title": "Configuration Management"
     },
     "ia": {
-      "id": "ia",
-      "title": "Identification and Authentication",
+      "common_implementations": [
+        "password_policies",
+        "mfa",
+        "biometrics",
+        "pki",
+        "oauth",
+        "saml"
+      ],
       "description": "The Identification and Authentication family provides policy and procedures for identifying and authenticating users and devices",
-      "semantic_domains": ["user_authentication", "device_authentication", "credential_management", "identity_verification"],
-      "common_implementations": ["password_policies", "mfa", "biometrics", "pki", "oauth", "saml"]
+      "id": "ia",
+      "semantic_domains": [
+        "user_authentication",
+        "device_authentication",
+        "credential_management",
+        "identity_verification"
+      ],
+      "title": "Identification and Authentication"
     },
     "sc": {
-      "id": "sc",
-      "title": "System and Communications Protection",
+      "common_implementations": [
+        "tls",
+        "ipsec",
+        "firewalls",
+        "ids_ips",
+        "data_encryption",
+        "api_security"
+      ],
       "description": "The System and Communications Protection family provides policy and procedures for protecting system and communications",
-      "semantic_domains": ["encryption", "network_security", "boundary_protection", "data_protection"],
-      "common_implementations": ["tls", "ipsec", "firewalls", "ids_ips", "data_encryption", "api_security"]
+      "id": "sc",
+      "semantic_domains": [
+        "encryption",
+        "network_security",
+        "boundary_protection",
+        "data_protection"
+      ],
+      "title": "System and Communications Protection"
     }
   }
 }

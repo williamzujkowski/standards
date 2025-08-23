@@ -1,24 +1,5 @@
 {
-  "name": "@standards/nist-compliance",
-  "version": "1.0.0",
-  "description": "NIST 800-53r5 OSCAL-Native Compliance Platform",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "demo": "ts-node demo.ts",
-    "fetch-oscal": "cd oscal && ./fetch-oscal-data.sh",
-    "auto-tag": "ts-node scripts/auto-tag.ts",
-    "generate-ssp": "ts-node scripts/generate-ssp.ts",
-    "harvest-evidence": "ts-node scripts/harvest-evidence.ts",
-    "scan-annotations": "ts-node src/scan-annotations.ts",
-    "nist-context": "ts-node src/nist-context-cli.ts",
-    "validate-file": "ts-node src/scan-annotations.ts validate",
-    "test": "jest",
-    "lint": "eslint . --ext .ts",
-    "type-check": "tsc --noEmit",
-    "quickstart": "./quickstart.sh"
-  },
+  "author": "William Zujkowski",
   "dependencies": {
     "@types/uuid": "^10.0.0",
     "commander": "^11.0.0",
@@ -27,6 +8,7 @@
     "openai": "^4.0.0",
     "uuid": "^11.1.0"
   },
+  "description": "NIST 800-53r5 OSCAL-Native Compliance Platform",
   "devDependencies": {
     "@types/js-yaml": "^4.0.5",
     "@types/node": "^20.0.0",
@@ -43,6 +25,24 @@
     "security",
     "grc"
   ],
-  "author": "William Zujkowski",
-  "license": "MIT"
+  "license": "MIT",
+  "main": "dist/index.js",
+  "name": "@standards/nist-compliance",
+  "scripts": {
+    "auto-tag": "ts-node scripts/auto-tag.ts",
+    "build": "tsc",
+    "demo": "ts-node demo.ts",
+    "fetch-oscal": "cd oscal && ./fetch-oscal-data.sh",
+    "generate-ssp": "ts-node scripts/generate-ssp.ts",
+    "harvest-evidence": "ts-node scripts/harvest-evidence.ts",
+    "lint": "eslint . --ext .ts",
+    "nist-context": "ts-node src/nist-context-cli.ts",
+    "quickstart": "./quickstart.sh",
+    "scan-annotations": "ts-node src/scan-annotations.ts",
+    "test": "jest",
+    "type-check": "tsc --noEmit",
+    "validate-file": "ts-node src/scan-annotations.ts validate"
+  },
+  "types": "dist/index.d.ts",
+  "version": "1.0.0"
 }
