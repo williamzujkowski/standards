@@ -95,6 +95,7 @@ Organization Level
 ### Code Annotations
 
 #### TypeScript/JavaScript
+
 ```typescript
 /**
  * @nist ac-2 Account Management
@@ -125,6 +126,7 @@ export class AccountManager {
 ```
 
 #### Python
+
 ```python
 class AuthenticationService:
     """
@@ -146,6 +148,7 @@ class AuthenticationService:
 ```
 
 #### Go
+
 ```go
 // AccountService manages user accounts
 // @nist ac-2 Account Management
@@ -168,6 +171,7 @@ func (s *AccountService) CreateUser(data UserData) (*User, error) {
 ### Configuration Annotations
 
 #### YAML
+
 ```yaml
 # security-config.yaml
 # @nist-baseline: moderate
@@ -193,6 +197,7 @@ security:
 ```
 
 #### JSON
+
 ```json
 {
   "_nist_controls": ["au-2", "au-3", "au-11"],
@@ -220,6 +225,7 @@ security:
 ### Documentation Annotations
 
 #### Markdown with Frontmatter
+
 ```markdown
 ---
 nist_controls:
@@ -242,6 +248,7 @@ This section defines... <!-- @nist-implements ac-1.a.1 -->
 ```
 
 #### Inline Documentation Tags
+
 ```markdown
 ## Authentication Design <!-- @nist ia-2, ia-5 -->
 

@@ -1,5 +1,7 @@
 # DevOps and Platform Engineering Standards
 
+> 📚 See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md)
+
 **Version:** 1.0.0
 **Last Updated:** January 2025
 **Status:** Active
@@ -12,6 +14,7 @@
 **Status:** Active
 
 ## TL;DR
+
 - **Infrastructure as Code** with Terraform/Pulumi for reproducible, version-controlled infrastructure management
 - **CI/CD pipelines** implementing GitOps workflows with automated testing, security scanning, and progressive deployments
 - **Platform engineering** approach providing self-service developer platforms with golden paths and standardized toolchains
@@ -41,6 +44,7 @@ It aims to ensure consistency, quality, and maintainability across all related i
 ### 1.1 Terraform Standards
 
 #### Core Terraform Practices **[REQUIRED]**
+
 ```hcl
 # terraform/modules/example/main.tf
 terraform {
@@ -79,6 +83,7 @@ module "network" {
 ```
 
 #### State Management **[REQUIRED]**
+
 ```yaml
 # State management configuration
 state_management:
@@ -99,6 +104,7 @@ state_management:
 ```
 
 #### Module Design **[REQUIRED]**
+
 ```hcl
 # modules/rds/variables.tf
 variable "instance_class" {
@@ -139,6 +145,7 @@ output "connection_string" {
 ### 1.2 Ansible Automation
 
 #### Playbook Standards **[REQUIRED]**
+
 ```yaml
 # ansible/playbooks/deploy-app.yml
 ---
@@ -185,6 +192,7 @@ output "connection_string" {
 ```
 
 #### Role Structure **[REQUIRED]**
+
 ```yaml
 # ansible/roles/app-deploy/tasks/main.yml
 ---
@@ -233,6 +241,7 @@ output "connection_string" {
 ### 1.3 Infrastructure Testing
 
 #### Terraform Testing **[REQUIRED]**
+
 ```hcl
 # tests/terraform/network_test.go
 package test
@@ -267,6 +276,7 @@ func TestNetworkModule(t *testing.T) {
 ```
 
 #### Ansible Testing **[RECOMMENDED]**
+
 ```yaml
 # molecule/default/molecule.yml
 ---
@@ -301,6 +311,7 @@ lint: |
 ### 2.1 Pipeline Architecture
 
 #### Pipeline Stages **[REQUIRED]**
+
 ```yaml
 # .github/workflows/ci-cd.yml
 name: CI/CD Pipeline
@@ -431,6 +442,7 @@ jobs:
 ```
 
 #### Jenkins Pipeline **[ALTERNATIVE]**
+
 ```groovy
 // Jenkinsfile
 @Library('shared-pipeline-library@v2') _
@@ -555,6 +567,7 @@ pipeline {
 ### 2.2 Deployment Strategies
 
 #### Blue-Green Deployment **[RECOMMENDED]**
+
 ```yaml
 # kubernetes/deployments/blue-green.yaml
 apiVersion: v1
@@ -631,6 +644,7 @@ spec:
 ```
 
 #### Canary Deployment **[RECOMMENDED]**
+
 ```yaml
 # kubernetes/deployments/canary.yaml
 apiVersion: flagger.app/v1beta1
@@ -675,6 +689,7 @@ spec:
 ### 2.3 Pipeline Security
 
 #### Secret Management **[REQUIRED]**
+
 ```yaml
 # .github/workflows/secrets-management.yml
 name: Secure Pipeline
@@ -718,6 +733,7 @@ jobs:
 ### 3.1 Kubernetes Operations
 
 #### Resource Management **[REQUIRED]**
+
 ```yaml
 # kubernetes/base/deployment.yaml
 apiVersion: apps/v1
@@ -809,6 +825,7 @@ spec:
 ```
 
 #### Network Policies **[REQUIRED]**
+
 ```yaml
 # kubernetes/network/policies.yaml
 apiVersion: networking.k8s.io/v1
@@ -854,6 +871,7 @@ spec:
 ### 3.2 Helm Packaging
 
 #### Chart Structure **[REQUIRED]**
+
 ```yaml
 # charts/myapp/Chart.yaml
 apiVersion: v2
@@ -880,6 +898,7 @@ dependencies:
 ```
 
 #### Values Configuration **[REQUIRED]**
+
 ```yaml
 # charts/myapp/values.yaml
 # Default values for myapp
@@ -975,6 +994,7 @@ secrets:
 ### 3.3 Service Mesh
 
 #### Istio Configuration **[RECOMMENDED]**
+
 ```yaml
 # istio/virtual-service.yaml
 apiVersion: networking.istio.io/v1beta1
@@ -1049,6 +1069,7 @@ spec:
 ### 4.1 Internal Developer Platform
 
 #### Platform Architecture **[REQUIRED]**
+
 ```yaml
 # platform/architecture.yaml
 platform:
@@ -1104,6 +1125,7 @@ platform:
 ```
 
 #### Service Catalog **[REQUIRED]**
+
 ```yaml
 # backstage/catalog-info.yaml
 apiVersion: backstage.io/v1alpha1
@@ -1149,6 +1171,7 @@ spec:
 ```
 
 #### Developer Experience **[REQUIRED]**
+
 ```typescript
 // platform/cli/src/commands/create-service.ts
 import { Command } from 'commander';
@@ -1214,6 +1237,7 @@ export const createServiceCommand = new Command('create-service')
 ### 4.2 Self-Service Infrastructure
 
 #### Resource Templates **[REQUIRED]**
+
 ```yaml
 # platform/templates/database.yaml
 apiVersion: platform.io/v1
@@ -1270,6 +1294,7 @@ spec:
 ```
 
 #### Platform API **[REQUIRED]**
+
 ```go
 // platform/api/handlers/resource.go
 package handlers
@@ -1339,6 +1364,7 @@ func CreateResource(c *gin.Context) {
 ### 5.1 Service Level Objectives
 
 #### SLO Definition **[REQUIRED]**
+
 ```yaml
 # sre/slos/payment-service.yaml
 apiVersion: sloth.slok.dev/v1
@@ -1400,6 +1426,7 @@ spec:
 ```
 
 #### Error Budget Policy **[REQUIRED]**
+
 ```yaml
 # sre/policies/error-budget.yaml
 error_budget_policy:
@@ -1445,6 +1472,7 @@ error_budget_policy:
 ### 5.2 Incident Management
 
 #### Incident Response **[REQUIRED]**
+
 ```yaml
 # sre/runbooks/incident-response.yaml
 incident_response:
@@ -1531,6 +1559,7 @@ incident_response:
 ```
 
 #### Runbook Automation **[REQUIRED]**
+
 ```python
 # sre/automation/runbooks/database_recovery.py
 #!/usr/bin/env python3
@@ -1641,6 +1670,7 @@ class DatabaseRecoveryRunbook:
 ### 5.3 Chaos Engineering
 
 #### Chaos Experiments **[RECOMMENDED]**
+
 ```yaml
 # chaos/experiments/payment-service.yaml
 apiVersion: chaos-mesh.org/v1alpha1
@@ -1703,6 +1733,7 @@ spec:
 ```
 
 #### Gameday Automation **[RECOMMENDED]**
+
 ```python
 # chaos/gameday/scenarios.py
 import asyncio
@@ -1814,6 +1845,7 @@ class GamedayScenario:
 ### 6.1 GitOps Workflows
 
 #### ArgoCD Configuration **[REQUIRED]**
+
 ```yaml
 # argocd/applications/production.yaml
 apiVersion: argoproj.io/v1alpha1
@@ -1861,6 +1893,7 @@ spec:
 ```
 
 #### Flux Configuration **[ALTERNATIVE]**
+
 ```yaml
 # flux/clusters/production/payment-service.yaml
 apiVersion: source.toolkit.fluxcd.io/v1beta2
@@ -1915,6 +1948,7 @@ spec:
 ### 6.2 Progressive Delivery
 
 #### Flagger Configuration **[RECOMMENDED]**
+
 ```yaml
 # flagger/canary/payment-service.yaml
 apiVersion: flagger.app/v1beta1
@@ -2007,6 +2041,7 @@ spec:
 ### 7.1 Configuration Standards
 
 #### External Configuration **[REQUIRED]**
+
 ```yaml
 # kubernetes/configmaps/app-config.yaml
 apiVersion: v1
@@ -2067,6 +2102,7 @@ data:
 ```
 
 #### Secret Management **[REQUIRED]**
+
 ```yaml
 # kubernetes/secrets/sealed-secrets.yaml
 apiVersion: bitnami.com/v1alpha1
@@ -2087,6 +2123,7 @@ spec:
 ```
 
 #### Dynamic Configuration **[RECOMMENDED]**
+
 ```go
 // config/dynamic/client.go
 package dynamic
@@ -2202,6 +2239,7 @@ func (c *ConfigClient) watchChanges(ctx context.Context) {
 ### 7.2 Feature Flags
 
 #### Feature Flag System **[RECOMMENDED]**
+
 ```yaml
 # featureflags/flags.yaml
 flags:
@@ -2252,6 +2290,7 @@ flags:
 ### 8.1 Versioning Strategy
 
 #### Semantic Versioning **[REQUIRED]**
+
 ```yaml
 # .github/workflows/release.yml
 name: Release
@@ -2300,6 +2339,7 @@ jobs:
 ```
 
 #### Release Notes Automation **[REQUIRED]**
+
 ```typescript
 // scripts/generate-release-notes.ts
 import { Octokit } from '@octokit/rest';
@@ -2414,6 +2454,7 @@ function formatReleaseNotes(notes: ReleaseNotes): string {
 ### 8.2 Rollback Procedures
 
 #### Automated Rollback **[REQUIRED]**
+
 ```yaml
 # kubernetes/rollback/policy.yaml
 apiVersion: flagger.app/v1beta1
@@ -2470,6 +2511,7 @@ data:
 ```
 
 #### Manual Rollback Procedures **[REQUIRED]**
+
 ```bash
 #!/bin/bash
 # scripts/rollback.sh
@@ -2607,6 +2649,7 @@ main
 ### 8.3 Deployment Monitoring
 
 #### Deployment Metrics **[REQUIRED]**
+
 ```yaml
 # monitoring/deployment-dashboard.json
 {
@@ -2659,6 +2702,7 @@ main
 ## Implementation Guidelines
 
 ### Adoption Strategy
+
 1. **Assessment Phase**: Evaluate current DevOps maturity
 2. **Foundation Phase**: Implement core IaC and CI/CD standards
 3. **Platform Phase**: Build internal developer platform
@@ -2666,6 +2710,7 @@ main
 5. **Excellence Phase**: Achieve full automation and self-service
 
 ### Tool Selection Criteria
+
 - **Compatibility**: Integration with existing tools
 - **Scalability**: Support for growth
 - **Community**: Active development and support
@@ -2673,6 +2718,7 @@ main
 - **Cost**: TCO including licenses and operations
 
 ### Success Metrics
+
 - **Deployment Frequency**: Daily deployments per service
 - **Lead Time**: < 1 hour from commit to production
 - **MTTR**: < 30 minutes for critical services

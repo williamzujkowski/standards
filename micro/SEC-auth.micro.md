@@ -1,18 +1,21 @@
 # SEC:auth - Authentication Micro Standard (500 tokens max)
 
 ## Quick Rules
+
 - Use proven standards: OAuth2, JWT, SAML
 - Never store plain passwords
 - Implement MFA for sensitive operations
 - Session timeout: 30 min activity, 8 hour absolute
 
 ## Password Requirements
+
 - Min 12 characters
 - Mix of uppercase, lowercase, numbers, symbols
 - No common passwords (check against list)
 - Bcrypt/Argon2 hashing
 
 ## JWT Implementation
+
 ```python
 # Generate
 payload = {
@@ -31,6 +34,7 @@ except jwt.ExpiredSignatureError:
 ```
 
 ## OAuth2 Flow
+
 1. Redirect to provider
 2. User authorizes
 3. Receive code
@@ -38,6 +42,7 @@ except jwt.ExpiredSignatureError:
 5. Use token for API calls
 
 ## Security Checklist
+
 ✓ HTTPS only
 ✓ Secure session cookies (HttpOnly, Secure, SameSite)
 ✓ CSRF protection
@@ -46,11 +51,13 @@ except jwt.ExpiredSignatureError:
 ✓ Rotate secrets regularly
 
 ## MFA Options
+
 - TOTP (Google Authenticator)
 - SMS (backup only)
 - WebAuthn/FIDO2 (preferred)
 
 ## Session Management
+
 ```python
 session.permanent = False  # Close on browser exit
 session.cookie_httponly = True

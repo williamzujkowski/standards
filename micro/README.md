@@ -1,5 +1,11 @@
 # Micro Standards Directory
 
+## Index
+
+- [CS-api.micro](CS-api.micro.md)
+- [SEC-auth.micro](SEC-auth.micro.md)
+- [TS-unit.micro](TS-unit.micro.md)
+
 This directory contains ultra-condensed versions of standards (500 tokens maximum) for quick LLM reference.
 
 ## Available Micro Standards
@@ -22,6 +28,7 @@ https://raw.githubusercontent.com/williamzujkowski/standards/main/micro/CS-api.m
 ## Format Rules
 
 Each micro standard must:
+
 - Be under 500 tokens
 - Include only essential rules
 - Provide 1-2 code examples max
@@ -35,3 +42,13 @@ Each micro standard must:
 - Perfect for quick lookups
 - Ideal for constrained contexts
 - Mobile-friendly
+
+## Catalog (auto)
+
+<!-- AUTO-LINKS:micro/**/*.md -->
+
+- [Cs Api.Micro](CS-api.micro.md)
+- [Sec Auth.Micro](SEC-auth.micro.md)
+- [Ts Unit.Micro](TS-unit.micro.md)
+
+<!-- /AUTO-LINKS -->

@@ -10,13 +10,11 @@ This script sets up the complete monitoring infrastructure including:
 - Initial health check
 """
 
-import os
-import sys
 import json
-import subprocess
-import shutil
-from pathlib import Path
 import logging
+import os
+import subprocess
+import sys
 
 
 class MonitoringSetup:
@@ -112,9 +110,7 @@ class MonitoringSetup:
             },
         }
 
-        config_path = os.path.join(
-            self.monitoring_dir, "config", "monitoring_config.json"
-        )
+        config_path = os.path.join(self.monitoring_dir, "config", "monitoring_config.json")
         with open(config_path, "w") as f:
             json.dump(monitoring_config, f, indent=2)
 
@@ -255,9 +251,7 @@ fi
                 self.logger.warning(f"✗ {package} is missing")
 
         if missing_packages:
-            self.logger.info(
-                f"Installing missing packages: {', '.join(missing_packages)}"
-            )
+            self.logger.info(f"Installing missing packages: {', '.join(missing_packages)}")
             try:
                 subprocess.run(
                     [sys.executable, "-m", "pip", "install"] + missing_packages,
@@ -266,9 +260,7 @@ fi
                 self.logger.info("✓ Dependencies installed successfully")
             except subprocess.CalledProcessError as e:
                 self.logger.error(f"Failed to install dependencies: {e}")
-                self.logger.info(
-                    "Please install manually: pip install " + " ".join(missing_packages)
-                )
+                self.logger.info("Please install manually: pip install " + " ".join(missing_packages))
         else:
             self.logger.info("✓ All dependencies are satisfied")
 
@@ -300,9 +292,7 @@ fi
             f.write(cron_config)
 
         self.logger.info(f"✓ Created cron configuration: {cron_path}")
-        self.logger.info(
-            "To enable automated monitoring, add the cron jobs with: crontab -e"
-        )
+        self.logger.info("To enable automated monitoring, add the cron jobs with: crontab -e")
 
     def create_requirements_file(self):
         """Create requirements file for monitoring dependencies"""
@@ -319,7 +309,7 @@ pyyaml>=6.0
 
     def create_readme(self):
         """Create README for the monitoring system"""
-        readme_content = f"""# Standards Repository Monitoring System
+        readme_content = """# Standards Repository Monitoring System
 
 This directory contains a comprehensive monitoring system for the standards repository that provides:
 
@@ -448,17 +438,17 @@ Edit `monitoring/config/thresholds.json` to adjust warning and critical threshol
 Configure email, Slack, or other notifications in `monitoring/config/monitoring_config.json`:
 
 ```json
-{{
-  "notifications": {{
-    "email": {{
+{
+  "notifications": {
+    "email": {
       "enabled": true,
       "smtp_server": "smtp.gmail.com",
       "username": "your-email@gmail.com",
       "recipients": ["team@company.com"]
-    }},
+    },
     "slack_webhook": "https://hooks.slack.com/..."
-  }}
-}}
+  }
+}
 ```
 
 ### Dashboard
@@ -501,7 +491,7 @@ For issues or questions, check the logs in `monitoring/logs/` for detailed error
             monitor = HealthMonitor(self.repo_path)
             health_report = monitor.run_comprehensive_health_check()
 
-            self.logger.info(f"✓ Initial health check completed")
+            self.logger.info("✓ Initial health check completed")
             self.logger.info(f"  Overall Status: {health_report['overall_status']}")
             self.logger.info(f"  Health Score: {health_report['health_score']}/100")
 
@@ -531,9 +521,7 @@ For issues or questions, check the logs in `monitoring/logs/` for detailed error
             self.logger.info(f"📁 Monitoring directory: {self.monitoring_dir}")
             self.logger.info("📖 See monitoring/README.md for usage instructions")
             self.logger.info("🌐 Start dashboard with: ./monitoring/start_dashboard.sh")
-            self.logger.info(
-                "⚙️  Enable automation with cron jobs from: monitoring/config/cron_jobs.txt"
-            )
+            self.logger.info("⚙️  Enable automation with cron jobs from: monitoring/config/cron_jobs.txt")
 
         except Exception as e:
             self.logger.error(f"Setup failed: {e}")
@@ -543,15 +531,9 @@ For issues or questions, check the logs in `monitoring/logs/` for detailed error
 def main():
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="Setup Standards Repository Monitoring System"
-    )
-    parser.add_argument(
-        "--repo-path", help="Path to repository (default: current directory)"
-    )
-    parser.add_argument(
-        "--force", action="store_true", help="Force overwrite existing files"
-    )
+    parser = argparse.ArgumentParser(description="Setup Standards Repository Monitoring System")
+    parser.add_argument("--repo-path", help="Path to repository (default: current directory)")
+    parser.add_argument("--force", action="store_true", help="Force overwrite existing files")
 
     args = parser.parse_args()
 

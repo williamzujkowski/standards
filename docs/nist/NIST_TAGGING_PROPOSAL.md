@@ -17,6 +17,7 @@ As a senior security engineer, I propose implementing an **LLM-friendly, develop
 ### 1. Multi-Format Annotation System
 
 #### Code Annotations
+
 ```typescript
 /**
  * @nist ac-2 Account Management
@@ -40,6 +41,7 @@ async createUser(userData: UserData) {
 ```
 
 #### Configuration Annotations
+
 ```yaml
 # config/security.yaml
 # @nist-controls:
@@ -56,6 +58,7 @@ security:
 ```
 
 #### Documentation Annotations
+
 ```markdown
 ---
 nist_controls:
@@ -76,6 +79,7 @@ This document describes... <!-- @nist ac-1, pl-2 -->
 ### 2. LLM Context Management System
 
 #### Control Context Files
+
 ```typescript
 // .nist/control-context.json
 {
@@ -101,11 +105,14 @@ This document describes... <!-- @nist ac-1, pl-2 -->
 ```
 
 #### LLM Prompt Templates
+
 ```typescript
 // .nist/prompts/suggest-controls.md
 Given the following code:
 ```
+
 {code}
+
 ```
 
 And the project context:
@@ -136,6 +143,7 @@ Return in format:
 ### 3. Development Workflow Integration
 
 #### VS Code Extension Features
+
 - **Real-time Suggestions**: As developers type, suggest relevant controls
 - **Auto-completion**: Control IDs and descriptions
 - **Hover Information**: Show control details on hover
@@ -143,6 +151,7 @@ Return in format:
 - **Compliance Lens**: Visual indicators for tagged/untagged security code
 
 #### Git Hooks
+
 ```bash
 #!/bin/bash
 # .git/hooks/pre-commit
@@ -158,6 +167,7 @@ nist-checker collect-evidence --update .nist/evidence.json
 ```
 
 #### CI/CD Integration
+
 ```yaml
 # .github/workflows/compliance.yml
 name: Continuous Compliance
@@ -197,6 +207,7 @@ jobs:
 ### 4. Repository Updates
 
 #### CLAUDE.md Additions
+
 ```markdown
 ## NIST 800-53r5 Compliance Tagging
 
@@ -217,6 +228,7 @@ When writing or reviewing code, automatically suggest and apply NIST control tag
 ```
 
 #### New COMPLIANCE_STANDARDS.md
+
 ```markdown
 # Compliance Standards
 
@@ -239,6 +251,7 @@ When writing or reviewing code, automatically suggest and apply NIST control tag
 ```
 
 #### Function/Class Level
+
 ```typescript
 /**
  * @nist ac-3 Access Enforcement
@@ -248,6 +261,7 @@ When writing or reviewing code, automatically suggest and apply NIST control tag
 ```
 
 #### Configuration Files
+
 ```yaml
 # @nist-controls: [sc-8, sc-23]
 ```
@@ -255,16 +269,19 @@ When writing or reviewing code, automatically suggest and apply NIST control tag
 ### Evidence Collection
 
 Evidence is automatically collected from:
+
 1. Tagged code locations
 2. Test files referencing tagged code
 3. Configuration files with security settings
 4. Documentation mentioning controls
 
 ### Validation Rules
+
 1. Control ID must be valid NIST 800-53r5 identifier
 2. Implementation must match control requirements
 3. Evidence must be traceable
 4. Tags must be maintained during refactoring
+
 ```
 
 ### 5. Smart Templates
@@ -306,6 +323,7 @@ export class SecurityFeature {
 ### 6. LLM-Powered Features
 
 #### Intelligent Suggestions
+
 ```typescript
 // Developer types:
 async function hashPassword(password: string) {
@@ -319,6 +337,7 @@ async function hashPassword(password: string) {
 ```
 
 #### Compliance Chat
+
 ```
 Developer: "How do I implement session timeout?"
 
@@ -352,6 +371,7 @@ class SessionManager {
 ### 7. Continuous Evidence Collection
 
 #### Evidence Manifest
+
 ```json
 {
   "evidence_items": [
@@ -374,24 +394,28 @@ class SessionManager {
 ## 📈 Implementation Roadmap
 
 ### Phase 1: Foundation (Week 1-2)
+
 1. Design annotation syntax and parsers
 2. Create COMPLIANCE_STANDARDS.md
 3. Update CLAUDE.md with compliance context
 4. Build basic CLI tool for validation
 
 ### Phase 2: Developer Tools (Week 3-4)
+
 1. VS Code extension MVP
 2. Git hooks implementation
 3. CI/CD workflow templates
 4. LLM prompt library
 
 ### Phase 3: Integration (Week 5-6)
+
 1. Update all repository standards
 2. Tag existing code patterns
 3. Generate initial SSP
 4. Training documentation
 
 ### Phase 4: Automation (Week 7-8)
+
 1. Real-time compliance dashboard
 2. Automated evidence updates
 3. Continuous SSP generation

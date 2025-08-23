@@ -1,5 +1,7 @@
 # Knowledge Management Standards
 
+> 📚 See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md)
+
 **Version:** 1.0.0
 **Last Updated:** January 2025
 **Status:** Active
@@ -628,10 +630,10 @@ context_suggestions:
 
 ## References
 
-- [CREATING_STANDARDS_GUIDE.md](./docs/guides/CREATING_STANDARDS_GUIDE.md) - How to create new standards
-- [STANDARD_TEMPLATE.md](./docs/guides/STANDARD_TEMPLATE.md) - Template for new documents
-- [CLAUDE.md](./docs/core/CLAUDE.md) - Example AI router implementation
-- [MANIFEST.yaml](./config/MANIFEST.yaml) - Metadata structure example
+- [CREATING_STANDARDS_GUIDE.md](../guides/CREATING_STANDARDS_GUIDE.md) - How to create new standards
+- [STANDARD_TEMPLATE.md](../guides/STANDARD_TEMPLATE.md) - Template for new documents
+- [CLAUDE.md](../../CLAUDE.md) - Example AI router implementation
+- [MANIFEST.yaml](../../config/MANIFEST.yaml) - Metadata structure example
 
 ---
 
@@ -654,10 +656,10 @@ CHANGELOG.md     # Version history
 find . -name "*.md" -exec grep -L "Version:" {} \;
 
 # Check cross-references
-grep -r "\[.*\](\./" --include="*.md" | sort | uniq
+grep -r "\[
 
 # Token count estimation
-wc -w *.md | awk '{print $1/3 " tokens (est) - " $2}'
+ - " $2}'
 ```
 
 ### AI Loading Patterns

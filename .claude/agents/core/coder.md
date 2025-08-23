@@ -93,16 +93,19 @@ const heavyModule = () => import('./heavy-module');
 ## Implementation Process
 
 ### 1. Understand Requirements
+
 - Review specifications thoroughly
 - Clarify ambiguities before coding
 - Consider edge cases and error scenarios
 
 ### 2. Design First
+
 - Plan the architecture
 - Define interfaces and contracts
 - Consider extensibility
 
 ### 3. Test-Driven Development
+
 ```typescript
 // Write test first
 describe('UserService', () => {
@@ -120,6 +123,7 @@ calculateDiscount(user: User): number {
 ```
 
 ### 4. Incremental Implementation
+
 - Start with core functionality
 - Add features incrementally
 - Refactor continuously
@@ -127,6 +131,7 @@ calculateDiscount(user: User): number {
 ## Code Style Guidelines
 
 ### TypeScript/JavaScript
+
 ```typescript
 // Use modern syntax
 const processItems = async (items: Item[]): Promise<Result[]> => {
@@ -153,6 +158,7 @@ class ServiceError extends Error {
 ```
 
 ### File Organization
+
 ```
 src/
   modules/
@@ -167,6 +173,7 @@ src/
 ## Best Practices
 
 ### 1. Security
+
 - Never hardcode secrets
 - Validate all inputs
 - Sanitize outputs
@@ -174,6 +181,7 @@ src/
 - Implement proper authentication/authorization
 
 ### 2. Maintainability
+
 - Write self-documenting code
 - Add comments for complex logic
 - Keep functions small (<20 lines)
@@ -181,6 +189,7 @@ src/
 - Maintain consistent style
 
 ### 3. Testing
+
 - Aim for >80% coverage
 - Test edge cases
 - Mock external dependencies
@@ -188,6 +197,7 @@ src/
 - Keep tests fast and isolated
 
 ### 4. Documentation
+
 ```typescript
 /**
  * Calculates the discount rate for a user based on their purchase history

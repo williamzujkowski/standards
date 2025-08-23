@@ -11,6 +11,7 @@
 ---
 
 ## TL;DR
+
 - **Advanced LLM interface** for comprehensive standards management with ~90% token efficiency through intelligent context loading
 - **Smart loading syntax** enables semantic queries like `@ask "How to build secure API"` that auto-loads relevant standards
 - **Task-based routing** automatically loads appropriate standards for bug fixes, new features, security, performance, and compliance
@@ -72,11 +73,14 @@ context:
 | "How do I build a secure API?" | `CS:api + SEC:api + TS:integration` | API security patterns |
 | "Make my app faster" | `CS:performance + OBS:metrics + COST:optimization` | Performance toolkit |
 | "Start React project" | `FE:react + WD:* + TS:jest + CS:javascript` | React ecosystem |
-| "Database optimization" | `CS:performance + DE:optimization + OBS:metrics` | Query optimization |
+| "Database optimization" | `DATABASE:optimization + CS:performance + OBS:metrics` | Query optimization |
+| "Database design" | `DATABASE:* + DE:modeling + SEC:encryption` | Database standards |
 | "Data engineering" | `DE:* + CS:patterns + OBS:monitoring` | Data pipelines |
 | "Unified overview" | `UNIFIED:* + CS:overview + TS:overview` | Quick reference |
 | "All standards overview" | `UNIFIED:comprehensive` | Complete reference |
-| "Microservices setup" | `CN:microservices + EVT:* + OBS:distributed` | Distributed systems |
+| "Microservices setup" | `MICROSERVICES:* + CN:kubernetes + EVT:* + OBS:distributed` | Distributed systems |
+| "Cloud native" | `CN:* + CN:kubernetes + CN:docker` | Cloud native patterns |
+| "Microservices patterns" | `MICROSERVICES:patterns + SEC:api + EVT:patterns` | Service architecture |
 | "MCP server setup" | `MCP:server + CS:patterns + SEC:auth` | MCP server implementation |
 | "Build MCP tools" | `MCP:tools + CS:api + TS:integration` | MCP tool development |
 | "MCP security" | `MCP:security + SEC:auth + SEC:validation` | Secure MCP implementation |
@@ -86,6 +90,8 @@ context:
 | "NIST compliance" | `COMPLIANCE:* + nist:moderate + evidence:patterns` | NIST 800-53r5 |
 | "Tag NIST controls" | `COMPLIANCE:tagging + nist:quick-ref` | Control tagging |
 | "Mobile app standards" | `FE:mobile + SEC:mobile + TS:mobile` | Cross-platform |
+| "ML pipeline" | `ML_AI:* + DE:pipelines + CN:kubernetes + OBS:monitoring` | ML/AI standards |
+| "AI model deployment" | `ML_AI:deployment + SEC:model + OBS:metrics` | Model serving |
 | "Documentation system" | `KM:* + CS:documentation + DOP:automation` | Knowledge management |
 | "Organize standards" | `KM:architecture + KM:cross-reference` | Standards architecture |
 | "Project management" | `PM:* + GH:projects + CONT:*` | Project organization |

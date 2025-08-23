@@ -1,32 +1,32 @@
 {
-  "performance_thresholds": {
-    "git_operation_warning": 5.0,
-    "git_operation_critical": 15.0,
-    "file_read_warning": 1.0,
-    "file_read_critical": 5.0,
-    "script_execution_warning": 10.0,
-    "script_execution_critical": 30.0,
-    "memory_usage_warning": 80,
-    "memory_usage_critical": 95,
-    "cpu_usage_warning": 80,
-    "cpu_usage_critical": 95
-  },
   "health_thresholds": {
     "critical": {
       "broken_links_percent": 10,
-      "missing_files_percent": 5,
       "dependency_errors_percent": 15,
+      "disk_usage_percent": 95,
+      "missing_files_percent": 5,
       "system_cpu_percent": 95,
-      "system_memory_percent": 95,
-      "disk_usage_percent": 95
+      "system_memory_percent": 95
     },
     "warning": {
       "broken_links_percent": 5,
-      "missing_files_percent": 2,
       "dependency_errors_percent": 5,
+      "disk_usage_percent": 85,
+      "missing_files_percent": 2,
       "system_cpu_percent": 80,
-      "system_memory_percent": 80,
-      "disk_usage_percent": 85
+      "system_memory_percent": 80
     }
+  },
+  "performance_thresholds": {
+    "cpu_usage_critical": 95,
+    "cpu_usage_warning": 80,
+    "file_read_critical": 5.0,
+    "file_read_warning": 1.0,
+    "git_operation_critical": 15.0,
+    "git_operation_warning": 5.0,
+    "memory_usage_critical": 95,
+    "memory_usage_warning": 80,
+    "script_execution_critical": 30.0,
+    "script_execution_warning": 10.0
   }
 }

@@ -1,16 +1,26 @@
 {
-  "version": "1.0.0",
   "created": "2025-01-15",
   "description": "Knowledge graph for NIST 800-53r5 controls and repository standards relationships",
-  "note": "This will be populated by the semantic analysis engine",
-
-  "nodes": {},
   "edges": {},
   "metadata": {
+    "edge_types": [
+      "implements",
+      "supports",
+      "requires",
+      "documents",
+      "evidences"
+    ],
     "last_updated": null,
-    "total_nodes": 0,
+    "node_types": [
+      "control",
+      "standard",
+      "implementation",
+      "evidence"
+    ],
     "total_edges": 0,
-    "node_types": ["control", "standard", "implementation", "evidence"],
-    "edge_types": ["implements", "supports", "requires", "documents", "evidences"]
-  }
+    "total_nodes": 0
+  },
+  "nodes": {},
+  "note": "This will be populated by the semantic analysis engine",
+  "version": "1.0.0"
 }

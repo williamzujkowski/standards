@@ -1,6 +1,7 @@
 # TS:unit - Unit Testing Micro Standard (500 tokens max)
 
 ## Quick Rules
+
 - 85% coverage minimum
 - Test one thing per test
 - Fast execution (<100ms per test)
@@ -8,6 +9,7 @@
 - Clear naming: `test_should_[expected]_when_[condition]`
 
 ## Test Structure (AAA)
+
 ```python
 def test_calculate_total_with_discount():
     # Arrange
@@ -22,6 +24,7 @@ def test_calculate_total_with_discount():
 ```
 
 ## Mocking
+
 ```python
 # Mock external dependencies
 @patch('requests.get')
@@ -33,12 +36,14 @@ def test_fetch_user(mock_get):
 ```
 
 ## Coverage Requirements
+
 - Overall: 85%
 - Critical paths: 95%
 - New code: 90%
 - Exclude: tests, migrations, configs
 
 ## Best Practices
+
 ✓ Use fixtures for setup
 ✓ Parameterize similar tests
 ✓ Mock external calls
@@ -47,6 +52,7 @@ def test_fetch_user(mock_get):
 ✓ Keep tests simple
 
 ## Example Fixture
+
 ```python
 @pytest.fixture
 def sample_user():
@@ -57,6 +63,7 @@ def test_user_full_name(sample_user):
 ```
 
 ## Common Assertions
+
 ```python
 assert result == expected
 assert error_func raises ValueError

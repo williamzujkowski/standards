@@ -53,6 +53,7 @@ chmod +x setup-project.sh
 ## 📋 Integration Checklist
 
 ### Immediate Actions
+
 - [ ] Use KICKSTART_PROMPT.md for project analysis
 - [ ] Add standards reference to README
 - [ ] Copy CLAUDE.md for AI-assisted development
@@ -63,6 +64,7 @@ chmod +x setup-project.sh
 ### Project Configuration Files
 
 #### `.pre-commit-config.yaml`
+
 ```yaml
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -76,6 +78,7 @@ repos:
 ```
 
 #### `pyproject.toml` (Python example)
+
 ```toml
 [tool.coverage.run]
 branch = true
@@ -95,6 +98,7 @@ line_length = 88
 ```
 
 #### `package.json` (JavaScript example)
+
 ```json
 {
   "scripts": {
@@ -111,11 +115,13 @@ line_length = 88
 ### Using CLAUDE.md in Your Project
 
 1. Copy CLAUDE.md to your project:
+
    ```bash
    cp standards/CLAUDE.md docs/
    ```
 
 2. When using AI tools, reference specific standards:
+
    ```
    I'm working on [feature]. Please follow:
    @load [CS:api-design + SEC:api-security + TS:integration]

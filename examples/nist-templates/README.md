@@ -5,9 +5,11 @@ Pre-built security components with NIST 800-53r5 control tags already applied. U
 ## Available Templates
 
 ### TypeScript: Authentication Service
+
 **File:** `typescript/auth-service.ts`
 
 Features with NIST controls:
+
 - User authentication (`@nist ia-2`)
 - Password management (`@nist ia-5`)
 - Multi-factor authentication (`@nist ia-2.1`)
@@ -18,9 +20,11 @@ Features with NIST controls:
 - Error handling (`@nist si-11`)
 
 ### Python: Secure API
+
 **File:** `python/secure_api.py`
 
 Features with NIST controls:
+
 - JWT authentication (`@nist ia-2`)
 - Role-based authorization (`@nist ac-3`)
 - Rate limiting (`@nist ac-7`)
@@ -31,9 +35,11 @@ Features with NIST controls:
 - Error handling (`@nist si-11`)
 
 ### Go: Secure Service
+
 **File:** `go/secure_service.go`
 
 Features with NIST controls:
+
 - Authentication service (`@nist ia-2`)
 - Password complexity validation (`@nist ia-5.1`)
 - Permission-based authorization (`@nist ac-3, ac-6`)
@@ -46,6 +52,7 @@ Features with NIST controls:
 ## Usage
 
 ### 1. Copy Template
+
 ```bash
 # For TypeScript
 cp examples/nist-templates/typescript/auth-service.ts src/services/
@@ -58,12 +65,14 @@ cp examples/nist-templates/go/secure_service.go cmd/server/
 ```
 
 ### 2. Customize for Your Needs
+
 - Replace placeholder implementations with your business logic
 - Update configuration values (secrets, timeouts, etc.)
 - Add additional NIST controls as needed
 - Integrate with your existing infrastructure
 
 ### 3. Verify NIST Tags
+
 ```bash
 # Scan for NIST annotations
 npm run scan-annotations scan src/
@@ -75,6 +84,7 @@ npm run nist-context suggest src/services/auth-service.ts
 ## Key Security Patterns
 
 ### Authentication Pattern
+
 ```typescript
 // @nist ia-2 "User authentication"
 // @nist ia-5 "Credential management"
@@ -96,6 +106,7 @@ async function authenticate(username: string, password: string) {
 ```
 
 ### Authorization Pattern
+
 ```python
 # @nist ac-3 "Access enforcement"
 # @nist ac-6 "Least privilege"
@@ -106,6 +117,7 @@ def admin_endpoint():
 ```
 
 ### Input Validation Pattern
+
 ```go
 // @nist si-10 "Input validation"
 func validateInput(input string) error {
@@ -124,6 +136,7 @@ func validateInput(input string) error {
 ```
 
 ### Audit Logging Pattern
+
 ```typescript
 // @nist au-2 "Audit event generation"
 // @nist au-3 "Audit record content"
@@ -142,6 +155,7 @@ interface AuditLog {
 These templates implement the following NIST controls:
 
 ### Access Control (AC)
+
 - `ac-2`: Account Management
 - `ac-3`: Access Enforcement
 - `ac-6`: Least Privilege
@@ -149,21 +163,25 @@ These templates implement the following NIST controls:
 - `ac-12`: Session Termination
 
 ### Audit and Accountability (AU)
+
 - `au-2`: Audit Events
 - `au-3`: Content of Audit Records
 - `au-4`: Audit Storage Capacity
 - `au-9`: Protection of Audit Information
 
 ### Identification and Authentication (IA)
+
 - `ia-2`: User Authentication
 - `ia-5`: Authenticator Management
 - `ia-5.1`: Password Complexity
 
 ### System and Communications Protection (SC)
+
 - `sc-8`: Transmission Confidentiality
 - `sc-13`: Cryptographic Protection
 
 ### System and Information Integrity (SI)
+
 - `si-10`: Information Input Validation
 - `si-11`: Error Handling
 
@@ -202,6 +220,7 @@ To add new security features:
 5. Update tests to verify the control
 
 Example:
+
 ```python
 # @nist cp-10 "Information system recovery"
 # @nist-implements cp-10.2 "Transaction recovery"
@@ -217,17 +236,20 @@ def recover_transaction(transaction_id: str) -> bool:
 After using these templates:
 
 1. Generate SSP with implemented controls:
+
    ```bash
    cd standards/compliance
    npm run generate-ssp
    ```
 
 2. Check control coverage:
+
    ```bash
    npm run scan-annotations scan . -f markdown
    ```
 
 3. Validate implementation:
+
    ```bash
    ./scripts/nist-pre-commit.sh
    ```

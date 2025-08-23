@@ -8,17 +8,15 @@ health checks with alerting.
 """
 
 import json
-import os
-import sys
-import hashlib
-import subprocess
-import time
-import psutil
-from datetime import datetime, timedelta
-from pathlib import Path
 import logging
-import yaml
+import os
 import re
+import subprocess
+from datetime import datetime
+from pathlib import Path
+
+import psutil
+import yaml
 
 
 class HealthMonitor:
@@ -92,17 +90,13 @@ class HealthMonitor:
             health_report["checks"]["file_integrity"] = self._check_file_integrity()
 
         if self.health_checks["dependency_validation"]:
-            health_report["checks"][
-                "dependency_validation"
-            ] = self._check_dependencies()
+            health_report["checks"]["dependency_validation"] = self._check_dependencies()
 
         if self.health_checks["link_validation"]:
             health_report["checks"]["link_validation"] = self._check_links()
 
         if self.health_checks["standards_consistency"]:
-            health_report["checks"][
-                "standards_consistency"
-            ] = self._check_standards_consistency()
+            health_report["checks"]["standards_consistency"] = self._check_standards_consistency()
 
         if self.health_checks["git_health"]:
             health_report["checks"]["git_health"] = self._check_git_health()
@@ -123,7 +117,8 @@ class HealthMonitor:
         self._save_health_report(health_report)
 
         self.logger.info(
-            f"Health check completed. Overall status: {health_report['overall_status']}, Score: {health_report['health_score']}"
+            f"Health check completed. Overall status: {health_report['overall_status']}, "
+            f"Score: {health_report['health_score']}"
         )
 
         return health_report
@@ -153,7 +148,7 @@ class HealthMonitor:
 
             try:
                 # Check if file is readable and has content
-                with open(full_path, "r", encoding="utf-8") as f:
+                with open(full_path, encoding="utf-8") as f:
                     content = f.read()
                     if len(content) < 100:  # Files should have substantial content
                         corrupted_files.append(f"{file_path} (too small)")
@@ -191,14 +186,10 @@ class HealthMonitor:
         }
 
         if missing_files:
-            check_result["issues"].append(
-                f"Missing critical files: {', '.join(missing_files)}"
-            )
+            check_result["issues"].append(f"Missing critical files: {', '.join(missing_files)}")
 
         if corrupted_files:
-            check_result["issues"].append(
-                f"Corrupted/invalid files: {', '.join(corrupted_files)}"
-            )
+            check_result["issues"].append(f"Corrupted/invalid files: {', '.join(corrupted_files)}")
 
         return check_result
 
@@ -219,33 +210,24 @@ class HealthMonitor:
         import_errors = []
         for py_file in python_files[:10]:  # Check first 10 Python files
             try:
-                with open(py_file, "r", encoding="utf-8") as f:
+                with open(py_file, encoding="utf-8") as f:
                     content = f.read()
 
                 # Look for common problematic imports
                 problematic_imports = re.findall(r"import\s+(\w+)", content)
                 for imp in problematic_imports:
-                    if (
-                        imp in ["requests", "pandas", "numpy"]
-                        and not requirements_files
-                    ):
-                        import_errors.append(
-                            f"{py_file.name} imports {imp} but no requirements.txt"
-                        )
+                    if imp in ["requests", "pandas", "numpy"] and not requirements_files:
+                        import_errors.append(f"{py_file.name} imports {imp} but no requirements.txt")
 
             except Exception:
                 continue
 
         # Check Node.js dependencies if applicable
         package_json_files = list(Path(self.repo_path).rglob("package.json"))
-        js_files = list(Path(self.repo_path).rglob("*.js")) + list(
-            Path(self.repo_path).rglob("*.ts")
-        )
+        js_files = list(Path(self.repo_path).rglob("*.js")) + list(Path(self.repo_path).rglob("*.ts"))
 
         if js_files and not package_json_files:
-            dependency_issues.append(
-                "JavaScript/TypeScript files found but no package.json"
-            )
+            dependency_issues.append("JavaScript/TypeScript files found but no package.json")
 
         # Check for missing node_modules if package.json exists
         for package_json in package_json_files:
@@ -286,7 +268,7 @@ class HealthMonitor:
 
         for md_file in markdown_files:
             try:
-                with open(md_file, "r", encoding="utf-8") as f:
+                with open(md_file, encoding="utf-8") as f:
                     content = f.read()
 
                 # Find markdown links
@@ -297,11 +279,7 @@ class HealthMonitor:
                     total_links += 1
 
                     # Check internal links (relative paths)
-                    if (
-                        link_url.startswith("./")
-                        or link_url.startswith("../")
-                        or not link_url.startswith("http")
-                    ):
+                    if link_url.startswith("./") or link_url.startswith("../") or not link_url.startswith("http"):
                         # Convert to absolute path
                         if link_url.startswith("./"):
                             link_path = md_file.parent / link_url[2:]
@@ -324,16 +302,12 @@ class HealthMonitor:
                             )
 
             except Exception as e:
-                check_result["issues"].append(
-                    f"Error checking links in {md_file}: {str(e)}"
-                )
+                check_result["issues"].append(f"Error checking links in {md_file}: {str(e)}")
 
         # Calculate score
         if total_links > 0:
             broken_percentage = len(broken_links) / total_links * 100
-            check_result["score"] = max(
-                0, 100 - broken_percentage * 2
-            )  # 2 points per broken link percentage
+            check_result["score"] = max(0, 100 - broken_percentage * 2)  # 2 points per broken link percentage
 
             if broken_percentage > self.thresholds["critical"]["broken_links_percent"]:
                 check_result["status"] = "critical"
@@ -343,16 +317,12 @@ class HealthMonitor:
         check_result["details"] = {
             "total_links": total_links,
             "broken_links": len(broken_links),
-            "broken_percentage": (
-                len(broken_links) / total_links * 100 if total_links > 0 else 0
-            ),
+            "broken_percentage": (len(broken_links) / total_links * 100 if total_links > 0 else 0),
             "broken_link_details": broken_links[:10],  # First 10 broken links
         }
 
         if broken_links:
-            check_result["issues"].append(
-                f"{len(broken_links)} broken internal links found"
-            )
+            check_result["issues"].append(f"{len(broken_links)} broken internal links found")
 
         return check_result
 
@@ -369,7 +339,7 @@ class HealthMonitor:
                 check_result["score"] = 0
                 return check_result
 
-            with open(manifest_path, "r") as f:
+            with open(manifest_path) as f:
                 manifest = yaml.safe_load(f)
 
             standards = manifest.get("standards", {})
@@ -377,36 +347,28 @@ class HealthMonitor:
 
             # Check if all standards files referenced in manifest exist
             missing_standards = []
-            for std_id, std_info in standards.items():
-                file_path = os.path.join(
-                    self.repo_path, "docs", "standards", std_info["full_name"]
-                )
+            for _std_id, std_info in standards.items():
+                file_path = os.path.join(self.repo_path, "docs", "standards", std_info["full_name"])
                 if not os.path.exists(file_path):
                     missing_standards.append(std_info["full_name"])
 
             # Check for standards files not in manifest
             standards_dir = os.path.join(self.repo_path, "docs", "standards")
             if os.path.exists(standards_dir):
-                actual_files = [
-                    f for f in os.listdir(standards_dir) if f.endswith(".md")
-                ]
+                actual_files = [f for f in os.listdir(standards_dir) if f.endswith(".md")]
                 manifest_files = [info["full_name"] for info in standards.values()]
 
                 orphaned_files = set(actual_files) - set(manifest_files)
                 if orphaned_files:
-                    consistency_issues.append(
-                        f"Files not in manifest: {', '.join(orphaned_files)}"
-                    )
+                    consistency_issues.append(f"Files not in manifest: {', '.join(orphaned_files)}")
 
             # Check for inconsistent section structure
             inconsistent_structures = []
-            for std_id, std_info in standards.items():
-                file_path = os.path.join(
-                    self.repo_path, "docs", "standards", std_info["full_name"]
-                )
+            for _std_id, std_info in standards.items():
+                file_path = os.path.join(self.repo_path, "docs", "standards", std_info["full_name"])
                 if os.path.exists(file_path):
                     try:
-                        with open(file_path, "r", encoding="utf-8") as f:
+                        with open(file_path, encoding="utf-8") as f:
                             content = f.read()
 
                         # Check for required sections
@@ -429,11 +391,7 @@ class HealthMonitor:
                         continue
 
             # Calculate score
-            total_issues = (
-                len(missing_standards)
-                + len(consistency_issues)
-                + len(inconsistent_structures)
-            )
+            total_issues = len(missing_standards) + len(consistency_issues) + len(inconsistent_structures)
             if total_issues > 0:
                 check_result["score"] = max(0, 100 - (total_issues * 5))
 
@@ -458,9 +416,7 @@ class HealthMonitor:
         except Exception as e:
             check_result["status"] = "critical"
             check_result["score"] = 0
-            check_result["issues"].append(
-                f"Error checking standards consistency: {str(e)}"
-            )
+            check_result["issues"].append(f"Error checking standards consistency: {str(e)}")
 
         return check_result
 
@@ -470,9 +426,7 @@ class HealthMonitor:
 
         try:
             # Check if we're in a git repository
-            result = subprocess.run(
-                ["git", "status"], capture_output=True, text=True, cwd=self.repo_path
-            )
+            result = subprocess.run(["git", "status"], capture_output=True, text=True, cwd=self.repo_path)
             if result.returncode != 0:
                 check_result["status"] = "critical"
                 check_result["score"] = 0
@@ -485,21 +439,12 @@ class HealthMonitor:
                 lines = result.stdout.split("\n")
                 in_changes_section = False
                 for line in lines:
-                    if (
-                        "Changes not staged for commit:" in line
-                        or "Changes to be committed:" in line
-                    ):
+                    if "Changes not staged for commit:" in line or "Changes to be committed:" in line:
                         in_changes_section = True
-                    elif (
-                        in_changes_section
-                        and line.strip()
-                        and not line.startswith("\t")
-                    ):
+                    elif in_changes_section and line.strip() and not line.startswith("\t"):
                         in_changes_section = False
                     elif in_changes_section and line.strip():
-                        file_match = re.search(
-                            r"\s+(?:modified|new file|deleted):\s+(.+)", line
-                        )
+                        file_match = re.search(r"\s+(?:modified|new file|deleted):\s+(.+)", line)
                         if file_match:
                             uncommitted_files.append(file_match.group(1))
 
@@ -510,11 +455,7 @@ class HealthMonitor:
                 text=True,
                 cwd=self.repo_path,
             )
-            commit_count = (
-                len(recent_commits.stdout.strip().split("\n"))
-                if recent_commits.stdout.strip()
-                else 0
-            )
+            commit_count = len(recent_commits.stdout.strip().split("\n")) if recent_commits.stdout.strip() else 0
 
             # Check for large files
             large_files = []
@@ -525,10 +466,7 @@ class HealthMonitor:
                     text=True,
                 )
                 if find_result.stdout:
-                    large_files = [
-                        f.replace(self.repo_path + "/", "")
-                        for f in find_result.stdout.strip().split("\n")
-                    ]
+                    large_files = [f.replace(self.repo_path + "/", "") for f in find_result.stdout.strip().split("\n")]
                     # Filter out .git directory files
                     large_files = [f for f in large_files if not f.startswith(".git/")]
             except:
@@ -539,9 +477,7 @@ class HealthMonitor:
 
             if len(uncommitted_files) > 10:
                 score_deductions += 20
-                check_result["issues"].append(
-                    f"Many uncommitted files: {len(uncommitted_files)}"
-                )
+                check_result["issues"].append(f"Many uncommitted files: {len(uncommitted_files)}")
             elif len(uncommitted_files) > 5:
                 score_deductions += 10
 
@@ -553,9 +489,7 @@ class HealthMonitor:
 
             if large_files:
                 score_deductions += 15
-                check_result["issues"].append(
-                    f"Large files detected: {', '.join(large_files[:3])}"
-                )
+                check_result["issues"].append(f"Large files detected: {', '.join(large_files[:3])}")
 
             check_result["score"] = max(0, 100 - score_deductions)
 
@@ -606,20 +540,14 @@ class HealthMonitor:
 
             if memory_percent > self.thresholds["critical"]["system_memory_percent"]:
                 score_deductions += 30
-                check_result["issues"].append(
-                    f"Critical memory usage: {memory_percent:.1f}%"
-                )
+                check_result["issues"].append(f"Critical memory usage: {memory_percent:.1f}%")
             elif memory_percent > self.thresholds["warning"]["system_memory_percent"]:
                 score_deductions += 15
-                check_result["issues"].append(
-                    f"High memory usage: {memory_percent:.1f}%"
-                )
+                check_result["issues"].append(f"High memory usage: {memory_percent:.1f}%")
 
             if disk_percent > self.thresholds["critical"]["disk_usage_percent"]:
                 score_deductions += 25
-                check_result["issues"].append(
-                    f"Critical disk usage: {disk_percent:.1f}%"
-                )
+                check_result["issues"].append(f"Critical disk usage: {disk_percent:.1f}%")
             elif disk_percent > self.thresholds["warning"]["disk_usage_percent"]:
                 score_deductions += 10
                 check_result["issues"].append(f"High disk usage: {disk_percent:.1f}%")
@@ -670,9 +598,7 @@ class HealthMonitor:
             sensitive_files.extend(files)
 
         if sensitive_files:
-            security_issues.append(
-                f"Potential sensitive files: {', '.join([f.name for f in sensitive_files[:5]])}"
-            )
+            security_issues.append(f"Potential sensitive files: {', '.join([f.name for f in sensitive_files[:5]])}")
 
         # Check for hardcoded secrets in code files
         code_files = (
@@ -692,7 +618,7 @@ class HealthMonitor:
         files_with_secrets = []
         for code_file in code_files[:20]:  # Check first 20 files
             try:
-                with open(code_file, "r", encoding="utf-8") as f:
+                with open(code_file, encoding="utf-8") as f:
                     content = f.read()
                     for pattern in secret_patterns:
                         if re.search(pattern, content, re.IGNORECASE):
@@ -702,9 +628,7 @@ class HealthMonitor:
                 continue
 
         if files_with_secrets:
-            security_issues.append(
-                f"Potential hardcoded secrets in: {', '.join(files_with_secrets[:3])}"
-            )
+            security_issues.append(f"Potential hardcoded secrets in: {', '.join(files_with_secrets[:3])}")
 
         # Check file permissions (Unix systems)
         if os.name != "nt":
@@ -716,15 +640,11 @@ class HealthMonitor:
 
                 for file in files:
                     file_path = os.path.join(root, file)
-                    if os.access(file_path, os.X_OK) and not file.endswith(
-                        (".sh", ".py")
-                    ):
+                    if os.access(file_path, os.X_OK) and not file.endswith((".sh", ".py")):
                         executable_files.append(file)
 
             if executable_files:
-                security_issues.append(
-                    f"Unexpected executable files: {', '.join(executable_files[:3])}"
-                )
+                security_issues.append(f"Unexpected executable files: {', '.join(executable_files[:3])}")
 
         # Calculate score
         score_deduction = len(security_issues) * 15
@@ -751,9 +671,7 @@ class HealthMonitor:
 
         try:
             # Try to run compliance score calculation
-            compliance_script = os.path.join(
-                self.repo_path, "scripts", "calculate_compliance_score.py"
-            )
+            compliance_script = os.path.join(self.repo_path, "scripts", "calculate_compliance_score.py")
             if os.path.exists(compliance_script):
                 result = subprocess.run(
                     ["python3", compliance_script],
@@ -773,18 +691,12 @@ class HealthMonitor:
 
                                 if compliance_score < 70:
                                     check_result["status"] = "critical"
-                                    check_result["issues"].append(
-                                        f"Low compliance score: {compliance_score:.1f}%"
-                                    )
+                                    check_result["issues"].append(f"Low compliance score: {compliance_score:.1f}%")
                                 elif compliance_score < 85:
                                     check_result["status"] = "warning"
-                                    check_result["issues"].append(
-                                        f"Moderate compliance score: {compliance_score:.1f}%"
-                                    )
+                                    check_result["issues"].append(f"Moderate compliance score: {compliance_score:.1f}%")
 
-                                check_result["details"][
-                                    "compliance_score"
-                                ] = compliance_score
+                                check_result["details"]["compliance_score"] = compliance_score
                                 break
                 else:
                     check_result["issues"].append("Compliance script failed to run")
@@ -807,12 +719,8 @@ class HealthMonitor:
                     missing_docs.append(doc)
 
             if missing_docs:
-                check_result["issues"].append(
-                    f"Missing required documentation: {', '.join(missing_docs)}"
-                )
-                check_result["score"] = max(
-                    0, check_result["score"] - len(missing_docs) * 5
-                )
+                check_result["issues"].append(f"Missing required documentation: {', '.join(missing_docs)}")
+                check_result["score"] = max(0, check_result["score"] - len(missing_docs) * 5)
 
             check_result["details"]["missing_documentation"] = missing_docs
 
@@ -857,12 +765,8 @@ class HealthMonitor:
         health_report["health_score"] = round(overall_score, 2)
 
         # Determine overall status
-        critical_checks = [
-            check for check in checks.values() if check.get("status") == "critical"
-        ]
-        warning_checks = [
-            check for check in checks.values() if check.get("status") == "warning"
-        ]
+        critical_checks = [check for check in checks.values() if check.get("status") == "critical"]
+        warning_checks = [check for check in checks.values() if check.get("status") == "warning"]
 
         if critical_checks or overall_score < 60:
             health_report["overall_status"] = "critical"
@@ -881,19 +785,13 @@ class HealthMonitor:
         # Generate recommendations
         recommendations = []
         if overall_score < 80:
-            recommendations.append(
-                "Consider running individual health checks to identify specific issues"
-            )
+            recommendations.append("Consider running individual health checks to identify specific issues")
 
         if any(check.get("status") == "critical" for check in checks.values()):
-            recommendations.append(
-                "Critical issues detected - immediate attention required"
-            )
+            recommendations.append("Critical issues detected - immediate attention required")
 
         if len(all_issues) > 10:
-            recommendations.append(
-                "Multiple issues detected - prioritize fixes based on severity"
-            )
+            recommendations.append("Multiple issues detected - prioritize fixes based on severity")
 
         health_report["recommendations"] = recommendations
 
@@ -927,9 +825,7 @@ class HealthMonitor:
 
     def _format_health_summary(self, health_report):
         """Format health report as readable text summary"""
-        timestamp = datetime.fromisoformat(health_report["timestamp"]).strftime(
-            "%Y-%m-%d %H:%M:%S"
-        )
+        timestamp = datetime.fromisoformat(health_report["timestamp"]).strftime("%Y-%m-%d %H:%M:%S")
 
         text = f"""
 REPOSITORY HEALTH REPORT
@@ -968,9 +864,7 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(description="Repository Health Monitor")
-    parser.add_argument(
-        "--repo-path", help="Path to repository (default: current directory)"
-    )
+    parser.add_argument("--repo-path", help="Path to repository (default: current directory)")
     parser.add_argument(
         "--output",
         choices=["json", "text", "both"],
@@ -985,7 +879,7 @@ def main():
     print("🔍 Running comprehensive health check...")
     health_report = monitor.run_comprehensive_health_check()
 
-    print(f"\n📊 Health Check Results:")
+    print("\n📊 Health Check Results:")
     print(f"Overall Status: {health_report['overall_status'].upper()}")
     print(f"Health Score: {health_report['health_score']}/100")
 
@@ -995,7 +889,7 @@ def main():
             print(f"  • {alert}")
 
     if health_report["recommendations"]:
-        print(f"\n💡 Recommendations:")
+        print("\n💡 Recommendations:")
         for rec in health_report["recommendations"]:
             print(f"  • {rec}")
 

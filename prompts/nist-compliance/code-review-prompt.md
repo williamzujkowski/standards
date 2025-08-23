@@ -1,6 +1,7 @@
 # NIST Code Review Prompt
 
 ## Purpose
+
 Use this prompt to review code for NIST compliance issues and get specific recommendations.
 
 ## The Prompt
@@ -20,11 +21,13 @@ Code to review:
 ```
 
 Review Criteria:
+
 - Baseline: [LOW/MODERATE/HIGH]
 - Focus areas: [e.g., authentication, authorization, logging]
 - Known issues: [any specific concerns]
 
 For each finding, provide:
+
 - **Location**: Line number or function name
 - **Issue Type**: Missing tag / Incorrect tag / Incomplete implementation / Security gap
 - **Severity**: CRITICAL / HIGH / MEDIUM / LOW
@@ -35,21 +38,25 @@ For each finding, provide:
 - **Evidence Impact**: How this affects compliance evidence
 
 Format the review as:
+
 1. Executive Summary (counts and overall assessment)
 2. Critical Findings (must fix)
 3. Important Findings (should fix)
 4. Minor Findings (nice to fix)
 5. Positive Findings (what's done well)
 6. Remediation Priority List
+
 ```
 
 ## Usage Examples
 
 ### Example 1: Authentication Module Review
 ```
+
 Perform a NIST 800-53r5 compliance review of the following code.
 
 Code to review:
+
 ```python
 class AuthService:
     def login(self, username: str, password: str) -> dict:
@@ -77,8 +84,10 @@ class AuthService:
 ```
 
 Review Criteria:
+
 - Baseline: MODERATE
 - Focus areas: authentication, password management
+
 ```
 
 ### Expected Output Format
@@ -116,9 +125,11 @@ def login(self, username: str, password: str) -> dict:
 
         # ... rest of implementation
 ```
+
 - **Evidence Impact**: No audit trail for compliance verification
 
 #### 2. No Account Lockout Mechanism
+
 - **Location**: Entire login function
 - **Issue Type**: Missing implementation
 - **Severity**: CRITICAL
@@ -130,6 +141,7 @@ def login(self, username: str, password: str) -> dict:
 ### Important Findings
 
 #### 3. Missing Input Validation
+
 - **Location**: Lines 2, 16 (function parameters)
 - **Issue Type**: Security gap
 - **Severity**: HIGH
@@ -145,12 +157,14 @@ def login(self, username: str, password: str) -> dict:
 
 2. **Week 2**: High priority findings
    [List continues...]
+
 ```
 
 ## Variations
 
 ### For Pull Request Reviews
 ```
+
 Review this pull request for NIST compliance impact:
 
 Changed files:
@@ -160,13 +174,16 @@ Diff:
 [PASTE DIFF]
 
 Specifically check:
+
 1. Are new security features properly tagged?
 2. Do modifications maintain existing control compliance?
 3. Are removed features affecting any controls?
+
 ```
 
 ### For Specific Control Validation
 ```
+
 Verify that this code correctly implements NIST control [CONTROL-ID]:
 
 Expected requirements:
@@ -174,18 +191,22 @@ Expected requirements:
 
 Code claiming to implement this control:
 [PASTE CODE]
+
 ```
 
 ### For Security-Focused Review
 ```
+
 Review this code for security vulnerabilities that would violate NIST controls:
 
 Priority vulnerabilities to check:
+
 - Injection flaws (violates si-10)
 - Broken authentication (violates ia-2)
 - Broken access control (violates ac-3)
 - Security misconfiguration (violates cm-6)
 - Sensitive data exposure (violates sc-8, sc-13)
+
 ```
 
 ## Best Practices

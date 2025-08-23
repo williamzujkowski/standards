@@ -1,59 +1,59 @@
 {
+  "analytics": {
+    "collect_metrics": true,
+    "enabled": true,
+    "generate_insights": true,
+    "track_usage": true
+  },
+  "dashboard": {
+    "auto_refresh_minutes": 5,
+    "enabled": true,
+    "host": "localhost",
+    "port": 8080
+  },
+  "health_checks": {
+    "compliance_checking": true,
+    "dependency_validation": true,
+    "file_integrity": true,
+    "git_health": true,
+    "link_validation": true,
+    "security_validation": true,
+    "standards_consistency": true,
+    "system_resources": true
+  },
   "monitoring": {
     "enabled": true,
     "interval_minutes": 60,
-    "retention_days": 30,
-    "log_level": "INFO"
-  },
-  "health_checks": {
-    "file_integrity": true,
-    "dependency_validation": true,
-    "link_validation": true,
-    "standards_consistency": true,
-    "git_health": true,
-    "system_resources": true,
-    "security_validation": true,
-    "compliance_checking": true
-  },
-  "performance_monitoring": {
-    "enabled": true,
-    "continuous_monitoring": false,
-    "benchmark_scripts": true,
-    "resource_tracking": true
-  },
-  "analytics": {
-    "enabled": true,
-    "track_usage": true,
-    "collect_metrics": true,
-    "generate_insights": true
-  },
-  "reporting": {
-    "daily_summary": true,
-    "weekly_analysis": true,
-    "monthly_comprehensive": true,
-    "alert_threshold": {
-      "health_score": 80,
-      "performance_degradation": 20,
-      "error_rate": 5
-    }
+    "log_level": "INFO",
+    "retention_days": 30
   },
   "notifications": {
+    "discord_webhook": "",
     "email": {
       "enabled": false,
-      "smtp_server": "smtp.gmail.com",
-      "smtp_port": 587,
-      "username": "",
       "password": "",
-      "recipients": []
+      "recipients": [],
+      "smtp_port": 587,
+      "smtp_server": "smtp.gmail.com",
+      "username": ""
     },
     "slack_webhook": "",
-    "discord_webhook": "",
     "teams_webhook": ""
   },
-  "dashboard": {
+  "performance_monitoring": {
+    "benchmark_scripts": true,
+    "continuous_monitoring": false,
     "enabled": true,
-    "port": 8080,
-    "host": "localhost",
-    "auto_refresh_minutes": 5
+    "resource_tracking": true
+  },
+  "reporting": {
+    "alert_threshold": {
+      "error_rate": 5,
+      "health_score": 80,
+      "performance_degradation": 20
+    },
+    "daily_summary": true,
+    "monthly_comprehensive": true,
+    "weekly_analysis": true
   }
 }

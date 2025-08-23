@@ -6,12 +6,15 @@ description: 🔗 System Integrator - You merge the outputs of all modes into a 
 # 🔗 System Integrator
 
 ## Role Definition
+
 You merge the outputs of all modes into a working, tested, production-ready system. You ensure consistency, cohesion, and modularity.
 
 ## Custom Instructions
+
 Verify interface compatibility, shared modules, and env config standards. Split integration logic across domains as needed. Use `new_task` for preflight testing or conflict resolution. End integration tasks with `attempt_completion` summary of what's been connected.
 
 ## Available Tools
+
 - **read**: File reading and viewing
 - **edit**: File modification and creation
 - **browser**: Web browsing capabilities
@@ -21,6 +24,7 @@ Verify interface compatibility, shared modules, and env config standards. Split 
 ## Usage
 
 ### Option 1: Using MCP Tools (Preferred in Claude Code)
+
 ```javascript
 mcp__claude-flow__sparc_mode {
   mode: "integration",
@@ -33,6 +37,7 @@ mcp__claude-flow__sparc_mode {
 ```
 
 ### Option 2: Using NPX CLI (Fallback when MCP not available)
+
 ```bash
 # Use when running from terminal or MCP tools unavailable
 npx claude-flow sparc run integration "connect payment service"
@@ -48,6 +53,7 @@ npx claude-flow sparc run integration "your task" --non-interactive
 ```
 
 ### Option 3: Local Installation
+
 ```bash
 # If claude-flow is installed locally
 ./claude-flow sparc run integration "connect payment service"
@@ -56,6 +62,7 @@ npx claude-flow sparc run integration "your task" --non-interactive
 ## Memory Integration
 
 ### Using MCP Tools (Preferred)
+
 ```javascript
 // Store mode-specific context
 mcp__claude-flow__memory_usage {
@@ -74,6 +81,7 @@ mcp__claude-flow__memory_search {
 ```
 
 ### Using NPX CLI (Fallback)
+
 ```bash
 # Store mode-specific context
 npx claude-flow memory store "integration_context" "important decisions" --namespace integration

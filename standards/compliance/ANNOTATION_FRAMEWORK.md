@@ -1,5 +1,7 @@
 # NIST Annotation Framework
 
+> 📚 See also: [Unified Software Development Standards](../../docs/standards/UNIFIED_STANDARDS.md)
+
 A multi-language parser framework for extracting NIST 800-53r5 control annotations from source code.
 
 ## Features
@@ -13,6 +15,7 @@ A multi-language parser framework for extracting NIST 800-53r5 control annotatio
 ## Supported Annotation Formats
 
 ### JavaScript/TypeScript
+
 ```javascript
 /**
  * @nist ia-2 "User authentication"
@@ -26,6 +29,7 @@ const checkPermission = () => {};
 ```
 
 ### Python
+
 ```python
 # @nist ac-3 "Access enforcement"
 def check_permission():
@@ -41,6 +45,7 @@ def change_password():
 ```
 
 ### Go
+
 ```go
 // @nist ia-2 "User authentication"
 func authenticate() {}
@@ -52,6 +57,7 @@ type User struct {
 ```
 
 ### Java
+
 ```java
 /**
  * @nist ac-2 "Account management"
@@ -61,6 +67,7 @@ public class UserManager {}
 ```
 
 ### YAML
+
 ```yaml
 # @nist-controls: [sc-8, sc-13, ac-12]
 security:
@@ -107,6 +114,7 @@ const result = await parser.parse(fileContent, 'src/file.js');
 ## Output Formats
 
 ### JSON Output
+
 ```json
 {
   "annotations": [
@@ -126,12 +134,14 @@ const result = await parser.parse(fileContent, 'src/file.js');
 ```
 
 ### Markdown Report
+
 - Summary statistics
 - Annotations grouped by control
 - File locations with line numbers
 - Implementation details and evidence
 
 ### CSV Export
+
 - Tabular format for spreadsheet analysis
 - All annotation fields included
 - Easy to import into compliance tools
@@ -148,6 +158,7 @@ To add support for a new language:
 3. Register the parser in `index.ts`
 
 Example:
+
 ```typescript
 export class RubyParser extends BaseAnnotationParser {
   get supportedExtensions(): string[] {
@@ -172,6 +183,7 @@ export class RubyParser extends BaseAnnotationParser {
 ## Integration with NIST Tools
 
 The annotation framework integrates with:
+
 - **VS Code Extension**: Real-time annotation validation
 - **Git Hooks**: Pre-commit annotation checks
 - **CI/CD**: Automated compliance reporting

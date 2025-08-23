@@ -5,6 +5,7 @@ A collection of battle-tested prompts for leveraging LLMs in NIST 800-53r5 compl
 ## 🎯 Purpose
 
 These prompts help developers and security teams:
+
 - Identify applicable NIST controls for their code
 - Get implementation guidance with examples
 - Review code for compliance gaps
@@ -14,38 +15,47 @@ These prompts help developers and security teams:
 ## 📚 Prompt Categories
 
 ### 1. Control Suggestion (`control-suggestion-prompt.md`)
+
 **When to use**: You have code that needs NIST tags but don't know which controls apply
 
 **Example use case**:
+
 ```
 "I have an authentication function. What NIST controls should I tag it with?"
 ```
 
 ### 2. Implementation Guide (`implementation-guide-prompt.md`)
+
 **When to use**: You need to implement a specific NIST control from scratch
 
 **Example use case**:
+
 ```
 "Show me how to implement NIST au-2 (audit logging) in Python with FastAPI"
 ```
 
 ### 3. Gap Analysis (`gap-analysis-prompt.md`)
+
 **When to use**: You need to identify missing controls and prioritize implementation
 
 **Example use case**:
+
 ```
 "What NIST controls am I missing for moderate baseline compliance?"
 ```
 
 ### 4. Code Review (`code-review-prompt.md`)
+
 **When to use**: You want to review existing code for compliance issues
 
 **Example use case**:
+
 ```
 "Review my authentication module for NIST compliance issues"
 ```
 
 ### 5. Complete Library (`NIST_PROMPT_LIBRARY.md`)
+
 **When to use**: Reference for all available prompts and advanced use cases
 
 ## 🚀 Quick Start
@@ -63,6 +73,7 @@ These prompts help developers and security teams:
 ### Step 2: Customize the Prompt
 
 All prompts have placeholders marked with `[BRACKETS]`. Replace with your specifics:
+
 - `[LANGUAGE]`: Your programming language (Python, JavaScript, Go, etc.)
 - `[FRAMEWORK]`: Your framework (Django, Express, React, etc.)
 - `[CONTROL-ID]`: Specific NIST control (ia-2, au-3, etc.)
@@ -71,6 +82,7 @@ All prompts have placeholders marked with `[BRACKETS]`. Replace with your specif
 ### Step 3: Get Better Results
 
 **DO** ✅:
+
 - Include actual code, not descriptions
 - Specify your tech stack
 - Mention your baseline (usually moderate)
@@ -78,6 +90,7 @@ All prompts have placeholders marked with `[BRACKETS]`. Replace with your specif
 - Ask for specific output formats
 
 **DON'T** ❌:
+
 - Use vague descriptions
 - Omit language/framework details
 - Forget to validate results
@@ -89,6 +102,7 @@ All prompts have placeholders marked with `[BRACKETS]`. Replace with your specif
 ### Scenario: Adding NIST compliance to an existing login function
 
 1. **Start with control suggestions**:
+
 ```
 Use: control-suggestion-prompt.md
 Input: Your login function code
@@ -96,6 +110,7 @@ Output: List of applicable controls with explanations
 ```
 
 2. **Get implementation details**:
+
 ```
 Use: implementation-guide-prompt.md
 Input: "Implement au-2 for authentication logging in Python"
@@ -103,6 +118,7 @@ Output: Step-by-step implementation with code
 ```
 
 3. **Review your changes**:
+
 ```
 Use: code-review-prompt.md
 Input: Your updated code with NIST tags
@@ -110,6 +126,7 @@ Output: Validation and improvement suggestions
 ```
 
 4. **Check overall compliance**:
+
 ```
 Use: gap-analysis-prompt.md
 Input: List of implemented controls
@@ -119,6 +136,7 @@ Output: Missing controls and priority roadmap
 ## 🔧 Integration Ideas
 
 ### Git Pre-commit Hook
+
 ```bash
 #!/bin/bash
 # .git/hooks/pre-commit
@@ -134,6 +152,7 @@ done
 ```
 
 ### CI/CD Pipeline
+
 ```yaml
 - name: NIST Compliance Check
   run: |
@@ -142,6 +161,7 @@ done
 ```
 
 ### IDE Integration
+
 ```json
 // .vscode/tasks.json
 {
@@ -159,6 +179,7 @@ done
 ## 💡 Pro Tips
 
 ### 1. Chain Prompts for Complex Tasks
+
 ```
 First: Use gap-analysis-prompt.md to find missing controls
 Then: Use implementation-guide-prompt.md for each missing control
@@ -166,16 +187,19 @@ Finally: Use code-review-prompt.md to validate
 ```
 
 ### 2. Create Project-Specific Variations
+
 ```
 Copy prompt → Add your tech stack details → Save as team template
 ```
 
 ### 3. Build a Knowledge Base
+
 ```
 Save good responses → Create internal documentation → Train team
 ```
 
 ### 4. Validate with Official Sources
+
 ```
 LLM suggestions → Check NIST docs → Implement → Test → Document
 ```
@@ -183,6 +207,7 @@ LLM suggestions → Check NIST docs → Implement → Test → Document
 ## 📊 Measuring Success
 
 Track these metrics:
+
 - **Coverage**: % of security features with NIST tags
 - **Accuracy**: % of correctly mapped controls
 - **Completeness**: % of required controls implemented
@@ -192,6 +217,7 @@ Track these metrics:
 ## 🤝 Contributing
 
 To add new prompts:
+
 1. Create a new `.md` file in this directory
 2. Follow the existing format
 3. Include real-world examples

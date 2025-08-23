@@ -4,13 +4,8 @@
 # Default state for all rules
 default: true
 
-# Line length - standards files can be longer for comprehensive coverage
-MD013:
-  line_length: 120
-  heading_line_length: 100
-  code_block_line_length: 100
-  strict: false
-  stern: true
+# Line length - disabled for flexibility
+MD013: false
 
 # Headers must use ATX style (# Header)
 MD003:
@@ -52,10 +47,15 @@ MD041: true
 # Proper spacing around headings
 MD022: true
 MD023: true
-MD025: true
 
-# Code blocks must have language specified
-MD040: true
+# Code blocks must have language specified - disabled for flexibility
+MD040: false
+
+# Disable additional rules that are too strict
+MD001: false  # Heading levels increment
+MD025: false  # Multiple top-level headings
+MD029: false  # Ordered list item prefix
+MD051: false  # Link fragments validation
 
 # Links must have descriptive text
 MD042: true

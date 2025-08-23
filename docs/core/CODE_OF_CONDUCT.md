@@ -47,7 +47,7 @@ All complaints will be reviewed and investigated promptly and fairly.
 
 This Code of Conduct is adapted from the [Contributor Covenant][homepage],
 version 2.0, available at
-https://www.contributor-covenant.org/version/2/0/code_of_conduct.html.
+<https://www.contributor-covenant.org/version/2/0/code_of_conduct.html>.
 
 [homepage]: https://www.contributor-covenant.org
 
@@ -56,4 +56,4 @@ Related Standards: [GITHUB_PLATFORM_STANDARDS.md](../standards/GITHUB_PLATFORM_S
 
 ## Related Standards
 
-- [GitHub Platform Standards](../standards/GITHUB_PLATFORM_STANDARDS.md) - Repository best practices
+* [GitHub Platform Standards](../standards/GITHUB_PLATFORM_STANDARDS.md) - Repository best practices

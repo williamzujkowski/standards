@@ -1,119 +1,8 @@
 {
   "assessment-results": {
-    "uuid": "ar-001-2025-01-15",
-    "metadata": {
-      "title": "Automated Security Assessment - Standards Repository",
-      "last-modified": "2025-01-15T14:00:00.000Z",
-      "version": "1.0.0",
-      "oscal-version": "1.1.2",
-      "parties": [
-        {
-          "uuid": "party-assessment-001",
-          "type": "organization",
-          "name": "Automated Assessment Tool",
-          "short-name": "AAT"
-        }
-      ],
-      "responsible-parties": [
-        {
-          "role-id": "assessor",
-          "party-uuids": ["party-assessment-001"]
-        }
-      ]
-    },
-    "import-ap": {
-      "href": "#automated-assessment-plan",
-      "remarks": "Automated assessment using repository analysis"
-    },
-    "local-definitions": {
-      "assessment-activities": [
-        {
-          "uuid": "activity-001",
-          "title": "Code Analysis",
-          "description": "Automated static code analysis for security patterns"
-        },
-        {
-          "uuid": "activity-002",
-          "title": "Configuration Review",
-          "description": "Automated configuration file analysis"
-        }
-      ]
-    },
-    "results": [
-      {
-        "uuid": "result-001",
-        "title": "Automated Repository Analysis Results",
-        "description": "Assessment results from automated analysis of repository",
-        "start": "2025-01-15T14:00:00.000Z",
-        "end": "2025-01-15T14:05:00.000Z",
-        "reviewed-controls": {
-          "control-selections": [
-            {
-              "include-controls": [
-                {"control-id": "ac-2"},
-                {"control-id": "ac-3"},
-                {"control-id": "au-2"},
-                {"control-id": "ia-2"},
-                {"control-id": "sc-13"}
-              ]
-            }
-          ]
-        },
-        "findings": [
-          {
-            "uuid": "finding-ac-2",
-            "title": "Finding for Control ac-2",
-            "description": "Assessment finding based on 2 evidence items",
-            "target": {
-              "type": "objective-id",
-              "target-id": "ac-2-obj",
-              "status": {
-                "state": "satisfied",
-                "reason": "Implementation evidence found in 2 locations"
-              }
-            },
-            "related-observations": ["evidence-ac-2-src-auth"],
-            "remarks": "Automated assessment confidence: 0.85"
-          },
-          {
-            "uuid": "finding-ia-2",
-            "title": "Finding for Control ia-2",
-            "description": "Assessment finding based on 3 evidence items",
-            "target": {
-              "type": "objective-id",
-              "target-id": "ia-2-obj",
-              "status": {
-                "state": "satisfied",
-                "reason": "Implementation evidence found in 3 locations"
-              }
-            },
-            "related-observations": ["evidence-ia-2-src-auth", "evidence-ia-2-config"],
-            "remarks": "Automated assessment confidence: 0.90"
-          },
-          {
-            "uuid": "finding-sc-13",
-            "title": "Finding for Control sc-13",
-            "description": "Assessment finding based on 2 evidence items",
-            "target": {
-              "type": "objective-id",
-              "target-id": "sc-13-obj",
-              "status": {
-                "state": "satisfied",
-                "reason": "Implementation evidence found in 2 locations"
-              }
-            },
-            "related-observations": ["evidence-sc-13-code", "evidence-sc-13-config"],
-            "remarks": "Automated assessment confidence: 0.88"
-          }
-        ],
-        "remarks": "Assessed 10 evidence items across 5 controls"
-      }
-    ],
     "back-matter": {
       "resources": [
         {
-          "uuid": "evidence-ia-2-src-auth",
-          "title": "ia-2 Implementation in authentication.ts",
           "description": "Security implementation detected: JWT authentication",
           "props": [
             {
@@ -129,11 +18,11 @@
             {
               "href": "src/auth/authentication.ts"
             }
-          ]
+          ],
+          "title": "ia-2 Implementation in authentication.ts",
+          "uuid": "evidence-ia-2-src-auth"
         },
         {
-          "uuid": "evidence-sc-13-config",
-          "title": "sc-13 Configuration in security.yaml",
           "description": "Security configuration detected: AES-256 encryption",
           "props": [
             {
@@ -149,9 +38,140 @@
             {
               "href": "config/security.yaml"
             }
-          ]
+          ],
+          "title": "sc-13 Configuration in security.yaml",
+          "uuid": "evidence-sc-13-config"
         }
       ]
-    }
+    },
+    "import-ap": {
+      "href": "#automated-assessment-plan",
+      "remarks": "Automated assessment using repository analysis"
+    },
+    "local-definitions": {
+      "assessment-activities": [
+        {
+          "description": "Automated static code analysis for security patterns",
+          "title": "Code Analysis",
+          "uuid": "activity-001"
+        },
+        {
+          "description": "Automated configuration file analysis",
+          "title": "Configuration Review",
+          "uuid": "activity-002"
+        }
+      ]
+    },
+    "metadata": {
+      "last-modified": "2025-01-15T14:00:00.000Z",
+      "oscal-version": "1.1.2",
+      "parties": [
+        {
+          "name": "Automated Assessment Tool",
+          "short-name": "AAT",
+          "type": "organization",
+          "uuid": "party-assessment-001"
+        }
+      ],
+      "responsible-parties": [
+        {
+          "party-uuids": [
+            "party-assessment-001"
+          ],
+          "role-id": "assessor"
+        }
+      ],
+      "title": "Automated Security Assessment - Standards Repository",
+      "version": "1.0.0"
+    },
+    "results": [
+      {
+        "description": "Assessment results from automated analysis of repository",
+        "end": "2025-01-15T14:05:00.000Z",
+        "findings": [
+          {
+            "description": "Assessment finding based on 2 evidence items",
+            "related-observations": [
+              "evidence-ac-2-src-auth"
+            ],
+            "remarks": "Automated assessment confidence: 0.85",
+            "target": {
+              "status": {
+                "reason": "Implementation evidence found in 2 locations",
+                "state": "satisfied"
+              },
+              "target-id": "ac-2-obj",
+              "type": "objective-id"
+            },
+            "title": "Finding for Control ac-2",
+            "uuid": "finding-ac-2"
+          },
+          {
+            "description": "Assessment finding based on 3 evidence items",
+            "related-observations": [
+              "evidence-ia-2-src-auth",
+              "evidence-ia-2-config"
+            ],
+            "remarks": "Automated assessment confidence: 0.90",
+            "target": {
+              "status": {
+                "reason": "Implementation evidence found in 3 locations",
+                "state": "satisfied"
+              },
+              "target-id": "ia-2-obj",
+              "type": "objective-id"
+            },
+            "title": "Finding for Control ia-2",
+            "uuid": "finding-ia-2"
+          },
+          {
+            "description": "Assessment finding based on 2 evidence items",
+            "related-observations": [
+              "evidence-sc-13-code",
+              "evidence-sc-13-config"
+            ],
+            "remarks": "Automated assessment confidence: 0.88",
+            "target": {
+              "status": {
+                "reason": "Implementation evidence found in 2 locations",
+                "state": "satisfied"
+              },
+              "target-id": "sc-13-obj",
+              "type": "objective-id"
+            },
+            "title": "Finding for Control sc-13",
+            "uuid": "finding-sc-13"
+          }
+        ],
+        "remarks": "Assessed 10 evidence items across 5 controls",
+        "reviewed-controls": {
+          "control-selections": [
+            {
+              "include-controls": [
+                {
+                  "control-id": "ac-2"
+                },
+                {
+                  "control-id": "ac-3"
+                },
+                {
+                  "control-id": "au-2"
+                },
+                {
+                  "control-id": "ia-2"
+                },
+                {
+                  "control-id": "sc-13"
+                }
+              ]
+            }
+          ]
+        },
+        "start": "2025-01-15T14:00:00.000Z",
+        "title": "Automated Repository Analysis Results",
+        "uuid": "result-001"
+      }
+    ],
+    "uuid": "ar-001-2025-01-15"
   }
 }

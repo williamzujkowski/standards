@@ -1,11 +1,11 @@
 {
+  "control_mappings": {},
   "enhancement_metadata": {
-    "version": "1.0.0",
     "created": "2025-01-15",
     "description": "Semantic enhancement metadata for NIST 800-53r5 catalog",
-    "note": "This file will be populated with semantic tags and relationships by the semantic analysis engine"
+    "note": "This file will be populated with semantic tags and relationships by the semantic analysis engine",
+    "version": "1.0.0"
   },
-  "semantic_enhancements": {},
-  "control_mappings": {},
-  "repository_standards": {}
+  "repository_standards": {},
+  "semantic_enhancements": {}
 }

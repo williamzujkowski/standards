@@ -1,5 +1,7 @@
 # Cost Optimization and FinOps Standards
 
+> 📚 See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md)
+
 **Version:** 1.0.0
 **Last Updated:** January 2025
 **Status:** Active
@@ -12,6 +14,7 @@
 **Status:** Active
 
 ## TL;DR
+
 - **FinOps framework** for cloud cost management through collaboration, accountability, and continuous optimization practices
 - **Resource optimization** strategies including rightsizing, auto-scaling, spot instances, and reserved capacity management
 - **Cost monitoring** with real-time dashboards, anomaly detection, budget alerts, and automated cost allocation
@@ -41,6 +44,7 @@ It aims to ensure consistency, quality, and maintainability across all related i
 ### 1.1 Core FinOps Principles
 
 #### Foundation Principles **[REQUIRED]**
+
 ```yaml
 # FinOps principles configuration
 finops_principles:
@@ -78,6 +82,7 @@ finops_principles:
 ```
 
 #### FinOps Maturity Model **[REQUIRED]**
+
 ```python
 # finops/maturity_assessment.py
 from enum import Enum
@@ -223,6 +228,7 @@ print(json.dumps(roadmap, indent=2))
 ### 1.2 Organizational Structure
 
 #### FinOps Team Structure **[REQUIRED]**
+
 ```yaml
 # FinOps organizational structure
 finops_organization:
@@ -266,6 +272,7 @@ finops_organization:
 ```
 
 #### Roles and Responsibilities **[REQUIRED]**
+
 ```python
 # finops/roles.py
 from dataclasses import dataclass
@@ -389,6 +396,7 @@ FINOPS_ROLES = {
 ### 2.1 Multi-Cloud Cost Management
 
 #### AWS Cost Management **[REQUIRED]**
+
 ```python
 # aws/cost_management.py
 import boto3
@@ -556,6 +564,7 @@ print(f"Potential monthly savings from rightsizing: ${potential_savings:.2f}")
 ```
 
 #### Azure Cost Management **[REQUIRED]**
+
 ```python
 # azure/cost_management.py
 from azure.identity import DefaultAzureCredential
@@ -756,6 +765,7 @@ print(f"Potential annual savings: ${total_potential_savings:.2f}")
 ```
 
 #### Google Cloud Cost Management **[REQUIRED]**
+
 ```python
 # gcp/cost_management.py
 from google.cloud import billing_v1
@@ -929,6 +939,7 @@ print(f"Potential monthly savings: ${total_savings:.2f}")
 ### 2.2 Cost Attribution and Tagging
 
 #### Tagging Strategy **[REQUIRED]**
+
 ```yaml
 # Standardized tagging strategy across cloud providers
 tagging_strategy:
@@ -1006,6 +1017,7 @@ tag_enforcement:
 ```
 
 #### Automated Tagging Implementation **[REQUIRED]**
+
 ```python
 # tagging/automation.py
 import boto3
@@ -1200,6 +1212,7 @@ for resource in report['untagged_resources'][:5]:  # Limit to first 5 for exampl
 ### 3.1 Compute Optimization
 
 #### Right-sizing Analysis **[REQUIRED]**
+
 ```python
 # optimization/rightsizing.py
 import boto3
@@ -1441,6 +1454,7 @@ for rec in report['top_savings_opportunities'][:5]:
 ```
 
 #### Auto-scaling Optimization **[REQUIRED]**
+
 ```python
 # optimization/autoscaling.py
 import boto3
@@ -1691,6 +1705,7 @@ print(f"\nTotal potential monthly savings: ${total_savings:.2f}")
 ### 3.2 Storage Optimization
 
 #### Storage Cost Analysis **[REQUIRED]**
+
 ```python
 # optimization/storage.py
 import boto3
@@ -2063,6 +2078,7 @@ if analysis['optimization_opportunities']:
 ### 4.1 Real-time Cost Monitoring
 
 #### Cost Anomaly Detection **[REQUIRED]**
+
 ```python
 # monitoring/anomaly_detection.py
 import numpy as np
@@ -2374,6 +2390,7 @@ for anomaly in result['anomalies'][:5]:
 ### 4.2 Budget Management and Alerts
 
 #### Advanced Budget Management **[REQUIRED]**
+
 ```python
 # budgets/management.py
 import boto3
@@ -2774,6 +2791,7 @@ for rec in report['recommendations']:
 ## Implementation Checklist
 
 ### FinOps Foundation
+
 - [ ] FinOps principles documented and communicated
 - [ ] Cross-functional team established
 - [ ] Roles and responsibilities defined
@@ -2781,6 +2799,7 @@ for rec in report['recommendations']:
 - [ ] Improvement roadmap created
 
 ### Cost Management
+
 - [ ] Multi-cloud cost visibility implemented
 - [ ] Tagging strategy enforced
 - [ ] Cost allocation automated
@@ -2788,6 +2807,7 @@ for rec in report['recommendations']:
 - [ ] Cost forecasting implemented
 
 ### Resource Optimization
+
 - [ ] Rightsizing analysis automated
 - [ ] Auto-scaling optimization
 - [ ] Storage lifecycle policies
@@ -2795,6 +2815,7 @@ for rec in report['recommendations']:
 - [ ] Idle resource identification
 
 ### Monitoring and Alerting
+
 - [ ] Real-time cost monitoring
 - [ ] Anomaly detection system
 - [ ] Budget management automation
@@ -2802,6 +2823,7 @@ for rec in report['recommendations']:
 - [ ] Dashboard and reporting
 
 ### Automation and Tooling
+
 - [ ] Cost optimization automation
 - [ ] Policy enforcement automation
 - [ ] Reporting automation
@@ -2809,6 +2831,7 @@ for rec in report['recommendations']:
 - [ ] API access for cost data
 
 ### Governance and Process
+
 - [ ] Cost review processes
 - [ ] Approval workflows
 - [ ] Vendor management procedures

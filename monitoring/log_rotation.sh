@@ -31,30 +31,30 @@ rotate_logs() {
     local extension="$2"
     local retention_days="$3"
     local description="$4"
-    
+
     if [ ! -d "$dir" ]; then
         echo -e "${YELLOW}⚠${NC} Directory $dir does not exist, skipping..."
         return
     fi
-    
+
     echo "Processing $description in $dir..."
-    
+
     # Count files before cleanup
     local before_count=$(find "$dir" -type f -name "*.$extension" 2>/dev/null | wc -l)
-    
+
     # Find and remove old files
     local deleted_count=$(find "$dir" -type f -name "*.$extension" -mtime +$retention_days -delete -print 2>/dev/null | wc -l)
-    
+
     # Compress files older than 1 day but within retention
     find "$dir" -type f -name "*.$extension" -mtime +1 -mtime -$retention_days 2>/dev/null | while read -r file; do
         if [[ ! "$file" =~ \.gz$ ]]; then
             gzip -9 "$file" 2>/dev/null && echo "  Compressed: $(basename "$file")"
         fi
     done
-    
+
     # Count files after cleanup
     local after_count=$(find "$dir" -type f \( -name "*.$extension" -o -name "*.$extension.gz" \) 2>/dev/null | wc -l)
-    
+
     echo -e "${GREEN}✓${NC} $description: Deleted $deleted_count old files (>$retention_days days)"
     echo "  Before: $before_count files | After: $after_count files"
     echo ""
@@ -64,11 +64,11 @@ rotate_logs() {
 keep_latest() {
     local dir="$1"
     local pattern="$2"
-    
+
     if [ ! -d "$dir" ]; then
         return
     fi
-    
+
     # Keep files matching "latest_*" pattern
     find "$dir" -type f -name "$pattern" -mtime +1 2>/dev/null | while read -r file; do
         touch "$file"  # Update timestamp to keep it

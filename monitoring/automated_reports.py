@@ -11,18 +11,17 @@ This script generates automated reports including:
 """
 
 import json
-import os
-import sys
-import smtplib
-from datetime import datetime, timedelta
-from pathlib import Path
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from email.mime.base import MIMEBase
-from email import encoders
 import logging
+import os
+import smtplib
 import statistics
-import subprocess
+import sys
+from datetime import datetime, timedelta
+from email import encoders
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from pathlib import Path
 
 # Add the current directory to Python path for imports
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -60,12 +59,8 @@ class AutomatedReporter:
         self.logger = logging.getLogger(__name__)
 
         # Initialize collectors
-        self.analytics = (
-            AnalyticsCollector(self.repo_path) if AnalyticsCollector else None
-        )
-        self.performance = (
-            PerformanceMonitor(self.repo_path) if PerformanceMonitor else None
-        )
+        self.analytics = AnalyticsCollector(self.repo_path) if AnalyticsCollector else None
+        self.performance = PerformanceMonitor(self.repo_path) if PerformanceMonitor else None
 
     def _load_config(self, config_file):
         """Load reporting configuration"""
@@ -97,7 +92,7 @@ class AutomatedReporter:
 
         if config_file and os.path.exists(config_file):
             try:
-                with open(config_file, "r") as f:
+                with open(config_file) as f:
                     user_config = json.load(f)
                     # Merge with defaults
                     default_config.update(user_config)
@@ -241,9 +236,7 @@ class AutomatedReporter:
             with open(text_path, "w") as f:
                 f.write(comprehensive_text)
 
-            self.logger.info(
-                f"Monthly comprehensive report generated: {report_filename}"
-            )
+            self.logger.info(f"Monthly comprehensive report generated: {report_filename}")
 
             # Send monthly report if configured
             if self.config["email"]["enabled"]:
@@ -272,12 +265,10 @@ class AutomatedReporter:
         daily_reports = []
         for i in range(7):
             date = start_date + timedelta(days=i)
-            daily_file = os.path.join(
-                self.reports_dir, f"daily_summary_{date.strftime('%Y%m%d')}.json"
-            )
+            daily_file = os.path.join(self.reports_dir, f"daily_summary_{date.strftime('%Y%m%d')}.json")
             if os.path.exists(daily_file):
                 try:
-                    with open(daily_file, "r") as f:
+                    with open(daily_file) as f:
                         daily_data = json.load(f)
                         daily_reports.append(daily_data)
                 except:
@@ -285,14 +276,8 @@ class AutomatedReporter:
 
         if daily_reports:
             # Calculate trends and averages
-            health_scores = [
-                r.get("performance", {}).get("health_score", {}).get("overall", 0)
-                for r in daily_reports
-            ]
-            git_commits = [
-                r.get("git_activity", {}).get("commits", {}).get("today", 0)
-                for r in daily_reports
-            ]
+            health_scores = [r.get("performance", {}).get("health_score", {}).get("overall", 0) for r in daily_reports]
+            git_commits = [r.get("git_activity", {}).get("commits", {}).get("today", 0) for r in daily_reports]
 
             metrics["averages"] = {
                 "health_score": statistics.mean(health_scores) if health_scores else 0,
@@ -329,7 +314,7 @@ class AutomatedReporter:
 
         for report_file in reports_dir.glob("daily_summary_*.json"):
             try:
-                with open(report_file, "r") as f:
+                with open(report_file) as f:
                     data = json.load(f)
                     report_date = datetime.fromisoformat(data.get("date", ""))
                     if start_date <= report_date <= end_date:
@@ -339,20 +324,13 @@ class AutomatedReporter:
 
         if all_reports:
             # Calculate comprehensive statistics
-            health_scores = [
-                r.get("performance", {}).get("health_score", {}).get("overall", 0)
-                for r in all_reports
-            ]
+            health_scores = [r.get("performance", {}).get("health_score", {}).get("overall", 0) for r in all_reports]
 
             metrics["summary"] = {
-                "average_health_score": (
-                    statistics.mean(health_scores) if health_scores else 0
-                ),
+                "average_health_score": (statistics.mean(health_scores) if health_scores else 0),
                 "max_health_score": max(health_scores) if health_scores else 0,
                 "min_health_score": min(health_scores) if health_scores else 0,
-                "health_score_std_dev": (
-                    statistics.stdev(health_scores) if len(health_scores) > 1 else 0
-                ),
+                "health_score_std_dev": (statistics.stdev(health_scores) if len(health_scores) > 1 else 0),
                 "total_monitoring_days": len(all_reports),
             }
 
@@ -388,9 +366,7 @@ PERFORMANCE OVERVIEW
         if "git_activity" in data:
             git = data["git_activity"]
             text += f"Commits today: {git.get('commits', {}).get('today', 0)}\n"
-            text += (
-                f"Commits last 7 days: {git.get('commits', {}).get('last_7_days', 0)}\n"
-            )
+            text += f"Commits last 7 days: {git.get('commits', {}).get('last_7_days', 0)}\n"
 
             contributors = git.get("contributors", {})
             if contributors:
@@ -437,9 +413,7 @@ WEEKLY SUMMARY
 
         text += "\nRECOMMENDations\n---------------\n"
         if averages.get("health_score", 0) < 80:
-            text += (
-                "• Consider investigating performance issues (health score below 80)\n"
-            )
+            text += "• Consider investigating performance issues (health score below 80)\n"
         if totals.get("total_commits", 0) == 0:
             text += "• No commits detected this week - repository may be inactive\n"
         if totals.get("reports_available", 0) < 5:
@@ -465,9 +439,7 @@ EXECUTIVE SUMMARY
 """
 
         summary = data.get("summary", {})
-        text += (
-            f"Average Health Score: {summary.get('average_health_score', 0):.1f}/100\n"
-        )
+        text += f"Average Health Score: {summary.get('average_health_score', 0):.1f}/100\n"
         text += f"Best Performance: {summary.get('max_health_score', 0):.1f}/100\n"
         text += f"Worst Performance: {summary.get('min_health_score', 0):.1f}/100\n"
         text += f"Performance Stability: {summary.get('health_score_std_dev', 0):.1f} (std dev)\n"
@@ -490,9 +462,7 @@ EXECUTIVE SUMMARY
 
         avg_health = summary.get("average_health_score", 0)
         if avg_health >= 90:
-            text += (
-                "• Excellent performance - maintain current monitoring and practices\n"
-            )
+            text += "• Excellent performance - maintain current monitoring and practices\n"
         elif avg_health >= 80:
             text += "• Good performance - identify areas for optimization\n"
         elif avg_health >= 70:
@@ -531,9 +501,7 @@ EXECUTIVE SUMMARY
         # Check for performance issues
         if "performance" in data:
             git_ops = data["performance"].get("git_operations", {})
-            failed_ops = sum(
-                1 for op in git_ops.values() if not op.get("success", True)
-            )
+            failed_ops = sum(1 for op in git_ops.values() if not op.get("success", True))
             total_ops = len(git_ops)
             if total_ops > 0:
                 error_rate = (failed_ops / total_ops) * 100
@@ -541,7 +509,10 @@ EXECUTIVE SUMMARY
                     alerts.append(
                         {
                             "level": "critical",
-                            "message": f"High error rate detected: {error_rate:.1f}% (threshold: {thresholds['error_rate']}%)",
+                            "message": (
+                                f"High error rate detected: {error_rate:.1f}% "
+                                f"(threshold: {thresholds['error_rate']}%)"
+                            ),
                             "metric": "error_rate",
                             "value": error_rate,
                         }
@@ -562,9 +533,7 @@ EXECUTIVE SUMMARY
 
         # Send email if configured
         if self.config["email"]["enabled"]:
-            self._send_email_report(
-                alert_text, f"{subject_prefix} - Standards Repository"
-            )
+            self._send_email_report(alert_text, f"{subject_prefix} - Standards Repository")
 
         # Log alerts
         for alert in alerts:
@@ -600,9 +569,7 @@ EXECUTIVE SUMMARY
                     msg.attach(part)
 
             # Send email
-            server = smtplib.SMTP(
-                email_config["smtp_server"], email_config["smtp_port"]
-            )
+            server = smtplib.SMTP(email_config["smtp_server"], email_config["smtp_port"])
             server.starttls()
             server.login(email_config["username"], email_config["password"])
             server.send_message(msg)
@@ -636,17 +603,11 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(description="Automated Reporting System")
-    parser.add_argument(
-        "--repo-path", help="Path to repository (default: current directory)"
-    )
+    parser.add_argument("--repo-path", help="Path to repository (default: current directory)")
     parser.add_argument("--config", help="Path to configuration file")
     parser.add_argument("--daily", action="store_true", help="Generate daily summary")
-    parser.add_argument(
-        "--weekly", action="store_true", help="Generate weekly analysis"
-    )
-    parser.add_argument(
-        "--monthly", action="store_true", help="Generate monthly comprehensive report"
-    )
+    parser.add_argument("--weekly", action="store_true", help="Generate weekly analysis")
+    parser.add_argument("--monthly", action="store_true", help="Generate monthly comprehensive report")
     parser.add_argument(
         "--scheduled",
         action="store_true",
@@ -661,7 +622,7 @@ def main():
         print("Generating daily summary...")
         report = reporter.generate_daily_summary()
         if report:
-            print(f"✅ Daily summary generated successfully")
+            print("✅ Daily summary generated successfully")
         else:
             print("❌ Failed to generate daily summary")
 
@@ -669,7 +630,7 @@ def main():
         print("Generating weekly analysis...")
         report = reporter.generate_weekly_analysis()
         if report:
-            print(f"✅ Weekly analysis generated successfully")
+            print("✅ Weekly analysis generated successfully")
         else:
             print("❌ Failed to generate weekly analysis")
 
@@ -677,7 +638,7 @@ def main():
         print("Generating monthly comprehensive report...")
         report = reporter.generate_monthly_comprehensive()
         if report:
-            print(f"✅ Monthly comprehensive report generated successfully")
+            print("✅ Monthly comprehensive report generated successfully")
         else:
             print("❌ Failed to generate monthly comprehensive report")
 

@@ -6,17 +6,21 @@ description: 📘 SPARC Tutorial - You are the SPARC onboarding and education as
 # 📘 SPARC Tutorial
 
 ## Role Definition
+
 You are the SPARC onboarding and education assistant. Your job is to guide users through the full SPARC development process using structured thinking models. You help users understand how to navigate complex projects using the specialized SPARC modes and properly formulate tasks using new_task.
 
 ## Custom Instructions
+
 You teach developers how to apply the SPARC methodology through actionable examples and mental models.
 
 ## Available Tools
+
 - **read**: File reading and viewing
 
 ## Usage
 
 ### Option 1: Using MCP Tools (Preferred in Claude Code)
+
 ```javascript
 mcp__claude-flow__sparc_mode {
   mode: "tutorial",
@@ -29,6 +33,7 @@ mcp__claude-flow__sparc_mode {
 ```
 
 ### Option 2: Using NPX CLI (Fallback when MCP not available)
+
 ```bash
 # Use when running from terminal or MCP tools unavailable
 npx claude-flow sparc run tutorial "guide me through SPARC methodology"
@@ -44,6 +49,7 @@ npx claude-flow sparc run tutorial "your task" --non-interactive
 ```
 
 ### Option 3: Local Installation
+
 ```bash
 # If claude-flow is installed locally
 ./claude-flow sparc run tutorial "guide me through SPARC methodology"
@@ -52,6 +58,7 @@ npx claude-flow sparc run tutorial "your task" --non-interactive
 ## Memory Integration
 
 ### Using MCP Tools (Preferred)
+
 ```javascript
 // Store mode-specific context
 mcp__claude-flow__memory_usage {
@@ -70,6 +77,7 @@ mcp__claude-flow__memory_search {
 ```
 
 ### Using NPX CLI (Fallback)
+
 ```bash
 # Store mode-specific context
 npx claude-flow memory store "tutorial_context" "important decisions" --namespace tutorial

@@ -29,12 +29,14 @@ Add these badges to your project README to show standards compliance:
 ## Technology Specific
 
 ### Frontend
+
 ```markdown
 [![React](https://img.shields.io/badge/React-standards-61DAFB.svg?logo=react)](https://github.com/williamzujkowski/standards/blob/master/docs/standards/FRONTEND_MOBILE_STANDARDS.md)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6.svg?logo=typescript)](https://github.com/williamzujkowski/standards/blob/master/docs/standards/CODING_STANDARDS.md)
 ```
 
 ### Backend
+
 ```markdown
 [![Node.js](https://img.shields.io/badge/Node.js-standards-339933.svg?logo=node.js)](https://github.com/williamzujkowski/standards/blob/master/docs/standards/CODING_STANDARDS.md)
 [![Python](https://img.shields.io/badge/Python-PEP8-3776AB.svg?logo=python)](https://github.com/williamzujkowski/standards/blob/master/docs/standards/CODING_STANDARDS.md)
@@ -42,6 +44,7 @@ Add these badges to your project README to show standards compliance:
 ```
 
 ### Infrastructure
+
 ```markdown
 [![Docker](https://img.shields.io/badge/Docker-secure-2496ED.svg?logo=docker)](https://github.com/williamzujkowski/standards/blob/master/docs/standards/CLOUD_NATIVE_STANDARDS.md)
 [![Kubernetes](https://img.shields.io/badge/K8s-production-326CE5.svg?logo=kubernetes)](https://github.com/williamzujkowski/standards/blob/master/docs/standards/CLOUD_NATIVE_STANDARDS.md)
@@ -99,5 +102,5 @@ This project adheres to the [Comprehensive Software Development Standards](https
 - ✅ **Accessibility**: WCAG 2.1 AA compliant
 - ✅ **DevOps**: Fully automated CI/CD pipeline with IaC
 
-[View Full Standards Compliance Report →](./docs/standards-compliance.md)
+View Full Standards Compliance Report
 ```

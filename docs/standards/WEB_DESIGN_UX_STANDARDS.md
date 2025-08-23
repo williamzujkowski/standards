@@ -1,5 +1,7 @@
 # Web Design and UX Standards
 
+> 📚 See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md)
+
 **Version:** 1.0.0
 **Last Updated:** January 2025
 **Status:** Active
@@ -12,6 +14,7 @@
 **Status:** Active
 
 ## TL;DR
+
 - **User-centered design** principles focusing on clarity, consistency, and accessibility across all interfaces
 - **Comprehensive design system** including visual standards, typography, color systems, and reusable component patterns
 - **Responsive design** strategies with mobile-first approach, flexible grids, and adaptive layouts for all devices
@@ -41,6 +44,7 @@ It aims to ensure consistency, quality, and maintainability across all related i
 ### 1.1 Core Design Principles
 
 #### User-Centered Design **[REQUIRED]**
+
 ```yaml
 # Core UX principles
 user_centered_design:
@@ -87,6 +91,7 @@ user_centered_design:
 ```
 
 #### Design Process Standards **[REQUIRED]**
+
 ```yaml
 # Design workflow standards
 design_process:
@@ -143,6 +148,7 @@ design_process:
 ### 1.2 Design System Governance
 
 #### System Architecture **[REQUIRED]**
+
 ```typescript
 // design-system/core/types.ts
 export interface DesignToken {
@@ -175,6 +181,7 @@ export interface DesignSystem {
 ```
 
 #### Version Control **[RECOMMENDED]**
+
 ```json
 // design-system/package.json
 {
@@ -205,6 +212,7 @@ export interface DesignSystem {
 ### 2.1 Grid Systems
 
 #### Layout Grid **[REQUIRED]**
+
 ```scss
 // styles/grid.scss
 // 12-column grid system with responsive breakpoints
@@ -272,6 +280,7 @@ $container-max-widths: (
 ```
 
 #### Spacing System **[REQUIRED]**
+
 ```scss
 // styles/spacing.scss
 // Base unit: 8px for consistent spatial rhythm
@@ -322,6 +331,7 @@ $spacing: (
 ### 2.2 Visual Hierarchy
 
 #### Depth and Elevation **[REQUIRED]**
+
 ```scss
 // styles/elevation.scss
 // Material Design inspired elevation system
@@ -367,6 +377,7 @@ $shadows: (
 ```
 
 #### Z-Index Management **[REQUIRED]**
+
 ```scss
 // styles/z-index.scss
 // Centralized z-index management
@@ -415,6 +426,7 @@ $z-layers: (
 ### 3.1 Typography System
 
 #### Type Scale **[REQUIRED]**
+
 ```scss
 // styles/typography.scss
 // Modular type scale (1.250 - Major Third)
@@ -514,6 +526,7 @@ p {
 ```
 
 #### Readable Content **[REQUIRED]**
+
 ```scss
 // styles/content.scss
 // Optimal reading experience standards
@@ -592,6 +605,7 @@ $comfortable-line-length: 45-75ch;
 ### 3.2 Content Patterns
 
 #### Card Layouts **[REQUIRED]**
+
 ```scss
 // components/card.scss
 .card {
@@ -655,6 +669,7 @@ $comfortable-line-length: 45-75ch;
 ```
 
 #### Data Tables **[REQUIRED]**
+
 ```scss
 // components/table.scss
 .table {
@@ -739,6 +754,7 @@ $comfortable-line-length: 45-75ch;
 ### 4.1 Color Architecture
 
 #### Color Tokens **[REQUIRED]**
+
 ```scss
 // styles/colors.scss
 // Semantic color system with light/dark theme support
@@ -831,6 +847,7 @@ $semantic-colors: (
 ```
 
 #### Color Contrast **[REQUIRED]**
+
 ```typescript
 // utils/color-contrast.ts
 // WCAG 2.1 contrast ratio calculations
@@ -896,6 +913,7 @@ export const colorValidation = {
 ### 4.2 Theme Management
 
 #### Theme Provider **[REQUIRED]**
+
 ```typescript
 // theme/ThemeProvider.tsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
@@ -993,6 +1011,7 @@ export const useTheme = () => {
 ### 5.1 Component Architecture
 
 #### Component Structure **[REQUIRED]**
+
 ```typescript
 // components/Button/Button.tsx
 import React, { forwardRef } from 'react';
@@ -1067,6 +1086,7 @@ Button.displayName = 'Button';
 ```
 
 #### Component Documentation **[REQUIRED]**
+
 ```typescript
 // components/Button/Button.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
@@ -1158,6 +1178,7 @@ export const ButtonGroup: Story = {
 ### 5.2 Component Patterns
 
 #### Form Components **[REQUIRED]**
+
 ```scss
 // components/forms.scss
 // Consistent form component styling
@@ -1258,6 +1279,7 @@ export const ButtonGroup: Story = {
 ```
 
 #### Navigation Components **[REQUIRED]**
+
 ```typescript
 // components/Navigation/NavigationMenu.tsx
 interface NavigationItem {
@@ -1371,6 +1393,7 @@ const NavigationMenuItem: React.FC<{
 ### 6.1 Animation Principles
 
 #### Motion Design System **[REQUIRED]**
+
 ```scss
 // styles/motion.scss
 // Consistent animation system based on Material Design
@@ -1502,6 +1525,7 @@ $easing: (
 ```
 
 #### Gesture Feedback **[REQUIRED]**
+
 ```typescript
 // utils/gesture-feedback.ts
 interface RippleOptions {
@@ -1574,6 +1598,7 @@ new RippleEffect(button, { color: 'rgba(255, 255, 255, 0.5)' });
 ### 6.2 Interactive Patterns
 
 #### Drag and Drop **[RECOMMENDED]**
+
 ```typescript
 // components/DragDrop/useDragDrop.ts
 interface DragDropOptions {
@@ -1654,6 +1679,7 @@ export function useDragDrop(options: DragDropOptions) {
 ```
 
 #### Scroll Interactions **[RECOMMENDED]**
+
 ```typescript
 // hooks/useScrollProgress.ts
 export function useScrollProgress() {
@@ -1707,6 +1733,7 @@ export function useParallax(speed: number = 0.5) {
 ### 7.1 Responsive Patterns
 
 #### Breakpoint System **[REQUIRED]**
+
 ```scss
 // styles/responsive.scss
 // Mobile-first responsive design system
@@ -1781,6 +1808,7 @@ $breakpoints: (
 ```
 
 #### Responsive Components **[REQUIRED]**
+
 ```typescript
 // hooks/useMediaQuery.ts
 export function useMediaQuery(query: string): boolean {
@@ -1820,6 +1848,7 @@ export const ResponsiveNavigation: React.FC = () => {
 ### 7.2 Adaptive Patterns
 
 #### Progressive Enhancement **[REQUIRED]**
+
 ```typescript
 // utils/feature-detection.ts
 export const features = {
@@ -1879,6 +1908,7 @@ export const ProgressiveImage: React.FC<{
 ```
 
 #### Device Optimization **[RECOMMENDED]**
+
 ```scss
 // styles/device-optimization.scss
 // Touch-optimized styles
@@ -1959,6 +1989,7 @@ export const ProgressiveImage: React.FC<{
 ### 8.1 Navigation Patterns
 
 #### Information Architecture **[REQUIRED]**
+
 ```yaml
 # ux/information-architecture.yaml
 navigation_patterns:
@@ -1999,6 +2030,7 @@ information_hierarchy:
 ```
 
 #### Search Patterns **[REQUIRED]**
+
 ```typescript
 // components/Search/SearchExperience.tsx
 interface SearchConfig {
@@ -2115,6 +2147,7 @@ export const SearchExperience: React.FC<SearchConfig> = ({
 ### 8.2 Feedback Patterns
 
 #### Loading States **[REQUIRED]**
+
 ```typescript
 // components/Loading/LoadingPatterns.tsx
 export const SkeletonLoader: React.FC<{
@@ -2172,6 +2205,7 @@ export const ProgressIndicator: React.FC<{
 ```
 
 #### Error Handling **[REQUIRED]**
+
 ```typescript
 // components/Error/ErrorBoundary.tsx
 interface ErrorFallbackProps {
@@ -2253,6 +2287,7 @@ export const FormFieldError: React.FC<{
 ### 8.3 Accessibility Patterns
 
 #### Keyboard Navigation **[REQUIRED]**
+
 ```typescript
 // hooks/useKeyboardNavigation.ts
 export function useKeyboardNavigation(
@@ -2350,6 +2385,7 @@ export function useKeyboardNavigation(
 ```
 
 #### Screen Reader Support **[REQUIRED]**
+
 ```typescript
 // components/Accessibility/LiveRegion.tsx
 export const LiveRegion: React.FC<{
@@ -2412,6 +2448,7 @@ export const Tooltip: React.FC<{
 ## Implementation Guidelines
 
 ### Design System Adoption
+
 1. **Audit Phase**: Review existing designs and identify patterns
 2. **Foundation Phase**: Establish color, typography, and spacing systems
 3. **Component Phase**: Build core component library
@@ -2419,6 +2456,7 @@ export const Tooltip: React.FC<{
 5. **Optimization Phase**: Refine based on usage and feedback
 
 ### Design Tools Integration
+
 - **Figma**: Use shared libraries and design tokens
 - **Sketch**: Maintain symbol libraries
 - **Adobe XD**: Create component states and interactions
@@ -2426,6 +2464,7 @@ export const Tooltip: React.FC<{
 - **Design Tokens**: Sync between design and code
 
 ### Quality Assurance
+
 - **Visual Testing**: Screenshot comparison tests
 - **Accessibility Testing**: Automated and manual audits
 - **Performance Testing**: Lighthouse scores
@@ -2433,6 +2472,7 @@ export const Tooltip: React.FC<{
 - **Device Testing**: Real device validation
 
 ### Success Metrics
+
 - **Consistency Score**: Design system adoption rate
 - **Accessibility Score**: WCAG compliance level
 - **Performance Score**: Core Web Vitals metrics

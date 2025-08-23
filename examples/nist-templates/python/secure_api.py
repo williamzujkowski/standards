@@ -1,15 +1,7 @@
-import traceback
-
-"""
-Secure API Template with NIST Controls
-@nist ac-3 "API access control"
-@nist sc-8 "API transmission security"
-@nist si-10 "API input validation"
-"""
-
 import hashlib
 import hmac
 import logging
+import traceback
 import uuid
 from datetime import datetime
 from functools import wraps
@@ -19,6 +11,13 @@ import jwt
 import redis
 from flask import Flask, g, jsonify, request
 from werkzeug.exceptions import BadRequest, Forbidden, Unauthorized
+
+"""
+Secure API Template with NIST Controls
+@nist ac-3 "API access control"
+@nist sc-8 "API transmission security"
+@nist si-10 "API input validation"
+"""
 
 # Configure structured logging
 # @nist au-3 "Structured audit logging"
@@ -127,9 +126,7 @@ def require_auth(scopes: List[str] = None):
             auth_header = request.headers.get("Authorization")
             if not auth_header or not auth_header.startswith("Bearer "):
                 # @nist au-2 "Log authentication failures"
-                logger.warning(
-                    f"Missing or invalid auth header from {request.remote_addr}"
-                )
+                logger.warning(f"Missing or invalid auth header from {request.remote_addr}")
                 raise Unauthorized("Invalid authentication")
 
             token = auth_header.split(" ")[1]
@@ -137,9 +134,7 @@ def require_auth(scopes: List[str] = None):
             try:
                 # Verify JWT token
                 # @nist ia-5 "Token validation"
-                payload = jwt.decode(
-                    token, app.config["JWT_SECRET"], algorithms=["HS256"]
-                )
+                payload = jwt.decode(token, app.config["JWT_SECRET"], algorithms=["HS256"])
 
                 # Check token expiration is handled by jwt.decode
 
@@ -149,9 +144,7 @@ def require_auth(scopes: List[str] = None):
                     token_scopes = payload.get("scopes", [])
                     if not any(scope in token_scopes for scope in scopes):
                         # @nist au-2 "Log authorization failures"
-                        logger.warning(
-                            f"Insufficient scopes for user {payload.get('user_id')}"
-                        )
+                        logger.warning(f"Insufficient scopes for user {payload.get('user_id')}")
                         raise Forbidden("Insufficient permissions")
 
                 # Store user info in g for access in route
@@ -161,13 +154,13 @@ def require_auth(scopes: List[str] = None):
                 # @nist au-2 "Log successful authentication"
                 logger.info(f"Authenticated user {g.user_id}")
 
-            except jwt.ExpiredSignatureError:
+            except jwt.ExpiredSignatureError as e:
                 # @nist ac-12 "Session termination"
                 logger.warning(f"Expired token from {request.remote_addr}")
-                raise Unauthorized("Token expired")
+                raise Unauthorized("Token expired") from e
             except jwt.InvalidTokenError as e:
                 logger.warning(f"Invalid token from {request.remote_addr}: {e}")
-                raise Unauthorized("Invalid token")
+                raise Unauthorized("Invalid token") from e
 
             return f(*args, **kwargs)
 
@@ -196,9 +189,7 @@ def validate_request_signature():
             webhook_secret = app.config["WEBHOOK_SECRET"]
             body = request.get_data()
 
-            expected_signature = hmac.new(
-                webhook_secret.encode("utf-8"), body, hashlib.sha256
-            ).hexdigest()
+            expected_signature = hmac.new(webhook_secret.encode("utf-8"), body, hashlib.sha256).hexdigest()
 
             # Compare signatures
             if not hmac.compare_digest(signature, expected_signature):
@@ -263,9 +254,7 @@ def after_request(response):
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["X-Frame-Options"] = "DENY"
     response.headers["X-XSS-Protection"] = "1; mode=block"
-    response.headers[
-        "Strict-Transport-Security"
-    ] = "max-age=31536000; includeSubDomains"
+    response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
     response.headers["X-Correlation-ID"] = g.get("correlation_id", "")
 
     return response
@@ -313,9 +302,7 @@ def get_user(user_id: str):
     # @nist ac-3 "Enforce access control"
     if g.user_id != user_id and "admin" not in g.scopes:
         # @nist au-2 "Log unauthorized access attempts"
-        logger.warning(
-            f"User {g.user_id} attempted to access user {user_id} without permission"
-        )
+        logger.warning(f"User {g.user_id} attempted to access user {user_id} without permission")
         raise Forbidden("Access denied")
 
     # Fetch user data (placeholder)

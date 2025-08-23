@@ -1,6 +1,7 @@
 # NIST Implementation Guide Prompt
 
 ## Purpose
+
 Use this prompt when you need detailed guidance on how to implement a specific NIST control in your codebase.
 
 ## The Prompt
@@ -59,6 +60,7 @@ Please provide:
 ## Usage Examples
 
 ### Example 1: Implementing Authentication
+
 ```
 I need to implement NIST 800-53r5 control ia-2 in my application.
 
@@ -73,6 +75,7 @@ Context:
 ```
 
 ### Example 2: Implementing Audit Logging
+
 ```
 I need to implement NIST 800-53r5 control au-2 and au-3 in my application.
 
@@ -89,6 +92,7 @@ Context:
 ## Control-Specific Variations
 
 ### For Access Control (AC family)
+
 ```
 Additional requirements:
 - Show RBAC and ABAC implementation options
@@ -97,6 +101,7 @@ Additional requirements:
 ```
 
 ### For Audit and Accountability (AU family)
+
 ```
 Additional requirements:
 - Show structured logging format
@@ -105,6 +110,7 @@ Additional requirements:
 ```
 
 ### For System and Communications Protection (SC family)
+
 ```
 Additional requirements:
 - Show encryption implementation
@@ -131,12 +137,15 @@ The LLM should provide:
 ```
 
 #### Step 2: [Next step]
+
 [Continue pattern...]
 
 ### Production Considerations
+
 [Security hardening, performance, scalability]
 
 ### Testing Strategy
+
 ```language
 # @nist [control-id] "Test evidence"
 # @evidence test
@@ -144,15 +153,18 @@ The LLM should provide:
 ```
 
 ### Evidence Collection
+
 [How to gather evidence for compliance]
 
 ### Common Pitfalls
+
 1. [Pitfall 1]: [How to avoid]
 2. [Pitfall 2]: [How to avoid]
 
 ### Related Controls
+
 - [RELATED-CONTROL-1]: [How they work together]
-- [RELATED-CONTROL-2]: [Dependencies]
+
 ```
 
 ## Tips for Better Results

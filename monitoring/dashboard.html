@@ -11,14 +11,14 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: #f5f7fa;
             color: #333;
             line-height: 1.6;
         }
-        
+
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -26,30 +26,30 @@
             text-align: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        
+
         .header h1 {
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
         }
-        
+
         .header p {
             font-size: 1.1rem;
             opacity: 0.9;
         }
-        
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
         }
-        
+
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             margin-bottom: 2rem;
         }
-        
+
         .card {
             background: white;
             border-radius: 12px;
@@ -58,18 +58,18 @@
             border: 1px solid #e1e8ed;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        
+
         .card:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
         }
-        
+
         .card-header {
             display: flex;
             align-items: center;
             margin-bottom: 1rem;
         }
-        
+
         .card-icon {
             width: 40px;
             height: 40px;
@@ -80,27 +80,27 @@
             margin-right: 1rem;
             font-size: 1.2rem;
         }
-        
+
         .card-title {
             font-size: 1.3rem;
             font-weight: 600;
             color: #2d3748;
         }
-        
+
         .metric-value {
             font-size: 2.5rem;
             font-weight: bold;
             color: #4299e1;
             margin: 0.5rem 0;
         }
-        
+
         .metric-label {
             color: #718096;
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        
+
         .status-indicator {
             display: inline-block;
             width: 12px;
@@ -108,71 +108,71 @@
             border-radius: 50%;
             margin-right: 8px;
         }
-        
+
         .status-ok { background-color: #48bb78; }
         .status-warning { background-color: #ed8936; }
         .status-critical { background-color: #f56565; }
         .status-unknown { background-color: #a0aec0; }
-        
+
         .chart-container {
             grid-column: span 2;
             min-height: 400px;
         }
-        
+
         .chart-canvas {
             max-height: 350px;
         }
-        
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1rem;
             margin-top: 1rem;
         }
-        
+
         .stat-item {
             text-align: center;
             padding: 1rem;
             background: #f7fafc;
             border-radius: 8px;
         }
-        
+
         .stat-value {
             font-size: 1.5rem;
             font-weight: bold;
             color: #2d3748;
         }
-        
+
         .stat-label {
             color: #718096;
             font-size: 0.85rem;
         }
-        
+
         .alert {
             padding: 1rem;
             border-radius: 8px;
             margin: 1rem 0;
             border-left: 4px solid;
         }
-        
+
         .alert-warning {
             background-color: #fffbf0;
             border-color: #ed8936;
             color: #744210;
         }
-        
+
         .alert-success {
             background-color: #f0fff4;
             border-color: #48bb78;
             color: #22543d;
         }
-        
+
         .alert-error {
             background-color: #fed7d7;
             border-color: #f56565;
             color: #742a2a;
         }
-        
+
         .refresh-info {
             text-align: center;
             color: #718096;
@@ -181,13 +181,13 @@
             background: white;
             border-radius: 8px;
         }
-        
+
         .loading {
             text-align: center;
             padding: 2rem;
             color: #718096;
         }
-        
+
         .progress-bar {
             width: 100%;
             height: 8px;
@@ -196,33 +196,33 @@
             overflow: hidden;
             margin: 0.5rem 0;
         }
-        
+
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #4299e1, #667eea);
             transition: width 0.3s ease;
         }
-        
+
         .icon-performance { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
         .icon-git { background: linear-gradient(135deg, #f093fb, #f5576c); color: white; }
         .icon-files { background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; }
         .icon-health { background: linear-gradient(135deg, #43e97b, #38f9d7); color: white; }
         .icon-standards { background: linear-gradient(135deg, #fa709a, #fee140); color: white; }
         .icon-system { background: linear-gradient(135deg, #a8edea, #fed6e3); color: #333; }
-        
+
         @media (max-width: 768px) {
             .dashboard-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .chart-container {
                 grid-column: span 1;
             }
-            
+
             .container {
                 padding: 1rem;
             }
-            
+
             .header h1 {
                 font-size: 2rem;
             }
@@ -234,7 +234,7 @@
         <h1>📊 Standards Repository Dashboard</h1>
         <p>Real-time monitoring and analytics for repository performance and usage</p>
     </div>
-    
+
     <div class="container">
         <!-- Performance Overview -->
         <div class="dashboard-grid">
@@ -249,7 +249,7 @@
                     <div class="progress-fill" id="healthProgress" style="width: 0%"></div>
                 </div>
             </div>
-            
+
             <div class="card">
                 <div class="card-header">
                     <div class="card-icon icon-git">🔄</div>
@@ -259,7 +259,7 @@
                 <div class="metric-label">Success Rate</div>
                 <div id="gitStatus" class="metric-label"></div>
             </div>
-            
+
             <div class="card">
                 <div class="card-header">
                     <div class="card-icon icon-files">📁</div>
@@ -269,7 +269,7 @@
                 <div class="metric-label">Average Speed</div>
                 <div id="fileStatus" class="metric-label"></div>
             </div>
-            
+
             <div class="card">
                 <div class="card-header">
                     <div class="card-icon icon-system">💻</div>
@@ -280,7 +280,7 @@
                 <div id="systemStatus" class="metric-label"></div>
             </div>
         </div>
-        
+
         <!-- Charts -->
         <div class="dashboard-grid">
             <div class="card chart-container">
@@ -290,7 +290,7 @@
                 </div>
                 <canvas id="performanceChart" class="chart-canvas"></canvas>
             </div>
-            
+
             <div class="card chart-container">
                 <div class="card-header">
                     <div class="card-icon icon-standards">📚</div>
@@ -299,7 +299,7 @@
                 <canvas id="usageChart" class="chart-canvas"></canvas>
             </div>
         </div>
-        
+
         <!-- Repository Statistics -->
         <div class="card">
             <div class="card-header">
@@ -310,7 +310,7 @@
                 <!-- Stats will be populated by JavaScript -->
             </div>
         </div>
-        
+
         <!-- Git Activity -->
         <div class="card">
             <div class="card-header">
@@ -319,42 +319,42 @@
             </div>
             <canvas id="gitActivityChart" class="chart-canvas"></canvas>
         </div>
-        
+
         <!-- Alerts and Status -->
         <div id="alertsContainer">
             <!-- Alerts will be populated by JavaScript -->
         </div>
-        
+
         <div class="refresh-info">
             <p>Dashboard auto-refreshes every 5 minutes</p>
             <p>Last updated: <span id="lastUpdated">--</span></p>
             <button onclick="loadDashboard()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: #4299e1; color: white; border: none; border-radius: 4px; cursor: pointer;">🔄 Refresh Now</button>
         </div>
     </div>
-    
+
     <script>
         let performanceChart, usageChart, gitActivityChart;
-        
+
         async function loadDashboard() {
             try {
                 // In a real implementation, these would be API calls
                 // For demo purposes, we'll simulate the data
-                
+
                 document.getElementById('lastUpdated').textContent = new Date().toLocaleString();
-                
+
                 // Load mock data (in production, this would come from your analytics collector)
                 await loadPerformanceData();
                 await loadUsageData();
                 await loadRepositoryStats();
                 await loadGitActivity();
                 await loadAlerts();
-                
+
             } catch (error) {
                 console.error('Error loading dashboard:', error);
                 showAlert('error', 'Failed to load dashboard data. Please try again.');
             }
         }
-        
+
         async function loadPerformanceData() {
             // Mock performance data
             const performanceData = {
@@ -364,24 +364,24 @@
                 system_usage: 23.5,
                 performance_trend: [85, 87, 89, 88, 87, 89, 91, 88, 87, 90]
             };
-            
+
             document.getElementById('overallHealth').textContent = performanceData.overall_health.toFixed(1);
             document.getElementById('healthProgress').style.width = performanceData.overall_health + '%';
-            
+
             document.getElementById('gitPerformance').textContent = performanceData.git_operations.toFixed(1) + '%';
             document.getElementById('gitStatus').innerHTML = getStatusIndicator('ok') + 'All operations healthy';
-            
+
             document.getElementById('filePerformance').textContent = performanceData.file_operations.toFixed(1) + '%';
             document.getElementById('fileStatus').innerHTML = getStatusIndicator('ok') + 'Good performance';
-            
+
             document.getElementById('systemUsage').textContent = performanceData.system_usage.toFixed(1) + '%';
             document.getElementById('systemStatus').innerHTML = getStatusIndicator('ok') + 'Low resource usage';
-            
+
             // Performance trend chart
             if (performanceChart) {
                 performanceChart.destroy();
             }
-            
+
             const ctx = document.getElementById('performanceChart').getContext('2d');
             performanceChart = new Chart(ctx, {
                 type: 'line',
@@ -413,18 +413,18 @@
                 }
             });
         }
-        
+
         async function loadUsageData() {
             // Mock usage data
             const usageData = {
                 standards: ['Coding Standards', 'Security Standards', 'Testing Standards', 'DevOps Standards', 'Frontend Standards'],
                 usage_counts: [45, 38, 32, 28, 25]
             };
-            
+
             if (usageChart) {
                 usageChart.destroy();
             }
-            
+
             const ctx = document.getElementById('usageChart').getContext('2d');
             usageChart = new Chart(ctx, {
                 type: 'doughnut',
@@ -452,7 +452,7 @@
                 }
             });
         }
-        
+
         async function loadRepositoryStats() {
             // Mock repository statistics
             const stats = [
@@ -465,7 +465,7 @@
                 { label: 'Repository Size', value: '45MB' },
                 { label: 'Standards Tracked', value: '21' }
             ];
-            
+
             const statsContainer = document.getElementById('repoStats');
             statsContainer.innerHTML = stats.map(stat => `
                 <div class="stat-item">
@@ -474,7 +474,7 @@
                 </div>
             `).join('');
         }
-        
+
         async function loadGitActivity() {
             // Mock git activity data
             const gitData = {
@@ -482,11 +482,11 @@
                 commits: [3, 2, 5, 1, 4, 2, 3, 1],
                 file_changes: [12, 8, 23, 5, 18, 9, 15, 4]
             };
-            
+
             if (gitActivityChart) {
                 gitActivityChart.destroy();
             }
-            
+
             const ctx = document.getElementById('gitActivityChart').getContext('2d');
             gitActivityChart = new Chart(ctx, {
                 type: 'bar',
@@ -528,13 +528,13 @@
                 }
             });
         }
-        
+
         async function loadAlerts() {
             const alerts = [
                 { type: 'success', message: 'All systems operational - repository health score above 85%' },
                 { type: 'warning', message: 'Documentation coverage could be improved for 3 standards files' }
             ];
-            
+
             const alertsContainer = document.getElementById('alertsContainer');
             alertsContainer.innerHTML = alerts.map(alert => `
                 <div class="alert alert-${alert.type}">
@@ -542,41 +542,41 @@
                 </div>
             `).join('');
         }
-        
+
         function getStatusIndicator(status) {
             return `<span class="status-indicator status-${status}"></span>`;
         }
-        
+
         function showAlert(type, message) {
             const alertsContainer = document.getElementById('alertsContainer');
             const alert = document.createElement('div');
             alert.className = `alert alert-${type}`;
             alert.textContent = message;
             alertsContainer.appendChild(alert);
-            
+
             setTimeout(() => {
                 alert.remove();
             }, 5000);
         }
-        
+
         // Auto-refresh dashboard every 5 minutes
         setInterval(loadDashboard, 5 * 60 * 1000);
-        
+
         // Load dashboard on page load
         document.addEventListener('DOMContentLoaded', loadDashboard);
-        
+
         // In a production environment, you would replace the mock data with actual API calls:
         /*
         async function fetchMetrics() {
             const response = await fetch('/api/metrics/latest');
             return await response.json();
         }
-        
+
         async function fetchPerformanceData() {
             const response = await fetch('/api/performance/latest');
             return await response.json();
         }
-        
+
         async function fetchUsageStats() {
             const response = await fetch('/api/usage/standards');
             return await response.json();

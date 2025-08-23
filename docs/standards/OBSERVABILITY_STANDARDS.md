@@ -1,5 +1,7 @@
 # Observability and Monitoring Standards
 
+> 📚 See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md)
+
 **Version:** 1.0.0
 **Last Updated:** January 2025
 **Status:** Active
@@ -12,6 +14,7 @@
 **Status:** Active
 
 ## TL;DR
+
 - **Three pillars approach** combining metrics, logs, and distributed traces for complete system observability
 - **Service Level Objectives (SLOs)** driving monitoring strategy with error budgets and automated alerting
 - **Distributed tracing** standards using OpenTelemetry for end-to-end request visibility across microservices
@@ -43,6 +46,7 @@ It aims to ensure consistency, quality, and maintainability across all related i
 ### 1.1 Three Pillars of Observability
 
 #### Metrics, Logs, and Traces **[REQUIRED]**
+
 ```yaml
 # Observability strategy configuration
 observability:
@@ -73,6 +77,7 @@ observability:
 ```
 
 #### OpenTelemetry Implementation **[REQUIRED]**
+
 ```python
 # observability/telemetry.py
 from opentelemetry import trace, metrics
@@ -250,6 +255,7 @@ observability.log_structured("info", "User retrieved successfully",
 ### 1.2 Observability Strategy
 
 #### Service Instrumentation **[REQUIRED]**
+
 ```python
 # observability/instrumentation.py
 from functools import wraps
@@ -326,6 +332,7 @@ async def fetch_user_preferences(user_id: str) -> dict:
 ### 2.1 Prometheus Configuration
 
 #### Metrics Collection Setup **[REQUIRED]**
+
 ```yaml
 # prometheus/prometheus.yml
 global:
@@ -411,6 +418,7 @@ scrape_configs:
 ```
 
 #### Recording Rules **[REQUIRED]**
+
 ```yaml
 # prometheus/recording_rules.yml
 groups:
@@ -486,6 +494,7 @@ groups:
 ### 2.2 Custom Metrics Implementation
 
 #### Application Metrics **[REQUIRED]**
+
 ```python
 # metrics/application_metrics.py
 from prometheus_client import Counter, Histogram, Gauge, Summary
@@ -664,6 +673,7 @@ def get_user(request, user_id):
 ### 3.1 Jaeger Configuration
 
 #### Tracing Setup **[REQUIRED]**
+
 ```yaml
 # jaeger/jaeger.yml
 apiVersion: v1
@@ -755,6 +765,7 @@ spec:
 ```
 
 #### Advanced Tracing Patterns **[REQUIRED]**
+
 ```python
 # tracing/advanced_patterns.py
 from opentelemetry import trace
@@ -903,6 +914,7 @@ async def process_user_order(user_id: str, order_data: Dict):
 ### 3.2 Trace Analysis and Optimization
 
 #### Performance Analysis **[REQUIRED]**
+
 ```python
 # tracing/analysis.py
 import statistics
@@ -1080,6 +1092,7 @@ class TraceAnalyzer:
 ### 4.1 Structured Logging
 
 #### Log Format Standards **[REQUIRED]**
+
 ```python
 # logging/structured_logging.py
 import json
@@ -1254,6 +1267,7 @@ logger.audit("user_login", user_id="12345", resource="authentication_system",
 ### 4.2 Log Aggregation and Analysis
 
 #### ELK Stack Configuration **[REQUIRED]**
+
 ```yaml
 # elk/elasticsearch.yml
 cluster.name: "logging-cluster"
@@ -1375,6 +1389,7 @@ logging.level: info
 ```
 
 #### Log Analysis Queries **[REQUIRED]**
+
 ```json
 {
   "kibana_queries": {
@@ -1453,6 +1468,7 @@ logging.level: info
 ### 5.1 SLO Definition Framework
 
 #### SLO Configuration **[REQUIRED]**
+
 ```yaml
 # slo/service_slos.yml
 slos:
@@ -1521,6 +1537,7 @@ business_slos:
 ```
 
 #### SLO Monitoring Implementation **[REQUIRED]**
+
 ```python
 # slo/slo_monitoring.py
 import time
@@ -1755,6 +1772,7 @@ print(json.dumps(report, indent=2))
 ### 6.1 Alert Configuration
 
 #### Prometheus Alerting Rules **[REQUIRED]**
+
 ```yaml
 # prometheus/alert_rules.yml
 groups:
@@ -1903,6 +1921,7 @@ groups:
 ### 6.2 Incident Response Automation
 
 #### AlertManager Configuration **[REQUIRED]**
+
 ```yaml
 # alertmanager/alertmanager.yml
 global:
@@ -2001,6 +2020,7 @@ receivers:
 ```
 
 #### Incident Response Automation **[REQUIRED]**
+
 ```python
 # incident/response_automation.py
 import requests
@@ -2324,6 +2344,7 @@ class EmailNotifier:
 ## Implementation Checklist
 
 ### Observability Foundation
+
 - [ ] OpenTelemetry instrumentation implemented
 - [ ] Three pillars (metrics, logs, traces) configured
 - [ ] Service instrumentation automated
@@ -2331,6 +2352,7 @@ class EmailNotifier:
 - [ ] Resource attributes standardized
 
 ### Metrics and Monitoring
+
 - [ ] Prometheus configured and running
 - [ ] Application metrics implemented
 - [ ] Recording rules defined
@@ -2338,6 +2360,7 @@ class EmailNotifier:
 - [ ] Metric cardinality managed
 
 ### Distributed Tracing
+
 - [ ] Jaeger deployed and configured
 - [ ] Trace sampling configured
 - [ ] Advanced tracing patterns implemented
@@ -2345,6 +2368,7 @@ class EmailNotifier:
 - [ ] Performance bottlenecks identified
 
 ### Logging
+
 - [ ] Structured logging implemented
 - [ ] Log aggregation configured (ELK/EFK)
 - [ ] Log retention policies defined
@@ -2352,6 +2376,7 @@ class EmailNotifier:
 - [ ] Log analysis queries created
 
 ### SLOs and Error Budgets
+
 - [ ] SLOs defined for critical services
 - [ ] SLI queries implemented
 - [ ] Error budget tracking automated
@@ -2359,6 +2384,7 @@ class EmailNotifier:
 - [ ] Alerting on SLO violations configured
 
 ### Alerting and Incident Response
+
 - [ ] Alert rules comprehensive
 - [ ] AlertManager configured
 - [ ] Incident response automation implemented
@@ -2366,6 +2392,7 @@ class EmailNotifier:
 - [ ] Runbooks created and linked
 
 ### Performance Monitoring
+
 - [ ] Performance baselines established
 - [ ] Anomaly detection configured
 - [ ] Capacity planning metrics tracked
@@ -2373,6 +2400,7 @@ class EmailNotifier:
 - [ ] Optimization recommendations automated
 
 ### Infrastructure Observability
+
 - [ ] Node exporter deployed
 - [ ] Kubernetes metrics collected
 - [ ] Container metrics monitored

@@ -7,7 +7,6 @@
 
 ---
 
-
 ## Overview
 
 This standard provides comprehensive guidelines and best practices for the subject area.
@@ -18,12 +17,14 @@ It aims to ensure consistency, quality, and maintainability across all related i
 ## 🎯 Core Optimization Principles
 
 ### 1. Always Use Short Codes
+
 ```
 ❌ Load CODING_STANDARDS.md section on API design
 ✅ @load CS:api
 ```
 
 ### 2. Progressive Loading
+
 ```
 ❌ @load CS:*  # Don't load everything
 ✅ @load CS:api  # Start specific
@@ -31,6 +32,7 @@ It aims to ensure consistency, quality, and maintainability across all related i
 ```
 
 ### 3. Context-Aware Loading
+
 ```
 # Let the system detect and load
 @load context:[auto]  # Detects language, framework, task
@@ -40,6 +42,7 @@ It aims to ensure consistency, quality, and maintainability across all related i
 ## 📚 Efficient Loading Patterns
 
 ### Task-Based Loading
+
 ```python
 # Bug Fix Pattern
 @load [TS:regression + CS:error-handling]
@@ -55,6 +58,7 @@ It aims to ensure consistency, quality, and maintainability across all related i
 ```
 
 ### Language-Specific Loading
+
 ```python
 # Python Project
 @load language:[python] level:[required]
@@ -68,6 +72,7 @@ It aims to ensure consistency, quality, and maintainability across all related i
 ## 🚀 Token Optimization Strategies
 
 ### 1. Use Micro Standards First
+
 ```
 # For quick lookups
 @micro CS:api  # 500 tokens vs 5000
@@ -75,6 +80,7 @@ It aims to ensure consistency, quality, and maintainability across all related i
 ```
 
 ### 2. Section-Specific Loading
+
 ```
 # Load only what you need
 @section CS:api/error-handling  # ~500 tokens
@@ -82,6 +88,7 @@ It aims to ensure consistency, quality, and maintainability across all related i
 ```
 
 ### 3. Use the Index
+
 ```
 # Quick answers without loading
 @index "python naming"
@@ -91,6 +98,7 @@ It aims to ensure consistency, quality, and maintainability across all related i
 ## 🔍 Smart Query Patterns
 
 ### Natural Language Queries
+
 ```
 ❌ "Show me all security standards"  # Too broad
 ✅ "JWT implementation security"  # Specific
@@ -98,6 +106,7 @@ It aims to ensure consistency, quality, and maintainability across all related i
 ```
 
 ### Efficient Search
+
 ```
 # Use structured queries
 @search "authentication" in:[SEC:auth] section:[implementation]
@@ -109,6 +118,7 @@ It aims to ensure consistency, quality, and maintainability across all related i
 ## 💾 Caching Best Practices
 
 ### Session-Level Caching
+
 ```
 # Cache frequently used standards
 @cache [CS:api, SEC:auth, TS:unit] duration:[session]
@@ -118,6 +128,7 @@ It aims to ensure consistency, quality, and maintainability across all related i
 ```
 
 ### Preload Common Patterns
+
 ```
 # At conversation start
 @preload profile:[api-development]
@@ -127,6 +138,7 @@ It aims to ensure consistency, quality, and maintainability across all related i
 ## 🎓 Learning Patterns
 
 ### Progressive Enhancement
+
 ```
 1. Start: @micro CS:api  # Quick overview
 2. Expand: @section CS:api/patterns  # Specific patterns
@@ -134,6 +146,7 @@ It aims to ensure consistency, quality, and maintainability across all related i
 ```
 
 ### Cross-Reference Learning
+
 ```
 When using: CS:api
 Also load: SEC:api  # Security implications
@@ -143,6 +156,7 @@ Consider: TS:integration  # Testing approach
 ## 📊 Performance Benchmarks
 
 ### Token Usage by Strategy
+
 | Strategy | Tokens | Load Time | Use Case |
 |----------|--------|-----------|----------|
 | Micro | ~500 | <200ms | Quick reference |
@@ -151,6 +165,7 @@ Consider: TS:integration  # Testing approach
 | Multi-standard | ~15000 | ~3s | Complex feature |
 
 ### Optimal Loading Patterns
+
 ```
 # Sequential (Slow) ❌
 @load CS:api
@@ -164,18 +179,21 @@ Consider: TS:integration  # Testing approach
 ## 🤖 LLM-Specific Commands
 
 ### For Code Generation
+
 ```
 @generate [component] with:[CS:patterns + SEC:validation]
 @template [api-endpoint] following:[CS:api + SEC:api]
 ```
 
 ### For Code Review
+
 ```
 @validate [code] against:[CS:style + SEC:*]
 @suggest improvements based-on:[CS:patterns]
 ```
 
 ### For Learning
+
 ```
 @explain CS:patterns with:[examples]
 @compare [pattern-a] vs:[pattern-b]
@@ -184,6 +202,7 @@ Consider: TS:integration  # Testing approach
 ## 🚨 Common Pitfalls to Avoid
 
 ### 1. Over-Loading
+
 ```
 ❌ @load *  # Never load everything
 ❌ @load [CS:* + SEC:* + TS:*]  # Too much
@@ -191,12 +210,14 @@ Consider: TS:integration  # Testing approach
 ```
 
 ### 2. Ignoring Context
+
 ```
 ❌ @load CS:python  # When working on JavaScript
 ✅ @load context:[auto]  # Detects current language
 ```
 
 ### 3. Not Using Cache
+
 ```
 ❌ @load CS:api  # Every time
 ✅ @cache CS:api then:[@load CS:api]  # Cache first
@@ -205,6 +226,7 @@ Consider: TS:integration  # Testing approach
 ## 🔧 Integration Tips
 
 ### With Claude
+
 ```
 Human: Create a secure API endpoint
 
@@ -215,6 +237,7 @@ Based on these standards, here's the implementation...
 ```
 
 ### With GitHub Copilot
+
 ```python
 # @standards CS:python + SEC:validation
 # @micro CS:api
@@ -223,6 +246,7 @@ def create_user(data: dict) -> User:
 ```
 
 ### With Custom Tools
+
 ```javascript
 // Efficient loading function
 async function loadStandards(task) {
@@ -235,12 +259,14 @@ async function loadStandards(task) {
 ## 📈 Continuous Improvement
 
 ### Track Your Usage
+
 ```
 @stats show:[token-usage, load-times]
 @optimize suggest:[based-on-history]
 ```
 
 ### Learn From Patterns
+
 ```
 @analyze my-usage patterns:[last-week]
 @suggest better-loading-strategy
@@ -249,6 +275,7 @@ async function loadStandards(task) {
 ## 🎯 Quick Reference Card
 
 ### Most Efficient Commands
+
 1. `@micro [standard]` - Ultra-fast lookup
 2. `@section [standard/section]` - Specific info
 3. `@index [query]` - Instant answers
@@ -256,6 +283,7 @@ async function loadStandards(task) {
 5. `@load context:[auto]` - Smart loading
 
 ### Loading Priority
+
 1. Check index first
 2. Use micro if sufficient
 3. Load sections as needed

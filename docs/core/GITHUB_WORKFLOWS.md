@@ -19,11 +19,13 @@ This document provides comprehensive documentation for all GitHub Actions workfl
 **Purpose:** Validates that all code and documentation adheres to the defined standards.
 
 **Triggers:**
+
 - Push to any branch
 - Pull request to main/master
 - Manual dispatch
 
 **Key Steps:**
+
 1. Checkout code
 2. Set up Python environment
 3. Run standards linter (`lint/standards-linter.py`)
@@ -32,6 +34,7 @@ This document provides comprehensive documentation for all GitHub Actions workfl
 6. Report compliance score
 
 **Failure Conditions:**
+
 - Missing required metadata in standards files
 - Broken cross-references
 - Non-compliant code formatting
@@ -44,11 +47,13 @@ This document provides comprehensive documentation for all GitHub Actions workfl
 **Purpose:** Checks NIST 800-53r5 control coverage and validates control tagging.
 
 **Triggers:**
+
 - Push to branches with security-related changes
 - Pull request affecting security code
 - Manual dispatch
 
 **Key Steps:**
+
 1. Parse code for @nist annotations
 2. Validate control IDs against NIST catalog
 3. Check control implementation completeness
@@ -56,6 +61,7 @@ This document provides comprehensive documentation for all GitHub Actions workfl
 5. Update compliance dashboard
 
 **Outputs:**
+
 - Control coverage percentage
 - Missing controls report
 - Evidence inventory
@@ -68,11 +74,13 @@ This document provides comprehensive documentation for all GitHub Actions workfl
 **Purpose:** Runs comprehensive validation tests on the standards framework.
 
 **Triggers:**
+
 - Push to main branch
 - Pull request
 - Daily schedule (2 AM UTC)
 
 **Key Steps:**
+
 1. Run knowledge management validation
 2. Check token efficiency
 3. Validate MANIFEST.yaml
@@ -80,6 +88,7 @@ This document provides comprehensive documentation for all GitHub Actions workfl
 5. Verify examples compile
 
 **Test Suite:**
+
 ```bash
 tests/validate_knowledge_management.sh
 tests/validate_cross_references.py
@@ -93,10 +102,12 @@ tests/validate_token_efficiency.py
 **Purpose:** Detects code duplication and ensures DRY principles.
 
 **Triggers:**
+
 - Pull request
 - Weekly schedule (Mondays)
 
 **Key Steps:**
+
 1. Run `test_redundancy.py`
 2. Analyze for duplicate code blocks
 3. Check for repeated documentation
@@ -104,6 +115,7 @@ tests/validate_token_efficiency.py
 5. Suggest consolidation opportunities
 
 **Thresholds:**
+
 - Fail if >10% redundancy in any file
 - Warn if >5% redundancy across files
 
@@ -114,16 +126,19 @@ tests/validate_token_efficiency.py
 **Purpose:** Automatically removes trailing whitespace and fixes line endings.
 
 **Triggers:**
+
 - Push to any branch (if enabled)
 - Manual dispatch
 
 **Key Steps:**
+
 1. Run `fix_trailing_whitespace.sh`
 2. Check for changes
 3. Commit fixes if found
 4. Push to branch
 
 **Configuration:**
+
 - Can be disabled via `.github/no-auto-fix` file
 - Respects `.gitignore` patterns
 - Preserves intentional whitespace in code blocks
@@ -135,11 +150,13 @@ tests/validate_token_efficiency.py
 **Purpose:** Generates periodic summaries and reports.
 
 **Triggers:**
+
 - Weekly schedule (Sundays at midnight UTC)
 - Monthly on the 1st
 - Manual dispatch
 
 **Key Steps:**
+
 1. Analyze recent changes
 2. Generate compliance trends
 3. Create usage statistics
@@ -147,6 +164,7 @@ tests/validate_token_efficiency.py
 5. Post summary to discussions/wiki
 
 **Reports Generated:**
+
 - Weekly compliance summary
 - Monthly standards adoption metrics
 - Quarterly trend analysis
@@ -166,6 +184,7 @@ SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}  # For notifications
 ### Workflow Permissions
 
 All workflows require:
+
 - `contents: read` - Read repository
 - `contents: write` - For auto-fix workflows
 - `pull-requests: write` - For PR comments
@@ -208,6 +227,7 @@ All workflows require:
 ### Debug Mode
 
 Enable debug logging:
+
 ```yaml
 env:
   ACTIONS_RUNNER_DEBUG: true
@@ -221,6 +241,7 @@ env:
 ### With Pre-commit Hooks
 
 Workflows complement local pre-commit hooks:
+
 ```bash
 # Local validation
 pre-commit run --all-files
@@ -236,6 +257,7 @@ The NIST compliance workflow uses the same parser as the VS Code extension for c
 ### With Compliance Platform
 
 Workflows can trigger compliance platform actions:
+
 ```bash
 cd standards/compliance
 ./quickstart.sh --github-action
@@ -246,12 +268,14 @@ cd standards/compliance
 ## 📈 Metrics and Monitoring
 
 Track workflow performance:
+
 - Average runtime per workflow
 - Success/failure rates
 - Most common failure reasons
 - Time to fix after failure
 
 Access metrics:
+
 - GitHub Actions tab
 - Workflow run history
 - API: `GET /repos/{owner}/{repo}/actions/runs`

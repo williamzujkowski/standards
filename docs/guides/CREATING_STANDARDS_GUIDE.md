@@ -81,6 +81,7 @@ def get_user(id):
 - **[RECOMMENDED]**: Should be implemented unless there's a good reason not to
 
 Example:
+
 ```markdown
 ### [REQUIRED] Error Handling
 
@@ -223,12 +224,14 @@ def get_user(id):
 ```
 
 #### Better Approach: Dependency Injection
+
 ```python
 # DO THIS INSTEAD
 class UserService:
     def __init__(self, db_connection):
         self.db = db_connection
 ```
+
 ```
 
 ### 4. Link to Related Standards
@@ -236,9 +239,9 @@ class UserService:
 Always reference related standards:
 
 ```markdown
-For error handling patterns, see [CODING_STANDARDS.md](./CODING_STANDARDS.md#error-handling).
+For error handling patterns, see [CODING_STANDARDS.md](../standards/CODING_STANDARDS.md#error-handling).
 
-For testing these patterns, refer to [TESTING_STANDARDS.md](./docs/standards/TESTING_STANDARDS.md).
+For testing these patterns, refer to [TESTING_STANDARDS.md](../standards/TESTING_STANDARDS.md).
 ```
 
 ---
@@ -290,9 +293,9 @@ New standards go through:
 ## 🔗 Additional Resources
 
 - [STANDARD_TEMPLATE.md](STANDARD_TEMPLATE.md) - The template to use
-- [CLAUDE.md](./docs/core/CLAUDE.md) - How standards integrate with LLMs
-- [MANIFEST.yaml](./config/MANIFEST.yaml) - Metadata structure
-- [Contributing Guide](./docs/core/CONTRIBUTING.md) - General contribution guidelines
+- [CLAUDE.md](../../CLAUDE.md) - How standards integrate with LLMs
+- [MANIFEST.yaml](../../config/MANIFEST.yaml) - Metadata structure
+- [Contributing Guide](../core/CONTRIBUTING.md) - General contribution guidelines
 
 ---
 
@@ -300,4 +303,4 @@ New standards go through:
 
 ## Related Standards
 
-- [Knowledge Management Standards](./docs/standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md) - Architecture principles
+- [Knowledge Management Standards](../standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md) - Architecture principles

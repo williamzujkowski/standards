@@ -11,15 +11,14 @@ This script monitors performance of repository operations including:
 """
 
 import json
-import os
-import time
-import psutil
-import subprocess
-import threading
-from datetime import datetime, timedelta
-from pathlib import Path
 import logging
+import os
 import statistics
+import subprocess
+import time
+from datetime import datetime, timedelta
+
+import psutil
 
 
 class PerformanceMonitor:
@@ -73,9 +72,7 @@ class PerformanceMonitor:
                 start_time = time.time()
                 start_memory = psutil.Process().memory_info().rss / 1024 / 1024  # MB
 
-                result = subprocess.run(
-                    cmd, capture_output=True, text=True, cwd=self.repo_path, timeout=30
-                )
+                result = subprocess.run(cmd, capture_output=True, text=True, cwd=self.repo_path, timeout=30)
 
                 end_time = time.time()
                 end_memory = psutil.Process().memory_info().rss / 1024 / 1024  # MB
@@ -88,15 +85,11 @@ class PerformanceMonitor:
                     "memory_used_mb": memory_used,
                     "success": result.returncode == 0,
                     "output_size": len(result.stdout) + len(result.stderr),
-                    "status": self._get_performance_status(
-                        "git_operation", execution_time
-                    ),
+                    "status": self._get_performance_status("git_operation", execution_time),
                 }
 
                 if execution_time > self.thresholds["git_operation_warning"]:
-                    self.logger.warning(
-                        f"Git {op_name} operation slow: {execution_time:.2f}s"
-                    )
+                    self.logger.warning(f"Git {op_name} operation slow: {execution_time:.2f}s")
 
             except subprocess.TimeoutExpired:
                 git_metrics[op_name] = {
@@ -138,13 +131,13 @@ class PerformanceMonitor:
             try:
                 # Test file read performance
                 start_time = time.time()
-                with open(full_path, "r", encoding="utf-8") as f:
+                with open(full_path, encoding="utf-8") as f:
                     content = f.read()
                 read_time = time.time() - start_time
 
                 # Test file stat performance
                 start_time = time.time()
-                stat_info = os.stat(full_path)
+                os.stat(full_path)
                 stat_time = time.time() - start_time
 
                 file_size = len(content)
@@ -160,9 +153,7 @@ class PerformanceMonitor:
                 }
 
                 if read_time > self.thresholds["file_read_warning"]:
-                    self.logger.warning(
-                        f"Slow file read for {file_path}: {read_time:.3f}s"
-                    )
+                    self.logger.warning(f"Slow file read for {file_path}: {read_time:.3f}s")
 
             except Exception as e:
                 file_metrics[file_path] = {"error": str(e), "status": "error"}
@@ -213,15 +204,11 @@ class PerformanceMonitor:
                     "cpu_usage_percent": cpu_used,
                     "success": result.returncode == 0,
                     "output_size": len(result.stdout) + len(result.stderr),
-                    "status": self._get_performance_status(
-                        "script_execution", execution_time
-                    ),
+                    "status": self._get_performance_status("script_execution", execution_time),
                 }
 
                 if execution_time > self.thresholds["script_execution_warning"]:
-                    self.logger.warning(
-                        f"Script {script} execution slow: {execution_time:.2f}s"
-                    )
+                    self.logger.warning(f"Script {script} execution slow: {execution_time:.2f}s")
 
             except subprocess.TimeoutExpired:
                 script_metrics[script] = {
@@ -251,7 +238,7 @@ class PerformanceMonitor:
         disk_io_start = psutil.disk_io_counters()
 
         sample_count = 30
-        for i in range(sample_count):
+        for _i in range(sample_count):
             cpu_samples.append(psutil.cpu_percent(interval=1))
             memory_samples.append(psutil.virtual_memory().percent)
 
@@ -274,9 +261,7 @@ class PerformanceMonitor:
                 "max": max(memory_samples),
                 "min": min(memory_samples),
                 "samples": memory_samples,
-                "status": self._get_performance_status(
-                    "memory_usage", max(memory_samples)
-                ),
+                "status": self._get_performance_status("memory_usage", max(memory_samples)),
             },
             "disk_io": {
                 "read_bytes": disk_read_bytes,
@@ -292,9 +277,7 @@ class PerformanceMonitor:
             self.logger.warning(f"High CPU usage detected: {max(cpu_samples):.1f}%")
 
         if max(memory_samples) > self.thresholds["memory_usage_warning"]:
-            self.logger.warning(
-                f"High memory usage detected: {max(memory_samples):.1f}%"
-            )
+            self.logger.warning(f"High memory usage detected: {max(memory_samples):.1f}%")
 
         return system_metrics
 
@@ -330,9 +313,7 @@ class PerformanceMonitor:
                 search_benchmarks[test_name] = {
                     "execution_time": end_time - start_time,
                     "success": result.returncode == 0,
-                    "output_lines": (
-                        len(result.stdout.split("\n")) if result.stdout else 0
-                    ),
+                    "output_lines": (len(result.stdout.split("\n")) if result.stdout else 0),
                     "command": command,
                 }
 
@@ -388,9 +369,7 @@ class PerformanceMonitor:
 
         # Save the report
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        report_file = os.path.join(
-            self.metrics_dir, f"performance_report_{timestamp}.json"
-        )
+        report_file = os.path.join(self.metrics_dir, f"performance_report_{timestamp}.json")
 
         try:
             with open(report_file, "w") as f:
@@ -416,28 +395,19 @@ class PerformanceMonitor:
         # Git operations score
         git_ops = report.get("git_operations", {})
         git_success_rate = (
-            sum(1 for op in git_ops.values() if op.get("success", False)) / len(git_ops)
-            if git_ops
-            else 0
+            sum(1 for op in git_ops.values() if op.get("success", False)) / len(git_ops) if git_ops else 0
         )
         scores.append(git_success_rate * 100)
 
         # File operations score
         file_ops = report.get("file_operations", {})
-        file_success_rate = (
-            sum(1 for op in file_ops.values() if "error" not in op) / len(file_ops)
-            if file_ops
-            else 0
-        )
+        file_success_rate = sum(1 for op in file_ops.values() if "error" not in op) / len(file_ops) if file_ops else 0
         scores.append(file_success_rate * 100)
 
         # Script performance score
         script_perf = report.get("script_performance", {})
         script_success_rate = (
-            sum(1 for op in script_perf.values() if op.get("success", False))
-            / len(script_perf)
-            if script_perf
-            else 0
+            sum(1 for op in script_perf.values() if op.get("success", False)) / len(script_perf) if script_perf else 0
         )
         scores.append(script_success_rate * 100)
 
@@ -450,8 +420,7 @@ class PerformanceMonitor:
         # Search performance score
         search_benchmarks = report.get("search_benchmarks", {})
         search_success_rate = (
-            sum(1 for op in search_benchmarks.values() if op.get("success", False))
-            / len(search_benchmarks)
+            sum(1 for op in search_benchmarks.values() if op.get("success", False)) / len(search_benchmarks)
             if search_benchmarks
             else 0
         )
@@ -471,9 +440,7 @@ class PerformanceMonitor:
 
     def continuous_monitoring(self, duration_minutes=60, interval_minutes=5):
         """Run continuous monitoring for specified duration"""
-        self.logger.info(
-            f"Starting continuous monitoring for {duration_minutes} minutes"
-        )
+        self.logger.info(f"Starting continuous monitoring for {duration_minutes} minutes")
 
         end_time = datetime.now() + timedelta(minutes=duration_minutes)
         reports = []
@@ -500,20 +467,14 @@ class PerformanceMonitor:
         # Save summary of continuous monitoring
         summary = {
             "monitoring_period": {
-                "start": (
-                    datetime.now() - timedelta(minutes=duration_minutes)
-                ).isoformat(),
+                "start": (datetime.now() - timedelta(minutes=duration_minutes)).isoformat(),
                 "end": datetime.now().isoformat(),
                 "duration_minutes": duration_minutes,
                 "interval_minutes": interval_minutes,
             },
             "total_reports": len(reports),
             "average_health_score": (
-                statistics.mean(
-                    [r.get("health_score", {}).get("overall", 0) for r in reports]
-                )
-                if reports
-                else 0
+                statistics.mean([r.get("health_score", {}).get("overall", 0) for r in reports]) if reports else 0
             ),
             "reports": reports,
         }
@@ -536,9 +497,7 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description="Repository Performance Monitor")
-    parser.add_argument(
-        "--continuous", action="store_true", help="Run continuous monitoring"
-    )
+    parser.add_argument("--continuous", action="store_true", help="Run continuous monitoring")
     parser.add_argument(
         "--duration",
         type=int,
@@ -568,21 +527,13 @@ if __name__ == "__main__":
 
         # Print summary
         health_score = report.get("health_score", {})
-        print(f"\nPerformance Report Summary:")
+        print("\nPerformance Report Summary:")
         print(f"  Overall Health Score: {health_score.get('overall', 'N/A'):.2f}/100")
         print(f"  Git Operations: {health_score.get('git_operations', 'N/A'):.2f}/100")
-        print(
-            f"  File Operations: {health_score.get('file_operations', 'N/A'):.2f}/100"
-        )
-        print(
-            f"  Script Performance: {health_score.get('script_performance', 'N/A'):.2f}/100"
-        )
+        print(f"  File Operations: {health_score.get('file_operations', 'N/A'):.2f}/100")
+        print(f"  Script Performance: {health_score.get('script_performance', 'N/A'):.2f}/100")
         print(f"  CPU Efficiency: {health_score.get('cpu_efficiency', 'N/A'):.2f}/100")
-        print(
-            f"  Memory Efficiency: {health_score.get('memory_efficiency', 'N/A'):.2f}/100"
-        )
-        print(
-            f"  Search Performance: {health_score.get('search_performance', 'N/A'):.2f}/100"
-        )
+        print(f"  Memory Efficiency: {health_score.get('memory_efficiency', 'N/A'):.2f}/100")
+        print(f"  Search Performance: {health_score.get('search_performance', 'N/A'):.2f}/100")
 
         print(f"\nDetailed report saved to: {monitor.metrics_dir}")

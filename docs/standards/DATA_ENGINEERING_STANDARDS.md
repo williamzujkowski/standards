@@ -1,5 +1,7 @@
 # Data Engineering Standards
 
+> 📚 See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md)
+
 **Version:** 1.0.0
 **Last Updated:** January 2025
 **Status:** Active
@@ -25,6 +27,7 @@
 ---
 
 ## TL;DR
+
 - **Modern data pipeline architecture** with ETL/ELT patterns, orchestration frameworks, and automated data quality checks
 - **Data governance framework** including lineage tracking, metadata management, and privacy compliance (GDPR/CCPA)
 - **Streaming and batch processing** standards using Apache Kafka, Spark, and cloud-native solutions
@@ -41,6 +44,7 @@ It aims to ensure consistency, quality, and maintainability across all related i
 ### 1.1 ETL/ELT Design Principles
 
 #### Pipeline Architecture **[REQUIRED]**
+
 ```python
 # Data pipeline structure
 class DataPipeline:
@@ -114,6 +118,7 @@ class DataPipeline:
 ```
 
 #### Configuration Management **[REQUIRED]**
+
 ```yaml
 # pipeline-config.yml
 pipeline:
@@ -173,6 +178,7 @@ monitoring:
 ### 1.2 Data Orchestration
 
 #### Airflow DAG Standards **[REQUIRED]**
+
 ```python
 from airflow import DAG
 from airflow.operators.python import PythonOperator
@@ -257,6 +263,7 @@ extract_task >> quality_check >> transform_task >> load_task
 ```
 
 #### dbt Configuration **[REQUIRED]**
+
 ```yaml
 # dbt_project.yml
 name: 'analytics'
@@ -315,6 +322,7 @@ on-run-end:
 ### 1.3 Error Handling and Recovery
 
 #### Retry Logic **[REQUIRED]**
+
 ```python
 import backoff
 from typing import Any, Callable
@@ -382,6 +390,7 @@ class CircuitBreaker:
 ### 2.1 Data Quality Framework
 
 #### Quality Rules Engine **[REQUIRED]**
+
 ```python
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
@@ -502,6 +511,7 @@ class DataQualityValidator:
 ```
 
 #### Great Expectations Integration **[RECOMMENDED]**
+
 ```python
 # great_expectations/expectations/custom_dataset.py
 import great_expectations as ge
@@ -588,6 +598,7 @@ def validate_with_great_expectations(df: pd.DataFrame, suite_name: str) -> bool:
 ### 2.2 Data Lineage and Catalog
 
 #### Data Lineage Tracking **[REQUIRED]**
+
 ```python
 from dataclasses import dataclass
 from typing import List, Dict, Optional
@@ -711,6 +722,7 @@ def track_dbt_lineage():
 ### 2.3 Data Governance Framework
 
 #### Data Classification **[REQUIRED]**
+
 ```python
 from enum import Enum
 from typing import List, Dict
@@ -801,6 +813,7 @@ class DataMasking:
 ### 3.1 Data Warehouse Design
 
 #### Dimensional Modeling **[REQUIRED]**
+
 ```sql
 -- Dimension table example
 CREATE TABLE dim_customers (
@@ -878,6 +891,7 @@ CREATE INDEX idx_fact_orders_composite ON fact_orders(date_key, customer_key, pr
 ```
 
 #### Data Vault Modeling **[RECOMMENDED]**
+
 ```sql
 -- Hub: Business keys
 CREATE TABLE hub_customer (
@@ -920,6 +934,7 @@ CREATE TABLE link_customer_order (
 ### 3.2 Data Lake Architecture
 
 #### Data Lake Organization **[REQUIRED]**
+
 ```
 data-lake/
 ├── raw/                          # Raw, unprocessed data
@@ -943,6 +958,7 @@ data-lake/
 ```
 
 #### Data Lake Processing **[REQUIRED]**
+
 ```python
 import boto3
 import pandas as pd
@@ -1045,6 +1061,7 @@ class DataLakeProcessor:
 ### 3.3 NoSQL Data Modeling
 
 #### Document Store Design **[REQUIRED]**
+
 ```json
 // MongoDB customer document
 {
@@ -1097,6 +1114,7 @@ class DataLakeProcessor:
 ```
 
 #### Key-Value Store Design **[REQUIRED]**
+
 ```python
 # Redis data modeling for caching and real-time features
 import redis
@@ -1166,6 +1184,7 @@ class CustomerCacheManager:
 ### 4.1 Apache Kafka Standards
 
 #### Topic Design **[REQUIRED]**
+
 ```yaml
 # kafka-topics.yml
 topics:
@@ -1197,6 +1216,7 @@ topics:
 ```
 
 #### Schema Registry Configuration **[REQUIRED]**
+
 ```json
 // Customer event schema (Avro)
 {
@@ -1257,6 +1277,7 @@ topics:
 ```
 
 #### Kafka Streams Processing **[REQUIRED]**
+
 ```java
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
@@ -1328,6 +1349,7 @@ public class CustomerEventProcessor {
 ### 4.2 Real-time Analytics
 
 #### Apache Flink Processing **[RECOMMENDED]**
+
 ```scala
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.streaming.api.windowing.time.Time
@@ -1353,7 +1375,7 @@ object CustomerEventAnalytics {
       .map(parseCustomerEvent)
       .assignTimestampsAndWatermarks(
         WatermarkStrategy
-          .forBoundedOutOfOrderness[CustomerEvent](Duration.ofSeconds(10))
+          .forBoundedOutOfOrderness[CustomerEvent]
           .withTimestampAssigner((event, _) => event.eventTime)
       )
 
@@ -1410,6 +1432,7 @@ class CustomerMetricsAggregator extends AggregateFunction[CustomerEvent, Custome
 ### 5.1 dbt Best Practices
 
 #### Project Structure **[REQUIRED]**
+
 ```
 analytics/
 ├── dbt_project.yml
@@ -1442,6 +1465,7 @@ analytics/
 ```
 
 #### Model Development Standards **[REQUIRED]**
+
 ```sql
 -- models/staging/stg_customers.sql
 {{ config(
@@ -1538,6 +1562,7 @@ models:
 ```
 
 #### Macro Development **[REQUIRED]**
+
 ```sql
 -- macros/generate_surrogate_key.sql
 {% macro generate_surrogate_key(columns) %}
@@ -1575,6 +1600,7 @@ models:
 ### 5.2 Metrics and KPIs Framework
 
 #### Metrics Definition **[REQUIRED]**
+
 ```yaml
 # metrics/customer_metrics.yml
 version: 2
@@ -1621,6 +1647,7 @@ metrics:
 ```
 
 #### Business Logic Layer **[REQUIRED]**
+
 ```sql
 -- models/marts/core/customer_metrics.sql
 {{ config(
@@ -1701,6 +1728,7 @@ select * from final
 ### 5.3 Data Contracts
 
 #### Schema Contracts **[REQUIRED]**
+
 ```yaml
 # contracts/customer_data_contract.yml
 version: 1.0.0
@@ -1762,6 +1790,7 @@ change_management:
 ```
 
 #### Contract Testing **[REQUIRED]**
+
 ```python
 import pandas as pd
 from typing import Dict, List
@@ -1885,6 +1914,7 @@ class DataContractValidator:
 ## Implementation Checklist
 
 ### Pipeline Development
+
 - [ ] ETL/ELT pipelines follow standard structure
 - [ ] Error handling and retry logic implemented
 - [ ] Data quality checks integrated
@@ -1892,6 +1922,7 @@ class DataContractValidator:
 - [ ] Configuration externalized
 
 ### Data Quality
+
 - [ ] Quality rules defined and automated
 - [ ] Data profiling implemented
 - [ ] Anomaly detection configured
@@ -1899,6 +1930,7 @@ class DataContractValidator:
 - [ ] Remediation processes defined
 
 ### Data Governance
+
 - [ ] Data catalog implemented
 - [ ] Lineage tracking automated
 - [ ] Classification system defined
@@ -1906,6 +1938,7 @@ class DataContractValidator:
 - [ ] Compliance monitoring active
 
 ### Streaming Processing
+
 - [ ] Event schemas defined
 - [ ] Stream processing topology designed
 - [ ] State management configured
@@ -1913,6 +1946,7 @@ class DataContractValidator:
 - [ ] Monitoring and alerting setup
 
 ### Analytics Engineering
+
 - [ ] dbt project structured properly
 - [ ] Models follow layered approach
 - [ ] Tests comprehensive
@@ -1920,6 +1954,7 @@ class DataContractValidator:
 - [ ] CI/CD pipeline configured
 
 ### Data Contracts
+
 - [ ] Contracts defined for critical datasets
 - [ ] Validation automated
 - [ ] Change management process established

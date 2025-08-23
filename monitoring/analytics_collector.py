@@ -6,14 +6,14 @@ This script collects analytics on standards usage patterns, file access,
 and repository health metrics for the standards repository.
 """
 
+import hashlib
 import json
+import logging
 import os
 import subprocess
 import time
 from datetime import datetime, timedelta
-from pathlib import Path
-import logging
-import hashlib
+
 import yaml
 
 
@@ -65,9 +65,7 @@ class AnalyticsCollector:
                 "branches": branch_info,
             }
 
-            self.logger.info(
-                f"Collected Git metrics: {commits_last_7_days} commits in last 7 days"
-            )
+            self.logger.info(f"Collected Git metrics: {commits_last_7_days} commits in last 7 days")
             return metrics
 
         except Exception as e:
@@ -82,23 +80,19 @@ class AnalyticsCollector:
                 self.logger.warning("MANIFEST.yaml not found")
                 return {}
 
-            with open(manifest_path, "r") as f:
+            with open(manifest_path) as f:
                 manifest = yaml.safe_load(f)
 
             standards_metrics = {}
 
             for std_id, std_info in manifest.get("standards", {}).items():
-                file_path = os.path.join(
-                    self.repo_path, "docs", "standards", std_info["full_name"]
-                )
+                file_path = os.path.join(self.repo_path, "docs", "standards", std_info["full_name"])
 
                 if os.path.exists(file_path):
                     metrics = self._analyze_standard_file(file_path, std_info)
                     standards_metrics[std_id] = metrics
 
-            self.logger.info(
-                f"Collected metrics for {len(standards_metrics)} standards"
-            )
+            self.logger.info(f"Collected metrics for {len(standards_metrics)} standards")
             return standards_metrics
 
         except Exception as e:
@@ -147,17 +141,13 @@ class AnalyticsCollector:
         """Get number of commits in the last N days"""
         since_date = (datetime.now() - timedelta(days=days)).strftime("%Y-%m-%d")
         cmd = f"git log --since='{since_date}' --oneline | wc -l"
-        result = subprocess.run(
-            cmd, shell=True, capture_output=True, text=True, cwd=self.repo_path
-        )
+        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, cwd=self.repo_path)
         return int(result.stdout.strip()) if result.stdout.strip() else 0
 
     def _get_file_change_frequency(self):
         """Get file change frequency over last 30 days"""
         cmd = "git log --since='30 days ago' --name-only --pretty=format: | sort | uniq -c | sort -nr"
-        result = subprocess.run(
-            cmd, shell=True, capture_output=True, text=True, cwd=self.repo_path
-        )
+        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, cwd=self.repo_path)
 
         file_changes = {}
         for line in result.stdout.strip().split("\n"):
@@ -174,9 +164,7 @@ class AnalyticsCollector:
     def _get_contributor_metrics(self):
         """Get contributor metrics"""
         cmd = "git log --since='30 days ago' --pretty=format:'%an' | sort | uniq -c | sort -nr"
-        result = subprocess.run(
-            cmd, shell=True, capture_output=True, text=True, cwd=self.repo_path
-        )
+        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, cwd=self.repo_path)
 
         contributors = {}
         for line in result.stdout.strip().split("\n"):
@@ -222,7 +210,7 @@ class AnalyticsCollector:
         try:
             stat = os.stat(file_path)
 
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
 
             # Calculate content hash for change detection
@@ -235,9 +223,7 @@ class AnalyticsCollector:
                 "estimated_tokens": std_info.get("token_estimate", 0),
                 "line_count": len(content.split("\n")),
                 "word_count": len(content.split()),
-                "sections": len(
-                    [line for line in content.split("\n") if line.startswith("#")]
-                ),
+                "sections": len([line for line in content.split("\n") if line.startswith("#")]),
                 "code_blocks": content.count("```"),
                 "links": content.count("["),  # Rough link count
             }
@@ -269,7 +255,7 @@ class AnalyticsCollector:
             "total": 0,
         }
 
-        for root, dirs, files in os.walk(self.repo_path):
+        for _root, dirs, files in os.walk(self.repo_path):
             # Skip .git directory
             if ".git" in dirs:
                 dirs.remove(".git")
@@ -301,14 +287,14 @@ class AnalyticsCollector:
         total_md_files = 0
         documented_features = 0
 
-        for root, dirs, files in os.walk(docs_dir):
+        for root, _dirs, files in os.walk(docs_dir):
             for file in files:
                 if file.endswith(".md"):
                     total_md_files += 1
                     # Simple heuristic: files with substantial content are "documented"
                     file_path = os.path.join(root, file)
                     try:
-                        with open(file_path, "r", encoding="utf-8") as f:
+                        with open(file_path, encoding="utf-8") as f:
                             content = f.read()
                             if len(content) > 1000:  # More than 1000 chars
                                 documented_features += 1
@@ -325,12 +311,12 @@ class AnalyticsCollector:
 
         docs_dir = os.path.join(self.repo_path, "docs")
         if os.path.exists(docs_dir):
-            for root, dirs, files in os.walk(docs_dir):
+            for root, _dirs, files in os.walk(docs_dir):
                 for file in files:
                     if file.endswith(".md"):
                         file_path = os.path.join(root, file)
                         try:
-                            with open(file_path, "r", encoding="utf-8") as f:
+                            with open(file_path, encoding="utf-8") as f:
                                 content = f.read()
                                 # Simple regex to find markdown links
                                 import re
@@ -341,19 +327,13 @@ class AnalyticsCollector:
                                 for _, link in links:
                                     if link.startswith("./") or link.startswith("../"):
                                         # Check if local file exists
-                                        link_path = os.path.join(
-                                            os.path.dirname(file_path), link
-                                        )
+                                        link_path = os.path.join(os.path.dirname(file_path), link)
                                         if not os.path.exists(link_path):
                                             broken_links += 1
                         except:
                             pass
 
-        health_score = (
-            ((total_links - broken_links) / total_links * 100)
-            if total_links > 0
-            else 100
-        )
+        health_score = ((total_links - broken_links) / total_links * 100) if total_links > 0 else 100
         return {
             "total_links": total_links,
             "broken_links": broken_links,
@@ -364,9 +344,7 @@ class AnalyticsCollector:
         """Get compliance scores if available"""
         try:
             # Try to run the compliance score script
-            script_path = os.path.join(
-                self.repo_path, "scripts", "calculate_compliance_score.py"
-            )
+            script_path = os.path.join(self.repo_path, "scripts", "calculate_compliance_score.py")
             if os.path.exists(script_path):
                 result = subprocess.run(
                     ["python3", script_path],
@@ -380,9 +358,7 @@ class AnalyticsCollector:
                     scores = {}
                     for line in lines:
                         if "Score:" in line:
-                            scores["compliance_score"] = float(
-                                line.split(":")[1].strip().rstrip("%")
-                            )
+                            scores["compliance_score"] = float(line.split(":")[1].strip().rstrip("%"))
                         elif "Total Rules:" in line:
                             scores["total_rules"] = int(line.split(":")[1].strip())
                         elif "Required Rules:" in line:
@@ -403,12 +379,8 @@ class AnalyticsCollector:
             if os.path.exists(subdir_path):
                 try:
                     cmd = f"du -sb {subdir_path}"
-                    result = subprocess.run(
-                        cmd, shell=True, capture_output=True, text=True
-                    )
-                    usage[subdir] = (
-                        int(result.stdout.split()[0]) if result.stdout else 0
-                    )
+                    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+                    usage[subdir] = int(result.stdout.split()[0]) if result.stdout else 0
                 except:
                     usage[subdir] = 0
 
@@ -476,16 +448,14 @@ class AnalyticsCollector:
             if os.path.exists(full_path):
                 try:
                     start_time = time.time()
-                    with open(full_path, "r", encoding="utf-8") as f:
+                    with open(full_path, encoding="utf-8") as f:
                         content = f.read()
                     end_time = time.time()
 
                     access_times[file_path] = {
                         "read_time": end_time - start_time,
                         "file_size": len(content),
-                        "read_speed_mb_per_sec": len(content)
-                        / (end_time - start_time)
-                        / (1024 * 1024),
+                        "read_speed_mb_per_sec": len(content) / (end_time - start_time) / (1024 * 1024),
                     }
                 except Exception as e:
                     access_times[file_path] = {"error": str(e)}
@@ -503,16 +473,12 @@ class AnalyticsCollector:
             try:
                 start_time = time.time()
                 cmd = f"grep -r '{term}' docs/ --include='*.md' | wc -l"
-                result = subprocess.run(
-                    cmd, shell=True, capture_output=True, text=True, cwd=self.repo_path
-                )
+                result = subprocess.run(cmd, shell=True, capture_output=True, text=True, cwd=self.repo_path)
                 end_time = time.time()
 
                 benchmarks[f"grep_{term}"] = {
                     "search_time": end_time - start_time,
-                    "results_count": (
-                        int(result.stdout.strip()) if result.stdout.strip() else 0
-                    ),
+                    "results_count": (int(result.stdout.strip()) if result.stdout.strip() else 0),
                 }
             except Exception as e:
                 benchmarks[f"grep_{term}"] = {"error": str(e)}
@@ -546,8 +512,7 @@ class AnalyticsCollector:
                     performance[script] = {
                         "validation_time": end_time - start_time,
                         "success": result.returncode == 0,
-                        "issues_found": result.stdout.count("ERROR")
-                        + result.stdout.count("WARNING"),
+                        "issues_found": result.stdout.count("ERROR") + result.stdout.count("WARNING"),
                     }
                 except subprocess.TimeoutExpired:
                     performance[script] = {
@@ -613,19 +578,15 @@ if __name__ == "__main__":
     # Print summary
     if metrics.get("git_metrics"):
         git = metrics["git_metrics"]
-        print(f"\nGit Summary:")
-        print(
-            f"  - Commits last 7 days: {git.get('commits', {}).get('last_7_days', 0)}"
-        )
+        print("\nGit Summary:")
+        print(f"  - Commits last 7 days: {git.get('commits', {}).get('last_7_days', 0)}")
         print(f"  - Contributors: {len(git.get('contributors', {}))}")
 
     if metrics.get("health_metrics"):
         health = metrics["health_metrics"]
-        print(f"\nRepository Health:")
+        print("\nRepository Health:")
         print(f"  - Total files: {health.get('file_counts', {}).get('total', 0)}")
-        print(
-            f"  - Documentation coverage: {health.get('documentation_coverage', 0):.1f}%"
-        )
+        print(f"  - Documentation coverage: {health.get('documentation_coverage', 0):.1f}%")
 
     if metrics.get("standards_metrics"):
         print(f"  - Standards tracked: {len(metrics['standards_metrics'])}")

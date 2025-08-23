@@ -6,6 +6,7 @@
 [![Standards](https://img.shields.io/badge/standards-24%20documents-green.svg)](https://github.com/williamzujkowski/standards)
 [![License](https://img.shields.io/badge/license-MIT-purple.svg)](LICENSE)
 [![Compliance](https://github.com/williamzujkowski/standards/actions/workflows/standards-compliance.yml/badge.svg)](https://github.com/williamzujkowski/standards/actions/workflows/standards-compliance.yml)
+[![Audit Gates](https://github.com/williamzujkowski/standards/actions/workflows/lint-and-validate.yml/badge.svg)](https://github.com/williamzujkowski/standards/actions/workflows/lint-and-validate.yml)
 [![NIST](https://img.shields.io/badge/NIST%20800--53r5-Compliant-brightgreen.svg)](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md)
 
 ---
@@ -83,7 +84,7 @@ chmod +x setup-project.sh
 ### 📋 **Option 3: Manual Setup**
 
 1. Start with **[UNIFIED_STANDARDS.md](./docs/standards/UNIFIED_STANDARDS.md)** - Your comprehensive foundation
-2. Copy **[CLAUDE.md](./docs/core/CLAUDE.md)** to your project for AI assistance
+2. Copy **[CLAUDE.md](./CLAUDE.md)** to your project for AI assistance
 3. Use templates from `examples/project-templates/` for your language
 4. Follow **[ADOPTION_CHECKLIST.md](./docs/guides/ADOPTION_CHECKLIST.md)** for systematic implementation
 5. **NEW**: Install NIST compliance hooks with `./scripts/setup-nist-hooks.sh`
@@ -191,7 +192,7 @@ Complete coverage of modern software development practices from coding to deploy
 
 ### 🤖 **AI/LLM Integration**
 
-- **[CLAUDE.md](./docs/core/CLAUDE.md)** - Primary LLM interface (90% token reduction)
+- **[CLAUDE.md](./CLAUDE.md)** - Primary LLM interface (90% token reduction)
 - **[KICKSTART_PROMPT.md](./docs/guides/KICKSTART_PROMPT.md)** - Universal project kickstart prompt
 - **[KICKSTART_ADVANCED.md](./docs/guides/KICKSTART_ADVANCED.md)** - Advanced kickstart patterns
 - **[KNOWLEDGE_MANAGEMENT_STANDARDS.md](./docs/standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md)** - How to build AI-optimized documentation systems
@@ -227,7 +228,7 @@ Complete coverage of modern software development practices from coding to deploy
 
 - 🚀 [KICKSTART_PROMPT.md](./docs/guides/KICKSTART_PROMPT.md) - AI project analyzer
 - 📚 [UNIFIED_STANDARDS.md](./docs/standards/UNIFIED_STANDARDS.md) - Complete standards reference
-- 🤖 [CLAUDE.md](./docs/core/CLAUDE.md) - LLM optimization interface
+- 🤖 [CLAUDE.md](./CLAUDE.md) - LLM optimization interface
 - ✅ [ADOPTION_CHECKLIST.md](./docs/guides/ADOPTION_CHECKLIST.md) - Implementation roadmap
 
 ### **Templates & Tools**
@@ -263,6 +264,17 @@ Complete coverage of modern software development practices from coding to deploy
 - **Developer-Friendly**: Quick setup, minimal friction, maximum value
 
 ---
+
+## 📚 Archived Reports
+
+Historical implementation and validation reports have been archived to `reports/generated/`:
+
+- Implementation reports
+- Validation reports
+- Cleanup summaries
+- Weekly digests
+
+See [reports/generated/](./reports/generated/) for full archive.
 
 ## 🤝 Contributing
 
@@ -413,3 +425,17 @@ MIT License - See [LICENSE](LICENSE) for details. Free to use in personal and co
 **Remember**: These are living documents. Use them as a foundation but always consider your specific context and requirements.
 
 *Happy coding! 🚀*
+
+## Catalog (auto)
+
+<!-- AUTO-LINKS:badges/** -->
+
+- [standards-compliance-template](badges/standards-compliance-template.md)
+
+<!-- /AUTO-LINKS -->
+<!-- AUTO-LINKS:badges/**/*.md -->
+
+- [Readme](badges/README.md)
+- [Standards Compliance Template](badges/standards-compliance-template.md)
+
+<!-- /AUTO-LINKS -->

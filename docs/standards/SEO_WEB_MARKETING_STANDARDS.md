@@ -1,5 +1,7 @@
 # SEO & Web Marketing Standards
 
+> 📚 See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md)
+
 **Version:** 1.0.0
 **Last Updated:** January 2025
 **Status:** Active
@@ -1048,6 +1050,7 @@ monitoring:
 ## Quick Reference
 
 ### SEO Checklist
+
 ```yaml
 critical_seo_elements:
   - [ ] Unique title tags (50-60 chars)
@@ -1061,6 +1064,7 @@ critical_seo_elements:
 ```
 
 ### Marketing Automation Quick Start
+
 ```yaml
 automation_basics:
   - [ ] Lead capture forms

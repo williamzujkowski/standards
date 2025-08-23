@@ -1,0 +1,91 @@
+# Audit Rules Configuration
+# Last Updated: 2025-08-23
+#
+# This configuration enforces strict quality gates:
+# - Broken links = 0
+# - Hub violations = 0
+# - Orphans ≤ 5
+#
+# Scheduled audits run weekly: Monday 05:17 UTC
+# CI enforces these gates on all PRs to master branch
+
+version: 1
+
+# Audit gate limits
+limits:
+  broken_links: 0
+  hub_violations: 0
+  max_orphans: 5
+
+orphans:
+  exclude:
+    - ".claude/**"           # Agent definitions (modular design)
+    - "subagents/**"         # Subagent configurations
+    - "memory/**"            # Session management files
+    - "prompts/**"           # Individual prompt files
+    - "reports/generated/**" # Generated reports (transient)
+    - ".vscode/**"           # IDE configuration
+    - ".git/**"              # Git internal files
+    - "node_modules/**"      # Node.js dependencies
+    - "__pycache__/**"       # Python cache
+    - ".github/**"           # GitHub configuration files
+    - ".claude-flow/**"      # Claude Flow runtime
+    - ".hive-mind/**"        # Hive Mind sessions
+    - ".swarm/**"            # Swarm coordination
+    - ".nist/**"             # NIST tooling
+    - "project_plan.md"      # Planning document (intentional)
+    - "standards/compliance/IMPLEMENTATION_SUMMARY.md" # Generated report
+
+  require_link_from:
+    # Standards are linked from the unified hub
+    - pattern: "docs/standards/*.md"
+      hubs:
+        - "docs/standards/UNIFIED_STANDARDS.md"
+
+    # Guides are linked from the guides index
+    - pattern: "docs/guides/*.md"
+      hubs:
+        - "docs/guides/STANDARDS_INDEX.md"
+
+    # Core docs from core hub
+    - pattern: "docs/core/*.md"
+      hubs:
+        - "docs/core/README.md"
+
+    # NIST docs from an explicit NIST hub
+    - pattern: "docs/nist/*.md"
+      hubs:
+        - "docs/nist/README.md"
+
+    # Top-level docs (like VISUAL_NAVIGATION.md, WORKFLOW_*.md) from docs hub
+    - pattern: "docs/*.md"
+      hubs:
+        - "docs/README.md"
+
+    # Examples from examples hub
+    - pattern: "examples/**/*.md"
+      hubs:
+        - "examples/README.md"
+    - pattern: "examples/*.md"
+      hubs:
+        - "examples/README.md"
+
+    # Ops/observability from monitoring hub
+    - pattern: "monitoring/**/*.md"
+      hubs:
+        - "monitoring/README.md"
+
+    # Tooling from tools-config hub
+    - pattern: "tools-config/**/*.md"
+      hubs:
+        - "tools-config/README.md"
+
+    # Micro standards (your *.micro.md live here)
+    - pattern: "micro/**/*.md"
+      hubs:
+        - "micro/README.md"
+
+    # Badges from repo root README
+    - pattern: "badges/**/*.md"
+      hubs:
+        - "README.md"

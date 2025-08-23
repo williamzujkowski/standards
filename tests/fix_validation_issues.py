@@ -30,7 +30,7 @@ class ValidationFixer:
 """
 
         for std_file in self.root.glob("*_STANDARDS.md"):
-            with open(std_file, "r") as f:
+            with open(std_file) as f:
                 content = f.read()
 
             # Check if headers already exist
@@ -69,7 +69,7 @@ class ValidationFixer:
 
         # Check which are missing
         existing = set()
-        for code, data in manifest.get("standards", {}).items():
+        for _code, data in manifest.get("standards", {}).items():
             if "full_name" in data:
                 existing.add(data["full_name"])
             elif "filename" in data:
@@ -175,9 +175,7 @@ class ValidationFixer:
 
         # Check for missing sections
         report.append("3. Add missing sections to standards files:")
-        report.append(
-            "   - Ensure each file has: Overview, Table of Contents, Implementation"
-        )
+        report.append("   - Ensure each file has: Overview, Table of Contents, Implementation")
         report.append("   - Use headings like: ## Overview, ## Table of Contents")
 
         return "\n".join(report)

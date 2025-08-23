@@ -1,5 +1,7 @@
 # Comprehensive Coding Standards for LLM Projects
 
+> 📚 See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md)
+
 **Version:** 1.0.0
 **Last Updated:** 2025-01-13
 **Status:** Active

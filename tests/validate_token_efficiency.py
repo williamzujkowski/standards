@@ -42,9 +42,7 @@ class TokenEfficiencyValidator:
 
         # Split into sections
         sections = self._split_sections(content)
-        section_tokens = {
-            name: self.estimate_tokens(text) for name, text in sections.items()
-        }
+        section_tokens = {name: self.estimate_tokens(text) for name, text in sections.items()}
 
         total_tokens = sum(section_tokens.values())
         efficiency_score = self._calculate_efficiency(sections)
@@ -83,7 +81,7 @@ class TokenEfficiencyValidator:
         score = 100.0
 
         # Penalize overly long sections
-        for name, content in sections.items():
+        for _name, content in sections.items():
             tokens = self.estimate_tokens(content)
             if tokens > 2000:
                 score -= 10
@@ -91,25 +89,19 @@ class TokenEfficiencyValidator:
                 score -= 20
 
         # Reward progressive disclosure patterns
-        if any(
-            "quick" in name.lower() or "summary" in name.lower() for name in sections
-        ):
+        if any("quick" in name.lower() or "summary" in name.lower() for name in sections):
             score += 5
 
         # Check for code example efficiency
         code_blocks = len(re.findall(r"```", "\n".join(sections.values())))
         if code_blocks > 0:
-            avg_tokens_per_block = (
-                sum(len(s) for s in sections.values()) / code_blocks / 4
-            )
+            avg_tokens_per_block = sum(len(s) for s in sections.values()) / code_blocks / 4
             if avg_tokens_per_block < 500:  # Concise examples
                 score += 5
 
         return max(0, min(100, score))
 
-    def _generate_recommendations(
-        self, sections: Dict[str, str], section_tokens: Dict[str, int]
-    ) -> List[str]:
+    def _generate_recommendations(self, sections: Dict[str, str], section_tokens: Dict[str, int]) -> List[str]:
         """Generate token optimization recommendations"""
         recommendations = []
 
@@ -122,13 +114,9 @@ class TokenEfficiencyValidator:
                 )
 
         # Check for missing summaries
-        has_summary = any(
-            "summary" in name.lower() or "overview" in name.lower() for name in sections
-        )
+        has_summary = any("summary" in name.lower() or "overview" in name.lower() for name in sections)
         if not has_summary:
-            recommendations.append(
-                "Add a summary or overview section for quick reference (100-500 tokens)."
-            )
+            recommendations.append("Add a summary or overview section for quick reference (100-500 tokens).")
 
         # Check total document size
         total = sum(section_tokens.values())
@@ -181,8 +169,7 @@ class TokenEfficiencyValidator:
                             if code not in misalignments:
                                 misalignments[code] = []
                             misalignments[code].append(
-                                f"{section_name}: manifest={manifest_tokens}, "
-                                f"estimated={actual_tokens}"
+                                f"{section_name}: manifest={manifest_tokens}, " f"estimated={actual_tokens}"
                             )
 
         return misalignments
@@ -251,9 +238,7 @@ def main():
     for rec in recommendations:
         print(f"  {rec}")
 
-    print(
-        "\nFor detailed progressive loading setup, see KNOWLEDGE_MANAGEMENT_STANDARDS.md"
-    )
+    print("\nFor detailed progressive loading setup, see KNOWLEDGE_MANAGEMENT_STANDARDS.md")
 
 
 if __name__ == "__main__":

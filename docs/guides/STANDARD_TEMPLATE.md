@@ -46,6 +46,7 @@
 [Explain the principle and why it matters]
 
 **Example:**
+
 ```[language]
 // Good example
 [code]
@@ -69,11 +70,13 @@
 [Detailed explanation of the standard]
 
 **Implementation:**
+
 ```[language]
 [code example]
 ```
 
 **Configuration Example:**
+
 ```yaml
 # Example configuration
 [config]
@@ -96,15 +99,18 @@
 **Context:** [When to use this pattern]
 
 **Solution:**
+
 ```[language]
 [implementation code]
 ```
 
 **Benefits:**
+
 - [Benefit 1]
 - [Benefit 2]
 
 **Trade-offs:**
+
 - [Trade-off 1]
 - [Trade-off 2]
 
@@ -168,6 +174,7 @@ setting = "value"
 ### [REQUIRED] Security Measures
 
 1. **[Security Aspect]**: [How to implement]
+
    ```[language]
    [security code example]
    ```
@@ -207,6 +214,7 @@ setting = "value"
    - [Identify gaps]
 
 2. **Migration Steps**
+
    ```bash
    # Step 1: [Description]
    [commands]
@@ -223,21 +231,25 @@ setting = "value"
 ## Implementation Checklist
 
 ### Phase 1: Foundation (Week 1)
+
 - [ ] [Task 1]
 - [ ] [Task 2]
 - [ ] [Task 3]
 
 ### Phase 2: Core Implementation (Week 2-3)
+
 - [ ] [Task 4]
 - [ ] [Task 5]
 - [ ] [Task 6]
 
 ### Phase 3: Advanced Features (Week 4+)
+
 - [ ] [Task 7]
 - [ ] [Task 8]
 - [ ] [Task 9]
 
 ### Validation Checklist
+
 - [ ] All [REQUIRED] standards implemented
 - [ ] Test coverage meets requirements
 - [ ] Security measures in place
@@ -257,6 +269,7 @@ setting = "value"
 ## Appendix: Quick Reference
 
 ### Command Cheat Sheet
+
 ```bash
 # Common commands
 [command] - [description]
@@ -264,6 +277,7 @@ setting = "value"
 ```
 
 ### Configuration Quick Reference
+
 ```
 [KEY]: [value] - [description]
 [KEY]: [value] - [description]

@@ -1,5 +1,7 @@
 # Project Management Standards
 
+> 📚 See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md)
+
 **Version:** 2.0.0
 **Last Updated:** January 2025
 **Status:** Active
@@ -862,6 +864,7 @@ tool_categories:
 ## Quick Reference
 
 ### Sprint Checklist
+
 ```yaml
 sprint_checklist:
   before:
@@ -881,6 +884,7 @@ sprint_checklist:
 ```
 
 ### RACI Template
+
 ```yaml
 raci_template:
   decisions:
@@ -890,6 +894,7 @@ raci_template:
 ```
 
 ### Risk Register Template
+
 ```yaml
 risk_template:
   fields:

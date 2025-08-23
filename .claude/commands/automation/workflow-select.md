@@ -3,16 +3,19 @@
 Automatically select optimal workflow based on task type.
 
 ## Usage
+
 ```bash
 npx claude-flow automation workflow-select [options]
 ```
 
 ## Options
+
 - `--task <description>` - Task description
 - `--constraints <list>` - Workflow constraints
 - `--preview` - Preview without executing
 
 ## Examples
+
 ```bash
 # Select workflow for task
 npx claude-flow automation workflow-select --task "Deploy to production"

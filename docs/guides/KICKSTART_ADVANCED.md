@@ -3,7 +3,9 @@
 ## 🎯 Enhanced Usage Patterns
 
 ### Using with URLs
+
 If your project_plan.md is hosted online:
+
 ```
 Instead of pasting content, use:
 "Please fetch and analyze this project plan: [URL]"
@@ -16,6 +18,7 @@ Supported platforms:
 ```
 
 ### Multi-Stage Approach
+
 For complex projects, break down the analysis:
 
 ```
@@ -28,6 +31,7 @@ Stage 4: "Create the deployment and monitoring strategy"
 ### Technology-Specific Prompts
 
 #### For Python Projects
+
 ```
 Additional context for Python project:
 - Async/sync preference: [asyncio/traditional]
@@ -37,6 +41,7 @@ Additional context for Python project:
 ```
 
 #### For JavaScript/TypeScript Projects
+
 ```
 Additional context for JS/TS project:
 - Runtime: [Node.js/Deno/Bun]
@@ -46,6 +51,7 @@ Additional context for JS/TS project:
 ```
 
 #### For Go Projects
+
 ```
 Additional context for Go project:
 - Web framework: [Gin/Echo/Fiber/stdlib]
@@ -56,6 +62,7 @@ Additional context for Go project:
 ### Standards Integration Patterns
 
 #### Direct Standards Reference
+
 ```
 "Apply these specific standards from the repo:
 - CS:python#error-handling
@@ -65,6 +72,7 @@ Additional context for Go project:
 ```
 
 #### Compliance Focus
+
 ```
 "Ensure compliance with:
 - OWASP Top 10 for security
@@ -76,6 +84,7 @@ Additional context for Go project:
 ### Output Customization
 
 #### Minimal Setup
+
 ```
 "Provide only:
 1. Essential project structure
@@ -84,6 +93,7 @@ Additional context for Go project:
 ```
 
 #### Comprehensive Setup
+
 ```
 "Include:
 1. Full project scaffold with all directories
@@ -96,6 +106,7 @@ Additional context for Go project:
 ### Example Interactions
 
 #### Example 1: SaaS API Project
+
 ```
 Input: "Project plan describes a multi-tenant SaaS API with Stripe integration"
 
@@ -106,6 +117,7 @@ Expected Analysis:
 ```
 
 #### Example 2: Data Pipeline Project
+
 ```
 Input: "Project plan for real-time analytics pipeline with ML models"
 
@@ -116,6 +128,7 @@ Expected Analysis:
 ```
 
 #### Example 3: Mobile App Backend
+
 ```
 Input: "Project plan for mobile app backend with offline sync"
 
@@ -128,11 +141,13 @@ Expected Analysis:
 ### Troubleshooting Common Issues
 
 #### If LLM Misidentifies Stack
+
 ```
 "Correction: This is specifically a [Python/FastAPI] project, not [Node.js]"
 ```
 
 #### If Missing Key Requirements
+
 ```
 "Also include:
 - GraphQL API setup
@@ -141,6 +156,7 @@ Expected Analysis:
 ```
 
 #### If Standards Not Recognized
+
 ```
 "Reference standards from: https://github.com/williamzujkowski/standards
 Specifically look at:
@@ -152,6 +168,7 @@ Specifically look at:
 ### Advanced Patterns
 
 #### Microservices Decomposition
+
 ```
 "Analyze as microservices:
 - Identify service boundaries
@@ -161,6 +178,7 @@ Specifically look at:
 ```
 
 #### Migration Projects
+
 ```
 "This is a migration from [old-stack] to [new-stack]:
 - Identify migration phases
@@ -170,6 +188,7 @@ Specifically look at:
 ```
 
 #### Hybrid Architectures
+
 ```
 "Project uses multiple languages:
 - Python for API (FastAPI)
@@ -183,6 +202,7 @@ Apply language-specific standards to each component"
 ### Integration with Development Workflow
 
 #### Pre-Implementation Review
+
 ```
 "Before I start coding:
 1. Validate the architecture against standards
@@ -192,6 +212,7 @@ Apply language-specific standards to each component"
 ```
 
 #### Post-Implementation Audit
+
 ```
 "Review this implementation against:
 1. Suggested standards compliance
@@ -203,6 +224,7 @@ Apply language-specific standards to each component"
 ### Custom Templates
 
 #### Startup Template
+
 ```
 "Use startup-optimized approach:
 - Minimal viable architecture
@@ -212,6 +234,7 @@ Apply language-specific standards to each component"
 ```
 
 #### Enterprise Template
+
 ```
 "Use enterprise approach:
 - Full compliance checking
@@ -223,6 +246,7 @@ Apply language-specific standards to each component"
 ### Performance Optimization Hints
 
 #### For Large Project Plans
+
 ```
 "Summary first: Provide high-level analysis before details"
 "Chunked response: Break into logical sections"
@@ -230,6 +254,7 @@ Apply language-specific standards to each component"
 ```
 
 #### For Quick Iterations
+
 ```
 "Rapid mode: Skip explanations, provide code only"
 "Copy-paste ready: All code in executable blocks"
@@ -241,18 +266,21 @@ Apply language-specific standards to each component"
 ## 🚀 Quick Reference Card
 
 ### Most Effective Prompts
+
 1. **Clear Stack**: "Python/FastAPI REST API with PostgreSQL"
 2. **Clear Requirements**: "Must include JWT auth and rate limiting"
 3. **Clear Timeline**: "MVP in 2 weeks, full launch in 2 months"
 4. **Clear Constraints**: "Must run on AWS Lambda"
 
 ### Power User Commands
+
 - `"Skip boilerplate explanations"` - Get straight to code
 - `"Include error handling examples"` - See edge cases
 - `"Show alternative approaches"` - Compare options
 - `"Optimize for [metric]"` - Focus on specific goals
 
 ### Standards Cheat Sheet
+
 ```
 Always request:
 - CS:[language] - Code standards

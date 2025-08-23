@@ -25,11 +25,13 @@
 ## 🚀 Quick Start
 
 ### 1. Install Git Hooks (Recommended)
+
 ```bash
 ./scripts/setup-nist-hooks.sh
 ```
 
 This installs:
+
 - Pre-commit hook for NIST tag validation
 - Commit message template with NIST control hints
 - Automatic tag suggestions for security code
@@ -37,6 +39,7 @@ This installs:
 ### 2. Start Tagging Your Code
 
 #### TypeScript/JavaScript
+
 ```typescript
 /**
  * @nist ia-2 "User authentication"
@@ -53,6 +56,7 @@ export async function authenticateUser(credentials: Credentials) {
 ```
 
 #### Python
+
 ```python
 # @nist ac-3 "Access enforcement"
 # @nist ac-6 "Least privilege"
@@ -64,6 +68,7 @@ def check_permissions(user, resource, action):
 ```
 
 #### YAML Configuration
+
 ```yaml
 # @nist-controls: [sc-8, sc-13, ac-12]
 security:
@@ -90,6 +95,7 @@ npm run harvest-evidence
 ## 📋 What's Implemented
 
 ### ✅ Completed
+
 - **COMPLIANCE_STANDARDS.md**: Comprehensive tagging guidelines
 - **NIST_TAGGING_PROPOSAL.md**: Strategic approach document
 - **CLAUDE.md Updates**: LLM context for NIST compliance
@@ -133,6 +139,7 @@ npm run harvest-evidence
 ## 🔄 Workflow Integration
 
 ### Development Flow
+
 1. **Write Code** → Security feature detected
 2. **IDE/Hook Suggests** → Appropriate NIST controls
 3. **Developer Tags** → Using standard format
@@ -141,6 +148,7 @@ npm run harvest-evidence
 6. **Merge** → SSP auto-updates
 
 ### CI/CD Pipeline
+
 ```yaml
 on: [push, pull_request]
 
@@ -156,6 +164,7 @@ jobs:
 ## 📊 Monitoring Compliance
 
 ### Check Coverage
+
 ```bash
 # Count total controls tagged
 grep -r "@nist" . --include="*.ts" --include="*.js" | wc -l
@@ -168,6 +177,7 @@ grep -r "@nist" . --include="*.ts" | grep -o "@nist [a-z][a-z]-[0-9]\+" | sort -
 ```
 
 ### Generate Reports
+
 ```bash
 cd standards/compliance
 
@@ -184,19 +194,23 @@ cat oscal-output/ssp-*.json
 ## 🎯 Next Steps
 
 ### For Developers
+
 1. Install git hooks: `./scripts/setup-nist-hooks.sh`
-2. Review [COMPLIANCE_STANDARDS.md](./docs/standards/COMPLIANCE_STANDARDS.md)
+2. Review [COMPLIANCE_STANDARDS.md](../standards/COMPLIANCE_STANDARDS.md)
 3. Start tagging security code with `@nist` annotations
 4. Use pre-commit hook for validation
 
 ### For Security Teams
+
 1. Review generated SSPs in `standards/compliance/oscal-output/`
 2. Configure baseline in GitHub Actions workflow
 3. Set up compliance dashboard monitoring
 4. Schedule regular compliance reviews
 
 ### For LLM Users
+
 When asking for code generation or review:
+
 ```
 Please ensure all security-related code includes appropriate NIST 800-53r5 control tags.
 Use format: @nist <control-id> "<description>"
@@ -205,22 +219,23 @@ Refer to COMPLIANCE_STANDARDS.md for guidelines.
 
 ## 📚 Documentation
 
-- [COMPLIANCE_STANDARDS.md](./docs/standards/COMPLIANCE_STANDARDS.md) - Detailed tagging guidelines
+- [COMPLIANCE_STANDARDS.md](../standards/COMPLIANCE_STANDARDS.md) - Detailed tagging guidelines
 - [NIST_TAGGING_PROPOSAL.md](NIST_TAGGING_PROPOSAL.md) - Strategic approach
-- [standards/compliance/README.md](./standards/compliance/README.md) - OSCAL platform docs
-- [CLAUDE.md](./docs/core/CLAUDE.md) - LLM context with NIST integration
+- [standards/compliance/README.md](../../standards/compliance/README.md) - OSCAL platform docs
+- [CLAUDE.md](../../CLAUDE.md) - LLM context with NIST integration
 
 ## Related Standards
 
-- [CODING_STANDARDS.md](./docs/standards/CODING_STANDARDS.md) - General coding standards with NIST section
-- [MODERN_SECURITY_STANDARDS.md](./docs/standards/MODERN_SECURITY_STANDARDS.md) - Security implementation
-- [PROJECT_MANAGEMENT_STANDARDS.md](./docs/standards/PROJECT_MANAGEMENT_STANDARDS.md) - Compliance tracking
-- [UNIFIED_STANDARDS.md](./docs/standards/UNIFIED_STANDARDS.md) - Comprehensive standards overview
-- [STANDARDS_INDEX.md](./docs/guides/STANDARDS_INDEX.md) - Quick reference to all standards
+- [CODING_STANDARDS.md](../standards/CODING_STANDARDS.md) - General coding standards with NIST section
+- [MODERN_SECURITY_STANDARDS.md](../standards/MODERN_SECURITY_STANDARDS.md) - Security implementation
+- [PROJECT_MANAGEMENT_STANDARDS.md](../standards/PROJECT_MANAGEMENT_STANDARDS.md) - Compliance tracking
+- [UNIFIED_STANDARDS.md](../standards/UNIFIED_STANDARDS.md) - Comprehensive standards overview
+- [STANDARDS_INDEX.md](../guides/STANDARDS_INDEX.md) - Quick reference to all standards
 
 ## 🤝 Contributing
 
 To improve NIST tagging:
+
 1. Update control mappings in `COMPLIANCE_STANDARDS.md`
 2. Add new patterns to pre-commit hook
 3. Enhance LLM prompts in `CLAUDE.md`

@@ -9,12 +9,11 @@ from the analytics collector and performance monitor.
 import json
 import os
 import sys
-from datetime import datetime, timedelta
-from pathlib import Path
-from http.server import HTTPServer, SimpleHTTPRequestHandler
-import urllib.parse
 import threading
 import time
+import urllib.parse
+from datetime import datetime
+from http.server import HTTPServer, SimpleHTTPRequestHandler
 
 # Add the current directory to Python path for imports
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -23,9 +22,7 @@ try:
     from analytics_collector import AnalyticsCollector
     from performance_monitor import PerformanceMonitor
 except ImportError:
-    print(
-        "Warning: Could not import analytics modules. Dashboard will serve static content only."
-    )
+    print("Warning: Could not import analytics modules. Dashboard will serve static content only.")
     AnalyticsCollector = None
     PerformanceMonitor = None
 
@@ -35,12 +32,8 @@ class DashboardHandler(SimpleHTTPRequestHandler):
 
     def __init__(self, *args, repo_path=None, **kwargs):
         self.repo_path = repo_path or os.getcwd()
-        self.analytics_collector = (
-            AnalyticsCollector(self.repo_path) if AnalyticsCollector else None
-        )
-        self.performance_monitor = (
-            PerformanceMonitor(self.repo_path) if PerformanceMonitor else None
-        )
+        self.analytics_collector = AnalyticsCollector(self.repo_path) if AnalyticsCollector else None
+        self.performance_monitor = PerformanceMonitor(self.repo_path) if PerformanceMonitor else None
         super().__init__(*args, **kwargs)
 
     def do_GET(self):
@@ -78,7 +71,7 @@ class DashboardHandler(SimpleHTTPRequestHandler):
         """Serve the main dashboard HTML"""
         dashboard_path = os.path.join(os.path.dirname(__file__), "dashboard.html")
         try:
-            with open(dashboard_path, "r", encoding="utf-8") as f:
+            with open(dashboard_path, encoding="utf-8") as f:
                 content = f.read()
 
             # Replace mock data endpoints with real API calls
@@ -149,11 +142,9 @@ class DashboardHandler(SimpleHTTPRequestHandler):
 
         try:
             # Try to load latest performance report
-            latest_file = os.path.join(
-                self.performance_monitor.metrics_dir, "latest_performance_report.json"
-            )
+            latest_file = os.path.join(self.performance_monitor.metrics_dir, "latest_performance_report.json")
             if os.path.exists(latest_file):
-                with open(latest_file, "r") as f:
+                with open(latest_file) as f:
                     data = json.load(f)
                 self.send_json_response(data)
             else:
@@ -161,17 +152,13 @@ class DashboardHandler(SimpleHTTPRequestHandler):
                 report = self.performance_monitor.generate_performance_report()
                 self.send_json_response(report)
         except Exception as e:
-            self.send_json_response(
-                {"error": f"Failed to get performance data: {str(e)}"}
-            )
+            self.send_json_response({"error": f"Failed to get performance data: {str(e)}"})
 
     def serve_usage_stats(self):
         """Serve standards usage statistics"""
         try:
             if self.analytics_collector:
-                standards_metrics = (
-                    self.analytics_collector.collect_standards_usage_metrics()
-                )
+                standards_metrics = self.analytics_collector.collect_standards_usage_metrics()
 
                 # Process for dashboard display
                 usage_data = {
@@ -198,9 +185,7 @@ class DashboardHandler(SimpleHTTPRequestHandler):
         """Serve repository health status"""
         try:
             if self.analytics_collector:
-                health_metrics = (
-                    self.analytics_collector.collect_repository_health_metrics()
-                )
+                health_metrics = self.analytics_collector.collect_repository_health_metrics()
 
                 # Calculate overall health score
                 health_score = 100
@@ -272,12 +257,8 @@ class DashboardHandler(SimpleHTTPRequestHandler):
 
                 # Format for dashboard
                 activity_data = {
-                    "commits_7_days": git_metrics.get("commits", {}).get(
-                        "last_7_days", 0
-                    ),
-                    "commits_30_days": git_metrics.get("commits", {}).get(
-                        "last_30_days", 0
-                    ),
+                    "commits_7_days": git_metrics.get("commits", {}).get("last_7_days", 0),
+                    "commits_30_days": git_metrics.get("commits", {}).get("last_30_days", 0),
                     "contributors": git_metrics.get("contributors", {}),
                     "file_changes": git_metrics.get("file_changes", {}),
                     "branches": git_metrics.get("branches", {}),
@@ -372,9 +353,8 @@ class DashboardServer:
         os.chdir(monitoring_dir)
 
         # Create custom handler with repo path
-        handler_class = lambda *args, **kwargs: DashboardHandler(
-            *args, repo_path=self.repo_path, **kwargs
-        )
+        def handler_class(*args, **kwargs):
+            return DashboardHandler(*args, repo_path=self.repo_path, **kwargs)
 
         # Start HTTP server
         self.httpd = HTTPServer((self.host, self.port), handler_class)
@@ -406,9 +386,7 @@ class DashboardServer:
     def start_background_monitoring(self):
         """Start background monitoring thread"""
         if AnalyticsCollector and PerformanceMonitor:
-            self.monitoring_thread = threading.Thread(
-                target=self._background_monitoring
-            )
+            self.monitoring_thread = threading.Thread(target=self._background_monitoring)
             self.monitoring_thread.daemon = True
             self.monitoring_thread.start()
             print("📈 Background monitoring started")
@@ -440,18 +418,10 @@ class DashboardServer:
 def main():
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="Standards Repository Dashboard Server"
-    )
-    parser.add_argument(
-        "--port", type=int, default=8080, help="Port to serve on (default: 8080)"
-    )
-    parser.add_argument(
-        "--host", default="localhost", help="Host to bind to (default: localhost)"
-    )
-    parser.add_argument(
-        "--repo-path", help="Path to repository (default: current directory)"
-    )
+    parser = argparse.ArgumentParser(description="Standards Repository Dashboard Server")
+    parser.add_argument("--port", type=int, default=8080, help="Port to serve on (default: 8080)")
+    parser.add_argument("--host", default="localhost", help="Host to bind to (default: localhost)")
+    parser.add_argument("--repo-path", help="Path to repository (default: current directory)")
 
     args = parser.parse_args()
 

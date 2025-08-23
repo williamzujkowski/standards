@@ -1,5 +1,7 @@
 # Legal Compliance Standards
 
+> 📚 See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md)
+
 **Version:** 1.0.0
 **Last Updated:** January 2025
 **Status:** Active
@@ -26,18 +28,21 @@ It aims to ensure consistency, quality, and maintainability across all related i
 This document provides technical implementation guidelines and engineering best practices for common legal compliance requirements in software development. It is NOT a substitute for professional legal counsel.
 
 **You MUST:**
+
 - Consult with qualified legal professionals for your specific situation
 - Review all compliance requirements with your legal team
 - Obtain legal approval for your compliance implementations
 - Consider jurisdiction-specific requirements
 
 **The authors and contributors:**
+
 - Make no warranties about the completeness or accuracy of this information
 - Assume no liability for the use or interpretation of these guidelines
 - Do not guarantee compliance with any legal requirements
 - Cannot account for jurisdiction-specific variations
 
 **This document focuses on:**
+
 - Technical implementation patterns
 - Engineering best practices
 - Common compliance architectures
@@ -788,6 +793,7 @@ incident_response:
 ## Quick Reference
 
 ### Compliance Checklist
+
 ```yaml
 essential_compliance:
   privacy:
@@ -816,6 +822,7 @@ essential_compliance:
 ```
 
 ### Compliance Automation Tools
+
 ```yaml
 recommended_tools:
   scanning:

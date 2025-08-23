@@ -1,5 +1,7 @@
 # Content Standards
 
+> 📚 See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md)
+
 **Version:** 1.0.0
 **Last Updated:** January 2025
 **Status:** Active
@@ -12,6 +14,7 @@
 **Status:** Active
 
 ## TL;DR
+
 - **Content strategy framework** aligning business objectives with user needs through clear governance and editorial workflows
 - **Writing guidelines** emphasizing plain language, consistent tone/voice, and accessibility for diverse audiences
 - **Multi-format content** standards covering technical documentation, marketing copy, UI text, and multimedia content
@@ -41,6 +44,7 @@ It aims to ensure consistency, quality, and maintainability across all related i
 ### 1.1 Content Strategy Framework
 
 #### Strategic Foundation **[REQUIRED]**
+
 ```yaml
 # content-strategy.yaml
 content_strategy:
@@ -102,6 +106,7 @@ content_strategy:
 ```
 
 #### Content Governance Model **[REQUIRED]**
+
 ```yaml
 # governance-model.yaml
 governance_structure:
@@ -158,6 +163,7 @@ governance_structure:
 ### 1.2 Content Audit and Planning
 
 #### Content Inventory Template **[REQUIRED]**
+
 ```typescript
 // types/content-inventory.ts
 interface ContentItem {
@@ -219,6 +225,7 @@ interface ContentMetadata {
 ```
 
 #### Editorial Calendar **[REQUIRED]**
+
 ```typescript
 // components/EditorialCalendar.tsx
 interface EditorialCalendarEntry {
@@ -278,6 +285,7 @@ const editorialConfig = {
 ### 2.1 Grammar and Style
 
 #### Writing Principles **[REQUIRED]**
+
 ```yaml
 # writing-principles.yaml
 grammar_standards:
@@ -330,6 +338,7 @@ punctuation_rules:
 ```
 
 #### Common Style Decisions **[REQUIRED]**
+
 ```yaml
 # style-decisions.yaml
 formatting:
@@ -373,6 +382,7 @@ technical_writing:
 ### 2.2 Content Structure
 
 #### Information Architecture **[REQUIRED]**
+
 ```markdown
 # Document Structure Template
 
@@ -431,6 +441,7 @@ technical_writing:
 ```
 
 #### Scannable Content **[REQUIRED]**
+
 ```scss
 // styles/content-typography.scss
 // Making content scannable and readable
@@ -507,6 +518,7 @@ technical_writing:
 ### 3.1 Brand Voice Definition
 
 #### Voice Attributes **[REQUIRED]**
+
 ```yaml
 # brand-voice.yaml
 brand_voice:
@@ -555,6 +567,7 @@ brand_voice:
 ```
 
 #### Tone Variations **[REQUIRED]**
+
 ```yaml
 # tone-variations.yaml
 situational_tone:
@@ -597,6 +610,7 @@ situational_tone:
 ### 3.2 Writing for Different Audiences
 
 #### Audience Personas **[REQUIRED]**
+
 ```typescript
 // types/audience-personas.ts
 interface AudiencePersona {
@@ -667,6 +681,7 @@ const personas: AudiencePersona[] = [
 ```
 
 #### Adaptive Writing **[RECOMMENDED]**
+
 ```typescript
 // utils/content-adapter.ts
 class ContentAdapter {
@@ -725,6 +740,7 @@ class ContentAdapter {
 ### 4.1 Documentation Types
 
 #### Technical Documentation **[REQUIRED]**
+
 ```markdown
 # Technical Documentation Template
 
@@ -762,6 +778,7 @@ class ContentAdapter {
 #### Response
 
 **Success Response (200 OK)**
+
 ```json
 {
   "status": "success",
@@ -773,6 +790,7 @@ class ContentAdapter {
 ```
 
 **Error Response (400 Bad Request)**
+
 ```json
 {
   "status": "error",
@@ -792,9 +810,11 @@ curl -X GET "https://api.example.com/v1/resource/123" \
 ```
 
 #### Notes
+
 - Rate limit: 100 requests per minute
 - Pagination: Use `page` and `limit` parameters
 - Filtering: Supports partial matches
+
 ```
 
 #### User Documentation **[REQUIRED]**
@@ -819,7 +839,7 @@ curl -X GET "https://api.example.com/v1/resource/123" \
 
    Description of what to do.
 
-   ![Screenshot with annotations](image-url)
+   ![Screenshot with annotations]
 
    > **Tip**: Helpful information or shortcut
 
@@ -849,6 +869,7 @@ curl -X GET "https://api.example.com/v1/resource/123" \
 ### 4.2 Marketing Content
 
 #### Blog Post Structure **[REQUIRED]**
+
 ```yaml
 # blog-post-template.yaml
 blog_structure:
@@ -906,6 +927,7 @@ blog_structure:
 ```
 
 #### Email Templates **[REQUIRED]**
+
 ```html
 <!-- email-template.html -->
 <!DOCTYPE html>
@@ -1003,6 +1025,7 @@ blog_structure:
 ### 4.3 Social Media Content
 
 #### Platform-Specific Guidelines **[REQUIRED]**
+
 ```yaml
 # social-media-guidelines.yaml
 platform_guidelines:
@@ -1059,6 +1082,7 @@ platform_guidelines:
 ```
 
 #### Content Calendar Integration **[REQUIRED]**
+
 ```typescript
 // utils/social-scheduler.ts
 interface SocialPost {
@@ -1146,6 +1170,7 @@ class SocialContentOptimizer {
 ### 5.1 Fact-Checking and Accuracy
 
 #### Verification Process **[REQUIRED]**
+
 ```yaml
 # fact-checking-process.yaml
 verification_standards:
@@ -1202,12 +1227,13 @@ verification_standards:
         - Confidence level
 
   citation_format:
-    inline: "[Source Name](url)"
+    inline: "[Source Name]"
     footnote: "^1 Source Name, Publication, Date"
     bibliography: "Author. (Year). Title. Publisher. URL"
 ```
 
 #### Quality Checklist **[REQUIRED]**
+
 ```typescript
 // types/editorial-checklist.ts
 interface EditorialChecklist {
@@ -1281,6 +1307,7 @@ class QualityAnalyzer {
 ### 5.2 Editorial Workflow
 
 #### Review Process **[REQUIRED]**
+
 ```yaml
 # editorial-workflow.yaml
 review_stages:
@@ -1349,6 +1376,7 @@ feedback_guidelines:
 ```
 
 #### Version Control **[REQUIRED]**
+
 ```typescript
 // utils/content-versioning.ts
 interface ContentVersion {
@@ -1429,6 +1457,7 @@ class ContentVersionManager {
 ### 6.1 Localization Strategy
 
 #### Language Guidelines **[REQUIRED]**
+
 ```yaml
 # localization-strategy.yaml
 localization_approach:
@@ -1486,6 +1515,7 @@ translation_guidelines:
 ```
 
 #### Translation Management **[REQUIRED]**
+
 ```typescript
 // i18n/translation-manager.ts
 interface TranslationProject {
@@ -1556,6 +1586,7 @@ class LocalizationUtils {
 ### 6.2 Cultural Adaptation
 
 #### Cultural Considerations **[REQUIRED]**
+
 ```yaml
 # cultural-adaptation.yaml
 cultural_guidelines:
@@ -1615,6 +1646,7 @@ cultural_guidelines:
 ```
 
 #### Right-to-Left Support **[REQUIRED]**
+
 ```scss
 // styles/rtl-support.scss
 // Bidirectional text support
@@ -1693,6 +1725,7 @@ cultural_guidelines:
 ### 7.1 SEO Best Practices
 
 #### On-Page Optimization **[REQUIRED]**
+
 ```yaml
 # seo-optimization.yaml
 on_page_elements:
@@ -1770,6 +1803,7 @@ keyword_optimization:
 ```
 
 #### Technical SEO **[REQUIRED]**
+
 ```typescript
 // utils/seo-analyzer.ts
 interface SEOAnalysis {
@@ -1869,6 +1903,7 @@ class SEOAnalyzer {
 ### 7.2 Content Performance
 
 #### Analytics Integration **[REQUIRED]**
+
 ```typescript
 // analytics/content-tracking.ts
 interface ContentMetrics {
@@ -1951,6 +1986,7 @@ class ContentAnalytics {
 ```
 
 #### A/B Testing **[RECOMMENDED]**
+
 ```typescript
 // testing/content-experiments.ts
 interface ContentExperiment {
@@ -2040,6 +2076,7 @@ class ContentExperimentRunner {
 ### 8.1 Content Lifecycle
 
 #### Content Planning **[REQUIRED]**
+
 ```yaml
 # content-lifecycle.yaml
 content_stages:
@@ -2135,6 +2172,7 @@ content_retirement:
 ```
 
 #### Content Templates **[REQUIRED]**
+
 ```typescript
 // templates/content-templates.ts
 interface ContentTemplate {
@@ -2227,6 +2265,7 @@ const templates: Record<string, ContentTemplate> = {
 ### 8.2 Content Distribution
 
 #### Multi-Channel Publishing **[REQUIRED]**
+
 ```yaml
 # distribution-strategy.yaml
 distribution_channels:
@@ -2300,6 +2339,7 @@ syndication_rules:
 ```
 
 #### Content Automation **[RECOMMENDED]**
+
 ```typescript
 // automation/content-distributor.ts
 interface DistributionPlan {
@@ -2398,6 +2438,7 @@ class EmailAdapter implements ChannelAdapter {
 ## Implementation Guidelines
 
 ### Content Strategy Rollout
+
 1. **Assessment Phase**: Audit existing content and processes
 2. **Planning Phase**: Develop content strategy and governance model
 3. **Training Phase**: Educate teams on standards and tools
@@ -2405,6 +2446,7 @@ class EmailAdapter implements ChannelAdapter {
 5. **Optimization Phase**: Monitor, measure, and refine
 
 ### Tool Requirements
+
 - **CMS**: Headless or traditional with API access
 - **Analytics**: Google Analytics, content-specific metrics
 - **SEO Tools**: Keyword research, ranking tracking
@@ -2412,6 +2454,7 @@ class EmailAdapter implements ChannelAdapter {
 - **Localization**: Translation management system
 
 ### Success Metrics
+
 - **Quality Metrics**: Readability scores, error rates
 - **Engagement Metrics**: Time on page, scroll depth
 - **SEO Metrics**: Rankings, organic traffic
@@ -2419,6 +2462,7 @@ class EmailAdapter implements ChannelAdapter {
 - **Efficiency Metrics**: Time to publish, review cycles
 
 ### Training Requirements
+
 - **Writing Skills**: Style guide training, writing workshops
 - **Technical Skills**: CMS training, SEO basics
 - **Process Training**: Workflow understanding, tool usage

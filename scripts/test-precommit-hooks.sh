@@ -65,7 +65,7 @@ log_info "Testing JSON validation..."
 echo '{"valid": "json", "test": true}' > "$TEST_DIR/test.json"
 echo '{"invalid": json}' > "$TEST_DIR/invalid.json"
 
-# Test 2: YAML validation  
+# Test 2: YAML validation
 log_info "Testing YAML validation..."
 cat > "$TEST_DIR/test.yaml" << 'EOF'
 valid: yaml
@@ -159,8 +159,8 @@ log_info "Testing formatting and whitespace hooks..."
 
 # Create files with common issues
 cat > "$TEST_DIR/whitespace.txt" << 'EOF'
-Line with trailing spaces   
-Line with tabs	and spaces  
+Line with trailing spaces
+Line with tabs	and spaces
 
 Final line without newline
 EOF
@@ -175,10 +175,10 @@ fi
 # Test Python code quality (if Python files exist)
 if ls *.py >/dev/null 2>&1; then
     log_info "Testing Python code quality hooks..."
-    
+
     # Test a simple Python file
     echo "print('hello world')" > "$TEST_DIR/test.py"
-    
+
     if command -v black &> /dev/null; then
         if pre-commit run black --files "$TEST_DIR/test.py" >/dev/null 2>&1; then
             log_success "Black formatting is working"
@@ -186,7 +186,7 @@ if ls *.py >/dev/null 2>&1; then
             log_info "Black made formatting corrections (expected)"
         fi
     fi
-    
+
     if command -v ruff &> /dev/null; then
         if pre-commit run ruff --files "$TEST_DIR/test.py" >/dev/null 2>&1; then
             log_success "Ruff linting is working"

@@ -5,12 +5,14 @@ Welcome to the Standards Repository contributor community! This guide will help 
 ## Quick Start Checklist
 
 ### Before You Begin
+
 - [ ] Read our [Code of Conduct](CODE_OF_CONDUCT.md)
 - [ ] Review [Contributing Guidelines](CONTRIBUTING.md)
 - [ ] Join our [GitHub Discussions](https://github.com/williamzujkowski/standards/discussions)
 - [ ] Star the repository to stay updated
 
 ### Initial Setup
+
 - [ ] Fork the repository
 - [ ] Clone your fork locally
 - [ ] Set up development environment
@@ -18,6 +20,7 @@ Welcome to the Standards Repository contributor community! This guide will help 
 - [ ] Create your first branch
 
 ### First Contribution
+
 - [ ] Browse [good first issues](https://github.com/williamzujkowski/standards/labels/good%20first%20issue)
 - [ ] Choose an appropriate starting point
 - [ ] Read relevant documentation
@@ -46,6 +49,7 @@ standards/
 ### Standards Categories
 
 Our standards cover multiple domains:
+
 - **Security & Compliance**: NIST frameworks, security best practices
 - **Development**: Coding standards, testing practices
 - **DevOps**: CI/CD, automation, infrastructure
@@ -63,11 +67,13 @@ Our standards cover multiple domains:
 **Skills needed**: Writing, domain knowledge
 
 **Getting Started**:
+
 1. Look for documentation gaps or unclear sections
 2. Review [Documentation Standards](../standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md)
 3. Use the [Documentation Update PR template](../../.github/PULL_REQUEST_TEMPLATE/documentation_update.md)
 
 **Examples**:
+
 - Clarify installation instructions
 - Add missing code examples
 - Fix broken links
@@ -80,11 +86,13 @@ Our standards cover multiple domains:
 **Skills needed**: Deep domain knowledge, standards writing
 
 **Getting Started**:
+
 1. Review [Standards Creation Guide](../guides/CREATING_STANDARDS_GUIDE.md)
 2. Use the [Standard Template](../guides/STANDARD_TEMPLATE.md)
 3. Follow the [New Standard PR template](../../.github/PULL_REQUEST_TEMPLATE/new_standard.md)
 
 **Examples**:
+
 - Create new domain-specific standards
 - Enhance existing standards with new practices
 - Add compliance mappings
@@ -97,11 +105,13 @@ Our standards cover multiple domains:
 **Skills needed**: Scripting, automation, tool configuration
 
 **Getting Started**:
+
 1. Review existing [scripts](../../scripts/) and [tools](../../tools-config/)
 2. Check [automation workflows](../../.github/workflows/)
 3. Look for improvement opportunities
 
 **Examples**:
+
 - Enhance validation scripts
 - Improve CI/CD workflows
 - Add new tool configurations
@@ -114,11 +124,13 @@ Our standards cover multiple domains:
 **Skills needed**: Practical implementation experience
 
 **Getting Started**:
+
 1. Review [examples directory](../../examples/)
 2. Identify missing examples or outdated code
 3. Create practical, working examples
 
 **Examples**:
+
 - Add implementation examples in new languages
 - Create project templates
 - Develop configuration examples
@@ -127,52 +139,64 @@ Our standards cover multiple domains:
 ## Skill-Based Recommendations
 
 ### New to Open Source
+
 **Recommended starting points**:
+
 - Fix typos or formatting issues
 - Improve documentation clarity
 - Add missing examples
 - Review and test existing examples
 
 **Good first issue labels**:
+
 - `good first issue`
 - `documentation`
 - `help wanted`
 - `typo`
 
 ### Experienced Developers
+
 **Recommended starting points**:
+
 - Enhance automation scripts
 - Improve CI/CD workflows
 - Add comprehensive examples
 - Review and improve existing standards
 
 **Suitable labels**:
+
 - `enhancement`
 - `automation`
 - `examples`
 - `scripts`
 
 ### Subject Matter Experts
+
 **Recommended starting points**:
+
 - Create new standards in your domain
 - Review and enhance existing standards
 - Develop compliance mappings
 - Create comprehensive implementation guides
 
 **Suitable labels**:
+
 - `standards-proposal`
 - `enhancement`
 - `compliance`
 - `domain-expert-needed`
 
 ### Technical Writers
+
 **Recommended starting points**:
+
 - Improve documentation structure
 - Enhance clarity and readability
 - Create user-friendly guides
 - Develop troubleshooting documentation
 
 **Suitable labels**:
+
 - `documentation`
 - `user-experience`
 - `clarity`
@@ -181,6 +205,7 @@ Our standards cover multiple domains:
 ## Development Environment Setup
 
 ### Prerequisites
+
 - Git installed and configured
 - Code editor (VS Code recommended)
 - Python 3.8+ (for scripts)
@@ -188,6 +213,7 @@ Our standards cover multiple domains:
 - Docker (optional, for testing)
 
 ### Local Setup
+
 ```bash
 # 1. Fork and clone the repository
 git clone https://github.com/YOUR_USERNAME/standards.git
@@ -208,6 +234,7 @@ pre-commit install
 ```
 
 ### Development Workflow
+
 ```bash
 # 1. Create feature branch
 git checkout -b feature/your-improvement
@@ -233,18 +260,21 @@ git push origin feature/your-improvement
 ### Communication Channels
 
 **GitHub Discussions**: Primary community forum
+
 - Ask questions
 - Share ideas
 - Discuss implementations
 - Get help with contributions
 
 **Issues**: For specific problems or enhancements
+
 - Bug reports
 - Feature requests
 - Standards proposals
 - Documentation improvements
 
 **Pull Requests**: For code and documentation contributions
+
 - Follow PR templates
 - Respond to feedback promptly
 - Keep discussions focused and constructive
@@ -252,18 +282,21 @@ git push origin feature/your-improvement
 ### Community Guidelines
 
 **Be Respectful**:
+
 - Treat all community members with respect
 - Provide constructive feedback
 - Be patient with new contributors
 - Celebrate others' contributions
 
 **Be Helpful**:
+
 - Answer questions when you can
 - Share knowledge and experience
 - Mentor new contributors
 - Contribute to discussions
 
 **Be Professional**:
+
 - Keep discussions focused and relevant
 - Use clear, professional language
 - Provide evidence-based feedback
@@ -274,6 +307,7 @@ git push origin feature/your-improvement
 ### Contribution Recognition
 
 Your contributions are recognized through:
+
 - **Contributor badges**: Automatic recognition for different contribution types
 - **Contributor showcase**: Featured contributors and their work
 - **Release notes**: Acknowledgment in changelog and releases
@@ -282,18 +316,21 @@ Your contributions are recognized through:
 ### Growth Opportunities
 
 **Become a Reviewer**:
+
 - Review pull requests from other contributors
 - Provide constructive feedback
 - Help maintain code quality
 - Mentor new contributors
 
 **Standards Champion**:
+
 - Lead development of standards in your domain
 - Drive adoption and implementation
 - Represent the community at events
 - Guide strategic direction
 
 **Community Leader**:
+
 - Help organize community events
 - Facilitate discussions and decisions
 - Onboard and mentor new contributors
@@ -322,6 +359,7 @@ Your contributions are recognized through:
 ### Mentorship Program
 
 New contributors are automatically assigned mentors who will:
+
 - Provide guidance on standards and processes
 - Review contributions and provide feedback
 - Answer questions about implementation
@@ -330,6 +368,7 @@ New contributors are automatically assigned mentors who will:
 ### Office Hours
 
 Community maintainers hold regular office hours:
+
 - **When**: Announced in GitHub Discussions
 - **Format**: Virtual meetings or chat sessions
 - **Purpose**: Q&A, guidance, community planning
@@ -337,6 +376,7 @@ Community maintainers hold regular office hours:
 ## Success Metrics
 
 We measure contribution success through:
+
 - **Quality**: Code and documentation meets standards
 - **Impact**: Contributions provide value to the community
 - **Engagement**: Active participation in discussions and reviews
