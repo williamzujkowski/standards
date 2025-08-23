@@ -188,3 +188,10 @@ When adding new examples:
 - [Project Plan Example](project_plan_example.md)
 
 <!-- /AUTO-LINKS -->
+
+
+<!-- AUTO-LINKS:examples/*.md -->
+
+- [Project Plan Example](project_plan_example.md)
+
+<!-- /AUTO-LINKS -->
