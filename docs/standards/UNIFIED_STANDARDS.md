@@ -1568,20 +1568,20 @@ Each extended standard can be customized for your organization by:
 <!-- @nist-controls: [various - see individual sections] -->
 
 For comprehensive NIST 800-53r5 compliance implementation, see:
-- **[NIST_IMPLEMENTATION_GUIDE.md](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md)** - Quick start guide
+- **[NIST_IMPLEMENTATION_GUIDE.md](../nist/NIST_IMPLEMENTATION_GUIDE.md)** - Quick start guide
 - **[COMPLIANCE_STANDARDS.md](COMPLIANCE_STANDARDS.md)** - Detailed tagging standards
 
 ### Quick Reference: Security Feature → NIST Control Mapping
 
 | Security Feature | NIST Controls | Implementation Guide |
 |-----------------|---------------|---------------------|
-| Authentication | ia-2, ia-5 | [Guide](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md#2-start-tagging-your-code) |
-| Authorization | ac-3, ac-6 | [Guide](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md#2-start-tagging-your-code) |
-| Audit Logging | au-2, au-3 | [Guide](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md#2-start-tagging-your-code) |
-| Encryption | sc-8, sc-13 | [Guide](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md#2-start-tagging-your-code) |
-| Input Validation | si-10 | [Guide](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md#2-start-tagging-your-code) |
-| Error Handling | si-11 | [Guide](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md#2-start-tagging-your-code) |
-| Session Management | ac-12 | [Guide](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md#2-start-tagging-your-code) |
+| Authentication | ia-2, ia-5 | [Guide](../nist/NIST_IMPLEMENTATION_GUIDE.md#2-start-tagging-your-code) |
+| Authorization | ac-3, ac-6 | [Guide](../nist/NIST_IMPLEMENTATION_GUIDE.md#2-start-tagging-your-code) |
+| Audit Logging | au-2, au-3 | [Guide](../nist/NIST_IMPLEMENTATION_GUIDE.md#2-start-tagging-your-code) |
+| Encryption | sc-8, sc-13 | [Guide](../nist/NIST_IMPLEMENTATION_GUIDE.md#2-start-tagging-your-code) |
+| Input Validation | si-10 | [Guide](../nist/NIST_IMPLEMENTATION_GUIDE.md#2-start-tagging-your-code) |
+| Error Handling | si-11 | [Guide](../nist/NIST_IMPLEMENTATION_GUIDE.md#2-start-tagging-your-code) |
+| Session Management | ac-12 | [Guide](../nist/NIST_IMPLEMENTATION_GUIDE.md#2-start-tagging-your-code) |
 
 ### Integration with Development Workflow
 
@@ -1590,7 +1590,7 @@ For comprehensive NIST 800-53r5 compliance implementation, see:
 3. **Code Review**: Check for missing or incorrect NIST tags
 4. **CI/CD**: Automated compliance reporting and SSP generation
 
-For automated tooling, see [Available Tools](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md#available-tools).
+For automated tooling, see [Available Tools](../nist/NIST_IMPLEMENTATION_GUIDE.md#available-tools).
 
 ---
 

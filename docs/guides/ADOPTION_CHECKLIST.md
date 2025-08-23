@@ -48,7 +48,7 @@ Use this checklist to systematically adopt the comprehensive development standar
 - [ ] Set up secrets management
 - [ ] Add security scanning to CI
 - [ ] **NEW**: Install NIST compliance hooks (`./scripts/setup-nist-hooks.sh`)
-- [ ] **NEW**: Review [NIST_IMPLEMENTATION_GUIDE.md](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md)
+- [ ] **NEW**: Review [NIST_IMPLEMENTATION_GUIDE.md](../nist/NIST_IMPLEMENTATION_GUIDE.md)
 - [ ] **NEW**: Start tagging security code with @nist annotations
 
 ## 🏗️ Week 3: Advanced Standards

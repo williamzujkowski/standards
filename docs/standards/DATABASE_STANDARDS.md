@@ -1,5 +1,8 @@
 # Database Standards
 
+> 📚 See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md)
+
+
 **Version:** 1.0.0
 **Last Updated:** 2025-01-20
 **Status:** Active

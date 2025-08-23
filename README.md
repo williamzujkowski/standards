@@ -83,7 +83,7 @@ chmod +x setup-project.sh
 ### 📋 **Option 3: Manual Setup**
 
 1. Start with **[UNIFIED_STANDARDS.md](./docs/standards/UNIFIED_STANDARDS.md)** - Your comprehensive foundation
-2. Copy **[CLAUDE.md](./docs/core/CLAUDE.md)** to your project for AI assistance
+2. Copy **[CLAUDE.md](./CLAUDE.md)** to your project for AI assistance
 3. Use templates from `examples/project-templates/` for your language
 4. Follow **[ADOPTION_CHECKLIST.md](./docs/guides/ADOPTION_CHECKLIST.md)** for systematic implementation
 5. **NEW**: Install NIST compliance hooks with `./scripts/setup-nist-hooks.sh`
@@ -191,7 +191,7 @@ Complete coverage of modern software development practices from coding to deploy
 
 ### 🤖 **AI/LLM Integration**
 
-- **[CLAUDE.md](./docs/core/CLAUDE.md)** - Primary LLM interface (90% token reduction)
+- **[CLAUDE.md](./CLAUDE.md)** - Primary LLM interface (90% token reduction)
 - **[KICKSTART_PROMPT.md](./docs/guides/KICKSTART_PROMPT.md)** - Universal project kickstart prompt
 - **[KICKSTART_ADVANCED.md](./docs/guides/KICKSTART_ADVANCED.md)** - Advanced kickstart patterns
 - **[KNOWLEDGE_MANAGEMENT_STANDARDS.md](./docs/standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md)** - How to build AI-optimized documentation systems
@@ -227,7 +227,7 @@ Complete coverage of modern software development practices from coding to deploy
 
 - 🚀 [KICKSTART_PROMPT.md](./docs/guides/KICKSTART_PROMPT.md) - AI project analyzer
 - 📚 [UNIFIED_STANDARDS.md](./docs/standards/UNIFIED_STANDARDS.md) - Complete standards reference
-- 🤖 [CLAUDE.md](./docs/core/CLAUDE.md) - LLM optimization interface
+- 🤖 [CLAUDE.md](./CLAUDE.md) - LLM optimization interface
 - ✅ [ADOPTION_CHECKLIST.md](./docs/guides/ADOPTION_CHECKLIST.md) - Implementation roadmap
 
 ### **Templates & Tools**
@@ -263,6 +263,18 @@ Complete coverage of modern software development practices from coding to deploy
 - **Developer-Friendly**: Quick setup, minimal friction, maximum value
 
 ---
+
+
+## 📚 Archived Reports
+
+Historical implementation and validation reports have been archived to `reports/generated/`:
+
+- Implementation reports
+- Validation reports
+- Cleanup summaries
+- Weekly digests
+
+See [reports/generated/](./reports/generated/) for full archive.
 
 ## 🤝 Contributing
 

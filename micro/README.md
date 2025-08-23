@@ -1,5 +1,11 @@
 # Micro Standards Directory
 
+## Index
+
+- [CS-api.micro](CS-api.micro.md)
+- [SEC-auth.micro](SEC-auth.micro.md)
+- [TS-unit.micro](TS-unit.micro.md)
+
 This directory contains ultra-condensed versions of standards (500 tokens maximum) for quick LLM reference.
 
 ## Available Micro Standards

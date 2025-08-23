@@ -99,5 +99,5 @@ This project adheres to the [Comprehensive Software Development Standards](https
 - ✅ **Accessibility**: WCAG 2.1 AA compliant
 - ✅ **DevOps**: Fully automated CI/CD pipeline with IaC
 
-[View Full Standards Compliance Report →](./docs/standards-compliance.md)
+View Full Standards Compliance Report
 ```

@@ -1,4 +1,37 @@
-# Claude Code Configuration - SPARC Development Environment
+# Claude Code Configuration - Standards Router & SPARC Environment
+
+## 🚀 Fast Path: Standards Auto-Loading
+
+### Quick Load by Product Type
+```
+@load product:api              # REST/GraphQL API service
+@load product:web-service       # Full-stack web application  
+@load product:frontend-web      # React/Vue/Angular SPA
+@load product:mobile           # iOS/Android application
+@load product:data-pipeline    # ETL/ELT data workflow
+@load product:ml-service       # ML training/inference service
+```
+
+### Custom Combinations
+```
+@load [product:api + CS:python + TS:pytest]       # Python API
+@load [product:frontend-web + FE:react + SEC:*]   # React with all security
+@load [CS:python + TS:* + SEC:* + NIST-IG:full]  # Full compliance stack
+```
+
+### How It Works
+1. **Reads** `config/product-matrix.yaml` for product mappings
+2. **Resolves** standard codes (CS, TS, SEC, etc.) to specific docs
+3. **Expands** wildcards (SEC:* → all security standards)
+4. **Auto-includes** NIST-IG:base when SEC is present
+5. **Loads** relevant standards from `docs/standards/` and related paths
+
+### Routing Contracts
+- **Input**: `@load` directive with product type and/or standard codes
+- **Processing**: Matrix resolution → wildcard expansion → NIST inclusion
+- **Output**: Loaded standards with implementation guidance
+
+---
 
 ## 🚨 CRITICAL: CONCURRENT EXECUTION & FILE MANAGEMENT
 

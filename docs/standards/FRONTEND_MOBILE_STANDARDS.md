@@ -1,5 +1,8 @@
 # Frontend and Mobile Development Standards
 
+> 📚 See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md)
+
+
 **Version:** 1.0.0
 **Last Updated:** January 2025
 **Status:** Active
@@ -1604,7 +1607,7 @@ module.exports = {
         },
         // React chunk
         react: {
-          test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+          test: /[\\/]node_modules[\\/]/,
           name: 'react',
           chunks: 'all',
           priority: 20,

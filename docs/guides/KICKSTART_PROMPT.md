@@ -16,6 +16,24 @@ I need help implementing a project based on my project plan. I'll provide the pl
 
 ### 2. **Standards Mapping** (From: https://github.com/williamzujkowski/standards)
 > 💡 **Note**: For creating new standards, see [CREATING_STANDARDS_GUIDE.md](https://github.com/williamzujkowski/standards/blob/master/CREATING_STANDARDS_GUIDE.md)
+
+#### Using the Standards Router (CLAUDE.md) & Product Matrix
+After Tech Stack Analysis, the router at `CLAUDE.md` resolves bundles from `config/product-matrix.yaml`:
+
+```
+@load [product:api + CS:python + TS:pytest]  # API service with Python
+@load [product:frontend-web + FE:react]       # React SPA
+@load [CS:python + TS:pytest + SEC:*]         # Python with all security standards
+```
+
+The router (`CLAUDE.md` at repository root) provides:
+- **Fast Path Loading**: Reads `config/product-matrix.yaml` for product mappings
+- **Wildcard Expansion**: `SEC:*` expands to all security standards + NIST-IG:base
+- **Language Detection**: Auto-maps CS/TS to language-specific implementations
+- **NIST Auto-Inclusion**: Security standards automatically include compliance
+
+See [USING_PRODUCT_MATRIX.md](./USING_PRODUCT_MATRIX.md) for detailed examples.
+
 Based on the detected technologies, recommend relevant standards:
 - **Code Standards (CS):** Language-specific best practices
 - **Testing Standards (TS):** Testing frameworks and coverage requirements
@@ -131,5 +149,5 @@ Please analyze my project plan and provide comprehensive implementation guidance
 
 ## Related Standards
 
-- [CLAUDE.md](./docs/core/CLAUDE.md) - The main LLM router that references this prompt
+- [CLAUDE.md](../../CLAUDE.md) - The main LLM router that references this prompt
 - [KICKSTART_ADVANCED.md](KICKSTART_ADVANCED.md) - Advanced kickstart features

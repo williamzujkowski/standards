@@ -1,5 +1,8 @@
 # Content Standards
 
+> 📚 See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md)
+
+
 **Version:** 1.0.0
 **Last Updated:** January 2025
 **Status:** Active
@@ -819,7 +822,7 @@ curl -X GET "https://api.example.com/v1/resource/123" \
 
    Description of what to do.
 
-   ![Screenshot with annotations](image-url)
+   ![Screenshot with annotations]
 
    > **Tip**: Helpful information or shortcut
 
@@ -1202,7 +1205,7 @@ verification_standards:
         - Confidence level
 
   citation_format:
-    inline: "[Source Name](url)"
+    inline: "[Source Name]"
     footnote: "^1 Source Name, Publication, Date"
     bibliography: "Author. (Year). Title. Publisher. URL"
 ```

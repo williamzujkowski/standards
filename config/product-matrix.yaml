@@ -1,0 +1,265 @@
+# Product Type to Standards Mapping Matrix
+# Version: 1.0.0
+# Last Updated: 2025-08-23
+# 
+# This matrix defines the standard bundles for different product types.
+# Standards are referenced by their codes (CS, TS, SEC, etc.)
+# When SEC is included, NIST-IG:base is auto-included for compliance.
+
+version: 1
+defaults:
+  include_nist_on_security: true
+  auto_expand_wildcards: true
+
+# Product type definitions and their standard bundles
+products:
+  # Web service with API backend
+  web-service:
+    description: "Full-stack web application with backend API"
+    standards:
+      - CS:language        # Language-specific coding standards
+      - TS:framework       # Testing framework standards
+      - SEC:auth           # Authentication standards
+      - SEC:secrets        # Secrets management
+      - FE:api             # Frontend API integration
+      - WD:api-standards   # Web design API patterns
+      - DOP:ci-cd          # CI/CD pipeline
+      - OBS:monitoring     # Observability & monitoring
+      - LEG:privacy        # Privacy compliance
+      - NIST-IG:base       # NIST baseline controls
+
+  # REST or GraphQL API service
+  api:
+    description: "RESTful or GraphQL API service"
+    standards:
+      - CS:language             # Language-specific patterns
+      - TS:framework            # Testing approach
+      - SEC:auth                # API authentication
+      - SEC:input-validation    # Input validation & sanitization
+      - DOP:ci-cd              # Deployment pipeline
+      - OBS:monitoring         # API monitoring
+      - LEG:privacy            # Data privacy
+      - NIST-IG:base          # NIST compliance
+
+  # Command-line interface tool
+  cli:
+    description: "Command-line tool or utility"
+    standards:
+      - CS:language        # Coding standards
+      - TS:unit           # Unit testing
+      - SEC:secrets       # Credential handling
+      - DOP:packaging     # Package distribution
+      - TOOL:cli          # CLI-specific tooling
+
+  # Frontend web application (SPA/MPA)
+  frontend-web:
+    description: "Single-page or multi-page web application"
+    standards:
+      - FE:design-system      # Design system standards
+      - FE:accessibility      # WCAG compliance
+      - CS:typescript        # TypeScript standards
+      - TS:vitest           # Frontend testing
+      - SEC:auth-ui         # UI authentication
+      - DOP:ci-cd          # Build & deploy
+      - OBS:web-vitals     # Web performance monitoring
+
+  # Mobile application (iOS/Android)
+  mobile:
+    description: "Native or cross-platform mobile app"
+    standards:
+      - FE:mobile           # Mobile development standards
+      - CS:language         # Platform language standards
+      - TS:mobile          # Mobile testing
+      - SEC:mobile-auth    # Mobile authentication
+      - SEC:secure-storage # Secure local storage
+      - DOP:mobile-ci     # Mobile CI/CD
+      - OBS:crash-reporting # Crash & performance monitoring
+
+  # Data processing pipeline
+  data-pipeline:
+    description: "ETL/ELT data processing workflow"
+    standards:
+      - DE:orchestration        # Workflow orchestration
+      - DE:data-quality        # Data quality checks
+      - SEC:secrets           # Credential management
+      - SEC:data-classification # Data sensitivity handling
+      - DOP:ci-cd            # Pipeline deployment
+      - OBS:logging          # Pipeline monitoring
+      - LEG:data-retention   # Data retention policies
+      - NIST-IG:base        # Compliance controls
+
+  # Machine learning service
+  ml-service:
+    description: "ML model training and inference service"
+    standards:
+      - MLAI:model-development  # ML development standards
+      - DE:feature-store       # Feature engineering
+      - TS:model-tests        # Model testing
+      - SEC:model-risk       # Model security
+      - SEC:secrets         # API keys & credentials
+      - DOP:ci-cd          # MLOps pipeline
+      - OBS:monitoring     # Model monitoring
+      - LEG:privacy       # AI ethics & privacy
+      - NIST-IG:base     # NIST compliance
+
+  # Infrastructure module (Terraform/CloudFormation)
+  infra-module:
+    description: "Infrastructure as Code module"
+    standards:
+      - CN:container        # Container standards
+      - DOP:iac           # Infrastructure as Code
+      - SEC:secrets       # Secret management
+      - SEC:sbom         # Software bill of materials
+      - TS:integration   # Integration testing
+      - OBS:telemetry   # Infrastructure telemetry
+      - NIST-IG:base   # Security controls
+
+  # Documentation website
+  documentation-site:
+    description: "Technical documentation or knowledge base"
+    standards:
+      - KM:info-arch          # Information architecture
+      - FE:accessibility     # Accessibility standards
+      - WD:accessibility    # Web design accessibility
+      - DOP:ci-cd          # Doc deployment
+      - OBS:links         # Link checking
+
+  # Compliance and audit artifacts
+  compliance-artifacts:
+    description: "Security and compliance documentation"
+    standards:
+      - COMP:controls      # Compliance control mapping
+      - NIST-IG:base      # NIST implementation
+      - SEC:risk-mgmt    # Risk management
+      - DOP:ci-cd       # Automated compliance checks
+      - LEG:audit      # Audit trail requirements
+
+# Wildcard expansion rules
+wildcards:
+  "SEC:*":
+    description: "All security standards"
+    expands_to:
+      - SEC:auth
+      - SEC:secrets
+      - SEC:input-validation
+      - SEC:encryption
+      - SEC:audit
+      - NIST-IG:base  # Auto-include NIST when security is requested
+
+  "TS:*":
+    description: "All testing standards"
+    expands_to:
+      - TS:unit
+      - TS:integration
+      - TS:e2e
+      - TS:performance
+      - TS:security
+
+  "DOP:*":
+    description: "All DevOps standards"
+    expands_to:
+      - DOP:ci-cd
+      - DOP:iac
+      - DOP:monitoring
+      - DOP:incident-response
+
+  "FE:*":
+    description: "All frontend standards"
+    expands_to:
+      - FE:design-system
+      - FE:accessibility
+      - FE:performance
+      - FE:responsive
+
+# Language-specific mappings
+language_mappings:
+  python:
+    CS: CS:python
+    TS: TS:pytest
+    TOOL: TOOL:python
+  
+  javascript:
+    CS: CS:javascript
+    TS: TS:jest
+    TOOL: TOOL:nodejs
+  
+  typescript:
+    CS: CS:typescript
+    TS: TS:vitest
+    TOOL: TOOL:nodejs
+  
+  go:
+    CS: CS:go
+    TS: TS:go-test
+    TOOL: TOOL:go
+  
+  java:
+    CS: CS:java
+    TS: TS:junit
+    TOOL: TOOL:maven
+
+# Framework-specific mappings
+framework_mappings:
+  react:
+    FE: FE:react
+    TS: TS:react-testing-library
+    WD: WD:react-patterns
+  
+  vue:
+    FE: FE:vue
+    TS: TS:vue-test-utils
+    WD: WD:vue-patterns
+  
+  angular:
+    FE: FE:angular
+    TS: TS:karma
+    WD: WD:angular-patterns
+  
+  django:
+    CS: CS:django
+    TS: TS:django-test
+    SEC: SEC:django-security
+  
+  fastapi:
+    CS: CS:fastapi
+    TS: TS:pytest
+    SEC: SEC:fastapi-security
+  
+  express:
+    CS: CS:express
+    TS: TS:supertest
+    SEC: SEC:express-security
+
+# Quick lookup aliases for common stacks
+stack_presets:
+  mern:
+    description: "MongoDB, Express, React, Node.js"
+    uses: web-service
+    overrides:
+      - FE:react
+      - DB:mongodb
+      - CS:javascript
+  
+  mean:
+    description: "MongoDB, Express, Angular, Node.js"
+    uses: web-service
+    overrides:
+      - FE:angular
+      - DB:mongodb
+      - CS:typescript
+  
+  lamp:
+    description: "Linux, Apache, MySQL, PHP"
+    uses: web-service
+    overrides:
+      - CS:php
+      - DB:mysql
+      - DOP:apache
+  
+  jamstack:
+    description: "JavaScript, APIs, Markup"
+    uses: frontend-web
+    overrides:
+      - FE:static-site
+      - DOP:cdn
+      - CS:javascript

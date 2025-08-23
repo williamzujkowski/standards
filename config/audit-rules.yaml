@@ -1,0 +1,24 @@
+version: 1
+
+# Exclude system scaffolding from orphan/structure checks.
+orphans:
+  exclude:
+    # Agents
+    - ".claude/**"
+    - "subagents/**"
+    # Memory
+    - "memory/**"
+    # Prompts
+    - "prompts/**"
+
+  # Optional: keep this if you want other infra excluded from orphan math
+    - "reports/generated/**"
+    - ".vscode/**"
+  # - "catalogs/**"
+  # - "profiles/**"
+
+  # Example of “must be hub-linked” rule (keep if you already use it)
+  require_link_from:
+    - pattern: "docs/standards/**"
+      hubs:
+        - "docs/standards/UNIFIED_STANDARDS.md"

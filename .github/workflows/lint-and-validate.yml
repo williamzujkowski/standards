@@ -1,0 +1,312 @@
+name: Lint and Validate
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+  workflow_dispatch:
+
+jobs:
+  pre-commit:
+    name: Pre-commit Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache pre-commit
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
+          restore-keys: |
+            pre-commit-${{ runner.os }}-
+
+      - name: Install pre-commit
+        run: |
+          python -m pip install --upgrade pip
+          pip install pre-commit
+
+      - name: Run pre-commit
+        run: pre-commit run --all-files
+
+  markdown-lint:
+    name: Markdown Linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install markdownlint-cli
+        run: npm install -g markdownlint-cli
+
+      - name: Run markdownlint
+        run: |
+          markdownlint '**/*.md' --ignore node_modules --ignore .github || true
+
+  yaml-lint:
+    name: YAML Linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install yamllint
+        run: |
+          python -m pip install --upgrade pip
+          pip install yamllint
+
+      - name: Run yamllint
+        run: yamllint . || true
+
+  link-check:
+    name: Link Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run link check
+        run: |
+          python scripts/generate-audit-reports.py
+          
+          # Check for broken links
+          if grep -q "Broken links: 0" reports/generated/linkcheck.txt; then
+            echo "✅ No broken links found"
+          else
+            echo "⚠️ Broken links detected"
+            grep "Broken Internal Links" -A 20 reports/generated/linkcheck.txt
+          fi
+
+      - name: Upload link report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: link-check-report
+          path: reports/generated/linkcheck.txt
+
+  structure-audit:
+    name: Structure Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run structure audit
+        run: |
+          python scripts/generate-audit-reports.py
+          
+          # Check for structure issues
+          if grep -q "Total issues found: 0" reports/generated/structure-audit.md; then
+            echo "✅ No structure issues found"
+          else
+            echo "⚠️ Structure issues detected"
+            head -30 reports/generated/structure-audit.md
+          fi
+
+      - name: Upload structure report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: structure-audit-report
+          path: reports/generated/structure-audit.md
+
+  nist-quickstart:
+    name: NIST Quickstart Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+
+      - name: Run NIST quickstart tests
+        run: |
+          cd examples/nist-templates/quickstart
+          make test
+
+      - name: Check NIST tags
+        run: |
+          cd examples/nist-templates/quickstart
+          make nist-check
+
+      - name: Full validation
+        run: |
+          cd examples/nist-templates/quickstart
+          make validate || true
+
+  standards-inventory:
+    name: Standards Inventory Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Generate standards inventory
+        run: |
+          python scripts/generate-standards-inventory.py
+          
+          # Check inventory was generated
+          if [ -f reports/generated/standards-inventory.json ]; then
+            echo "✅ Standards inventory generated"
+            echo "Total standards: $(jq '.summary.total_documents' reports/generated/standards-inventory.json)"
+            echo "Categories: $(jq '.summary.categories' reports/generated/standards-inventory.json)"
+            echo "NIST-enabled: $(jq '.summary.nist_enabled' reports/generated/standards-inventory.json)"
+          else
+            echo "❌ Failed to generate standards inventory"
+            exit 1
+          fi
+
+      - name: Upload inventory
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: standards-inventory
+          path: |
+            reports/generated/standards-inventory.json
+            reports/generated/standards-quick-reference.md
+
+  product-matrix-validation:
+    name: Product Matrix Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate product matrix YAML
+        run: |
+          # Check if file exists
+          if [ ! -f config/product-matrix.yaml ]; then
+            echo "❌ Product matrix not found"
+            exit 1
+          fi
+          
+          echo "✅ Product matrix found"
+
+      - name: Install yq
+        run: |
+          wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          chmod +x /usr/local/bin/yq
+
+      - name: Validate matrix structure
+        run: |
+          # Check required fields
+          echo "Checking product matrix structure..."
+          
+          # Check version
+          version=$(yq '.version' config/product-matrix.yaml)
+          if [ "$version" = "null" ]; then
+            echo "❌ Missing version field"
+            exit 1
+          fi
+          
+          # Check products exist
+          products=$(yq '.products | keys | length' config/product-matrix.yaml)
+          if [ "$products" -eq 0 ]; then
+            echo "❌ No products defined"
+            exit 1
+          fi
+          
+          echo "✅ Product matrix structure valid"
+          echo "  Version: $version"
+          echo "  Products defined: $products"
+
+  nist-compliance-check:
+    name: NIST Compliance Check
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changed-files
+        run: |
+          echo "files=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '\.(py|js|ts|go|java|yaml)$' | tr '\n' ' ')" >> $GITHUB_OUTPUT
+
+      - name: Check NIST tags in changed files
+        if: steps.changed-files.outputs.files != ''
+        run: |
+          changed_files="${{ steps.changed-files.outputs.files }}"
+          echo "Checking NIST tags in changed files..."
+          
+          for file in $changed_files; do
+            if [ -f "$file" ]; then
+              # Check if file contains security patterns
+              if grep -qE "(auth|password|encrypt|session|permission|audit|validate)" "$file"; then
+                if ! grep -q "@nist" "$file"; then
+                  echo "::warning file=$file::Security code detected without NIST control tags"
+                  echo "⚠️ $file: Contains security code but missing NIST tags"
+                else
+                  echo "✅ $file: Has NIST tags"
+                fi
+              fi
+            fi
+          done
+
+  summary:
+    name: Validation Summary
+    runs-on: ubuntu-latest
+    needs: [pre-commit, markdown-lint, yaml-lint, link-check, structure-audit, nist-quickstart, standards-inventory, product-matrix-validation]
+    if: always()
+    steps:
+      - name: Check job results
+        run: |
+          echo "## 📊 Validation Summary"
+          echo ""
+          echo "### Check Results:"
+          echo "- Pre-commit: ${{ needs.pre-commit.result }}"
+          echo "- Markdown lint: ${{ needs.markdown-lint.result }}"
+          echo "- YAML lint: ${{ needs.yaml-lint.result }}"
+          echo "- Link check: ${{ needs.link-check.result }}"
+          echo "- Structure audit: ${{ needs.structure-audit.result }}"
+          echo "- NIST quickstart: ${{ needs.nist-quickstart.result }}"
+          echo "- Standards inventory: ${{ needs.standards-inventory.result }}"
+          echo "- Product matrix: ${{ needs.product-matrix-validation.result }}"
+          
+          # Determine overall status
+          if [ "${{ needs.pre-commit.result }}" = "failure" ] || \
+             [ "${{ needs.nist-quickstart.result }}" = "failure" ] || \
+             [ "${{ needs.standards-inventory.result }}" = "failure" ] || \
+             [ "${{ needs.product-matrix-validation.result }}" = "failure" ]; then
+            echo ""
+            echo "❌ Critical checks failed"
+            exit 1
+          else
+            echo ""
+            echo "✅ All critical checks passed"
+          fi

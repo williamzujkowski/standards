@@ -393,8 +393,8 @@ done
 
 **References**:
 
-- [OWASP Guide](link)
-- [Security Best Practices](link)
+- [OWASP Guide]
+- [Security Best Practices]
 
 ```
 

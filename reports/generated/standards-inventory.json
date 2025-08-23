@@ -1,0 +1,1003 @@
+{
+  "summary": {
+    "total_documents": 46,
+    "categories": 37,
+    "nist_enabled": 3,
+    "unique_tags": [
+      "agile",
+      "ai",
+      "api",
+      "auth",
+      "cicd",
+      "compliance",
+      "containers",
+      "data",
+      "encryption",
+      "frontend",
+      "gdpr",
+      "graphql",
+      "infrastructure",
+      "javascript",
+      "k8s",
+      "management",
+      "ml",
+      "nist",
+      "observability",
+      "privacy",
+      "python",
+      "react",
+      "rest",
+      "security",
+      "testing",
+      "typescript"
+    ],
+    "generation_timestamp": "2025-08-23T00:00:00Z"
+  },
+  "standards": [
+    {
+      "id": "adoption-checklist",
+      "slug": "adoption_checklist",
+      "code": "ADO",
+      "title": "Standards Adoption Checklist",
+      "path": "docs/guides/ADOPTION_CHECKLIST.md",
+      "tags": [
+        "ai",
+        "api",
+        "cicd",
+        "observability"
+      ],
+      "description": "Use this checklist to systematically adopt the comprehensive development standards in your project.",
+      "related": [
+        "NIST-IG"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "annotation-framework",
+      "slug": "annotation_framework",
+      "code": "ANN",
+      "title": "NIST Annotation Framework",
+      "path": "standards/compliance/ANNOTATION_FRAMEWORK.md",
+      "tags": [
+        "ai",
+        "auth",
+        "cicd",
+        "compliance",
+        "javascript",
+        "ml",
+        "python",
+        "typescript"
+      ],
+      "description": "A multi-language parser framework for extracting NIST 800-53r5 control annotations from source code.",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "claude",
+      "slug": "claude",
+      "code": "CLA",
+      "title": "Claude Code Configuration - SPARC Development Environment",
+      "path": "CLAUDE.md",
+      "tags": [
+        "ai",
+        "api",
+        "ml",
+        "observability"
+      ],
+      "description": "",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "cloud-native-standards",
+      "slug": "cloud_native_standards",
+      "code": "CN",
+      "title": "Cloud-Native and Container Standards",
+      "path": "docs/standards/CLOUD_NATIVE_STANDARDS.md",
+      "tags": [
+        "ai",
+        "cicd",
+        "containers",
+        "infrastructure",
+        "k8s",
+        "ml",
+        "observability"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "nist-code-review-prompt",
+      "slug": "code-review-prompt",
+      "code": "COD",
+      "title": "NIST Code Review Prompt",
+      "path": "prompts/nist-compliance/code-review-prompt.md",
+      "tags": [
+        "ai",
+        "auth",
+        "compliance",
+        "nist",
+        "observability",
+        "python",
+        "rest"
+      ],
+      "description": "",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "compliance-standards",
+      "slug": "compliance_standards",
+      "code": "COMP",
+      "title": "Compliance Standards",
+      "path": "docs/standards/COMPLIANCE_STANDARDS.md",
+      "tags": [
+        "ai",
+        "auth",
+        "compliance",
+        "encryption",
+        "javascript",
+        "ml",
+        "observability",
+        "python",
+        "rest",
+        "typescript"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** 2025-01-18",
+      "related": [
+        "CS",
+        "NIST-IG",
+        "SEC",
+        "TS",
+        "UNIFIED"
+      ],
+      "nist_controls": [
+        "AC-2"
+      ]
+    },
+    {
+      "id": "nist-control-suggestion-prompt",
+      "slug": "control-suggestion-prompt",
+      "code": "CON",
+      "title": "NIST Control Suggestion Prompt",
+      "path": "prompts/nist-compliance/control-suggestion-prompt.md",
+      "tags": [
+        "ai",
+        "auth",
+        "compliance",
+        "encryption",
+        "javascript",
+        "nist",
+        "observability",
+        "python",
+        "rest",
+        "typescript"
+      ],
+      "description": "",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "content-standards",
+      "slug": "content_standards",
+      "code": "CONT",
+      "title": "Content Standards",
+      "path": "docs/standards/CONTENT_STANDARDS.md",
+      "tags": [
+        "ai",
+        "ml",
+        "typescript"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "cost-optimization-standards",
+      "slug": "cost_optimization_standards",
+      "code": "COST",
+      "title": "Cost Optimization and FinOps Standards",
+      "path": "docs/standards/COST_OPTIMIZATION_STANDARDS.md",
+      "tags": [
+        "ai",
+        "ml",
+        "observability",
+        "python"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "coding-standards",
+      "slug": "coding_standards",
+      "code": "CS",
+      "title": "Comprehensive Coding Standards for LLM Projects",
+      "path": "docs/standards/CODING_STANDARDS.md",
+      "tags": [
+        "ai",
+        "api",
+        "cicd",
+        "javascript",
+        "python"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** 2025-01-13",
+      "related": [
+        "COMP",
+        "CREATING_GUIDE",
+        "KM",
+        "MCP",
+        "NIST-IG"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "database-standards",
+      "slug": "database_standards",
+      "code": "DB",
+      "title": "Database Standards",
+      "path": "docs/standards/DATABASE_STANDARDS.md",
+      "tags": [
+        "ai",
+        "data",
+        "encryption",
+        "javascript",
+        "observability"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** 2025-01-20",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "data-engineering-standards",
+      "slug": "data_engineering_standards",
+      "code": "DE",
+      "title": "Data Engineering Standards",
+      "path": "docs/standards/DATA_ENGINEERING_STANDARDS.md",
+      "tags": [
+        "ai",
+        "api",
+        "data",
+        "gdpr",
+        "ml",
+        "observability",
+        "privacy",
+        "python",
+        "rest"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "devops-platform-standards",
+      "slug": "devops_platform_standards",
+      "code": "DOP",
+      "title": "DevOps and Platform Engineering Standards",
+      "path": "docs/standards/DEVOPS_PLATFORM_STANDARDS.md",
+      "tags": [
+        "ai",
+        "cicd",
+        "encryption",
+        "infrastructure",
+        "ml",
+        "observability",
+        "rest"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "event-driven-standards",
+      "slug": "event_driven_standards",
+      "code": "EVT",
+      "title": "Event-Driven Architecture Standards",
+      "path": "docs/standards/EVENT_DRIVEN_STANDARDS.md",
+      "tags": [
+        "ai",
+        "ml",
+        "observability",
+        "typescript"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
+      "related": [
+        "CS",
+        "DE",
+        "MCP",
+        "OBS"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "frontend-mobile-standards",
+      "slug": "frontend_mobile_standards",
+      "code": "FE",
+      "title": "Frontend and Mobile Development Standards",
+      "path": "docs/standards/FRONTEND_MOBILE_STANDARDS.md",
+      "tags": [
+        "ai",
+        "api",
+        "cicd",
+        "frontend",
+        "ml",
+        "react",
+        "typescript"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "nist-gap-analysis-prompt",
+      "slug": "gap-analysis-prompt",
+      "code": "GAP",
+      "title": "NIST Gap Analysis Prompt",
+      "path": "prompts/nist-compliance/gap-analysis-prompt.md",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "compliance",
+        "k8s",
+        "nist",
+        "observability",
+        "rest"
+      ],
+      "description": "",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "github-platform-standards",
+      "slug": "github_platform_standards",
+      "code": "GH",
+      "title": "GitHub Platform Standards",
+      "path": "docs/standards/GITHUB_PLATFORM_STANDARDS.md",
+      "tags": [
+        "ai",
+        "cicd",
+        "ml",
+        "rest"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "nist-implement-800-53",
+      "slug": "implement_800-53",
+      "code": "IMP",
+      "title": "NIST 800-53r5 OSCAL-Native Implementation Plan",
+      "path": "docs/nist/implement_800-53.md",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "compliance",
+        "encryption",
+        "ml",
+        "nist",
+        "observability",
+        "privacy",
+        "typescript"
+      ],
+      "description": "",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "nist-implementation-guide-prompt",
+      "slug": "implementation-guide-prompt",
+      "code": "IMP",
+      "title": "NIST Implementation Guide Prompt",
+      "path": "prompts/nist-compliance/implementation-guide-prompt.md",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "compliance",
+        "encryption",
+        "k8s",
+        "nist",
+        "observability",
+        "python",
+        "rest"
+      ],
+      "description": "",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "implementation-summary",
+      "slug": "implementation_summary",
+      "code": "IMP",
+      "title": "NIST 800-53r5 OSCAL-Native Compliance Platform - Implementation Summary",
+      "path": "standards/compliance/IMPLEMENTATION_SUMMARY.md",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "compliance",
+        "encryption",
+        "graphql",
+        "ml",
+        "observability",
+        "python",
+        "react",
+        "rest",
+        "typescript"
+      ],
+      "description": "",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "kickstart-advanced",
+      "slug": "kickstart_advanced",
+      "code": "KIC",
+      "title": "Advanced Kickstart Guide",
+      "path": "docs/guides/KICKSTART_ADVANCED.md",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "cicd",
+        "gdpr",
+        "graphql",
+        "javascript",
+        "k8s",
+        "ml",
+        "observability",
+        "python",
+        "react",
+        "rest",
+        "typescript"
+      ],
+      "description": "",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "kickstart-prompt",
+      "slug": "kickstart_prompt",
+      "code": "KIC",
+      "title": "Universal Project Kickstart Prompt",
+      "path": "docs/guides/KICKSTART_PROMPT.md",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "cicd",
+        "containers",
+        "ml",
+        "observability",
+        "privacy"
+      ],
+      "description": "Copy this prompt into any web-based LLM chat (ChatGPT, Claude, Gemini, etc.) along with your project_plan.md content. ---",
+      "related": [
+        "CREATING_GUIDE",
+        "NIST-IG"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "knowledge-management-standards",
+      "slug": "knowledge_management_standards",
+      "code": "KM",
+      "title": "Knowledge Management Standards",
+      "path": "docs/standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md",
+      "tags": [
+        "ai",
+        "cicd",
+        "management",
+        "ml"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
+      "related": [
+        "CONT",
+        "CREATING_GUIDE",
+        "MCP"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "legal-compliance-standards",
+      "slug": "legal_compliance_standards",
+      "code": "LEG",
+      "title": "Legal Compliance Standards",
+      "path": "docs/standards/LEGAL_COMPLIANCE_STANDARDS.md",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "compliance",
+        "encryption",
+        "ml",
+        "observability",
+        "privacy",
+        "rest"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "model-context-protocol-standards",
+      "slug": "model_context_protocol_standards",
+      "code": "MCP",
+      "title": "Model Context Protocol Standards",
+      "path": "docs/standards/MODEL_CONTEXT_PROTOCOL_STANDARDS.md",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "ml",
+        "observability",
+        "privacy",
+        "python",
+        "typescript"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** 2025-07-02",
+      "related": [
+        "CS",
+        "EVT",
+        "KM",
+        "SEC",
+        "TS"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "ml-ai-standards",
+      "slug": "ml_ai_standards",
+      "code": "MLAI",
+      "title": "ML/AI Standards",
+      "path": "docs/standards/ML_AI_STANDARDS.md",
+      "tags": [
+        "ai",
+        "api",
+        "ml",
+        "observability",
+        "python",
+        "rest"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
+      "related": [
+        "CN",
+        "CS",
+        "DB",
+        "DE",
+        "OBS",
+        "SEC",
+        "TS"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "microservices-standards",
+      "slug": "microservices_standards",
+      "code": "MS",
+      "title": "Microservices Architecture Standards",
+      "path": "docs/standards/MICROSERVICES_STANDARDS.md",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "ml",
+        "observability",
+        "rest"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
+      "related": [
+        "CN",
+        "CS",
+        "DB",
+        "EVT",
+        "OBS",
+        "SEC",
+        "TS"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "nist-nist-quick-context",
+      "slug": "nist_quick_context",
+      "code": "NIS",
+      "title": "NIST Compliance Implementation - Quick Context Recovery",
+      "path": "docs/nist/NIST_QUICK_CONTEXT.md",
+      "tags": [
+        "auth",
+        "cicd",
+        "compliance",
+        "nist",
+        "typescript"
+      ],
+      "description": "",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "nist-nist-quick-reference",
+      "slug": "nist_quick_reference",
+      "code": "NIS",
+      "title": "NIST Compliance Quick Reference",
+      "path": "docs/nist/NIST_QUICK_REFERENCE.md",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "cicd",
+        "compliance",
+        "encryption",
+        "ml",
+        "nist",
+        "observability",
+        "python"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** 2025-01-18",
+      "related": [
+        "COMP",
+        "NIST-IG"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "nist-nist-tagging-proposal",
+      "slug": "nist_tagging_proposal",
+      "code": "NIS",
+      "title": "NIST 800-53r5 Automatic Control Tagging Proposal",
+      "path": "docs/nist/NIST_TAGGING_PROPOSAL.md",
+      "tags": [
+        "ai",
+        "auth",
+        "cicd",
+        "compliance",
+        "encryption",
+        "ml",
+        "nist",
+        "observability",
+        "typescript"
+      ],
+      "description": "",
+      "related": [],
+      "nist_controls": [
+        "AC-12",
+        "AC-2",
+        "AC-3"
+      ]
+    },
+    {
+      "id": "nist-nist-prompt-library",
+      "slug": "nist_prompt_library",
+      "code": "NIS",
+      "title": "NIST Compliance LLM Prompt Library",
+      "path": "prompts/nist-compliance/NIST_PROMPT_LIBRARY.md",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "compliance",
+        "encryption",
+        "nist",
+        "observability"
+      ],
+      "description": "A comprehensive collection of prompts for LLMs to assist with NIST 800-53r5 compliance implementation.",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "nist-nist-implementation-guide",
+      "slug": "nist_implementation_guide",
+      "code": "NIST-IG",
+      "title": "NIST 800-53r5 Control Tagging Implementation Guide",
+      "path": "docs/nist/NIST_IMPLEMENTATION_GUIDE.md",
+      "tags": [
+        "ai",
+        "auth",
+        "cicd",
+        "compliance",
+        "encryption",
+        "javascript",
+        "ml",
+        "nist",
+        "observability",
+        "python",
+        "typescript"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** 2025-01-18",
+      "related": [
+        "COMP",
+        "CS",
+        "PM",
+        "SEC",
+        "STANDARDS_INDEX",
+        "UNIFIED"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "observability-standards",
+      "slug": "observability_standards",
+      "code": "OBS",
+      "title": "Observability and Monitoring Standards",
+      "path": "docs/standards/OBSERVABILITY_STANDARDS.md",
+      "tags": [
+        "ai",
+        "ml",
+        "observability",
+        "python"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "project-management-standards",
+      "slug": "project_management_standards",
+      "code": "PM",
+      "title": "Project Management Standards",
+      "path": "docs/standards/PROJECT_MANAGEMENT_STANDARDS.md",
+      "tags": [
+        "agile",
+        "ai",
+        "management",
+        "ml",
+        "observability"
+      ],
+      "description": "**Version:** 2.0.0 **Last Updated:** January 2025",
+      "related": [
+        "NIST-IG"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "nist-readme",
+      "slug": "readme",
+      "code": "REA",
+      "title": "NIST-Tagged Security Templates",
+      "path": "examples/nist-templates/README.md",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "compliance",
+        "nist",
+        "observability",
+        "python",
+        "typescript"
+      ],
+      "description": "Pre-built security components with NIST 800-53r5 control tags already applied. Use these templates as starting points for secure implementations.",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "nist-readme",
+      "slug": "readme",
+      "code": "REA",
+      "title": "NIST Compliance LLM Prompts",
+      "path": "prompts/nist-compliance/README.md",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "cicd",
+        "compliance",
+        "javascript",
+        "ml",
+        "nist",
+        "observability",
+        "python",
+        "react"
+      ],
+      "description": "A collection of battle-tested prompts for leveraging LLMs in NIST 800-53r5 compliance implementation.",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "readme",
+      "slug": "readme",
+      "code": "REA",
+      "title": "NIST 800-53r5 OSCAL-Native Compliance Platform",
+      "path": "standards/compliance/README.md",
+      "tags": [
+        "ai",
+        "cicd",
+        "compliance",
+        "ml",
+        "observability",
+        "typescript"
+      ],
+      "description": "",
+      "related": [
+        "CREATING_GUIDE",
+        "KM"
+      ],
+      "nist_controls": [
+        "AU-2"
+      ]
+    },
+    {
+      "id": "modern-security-standards",
+      "slug": "modern_security_standards",
+      "code": "SEC",
+      "title": "Modern Security Standards",
+      "path": "docs/standards/MODERN_SECURITY_STANDARDS.md",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "cicd",
+        "k8s",
+        "ml",
+        "observability",
+        "security"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
+      "related": [
+        "COMP",
+        "CS",
+        "MCP",
+        "NIST-IG",
+        "TS"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "seo-web-marketing-standards",
+      "slug": "seo_web_marketing_standards",
+      "code": "SEO",
+      "title": "SEO & Web Marketing Standards",
+      "path": "docs/standards/SEO_WEB_MARKETING_STANDARDS.md",
+      "tags": [
+        "ai",
+        "api",
+        "ml"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "standards-graph",
+      "slug": "standards_graph",
+      "code": "STA",
+      "title": "Standards Relationship Graph",
+      "path": "docs/guides/STANDARDS_GRAPH.md",
+      "tags": [
+        "agile",
+        "ai",
+        "api",
+        "containers",
+        "encryption",
+        "javascript",
+        "k8s",
+        "observability",
+        "privacy",
+        "python",
+        "react"
+      ],
+      "description": "",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "standards-index",
+      "slug": "standards_index",
+      "code": "STA",
+      "title": "Standards Quick Reference Index",
+      "path": "docs/guides/STANDARDS_INDEX.md",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "k8s",
+        "ml",
+        "react"
+      ],
+      "description": "**Auto-generated from actual standards files for instant LLM access** *Last Updated: January 2025*",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "toolchain-standards",
+      "slug": "toolchain_standards",
+      "code": "TOOL",
+      "title": "Toolchain Standards",
+      "path": "docs/standards/TOOLCHAIN_STANDARDS.md",
+      "tags": [
+        "ai",
+        "containers",
+        "javascript",
+        "k8s",
+        "ml",
+        "python",
+        "react",
+        "typescript"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** 2025-01-13",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "testing-standards",
+      "slug": "testing_standards",
+      "code": "TS",
+      "title": "Comprehensive Testing Manifesto for LLM Coding Projects",
+      "path": "docs/standards/TESTING_STANDARDS.md",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "python",
+        "testing"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** 2025-01-13",
+      "related": [
+        "COMP",
+        "CREATING_GUIDE",
+        "KM",
+        "MCP"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "unified-standards",
+      "slug": "unified_standards",
+      "code": "UNIFIED",
+      "title": "Unified Software Development Standards",
+      "path": "docs/standards/UNIFIED_STANDARDS.md",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "cicd",
+        "javascript",
+        "ml",
+        "observability",
+        "python"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
+      "related": [
+        "COMP",
+        "NIST-IG"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "validation-patterns",
+      "slug": "validation_patterns",
+      "code": "VAL",
+      "title": "Interactive Validation Patterns",
+      "path": "docs/guides/VALIDATION_PATTERNS.md",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "cicd",
+        "python",
+        "react",
+        "typescript"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** 2025-01-13",
+      "related": [],
+      "nist_controls": []
+    },
+    {
+      "id": "web-design-ux-standards",
+      "slug": "web_design_ux_standards",
+      "code": "WD",
+      "title": "Web Design and UX Standards",
+      "path": "docs/standards/WEB_DESIGN_UX_STANDARDS.md",
+      "tags": [
+        "ai",
+        "ml",
+        "typescript"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
+      "related": [],
+      "nist_controls": []
+    }
+  ]
+}

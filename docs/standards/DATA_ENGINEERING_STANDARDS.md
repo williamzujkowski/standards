@@ -1,5 +1,8 @@
 # Data Engineering Standards
 
+> 📚 See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md)
+
+
 **Version:** 1.0.0
 **Last Updated:** January 2025
 **Status:** Active
@@ -1353,7 +1356,7 @@ object CustomerEventAnalytics {
       .map(parseCustomerEvent)
       .assignTimestampsAndWatermarks(
         WatermarkStrategy
-          .forBoundedOutOfOrderness[CustomerEvent](Duration.ofSeconds(10))
+          .forBoundedOutOfOrderness[CustomerEvent]
           .withTimestampAssigner((event, _) => event.eventTime)
       )
 

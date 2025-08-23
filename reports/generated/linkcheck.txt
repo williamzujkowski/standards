@@ -1,0 +1,74 @@
+# Link Check Report
+
+Generated: 2025-08-23
+
+
+## Broken Internal Links (4 found)
+
+- **docs/standards/MODERN_SECURITY_STANDARDS.md**: ["\']([a-zA-Z0-9]{20,})
+- **docs/standards/MODERN_SECURITY_STANDARDS.md**: ["\']([^"\']{8,})
+- **docs/standards/MODERN_SECURITY_STANDARDS.md**: ["\']([a-zA-Z0-9]{20,})
+- **docs/standards/MODERN_SECURITY_STANDARDS.md**: ["\']([a-zA-Z0-9]{20,})
+
+## External Links (65 found)
+
+
+### 12factor.net (1 links)
+- docs/standards/MICROSERVICES_STANDARDS.md: [The Twelve-Factor App](https://12factor.net/)
+
+### csrc.nist.gov (3 links)
+- examples/nist-templates/quickstart/README.md: [NIST 800-53r5 Controls](https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final)
+- prompts/nist-compliance/VALIDATION_RUN.md: [NIST 800-53r5 Controls](https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final)
+- prompts/nist-compliance/README.md: [NIST 800-53r5 Official Documentation](https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final)
+
+### docs.github.com (1 links)
+- docs/core/GITHUB_WORKFLOWS.md: [GitHub Actions Documentation](https://docs.github.com/en/actions)
+
+### github.com (23 links)
+- README.md: [![Compliance](https://github.com/williamzujkowski/standards/actions/workflows/standards-compliance.yml/badge.svg)
+- badges/standards-compliance-template.md: [Comprehensive Software Development Standards](https://github.com/williamzujkowski/standards)
+- badges/standards-compliance-template.md: [Standards Compliance Tool](https://github.com/williamzujkowski/standards)
+- badges/README.md: [Comprehensive Software Development Standards](https://github.com/williamzujkowski/standards)
+- .claude/agents/github/release-swarm.md: [release notes](https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }})
+- ... and 18 more
+
+### img.shields.io (28 links)
+- README.md: [![Version](https://img.shields.io/badge/version-latest-blue.svg)
+- README.md: [![Standards](https://img.shields.io/badge/standards-24%20documents-green.svg)
+- README.md: [![License](https://img.shields.io/badge/license-MIT-purple.svg)
+- README.md: [![NIST](https://img.shields.io/badge/NIST%20800--53r5-Compliant-brightgreen.svg)
+- badges/README.md: [![Standards](https://img.shields.io/badge/standards-v2.0.0-blue.svg)
+- ... and 23 more
+
+### keepachangelog.com (1 links)
+- CHANGELOG.md: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
+
+### microservices.io (1 links)
+- docs/standards/MICROSERVICES_STANDARDS.md: [Microservices Patterns](https://microservices.io/patterns/)
+
+### modelcontextprotocol.io (1 links)
+- docs/standards/MODEL_CONTEXT_PROTOCOL_STANDARDS.md: [Model Context Protocol Specification](https://modelcontextprotocol.io)
+
+### pages.nist.gov (1 links)
+- prompts/nist-compliance/README.md: [OSCAL Documentation](https://pages.nist.gov/OSCAL/)
+
+### semver.org (1 links)
+- CHANGELOG.md: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
+
+### www.conventionalcommits.org (1 links)
+- docs/standards/GITHUB_PLATFORM_STANDARDS.md: [Conventional Commits](https://www.conventionalcommits.org/)
+
+### www.domainlanguage.com (1 links)
+- docs/standards/MICROSERVICES_STANDARDS.md: [Domain-Driven Design](https://www.domainlanguage.com/ddd/)
+
+### www.nist.gov (1 links)
+- docs/standards/MICROSERVICES_STANDARDS.md: [NIST Microservices Guide](https://www.nist.gov/publications/microservices-guide)
+
+### www.oreilly.com (1 links)
+- docs/standards/MICROSERVICES_STANDARDS.md: [Building Microservices](https://www.oreilly.com/library/view/building-microservices-2nd/9781492034018/)
+
+## Summary
+
+- Files checked: 255
+- Broken links: 4
+- External links: 65
