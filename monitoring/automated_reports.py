@@ -509,8 +509,10 @@ EXECUTIVE SUMMARY
                     alerts.append(
                         {
                             "level": "critical",
-                            "message": (f"High error rate detected: {error_rate:.1f}% "
-                                      f"(threshold: {thresholds['error_rate']}%)"),
+                            "message": (
+                                f"High error rate detected: {error_rate:.1f}% "
+                                f"(threshold: {thresholds['error_rate']}%)"
+                            ),
                             "metric": "error_rate",
                             "value": error_rate,
                         }
