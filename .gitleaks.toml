@@ -13,6 +13,7 @@ paths = [
     '''build''',
     '''venv''',
     '''\.vscode''',
+    '''\.secrets\.baseline''',
 ]
 
 # Specific patterns to ignore
