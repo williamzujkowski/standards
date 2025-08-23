@@ -249,8 +249,7 @@ Issue: Missing error handling
 ### Human-Readable
 ```
 
-Code Standards Validation Report
-================================
+# Code Standards Validation Report
 
 ✅ Style: Compliant
 ❌ Security: 2 critical issues
