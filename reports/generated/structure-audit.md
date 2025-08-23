@@ -4,15 +4,14 @@ Generated: 2025-08-23
 
 ## Summary
 
-Total issues found: 60
+Total issues found: 63
 
 
-## Orphaned Files (2)
+## Orphaned Files (0)
 
 Files not linked from any other document:
 
-- project_plan.md
-- standards/compliance/IMPLEMENTATION_SUMMARY.md
+✅ No orphaned files found
 
 ## Missing Cross-References (0)
 
@@ -24,7 +23,7 @@ Standards documents not referencing UNIFIED_STANDARDS.md:
 
 ✅ All filenames follow conventions
 
-## Directories Missing README (10)
+## Directories Missing README (15)
 
 - .vscode/
 - .git/
@@ -33,9 +32,14 @@ Standards documents not referencing UNIFIED_STANDARDS.md:
 - .swarm/
 - .claude/
 - .claude-flow/
-- .hive-mind/sessions/
 - reports/generated/
-- .claude-flow/metrics/
+- examples/nist-templates/quickstart/.swarm/
+- examples/nist-templates/quickstart/.benchmarks/
+- examples/nist-templates/quickstart/.claude-flow/
+- examples/nist-templates/quickstart/__pycache__/
+- examples/nist-templates/quickstart/.pytest_cache/v/
+- examples/nist-templates/quickstart/.claude-flow/metrics/
+- examples/nist-templates/quickstart/.pytest_cache/v/cache/
 
 ## Structure Violations (0)
 

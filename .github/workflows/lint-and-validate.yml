@@ -5,6 +5,8 @@ on:
     branches: [main, master, develop]
   pull_request:
     branches: [main, master, develop]
+  schedule:
+    - cron: "17 5 * * 1"  # UTC; POSIX cron - every Monday 05:17 UTC
   workflow_dispatch:
 
 jobs:
@@ -186,15 +188,13 @@ jobs:
           ok = True
           if broken > 0:
               print(f"❌ broken_links={broken} > 0"); ok = False
-          # Hub violations are false positives from AUTO-LINKS sections
-          # TODO: Fix audit script to recognize AUTO-LINKS
           if hubs > 0:
-              print(f"⚠️ hub_violations={hubs} (false positives from AUTO-LINKS - ignored)")
+              print(f"❌ hub_violations={hubs} > 0"); ok = False
           if orphans > limit:
               print(f"❌ orphans={orphans} > {limit}"); ok = False
           if not ok:
               sys.exit(1)
-          print(f"✅ audit gates satisfied (broken={broken}, hubs={hubs} [ignored], orphans={orphans} ≤ {limit})")
+          print(f"✅ audit gates satisfied (broken={broken}, hubs={hubs}, orphans={orphans} ≤ {limit})")
           PY
 
       - name: Upload audit artifacts

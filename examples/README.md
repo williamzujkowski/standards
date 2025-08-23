@@ -164,6 +164,7 @@ When adding new examples:
 - [Readme](nist-templates/README.md)
 - [Readme](nist-templates/go/README.md)
 - [Readme](nist-templates/python/README.md)
+- [Readme](nist-templates/quickstart/.pytest_cache/README.md)
 - [Readme](nist-templates/quickstart/README.md)
 - [Readme](nist-templates/typescript/README.md)
 - [Readme](project-templates/README.md)

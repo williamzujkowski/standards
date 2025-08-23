@@ -7,7 +7,7 @@ Generated: 2025-08-23
 
 ✅ No broken internal links found!
 
-## External Links (34 found)
+## External Links (36 found)
 
 
 ### 12factor.net (1 links)
@@ -21,13 +21,16 @@ Generated: 2025-08-23
 ### docs.github.com (1 links)
 - docs/core/GITHUB_WORKFLOWS.md: [GitHub Actions Documentation](https://docs.github.com/en/actions)
 
-### github.com (17 links)
+### docs.pytest.org (1 links)
+- examples/nist-templates/quickstart/.pytest_cache/README.md: [the docs](https://docs.pytest.org/en/stable/how-to/cache.html)
+
+### github.com (18 links)
 - README.md: [![Compliance](https://github.com/williamzujkowski/standards/actions/workflows/standards-compliance.yml/badge.svg)
+- README.md: [![Audit Gates](https://github.com/williamzujkowski/standards/actions/workflows/lint-and-validate.yml/badge.svg)
 - badges/standards-compliance-template.md: [Comprehensive Software Development Standards](https://github.com/williamzujkowski/standards)
 - badges/standards-compliance-template.md: [Standards Compliance Tool](https://github.com/williamzujkowski/standards)
 - docs/guides/KICKSTART_PROMPT.md: [CREATING_STANDARDS_GUIDE.md](https://github.com/williamzujkowski/standards/blob/master/CREATING_STANDARDS_GUIDE.md)
-- docs/guides/KICKSTART_PROMPT.md: [NIST_IMPLEMENTATION_GUIDE.md](https://github.com/williamzujkowski/standards/blob/master/NIST_IMPLEMENTATION_GUIDE.md)
-- ... and 12 more
+- ... and 13 more
 
 ### img.shields.io (4 links)
 - README.md: [![Version](https://img.shields.io/badge/version-latest-blue.svg)
@@ -61,6 +64,6 @@ Generated: 2025-08-23
 
 ## Summary
 
-- Files checked: 255
+- Files checked: 256
 - Broken links: 0
-- External links: 34
+- External links: 36
