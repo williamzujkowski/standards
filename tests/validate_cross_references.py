@@ -309,7 +309,8 @@ class StandardsValidator:
 
             for match in re.finditer(link_pattern, content):
                 target_path = match.group(2).split("#")[0]  # Remove anchors
-                full_path = self.root / target_path
+                # Resolve relative to the file's directory
+                full_path = std_file.parent / target_path
 
                 if not full_path.exists():
                     broken_links.append(f"{std_file.name} -> {target_path}")

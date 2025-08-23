@@ -148,19 +148,19 @@ This document describes all GitHub integration modes available in Claude-Flow wi
 
 ## Usage Examples
 
-### Creating a coordinated pull request workflow:
+### Creating a coordinated pull request workflow
 
 ```bash
 /github pr-manager "Review and merge feature/new-integration branch with automated testing and multi-reviewer coordination"
 ```
 
-### Managing repository synchronization:
+### Managing repository synchronization
 
 ```bash
 /github sync-coordinator "Synchronize claude-code-flow and ruv-swarm packages, align versions, and update cross-dependencies"
 ```
 
-### Setting up automated issue tracking:
+### Setting up automated issue tracking
 
 ```bash
 /github issue-tracker "Create and manage integration issues with automated progress tracking and swarm coordination"
@@ -170,7 +170,7 @@ This document describes all GitHub integration modes available in Claude-Flow wi
 
 All GitHub modes support batch operations for maximum efficiency:
 
-### Parallel GitHub Operations Example:
+### Parallel GitHub Operations Example
 
 ```javascript
 [Single Message with BatchTool]:

@@ -4,8 +4,7 @@ Generated: 2025-08-23
 
 ## Summary
 
-Total issues found: 18
-
+Total issues found: 27
 
 ## Orphaned Files (0)
 
@@ -23,13 +22,18 @@ Standards documents not referencing UNIFIED_STANDARDS.md:
 
 ✅ All filenames follow conventions
 
-## Directories Missing README (18)
+## Directories Missing README (27)
 
 - .benchmarks/
+- .ruff_cache/
 - .pytest_cache/v/
 - scripts/.benchmarks/
 - scripts/tests/
 - scripts/__pycache__/
+- tests/.swarm/
+- tests/.claude-flow/
+- .ruff_cache/0.2.1/
+- .ruff_cache/0.11.13/
 - .pytest_cache/v/cache/
 - examples/nist-templates/quickstart/.swarm/
 - examples/nist-templates/quickstart/.benchmarks/
@@ -43,6 +47,10 @@ Standards documents not referencing UNIFIED_STANDARDS.md:
 - scripts/.pytest_cache/v/
 - scripts/tests/__pycache__/
 - scripts/.pytest_cache/v/cache/
+- docs/standards/.swarm/
+- docs/standards/.claude-flow/
+- docs/standards/.claude-flow/metrics/
+- tests/.claude-flow/metrics/
 
 ## Structure Violations (0)
 

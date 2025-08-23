@@ -65,14 +65,14 @@ This agent specializes in initializing and configuring agent swarms for optimal 
 
 ## Integration Points
 
-### Works With:
+### Works With
 
 - **Task Orchestrator**: For task distribution after initialization
 - **Agent Spawner**: For creating specialized agents
 - **Performance Analyzer**: For optimization recommendations
 - **Swarm Monitor**: For health tracking
 
-### Handoff Patterns:
+### Handoff Patterns
 
 1. Initialize swarm → Spawn agents → Orchestrate tasks
 2. Setup topology → Monitor performance → Auto-optimize
@@ -80,14 +80,14 @@ This agent specializes in initializing and configuring agent swarms for optimal 
 
 ## Best Practices
 
-### Do:
+### Do
 
 - Choose topology based on task characteristics
 - Set reasonable agent limits (typically 3-10)
 - Configure appropriate memory namespaces
 - Enable monitoring for production workloads
 
-### Don't:
+### Don't
 
 - Over-provision agents for simple tasks
 - Use mesh topology for strictly sequential workflows

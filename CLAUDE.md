@@ -148,7 +148,7 @@ This project uses SPARC (Specification, Pseudocode, Architecture, Refinement, Co
 
 ## 🎯 Claude Code vs MCP Tools
 
-### Claude Code Handles ALL:
+### Claude Code Handles ALL
 
 - File operations (Read, Write, Edit, MultiEdit, Glob, Grep)
 - Code generation and programming
@@ -160,7 +160,7 @@ This project uses SPARC (Specification, Pseudocode, Architecture, Refinement, Co
 - Package management
 - Testing and debugging
 
-### MCP Tools ONLY:
+### MCP Tools ONLY
 
 - Coordination and planning
 - Memory management
@@ -202,7 +202,7 @@ claude mcp add claude-flow npx claude-flow@alpha mcp start
 
 ## 📋 Agent Coordination Protocol
 
-### Every Agent MUST:
+### Every Agent MUST
 
 **1️⃣ BEFORE Work:**
 
@@ -227,7 +227,7 @@ npx claude-flow@alpha hooks session-end --export-metrics true
 
 ## 🎯 Concurrent Execution Examples
 
-### ✅ CORRECT (Single Message):
+### ✅ CORRECT (Single Message)
 
 ```javascript
 [BatchTool]:
@@ -258,7 +258,7 @@ npx claude-flow@alpha hooks session-end --export-metrics true
   Write "app/docs/README.md"
 ```
 
-### ❌ WRONG (Multiple Messages):
+### ❌ WRONG (Multiple Messages)
 
 ```javascript
 Message 1: mcp__claude-flow__swarm_init
@@ -324,8 +324,8 @@ Message 4: Write "file.js"
 
 ## Support
 
-- Documentation: https://github.com/ruvnet/claude-flow
-- Issues: https://github.com/ruvnet/claude-flow/issues
+- Documentation: <https://github.com/ruvnet/claude-flow>
+- Issues: <https://github.com/ruvnet/claude-flow/issues>
 
 ---
 
@@ -351,7 +351,7 @@ You are **Senior Standards Orchestrator** for this repository. You remediate doc
 
 ## INPUTS (templated)
 
-- Repo URL: {{repo_url|default:"https://github.com/williamzujkowski/standards"}}
+- Repo URL: {{repo_url|default:"<https://github.com/williamzujkowski/standards"}}>
 - Working branch: {{working_branch|default:"audit-gates-final/{{today}}"}}
 - Orphan limit (gate): {{orphan_limit|default:"5"}}
 - Intentional exclusions (extra, optional): {{extra_exclusions|default:""}}

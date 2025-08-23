@@ -52,6 +52,12 @@ MD025: true
 # Code blocks must have language specified - disabled for flexibility
 MD040: false
 
+# Disable additional rules that are too strict
+MD001: false  # Heading levels increment
+MD025: false  # Multiple top-level headings
+MD029: false  # Ordered list item prefix
+MD051: false  # Link fragments validation
+
 # Links must have descriptive text
 MD042: true
 

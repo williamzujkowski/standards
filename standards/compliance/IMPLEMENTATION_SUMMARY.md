@@ -2,7 +2,6 @@
 
 > 📚 See also: [Unified Software Development Standards](../../docs/standards/UNIFIED_STANDARDS.md)
 
-
 ## 🎯 Project Overview
 
 This implementation delivers the **world's first OSCAL-native compliance platform** with AI-powered semantic analysis for NIST 800-53r5 controls. The platform automatically maps repository standards to security controls, harvests compliance evidence, and generates OSCAL-compliant documentation.

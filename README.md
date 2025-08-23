@@ -265,7 +265,6 @@ Complete coverage of modern software development practices from coding to deploy
 
 ---
 
-
 ## 📚 Archived Reports
 
 Historical implementation and validation reports have been archived to `reports/generated/`:

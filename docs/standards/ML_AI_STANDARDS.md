@@ -1,7 +1,6 @@
 # ML/AI Standards
 
-> 📚 See also: [Unified Software Development Standards](./docs/standards/UNIFIED_STANDARDS.md)
-
+> 📚 See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md)
 
 **Version:** 1.0.0
 **Last Updated:** January 2025
@@ -435,25 +434,25 @@ def optimize_hyperparameters(objective_fn, n_trials=100):
 
 #### Data Engineering Standards
 
-- **[DATA_ENGINEERING_STANDARDS.md](./docs/standards/DATA_ENGINEERING_STANDARDS.md)** - Data pipeline design for ML workflows
+- **[DATA_ENGINEERING_STANDARDS.md](./DATA_ENGINEERING_STANDARDS.md)** - Data pipeline design for ML workflows
 - **Cross-reference**: Use DE:pipelines section for ML data pipeline architecture
 - **Integration**: Feature engineering and data quality standards for ML
 
 #### Cloud Native Standards
 
-- **[CLOUD_NATIVE_STANDARDS.md](./docs/standards/CLOUD_NATIVE_STANDARDS.md)** - Container orchestration for ML workloads
+- **[CLOUD_NATIVE_STANDARDS.md](./CLOUD_NATIVE_STANDARDS.md)** - Container orchestration for ML workloads
 - **Cross-reference**: Use CN:kubernetes section for ML model serving infrastructure
 - **Integration**: Scalable ML training and inference deployment patterns
 
 #### Security Standards
 
-- **[MODERN_SECURITY_STANDARDS.md](./docs/standards/MODERN_SECURITY_STANDARDS.md)** - ML model and data security
+- **[MODERN_SECURITY_STANDARDS.md](./MODERN_SECURITY_STANDARDS.md)** - ML model and data security
 - **Cross-reference**: Use SEC:encryption section for model and data protection
 - **Integration**: Privacy-preserving ML and secure model serving
 
 #### Observability Standards
 
-- **[OBSERVABILITY_STANDARDS.md](./docs/standards/OBSERVABILITY_STANDARDS.md)** - ML model monitoring and performance tracking
+- **[OBSERVABILITY_STANDARDS.md](./OBSERVABILITY_STANDARDS.md)** - ML model monitoring and performance tracking
 - **Cross-reference**: Use OBS:metrics section for ML performance monitoring setup
 - **Integration**: Model drift detection and ML operations dashboards
 
@@ -461,19 +460,19 @@ def optimize_hyperparameters(objective_fn, n_trials=100):
 
 #### Testing Standards
 
-- **[TESTING_STANDARDS.md](./docs/standards/TESTING_STANDARDS.md)** - ML model testing and validation
+- **[TESTING_STANDARDS.md](./TESTING_STANDARDS.md)** - ML model testing and validation
 - **Cross-reference**: Use TS:integration section for ML pipeline testing patterns
 - **Integration**: Model validation, A/B testing, and integration testing for ML
 
 #### Coding Standards
 
-- **[CODING_STANDARDS.md](./docs/standards/CODING_STANDARDS.md)** - ML code organization and quality
+- **[CODING_STANDARDS.md](./CODING_STANDARDS.md)** - ML code organization and quality
 - **Cross-reference**: Use CS:patterns section for ML project structure
 - **Integration**: Code quality and documentation standards for ML projects
 
 #### Database Standards
 
-- **[DATABASE_STANDARDS.md](./docs/standards/DATABASE_STANDARDS.md)** - Feature store and ML metadata management
+- **[DATABASE_STANDARDS.md](./DATABASE_STANDARDS.md)** - Feature store and ML metadata management
 - **Cross-reference**: Use DBS:data-modeling section for feature store design
 - **Integration**: ML metadata storage and feature engineering data patterns
 

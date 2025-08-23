@@ -52,7 +52,7 @@ Example output:
 
 ## Usage Example
 
-### Input:
+### Input
 
 ```python
 def login(username, password):
@@ -63,7 +63,7 @@ def login(username, password):
     return {"success": False}
 ```
 
-### Expected Output:
+### Expected Output
 
 ```
 - Line 1-6: User authentication function

@@ -196,7 +196,7 @@ cat oscal-output/ssp-*.json
 ### For Developers
 
 1. Install git hooks: `./scripts/setup-nist-hooks.sh`
-2. Review [COMPLIANCE_STANDARDS.md](../../docs/standards/COMPLIANCE_STANDARDS.md)
+2. Review [COMPLIANCE_STANDARDS.md](../standards/COMPLIANCE_STANDARDS.md)
 3. Start tagging security code with `@nist` annotations
 4. Use pre-commit hook for validation
 
@@ -219,17 +219,17 @@ Refer to COMPLIANCE_STANDARDS.md for guidelines.
 
 ## 📚 Documentation
 
-- [COMPLIANCE_STANDARDS.md](../../docs/standards/COMPLIANCE_STANDARDS.md) - Detailed tagging guidelines
+- [COMPLIANCE_STANDARDS.md](../standards/COMPLIANCE_STANDARDS.md) - Detailed tagging guidelines
 - [NIST_TAGGING_PROPOSAL.md](NIST_TAGGING_PROPOSAL.md) - Strategic approach
 - [standards/compliance/README.md](../../standards/compliance/README.md) - OSCAL platform docs
 - [CLAUDE.md](../../CLAUDE.md) - LLM context with NIST integration
 
 ## Related Standards
 
-- [CODING_STANDARDS.md](../../docs/standards/CODING_STANDARDS.md) - General coding standards with NIST section
-- [MODERN_SECURITY_STANDARDS.md](../../docs/standards/MODERN_SECURITY_STANDARDS.md) - Security implementation
-- [PROJECT_MANAGEMENT_STANDARDS.md](../../docs/standards/PROJECT_MANAGEMENT_STANDARDS.md) - Compliance tracking
-- [UNIFIED_STANDARDS.md](../../docs/standards/UNIFIED_STANDARDS.md) - Comprehensive standards overview
+- [CODING_STANDARDS.md](../standards/CODING_STANDARDS.md) - General coding standards with NIST section
+- [MODERN_SECURITY_STANDARDS.md](../standards/MODERN_SECURITY_STANDARDS.md) - Security implementation
+- [PROJECT_MANAGEMENT_STANDARDS.md](../standards/PROJECT_MANAGEMENT_STANDARDS.md) - Compliance tracking
+- [UNIFIED_STANDARDS.md](../standards/UNIFIED_STANDARDS.md) - Comprehensive standards overview
 - [STANDARDS_INDEX.md](../guides/STANDARDS_INDEX.md) - Quick reference to all standards
 
 ## 🤝 Contributing

@@ -97,7 +97,7 @@ The memory system provides persistent storage for cross-session and cross-agent 
 
 ## Examples
 
-### Store SPARC context:
+### Store SPARC context
 
 ```bash
 ./claude-flow memory store "spec_auth_requirements" "OAuth2 + JWT with refresh tokens" --namespace spec
@@ -105,14 +105,14 @@ The memory system provides persistent storage for cross-session and cross-agent 
 ./claude-flow memory store "test_coverage_auth" "95% coverage, all tests passing" --namespace test
 ```
 
-### Query project decisions:
+### Query project decisions
 
 ```bash
 ./claude-flow memory query "authentication" --namespace arch --limit 5
 ./claude-flow memory query "test results" --namespace test
 ```
 
-### Backup project memory:
+### Backup project memory
 
 ```bash
 ./claude-flow memory export project-$(date +%Y%m%d).json --namespace project

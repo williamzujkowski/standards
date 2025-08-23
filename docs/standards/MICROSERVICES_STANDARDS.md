@@ -1,7 +1,6 @@
 # Microservices Architecture Standards
 
-> 📚 See also: [Unified Software Development Standards](./docs/standards/UNIFIED_STANDARDS.md)
-
+> 📚 See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md)
 
 **Version:** 1.0.0
 **Last Updated:** January 2025
@@ -2144,31 +2143,31 @@ readiness_checklist:
 
 #### Cloud Native Standards
 
-- **[CLOUD_NATIVE_STANDARDS.md](./docs/standards/CLOUD_NATIVE_STANDARDS.md)** - Container and Kubernetes standards
+- **[CLOUD_NATIVE_STANDARDS.md](./CLOUD_NATIVE_STANDARDS.md)** - Container and Kubernetes standards
 - **Cross-reference**: Use CN:kubernetes section for microservice deployment patterns
 - **Integration**: Service mesh and container orchestration patterns
 
 #### Event-Driven Standards
 
-- **[EVENT_DRIVEN_STANDARDS.md](./docs/standards/EVENT_DRIVEN_STANDARDS.md)** - Event-driven patterns for microservices
+- **[EVENT_DRIVEN_STANDARDS.md](./EVENT_DRIVEN_STANDARDS.md)** - Event-driven patterns for microservices
 - **Cross-reference**: Use EVT:patterns section for asynchronous communication
 - **Integration**: Message brokers and saga pattern implementation
 
 #### Security Standards
 
-- **[MODERN_SECURITY_STANDARDS.md](./docs/standards/MODERN_SECURITY_STANDARDS.md)** - Security patterns for distributed systems
+- **[MODERN_SECURITY_STANDARDS.md](./MODERN_SECURITY_STANDARDS.md)** - Security patterns for distributed systems
 - **Cross-reference**: Use SEC:api section for service-to-service authentication
 - **Integration**: API gateway security and zero-trust architecture
 
 #### Observability Standards
 
-- **[OBSERVABILITY_STANDARDS.md](./docs/standards/OBSERVABILITY_STANDARDS.md)** - Monitoring and tracing standards
+- **[OBSERVABILITY_STANDARDS.md](./OBSERVABILITY_STANDARDS.md)** - Monitoring and tracing standards
 - **Cross-reference**: Use OBS:tracing section for distributed tracing setup
 - **Integration**: Service mesh observability and SLO management
 
 #### Testing Standards
 
-- **[TESTING_STANDARDS.md](./docs/standards/TESTING_STANDARDS.md)** - Comprehensive testing practices
+- **[TESTING_STANDARDS.md](./TESTING_STANDARDS.md)** - Comprehensive testing practices
 - **Cross-reference**: Use TS:integration section for contract testing patterns
 - **Integration**: Microservices testing pyramid and chaos engineering
 
@@ -2176,13 +2175,13 @@ readiness_checklist:
 
 #### Database Standards
 
-- **[DATABASE_STANDARDS.md](./docs/standards/DATABASE_STANDARDS.md)** - Database per service patterns
+- **[DATABASE_STANDARDS.md](./DATABASE_STANDARDS.md)** - Database per service patterns
 - **Cross-reference**: Use DBS:migration-strategies for data decomposition
 - **Integration**: Database per service and data consistency patterns
 
 #### Coding Standards
 
-- **[CODING_STANDARDS.md](./docs/standards/CODING_STANDARDS.md)** - Service implementation patterns
+- **[CODING_STANDARDS.md](./CODING_STANDARDS.md)** - Service implementation patterns
 - **Cross-reference**: Use CS:patterns section for microservice code structure
 - **Integration**: API design and error handling in distributed systems
 

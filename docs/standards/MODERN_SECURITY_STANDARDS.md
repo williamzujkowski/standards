@@ -1,7 +1,6 @@
 # Modern Security Standards
 
-> 📚 See also: [Unified Software Development Standards](./docs/standards/UNIFIED_STANDARDS.md)
-
+> 📚 See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md)
 
 **Version:** 1.0.0
 **Last Updated:** January 2025

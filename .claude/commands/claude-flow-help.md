@@ -72,31 +72,31 @@ Claude-Flow is the ultimate multi-terminal orchestration platform that revolutio
 
 ## 🌟 Quick Examples
 
-### Initialize with SPARC:
+### Initialize with SPARC
 
 ```bash
 npx -y claude-flow@latest init --sparc
 ```
 
-### Start a development swarm:
+### Start a development swarm
 
 ```bash
 ./claude-flow swarm "Build REST API" --strategy development --monitor --review
 ```
 
-### Run TDD workflow:
+### Run TDD workflow
 
 ```bash
 ./claude-flow sparc tdd "user authentication"
 ```
 
-### Store project context:
+### Store project context
 
 ```bash
 ./claude-flow memory store "project_requirements" "e-commerce platform specs" --namespace project
 ```
 
-### Spawn specialized agents:
+### Spawn specialized agents
 
 ```bash
 ./claude-flow agent spawn researcher --name "Senior Researcher" --priority 8
@@ -113,6 +113,6 @@ npx -y claude-flow@latest init --sparc
 
 ## 📚 Resources
 
-- Documentation: https://github.com/ruvnet/claude-code-flow/docs
-- Examples: https://github.com/ruvnet/claude-code-flow/examples
-- Issues: https://github.com/ruvnet/claude-code-flow/issues
+- Documentation: <https://github.com/ruvnet/claude-code-flow/docs>
+- Examples: <https://github.com/ruvnet/claude-code-flow/examples>
+- Issues: <https://github.com/ruvnet/claude-code-flow/issues>

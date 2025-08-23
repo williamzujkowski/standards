@@ -108,7 +108,7 @@ When creating PRs via LLMs:
 
 By contributing, you agree that your contributions will be licensed under the same MIT License that covers this project.
 
-## 🙏 Thank You!
+## 🙏 Thank You
 
 Your contributions help make software development better for everyone. We appreciate your time and effort!
 

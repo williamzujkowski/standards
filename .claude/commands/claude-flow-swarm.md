@@ -119,7 +119,7 @@ Advanced multi-agent coordination system with timeout-free execution, distribute
 
 ## 📊 Monitoring and Control
 
-### Real-time monitoring:
+### Real-time monitoring
 
 ```bash
 # Monitor swarm activity
@@ -129,7 +129,7 @@ Advanced multi-agent coordination system with timeout-free execution, distribute
 ./claude-flow monitor --focus swarm
 ```
 
-### Check swarm status:
+### Check swarm status
 
 ```bash
 # Overall system status
@@ -139,7 +139,7 @@ Advanced multi-agent coordination system with timeout-free execution, distribute
 ./claude-flow status --verbose
 ```
 
-### View agent activity:
+### View agent activity
 
 ```bash
 # List all agents
@@ -199,13 +199,13 @@ Swarms automatically use distributed memory for collaboration:
 
 ## 🔧 Advanced Configuration
 
-### Dry run to preview:
+### Dry run to preview
 
 ```bash
 ./claude-flow swarm "Test task" --dry-run --strategy development
 ```
 
-### Custom quality thresholds:
+### Custom quality thresholds
 
 ```bash
 ./claude-flow swarm "High quality API" \
@@ -213,7 +213,7 @@ Swarms automatically use distributed memory for collaboration:
   --quality-threshold 0.95
 ```
 
-### Scheduling algorithms:
+### Scheduling algorithms
 
 - FIFO (First In, First Out)
 - Priority-based
@@ -223,4 +223,4 @@ Swarms automatically use distributed memory for collaboration:
 - Resource-aware
 - Adaptive
 
-For detailed documentation, see: https://github.com/ruvnet/claude-code-flow/docs/swarm-system.md
+For detailed documentation, see: <https://github.com/ruvnet/claude-code-flow/docs/swarm-system.md>

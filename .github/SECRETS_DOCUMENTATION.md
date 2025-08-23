@@ -14,7 +14,7 @@ To enable the NIST compliance badge that shows control coverage:
    - Add as repository secret named `GIST_SECRET`
 
 2. **GIST_ID**: The ID of a GitHub Gist to store badge data
-   - Create a new secret gist at https://gist.github.com
+   - Create a new secret gist at <https://gist.github.com>
    - Copy the ID from the URL (e.g., `https://gist.github.com/username/GIST_ID`)
    - Add as repository secret named `GIST_ID`
 

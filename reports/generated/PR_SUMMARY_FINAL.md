@@ -28,7 +28,7 @@ Both are intentionally orphaned scaffolding/planning documents.
 
 ## 🔗 Kickstart/Router Alignment Notes
 
-### Updated Files:
+### Updated Files
 
 1. **CLAUDE.md** (router):
    - AUTO-LINKS sections added for badges
@@ -92,7 +92,7 @@ make validate  # ✅ All validations pass
 
 ## 📝 Intentional Exclusions
 
-### Already Excluded in audit-rules.yaml:
+### Already Excluded in audit-rules.yaml
 
 - `.claude/**` - Agent definitions (modular design)
 - `memory/**` - Session management files
@@ -100,14 +100,14 @@ make validate  # ✅ All validations pass
 - `.github/**` - CI/CD templates
 - `.vscode/**`, `.git/**`, `node_modules/**` - Tool/system files
 
-### Recommended Additional Exclusions:
+### Recommended Additional Exclusions
 
 - `project_plan.md` - Planning document
 - `standards/compliance/IMPLEMENTATION_SUMMARY.md` - Generated report
 
 ## 📦 Artifacts
 
-### Generated Reports:
+### Generated Reports
 
 - `reports/generated/linkcheck.txt` - No broken links
 - `reports/generated/structure-audit.md` - 2 orphans, 0 real violations
@@ -115,7 +115,7 @@ make validate  # ✅ All validations pass
 - `reports/generated/hub-matrix.tsv` - Hub linking matrix
 - `reports/generated/standards-inventory.json` - 60 standards cataloged
 
-### Updated Hubs with AUTO-LINKS:
+### Updated Hubs with AUTO-LINKS
 
 - `docs/standards/UNIFIED_STANDARDS.md` - 24 standards linked
 - `docs/guides/STANDARDS_INDEX.md` - 10 guides linked

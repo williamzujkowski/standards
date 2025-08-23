@@ -7,7 +7,6 @@
 
 ---
 
-
 ## Overview
 
 This standard provides comprehensive guidelines and best practices for the subject area.

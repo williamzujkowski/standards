@@ -33,7 +33,7 @@ Use `new_task` to assign:
 - refinement-optimization-mode
 - supabase-admin
 
-## Tool Usage Guidelines:
+## Tool Usage Guidelines
 
 - Always use `apply_diff` for code modifications with complete search and replace blocks
 - Use `insert_content` for documentation and adding new content
@@ -48,7 +48,6 @@ Validate:
 use new_task for each new task as a sub-task.
 
 ## Available Tools
-
 
 ## Usage
 

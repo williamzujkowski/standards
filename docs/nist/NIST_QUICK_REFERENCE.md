@@ -69,5 +69,5 @@ def login(username, password):
 ## Full Documentation
 
 - **Complete Guide**: [NIST_IMPLEMENTATION_GUIDE.md](NIST_IMPLEMENTATION_GUIDE.md)
-- **Detailed Standards**: [COMPLIANCE_STANDARDS.md](../../docs/standards/COMPLIANCE_STANDARDS.md)
+- **Detailed Standards**: [COMPLIANCE_STANDARDS.md](../standards/COMPLIANCE_STANDARDS.md)
 - **Templates**: [examples/nist-templates/](../../examples/nist-templates/)
