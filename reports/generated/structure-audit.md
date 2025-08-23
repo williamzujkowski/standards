@@ -4,7 +4,7 @@ Generated: 2025-08-23
 
 ## Summary
 
-Total issues found: 74
+Total issues found: 18
 
 
 ## Orphaned Files (0)
@@ -23,18 +23,10 @@ Standards documents not referencing UNIFIED_STANDARDS.md:
 
 ✅ All filenames follow conventions
 
-## Directories Missing README (26)
+## Directories Missing README (18)
 
-- .vscode/
-- .git/
-- .github/
-- .hive-mind/
-- .swarm/
-- .claude/
 - .benchmarks/
-- .claude-flow/
 - .pytest_cache/v/
-- reports/generated/
 - scripts/.benchmarks/
 - scripts/tests/
 - scripts/__pycache__/
@@ -56,57 +48,9 @@ Standards documents not referencing UNIFIED_STANDARDS.md:
 
 ✅ Repository structure follows standards
 
-## Hub Violations (48)
+## Hub Violations (0)
 
-Files that must be linked from required hub(s) but are not:
-- docs/core/CLAUDE.md
-- docs/core/CLAUDE_CONFIGURATION.md
-- docs/core/CODE_OF_CONDUCT.md
-- docs/core/COMMUNITY_ENGAGEMENT.md
-- docs/core/CONTRIBUTING.md
-- docs/core/CONTRIBUTOR_ONBOARDING.md
-- docs/core/CONTRIBUTOR_SHOWCASE.md
-- docs/core/GITHUB_WORKFLOWS.md
-- docs/core/INTEGRATION_GUIDE.md
-- docs/guides/ADOPTION_CHECKLIST.md
-- docs/guides/CREATING_STANDARDS_GUIDE.md
-- docs/guides/KICKSTART_ADVANCED.md
-- docs/guides/KICKSTART_PROMPT.md
-- docs/guides/LLM_TRAINING.md
-- docs/guides/STANDARDS_GRAPH.md
-- docs/guides/STANDARDS_INDEX.md
-- docs/guides/STANDARD_TEMPLATE.md
-- docs/guides/USING_PRODUCT_MATRIX.md
-- docs/guides/VALIDATION_PATTERNS.md
-- docs/nist/NIST_IMPLEMENTATION_GUIDE.md
-- docs/nist/NIST_QUICK_CONTEXT.md
-- docs/nist/NIST_QUICK_REFERENCE.md
-- docs/nist/NIST_TAGGING_PROPOSAL.md
-- docs/nist/implement_800-53.md
-- docs/standards/CLOUD_NATIVE_STANDARDS.md
-- docs/standards/CODING_STANDARDS.md
-- docs/standards/COMPLIANCE_STANDARDS.md
-- docs/standards/CONTENT_STANDARDS.md
-- docs/standards/COST_OPTIMIZATION_STANDARDS.md
-- docs/standards/DATABASE_STANDARDS.md
-- docs/standards/DATA_ENGINEERING_STANDARDS.md
-- docs/standards/DEVOPS_PLATFORM_STANDARDS.md
-- docs/standards/EVENT_DRIVEN_STANDARDS.md
-- docs/standards/FRONTEND_MOBILE_STANDARDS.md
-- docs/standards/GITHUB_PLATFORM_STANDARDS.md
-- docs/standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md
-- docs/standards/LEGAL_COMPLIANCE_STANDARDS.md
-- docs/standards/MICROSERVICES_STANDARDS.md
-- docs/standards/ML_AI_STANDARDS.md
-- docs/standards/MODEL_CONTEXT_PROTOCOL_STANDARDS.md
-- docs/standards/MODERN_SECURITY_STANDARDS.md
-- docs/standards/OBSERVABILITY_STANDARDS.md
-- docs/standards/PROJECT_MANAGEMENT_STANDARDS.md
-- docs/standards/SEO_WEB_MARKETING_STANDARDS.md
-- docs/standards/TESTING_STANDARDS.md
-- docs/standards/TOOLCHAIN_STANDARDS.md
-- docs/standards/UNIFIED_STANDARDS.md
-- docs/standards/WEB_DESIGN_UX_STANDARDS.md
+✅ All hub-link requirements satisfied
 
 ## Recommendations
 

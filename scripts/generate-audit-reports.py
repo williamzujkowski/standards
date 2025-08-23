@@ -179,9 +179,70 @@ def check_links_in_file(filepath: Path) -> Tuple[List[Tuple[str, str]], List[Tup
 
 
 def matches_any(path: str, patterns: Iterable[str]) -> bool:
+    """Check if path matches any of the patterns, supporting ** glob patterns."""
     for pat in patterns:
-        if fnmatch.fnmatch(path, pat):
-            return True
+        # Convert ** patterns for proper matching
+        if "**" in pat:
+            # Convert pattern to work with pathlib
+            path_obj = Path(path)
+            pattern_obj = Path(pat)
+            
+            # Simple implementation: check if path matches the pattern structure
+            # e.g., "docs/standards/**/*.md" should match "docs/standards/FOO.md"
+            # and "docs/standards/subdir/BAR.md"
+            
+            # Split pattern into parts
+            pattern_parts = pat.split("/")
+            path_parts = path.split("/")
+            
+            # Find where ** appears
+            if "**" in pattern_parts:
+                star_idx = pattern_parts.index("**")
+                
+                # Check prefix matches
+                if star_idx > 0:
+                    prefix = pattern_parts[:star_idx]
+                    if len(path_parts) < len(prefix):
+                        continue
+                    if path_parts[:len(prefix)] != prefix:
+                        continue
+                
+                # Check suffix matches (if any after **)
+                if star_idx < len(pattern_parts) - 1:
+                    suffix = pattern_parts[star_idx + 1:]
+                    # The suffix might contain wildcards
+                    if len(suffix) == 1 and "*" in suffix[0]:
+                        # Just check extension
+                        if fnmatch.fnmatch(path_parts[-1], suffix[0]):
+                            return True
+                    elif len(path_parts) >= len(suffix):
+                        # Match the suffix parts
+                        if all(fnmatch.fnmatch(p, s) for p, s in zip(path_parts[-len(suffix):], suffix)):
+                            return True
+                else:
+                    # No suffix after **, so everything under prefix matches
+                    return True
+            else:
+                # No ** in this pattern but it's inside a ** block?
+                # This shouldn't happen, but use path-aware matching anyway
+                from pathlib import PurePath
+                try:
+                    if PurePath(path).match(pat):
+                        return True
+                except (ValueError, TypeError):
+                    if path == pat:
+                        return True
+        else:
+            # No ** in pattern, use path-aware matching
+            # Use pathlib's match() which respects path boundaries
+            from pathlib import PurePath
+            try:
+                if PurePath(path).match(pat):
+                    return True
+            except (ValueError, TypeError):
+                # Fall back to simple string comparison for edge cases
+                if path == pat:
+                    return True
     return False
 
 
@@ -254,7 +315,7 @@ def enforce_hub_rules(graph: Dict[str, Set[str]], rules: Dict) -> Tuple[List[str
             continue
 
         for f, inbound in graph.items():
-            if not fnmatch.fnmatch(f, pat):
+            if not matches_any(f, [pat]):
                 continue
 
             # Skip hub files and READMEs as targets for hub requirements

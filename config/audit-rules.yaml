@@ -38,22 +38,22 @@ orphans:
 
   require_link_from:
     # Standards are linked from the unified hub
-    - pattern: "docs/standards/**/*.md"
+    - pattern: "docs/standards/*.md"
       hubs:
         - "docs/standards/UNIFIED_STANDARDS.md"
 
     # Guides are linked from the guides index
-    - pattern: "docs/guides/**/*.md"
+    - pattern: "docs/guides/*.md"
       hubs:
         - "docs/guides/STANDARDS_INDEX.md"
 
     # Core docs from core hub
-    - pattern: "docs/core/**/*.md"
+    - pattern: "docs/core/*.md"
       hubs:
         - "docs/core/README.md"
 
     # NIST docs from an explicit NIST hub
-    - pattern: "docs/nist/**/*.md"
+    - pattern: "docs/nist/*.md"
       hubs:
         - "docs/nist/README.md"
 
@@ -64,6 +64,9 @@ orphans:
 
     # Examples from examples hub
     - pattern: "examples/**/*.md"
+      hubs:
+        - "examples/README.md"
+    - pattern: "examples/*.md"
       hubs:
         - "examples/README.md"
 
