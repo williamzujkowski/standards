@@ -1,24 +1,64 @@
 version: 1
-
-# Exclude system scaffolding from orphan/structure checks.
 orphans:
   exclude:
-    # Agents
     - ".claude/**"
     - "subagents/**"
-    # Memory
     - "memory/**"
-    # Prompts
     - "prompts/**"
-
-  # Optional: keep this if you want other infra excluded from orphan math
     - "reports/generated/**"
     - ".vscode/**"
-  # - "catalogs/**"
-  # - "profiles/**"
+    - ".git/**"
+    - "node_modules/**"
+    - "__pycache__/**"
+    - ".github/**"        # CI templates aren’t docs; exclude
 
-  # Example of “must be hub-linked” rule (keep if you already use it)
   require_link_from:
-    - pattern: "docs/standards/**"
+    # Standards are linked from the unified hub
+    - pattern: "docs/standards/**/*.md"
       hubs:
         - "docs/standards/UNIFIED_STANDARDS.md"
+
+    # Guides are linked from the guides index
+    - pattern: "docs/guides/**/*.md"
+      hubs:
+        - "docs/guides/STANDARDS_INDEX.md"
+
+    # Core docs from core hub
+    - pattern: "docs/core/**/*.md"
+      hubs:
+        - "docs/core/README.md"
+
+    # NIST docs from an explicit NIST hub
+    - pattern: "docs/nist/**/*.md"
+      hubs:
+        - "docs/nist/README.md"
+
+    # Top-level docs (like VISUAL_NAVIGATION.md, WORKFLOW_*.md) from docs hub
+    - pattern: "docs/*.md"
+      hubs:
+        - "docs/README.md"
+
+    # Examples from examples hub
+    - pattern: "examples/**/*.md"
+      hubs:
+        - "examples/README.md"
+
+    # Ops/observability from monitoring hub
+    - pattern: "monitoring/**/*.md"
+      hubs:
+        - "monitoring/README.md"
+
+    # Tooling from tools-config hub
+    - pattern: "tools-config/**/*.md"
+      hubs:
+        - "tools-config/README.md"
+
+    # Micro standards (your *.micro.md live here)
+    - pattern: "micro/**/*.md"
+      hubs:
+        - "micro/README.md"
+
+    # Badges from repo root README
+    - pattern: "badges/**/*.md"
+      hubs:
+        - "README.md"

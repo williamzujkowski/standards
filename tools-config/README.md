@@ -51,3 +51,11 @@ When adding new tool configurations:
 2. Include inline documentation
 3. Test the configuration thoroughly
 4. Update this README with usage instructions
+
+## Catalog (auto)
+
+<!-- AUTO-LINKS:tools-config/**/*.md -->
+
+_(no documents found)_
+
+<!-- /AUTO-LINKS -->

@@ -9,7 +9,13 @@ Test suite for authentication service with NIST compliance checks.
 import unittest
 from datetime import datetime, timedelta
 import time
-from auth_service import AuthenticationService
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+# Import from auth-service.py
+auth_service = __import__('auth-service')
+AuthenticationService = auth_service.AuthenticationService
 
 
 class TestAuthenticationService(unittest.TestCase):

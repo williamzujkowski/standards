@@ -425,3 +425,17 @@ MIT License - See [LICENSE](LICENSE) for details. Free to use in personal and co
 **Remember**: These are living documents. Use them as a foundation but always consider your specific context and requirements.
 
 *Happy coding! 🚀*
+
+## Catalog (auto)
+
+<!-- AUTO-LINKS:badges/** -->
+
+- [standards-compliance-template](badges/standards-compliance-template.md)
+
+<!-- /AUTO-LINKS -->
+<!-- AUTO-LINKS:badges/**/*.md -->
+
+- [Readme](badges/README.md)
+- [Standards Compliance Template](badges/standards-compliance-template.md)
+
+<!-- /AUTO-LINKS -->

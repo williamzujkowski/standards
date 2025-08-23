@@ -41,3 +41,13 @@ Each micro standard must:
 - Perfect for quick lookups
 - Ideal for constrained contexts
 - Mobile-friendly
+
+## Catalog (auto)
+
+<!-- AUTO-LINKS:micro/**/*.md -->
+
+- [Cs Api.Micro](CS-api.micro.md)
+- [Sec Auth.Micro](SEC-auth.micro.md)
+- [Ts Unit.Micro](TS-unit.micro.md)
+
+<!-- /AUTO-LINKS -->

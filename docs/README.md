@@ -15,3 +15,13 @@ Documentation root
 ---
 
 ← Back to [Main Repository](../README.md)
+
+## Catalog (auto)
+
+<!-- AUTO-LINKS:docs/*.md -->
+
+- [Visual Navigation](VISUAL_NAVIGATION.md)
+- [Workflow Analysis Report](WORKFLOW_ANALYSIS_REPORT.md)
+- [Workflow Status Summary](WORKFLOW_STATUS_SUMMARY.md)
+
+<!-- /AUTO-LINKS -->

@@ -1,12 +1,12 @@
 # Standards Quick Reference
 
-Generated: 2025-08-23 | Total: 46 documents
+Generated: 2025-08-23 | Total: 60 documents
 
 | Code | Title | Tags | Path |
 |------|-------|------|------|
 | **ADO** | Standards Adoption Checklist | ai, api, cicd | [docs/guides/ADOPTION_CHECKLIST.md](docs/guides/ADOPTION_CHECKLIST.md) |
 | **ANN** | NIST Annotation Framework | ai, auth, cicd | [standards/compliance/ANNOTATION_FRAMEWORK.md](standards/compliance/ANNOTATION_FRAMEWORK.md) |
-| **CLA** | Claude Code Configuration - SPARC Development Environment | ai, api, ml | [CLAUDE.md](CLAUDE.md) |
+| **CLA** | Claude Code Configuration - Standards Router & SPARC Environment | ai, api, graphql | [CLAUDE.md](CLAUDE.md) |
 | **CN** | Cloud-Native and Container Standards | ai, cicd, containers | [docs/standards/CLOUD_NATIVE_STANDARDS.md](docs/standards/CLOUD_NATIVE_STANDARDS.md) |
 | **COD** | NIST Code Review Prompt | ai, auth, compliance | [prompts/nist-compliance/code-review-prompt.md](prompts/nist-compliance/code-review-prompt.md) |
 | **COMP** | Compliance Standards | ai, auth, compliance | [docs/standards/COMPLIANCE_STANDARDS.md](docs/standards/COMPLIANCE_STANDARDS.md) |
@@ -38,9 +38,22 @@ Generated: 2025-08-23 | Total: 46 documents
 | **NIST-IG** | NIST 800-53r5 Control Tagging Implementation Guide | ai, auth, cicd | [docs/nist/NIST_IMPLEMENTATION_GUIDE.md](docs/nist/NIST_IMPLEMENTATION_GUIDE.md) |
 | **OBS** | Observability and Monitoring Standards | ai, ml, observability | [docs/standards/OBSERVABILITY_STANDARDS.md](docs/standards/OBSERVABILITY_STANDARDS.md) |
 | **PM** | Project Management Standards | agile, ai, management | [docs/standards/PROJECT_MANAGEMENT_STANDARDS.md](docs/standards/PROJECT_MANAGEMENT_STANDARDS.md) |
+| **REA** | NIST 800-53r5 Compliance Documentation | ai, compliance, nist | [docs/nist/README.md](docs/nist/README.md) |
+| **REA** | Software Development Standards | ai, ml | [docs/standards/README.md](docs/standards/README.md) |
 | **REA** | NIST-Tagged Security Templates | ai, api, auth | [examples/nist-templates/README.md](examples/nist-templates/README.md) |
 | **REA** | NIST Compliance LLM Prompts | ai, api, auth | [prompts/nist-compliance/README.md](prompts/nist-compliance/README.md) |
+| **REA** | Standards | ai | [standards/README.md](standards/README.md) |
 | **REA** | NIST 800-53r5 OSCAL-Native Compliance Platform | ai, cicd, compliance | [standards/compliance/README.md](standards/compliance/README.md) |
+| **REA** | Automation | ai, compliance | [standards/compliance/automation/README.md](standards/compliance/automation/README.md) |
+| **REA** | Examples | ai, compliance | [standards/compliance/examples/README.md](standards/compliance/examples/README.md) |
+| **REA** | Oscal | ai, compliance | [standards/compliance/oscal/README.md](standards/compliance/oscal/README.md) |
+| **REA** | Catalogs | ai, compliance | [standards/compliance/oscal/catalogs/README.md](standards/compliance/oscal/catalogs/README.md) |
+| **REA** | Profiles | ai, compliance, privacy | [standards/compliance/oscal/profiles/README.md](standards/compliance/oscal/profiles/README.md) |
+| **REA** | Types | ai, compliance | [standards/compliance/oscal/types/README.md](standards/compliance/oscal/types/README.md) |
+| **REA** | Scripts | ai, compliance | [standards/compliance/scripts/README.md](standards/compliance/scripts/README.md) |
+| **REA** | Semantic | ai, compliance, ml | [standards/compliance/semantic/README.md](standards/compliance/semantic/README.md) |
+| **REA** | Src | ai, compliance | [standards/compliance/src/README.md](standards/compliance/src/README.md) |
+| **REA** | Parsers | ai, compliance | [standards/compliance/src/parsers/README.md](standards/compliance/src/parsers/README.md) |
 | **SEC** | Modern Security Standards | ai, api, auth | [docs/standards/MODERN_SECURITY_STANDARDS.md](docs/standards/MODERN_SECURITY_STANDARDS.md) |
 | **SEO** | SEO & Web Marketing Standards | ai, api, ml | [docs/standards/SEO_WEB_MARKETING_STANDARDS.md](docs/standards/SEO_WEB_MARKETING_STANDARDS.md) |
 | **STA** | Standards Relationship Graph | agile, ai, api | [docs/guides/STANDARDS_GRAPH.md](docs/guides/STANDARDS_GRAPH.md) |
@@ -49,4 +62,5 @@ Generated: 2025-08-23 | Total: 46 documents
 | **TS** | Comprehensive Testing Manifesto for LLM Coding Projects | ai, api, auth | [docs/standards/TESTING_STANDARDS.md](docs/standards/TESTING_STANDARDS.md) |
 | **UNIFIED** | Unified Software Development Standards | ai, api, auth | [docs/standards/UNIFIED_STANDARDS.md](docs/standards/UNIFIED_STANDARDS.md) |
 | **VAL** | Interactive Validation Patterns | ai, api, auth | [docs/guides/VALIDATION_PATTERNS.md](docs/guides/VALIDATION_PATTERNS.md) |
+| **VAL** | NIST Compliance Validation Run | ai, auth, cicd | [prompts/nist-compliance/VALIDATION_RUN.md](prompts/nist-compliance/VALIDATION_RUN.md) |
 | **WD** | Web Design and UX Standards | ai, ml, typescript | [docs/standards/WEB_DESIGN_UX_STANDARDS.md](docs/standards/WEB_DESIGN_UX_STANDARDS.md) |

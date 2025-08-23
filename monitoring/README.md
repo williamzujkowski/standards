@@ -160,3 +160,11 @@ Enable debug logging by setting log level to "DEBUG" in configuration.
 
 ### Support
 For issues or questions, check the logs in `monitoring/logs/` for detailed error information.
+
+## Catalog (auto)
+
+<!-- AUTO-LINKS:monitoring/**/*.md -->
+
+- [Readme](config/README.md)
+
+<!-- /AUTO-LINKS -->

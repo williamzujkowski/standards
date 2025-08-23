@@ -1,6 +1,6 @@
 {
   "summary": {
-    "total_documents": 46,
+    "total_documents": 60,
     "categories": 37,
     "nist_enabled": 3,
     "unique_tags": [
@@ -68,21 +68,26 @@
         "python",
         "typescript"
       ],
-      "description": "A multi-language parser framework for extracting NIST 800-53r5 control annotations from source code.",
-      "related": [],
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](../../docs/standards/UNIFIED_STANDARDS.md) A multi-language parser framework for extracting NIST 800-53r5 control annotations from source code.",
+      "related": [
+        "UNIFIED"
+      ],
       "nist_controls": []
     },
     {
       "id": "claude",
       "slug": "claude",
       "code": "CLA",
-      "title": "Claude Code Configuration - SPARC Development Environment",
+      "title": "Claude Code Configuration - Standards Router & SPARC Environment",
       "path": "CLAUDE.md",
       "tags": [
         "ai",
         "api",
+        "graphql",
         "ml",
-        "observability"
+        "python",
+        "react",
+        "rest"
       ],
       "description": "",
       "related": [],
@@ -103,8 +108,10 @@
         "ml",
         "observability"
       ],
-      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
-      "related": [],
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "related": [
+        "UNIFIED"
+      ],
       "nist_controls": []
     },
     {
@@ -189,8 +196,10 @@
         "ml",
         "typescript"
       ],
-      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
-      "related": [],
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "related": [
+        "UNIFIED"
+      ],
       "nist_controls": []
     },
     {
@@ -205,8 +214,10 @@
         "observability",
         "python"
       ],
-      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
-      "related": [],
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "related": [
+        "UNIFIED"
+      ],
       "nist_controls": []
     },
     {
@@ -222,13 +233,14 @@
         "javascript",
         "python"
       ],
-      "description": "**Version:** 1.0.0 **Last Updated:** 2025-01-13",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
       "related": [
         "COMP",
         "CREATING_GUIDE",
         "KM",
         "MCP",
-        "NIST-IG"
+        "NIST-IG",
+        "UNIFIED"
       ],
       "nist_controls": []
     },
@@ -245,8 +257,10 @@
         "javascript",
         "observability"
       ],
-      "description": "**Version:** 1.0.0 **Last Updated:** 2025-01-20",
-      "related": [],
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "related": [
+        "UNIFIED"
+      ],
       "nist_controls": []
     },
     {
@@ -266,8 +280,10 @@
         "python",
         "rest"
       ],
-      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
-      "related": [],
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "related": [
+        "UNIFIED"
+      ],
       "nist_controls": []
     },
     {
@@ -285,8 +301,10 @@
         "observability",
         "rest"
       ],
-      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
-      "related": [],
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "related": [
+        "UNIFIED"
+      ],
       "nist_controls": []
     },
     {
@@ -301,12 +319,13 @@
         "observability",
         "typescript"
       ],
-      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
       "related": [
         "CS",
         "DE",
         "MCP",
-        "OBS"
+        "OBS",
+        "UNIFIED"
       ],
       "nist_controls": []
     },
@@ -325,8 +344,10 @@
         "react",
         "typescript"
       ],
-      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
-      "related": [],
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "related": [
+        "UNIFIED"
+      ],
       "nist_controls": []
     },
     {
@@ -361,8 +382,10 @@
         "ml",
         "rest"
       ],
-      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
-      "related": [],
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "related": [
+        "UNIFIED"
+      ],
       "nist_controls": []
     },
     {
@@ -429,8 +452,10 @@
         "rest",
         "typescript"
       ],
-      "description": "",
-      "related": [],
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](../../docs/standards/UNIFIED_STANDARDS.md)",
+      "related": [
+        "UNIFIED"
+      ],
       "nist_controls": []
     },
     {
@@ -473,7 +498,9 @@
         "containers",
         "ml",
         "observability",
-        "privacy"
+        "privacy",
+        "python",
+        "react"
       ],
       "description": "Copy this prompt into any web-based LLM chat (ChatGPT, Claude, Gemini, etc.) along with your project_plan.md content. ---",
       "related": [
@@ -494,11 +521,12 @@
         "management",
         "ml"
       ],
-      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
       "related": [
         "CONT",
         "CREATING_GUIDE",
-        "MCP"
+        "MCP",
+        "UNIFIED"
       ],
       "nist_controls": []
     },
@@ -519,8 +547,10 @@
         "privacy",
         "rest"
       ],
-      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
-      "related": [],
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "related": [
+        "UNIFIED"
+      ],
       "nist_controls": []
     },
     {
@@ -539,13 +569,14 @@
         "python",
         "typescript"
       ],
-      "description": "**Version:** 1.0.0 **Last Updated:** 2025-07-02",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
       "related": [
         "CS",
         "EVT",
         "KM",
         "SEC",
-        "TS"
+        "TS",
+        "UNIFIED"
       ],
       "nist_controls": []
     },
@@ -563,7 +594,7 @@
         "python",
         "rest"
       ],
-      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
       "related": [
         "CN",
         "CS",
@@ -571,7 +602,8 @@
         "DE",
         "OBS",
         "SEC",
-        "TS"
+        "TS",
+        "UNIFIED"
       ],
       "nist_controls": []
     },
@@ -589,7 +621,7 @@
         "observability",
         "rest"
       ],
-      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
       "related": [
         "CN",
         "CS",
@@ -597,7 +629,8 @@
         "EVT",
         "OBS",
         "SEC",
-        "TS"
+        "TS",
+        "UNIFIED"
       ],
       "nist_controls": []
     },
@@ -729,8 +762,10 @@
         "observability",
         "python"
       ],
-      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
-      "related": [],
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "related": [
+        "UNIFIED"
+      ],
       "nist_controls": []
     },
     {
@@ -746,9 +781,66 @@
         "ml",
         "observability"
       ],
-      "description": "**Version:** 2.0.0 **Last Updated:** January 2025",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 2.0.0",
+      "related": [
+        "NIST-IG",
+        "UNIFIED"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "nist-readme",
+      "slug": "readme",
+      "code": "REA",
+      "title": "NIST 800-53r5 Compliance Documentation",
+      "path": "docs/nist/README.md",
+      "tags": [
+        "ai",
+        "compliance",
+        "nist"
+      ],
+      "description": "Complete NIST 800-53r5 compliance implementation guides, templates, and control mappings for software development projects.",
       "related": [
         "NIST-IG"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "readme",
+      "slug": "readme",
+      "code": "REA",
+      "title": "Software Development Standards",
+      "path": "docs/standards/README.md",
+      "tags": [
+        "ai",
+        "ml"
+      ],
+      "description": "Complete collection of software development standards covering all aspects of modern development from coding to deployment.",
+      "related": [
+        "CN",
+        "COMP",
+        "CONT",
+        "COST",
+        "CS",
+        "DB",
+        "DE",
+        "DOP",
+        "EVT",
+        "FE",
+        "GH",
+        "KM",
+        "LEG",
+        "MCP",
+        "MLAI",
+        "MS",
+        "OBS",
+        "PM",
+        "SEC",
+        "SEO",
+        "TOOL",
+        "TS",
+        "UNIFIED",
+        "WD"
       ],
       "nist_controls": []
     },
@@ -799,6 +891,21 @@
       "id": "readme",
       "slug": "readme",
       "code": "REA",
+      "title": "Standards",
+      "path": "standards/README.md",
+      "tags": [
+        "ai"
+      ],
+      "description": "Standards documentation root",
+      "related": [
+        "UNIFIED"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "readme",
+      "slug": "readme",
+      "code": "REA",
       "title": "NIST 800-53r5 OSCAL-Native Compliance Platform",
       "path": "standards/compliance/README.md",
       "tags": [
@@ -819,6 +926,168 @@
       ]
     },
     {
+      "id": "readme",
+      "slug": "readme",
+      "code": "REA",
+      "title": "Automation",
+      "path": "standards/compliance/automation/README.md",
+      "tags": [
+        "ai",
+        "compliance"
+      ],
+      "description": "Automation directory ---",
+      "related": [
+        "UNIFIED"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "readme",
+      "slug": "readme",
+      "code": "REA",
+      "title": "Examples",
+      "path": "standards/compliance/examples/README.md",
+      "tags": [
+        "ai",
+        "compliance"
+      ],
+      "description": "Examples directory",
+      "related": [
+        "UNIFIED"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "readme",
+      "slug": "readme",
+      "code": "REA",
+      "title": "Oscal",
+      "path": "standards/compliance/oscal/README.md",
+      "tags": [
+        "ai",
+        "compliance"
+      ],
+      "description": "Oscal directory",
+      "related": [
+        "UNIFIED"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "readme",
+      "slug": "readme",
+      "code": "REA",
+      "title": "Catalogs",
+      "path": "standards/compliance/oscal/catalogs/README.md",
+      "tags": [
+        "ai",
+        "compliance"
+      ],
+      "description": "Catalogs directory",
+      "related": [
+        "UNIFIED"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "readme",
+      "slug": "readme",
+      "code": "REA",
+      "title": "Profiles",
+      "path": "standards/compliance/oscal/profiles/README.md",
+      "tags": [
+        "ai",
+        "compliance",
+        "privacy"
+      ],
+      "description": "Profiles directory",
+      "related": [
+        "UNIFIED"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "readme",
+      "slug": "readme",
+      "code": "REA",
+      "title": "Types",
+      "path": "standards/compliance/oscal/types/README.md",
+      "tags": [
+        "ai",
+        "compliance"
+      ],
+      "description": "Types directory ---",
+      "related": [
+        "UNIFIED"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "readme",
+      "slug": "readme",
+      "code": "REA",
+      "title": "Scripts",
+      "path": "standards/compliance/scripts/README.md",
+      "tags": [
+        "ai",
+        "compliance"
+      ],
+      "description": "Scripts directory ---",
+      "related": [
+        "UNIFIED"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "readme",
+      "slug": "readme",
+      "code": "REA",
+      "title": "Semantic",
+      "path": "standards/compliance/semantic/README.md",
+      "tags": [
+        "ai",
+        "compliance",
+        "ml"
+      ],
+      "description": "Semantic directory",
+      "related": [
+        "UNIFIED"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "readme",
+      "slug": "readme",
+      "code": "REA",
+      "title": "Src",
+      "path": "standards/compliance/src/README.md",
+      "tags": [
+        "ai",
+        "compliance"
+      ],
+      "description": "Src directory",
+      "related": [
+        "UNIFIED"
+      ],
+      "nist_controls": []
+    },
+    {
+      "id": "readme",
+      "slug": "readme",
+      "code": "REA",
+      "title": "Parsers",
+      "path": "standards/compliance/src/parsers/README.md",
+      "tags": [
+        "ai",
+        "compliance"
+      ],
+      "description": "Parsers directory ---",
+      "related": [
+        "UNIFIED"
+      ],
+      "nist_controls": []
+    },
+    {
       "id": "modern-security-standards",
       "slug": "modern_security_standards",
       "code": "SEC",
@@ -834,13 +1103,14 @@
         "observability",
         "security"
       ],
-      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
       "related": [
         "COMP",
         "CS",
         "MCP",
         "NIST-IG",
-        "TS"
+        "TS",
+        "UNIFIED"
       ],
       "nist_controls": []
     },
@@ -855,8 +1125,10 @@
         "api",
         "ml"
       ],
-      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
-      "related": [],
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "related": [
+        "UNIFIED"
+      ],
       "nist_controls": []
     },
     {
@@ -897,7 +1169,10 @@
         "react"
       ],
       "description": "**Auto-generated from actual standards files for instant LLM access** *Last Updated: January 2025*",
-      "related": [],
+      "related": [
+        "CREATING_GUIDE",
+        "STANDARDS_GRAPH"
+      ],
       "nist_controls": []
     },
     {
@@ -916,8 +1191,10 @@
         "react",
         "typescript"
       ],
-      "description": "**Version:** 1.0.0 **Last Updated:** 2025-01-13",
-      "related": [],
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "related": [
+        "UNIFIED"
+      ],
       "nist_controls": []
     },
     {
@@ -933,12 +1210,13 @@
         "python",
         "testing"
       ],
-      "description": "**Version:** 1.0.0 **Last Updated:** 2025-01-13",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
       "related": [
         "COMP",
         "CREATING_GUIDE",
         "KM",
-        "MCP"
+        "MCP",
+        "UNIFIED"
       ],
       "nist_controls": []
     },
@@ -960,8 +1238,30 @@
       ],
       "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
       "related": [
+        "CN",
         "COMP",
-        "NIST-IG"
+        "CONT",
+        "COST",
+        "CS",
+        "DB",
+        "DE",
+        "DOP",
+        "EVT",
+        "FE",
+        "GH",
+        "KM",
+        "LEG",
+        "MCP",
+        "MLAI",
+        "MS",
+        "NIST-IG",
+        "OBS",
+        "PM",
+        "SEC",
+        "SEO",
+        "TOOL",
+        "TS",
+        "WD"
       ],
       "nist_controls": []
     },
@@ -985,6 +1285,27 @@
       "nist_controls": []
     },
     {
+      "id": "nist-validation-run",
+      "slug": "validation_run",
+      "code": "VAL",
+      "title": "NIST Compliance Validation Run",
+      "path": "prompts/nist-compliance/VALIDATION_RUN.md",
+      "tags": [
+        "ai",
+        "auth",
+        "cicd",
+        "compliance",
+        "ml",
+        "nist",
+        "python"
+      ],
+      "description": "**Version:** 1.0.0 **Last Updated:** 2025-08-23",
+      "related": [
+        "NIST-IG"
+      ],
+      "nist_controls": []
+    },
+    {
       "id": "web-design-ux-standards",
       "slug": "web_design_ux_standards",
       "code": "WD",
@@ -995,8 +1316,10 @@
         "ml",
         "typescript"
       ],
-      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
-      "related": [],
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "related": [
+        "UNIFIED"
+      ],
       "nist_controls": []
     }
   ]

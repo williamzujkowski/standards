@@ -3,14 +3,11 @@
 Generated: 2025-08-23
 
 
-## Broken Internal Links (4 found)
+## Broken Internal Links (0 found)
 
-- **docs/standards/MODERN_SECURITY_STANDARDS.md**: ["\']([a-zA-Z0-9]{20,})
-- **docs/standards/MODERN_SECURITY_STANDARDS.md**: ["\']([^"\']{8,})
-- **docs/standards/MODERN_SECURITY_STANDARDS.md**: ["\']([a-zA-Z0-9]{20,})
-- **docs/standards/MODERN_SECURITY_STANDARDS.md**: ["\']([a-zA-Z0-9]{20,})
+✅ No broken internal links found!
 
-## External Links (65 found)
+## External Links (34 found)
 
 
 ### 12factor.net (1 links)
@@ -24,21 +21,19 @@ Generated: 2025-08-23
 ### docs.github.com (1 links)
 - docs/core/GITHUB_WORKFLOWS.md: [GitHub Actions Documentation](https://docs.github.com/en/actions)
 
-### github.com (23 links)
+### github.com (17 links)
 - README.md: [![Compliance](https://github.com/williamzujkowski/standards/actions/workflows/standards-compliance.yml/badge.svg)
 - badges/standards-compliance-template.md: [Comprehensive Software Development Standards](https://github.com/williamzujkowski/standards)
 - badges/standards-compliance-template.md: [Standards Compliance Tool](https://github.com/williamzujkowski/standards)
-- badges/README.md: [Comprehensive Software Development Standards](https://github.com/williamzujkowski/standards)
-- .claude/agents/github/release-swarm.md: [release notes](https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }})
-- ... and 18 more
+- docs/guides/KICKSTART_PROMPT.md: [CREATING_STANDARDS_GUIDE.md](https://github.com/williamzujkowski/standards/blob/master/CREATING_STANDARDS_GUIDE.md)
+- docs/guides/KICKSTART_PROMPT.md: [NIST_IMPLEMENTATION_GUIDE.md](https://github.com/williamzujkowski/standards/blob/master/NIST_IMPLEMENTATION_GUIDE.md)
+- ... and 12 more
 
-### img.shields.io (28 links)
+### img.shields.io (4 links)
 - README.md: [![Version](https://img.shields.io/badge/version-latest-blue.svg)
 - README.md: [![Standards](https://img.shields.io/badge/standards-24%20documents-green.svg)
 - README.md: [![License](https://img.shields.io/badge/license-MIT-purple.svg)
 - README.md: [![NIST](https://img.shields.io/badge/NIST%20800--53r5-Compliant-brightgreen.svg)
-- badges/README.md: [![Standards](https://img.shields.io/badge/standards-v2.0.0-blue.svg)
-- ... and 23 more
 
 ### keepachangelog.com (1 links)
 - CHANGELOG.md: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
@@ -55,9 +50,6 @@ Generated: 2025-08-23
 ### semver.org (1 links)
 - CHANGELOG.md: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-### www.conventionalcommits.org (1 links)
-- docs/standards/GITHUB_PLATFORM_STANDARDS.md: [Conventional Commits](https://www.conventionalcommits.org/)
-
 ### www.domainlanguage.com (1 links)
 - docs/standards/MICROSERVICES_STANDARDS.md: [Domain-Driven Design](https://www.domainlanguage.com/ddd/)
 
@@ -70,5 +62,5 @@ Generated: 2025-08-23
 ## Summary
 
 - Files checked: 255
-- Broken links: 4
-- External links: 65
+- Broken links: 0
+- External links: 34

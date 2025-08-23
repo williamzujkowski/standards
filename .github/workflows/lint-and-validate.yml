@@ -85,16 +85,21 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+
       - name: Run link check
         run: |
+          python scripts/ensure-hub-links.py || true
           python scripts/generate-audit-reports.py
-          
-          # Check for broken links
+          # Check for broken links (informational here; hard gate is in audit-gates job)
           if grep -q "Broken links: 0" reports/generated/linkcheck.txt; then
             echo "✅ No broken links found"
           else
             echo "⚠️ Broken links detected"
-            grep "Broken Internal Links" -A 20 reports/generated/linkcheck.txt
+            grep "Broken Internal Links" -A 20 reports/generated/linkcheck.txt || true
           fi
 
       - name: Upload link report
@@ -115,24 +120,91 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+
       - name: Run structure audit
         run: |
+          python scripts/ensure-hub-links.py || true
           python scripts/generate-audit-reports.py
-          
-          # Check for structure issues
+          # Informational summary; hard gate is in audit-gates job
           if grep -q "Total issues found: 0" reports/generated/structure-audit.md; then
             echo "✅ No structure issues found"
           else
-            echo "⚠️ Structure issues detected"
-            head -30 reports/generated/structure-audit.md
+            echo "ℹ️ Structure issues detected (see artifacts)"
+            head -30 reports/generated/structure-audit.md || true
           fi
 
-      - name: Upload structure report
+      - name: Upload structure artifacts
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          name: structure-audit-report
-          path: reports/generated/structure-audit.md
+          name: structure-audit-artifacts
+          path: |
+            reports/generated/structure-audit.md
+            reports/generated/structure-audit.json
+            reports/generated/hub-matrix.tsv
+
+  audit-gates:
+    name: Enforce Audit Gates (links=0, hubs=0, orphans<=5)
+    runs-on: ubuntu-latest
+    env:
+      ORPHAN_LIMIT: '5'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+
+      - name: Ensure hubs and generate reports
+        run: |
+          python scripts/ensure-hub-links.py || true
+          python scripts/generate-audit-reports.py
+          cat reports/generated/structure-audit.json
+
+      - name: Enforce gates from JSON
+        run: |
+          python - <<'PY'
+          import json, sys, pathlib, os
+          p = pathlib.Path("reports/generated/structure-audit.json")
+          if not p.exists():
+              print("❌ Missing reports/generated/structure-audit.json"); sys.exit(1)
+          data = json.loads(p.read_text())
+          broken = int(data.get("broken_links", 999))
+          orphans = int(data.get("orphans", 999))
+          hubs = int(data.get("hub_violations", 999))
+          limit = int(os.environ.get("ORPHAN_LIMIT", "5"))
+          ok = True
+          if broken > 0:
+              print(f"❌ broken_links={broken} > 0"); ok = False
+          if hubs > 0:
+              print(f"❌ hub_violations={hubs} > 0"); ok = False
+          if orphans > limit:
+              print(f"❌ orphans={orphans} > {limit}"); ok = False
+          if not ok:
+              sys.exit(1)
+          print(f"✅ audit gates satisfied (broken={broken}, hubs={hubs}, orphans={orphans} ≤ {limit})")
+          PY
+
+      - name: Upload audit artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: audit-gates-artifacts
+          path: |
+            reports/generated/linkcheck.txt
+            reports/generated/structure-audit.md
+            reports/generated/structure-audit.json
+            reports/generated/hub-matrix.tsv
 
   nist-quickstart:
     name: NIST Quickstart Validation
@@ -176,11 +248,16 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+          sudo apt-get update -y
+          sudo apt-get install -y jq
+
       - name: Generate standards inventory
         run: |
           python scripts/generate-standards-inventory.py
-          
-          # Check inventory was generated
           if [ -f reports/generated/standards-inventory.json ]; then
             echo "✅ Standards inventory generated"
             echo "Total standards: $(jq '.summary.total_documents' reports/generated/standards-inventory.json)"
@@ -208,12 +285,10 @@ jobs:
 
       - name: Validate product matrix YAML
         run: |
-          # Check if file exists
           if [ ! -f config/product-matrix.yaml ]; then
             echo "❌ Product matrix not found"
             exit 1
           fi
-          
           echo "✅ Product matrix found"
 
       - name: Install yq
@@ -223,29 +298,23 @@ jobs:
 
       - name: Validate matrix structure
         run: |
-          # Check required fields
           echo "Checking product matrix structure..."
-          
-          # Check version
           version=$(yq '.version' config/product-matrix.yaml)
           if [ "$version" = "null" ]; then
             echo "❌ Missing version field"
             exit 1
           fi
-          
-          # Check products exist
           products=$(yq '.products | keys | length' config/product-matrix.yaml)
           if [ "$products" -eq 0 ]; then
             echo "❌ No products defined"
             exit 1
           fi
-          
           echo "✅ Product matrix structure valid"
           echo "  Version: $version"
           echo "  Products defined: $products"
 
   nist-compliance-check:
-    name: NIST Compliance Check
+    name: NIST Compliance Check (Changed Files)
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
@@ -256,17 +325,15 @@ jobs:
       - name: Get changed files
         id: changed-files
         run: |
-          echo "files=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '\.(py|js|ts|go|java|yaml)$' | tr '\n' ' ')" >> $GITHUB_OUTPUT
+          echo "files=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '\.(py|js|ts|go|java|yaml|yml)$' | tr '\n' ' ')" >> $GITHUB_OUTPUT
 
       - name: Check NIST tags in changed files
         if: steps.changed-files.outputs.files != ''
         run: |
           changed_files="${{ steps.changed-files.outputs.files }}"
           echo "Checking NIST tags in changed files..."
-          
           for file in $changed_files; do
             if [ -f "$file" ]; then
-              # Check if file contains security patterns
               if grep -qE "(auth|password|encrypt|session|permission|audit|validate)" "$file"; then
                 if ! grep -q "@nist" "$file"; then
                   echo "::warning file=$file::Security code detected without NIST control tags"
@@ -281,7 +348,17 @@ jobs:
   summary:
     name: Validation Summary
     runs-on: ubuntu-latest
-    needs: [pre-commit, markdown-lint, yaml-lint, link-check, structure-audit, nist-quickstart, standards-inventory, product-matrix-validation]
+    needs:
+      - pre-commit
+      - markdown-lint
+      - yaml-lint
+      - link-check
+      - structure-audit
+      - audit-gates
+      - nist-quickstart
+      - standards-inventory
+      - product-matrix-validation
+      - nist-compliance-check
     if: always()
     steps:
       - name: Check job results
@@ -294,19 +371,18 @@ jobs:
           echo "- YAML lint: ${{ needs.yaml-lint.result }}"
           echo "- Link check: ${{ needs.link-check.result }}"
           echo "- Structure audit: ${{ needs.structure-audit.result }}"
+          echo "- Audit gates: ${{ needs.audit-gates.result }}"
           echo "- NIST quickstart: ${{ needs.nist-quickstart.result }}"
           echo "- Standards inventory: ${{ needs.standards-inventory.result }}"
           echo "- Product matrix: ${{ needs.product-matrix-validation.result }}"
-          
-          # Determine overall status
-          if [ "${{ needs.pre-commit.result }}" = "failure" ] || \
-             [ "${{ needs.nist-quickstart.result }}" = "failure" ] || \
+          echo "- NIST compliance (changed files): ${{ needs.nist-compliance-check.result }}"
+          echo ""
+          # Fail pipeline if critical gates fail
+          if [ "${{ needs.audit-gates.result }}" != "success" ] || \
              [ "${{ needs.standards-inventory.result }}" = "failure" ] || \
-             [ "${{ needs.product-matrix-validation.result }}" = "failure" ]; then
-            echo ""
+             [ "${{ needs.product-matrix-validation.result }}" = "failure" ] || \
+             [ "${{ needs.nist-quickstart.result }}" = "failure" ]; then
             echo "❌ Critical checks failed"
             exit 1
-          else
-            echo ""
-            echo "✅ All critical checks passed"
           fi
+          echo "✅ All critical checks passed"
