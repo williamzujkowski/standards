@@ -1,6 +1,6 @@
 # Comprehensive Testing Manifesto for LLM Coding Projects
 
-> 📚 See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md)
+> 📚 See also: [Unified Software Development Standards](./docs/standards/UNIFIED_STANDARDS.md)
 
 
 **Version:** 1.0.0
