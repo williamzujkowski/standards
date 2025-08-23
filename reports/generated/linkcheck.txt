@@ -7,7 +7,7 @@ Generated: 2025-08-23
 
 ✅ No broken internal links found!
 
-## External Links (36 found)
+## External Links (38 found)
 
 
 ### 12factor.net (1 links)
@@ -21,8 +21,10 @@ Generated: 2025-08-23
 ### docs.github.com (1 links)
 - docs/core/GITHUB_WORKFLOWS.md: [GitHub Actions Documentation](https://docs.github.com/en/actions)
 
-### docs.pytest.org (1 links)
+### docs.pytest.org (3 links)
+- .pytest_cache/README.md: [the docs](https://docs.pytest.org/en/stable/how-to/cache.html)
 - examples/nist-templates/quickstart/.pytest_cache/README.md: [the docs](https://docs.pytest.org/en/stable/how-to/cache.html)
+- scripts/.pytest_cache/README.md: [the docs](https://docs.pytest.org/en/stable/how-to/cache.html)
 
 ### github.com (18 links)
 - README.md: [![Compliance](https://github.com/williamzujkowski/standards/actions/workflows/standards-compliance.yml/badge.svg)
@@ -64,6 +66,6 @@ Generated: 2025-08-23
 
 ## Summary
 
-- Files checked: 256
+- Files checked: 258
 - Broken links: 0
-- External links: 36
+- External links: 38

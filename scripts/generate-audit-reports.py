@@ -49,6 +49,36 @@ FENCE_REGEX = re.compile(r"```.*?```", flags=re.DOTALL)
 TILDE_FENCE_REGEX = re.compile(r"~~~.*?~~~", flags=re.DOTALL)
 INLINE_CODE_REGEX = re.compile(r"`[^`]*`")
 
+# Deterministic AUTO-LINKS parsing
+AUTO_BEGIN = "<!-- AUTO-LINKS:"
+AUTO_END = "<!-- /AUTO-LINKS -->"
+
+
+def parse_autolinks_section(text: str) -> List[Tuple[str, str]]:
+    """Return list of (text, link) from AUTO-LINKS blocks only - deterministic parse."""
+    links = []
+    start_idx = 0
+    
+    while True:
+        start = text.find(AUTO_BEGIN, start_idx)
+        if start == -1:
+            break
+        
+        end = text.find(AUTO_END, start)
+        if end == -1:
+            break
+        
+        # Extract the block between markers
+        block = text[start + len(AUTO_BEGIN):end]
+        
+        # Extract all markdown links from this block
+        for match in LINK_REGEX.findall(block):
+            links.append(match)
+        
+        start_idx = end + len(AUTO_END)
+    
+    return links
+
 
 def load_rules() -> Dict:
     if POLICY.exists():
@@ -115,17 +145,14 @@ def check_links_in_file(filepath: Path) -> Tuple[List[Tuple[str, str]], List[Tup
     try:
         content = filepath.read_text(encoding="utf-8")
 
-        # Extract links from AUTO-LINKS sections first
-        auto_links_pattern = r'<!-- AUTO-LINKS:.*? -->(.*?)<!-- /AUTO-LINKS -->'
-        auto_matches = re.findall(auto_links_pattern, content, re.DOTALL)
-        for match in auto_matches:
-            # Extract markdown links from AUTO-LINKS content
-            for text, link in LINK_REGEX.findall(match):
-                link = link.strip()
-                if not link.startswith(("http://", "https://", "#", "mailto:")):
-                    internal_links.append((text, link))
+        # 1) Deterministic links from AUTO-LINKS blocks
+        auto_links = parse_autolinks_section(content)
+        for text, link in auto_links:
+            link = link.strip()
+            if not link.startswith(("http://", "https://", "#", "mailto:")):
+                internal_links.append((text, link))
 
-        # Then process regular content (excluding code blocks)
+        # 2) Standard markdown links from entire doc (excluding code blocks)
         content_no_code = strip_code(content)
 
         for text, link in LINK_REGEX.findall(content_no_code):

@@ -81,6 +81,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # On PRs, force HEAD of the PR branch so updated audit code is evaluated
+          ref: ${{ github.event.pull_request.head.sha || '' }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -116,6 +120,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # On PRs, force HEAD of the PR branch so updated audit code is evaluated
+          ref: ${{ github.event.pull_request.head.sha || '' }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -156,6 +164,10 @@ jobs:
       ORPHAN_LIMIT: '5'
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # On PRs, force HEAD of the PR branch so updated audit code is evaluated
+          ref: ${{ github.event.pull_request.head.sha || '' }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -165,7 +177,11 @@ jobs:
       - name: Install deps
         run: |
           python -m pip install --upgrade pip
-          pip install pyyaml
+          pip install pyyaml pytest
+
+      - name: Audit unit tests (hub)
+        run: |
+          pytest -q scripts/tests/test_hub_enforcement.py
 
       - name: Ensure hubs and generate reports
         run: |
