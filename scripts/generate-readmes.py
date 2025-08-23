@@ -81,7 +81,7 @@ DIR_DESCRIPTIONS = {
 def get_hub_link(dir_path: Path) -> str:
     """Get the appropriate hub link for a directory."""
     dir_str = str(dir_path)
-    
+
     # Determine the best hub based on location
     if 'standards' in dir_str:
         # Calculate relative path to UNIFIED_STANDARDS
@@ -100,20 +100,20 @@ def get_hub_link(dir_path: Path) -> str:
 def generate_readme(dir_path: Path) -> bool:
     """Generate README for a directory."""
     full_path = ROOT / dir_path
-    
+
     # Create directory if it doesn't exist
     full_path.mkdir(parents=True, exist_ok=True)
-    
+
     readme_path = full_path / 'README.md'
-    
+
     # Skip if README already exists
     if readme_path.exists():
         print(f"  ✓ Already exists: {dir_path}/README.md")
         return False
-    
+
     # Get description
     description = DIR_DESCRIPTIONS.get(str(dir_path), f'{full_path.name.replace("-", " ").title()} directory')
-    
+
     # Start building README content
     lines = [
         f"# {full_path.name.replace('-', ' ').replace('_', ' ').title()}",
@@ -121,25 +121,25 @@ def generate_readme(dir_path: Path) -> bool:
         description,
         "",
     ]
-    
+
     # List child files/directories
     children = []
-    
+
     # Add subdirectories
     for child in sorted(full_path.glob('*/')):
         if child.name not in ['.git', '__pycache__', 'node_modules']:
             children.append(('dir', child.name, f"./{child.name}/"))
-    
+
     # Add markdown files
     for child in sorted(full_path.glob('*.md')):
         if child.name != 'README.md':
             children.append(('file', child.stem, f"./{child.name}"))
-    
+
     # Add other relevant files
     for pattern in ['*.py', '*.sh', '*.yaml', '*.yml', '*.json']:
         for child in sorted(full_path.glob(pattern)):
             children.append(('file', child.stem, f"./{child.name}"))
-    
+
     if children:
         lines.append("## Contents")
         lines.append("")
@@ -148,14 +148,14 @@ def generate_readme(dir_path: Path) -> bool:
             display_name = name.replace('_', ' ').replace('-', ' ').title()
             lines.append(f"- {icon} [{display_name}]({path})")
         lines.append("")
-    
+
     # Add navigation link
     lines.append("---")
     lines.append("")
     hub_link = get_hub_link(dir_path)
     lines.append(f"← Back to [Main Repository]({hub_link})")
     lines.append("")
-    
+
     # Write README
     try:
         readme_path.write_text('\n'.join(lines), encoding='utf-8')
@@ -169,12 +169,12 @@ def main():
     """Generate all missing READMEs."""
     print("📁 Generating missing README files...")
     print(f"  Processing {len(MISSING_DIRS)} directories...")
-    
+
     created = 0
     for dir_path in MISSING_DIRS:
         if generate_readme(Path(dir_path)):
             created += 1
-    
+
     print(f"\n✅ Created {created} README files")
     return 0
 

@@ -72,4 +72,3 @@ controls: - control_id: cm-2 control_name: Baseline Configuration
 
 ## ML_AI - ML_AI_STANDARDS.md
 **Version:** 1.0.0 **Last Updated:** January 2025 **Status:** Active
-

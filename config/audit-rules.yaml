@@ -1,9 +1,9 @@
 # Audit Rules Configuration
 # Last Updated: 2025-08-23
-# 
+#
 # This configuration enforces strict quality gates:
 # - Broken links = 0
-# - Hub violations = 0  
+# - Hub violations = 0
 # - Orphans ≤ 5
 #
 # Scheduled audits run weekly: Monday 05:17 UTC
@@ -22,7 +22,7 @@ orphans:
     - ".claude/**"           # Agent definitions (modular design)
     - "subagents/**"         # Subagent configurations
     - "memory/**"            # Session management files
-    - "prompts/**"           # Individual prompt files  
+    - "prompts/**"           # Individual prompt files
     - "reports/generated/**" # Generated reports (transient)
     - ".vscode/**"           # IDE configuration
     - ".git/**"              # Git internal files

@@ -30,7 +30,7 @@ Commands:
   diff <id>         Show diff since checkpoint
   clean             Clean old checkpoints (older than 7 days)
   summary           Show session summary
-  
+
 Options:
   --hard            For rollback: use git reset --hard (destructive)
   --soft            For rollback: use git reset --soft (default)
@@ -48,7 +48,7 @@ EOF
 function list_checkpoints() {
     echo -e "${BLUE}📋 Available Checkpoints:${NC}"
     echo ""
-    
+
     # List checkpoint tags
     echo -e "${YELLOW}Git Tags:${NC}"
     local tags=$(git tag -l 'checkpoint-*' -l 'session-end-*' -l 'task-*' --sort=-creatordate | head -20)
@@ -57,9 +57,9 @@ function list_checkpoints() {
     else
         echo "No checkpoint tags found"
     fi
-    
+
     echo ""
-    
+
     # List checkpoint branches
     echo -e "${YELLOW}Checkpoint Branches:${NC}"
     local branches=$(git branch -a | grep "checkpoint/" | sed 's/^[ *]*//')
@@ -68,9 +68,9 @@ function list_checkpoints() {
     else
         echo "No checkpoint branches found"
     fi
-    
+
     echo ""
-    
+
     # List checkpoint files
     if [ -d "$CHECKPOINT_DIR" ]; then
         echo -e "${YELLOW}Recent Checkpoint Files:${NC}"
@@ -82,10 +82,10 @@ function list_checkpoints() {
 # Show checkpoint details
 function show_checkpoint() {
     local checkpoint_id="$1"
-    
+
     echo -e "${BLUE}📍 Checkpoint Details: $checkpoint_id${NC}"
     echo ""
-    
+
     # Check if it's a tag
     if git tag -l "$checkpoint_id" | grep -q "$checkpoint_id"; then
         echo -e "${YELLOW}Type:${NC} Git Tag"
@@ -111,22 +111,22 @@ function show_checkpoint() {
 function rollback_checkpoint() {
     local checkpoint_id="$1"
     local mode="$2"
-    
+
     echo -e "${YELLOW}🔄 Rolling back to checkpoint: $checkpoint_id${NC}"
     echo ""
-    
+
     # Verify checkpoint exists
     if ! git tag -l "$checkpoint_id" | grep -q "$checkpoint_id" && \
        ! git branch -a | grep -q "$checkpoint_id"; then
         echo -e "${RED}❌ Checkpoint not found: $checkpoint_id${NC}"
         exit 1
     fi
-    
+
     # Create backup before rollback
     local backup_name="backup-$(date +%Y%m%d-%H%M%S)"
     echo "Creating backup: $backup_name"
     git tag "$backup_name" -m "Backup before rollback to $checkpoint_id"
-    
+
     case "$mode" in
         "--hard")
             echo -e "${RED}⚠️  Performing hard reset (destructive)${NC}"
@@ -152,10 +152,10 @@ function rollback_checkpoint() {
 # Show diff since checkpoint
 function diff_checkpoint() {
     local checkpoint_id="$1"
-    
+
     echo -e "${BLUE}📊 Changes since checkpoint: $checkpoint_id${NC}"
     echo ""
-    
+
     if git tag -l "$checkpoint_id" | grep -q "$checkpoint_id"; then
         git diff "$checkpoint_id"
     elif git branch -a | grep -q "$checkpoint_id"; then
@@ -169,16 +169,16 @@ function diff_checkpoint() {
 # Clean old checkpoints
 function clean_checkpoints() {
     local days=${1:-7}
-    
+
     echo -e "${YELLOW}🧹 Cleaning checkpoints older than $days days...${NC}"
     echo ""
-    
+
     # Clean old checkpoint files
     if [ -d "$CHECKPOINT_DIR" ]; then
         find "$CHECKPOINT_DIR" -name "*.json" -type f -mtime +$days -delete
         echo "✅ Cleaned old checkpoint files"
     fi
-    
+
     # List old tags (but don't delete automatically)
     echo ""
     echo "Old checkpoint tags (manual deletion required):"
@@ -189,12 +189,12 @@ function clean_checkpoints() {
 function show_summary() {
     echo -e "${BLUE}📊 Session Summary${NC}"
     echo ""
-    
+
     # Find most recent session summary
     if [ -d "$CHECKPOINT_DIR" ]; then
         local latest_summary=$(find "$CHECKPOINT_DIR" -name "summary-*.md" -type f -printf "%T@ %p\n" | \
             sort -rn | head -1 | cut -d' ' -f2-)
-        
+
         if [ -n "$latest_summary" ]; then
             echo -e "${YELLOW}Latest session summary:${NC}"
             cat "$latest_summary"

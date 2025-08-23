@@ -156,31 +156,31 @@ on:
 jobs:
   nist-compliance:
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v3
-    
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
-    
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install pytest pylint black
-    
+
     - name: Run NIST quickstart validation
       run: |
         cd examples/nist-templates/quickstart
         make ci
-    
+
     - name: Check for NIST tags in changed files
       if: github.event_name == 'pull_request'
       run: |
         # Get changed files
         changed_files=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '\.(py|js|ts|go|java)$' || true)
-        
+
         if [ -n "$changed_files" ]; then
           echo "Checking NIST tags in changed files..."
           for file in $changed_files; do

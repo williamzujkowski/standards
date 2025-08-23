@@ -51,7 +51,7 @@ echo "Checking Node.js installation..."
 if command -v node &> /dev/null; then
     NODE_VERSION=$(node --version)
     print_status "Node.js $NODE_VERSION found"
-    
+
     # Install dependencies for compliance tools if needed
     if [ -f "standards/compliance/package.json" ]; then
         echo "Installing Node.js dependencies for compliance tools..."

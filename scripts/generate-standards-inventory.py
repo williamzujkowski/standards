@@ -46,7 +46,7 @@ def extract_nist_controls(content: str) -> List[str]:
     pattern = r'\b([A-Z]{2}-\d+(?:\(\d+\))?)\b'
     matches = re.findall(pattern, content)
     for match in matches:
-        if match.startswith(('AC-', 'AU-', 'AT-', 'CM-', 'CP-', 'IA-', 
+        if match.startswith(('AC-', 'AU-', 'AT-', 'CM-', 'CP-', 'IA-',
                              'IR-', 'MA-', 'MP-', 'PS-', 'PE-', 'PL-',
                              'PM-', 'RA-', 'CA-', 'SC-', 'SI-', 'SA-', 'SR-')):
             controls.add(match)
@@ -66,7 +66,7 @@ def extract_description(content: str) -> str:
     lines = content.split('\n')
     in_header = False
     description_lines = []
-    
+
     for line in lines:
         if line.startswith('# '):
             in_header = True
@@ -78,7 +78,7 @@ def extract_description(content: str) -> str:
                 break
         if in_header and line.startswith('##'):
             break
-    
+
     desc = ' '.join(description_lines)
     # Truncate if too long
     if len(desc) > 200:
@@ -93,11 +93,11 @@ def get_standard_code(filename: str) -> str:
 def extract_related_standards(content: str) -> List[str]:
     """Extract references to other standards from content."""
     related = set()
-    
+
     # Look for markdown links to other standards
     link_pattern = r'\[([^\]]+)\]\(([^)]+\.md)\)'
     matches = re.findall(link_pattern, content)
-    
+
     for text, link in matches:
         if 'STANDARDS' in link.upper() or 'NIST' in link.upper():
             # Extract filename without extension
@@ -106,13 +106,13 @@ def extract_related_standards(content: str) -> List[str]:
                 related.add(STANDARD_CODES[filename.upper()])
             elif 'STANDARDS' in filename.upper():
                 related.add(filename.upper().replace('_STANDARDS', ''))
-    
+
     return sorted(list(related))
 
 def extract_tags(content: str, filepath: str) -> List[str]:
     """Extract tags from document content and filepath."""
     tags = set()
-    
+
     # Add tags based on filepath
     path_lower = filepath.lower()
     if 'nist' in path_lower:
@@ -134,7 +134,7 @@ def extract_tags(content: str, filepath: str) -> List[str]:
         tags.add('compliance')
     if 'project' in path_lower or 'management' in path_lower:
         tags.add('management')
-    
+
     # Look for common keywords in content
     content_lower = content.lower()[:5000]  # Check first 5000 chars
     keyword_tags = {
@@ -159,11 +159,11 @@ def extract_tags(content: str, filepath: str) -> List[str]:
         'ml': 'ml',
         'ai': 'ai',
     }
-    
+
     for keyword, tag in keyword_tags.items():
         if keyword in content_lower:
             tags.add(tag)
-    
+
     return sorted(list(tags))
 
 def process_standard_file(filepath: str) -> Optional[Dict]:
@@ -171,23 +171,23 @@ def process_standard_file(filepath: str) -> Optional[Dict]:
     try:
         with open(filepath, 'r', encoding='utf-8') as f:
             content = f.read()
-        
+
         # Skip empty files
         if not content.strip():
             return None
-        
+
         # Create relative path from repo root
         try:
             rel_path = str(Path(filepath).relative_to(Path.cwd()))
         except ValueError:
             # If relative_to fails, just use the path as is
             rel_path = str(Path(filepath))
-        
+
         # Generate unique ID
         doc_id = Path(filepath).stem.lower().replace('_', '-')
         if 'nist' in filepath.lower():
             doc_id = 'nist-' + doc_id
-        
+
         return {
             'id': doc_id,
             'slug': Path(filepath).stem.lower(),
@@ -206,7 +206,7 @@ def process_standard_file(filepath: str) -> Optional[Dict]:
 def main():
     """Generate standards inventory."""
     standards = []
-    
+
     # Define search paths
     search_paths = [
         'docs/standards/*.md',
@@ -220,24 +220,24 @@ def main():
         'examples/nist-templates/README.md',
         'CLAUDE.md',
     ]
-    
+
     # Collect all standard files
     all_files = set()
     for pattern in search_paths:
         for filepath in Path('.').glob(pattern):
             if filepath.is_file():
                 all_files.add(str(filepath))
-    
+
     # Process each file
     for filepath in sorted(all_files):
         doc = process_standard_file(filepath)
         if doc:
             standards.append(doc)
             print(f"Processed: {doc['code']} - {doc['title']}")
-    
+
     # Sort by code
     standards.sort(key=lambda x: x['code'])
-    
+
     # Generate summary stats
     summary = {
         'total_documents': len(standards),
@@ -246,23 +246,23 @@ def main():
         'unique_tags': sorted(list(set(tag for s in standards for tag in s['tags']))),
         'generation_timestamp': '2025-08-23T00:00:00Z',
     }
-    
+
     # Create output
     output = {
         'summary': summary,
         'standards': standards,
     }
-    
+
     # Write to file
     output_path = Path('reports/generated/standards-inventory.json')
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    
+
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(output, f, indent=2)
-    
+
     print(f"\n✅ Generated inventory with {len(standards)} standards")
     print(f"📁 Output: {output_path}")
-    
+
     # Also generate a quick reference markdown
     ref_path = Path('reports/generated/standards-quick-reference.md')
     with open(ref_path, 'w', encoding='utf-8') as f:
@@ -273,7 +273,7 @@ def main():
         for std in standards:
             tags = ', '.join(std['tags'][:3]) if std['tags'] else '-'
             f.write(f"| **{std['code']}** | {std['title']} | {tags} | [{std['path']}]({std['path']}) |\n")
-    
+
     print(f"📄 Quick reference: {ref_path}")
 
 if __name__ == '__main__':

@@ -10,7 +10,7 @@ if ! command -v gh &> /dev/null; then
     echo "Continuing without GitHub features..."
 else
     echo "✅ GitHub CLI found"
-    
+
     # Check auth status
     if gh auth status &> /dev/null; then
         echo "✅ GitHub authentication active"

@@ -121,7 +121,7 @@ if [ -f "Makefile" ]; then
         echo -e "${YELLOW}⚠️  NIST validation issues${NC}"
         WARN=$((WARN + 1))
     fi
-    
+
     # Test Python syntax
     if python3 -m py_compile auth-service.py 2>/dev/null; then
         echo -e "${GREEN}✅ Python syntax valid${NC}"
@@ -159,7 +159,7 @@ if python3 scripts/generate-audit-reports.py 2>/dev/null; then
     if [ -f "reports/generated/linkcheck.txt" ] && [ -f "reports/generated/structure-audit.md" ]; then
         echo -e "${GREEN}✅ Audit reports generated${NC}"
         PASS=$((PASS + 1))
-        
+
         # Check for broken links
         BROKEN=$(grep "Broken links:" reports/generated/linkcheck.txt | grep -o "[0-9]*")
         if [ "$BROKEN" = "0" ]; then

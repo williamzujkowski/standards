@@ -31,7 +31,7 @@ def move_reports():
     moved = 0
     reports_dir = ROOT / 'reports' / 'generated'
     reports_dir.mkdir(parents=True, exist_ok=True)
-    
+
     for filename in MOVE_TO_REPORTS:
         src = ROOT / filename
         if src.exists():
@@ -39,7 +39,7 @@ def move_reports():
             shutil.move(str(src), str(dst))
             print(f"  ✅ Moved {filename} to reports/generated/")
             moved += 1
-    
+
     return moved
 
 def create_orphan_index():
@@ -75,18 +75,18 @@ def create_orphan_index():
             ]
         },
     }
-    
+
     for index_path, config in indices.items():
         full_path = ROOT / index_path
         if full_path.exists():
             # Read existing content
             content = full_path.read_text(encoding='utf-8')
-            
+
             # Check if index section exists
             if '## Index' not in content:
                 # Add index section
                 lines = content.splitlines()
-                
+
                 # Find where to insert (after first heading)
                 insert_pos = 0
                 for i, line in enumerate(lines):
@@ -96,10 +96,10 @@ def create_orphan_index():
                         while insert_pos < len(lines) and lines[insert_pos].strip() and not lines[insert_pos].startswith('#'):
                             insert_pos += 1
                         break
-                
+
                 # Build index
                 index_lines = ['', '## Index', '']
-                
+
                 for pattern in config['files']:
                     if '*' in pattern:
                         # Glob pattern
@@ -118,10 +118,10 @@ def create_orphan_index():
                         file_path = full_path.parent / pattern
                         if file_path.exists():
                             index_lines.append(f"- [{file_path.stem}]({pattern})")
-                
+
                 # Insert index
                 lines[insert_pos:insert_pos] = index_lines
-                
+
                 # Write back
                 full_path.write_text('\n'.join(lines), encoding='utf-8')
                 print(f"  ✅ Updated index: {index_path}")
@@ -131,20 +131,20 @@ def update_main_readme():
     readme = ROOT / 'README.md'
     if not readme.exists():
         return
-    
+
     content = readme.read_text(encoding='utf-8')
-    
+
     # Check if archived section exists
     if '## 📚 Archived Reports' not in content:
         # Find where to add (before contributing section or at end)
         lines = content.splitlines()
         insert_pos = len(lines)
-        
+
         for i, line in enumerate(lines):
             if '## 🤝 Contributing' in line or '## Contributing' in line:
                 insert_pos = i
                 break
-        
+
         # Add archived reports section
         archive_section = [
             '',
@@ -153,14 +153,14 @@ def update_main_readme():
             'Historical implementation and validation reports have been archived to `reports/generated/`:',
             '',
             '- Implementation reports',
-            '- Validation reports',  
+            '- Validation reports',
             '- Cleanup summaries',
             '- Weekly digests',
             '',
             'See [reports/generated/](./reports/generated/) for full archive.',
             ''
         ]
-        
+
         lines[insert_pos:insert_pos] = archive_section
         readme.write_text('\n'.join(lines), encoding='utf-8')
         print("  ✅ Updated main README with archived reports section")
@@ -168,17 +168,17 @@ def update_main_readme():
 def main():
     """Organize orphaned files."""
     print("📂 Organizing orphaned files...")
-    
+
     # Move reports
     moved = move_reports()
     print(f"  Moved {moved} reports to reports/generated/")
-    
+
     # Create indices
     create_orphan_index()
-    
+
     # Update main README
     update_main_readme()
-    
+
     print("\n✅ Orphaned files organized")
     return 0
 

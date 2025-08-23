@@ -49,10 +49,10 @@ log_info "Installing core security and quality tools..."
 if ! command -v pre-commit &> /dev/null; then
     log_info "Installing pre-commit framework..."
     pip3 install --user pre-commit>=3.6.0
-    
+
     # Add to PATH if needed
     export PATH="$HOME/.local/bin:$PATH"
-    
+
     # Verify installation
     if command -v pre-commit &> /dev/null; then
         log_success "Pre-commit installed successfully"
@@ -68,33 +68,33 @@ fi
 # Install Gitleaks for advanced secret detection
 if ! command -v gitleaks &> /dev/null; then
     log_info "Installing Gitleaks for secret detection..."
-    
+
     # Detect OS and architecture
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     ARCH=$(uname -m)
-    
+
     case $ARCH in
         x86_64) ARCH="x64" ;;
         aarch64|arm64) ARCH="arm64" ;;
         *) log_warning "Unsupported architecture: $ARCH. Skipping Gitleaks installation." ;;
     esac
-    
+
     if [[ $ARCH != "unsupported" ]]; then
         GITLEAKS_VERSION="8.18.0"
         GITLEAKS_URL="https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_${OS}_${ARCH}.tar.gz"
-        
+
         # Download and install
         TMP_DIR=$(mktemp -d)
         curl -sL "$GITLEAKS_URL" | tar -xz -C "$TMP_DIR"
-        
+
         # Install to user binary directory
         mkdir -p "$HOME/.local/bin"
         mv "$TMP_DIR/gitleaks" "$HOME/.local/bin/"
         chmod +x "$HOME/.local/bin/gitleaks"
         rm -rf "$TMP_DIR"
-        
+
         export PATH="$HOME/.local/bin:$PATH"
-        
+
         if command -v gitleaks &> /dev/null; then
             log_success "Gitleaks installed successfully"
         else
@@ -109,10 +109,10 @@ fi
 # Install Node.js dependencies
 if command -v npm &> /dev/null; then
     log_info "Installing Node.js quality tools..."
-    
+
     # Install global tools
     npm install -g markdownlint-cli@0.39.0 2>/dev/null || log_warning "Failed to install markdownlint-cli globally"
-    
+
     # Check if tools are available
     if command -v markdownlint &> /dev/null; then
         log_success "Markdownlint installed successfully"
@@ -163,7 +163,7 @@ title = "Standards Repository Security Scan"
     "\.gitleaks-report\.json",
     "\.secrets\.baseline"
   ]
-  
+
   # Allow certain patterns that are not actually secrets
   regexes = [
     "example\.com",

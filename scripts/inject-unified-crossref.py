@@ -40,15 +40,15 @@ def compute_relative_path(from_file: Path, to_file: Path) -> str:
     """Compute relative path from one file to another."""
     # Get the directory of the from_file
     from_dir = from_file.parent
-    
+
     # For files in standards/compliance/
     if 'standards/compliance' in str(from_dir):
         return '../../docs/standards/UNIFIED_STANDARDS.md'
-    
+
     # For files in docs/standards/
     if 'docs/standards' in str(from_dir):
         return './UNIFIED_STANDARDS.md'
-    
+
     return './UNIFIED_STANDARDS.md'
 
 def inject_crossref(filepath: Path) -> bool:
@@ -56,16 +56,16 @@ def inject_crossref(filepath: Path) -> bool:
     if not filepath.exists():
         print(f"  ⚠️  File not found: {filepath}")
         return False
-    
+
     try:
         content = filepath.read_text(encoding='utf-8')
         lines = content.splitlines()
-        
+
         # Check if cross-ref already exists
         if 'UNIFIED_STANDARDS' in content:
             print(f"  ✓ Already has reference: {filepath.name}")
             return False
-        
+
         # Find the first heading (line starting with #)
         insert_pos = -1
         for i, line in enumerate(lines):
@@ -76,24 +76,24 @@ def inject_crossref(filepath: Path) -> bool:
                 while insert_pos < len(lines) and lines[insert_pos].strip().startswith('**'):
                     insert_pos += 1
                 break
-        
+
         if insert_pos == -1:
             insert_pos = 0
-        
+
         # Compute relative path
         rel_path = compute_relative_path(filepath, ROOT / 'docs/standards/UNIFIED_STANDARDS.md')
-        
+
         # Create cross-reference line
         crossref = f"\n> 📚 See also: [Unified Software Development Standards]({rel_path})\n"
-        
+
         # Insert the cross-reference
         lines.insert(insert_pos, crossref)
-        
+
         # Write back
         filepath.write_text('\n'.join(lines), encoding='utf-8')
         print(f"  ✅ Added cross-reference: {filepath.name}")
         return True
-        
+
     except Exception as e:
         print(f"  ❌ Error processing {filepath}: {e}")
         return False
@@ -102,13 +102,13 @@ def main():
     """Add cross-references to all target files."""
     print("📝 Injecting UNIFIED_STANDARDS cross-references...")
     print(f"  Processing {len(TARGETS)} files...")
-    
+
     added = 0
     for target in TARGETS:
         filepath = ROOT / target
         if inject_crossref(filepath):
             added += 1
-    
+
     print(f"\n✅ Added {added} cross-references")
     return 0
 

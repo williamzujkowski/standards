@@ -79,7 +79,7 @@ quickstart/
 def authenticate(self, username: str, password: str):
     """
     Authenticate user and create session.
-    
+
     @nist ia-2 "User authentication"
     @nist ac-7 "Unsuccessful login attempts"
     """

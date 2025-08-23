@@ -1,7 +1,7 @@
 # Product Type to Standards Mapping Matrix
 # Version: 1.0.0
 # Last Updated: 2025-08-23
-# 
+#
 # This matrix defines the standard bundles for different product types.
 # Standards are referenced by their codes (CS, TS, SEC, etc.)
 # When SEC is included, NIST-IG:base is auto-included for compliance.
@@ -177,22 +177,22 @@ language_mappings:
     CS: CS:python
     TS: TS:pytest
     TOOL: TOOL:python
-  
+
   javascript:
     CS: CS:javascript
     TS: TS:jest
     TOOL: TOOL:nodejs
-  
+
   typescript:
     CS: CS:typescript
     TS: TS:vitest
     TOOL: TOOL:nodejs
-  
+
   go:
     CS: CS:go
     TS: TS:go-test
     TOOL: TOOL:go
-  
+
   java:
     CS: CS:java
     TS: TS:junit
@@ -204,27 +204,27 @@ framework_mappings:
     FE: FE:react
     TS: TS:react-testing-library
     WD: WD:react-patterns
-  
+
   vue:
     FE: FE:vue
     TS: TS:vue-test-utils
     WD: WD:vue-patterns
-  
+
   angular:
     FE: FE:angular
     TS: TS:karma
     WD: WD:angular-patterns
-  
+
   django:
     CS: CS:django
     TS: TS:django-test
     SEC: SEC:django-security
-  
+
   fastapi:
     CS: CS:fastapi
     TS: TS:pytest
     SEC: SEC:fastapi-security
-  
+
   express:
     CS: CS:express
     TS: TS:supertest
@@ -239,7 +239,7 @@ stack_presets:
       - FE:react
       - DB:mongodb
       - CS:javascript
-  
+
   mean:
     description: "MongoDB, Express, Angular, Node.js"
     uses: web-service
@@ -247,7 +247,7 @@ stack_presets:
       - FE:angular
       - DB:mongodb
       - CS:typescript
-  
+
   lamp:
     description: "Linux, Apache, MySQL, PHP"
     uses: web-service
@@ -255,7 +255,7 @@ stack_presets:
       - CS:php
       - DB:mysql
       - DOP:apache
-  
+
   jamstack:
     description: "JavaScript, APIs, Markup"
     uses: frontend-web

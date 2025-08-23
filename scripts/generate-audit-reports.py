@@ -114,7 +114,7 @@ def check_links_in_file(filepath: Path) -> Tuple[List[Tuple[str, str]], List[Tup
 
     try:
         content = filepath.read_text(encoding="utf-8")
-        
+
         # Extract links from AUTO-LINKS sections first
         auto_links_pattern = r'<!-- AUTO-LINKS:.*? -->(.*?)<!-- /AUTO-LINKS -->'
         auto_matches = re.findall(auto_links_pattern, content, re.DOTALL)
@@ -124,7 +124,7 @@ def check_links_in_file(filepath: Path) -> Tuple[List[Tuple[str, str]], List[Tup
                 link = link.strip()
                 if not link.startswith(("http://", "https://", "#", "mailto:")):
                     internal_links.append((text, link))
-        
+
         # Then process regular content (excluding code blocks)
         content_no_code = strip_code(content)
 
