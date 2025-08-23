@@ -42,11 +42,13 @@ ignore = [
     "S105",  # possible hardcoded password
     "S106",  # possible hardcoded password
     "S110",  # try-except-pass - acceptable in some cases
+    "S112",  # try-except-continue - acceptable in monitoring
     "S324",  # MD5 hash - used for checksums, not security
     "S602",  # subprocess with shell=True
     "S603",  # subprocess untrusted input
     "S607",  # partial executable path
     "B007",  # unused loop variable
+    "N802",  # function name should be lowercase - needed for HTTP handlers
 ]
 exclude = [
     ".git",

@@ -341,7 +341,6 @@ dist
 # Security Files
 # ===========================
 .gitleaks-report.json
-.gitleaks.toml
 *.pem
 *.key
 *.cert
