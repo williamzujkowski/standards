@@ -76,6 +76,7 @@ tags = ["database", "connection"]
 
 # NPM tokens
 [[rules]]
+id = "npm-token"
 description = "NPM Token"
 regex = '''//registry.npmjs.org/:_authToken=[0-9a-f-]+'''
 tags = ["npm", "token"]

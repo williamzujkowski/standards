@@ -47,7 +47,6 @@ MD041: true
 # Proper spacing around headings
 MD022: true
 MD023: true
-MD025: true
 
 # Code blocks must have language specified - disabled for flexibility
 MD040: false
