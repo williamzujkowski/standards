@@ -114,6 +114,18 @@ def check_links_in_file(filepath: Path) -> Tuple[List[Tuple[str, str]], List[Tup
 
     try:
         content = filepath.read_text(encoding="utf-8")
+        
+        # Extract links from AUTO-LINKS sections first
+        auto_links_pattern = r'<!-- AUTO-LINKS:.*? -->(.*?)<!-- /AUTO-LINKS -->'
+        auto_matches = re.findall(auto_links_pattern, content, re.DOTALL)
+        for match in auto_matches:
+            # Extract markdown links from AUTO-LINKS content
+            for text, link in LINK_REGEX.findall(match):
+                link = link.strip()
+                if not link.startswith(("http://", "https://", "#", "mailto:")):
+                    internal_links.append((text, link))
+        
+        # Then process regular content (excluding code blocks)
         content_no_code = strip_code(content)
 
         for text, link in LINK_REGEX.findall(content_no_code):
