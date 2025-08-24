@@ -40,22 +40,14 @@ jobs:
           cache-version: 0
           working-directory: ./docs
       
-      - name: Create Gemfile if not exists
+      - name: Verify Gemfile exists
         run: |
           cd docs
           if [ ! -f Gemfile ]; then
-            cat > Gemfile << 'EOF'
-          source "https://rubygems.org"
-          gem "jekyll", "~> 4.3.3"
-          gem "github-pages", group: :jekyll_plugins
-          gem "jekyll-feed", "~> 0.12"
-          gem "jekyll-seo-tag"
-          gem "jekyll-sitemap"
-          gem "jekyll-relative-links"
-          gem "jemoji"
-          gem "kramdown-parser-gfm"
-          EOF
+            echo "Error: Gemfile not found in docs directory"
+            exit 1
           fi
+          cat Gemfile
           
       - name: Install dependencies
         run: |

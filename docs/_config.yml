@@ -8,7 +8,7 @@ baseurl: "/standards" # the subpath of your site, e.g. /blog
 url: "https://williamzujkowski.github.io" # the base hostname & protocol
 
 # Build settings
-# theme: jekyll-theme-cayman  # GitHub Pages will use this automatically
+theme: jekyll-theme-cayman
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
