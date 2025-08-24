@@ -44,6 +44,8 @@ orphans:
     - "**/.ruff_cache/**"    # Ruff cache (all levels)
     - "project_plan.md"      # Planning document (intentional)
     - "standards/compliance/IMPLEMENTATION_SUMMARY.md" # Generated report
+    - "MIGRATION_LOG.md"      # Jekyll to MkDocs migration log (one-time document)
+    - "site/**"               # MkDocs generated site (build output)
 
   require_link_from:
     # Standards are linked from the unified hub

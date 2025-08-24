@@ -66,6 +66,6 @@ Generated: 2025-08-24
 
 ## Summary
 
-- Files checked: 258
+- Files checked: 259
 - Broken links: 0
 - External links: 36

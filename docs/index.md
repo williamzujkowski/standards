@@ -114,35 +114,41 @@
 ## 🗂️ Complete Standards Library
 
 ### Core Development Standards
+
 - **[Unified Standards Framework](standards/UNIFIED_STANDARDS.md)** - Integrated overview of all standards
 - **[Coding Standards](standards/CODING_STANDARDS.md)** - Language-specific best practices
 - **[Testing Standards](standards/TESTING_STANDARDS.md)** - Comprehensive testing strategies
 - **[Database Standards](standards/DATABASE_STANDARDS.md)** - Data modeling and management
 
 ### Architecture & Design
+
 - **[Cloud Native Standards](standards/CLOUD_NATIVE_STANDARDS.md)** - Kubernetes, containers, orchestration
 - **[Microservices Standards](standards/MICROSERVICES_STANDARDS.md)** - Service mesh, distributed systems
 - **[Event-Driven Standards](standards/EVENT_DRIVEN_STANDARDS.md)** - Async messaging, streaming
 - **[ML & AI Standards](standards/ML_AI_STANDARDS.md)** - Machine learning operations
 
 ### Security & Compliance
+
 - **[Modern Security Standards](standards/MODERN_SECURITY_STANDARDS.md)** - Zero-trust, DevSecOps
 - **[NIST Implementation Guide](nist/NIST_IMPLEMENTATION_GUIDE.md)** - NIST 800-53 controls
 - **[Compliance Standards](standards/COMPLIANCE_STANDARDS.md)** - Regulatory frameworks
 - **[Legal Compliance](standards/LEGAL_COMPLIANCE_STANDARDS.md)** - GDPR, HIPAA, SOC2
 
 ### Platform & Operations
+
 - **[DevOps Platform Standards](standards/DEVOPS_PLATFORM_STANDARDS.md)** - CI/CD, automation
 - **[GitHub Platform Standards](standards/GITHUB_PLATFORM_STANDARDS.md)** - GitHub-specific workflows
 - **[Data Engineering Standards](standards/DATA_ENGINEERING_STANDARDS.md)** - ETL/ELT pipelines
 - **[Observability Standards](standards/OBSERVABILITY_STANDARDS.md)** - Monitoring, logging, tracing
 
 ### Business & Management
+
 - **[Project Management Standards](standards/PROJECT_MANAGEMENT_STANDARDS.md)** - Agile, Scrum, Kanban
 - **[Knowledge Management](standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md)** - Documentation practices
 - **[Cost Optimization](standards/COST_OPTIMIZATION_STANDARDS.md)** - Cloud cost management
 
 ### Specialized Domains
+
 - **[Frontend & Mobile Standards](standards/FRONTEND_MOBILE_STANDARDS.md)** - UI/UX, responsive design
 - **[Web Design & UX Standards](standards/WEB_DESIGN_UX_STANDARDS.md)** - Accessibility, usability
 - **[SEO & Marketing Standards](standards/SEO_WEB_MARKETING_STANDARDS.md)** - Web optimization
@@ -154,6 +160,7 @@
 ## 🚀 Implementation Resources
 
 ### 📖 Guides & Templates
+
 - [Standards Index](guides/STANDARDS_INDEX.md) - Complete catalog with categories
 - [Kickstart Prompt](guides/KICKSTART_PROMPT.md) - AI-powered project initialization
 - [Product Matrix](guides/USING_PRODUCT_MATRIX.md) - Pre-configured standard bundles
@@ -162,11 +169,13 @@
 - [Validation Patterns](guides/VALIDATION_PATTERNS.md) - Automated compliance checks
 
 ### 🔧 Working Examples
-- [Project Templates](examples/) - Docker, Kubernetes, Terraform
-- [NIST Templates](examples/nist-templates/) - Python, TypeScript, Go implementations
-- [AI Generation Hints](examples/ai-generation-hints/) - LLM optimization patterns
+
+- [Project Templates](../examples/README.md) - Docker, Kubernetes, Terraform
+- [NIST Templates](../examples/nist-templates/README.md) - Python, TypeScript, Go implementations
+- [AI Generation Hints](../examples/ai-generation-hints/README.md) - LLM optimization patterns
 
 ### 🤖 AI Integration
+
 - [Claude Configuration](core/CLAUDE.md) - AI assistant setup
 - [LLM Training](guides/LLM_TRAINING.md) - Custom model fine-tuning
 - [Integration Guide](core/INTEGRATION_GUIDE.md) - Tool integration patterns
@@ -206,6 +215,7 @@ Organizations implementing these standards report:
 ## 🤝 Contributing
 
 We welcome contributions! See our:
+
 - [Contributing Guide](core/CONTRIBUTING.md) - How to contribute
 - [Code of Conduct](core/CODE_OF_CONDUCT.md) - Community guidelines
 - [Contributor Onboarding](core/CONTRIBUTOR_ONBOARDING.md) - Getting started
@@ -233,3 +243,4 @@ We welcome contributions! See our:
     <p>Built with ❤️ for the developer community</p>
     <p>© 2025 Standards Repository • MIT License</p>
 </div>
+
