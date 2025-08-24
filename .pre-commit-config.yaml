@@ -108,6 +108,7 @@ repos:
         name: Validate YAML syntax
         exclude: |
           (?x)^(
+              mkdocs\.yml$|
               deployment\.standards\.yaml$|
               .*\.template\.ya?ml$|
               .*\.example\.ya?ml$
