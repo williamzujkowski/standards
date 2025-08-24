@@ -111,17 +111,13 @@ def generate_index():
     standards_dir = Path("docs/standards")
     index_path = Path("docs/guides/STANDARDS_INDEX.md")
     index_content = []
-    
+
     # Preserve AUTO-LINKS section if it exists
     auto_links_content = ""
     if index_path.exists():
         existing_content = index_path.read_text(encoding="utf-8")
         # Look for AUTO-LINKS section
-        auto_links_match = re.search(
-            r"(<!-- AUTO-LINKS:.*?-->.*?<!-- /AUTO-LINKS -->)", 
-            existing_content, 
-            re.DOTALL
-        )
+        auto_links_match = re.search(r"(<!-- AUTO-LINKS:.*?-->.*?<!-- /AUTO-LINKS -->)", existing_content, re.DOTALL)
         if auto_links_match:
             auto_links_content = auto_links_match.group(1)
 
@@ -197,11 +193,11 @@ This index provides quick summaries of all standards sections. Use the codes bel
 
         category_name = CATEGORIES.get(code, code)
         index_content.append(f"## {category_name} ({code})\n")
-        
+
         # Insert AUTO-LINKS for the first category (CS) before the table
         if code == "CS" and auto_links_content:
             index_content.append("\n" + auto_links_content + "\n")
-        
+
         index_content.append("\n| Code | Section | Summary |\n")
         index_content.append("|------|---------|---------|")
 
