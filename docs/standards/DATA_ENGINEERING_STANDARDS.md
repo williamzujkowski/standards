@@ -303,9 +303,7 @@ models:
         node_color: "green"
       core:
         +materialized: table
-{% raw %}
         +post-hook: "{{ grant_select('analytics_users') }}"
-{% endraw %}
 
 vars:
   # Date range for incremental models
@@ -315,14 +313,10 @@ vars:
   enable_experimental_features: false
 
 on-run-start:
-{% raw %}
   - "{{ create_audit_log_entry() }}"
-{% endraw %}
 
 on-run-end:
-{% raw %}
   - "{{ update_data_freshness() }}"
-{% endraw %}
 ```
 
 ### 1.3 Error Handling and Recovery
@@ -700,14 +694,12 @@ def track_dbt_lineage():
 
     # Register the current model
     asset = DataAsset(
-{% raw %}
         name="{{ this.name }}",
         type="table",
         location="{{ this }}",
         schema="{{ get_column_schema() }}",
         owner="{{ var('owner') }}",
         description="{{ model.description }}",
-{% endraw %}
         created_at=datetime.utcnow(),
         updated_at=datetime.utcnow()
     )
@@ -717,11 +709,9 @@ def track_dbt_lineage():
     # Record lineage to parent models
     lineage = DataLineage(
         asset_id=asset_id,
-{% raw %}
         parent_assets="{{ get_parent_models() }}",
         transformation="dbt_model",
         transformation_code="{{ get_compiled_sql() }}",
-{% endraw %}
         created_by="dbt",
         created_at=datetime.utcnow()
     )
@@ -1478,7 +1468,6 @@ analytics/
 
 ```sql
 -- models/staging/stg_customers.sql
-{% raw %}
 {{ config(
     materialized='view',
     tags=['staging', 'customer']
@@ -1487,7 +1476,6 @@ analytics/
 with source as (
     select * from {{ source('raw_data', 'customers') }}
 ),
-{% endraw %}
 
 renamed as (
     select
@@ -1570,42 +1558,33 @@ models:
           - not_null
           - dbt_utils.accepted_range:
               min_value: '2020-01-01'
-{% raw %}
               max_value: "{{ var('max_date') }}"
-{% endraw %}
 ```
 
 #### Macro Development **[REQUIRED]**
 
 ```sql
 -- macros/generate_surrogate_key.sql
-{% raw %}
 {% macro generate_surrogate_key(columns) %}
     {{ dbt_utils.surrogate_key(columns) }}
 {% endmacro %}
-{% endraw %}
 
 -- macros/test_data_freshness.sql
-{% raw %}
 {% macro test_data_freshness(model, timestamp_column, threshold_hours=24) %}
     select count(*)
     from {{ model }}
     where {{ timestamp_column }} < current_timestamp - interval '{{ threshold_hours }} hours'
 {% endmacro %}
-{% endraw %}
 
 -- macros/safe_divide.sql
-{% raw %}
 {% macro safe_divide(numerator, denominator) %}
     case
         when {{ denominator }} = 0 then null
         else {{ numerator }} / {{ denominator }}
     end
 {% endmacro %}
-{% endraw %}
 
 -- macros/pivot_table.sql
-{% raw %}
 {% macro pivot_table(table_name, group_by_column, pivot_column, value_column, agg_func='sum') %}
     select
         {{ group_by_column }},
@@ -1616,7 +1595,6 @@ models:
     from {{ table_name }}
     group by {{ group_by_column }}
 {% endmacro %}
-{% endraw %}
 ```
 
 ### 5.2 Metrics and KPIs Framework
@@ -1672,7 +1650,6 @@ metrics:
 
 ```sql
 -- models/marts/core/customer_metrics.sql
-{% raw %}
 {{ config(
     materialized='table',
     indexes=[
@@ -1706,7 +1683,6 @@ with daily_metrics as (
         ) }} as conversion_rate
 
     from {{ ref('fct_customer_activity') }}
-{% endraw %}
     where activity_date >= current_date - 90  -- Last 90 days
     group by 1, 2
 ),
