@@ -26,6 +26,7 @@ Just copy, implement, and ship.
    - First PR ready to go
 
 **Example:**
+
 ```
 You: [Paste kickstart prompt] + "I'm building a Python API with FastAPI and PostgreSQL"
 
@@ -60,12 +61,14 @@ chmod +x setup-project.sh
 ### Complete Standards Library (24 Documents)
 
 **Core Development**
+
 - [UNIFIED_STANDARDS.md](./docs/standards/UNIFIED_STANDARDS.md) - Master reference (start here)
 - [CODING_STANDARDS.md](./docs/standards/CODING_STANDARDS.md) - Language-specific patterns
 - [TESTING_STANDARDS.md](./docs/standards/TESTING_STANDARDS.md) - Test strategies & coverage
 - [MODERN_SECURITY_STANDARDS.md](./docs/standards/MODERN_SECURITY_STANDARDS.md) - Security implementation
 
 **Specialized Domains**
+
 - Frontend, Mobile, Backend, Data Engineering
 - Cloud Native, DevOps, Observability
 - AI/ML, Event-Driven, Microservices
@@ -94,24 +97,28 @@ examples/
 ## 🎯 For Different Roles
 
 ### Developers
+
 - Copy working code patterns
 - Skip bikeshedding discussions
 - Focus on building features
 - Pass code reviews easily
 
 ### Tech Leads
+
 - Onboard team members faster
 - Maintain consistency across projects
 - Reduce technical debt
 - Implement best practices systematically
 
 ### Architects
+
 - Reference architecture patterns
 - Security-by-default designs
 - Scalability guidelines
 - Integration strategies
 
 ### Compliance Teams
+
 - NIST 800-53r5 control templates
 - Audit-ready documentation
 - Automated compliance checking
@@ -122,18 +129,21 @@ examples/
 ## 🔥 Real Examples
 
 ### Start a Python API
+
 ```bash
 @load [product:api + CS:python + TS:pytest + SEC:auth]
 # Gets you: FastAPI structure, pytest config, JWT auth, Docker, CI/CD
 ```
 
 ### Build a React App
+
 ```bash
 @load [product:frontend-web + FE:react + SEC:*]
 # Gets you: React patterns, testing, all security standards, deployment
 ```
 
 ### Data Pipeline
+
 ```bash
 @load [product:data-pipeline + DE:* + OBS:monitoring]
 # Gets you: ETL patterns, data quality, monitoring, orchestration
@@ -173,24 +183,27 @@ We actively welcome contributions! The standards evolve with real-world usage.
 - **Share templates** that work
 - **Add examples** from your projects
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+See [CREATING_STANDARDS_GUIDE.md](./docs/guides/CREATING_STANDARDS_GUIDE.md) for guidelines.
 
 ---
 
 ## 🚦 Quick Links
 
 **Get Started**
+
 - 🚀 [KICKSTART_PROMPT.md](./docs/guides/KICKSTART_PROMPT.md) - AI project analyzer
 - 📚 [UNIFIED_STANDARDS.md](./docs/standards/UNIFIED_STANDARDS.md) - Complete reference
 - ✅ [ADOPTION_CHECKLIST.md](./docs/guides/ADOPTION_CHECKLIST.md) - Implementation roadmap
 
 **Resources**
+
 - [Project Templates](./examples/project-templates/)
 - [Setup Script](./scripts/setup-project.sh)
 - [Standards Index](./docs/guides/STANDARDS_INDEX.md)
 - [Creating Standards Guide](./docs/guides/CREATING_STANDARDS_GUIDE.md)
 
 **Support**
+
 - [GitHub Issues](https://github.com/williamzujkowski/standards/issues)
 - [Discussions](https://github.com/williamzujkowski/standards/discussions)
 

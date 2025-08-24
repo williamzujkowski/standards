@@ -11,7 +11,22 @@ This index provides quick summaries of all standards sections. Use the codes bel
 
 | Code | Section | Summary |
 
-|------|---------|---------|
+|<!-- AUTO-LINKS:docs/guides/*.md -->
+
+- [Adoption Checklist](ADOPTION_CHECKLIST.md)
+- [Creating Standards Guide](CREATING_STANDARDS_GUIDE.md)
+- [Kickstart Advanced](KICKSTART_ADVANCED.md)
+- [Kickstart Prompt](KICKSTART_PROMPT.md)
+- [Llm Training](LLM_TRAINING.md)
+- [Readme](README.md)
+- [Standards Graph](STANDARDS_GRAPH.md)
+- [Standard Template](STANDARD_TEMPLATE.md)
+- [Using Product Matrix](USING_PRODUCT_MATRIX.md)
+- [Validation Patterns](VALIDATION_PATTERNS.md)
+
+<!-- /AUTO-LINKS -->
+
+------|---------|---------|
 | `CS:overview` | Comprehensive Coding Standards for LLM Projects | > 📚 See also: Unified Software Development Standards |
 | `CS:1-code-style-and-for` | 1. Code Style and Formatting | Implement consistent code style and formatting: 1. Follow established style guides for your language |
 | `CS:2-documentation-stan` | 2. Documentation Standards | Implement comprehensive documentation standards: 1. Include documentation for all public interfaces: |
