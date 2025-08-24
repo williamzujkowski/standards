@@ -111,94 +111,94 @@ extra:
 
 # Navigation structure
 nav:
-  - Home: 
-    - README.md
-    - 'Visual Navigation': VISUAL_NAVIGATION.md
+  - Home:
+      - README.md
+      - 'Visual Navigation': VISUAL_NAVIGATION.md
   - Core Documentation:
-    - 'Overview': core/README.md
-    - 'Claude Configuration': core/CLAUDE.md
-    - 'Claude Configuration Details': core/CLAUDE_CONFIGURATION.md
-    - 'Integration Guide': core/INTEGRATION_GUIDE.md
-    - 'Contributing': core/CONTRIBUTING.md
-    - 'Contributor Onboarding': core/CONTRIBUTOR_ONBOARDING.md
-    - 'Community Engagement': core/COMMUNITY_ENGAGEMENT.md
-    - 'Code of Conduct': core/CODE_OF_CONDUCT.md
-    - 'GitHub Workflows': core/GITHUB_WORKFLOWS.md
-    - 'Contributor Showcase': core/CONTRIBUTOR_SHOWCASE.md
+      - 'Overview': core/README.md
+      - 'Claude Configuration': core/CLAUDE.md
+      - 'Claude Configuration Details': core/CLAUDE_CONFIGURATION.md
+      - 'Integration Guide': core/INTEGRATION_GUIDE.md
+      - 'Contributing': core/CONTRIBUTING.md
+      - 'Contributor Onboarding': core/CONTRIBUTOR_ONBOARDING.md
+      - 'Community Engagement': core/COMMUNITY_ENGAGEMENT.md
+      - 'Code of Conduct': core/CODE_OF_CONDUCT.md
+      - 'GitHub Workflows': core/GITHUB_WORKFLOWS.md
+      - 'Contributor Showcase': core/CONTRIBUTOR_SHOWCASE.md
   - Standards:
-    - 'Overview': standards/README.md
-    - 'Unified Standards': standards/UNIFIED_STANDARDS.md
-    - Development Standards:
-      - 'Coding Standards': standards/CODING_STANDARDS.md
-      - 'Frontend & Mobile': standards/FRONTEND_MOBILE_STANDARDS.md
-      - 'Database Standards': standards/DATABASE_STANDARDS.md
-      - 'Testing Standards': standards/TESTING_STANDARDS.md
-    - Architecture Standards:
-      - 'Cloud Native': standards/CLOUD_NATIVE_STANDARDS.md
-      - 'Microservices': standards/MICROSERVICES_STANDARDS.md
-      - 'Event Driven': standards/EVENT_DRIVEN_STANDARDS.md
-      - 'ML & AI Standards': standards/ML_AI_STANDARDS.md
-    - Platform Standards:
-      - 'DevOps Platform': standards/DEVOPS_PLATFORM_STANDARDS.md
-      - 'Data Engineering': standards/DATA_ENGINEERING_STANDARDS.md
-      - 'GitHub Platform': standards/GITHUB_PLATFORM_STANDARDS.md
-      - 'Toolchain Standards': standards/TOOLCHAIN_STANDARDS.md
-    - Security & Compliance:
-      - 'Modern Security': standards/MODERN_SECURITY_STANDARDS.md
-      - 'Compliance Standards': standards/COMPLIANCE_STANDARDS.md
-      - 'Legal Compliance': standards/LEGAL_COMPLIANCE_STANDARDS.md
-    - Business Standards:
-      - 'Project Management': standards/PROJECT_MANAGEMENT_STANDARDS.md
-      - 'Knowledge Management': standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md
-      - 'Cost Optimization': standards/COST_OPTIMIZATION_STANDARDS.md
-    - Specialized Standards:
-      - 'Web Design & UX': standards/WEB_DESIGN_UX_STANDARDS.md
-      - 'SEO & Marketing': standards/SEO_WEB_MARKETING_STANDARDS.md
-      - 'Content Standards': standards/CONTENT_STANDARDS.md
-      - 'Observability': standards/OBSERVABILITY_STANDARDS.md
-      - 'MCP Standards': standards/MODEL_CONTEXT_PROTOCOL_STANDARDS.md
+      - 'Overview': standards/README.md
+      - 'Unified Standards': standards/UNIFIED_STANDARDS.md
+      - Development Standards:
+        - 'Coding Standards': standards/CODING_STANDARDS.md
+        - 'Frontend & Mobile': standards/FRONTEND_MOBILE_STANDARDS.md
+        - 'Database Standards': standards/DATABASE_STANDARDS.md
+        - 'Testing Standards': standards/TESTING_STANDARDS.md
+      - Architecture Standards:
+        - 'Cloud Native': standards/CLOUD_NATIVE_STANDARDS.md
+        - 'Microservices': standards/MICROSERVICES_STANDARDS.md
+        - 'Event Driven': standards/EVENT_DRIVEN_STANDARDS.md
+        - 'ML & AI Standards': standards/ML_AI_STANDARDS.md
+      - Platform Standards:
+        - 'DevOps Platform': standards/DEVOPS_PLATFORM_STANDARDS.md
+        - 'Data Engineering': standards/DATA_ENGINEERING_STANDARDS.md
+        - 'GitHub Platform': standards/GITHUB_PLATFORM_STANDARDS.md
+        - 'Toolchain Standards': standards/TOOLCHAIN_STANDARDS.md
+      - Security & Compliance:
+        - 'Modern Security': standards/MODERN_SECURITY_STANDARDS.md
+        - 'Compliance Standards': standards/COMPLIANCE_STANDARDS.md
+        - 'Legal Compliance': standards/LEGAL_COMPLIANCE_STANDARDS.md
+      - Business Standards:
+        - 'Project Management': standards/PROJECT_MANAGEMENT_STANDARDS.md
+        - 'Knowledge Management': standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md
+        - 'Cost Optimization': standards/COST_OPTIMIZATION_STANDARDS.md
+      - Specialized Standards:
+        - 'Web Design & UX': standards/WEB_DESIGN_UX_STANDARDS.md
+        - 'SEO & Marketing': standards/SEO_WEB_MARKETING_STANDARDS.md
+        - 'Content Standards': standards/CONTENT_STANDARDS.md
+        - 'Observability': standards/OBSERVABILITY_STANDARDS.md
+        - 'MCP Standards': standards/MODEL_CONTEXT_PROTOCOL_STANDARDS.md
   - Guides:
-    - 'Overview': guides/README.md
-    - 'Standards Index': guides/STANDARDS_INDEX.md
-    - 'Kickstart Prompt': guides/KICKSTART_PROMPT.md
-    - 'Kickstart Advanced': guides/KICKSTART_ADVANCED.md
-    - 'Using Product Matrix': guides/USING_PRODUCT_MATRIX.md
-    - 'Creating Standards Guide': guides/CREATING_STANDARDS_GUIDE.md
-    - 'Standard Template': guides/STANDARD_TEMPLATE.md
-    - 'Adoption Checklist': guides/ADOPTION_CHECKLIST.md
-    - 'Validation Patterns': guides/VALIDATION_PATTERNS.md
-    - 'Standards Graph': guides/STANDARDS_GRAPH.md
-    - 'LLM Training': guides/LLM_TRAINING.md
+      - 'Overview': guides/README.md
+      - 'Standards Index': guides/STANDARDS_INDEX.md
+      - 'Kickstart Prompt': guides/KICKSTART_PROMPT.md
+      - 'Kickstart Advanced': guides/KICKSTART_ADVANCED.md
+      - 'Using Product Matrix': guides/USING_PRODUCT_MATRIX.md
+      - 'Creating Standards Guide': guides/CREATING_STANDARDS_GUIDE.md
+      - 'Standard Template': guides/STANDARD_TEMPLATE.md
+      - 'Adoption Checklist': guides/ADOPTION_CHECKLIST.md
+      - 'Validation Patterns': guides/VALIDATION_PATTERNS.md
+      - 'Standards Graph': guides/STANDARDS_GRAPH.md
+      - 'LLM Training': guides/LLM_TRAINING.md
   - NIST Compliance:
-    - 'Overview': nist/README.md
-    - 'Implementation Guide': nist/NIST_IMPLEMENTATION_GUIDE.md
-    - 'Quick Reference': nist/NIST_QUICK_REFERENCE.md
-    - 'Quick Context': nist/NIST_QUICK_CONTEXT.md
-    - 'Tagging Proposal': nist/NIST_TAGGING_PROPOSAL.md
-    - 'Implementation 800-53': nist/implement_800-53.md
+      - 'Overview': nist/README.md
+      - 'Implementation Guide': nist/NIST_IMPLEMENTATION_GUIDE.md
+      - 'Quick Reference': nist/NIST_QUICK_REFERENCE.md
+      - 'Quick Context': nist/NIST_QUICK_CONTEXT.md
+      - 'Tagging Proposal': nist/NIST_TAGGING_PROPOSAL.md
+      - 'Implementation 800-53': nist/implement_800-53.md
   - Examples:
-    - 'Overview': examples/README.md
-    - Project Templates:
-      - 'Docker': examples/project-templates/docker/README.md
-      - 'Python Project': examples/project-templates/python-project/README.md
-      - 'JavaScript Project': examples/project-templates/javascript-project/README.md
-      - 'Go Project': examples/project-templates/go-project/README.md
-      - 'Kubernetes': examples/project-templates/kubernetes/README.md
-      - 'Terraform': examples/project-templates/terraform/README.md
-    - NIST Templates:
-      - 'Overview': examples/nist-templates/README.md
-      - 'Quickstart': examples/nist-templates/quickstart/README.md
-      - 'Python': examples/nist-templates/python/README.md
-      - 'TypeScript': examples/nist-templates/typescript/README.md
-      - 'Go': examples/nist-templates/go/README.md
-    - AI Generation:
-      - 'Overview': examples/ai-generation-hints/README.md
+      - 'Overview': examples/README.md
+      - Project Templates:
+        - 'Docker': examples/project-templates/docker/README.md
+        - 'Python Project': examples/project-templates/python-project/README.md
+        - 'JavaScript Project': examples/project-templates/javascript-project/README.md
+        - 'Go Project': examples/project-templates/go-project/README.md
+        - 'Kubernetes': examples/project-templates/kubernetes/README.md
+        - 'Terraform': examples/project-templates/terraform/README.md
+      - NIST Templates:
+        - 'Overview': examples/nist-templates/README.md
+        - 'Quickstart': examples/nist-templates/quickstart/README.md
+        - 'Python': examples/nist-templates/python/README.md
+        - 'TypeScript': examples/nist-templates/typescript/README.md
+        - 'Go': examples/nist-templates/go/README.md
+      - AI Generation:
+        - 'Overview': examples/ai-generation-hints/README.md
   - Tools & Config:
-    - 'Overview': tools-config/README.md
+      - 'Overview': tools-config/README.md
   - Monitoring:
-    - 'Overview': monitoring/README.md
-    - 'Monitoring Config': monitoring/config/README.md
+      - 'Overview': monitoring/README.md
+      - 'Monitoring Config': monitoring/config/README.md
   - Micro Standards:
-    - 'Overview': micro/README.md
+      - 'Overview': micro/README.md
   - Reports:
-    - 'Overview': reports/README.md
+      - 'Overview': reports/README.md

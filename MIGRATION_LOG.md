@@ -1,8 +1,8 @@
 # Jekyll to MkDocs Migration Log
 
 ## Migration Summary
-**Date:** August 24, 2025  
-**Migration:** Jekyll → MkDocs with Material theme  
+**Date:** August 24, 2025
+**Migration:** Jekyll → MkDocs with Material theme
 **Status:** ✅ Complete
 
 ## What Was Removed
@@ -53,7 +53,7 @@ mkdocs build --strict
 
 ## Navigation Structure Preserved
 The existing documentation structure in `/docs` is preserved with the same file organization:
-- `/docs/core/` - Core documentation 
+- `/docs/core/` - Core documentation
 - `/docs/standards/` - Standards documentation
 - `/docs/guides/` - User guides
 - `/docs/nist/` - NIST compliance documentation
