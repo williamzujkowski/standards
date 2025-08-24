@@ -4,7 +4,7 @@ Generated: 2025-08-23
 
 ## Summary
 
-Total issues found: 18
+Total issues found: 27
 
 
 ## Orphaned Files (0)
@@ -48,9 +48,18 @@ Standards documents not referencing UNIFIED_STANDARDS.md:
 
 ✅ Repository structure follows standards
 
-## Hub Violations (0)
+## Hub Violations (9)
 
-✅ All hub-link requirements satisfied
+Files that must be linked from required hub(s) but are not:
+- docs/guides/ADOPTION_CHECKLIST.md
+- docs/guides/CREATING_STANDARDS_GUIDE.md
+- docs/guides/KICKSTART_ADVANCED.md
+- docs/guides/KICKSTART_PROMPT.md
+- docs/guides/LLM_TRAINING.md
+- docs/guides/STANDARDS_GRAPH.md
+- docs/guides/STANDARD_TEMPLATE.md
+- docs/guides/USING_PRODUCT_MATRIX.md
+- docs/guides/VALIDATION_PATTERNS.md
 
 ## Recommendations
 
