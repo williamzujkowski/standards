@@ -2,11 +2,16 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ["master", "main"]
+    branches: ["master", "main", "update-readme-elevator-pitch"]
     paths:
       - 'docs/**'
       - '.github/workflows/deploy-pages.yml'
   workflow_dispatch:
+  pull_request:
+    branches: ["master", "main"]
+    paths:
+      - 'docs/**'
+      - '.github/workflows/deploy-pages.yml'
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
