@@ -1565,26 +1565,33 @@ models:
 
 ```sql
 -- macros/generate_surrogate_key.sql
+{% raw %}
 {% macro generate_surrogate_key(columns) %}
     {{ dbt_utils.surrogate_key(columns) }}
 {% endmacro %}
+{% endraw %}
 
 -- macros/test_data_freshness.sql
+{% raw %}
 {% macro test_data_freshness(model, timestamp_column, threshold_hours=24) %}
     select count(*)
     from {{ model }}
     where {{ timestamp_column }} < current_timestamp - interval '{{ threshold_hours }} hours'
 {% endmacro %}
+{% endraw %}
 
 -- macros/safe_divide.sql
+{% raw %}
 {% macro safe_divide(numerator, denominator) %}
     case
         when {{ denominator }} = 0 then null
         else {{ numerator }} / {{ denominator }}
     end
 {% endmacro %}
+{% endraw %}
 
 -- macros/pivot_table.sql
+{% raw %}
 {% macro pivot_table(table_name, group_by_column, pivot_column, value_column, agg_func='sum') %}
     select
         {{ group_by_column }},
@@ -1595,6 +1602,7 @@ models:
     from {{ table_name }}
     group by {{ group_by_column }}
 {% endmacro %}
+{% endraw %}
 ```
 
 ### 5.2 Metrics and KPIs Framework
