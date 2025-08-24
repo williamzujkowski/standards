@@ -1468,6 +1468,7 @@ analytics/
 
 ```sql
 -- models/staging/stg_customers.sql
+{% raw %}
 {{ config(
     materialized='view',
     tags=['staging', 'customer']
@@ -1476,6 +1477,7 @@ analytics/
 with source as (
     select * from {{ source('raw_data', 'customers') }}
 ),
+{% endraw %}
 
 renamed as (
     select
@@ -1658,6 +1660,7 @@ metrics:
 
 ```sql
 -- models/marts/core/customer_metrics.sql
+{% raw %}
 {{ config(
     materialized='table',
     indexes=[
@@ -1691,6 +1694,7 @@ with daily_metrics as (
         ) }} as conversion_rate
 
     from {{ ref('fct_customer_activity') }}
+{% endraw %}
     where activity_date >= current_date - 90  -- Last 90 days
     group by 1, 2
 ),
