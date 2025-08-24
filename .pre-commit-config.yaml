@@ -152,7 +152,8 @@ repos:
               node_modules/|
               examples/archive/|
               .*\.template\.md$|
-              CHANGELOG\.md$
+              CHANGELOG\.md$|
+              docs/guides/STANDARDS_INDEX\.md$
           )$
 
   # ============================================================================

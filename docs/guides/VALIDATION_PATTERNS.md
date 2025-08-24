@@ -148,9 +148,9 @@ Issues:
 ```
 
 @validate project:[path]
-    standards:[CS:* + TS:* + SEC:*]
+    standards:[CS:*+ TS:* + SEC:*]
     output:[report.md]
-    ignore:[node_modules/, *.test.js]
+    ignore:[node_modules/,*.test.js]
 
 Summary Report:
 

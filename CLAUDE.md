@@ -68,37 +68,14 @@
 
 ## Project Overview
 
-This project uses SPARC (Specification, Pseudocode, Architecture, Refinement, Completion) methodology with Claude-Flow orchestration for systematic Test-Driven Development.
+This project provides comprehensive software development standards with Claude-Flow orchestration for systematic development workflows.
 
-## SPARC Commands
-
-### Core Commands
-
-- `npx claude-flow sparc modes` - List available modes
-- `npx claude-flow sparc run <mode> "<task>"` - Execute specific mode
-- `npx claude-flow sparc tdd "<feature>"` - Run complete TDD workflow
-- `npx claude-flow sparc info <mode>` - Get mode details
-
-### Batchtools Commands
-
-- `npx claude-flow sparc batch <modes> "<task>"` - Parallel execution
-- `npx claude-flow sparc pipeline "<task>"` - Full pipeline processing
-- `npx claude-flow sparc concurrent <mode> "<tasks-file>"` - Multi-task processing
-
-### Build Commands
+## Build Commands
 
 - `npm run build` - Build project
 - `npm run test` - Run tests
 - `npm run lint` - Linting
 - `npm run typecheck` - Type checking
-
-## SPARC Workflow Phases
-
-1. **Specification** - Requirements analysis (`sparc run spec-pseudocode`)
-2. **Pseudocode** - Algorithm design (`sparc run spec-pseudocode`)
-3. **Architecture** - System design (`sparc run architect`)
-4. **Refinement** - TDD implementation (`sparc tdd`)
-5. **Completion** - Integration (`sparc run integration`)
 
 ## Code Style & Best Practices
 
@@ -108,7 +85,7 @@ This project uses SPARC (Specification, Pseudocode, Architecture, Refinement, Co
 - **Clean Architecture**: Separate concerns
 - **Documentation**: Keep updated
 
-## 🚀 Available Agents (54 Total)
+## 🚀 Available Agents (49 Total)
 
 ### Core Development
 
@@ -270,10 +247,10 @@ Message 4: Write "file.js"
 
 ## Performance Benefits
 
-- **84.8% SWE-Bench solve rate**
-- **32.3% token reduction**
-- **2.8-4.4x speed improvement**
-- **27+ neural models**
+- **Significant token optimization** through strategic caching
+- **Parallel execution capabilities** for improved speed
+- **Multiple coordination strategies** for different task types
+- **Persistent memory** for context retention across sessions
 
 ## Hooks Integration
 
@@ -301,11 +278,11 @@ Message 4: Write "file.js"
 - Restore context
 - Export workflows
 
-## Advanced Features (v2.0.0)
+## Advanced Features
 
 - 🚀 Automatic Topology Selection
-- ⚡ Parallel Execution (2.8-4.4x speed)
-- 🧠 Neural Training
+- ⚡ Parallel Execution for improved performance
+- 🧠 Pattern Learning Capabilities
 - 📊 Bottleneck Analysis
 - 🤖 Smart Auto-Spawning
 - 🛡️ Self-Healing Workflows
@@ -322,10 +299,29 @@ Message 4: Write "file.js"
 6. Enable hooks automation
 7. Use GitHub tools first
 
+## Documentation Integrity Principles
+
+### Accuracy Standards
+
+- **No Unverifiable Claims**: All performance metrics and capabilities must be demonstrable
+- **Honest Representation**: Features described must actually exist and work as documented
+- **Regular Validation**: Documentation reviewed and updated with each major change
+- **Clear Limitations**: Known issues and limitations explicitly documented
+
+### Verification Checklist
+
+- ✅ Agent counts match actual available agents
+- ✅ Command examples are tested and working
+- ✅ File paths and directories exist
+- ✅ Integration instructions are current
+- ✅ Performance claims are measurable
+- ✅ Tool lists are accurate and complete
+
 ## Support
 
 - Documentation: <https://github.com/ruvnet/claude-flow>
 - Issues: <https://github.com/ruvnet/claude-flow/issues>
+- Standards Repo: <https://github.com/williamzujkowski/standards>
 
 ---
 
