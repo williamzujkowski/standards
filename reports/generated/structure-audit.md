@@ -1,17 +1,17 @@
 # Structure Audit Report
 
-Generated: 2025-08-23
+Generated: 2025-08-24
 
 ## Summary
 
-Total issues found: 18
+Total issues found: 35
 
 
-## Orphaned Files (0)
+## Orphaned Files (1)
 
 Files not linked from any other document:
 
-✅ No orphaned files found
+- MIGRATION_LOG.md
 
 ## Missing Cross-References (0)
 
@@ -23,13 +23,23 @@ Standards documents not referencing UNIFIED_STANDARDS.md:
 
 ✅ All filenames follow conventions
 
-## Directories Missing README (18)
+## Directories Missing README (34)
 
+- overrides/
+- site/
 - scripts/.benchmarks/
 - scripts/tests/
 - scripts/__pycache__/
+- docs/.swarm/
+- docs/.claude-flow/
 - tests/.swarm/
 - tests/.claude-flow/
+- site/nist/
+- site/guides/
+- site/standards/
+- site/search/
+- site/core/
+- site/assets/
 - examples/nist-templates/quickstart/.swarm/
 - examples/nist-templates/quickstart/.benchmarks/
 - examples/nist-templates/quickstart/.claude-flow/
@@ -43,6 +53,12 @@ Standards documents not referencing UNIFIED_STANDARDS.md:
 - docs/nist/.claude-flow/
 - docs/standards/.swarm/
 - docs/standards/.claude-flow/
+- site/assets/stylesheets/
+- site/assets/images/
+- site/assets/javascripts/
+- site/assets/javascripts/workers/
+- site/assets/javascripts/lunr/
+- site/assets/javascripts/lunr/min/
 
 ## Structure Violations (0)
 
@@ -54,9 +70,9 @@ Standards documents not referencing UNIFIED_STANDARDS.md:
 
 ## Recommendations
 
-1. __Fix broken links__: Update or remove broken internal links
-2. __Link orphaned files__: Add references or extend exclusions in config/audit-rules.yaml
-3. __Add cross-references__: Link standards to UNIFIED_STANDARDS.md
-4. __Standardize names__: Rename files to follow conventions
-5. __Add READMEs__: Create README.md for directories lacking them
-6. __Satisfy hub rules__: Ensure required hub(s) link to required files
+1. **Fix broken links**: Update or remove broken internal links
+2. **Link orphaned files**: Add references or extend exclusions in config/audit-rules.yaml
+3. **Add cross-references**: Link standards to UNIFIED_STANDARDS.md
+4. **Standardize names**: Rename files to follow conventions
+5. **Add READMEs**: Create README.md for directories lacking them
+6. **Satisfy hub rules**: Ensure required hub(s) link to required files

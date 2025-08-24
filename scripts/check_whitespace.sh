@@ -16,6 +16,7 @@ files_with_whitespace=$(find . -type f \
   -not -path "./reports/generated/*" \
   -not -path "./.hive-mind/*" \
   -not -path "./.ruff_cache/*" \
+  -not -path "./site/*" \
   -not -name "*.pyc" \
   -not -name "*.pyo" \
   -not -name "*.png" \

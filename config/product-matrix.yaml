@@ -71,9 +71,9 @@ products:
       - CS:language         # Platform language standards
       - TS:mobile          # Mobile testing
       - SEC:mobile-auth    # Mobile authentication
-      - SEC:secure-storage # Secure local storage
-      - DOP:mobile-ci     # Mobile CI/CD
-      - OBS:crash-reporting # Crash & performance monitoring
+      - SEC:secure-storage  # Secure local storage
+      - DOP:mobile-ci      # Mobile CI/CD
+      - OBS:crash-reporting  # Crash & performance monitoring
 
   # Data processing pipeline
   data-pipeline:
@@ -82,7 +82,7 @@ products:
       - DE:orchestration        # Workflow orchestration
       - DE:data-quality        # Data quality checks
       - SEC:secrets           # Credential management
-      - SEC:data-classification # Data sensitivity handling
+      - SEC:data-classification  # Data sensitivity handling
       - DOP:ci-cd            # Pipeline deployment
       - OBS:logging          # Pipeline monitoring
       - LEG:data-retention   # Data retention policies

@@ -1,0 +1,204 @@
+site_name: Standards Repository
+site_description: Comprehensive software development standards and compliance guidelines
+site_url: https://williamzujkowski.github.io/standards
+repo_url: https://github.com/williamzujkowski/standards
+repo_name: williamzujkowski/standards
+edit_uri: edit/master/docs/
+
+# Docs directory
+docs_dir: docs
+
+# Theme configuration
+theme:
+  name: material
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.indexes
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - search.share
+    - header.autohide
+    - content.code.annotate
+    - content.code.copy
+    - content.tabs.link
+    - toc.follow
+    - toc.integrate
+
+# Extensions
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+      title: On this page
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: williamzujkowski
+      repo: standards
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Plugins
+plugins:
+  - search:
+      lang: en
+  - minify:
+      minify_html: true
+  - git-revision-date-localized:
+      enable_creation_date: true
+
+# Extra configuration
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/williamzujkowski/standards
+  analytics:
+    provider: google
+    property: !ENV GOOGLE_ANALYTICS_KEY
+  generator: false
+
+# Navigation structure
+nav:
+  - Home:
+      - README.md
+      - 'Visual Navigation': VISUAL_NAVIGATION.md
+  - Core Documentation:
+      - 'Overview': core/README.md
+      - 'Claude Configuration': core/CLAUDE.md
+      - 'Claude Configuration Details': core/CLAUDE_CONFIGURATION.md
+      - 'Integration Guide': core/INTEGRATION_GUIDE.md
+      - 'Contributing': core/CONTRIBUTING.md
+      - 'Contributor Onboarding': core/CONTRIBUTOR_ONBOARDING.md
+      - 'Community Engagement': core/COMMUNITY_ENGAGEMENT.md
+      - 'Code of Conduct': core/CODE_OF_CONDUCT.md
+      - 'GitHub Workflows': core/GITHUB_WORKFLOWS.md
+      - 'Contributor Showcase': core/CONTRIBUTOR_SHOWCASE.md
+  - Standards:
+      - 'Overview': standards/README.md
+      - 'Unified Standards': standards/UNIFIED_STANDARDS.md
+      - Development Standards:
+          - 'Coding Standards': standards/CODING_STANDARDS.md
+          - 'Frontend & Mobile': standards/FRONTEND_MOBILE_STANDARDS.md
+          - 'Database Standards': standards/DATABASE_STANDARDS.md
+          - 'Testing Standards': standards/TESTING_STANDARDS.md
+      - Architecture Standards:
+          - 'Cloud Native': standards/CLOUD_NATIVE_STANDARDS.md
+          - 'Microservices': standards/MICROSERVICES_STANDARDS.md
+          - 'Event Driven': standards/EVENT_DRIVEN_STANDARDS.md
+          - 'ML & AI Standards': standards/ML_AI_STANDARDS.md
+      - Platform Standards:
+          - 'DevOps Platform': standards/DEVOPS_PLATFORM_STANDARDS.md
+          - 'Data Engineering': standards/DATA_ENGINEERING_STANDARDS.md
+          - 'GitHub Platform': standards/GITHUB_PLATFORM_STANDARDS.md
+          - 'Toolchain Standards': standards/TOOLCHAIN_STANDARDS.md
+      - Security & Compliance:
+          - 'Modern Security': standards/MODERN_SECURITY_STANDARDS.md
+          - 'Compliance Standards': standards/COMPLIANCE_STANDARDS.md
+          - 'Legal Compliance': standards/LEGAL_COMPLIANCE_STANDARDS.md
+      - Business Standards:
+          - 'Project Management': standards/PROJECT_MANAGEMENT_STANDARDS.md
+          - 'Knowledge Management': standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md
+          - 'Cost Optimization': standards/COST_OPTIMIZATION_STANDARDS.md
+      - Specialized Standards:
+          - 'Web Design & UX': standards/WEB_DESIGN_UX_STANDARDS.md
+          - 'SEO & Marketing': standards/SEO_WEB_MARKETING_STANDARDS.md
+          - 'Content Standards': standards/CONTENT_STANDARDS.md
+          - 'Observability': standards/OBSERVABILITY_STANDARDS.md
+          - 'MCP Standards': standards/MODEL_CONTEXT_PROTOCOL_STANDARDS.md
+  - Guides:
+      - 'Overview': guides/README.md
+      - 'Standards Index': guides/STANDARDS_INDEX.md
+      - 'Kickstart Prompt': guides/KICKSTART_PROMPT.md
+      - 'Kickstart Advanced': guides/KICKSTART_ADVANCED.md
+      - 'Using Product Matrix': guides/USING_PRODUCT_MATRIX.md
+      - 'Creating Standards Guide': guides/CREATING_STANDARDS_GUIDE.md
+      - 'Standard Template': guides/STANDARD_TEMPLATE.md
+      - 'Adoption Checklist': guides/ADOPTION_CHECKLIST.md
+      - 'Validation Patterns': guides/VALIDATION_PATTERNS.md
+      - 'Standards Graph': guides/STANDARDS_GRAPH.md
+      - 'LLM Training': guides/LLM_TRAINING.md
+  - NIST Compliance:
+      - 'Overview': nist/README.md
+      - 'Implementation Guide': nist/NIST_IMPLEMENTATION_GUIDE.md
+      - 'Quick Reference': nist/NIST_QUICK_REFERENCE.md
+      - 'Quick Context': nist/NIST_QUICK_CONTEXT.md
+      - 'Tagging Proposal': nist/NIST_TAGGING_PROPOSAL.md
+      - 'Implementation 800-53': nist/implement_800-53.md
+  - Examples:
+      - 'Overview': examples/README.md
+      - Project Templates:
+          - 'Docker': examples/project-templates/docker/README.md
+          - 'Python Project': examples/project-templates/python-project/README.md
+          - 'JavaScript Project': examples/project-templates/javascript-project/README.md
+          - 'Go Project': examples/project-templates/go-project/README.md
+          - 'Kubernetes': examples/project-templates/kubernetes/README.md
+          - 'Terraform': examples/project-templates/terraform/README.md
+      - NIST Templates:
+          - 'Overview': examples/nist-templates/README.md
+          - 'Quickstart': examples/nist-templates/quickstart/README.md
+          - 'Python': examples/nist-templates/python/README.md
+          - 'TypeScript': examples/nist-templates/typescript/README.md
+          - 'Go': examples/nist-templates/go/README.md
+      - AI Generation:
+          - 'Overview': examples/ai-generation-hints/README.md
+  - Tools & Config:
+      - 'Overview': tools-config/README.md
+  - Monitoring:
+      - 'Overview': monitoring/README.md
+      - 'Monitoring Config': monitoring/config/README.md
+  - Micro Standards:
+      - 'Overview': micro/README.md
+  - Reports:
+      - 'Overview': reports/README.md

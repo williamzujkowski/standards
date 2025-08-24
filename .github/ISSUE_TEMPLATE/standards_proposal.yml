@@ -7,7 +7,8 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thank you for proposing a new standard! This template will help ensure your proposal includes all necessary information for review and implementation.
+        Thank you for proposing a new standard! This template will help ensure your proposal
+        includes all necessary information for review and implementation.
 
   - type: checkboxes
     id: prerequisites

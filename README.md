@@ -186,6 +186,35 @@ We actively welcome contributions! The standards evolve with real-world usage.
 
 See [CREATING_STANDARDS_GUIDE.md](./docs/guides/CREATING_STANDARDS_GUIDE.md) for guidelines.
 
+### 📖 Documentation (MkDocs)
+
+This repository uses [MkDocs](https://www.mkdocs.org/) with the [Material theme](https://squidfunk.github.io/mkdocs-material/) for documentation.
+
+**Local Development:**
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Serve documentation locally (with live reload)
+mkdocs serve
+# Visit http://127.0.0.1:8000
+
+# Build static site
+mkdocs build
+
+# Build with strict mode (fails on warnings)
+mkdocs build --strict
+```
+
+**Features:**
+- Material theme with light/dark mode
+- Enhanced search functionality
+- Mobile-responsive navigation
+- Automatic deployment via GitHub Actions
+
+Documentation automatically deploys to GitHub Pages when changes are pushed to the master branch.
+
 ---
 
 ## 🚦 Quick Links
