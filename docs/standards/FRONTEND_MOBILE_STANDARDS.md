@@ -2263,6 +2263,7 @@ const styles = StyleSheet.create({
 #### Navigation Setup **[REQUIRED]**
 
 ```typescript
+{% raw %}
 // navigation/AppNavigator.tsx
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
@@ -2350,6 +2351,7 @@ export const AppNavigator = () => {
     </NavigationContainer>
   );
 };
+{% endraw %}
 ```
 
 ### 6.2 Platform-Specific Optimizations
