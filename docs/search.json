@@ -1,0 +1,47 @@
+---
+layout: null
+---
+[
+  {% for page in site.pages %}
+    {% if page.url != "/search.json" and page.url != "/404.html" %}
+    {
+      "id": "{{ page.url | slugify }}",
+      "title": "{{ page.title | default: page.name | escape }}",
+      "url": "{{ page.url | relative_url }}",
+      "content": {{ page.content | strip_html | strip_newlines | truncate: 2000 | jsonify }},
+      "category": "{{ page.category | default: 'page' }}",
+      "tags": {{ page.tags | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+    {% endif %}
+  {% endfor %}
+  {% for doc in site.standards %}
+    ,{
+      "id": "standards-{{ doc.url | slugify }}",
+      "title": "{{ doc.title | default: doc.name | escape }}",
+      "url": "{{ doc.url | relative_url }}",
+      "content": {{ doc.content | strip_html | strip_newlines | truncate: 2000 | jsonify }},
+      "category": "standards",
+      "tags": {{ doc.tags | jsonify }}
+    }
+  {% endfor %}
+  {% for doc in site.guides %}
+    ,{
+      "id": "guides-{{ doc.url | slugify }}",
+      "title": "{{ doc.title | default: doc.name | escape }}",
+      "url": "{{ doc.url | relative_url }}",
+      "content": {{ doc.content | strip_html | strip_newlines | truncate: 2000 | jsonify }},
+      "category": "guides",
+      "tags": {{ doc.tags | jsonify }}
+    }
+  {% endfor %}
+  {% for doc in site.nist %}
+    ,{
+      "id": "nist-{{ doc.url | slugify }}",
+      "title": "{{ doc.title | default: doc.name | escape }}",
+      "url": "{{ doc.url | relative_url }}",
+      "content": {{ doc.content | strip_html | strip_newlines | truncate: 2000 | jsonify }},
+      "category": "nist",
+      "tags": {{ doc.tags | jsonify }}
+    }
+  {% endfor %}
+]

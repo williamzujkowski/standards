@@ -1,0 +1,116 @@
+# Jekyll configuration for GitHub Pages
+# Software Development Standards Documentation
+
+title: Software Development Standards
+description: Battle-tested standards from real production systems
+email: 
+baseurl: "/standards" # the subpath of your site, e.g. /blog
+url: "https://williamzujkowski.github.io" # the base hostname & protocol
+
+# Build settings
+# theme: jekyll-theme-cayman  # GitHub Pages will use this automatically
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jemoji
+  - jekyll-relative-links
+
+# Markdown settings
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: 'highlight'
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
+
+# Collections for organized content
+collections:
+  standards:
+    output: true
+    permalink: /standards/:name
+  guides:
+    output: true
+    permalink: /guides/:name
+  nist:
+    output: true
+    permalink: /nist/:name
+  core:
+    output: true
+    permalink: /core/:name
+
+# Default layouts
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: "standards"
+      type: "pages"
+    values:
+      layout: "standard"
+      category: "standards"
+  - scope:
+      path: "guides"
+      type: "pages"
+    values:
+      layout: "guide"
+      category: "guides"
+
+# Navigation
+navigation:
+  - title: Home
+    url: /
+  - title: Quick Start
+    url: /guides/KICKSTART_PROMPT
+  - title: Standards
+    url: /standards/UNIFIED_STANDARDS
+  - title: Guides
+    url: /guides/STANDARDS_INDEX
+  - title: NIST Compliance
+    url: /nist/
+  - title: Examples
+    url: /examples/
+  - title: GitHub
+    url: https://github.com/williamzujkowski/standards
+
+# Exclude from Jekyll build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - .git
+  - .github
+  - scripts
+  - tests
+  - "*.pyc"
+  - "__pycache__"
+  - ".pytest_cache"
+  - "node_modules"
+  - ".swarm"
+  - ".claude-flow"
+  - ".hive-mind"
+  - ".ruff_cache"
+
+# Include specific files
+include:
+  - _pages
+  - assets
+  - index.md
+
+# Search configuration (for lunr.js)
+search:
+  enabled: true
+  search_full_content: true
+
+# Analytics (optional - add your tracking ID)
+google_analytics: 
+
+# Social links
+github_username: williamzujkowski
