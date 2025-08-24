@@ -4,6 +4,8 @@
 
 Welcome to the comprehensive standards repository for modern software development. This collection provides battle-tested, production-ready standards covering every aspect of software engineering from coding practices to cloud-native architectures.
 
+**[📖 Visit the full documentation site](index.md)** for the best reading experience with navigation and search.
+
 ## 📚 What's Inside
 
 ### 🎯 Core Standards

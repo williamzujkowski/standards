@@ -14,21 +14,23 @@ theme:
   palette:
     # Palette toggle for light mode
     - scheme: default
-      primary: blue
-      accent: blue
+      primary: indigo
+      accent: indigo
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     # Palette toggle for dark mode
     - scheme: slate
-      primary: blue
-      accent: blue
+      primary: indigo
+      accent: indigo
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
   font:
     text: Roboto
     code: Roboto Mono
+  icon:
+    logo: material/book-open-variant
   features:
     - navigation.tabs
     - navigation.tabs.sticky
@@ -118,7 +120,7 @@ extra:
 # Navigation structure
 nav:
   - Home:
-      - README.md
+      - index.md
       - 'Visual Navigation': VISUAL_NAVIGATION.md
   - Core Documentation:
       - 'Overview': core/README.md
