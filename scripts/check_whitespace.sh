@@ -1,28 +1,47 @@
-#\!/bin/bash
-# Check for trailing whitespace in repository files
+#!/bin/bash
+# Check for trailing whitespace in all text files
 
-echo "Checking for trailing whitespace in markdown and YAML files..."
+set -e
 
-# Find files with trailing whitespace, excluding common directories
-files_with_whitespace=$(find . -type f \( -name "*.md" -o -name "*.yml" -o -name "*.yaml" \) \
+echo "Checking for trailing whitespace..."
+
+# Find files with trailing whitespace
+files_with_whitespace=$(find . -type f \
   -not -path "./.git/*" \
   -not -path "./node_modules/*" \
-  -not -path "./standards/compliance/node_modules/*" \
-  -not -path "./venv/*" \
+  -not -path "./__pycache__/*" \
   -not -path "./.venv/*" \
-  -not -path "./dist/*" \
-  -not -path "./build/*" \
-  -exec grep -l '[[:space:]]$' {} \; 2>/dev/null)
+  -not -path "./venv/*" \
+  -not -path "./.claude-flow/*" \
+  -not -path "./reports/generated/*" \
+  -not -path "./.hive-mind/*" \
+  -not -path "./.ruff_cache/*" \
+  -not -name "*.pyc" \
+  -not -name "*.pyo" \
+  -not -name "*.png" \
+  -not -name "*.jpg" \
+  -not -name "*.jpeg" \
+  -not -name "*.gif" \
+  -not -name "*.ico" \
+  -not -name "*.svg" \
+  -not -name "*.pdf" \
+  -not -name "*.woff" \
+  -not -name "*.woff2" \
+  -not -name "*.ttf" \
+  -not -name "*.otf" \
+  -not -name "*.eot" \
+  -not -name "*.min.js" \
+  -not -name "*.min.css" \
+  -exec grep -l '[[:space:]]$' {} + 2>/dev/null || true)
 
 if [ -n "$files_with_whitespace" ]; then
-  echo "❌ Trailing whitespace found in the following files:"
+  echo "❌ Files with trailing whitespace found:"
   echo "$files_with_whitespace"
   echo ""
-  echo "Total files with trailing whitespace: $(echo "$files_with_whitespace" | wc -l)"
-  echo ""
-  echo "To fix, run: find . -type f \\( -name \"*.md\" -o -name \"*.yml\" -o -name \"*.yaml\" \\) -not -path \"./.git/*\" -not -path \"./node_modules/*\" -not -path \"./standards/compliance/node_modules/*\" -exec sed -i 's/[[:space:]]*$//' {} \;"
+  echo "Please remove trailing whitespace from these files."
+  echo "You can use: sed -i 's/[[:space:]]*$//' <filename>"
   exit 1
 else
-  echo "✅ No trailing whitespace found in markdown or YAML files"
+  echo "✅ No trailing whitespace found"
   exit 0
 fi

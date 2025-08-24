@@ -66,6 +66,7 @@ chmod +x setup-project.sh
 - [CODING_STANDARDS.md](./docs/standards/CODING_STANDARDS.md) - Language-specific patterns
 - [TESTING_STANDARDS.md](./docs/standards/TESTING_STANDARDS.md) - Test strategies & coverage
 - [MODERN_SECURITY_STANDARDS.md](./docs/standards/MODERN_SECURITY_STANDARDS.md) - Security implementation
+- [KNOWLEDGE_MANAGEMENT_STANDARDS.md](./docs/standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md) - Documentation architecture
 
 **Specialized Domains**
 
