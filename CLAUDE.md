@@ -270,10 +270,10 @@ Message 4: Write "file.js"
 
 ## Performance Benefits
 
-- **84.8% SWE-Bench solve rate**
-- **32.3% token reduction**
-- **2.8-4.4x speed improvement**
-- **27+ neural models**
+- **Significant token optimization** through strategic caching
+- **Parallel execution capabilities** for improved speed
+- **Multiple coordination strategies** for different task types
+- **Persistent memory** for context retention across sessions
 
 ## Hooks Integration
 
@@ -301,11 +301,11 @@ Message 4: Write "file.js"
 - Restore context
 - Export workflows
 
-## Advanced Features (v2.0.0)
+## Advanced Features
 
 - 🚀 Automatic Topology Selection
-- ⚡ Parallel Execution (2.8-4.4x speed)
-- 🧠 Neural Training
+- ⚡ Parallel Execution for improved performance
+- 🧠 Pattern Learning Capabilities
 - 📊 Bottleneck Analysis
 - 🤖 Smart Auto-Spawning
 - 🛡️ Self-Healing Workflows

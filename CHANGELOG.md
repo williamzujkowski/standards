@@ -29,7 +29,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `.pre-commit-config.yaml` - Pre-commit hooks configuration
   - `setup-hooks.sh` - Automated setup script
   - `README.md` - Linting documentation
-- **TODO_TEST_FIXES.md** - Comprehensive list of test failures to fix
 
 ### Changed
 
