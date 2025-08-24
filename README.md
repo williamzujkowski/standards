@@ -208,6 +208,7 @@ mkdocs build --strict
 ```
 
 **Features:**
+
 - Material theme with light/dark mode
 - Enhanced search functionality
 - Mobile-responsive navigation

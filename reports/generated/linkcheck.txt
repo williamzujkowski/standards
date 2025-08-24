@@ -7,7 +7,7 @@ Generated: 2025-08-24
 
 ✅ No broken internal links found!
 
-## External Links (34 found)
+## External Links (36 found)
 
 
 ### 12factor.net (1 links)
@@ -49,8 +49,14 @@ Generated: 2025-08-24
 ### semver.org (1 links)
 - CHANGELOG.md: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+### squidfunk.github.io (1 links)
+- README.md: [Material theme](https://squidfunk.github.io/mkdocs-material/)
+
 ### www.domainlanguage.com (1 links)
 - docs/standards/MICROSERVICES_STANDARDS.md: [Domain-Driven Design](https://www.domainlanguage.com/ddd/)
+
+### www.mkdocs.org (1 links)
+- README.md: [MkDocs](https://www.mkdocs.org/)
 
 ### www.nist.gov (1 links)
 - docs/standards/MICROSERVICES_STANDARDS.md: [NIST Microservices Guide](https://www.nist.gov/publications/microservices-guide)
@@ -62,4 +68,4 @@ Generated: 2025-08-24
 
 - Files checked: 258
 - Broken links: 0
-- External links: 34
+- External links: 36
