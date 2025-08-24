@@ -225,15 +225,19 @@ output "connection_string" {
 
 - name: Template configuration files
   template:
+{% raw %}
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     owner: "{{ app_user }}"
     group: "{{ app_group }}"
     mode: "{{ item.mode | default('0644') }}"
+{% endraw %}
     backup: yes
   loop:
     - { src: 'app.conf.j2', dest: '/etc/app/app.conf' }
+{% raw %}
     - { src: 'env.j2', dest: '{{ app_directory }}/.env', mode: '0600' }
+{% endraw %}
   notify:
     - reload configuration
 ```
@@ -1266,26 +1270,32 @@ spec:
     - apiVersion: postgresql.cnpg.io/v1
       kind: Cluster
       metadata:
+{% raw %}
         name: "{{ .Name }}-postgres"
         namespace: "{{ .Namespace }}"
       spec:
         instances: "{{ if .Values.highAvailability }}3{{ else }}1{{ end }}"
+{% endraw %}
         postgresql:
           parameters:
             max_connections: "200"
             shared_buffers: "256MB"
         bootstrap:
           initdb:
+{% raw %}
             database: "{{ .Name }}"
             owner: "{{ .Name }}"
             secret:
               name: "{{ .Name }}-postgres-secret"
+{% endraw %}
         storage:
           size: |
+{% raw %}
             {{- if eq .Values.size "small" }}10Gi
             {{- else if eq .Values.size "medium" }}50Gi
             {{- else if eq .Values.size "large" }}200Gi
             {{- end }}
+{% endraw %}
         monitoring:
           enabled: true
         backup:

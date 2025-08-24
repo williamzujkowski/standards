@@ -685,6 +685,7 @@ export const AppRouter: React.FC = () => {
 <template>
   <div class="user-profile">
     <div v-if="loading" class="loading">Loading...</div>
+{% raw %}
     <div v-else-if="error" class="error">{{ error }}</div>
     <div v-else-if="user" class="user-content">
       <h1>{{ user.name }}</h1>
@@ -693,6 +694,7 @@ export const AppRouter: React.FC = () => {
         {{ updating ? 'Updating...' : 'Update Profile' }}
       </button>
     </div>
+{% endraw %}
   </div>
 </template>
 
