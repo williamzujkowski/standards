@@ -51,10 +51,10 @@ orphans:
       hubs:
         - "docs/standards/UNIFIED_STANDARDS.md"
 
-    # Guides are linked from the docs README (STANDARDS_INDEX.md is generated)
+    # Guides are linked from the guides index
     - pattern: "docs/guides/*.md"
       hubs:
-        - "docs/README.md"
+        - "docs/guides/STANDARDS_INDEX.md"
 
     # Core docs from core hub
     - pattern: "docs/core/*.md"

@@ -9,6 +9,22 @@ This index provides quick summaries of all standards sections. Use the codes bel
 ## 🎯 Core Standards (CS)
 
 
+<!-- AUTO-LINKS:docs/guides/*.md -->
+
+- [Adoption Checklist](ADOPTION_CHECKLIST.md)
+- [Creating Standards Guide](CREATING_STANDARDS_GUIDE.md)
+- [Kickstart Advanced](KICKSTART_ADVANCED.md)
+- [Kickstart Prompt](KICKSTART_PROMPT.md)
+- [Llm Training](LLM_TRAINING.md)
+- [Readme](README.md)
+- [Standards Graph](STANDARDS_GRAPH.md)
+- [Standard Template](STANDARD_TEMPLATE.md)
+- [Using Product Matrix](USING_PRODUCT_MATRIX.md)
+- [Validation Patterns](VALIDATION_PATTERNS.md)
+
+<!-- /AUTO-LINKS -->
+
+
 | Code | Section | Summary |
 
 |------|---------|---------|
