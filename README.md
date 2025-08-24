@@ -1,430 +1,216 @@
-# 🚀 Comprehensive Software Development Standards
+# 🚀 Software Development Standards
 
-**Comprehensive standards for modern software development with AI-powered kickstart and NIST 800-53r5 compliance templates**
+**Start any project right in 30 seconds. Battle-tested standards from real production systems.**
 
-[![Version](https://img.shields.io/badge/version-latest-blue.svg)](https://github.com/williamzujkowski/standards)
-[![Standards](https://img.shields.io/badge/standards-24%20documents-green.svg)](https://github.com/williamzujkowski/standards)
-[![License](https://img.shields.io/badge/license-MIT-purple.svg)](LICENSE)
-[![Compliance](https://github.com/williamzujkowski/standards/actions/workflows/standards-compliance.yml/badge.svg)](https://github.com/williamzujkowski/standards/actions/workflows/standards-compliance.yml)
-[![Audit Gates](https://github.com/williamzujkowski/standards/actions/workflows/lint-and-validate.yml/badge.svg)](https://github.com/williamzujkowski/standards/actions/workflows/lint-and-validate.yml)
-[![NIST](https://img.shields.io/badge/NIST%20800--53r5-Templates-brightgreen.svg)](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md)
+## Why This Repository?
 
----
+You're starting a new project. You need to make dozens of decisions: project structure, testing approach, security patterns, CI/CD setup, documentation format. Each wrong choice costs days or weeks to fix later.
 
----
+**This repository gives you those answers immediately** - comprehensive, production-tested standards that work together as a complete system. No more arguing about code style. No more wondering about test coverage. No more security reviews finding basic issues.
 
-## 🆕 What's New
-
-### 🔐 NIST 800-53r5 Compliance Integration
-
-- **Automated Control Tagging**: Tag security features with `@nist` annotations
-- **VS Code Extension**: Real-time NIST control suggestions
-- **CI/CD Integration**: Automated compliance checking and SSP generation
-- **Quick Start**: `./scripts/setup-nist-hooks.sh` - Get compliant in minutes!
-- **See**: [NIST_IMPLEMENTATION_GUIDE.md](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md) for details
+Just copy, implement, and ship.
 
 ---
 
-## 📁 File Organization Guidelines
+## ⚡ Quick Start (30 Seconds)
 
-### Generated Reports
+### For New Projects - Use the AI Kickstart
 
-Generated reports and summaries should be placed in `reports/generated/` to keep the root directory clean. This includes:
-
-- Testing reports
-- Implementation summaries
-- Validation reports
-- Weekly digests
-
-### Important Files Not to Commit
-
-The following files/directories are automatically ignored by `.gitignore`:
-
-- `.claude-flow/` - Claude Flow runtime data
-- `node_modules/` - Node.js dependencies
-- `__pycache__/` - Python cache files
-- `.vscode/`, `.idea/` - IDE configuration
-- `*.log` - Log files
-- `*.bak`, `*.orig`, `*.tmp` - Backup/temporary files
-
-### Development Setup
-
-Run `./scripts/setup-development.sh` to set up your development environment with:
-
-- Pre-commit hooks for code quality
-- Python virtual environment
-- Required dependencies
-- Proper directory structure
-
-## 🎯 Quick Start Guide
-
-### 🚀 **Option 1: AI-Powered Project Kickstart** (Recommended)
-
-Get instant project analysis and implementation guidance:
-
-1. **Copy the kickstart prompt** from [KICKSTART_PROMPT.md](./docs/guides/KICKSTART_PROMPT.md)
-2. **Paste into any LLM** (ChatGPT, Claude, Gemini, etc.) along with your project plan
-3. **Get instant analysis** including:
-   - Tech stack validation
-   - Relevant standards recommendations
-   - Project structure and boilerplate
+1. **Copy this prompt**: [KICKSTART_PROMPT.md](./docs/guides/KICKSTART_PROMPT.md)
+2. **Paste into any LLM** (ChatGPT, Claude, Gemini, etc.) with your project description
+3. **Get instant analysis**:
+   - Complete project structure
+   - Relevant standards selection
    - Implementation roadmap
-   - Tool recommendations
+   - Tool configurations
+   - First PR ready to go
 
-> 💡 **Example**: See [examples/project_plan_example.md](./examples/project_plan_example.md) for a sample project plan
+**Example:**
 
-### ⚡ **Option 2: Automated Setup Script**
+```
+You: [Paste kickstart prompt] + "I'm building a Python API with FastAPI and PostgreSQL"
+
+AI: Here's your complete setup:
+- Project structure with /src, /tests, /docs
+- FastAPI best practices from CODING_STANDARDS.md
+- pytest configuration from TESTING_STANDARDS.md
+- PostgreSQL patterns from DATA_ENGINEERING_STANDARDS.md
+- Docker setup from CLOUD_NATIVE_STANDARDS.md
+- GitHub Actions from .github/workflows/
+[... complete implementation plan ...]
+```
+
+### For Existing Projects
 
 ```bash
+# Quick assessment
 curl -O https://raw.githubusercontent.com/williamzujkowski/standards/master/scripts/setup-project.sh
 chmod +x setup-project.sh
-./setup-project.sh my-new-project
-```
+./setup-project.sh --assess my-project
 
-### 📋 **Option 3: Manual Setup**
-
-1. Start with **[UNIFIED_STANDARDS.md](./docs/standards/UNIFIED_STANDARDS.md)** - Your comprehensive foundation
-2. Copy **[CLAUDE.md](./CLAUDE.md)** to your project for AI assistance
-3. Use templates from `examples/project-templates/` for your language
-4. Follow **[ADOPTION_CHECKLIST.md](./docs/guides/ADOPTION_CHECKLIST.md)** for systematic implementation
-5. **NEW**: Install NIST compliance hooks with `./scripts/setup-nist-hooks.sh`
-
-### 🤖 **For AI/LLM Users**
-
-Use our token-optimized loading system:
-
-```
-# Basic usage
-@load [CS:python + TS:pytest + SEC:*]
-
-# Natural language
-"I need to build a React app with authentication"
-→ Automatically loads: FE:react + SEC:auth + WD:components
+# Or manually:
+1. Review UNIFIED_STANDARDS.md for gaps
+2. Copy relevant templates from examples/
+3. Run validation: python scripts/generate-audit-reports.py
 ```
 
 ---
 
-## ⚖️ Legal Disclaimer
+## 📚 What You Get
 
-**IMPORTANT**: These standards are provided "as is" without warranty. Legal compliance documents do NOT constitute legal advice. Always consult qualified professionals for legal matters. You are responsible for evaluating suitability for your specific use case.
+### Complete Standards Library (24 Documents)
 
----
+**Core Development**
 
-## 📚 What's Included
+- [UNIFIED_STANDARDS.md](./docs/standards/UNIFIED_STANDARDS.md) - Master reference (start here)
+- [CODING_STANDARDS.md](./docs/standards/CODING_STANDARDS.md) - Language-specific patterns
+- [TESTING_STANDARDS.md](./docs/standards/TESTING_STANDARDS.md) - Test strategies & coverage
+- [MODERN_SECURITY_STANDARDS.md](./docs/standards/MODERN_SECURITY_STANDARDS.md) - Security implementation
+- [KNOWLEDGE_MANAGEMENT_STANDARDS.md](./docs/standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md) - Documentation architecture
 
-### **24 Comprehensive Standards Documents**
+**Specialized Domains**
 
-Complete coverage of modern software development practices from coding to deployment, security to compliance, including AI integration via Model Context Protocol.
+- Frontend, Mobile, Backend, Data Engineering
+- Cloud Native, DevOps, Observability
+- AI/ML, Event-Driven, Microservices
+- Cost Optimization, Legal Compliance
 
-### **🔐 NIST 800-53r5 Compliance Suite**
+### Ready-to-Use Templates
 
-- **Control Tagging**: `@nist` annotations for security features
-- **VS Code Extension**: Real-time control suggestions
-- **Annotation Framework**: Multi-language parsers (JS/TS, Python, Go, Java, YAML)
-- **Automated Tools**: Git hooks, CI/CD integration, SSP generation
-- **Templates**: Pre-tagged security components
-- **LLM Prompts**: Compliance-focused AI assistance
+```
+examples/
+├── project-templates/     # Python, JS/TS, Go starter projects
+├── nist-templates/        # Security components with compliance tags
+├── docker/                # Container configurations
+└── ci-cd/                 # GitHub Actions workflows
+```
 
-### **AI-Powered Features**
+### Automation & Tools
 
-- Efficient token usage with CLAUDE.md routing system
-- Natural language to standards mapping
-- Instant project kickstart analysis
-- Context-aware recommendations
-- NIST control suggestions
-
-### **Ready-to-Use Templates**
-
-- Language configs (Python, JS/TS, Go)
-- NIST-tagged security templates
-- CI/CD workflows with compliance checks
-- Docker & Kubernetes manifests
-- Tool configurations
-
-### **Integration Tools**
-
-- Automated setup scripts
-- NIST compliance checking
-- SSP generation
-- Badge generation
-- Migration guides
+- **Setup Scripts**: Auto-configure new projects
+- **Validation Tools**: Check standards compliance
+- **NIST Tagging**: Security control annotations
+- **VS Code Extension**: Real-time compliance hints
+- **Pre-commit Hooks**: Enforce standards automatically
 
 ---
 
-## 📂 Standards Categories
+## 🎯 For Different Roles
 
-### 💻 **Development & Engineering**
+### Developers
 
-- **[UNIFIED_STANDARDS.md](./docs/standards/UNIFIED_STANDARDS.md)** - Master document with all core standards
-- **[CODING_STANDARDS.md](./docs/standards/CODING_STANDARDS.md)** - Language-specific best practices
-- **[TESTING_STANDARDS.md](./docs/standards/TESTING_STANDARDS.md)** - Comprehensive testing methodologies
-- **[MODERN_SECURITY_STANDARDS.md](./docs/standards/MODERN_SECURITY_STANDARDS.md)** - Zero Trust security implementation
-- **[DATA_ENGINEERING_STANDARDS.md](./docs/standards/DATA_ENGINEERING_STANDARDS.md)** - Data pipeline and analytics
-- **[KNOWLEDGE_MANAGEMENT_STANDARDS.md](./docs/standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md)** - Documentation architecture patterns
+- Copy working code patterns
+- Skip bikeshedding discussions
+- Focus on building features
+- Pass code reviews easily
 
-### 🎨 **Frontend & Design**
+### Tech Leads
 
-- **[FRONTEND_MOBILE_STANDARDS.md](./docs/standards/FRONTEND_MOBILE_STANDARDS.md)** - React/Vue/Angular & mobile
-- **[WEB_DESIGN_UX_STANDARDS.md](./docs/standards/WEB_DESIGN_UX_STANDARDS.md)** - Design systems & accessibility
+- Onboard team members faster
+- Maintain consistency across projects
+- Reduce technical debt
+- Implement best practices systematically
 
-### 🔧 **Operations & Infrastructure**
+### Architects
 
-- **[CLOUD_NATIVE_STANDARDS.md](./docs/standards/CLOUD_NATIVE_STANDARDS.md)** - Container & microservices patterns
-- **[DEVOPS_PLATFORM_STANDARDS.md](./docs/standards/DEVOPS_PLATFORM_STANDARDS.md)** - CI/CD & Infrastructure as Code
-- **[OBSERVABILITY_STANDARDS.md](./docs/standards/OBSERVABILITY_STANDARDS.md)** - Monitoring, logging, tracing
-- **[EVENT_DRIVEN_STANDARDS.md](./docs/standards/EVENT_DRIVEN_STANDARDS.md)** - Event architecture patterns
-- **[MODEL_CONTEXT_PROTOCOL_STANDARDS.md](./docs/standards/MODEL_CONTEXT_PROTOCOL_STANDARDS.md)** - MCP server/client implementation
+- Reference architecture patterns
+- Security-by-default designs
+- Scalability guidelines
+- Integration strategies
 
-### 📊 **Business & Compliance**
+### Compliance Teams
 
-- **[PROJECT_MANAGEMENT_STANDARDS.md](./docs/standards/PROJECT_MANAGEMENT_STANDARDS.md)** - Agile & team practices
-- **[COST_OPTIMIZATION_STANDARDS.md](./docs/standards/COST_OPTIMIZATION_STANDARDS.md)** - FinOps & resource optimization
-- **[LEGAL_COMPLIANCE_STANDARDS.md](./docs/standards/LEGAL_COMPLIANCE_STANDARDS.md)** - Privacy & regulatory compliance
-- **[SEO_WEB_MARKETING_STANDARDS.md](./docs/standards/SEO_WEB_MARKETING_STANDARDS.md)** - Technical SEO & marketing
-
-### 🔐 **NIST 800-53r5 Compliance**
-
-- **[NIST_IMPLEMENTATION_GUIDE.md](./docs/nist/NIST_IMPLEMENTATION_GUIDE.md)** - 🚀 Quick start guide (15 min setup)
-- **[COMPLIANCE_STANDARDS.md](./docs/standards/COMPLIANCE_STANDARDS.md)** - Detailed control tagging standards
-- **[NIST_QUICK_REFERENCE.md](./docs/nist/NIST_QUICK_REFERENCE.md)** - Essential controls cheat sheet
-- **[examples/nist-templates/](./examples/nist-templates/)** - Pre-tagged security templates
-- **[prompts/nist-compliance/](./prompts/nist-compliance/)** - LLM prompts for compliance
-
-### 🤖 **AI/LLM Integration**
-
-- **[CLAUDE.md](./CLAUDE.md)** - Primary LLM interface with efficient routing
-- **[KICKSTART_PROMPT.md](./docs/guides/KICKSTART_PROMPT.md)** - Universal project kickstart prompt
-- **[KICKSTART_ADVANCED.md](./docs/guides/KICKSTART_ADVANCED.md)** - Advanced kickstart patterns
-- **[KNOWLEDGE_MANAGEMENT_STANDARDS.md](./docs/standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md)** - How to build AI-optimized documentation systems
+- NIST 800-53r5 control templates
+- Audit-ready documentation
+- Automated compliance checking
+- Evidence collection tools
 
 ---
 
-## 🛠️ Integration Options
+## 🔥 Real Examples
 
-### **For New Projects**
+### Start a Python API
 
-1. Use the AI Kickstart (Option 1) for instant guidance
-2. Run setup script (Option 2) for automated structure
-3. Copy relevant templates from `examples/project-templates/`
+```bash
+@load [product:api + CS:python + TS:pytest + SEC:auth]
+# Gets you: FastAPI structure, pytest config, JWT auth, Docker, CI/CD
+```
 
-### **For Existing Projects**
+### Build a React App
 
-1. Read **[INTEGRATION_GUIDE.md](./docs/core/INTEGRATION_GUIDE.md)** for strategies
-2. Perform gap analysis using standard checklists
-3. Prioritize: Security → Testing → Core Standards
-4. Use **[ADOPTION_CHECKLIST.md](./docs/guides/ADOPTION_CHECKLIST.md)** for phased adoption
+```bash
+@load [product:frontend-web + FE:react + SEC:*]
+# Gets you: React patterns, testing, all security standards, deployment
+```
 
-### **Quick Integration Methods**
+### Data Pipeline
 
-- **Git Submodule**: `git submodule add https://github.com/williamzujkowski/standards.git .standards`
-- **Direct Copy**: Copy CLAUDE.md + relevant standards to your project
-- **Remote Access**: Use standards directly via LLM without downloading
-
----
-
-## 🌟 Essential Links
-
-### **Getting Started**
-
-- 🚀 [KICKSTART_PROMPT.md](./docs/guides/KICKSTART_PROMPT.md) - AI project analyzer
-- 📚 [UNIFIED_STANDARDS.md](./docs/standards/UNIFIED_STANDARDS.md) - Complete standards reference
-- 🤖 [CLAUDE.md](./CLAUDE.md) - LLM optimization interface
-- ✅ [ADOPTION_CHECKLIST.md](./docs/guides/ADOPTION_CHECKLIST.md) - Implementation roadmap
-
-### **Templates & Tools**
-
-- 📁 [Project Templates](./examples/project-templates/) - Language-specific configs
-- 🔐 [NIST Templates](./examples/nist-templates/) - Security components with controls
-- 🔧 [Setup Script](./scripts/setup-project.sh) - Automated project setup
-- 🛡️ [NIST Setup](./scripts/setup-nist-hooks.sh) - One-command compliance setup
-- 📊 [Integration Guide](./docs/core/INTEGRATION_GUIDE.md) - Detailed integration strategies
-- 🏷️ [Badge Generator](./scripts/generate-badges.sh) - Compliance badges
-- 📝 [Standard Template](./docs/guides/STANDARD_TEMPLATE.md) - Template for new standards
-- 📖 [Creating Standards Guide](./docs/guides/CREATING_STANDARDS_GUIDE.md) - How to contribute standards
-
-### **Advanced Features**
-
-- 🧩 [KICKSTART_ADVANCED.md](./docs/guides/KICKSTART_ADVANCED.md) - Advanced kickstart patterns
-- 📋 [TOOLS_CATALOG.yaml](./config/TOOLS_CATALOG.yaml) - Centralized tool management
-- 🔍 [STANDARDS_INDEX.md](./docs/guides/STANDARDS_INDEX.md) - Quick reference summaries
-- 📈 [STANDARDS_GRAPH.md](./docs/guides/STANDARDS_GRAPH.md) - Standards relationships
-- 🤖 VS Code NIST extension - Available in the .vscode/nist-extension/ directory
-- 📊 [standards/compliance/](./standards/compliance/) - OSCAL compliance platform
+```bash
+@load [product:data-pipeline + DE:* + OBS:monitoring]
+# Gets you: ETL patterns, data quality, monitoring, orchestration
+```
 
 ---
 
-## 📊 Why These Standards?
+## 📁 Repository Structure
 
-- **Comprehensive**: 24 documents covering all aspects of modern development
-- **Production-Ready**: Based on real-world projects and industry best practices
-- **AI-Optimized**: Efficient token usage through intelligent routing
-- **Compliance-Ready**: NIST 800-53r5 control templates and tagging guidance
-- **Always Current**: Regular updates reflecting industry changes
-- **Ready-to-Use**: Includes templates, configs, and automation scripts
-- **Developer-Friendly**: Quick setup, minimal friction, maximum value
+```
+standards/
+├── docs/
+│   ├── standards/          # 24 comprehensive standards
+│   ├── guides/             # Implementation guides
+│   └── nist/               # NIST compliance docs
+├── examples/               # Copy-paste templates
+├── scripts/                # Automation tools
+├── config/                 # Configuration files
+├── .github/workflows/      # CI/CD templates
+└── CLAUDE.md               # LLM interface & routing
+```
 
 ---
 
-## 📚 Archived Reports
+## ⚖️ Legal & License
 
-Historical implementation and validation reports have been archived to `reports/generated/`:
+MIT License - Free for commercial use. Standards provided "as-is" without warranty. Legal compliance documents are templates, not legal advice. Always consult professionals for your specific needs.
 
-- Implementation reports
-- Validation reports
-- Cleanup summaries
-- Weekly digests
-
-See [reports/generated/](./reports/generated/) for full archive.
+---
 
 ## 🤝 Contributing
 
-We welcome contributions! Please:
+We actively welcome contributions! The standards evolve with real-world usage.
 
-- Report issues or suggest improvements
-- Submit PRs with clear descriptions
-- Follow existing format and structure
-- Include practical examples
-- Keep LLM optimization in mind
+- **Report issues** you encounter
+- **Submit PRs** with improvements
+- **Share templates** that work
+- **Add examples** from your projects
 
-**Creating New Standards?** See [CREATING_STANDARDS_GUIDE.md](./docs/guides/CREATING_STANDARDS_GUIDE.md) and use [STANDARD_TEMPLATE.md](./docs/guides/STANDARD_TEMPLATE.md)
-
-### 🧪 Quality Assurance
-
-**Testing Suite** - Validate standards compliance:
-
-```bash
-cd tests && ./validate_knowledge_management.sh
-```
-
-**Linting System** - Enforce standards automatically:
-
-```bash
-cd lint && ./setup-hooks.sh  # One-time setup
-pre-commit run --all-files    # Manual check
-```
-
-See [tests/README.md](./tests/README.md) and [lint/README.md](./lint/README.md) for details.
+See [CREATING_STANDARDS_GUIDE.md](./docs/guides/CREATING_STANDARDS_GUIDE.md) for guidelines.
 
 ---
 
-## 🛠️ Tools & Automation
+## 🚦 Quick Links
 
-### **Script Utilities**
+**Get Started**
 
-| Script | Purpose | Usage |
-|--------|---------|-------|
-| `setup-project.sh` | Create new project with standards | `./scripts/setup-project.sh project-name` |
-| `generate_standards_index.py` | Generate standards quick reference | `python3 scripts/generate_standards_index.py` |
-| `fix_trailing_whitespace.sh` | Remove trailing whitespace | `./scripts/fix_trailing_whitespace.sh` |
-| `test_redundancy.py` | Check for DRY violations | `python3 tests/test_redundancy.py` |
-| `generate-badges.sh` | Generate compliance badges | `./scripts/generate-badges.sh` |
+- 🚀 [KICKSTART_PROMPT.md](./docs/guides/KICKSTART_PROMPT.md) - AI project analyzer
+- 📚 [UNIFIED_STANDARDS.md](./docs/standards/UNIFIED_STANDARDS.md) - Complete reference
+- ✅ [ADOPTION_CHECKLIST.md](./docs/guides/ADOPTION_CHECKLIST.md) - Implementation roadmap
 
-### **VS Code Extension**
+**Resources**
 
-Install our NIST compliance extension for real-time control suggestions:
+- [Project Templates](./examples/project-templates/)
+- [Setup Script](./scripts/setup-project.sh)
+- [Standards Index](./docs/guides/STANDARDS_INDEX.md)
+- [Creating Standards Guide](./docs/guides/CREATING_STANDARDS_GUIDE.md)
 
-```bash
-# Install the extension
-cd .vscode/nist-extension
-npm install
-npm run compile
+**Support**
 
-# Link to VS Code (development mode)
-ln -s $(pwd) ~/.vscode/extensions/nist-compliance-helper
-```
-
-**Features:**
-
-- 🎯 Real-time NIST control suggestions while coding
-- 📝 Code snippets for common security patterns
-- 🔍 Hover information for control details
-- ⚡ Quick fixes for missing controls
-- 🏷️ Auto-completion for @nist tags
-
-### **GitHub Actions Workflows**
-
-| Workflow | Trigger | Purpose |
-|----------|---------|---------|
-| `standards-compliance.yml` | Push/PR | Validate standards compliance |
-| `nist-compliance.yml` | Push/PR | Check NIST control coverage |
-| `standards-validation.yml` | Push/PR | Run comprehensive validation tests |
-| `redundancy-check.yml` | Push/PR | Detect code redundancy |
-| `auto-fix-whitespace.yml` | Push | Auto-fix trailing whitespace |
-| `auto-summaries.yml` | Schedule | Generate periodic summaries |
-
-📖 **See [GITHUB_WORKFLOWS.md](./docs/core/GITHUB_WORKFLOWS.md) for detailed workflow documentation**
-
-### **Compliance Automation Platform**
-
-Our TypeScript-based compliance platform in `standards/compliance/` provides:
-
-- **OSCAL Processing**: Import/export NIST controls in OSCAL format
-- **Multi-Language Parsers**: Extract controls from Python, Go, JS/TS, Java, YAML
-- **Evidence Collection**: Automated evidence harvesting for assessments
-- **SSP Generation**: Create System Security Plans from code annotations
-- **Knowledge Graphs**: Semantic analysis of control relationships
-
-**Quick Start:**
-
-```bash
-cd standards/compliance
-./quickstart.sh
-```
-
-### **Micro Standards**
-
-Ultra-condensed versions (500 tokens) for token-efficient LLM usage:
-
-```bash
-# Access micro standards directly
-cat micro/CS-api.micro.md     # API standards
-cat micro/SEC-auth.micro.md   # Auth standards
-cat micro/TS-unit.micro.md    # Unit testing
-```
-
-### **Standards API**
-
-Remote access patterns defined in `config/standards-api.json`:
-
-```javascript
-// Fetch specific rules
-@fetch-rule CS:api#rate-limiting
-
-// Get examples
-@fetch-example SEC:auth#jwt-implementation
-
-// Search standards
-@search "authentication patterns"
-```
-
-### **Test Infrastructure**
-
-Comprehensive validation suite in `tests/`:
-
-- `validate_cross_references.py` - Verify all links and references
-- `validate_token_efficiency.py` - Check token optimization
-- `fix_validation_issues.py` - Auto-fix common issues
-- `validate_knowledge_management.sh` - Run all tests
-
-### **Linting Tools**
-
-Custom linting in `lint/`:
-
-- `standards-linter.py` - Enforce standards format
-- `custom-rules.js` - Project-specific rules
-- Pre-commit hooks for automatic checking
+- [GitHub Issues](https://github.com/williamzujkowski/standards/issues)
+- [Discussions](https://github.com/williamzujkowski/standards/discussions)
 
 ---
 
-## 📄 License
-
-MIT License - See [LICENSE](LICENSE) for details. Free to use in personal and commercial projects.
-
----
-
-**Remember**: These are living documents. Use them as a foundation but always consider your specific context and requirements.
-
-*Happy coding! 🚀*
+*Stop debating. Start shipping. Your standards are here.*
 
 ## Catalog (auto)
 

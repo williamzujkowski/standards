@@ -7,7 +7,7 @@ Generated: 2025-08-23
 
 ✅ No broken internal links found!
 
-## External Links (38 found)
+## External Links (34 found)
 
 
 ### 12factor.net (1 links)
@@ -27,18 +27,12 @@ Generated: 2025-08-23
 - scripts/.pytest_cache/README.md: [the docs](https://docs.pytest.org/en/stable/how-to/cache.html)
 
 ### github.com (18 links)
-- README.md: [![Compliance](https://github.com/williamzujkowski/standards/actions/workflows/standards-compliance.yml/badge.svg)
-- README.md: [![Audit Gates](https://github.com/williamzujkowski/standards/actions/workflows/lint-and-validate.yml/badge.svg)
+- README.md: [GitHub Issues](https://github.com/williamzujkowski/standards/issues)
+- README.md: [Discussions](https://github.com/williamzujkowski/standards/discussions)
 - badges/standards-compliance-template.md: [Comprehensive Software Development Standards](https://github.com/williamzujkowski/standards)
 - badges/standards-compliance-template.md: [Standards Compliance Tool](https://github.com/williamzujkowski/standards)
 - docs/guides/KICKSTART_PROMPT.md: [CREATING_STANDARDS_GUIDE.md](https://github.com/williamzujkowski/standards/blob/master/CREATING_STANDARDS_GUIDE.md)
 - ... and 13 more
-
-### img.shields.io (4 links)
-- README.md: [![Version](https://img.shields.io/badge/version-latest-blue.svg)
-- README.md: [![Standards](https://img.shields.io/badge/standards-24%20documents-green.svg)
-- README.md: [![License](https://img.shields.io/badge/license-MIT-purple.svg)
-- README.md: [![NIST](https://img.shields.io/badge/NIST%20800--53r5-Compliant-brightgreen.svg)
 
 ### keepachangelog.com (1 links)
 - CHANGELOG.md: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
@@ -68,4 +62,4 @@ Generated: 2025-08-23
 
 - Files checked: 257
 - Broken links: 0
-- External links: 38
+- External links: 34

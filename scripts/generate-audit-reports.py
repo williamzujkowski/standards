@@ -487,7 +487,8 @@ def generate_linkcheck_report() -> Tuple[str, int]:
     lines.append(f"- Broken links: {len(all_broken)}")
     lines.append(f"- External links: {len(all_external)}")
 
-    return "\n".join(lines), len(all_broken)
+    # Add trailing newline for pre-commit compliance
+    return "\n".join(lines) + "\n", len(all_broken)
 
 
 def generate_structure_audit_report(issues: Dict) -> str:
@@ -555,7 +556,8 @@ def generate_structure_audit_report(issues: Dict) -> str:
     else:
         lines.append("✅ Repository structure is well-organized and compliant!")
 
-    return "\n".join(lines)
+    # Add trailing newline for pre-commit compliance
+    return "\n".join(lines) + "\n"
 
 
 def main() -> None:
@@ -580,7 +582,8 @@ def main() -> None:
         "hub_violations": len(issues["hub_violations"]),
         "timestamp": datetime.now().isoformat(),
     }
-    (OUTDIR / "structure-audit.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
+    # Write JSON with proper formatting and ending newline for pre-commit compliance
+    (OUTDIR / "structure-audit.json").write_text(json.dumps(summary, indent=4) + "\n", encoding="utf-8")
 
     total_issues = sum(len(v) for v in issues.values() if isinstance(v, list))
     print("\n📊 Audit Summary:")
