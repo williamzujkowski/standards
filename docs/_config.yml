@@ -6,6 +6,7 @@ description: Battle-tested standards from real production systems
 email: 
 baseurl: "/standards" # the subpath of your site, e.g. /blog
 url: "https://williamzujkowski.github.io" # the base hostname & protocol
+repository: williamzujkowski/standards # GitHub repository
 
 # Build settings
 theme: jekyll-theme-cayman
