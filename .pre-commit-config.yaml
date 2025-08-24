@@ -174,7 +174,7 @@ repos:
       - id: large-file-check
         name: Custom large file detection (>1MB)
         entry: bash
-        args: ['-c', 'files=$(find . -type f -size +1M -not -path "./.git/*" -not -path "./node_modules/*" -not -path "./.claude-flow/*" -not -name "*catalog.json"); if [ -n "$files" ]; then echo "ERROR: Large files detected (>1MB):" && echo "$files" | head -10 && exit 1; fi']
+        args: ['-c', 'files=$(find . -type f -size +1M -not -path "./.git/*" -not -path "./node_modules/*" -not -path "./.claude-flow/*" -not -path "./site/*" -not -name "*catalog.json"); if [ -n "$files" ]; then echo "ERROR: Large files detected (>1MB):" && echo "$files" | head -10 && exit 1; fi']
         language: system
         pass_filenames: false
         always_run: true

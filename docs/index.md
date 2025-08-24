@@ -243,4 +243,3 @@ We welcome contributions! See our:
     <p>Built with ❤️ for the developer community</p>
     <p>© 2025 Standards Repository • MIT License</p>
 </div>
-
