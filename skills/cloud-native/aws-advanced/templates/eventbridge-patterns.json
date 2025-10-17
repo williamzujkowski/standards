@@ -1,0 +1,390 @@
+{
+  "cross_account_rules": {
+    "description": "Send events to different account",
+    "pattern": {
+      "detail-type": [
+        "OrderPlaced"
+      ],
+      "source": [
+        "myapp.orders"
+      ]
+    },
+    "targets": [
+      {
+        "Arn": "arn:aws:events:us-east-1:210987654321:event-bus/partner-event-bus",
+        "RoleArn": "arn:aws:iam::123456789012:role/CrossAccountEventBridgeRole"
+      }
+    ]
+  },
+  "input_transformers": {
+    "complex_transform": {
+      "InputPathsMap": {
+        "id": "$.detail.orderId",
+        "region": "$.region",
+        "status": "$.detail.status",
+        "time": "$.time"
+      },
+      "InputTemplate": "{\"orderId\": \"<id>\", \"orderStatus\": \"<status>\", \"eventTime\": \"<time>\", \"awsRegion\": \"<region>\", \"processedBy\": \"EventBridge\"}"
+    },
+    "simple_transform": {
+      "InputPathsMap": {
+        "amount": "$.detail.amount",
+        "customer": "$.detail.customerId",
+        "orderId": "$.detail.orderId"
+      },
+      "InputTemplate": "{\"order\": \"<orderId>\", \"total\": <amount>, \"customer\": \"<customer>\"}"
+    }
+  },
+  "patterns": {
+    "anything_but": {
+      "description": "Match all values except specified ones",
+      "pattern": {
+        "detail": {
+          "status": [
+            {
+              "anything-but": [
+                "draft",
+                "cancelled"
+              ]
+            }
+          ]
+        },
+        "detail-type": [
+          "OrderStatusChanged"
+        ],
+        "source": [
+          "myapp.orders"
+        ]
+      }
+    },
+    "basic_order_placed": {
+      "description": "Match all order placed events",
+      "pattern": {
+        "detail-type": [
+          "OrderPlaced"
+        ],
+        "source": [
+          "myapp.orders"
+        ]
+      }
+    },
+    "complex_filtering": {
+      "description": "Complex filtering with nested conditions",
+      "pattern": {
+        "detail": {
+          "$or": [
+            {
+              "shippingMethod": [
+                "express"
+              ]
+            },
+            {
+              "userType": [
+                "premium"
+              ]
+            }
+          ],
+          "amount": [
+            {
+              "numeric": [
+                ">",
+                100,
+                "<=",
+                1000
+              ]
+            }
+          ],
+          "items": {
+            "category": [
+              "electronics",
+              "computers"
+            ]
+          },
+          "status": [
+            "pending"
+          ]
+        },
+        "detail-type": [
+          "OrderPlaced"
+        ],
+        "source": [
+          "myapp.orders"
+        ]
+      }
+    },
+    "ec2_state_changes": {
+      "description": "Match EC2 instance state changes for t3 instances",
+      "pattern": {
+        "detail": {
+          "instance-type": [
+            {
+              "prefix": "t3."
+            }
+          ],
+          "state": [
+            "running",
+            "stopped",
+            "terminated"
+          ]
+        },
+        "detail-type": [
+          "EC2 Instance State-change Notification"
+        ],
+        "source": [
+          "aws.ec2"
+        ]
+      }
+    },
+    "exists_check": {
+      "description": "Check if field exists or doesn't exist",
+      "pattern": {
+        "detail": {
+          "email": [
+            {
+              "exists": true
+            }
+          ],
+          "referralCode": [
+            {
+              "exists": false
+            }
+          ]
+        },
+        "detail-type": [
+          "UserRegistered"
+        ],
+        "source": [
+          "myapp.users"
+        ]
+      }
+    },
+    "high_value_orders": {
+      "description": "Match orders over $1000",
+      "pattern": {
+        "detail": {
+          "amount": [
+            {
+              "numeric": [
+                ">",
+                1000
+              ]
+            }
+          ]
+        },
+        "detail-type": [
+          "OrderPlaced"
+        ],
+        "source": [
+          "myapp.orders"
+        ]
+      }
+    },
+    "ip_address_matching": {
+      "description": "Match IP addresses using CIDR",
+      "pattern": {
+        "detail": {
+          "sourceIp": [
+            {
+              "cidr": "10.0.0.0/8"
+            }
+          ]
+        },
+        "detail-type": [
+          "LoginAttempt"
+        ],
+        "source": [
+          "myapp.security"
+        ]
+      }
+    },
+    "multi_account": {
+      "description": "Match events from multiple accounts",
+      "pattern": {
+        "account": [
+          "123456789012",
+          "210987654321"
+        ],
+        "detail-type": [
+          "OrderPlaced"
+        ],
+        "source": [
+          "myapp.orders"
+        ]
+      }
+    },
+    "or_condition": {
+      "description": "Match orders that meet any of multiple conditions",
+      "pattern": {
+        "detail": {
+          "$or": [
+            {
+              "amount": [
+                {
+                  "numeric": [
+                    ">=",
+                    1000
+                  ]
+                }
+              ]
+            },
+            {
+              "userType": [
+                "premium"
+              ]
+            },
+            {
+              "priority": [
+                "high"
+              ]
+            }
+          ]
+        },
+        "detail-type": [
+          "OrderPlaced"
+        ],
+        "source": [
+          "myapp.orders"
+        ]
+      }
+    },
+    "prefix_suffix": {
+      "description": "Match string prefixes and suffixes",
+      "pattern": {
+        "detail": {
+          "fileExtension": [
+            {
+              "suffix": ".pdf"
+            }
+          ],
+          "fileName": [
+            {
+              "prefix": "invoice-"
+            }
+          ]
+        },
+        "detail-type": [
+          "FileUploaded"
+        ],
+        "source": [
+          "myapp.files"
+        ]
+      }
+    },
+    "premium_user_orders": {
+      "description": "Match orders from premium users in specific regions",
+      "pattern": {
+        "detail": {
+          "region": [
+            "us-east-1",
+            "us-west-2"
+          ],
+          "userType": [
+            "premium"
+          ]
+        },
+        "detail-type": [
+          "OrderPlaced"
+        ],
+        "source": [
+          "myapp.orders"
+        ]
+      }
+    },
+    "s3_object_created": {
+      "description": "Match S3 object creation in specific bucket",
+      "pattern": {
+        "detail": {
+          "bucket": {
+            "name": [
+              "my-uploads-bucket"
+            ]
+          },
+          "object": {
+            "key": [
+              {
+                "suffix": ".jpg"
+              }
+            ]
+          }
+        },
+        "detail-type": [
+          "Object Created"
+        ],
+        "source": [
+          "aws.s3"
+        ]
+      }
+    }
+  },
+  "scheduled_rules": {
+    "business_hours": {
+      "description": "Every 15 minutes during business hours (9-5 Mon-Fri)",
+      "scheduleExpression": "cron(0/15 9-17 ? * MON-FRI *)",
+      "targets": [
+        {
+          "Arn": "arn:aws:lambda:us-east-1:123456789012:function:BusinessHoursTask"
+        }
+      ]
+    },
+    "daily_backup": {
+      "description": "Daily backup at 2 AM UTC",
+      "scheduleExpression": "cron(0 2 * * ? *)",
+      "targets": [
+        {
+          "Arn": "arn:aws:lambda:us-east-1:123456789012:function:DailyBackup"
+        }
+      ]
+    },
+    "hourly_check": {
+      "description": "Run every hour",
+      "scheduleExpression": "rate(1 hour)",
+      "targets": [
+        {
+          "Arn": "arn:aws:lambda:us-east-1:123456789012:function:HourlyCheck"
+        }
+      ]
+    }
+  },
+  "target_configurations": {
+    "api_destination": {
+      "Arn": "arn:aws:events:us-east-1:123456789012:destination/webhook",
+      "HttpParameters": {
+        "HeaderParameters": {
+          "X-Event-Type": "$.detail-type"
+        },
+        "QueryStringParameters": {
+          "source": "$.source"
+        }
+      },
+      "RoleArn": "arn:aws:iam::123456789012:role/EventBridgeRole"
+    },
+    "kinesis_target": {
+      "Arn": "arn:aws:kinesis:us-east-1:123456789012:stream/events",
+      "PartitionKeyPath": "$.detail.orderId"
+    },
+    "lambda_target": {
+      "Arn": "arn:aws:lambda:us-east-1:123456789012:function:ProcessEvent",
+      "DeadLetterConfig": {
+        "Arn": "arn:aws:sqs:us-east-1:123456789012:dlq"
+      },
+      "Input": "$.detail",
+      "RetryPolicy": {
+        "MaximumEventAge": 3600,
+        "MaximumRetryAttempts": 3
+      }
+    },
+    "sns_target": {
+      "Arn": "arn:aws:sns:us-east-1:123456789012:notifications",
+      "Input": "{\"message\": $.detail.message, \"timestamp\": $.time}"
+    },
+    "sqs_target": {
+      "Arn": "arn:aws:sqs:us-east-1:123456789012:event-queue",
+      "MessageGroupId": "$.detail.orderId"
+    },
+    "step_functions_target": {
+      "Arn": "arn:aws:states:us-east-1:123456789012:stateMachine:OrderProcessing",
+      "Input": "$.detail",
+      "RoleArn": "arn:aws:iam::123456789012:role/EventBridgeRole"
+    }
+  }
+}

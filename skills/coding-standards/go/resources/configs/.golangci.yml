@@ -1,0 +1,31 @@
+linters:
+  enable:
+    - gofmt
+    - goimports
+    - govet
+    - errcheck
+    - staticcheck
+    - unused
+    - gosec
+    - ineffassign
+    - misspell
+    - revive
+
+linters-settings:
+  govet:
+    check-shadowing: true
+  staticcheck:
+    go: "1.21"
+  gosec:
+    severity: medium
+  revive:
+    rules:
+      - name: exported
+        severity: warning
+
+run:
+  timeout: 5m
+  tests: true
+
+issues:
+  exclude-use-default: false

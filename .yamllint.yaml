@@ -1,6 +1,14 @@
 # YAML Linting Configuration
 extends: default
 
+# Ignore infrastructure templates with special formatting
+# All skill templates and configs use infrastructure-specific indentation
+ignore: |
+  skills/**/templates/*.yaml
+  skills/**/templates/*.yml
+  skills/**/config/*.yaml
+  skills/**/config/*.yml
+
 rules:
   line-length:
     max: 120

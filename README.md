@@ -12,9 +12,53 @@ Just copy, implement, and ship.
 
 ---
 
+## 🆕 Skills System (NEW!)
+
+**Load only what you need. 99%+ token reduction.**
+
+### What Are Skills?
+
+Instead of loading massive 50,000+ token documents, use **progressive skills** that deliver the right information at the right time:
+
+```bash
+# Load Level 1: Quick Start (5 minutes, ~336 tokens)
+@load skill:coding-standards
+
+# Load by product type (auto-selects relevant skills)
+@load product:api --language python
+# Loads: coding-standards, security-practices, testing, nist-compliance
+
+# Total: ~1,755 tokens vs 250,000+ tokens before (99.3% reduction!)
+```
+
+### Quick Skills Tutorial (2 minutes)
+
+```bash
+# 1. Get skill recommendations for your project
+npm run skill-loader -- recommend ./
+
+# 2. Load recommended skills
+@load product:api
+
+# 3. See the difference!
+# Before: 250,000+ tokens
+# After: 1,755 tokens (Level 1)
+```
+
+### Available Skills
+
+- **coding-standards**: Code quality patterns (336 tokens L1)
+- **security-practices**: Modern security (409 tokens L1)
+- **testing**: TDD & testing strategies (430 tokens L1)
+- **nist-compliance**: NIST 800-53r5 controls (580 tokens L1)
+
+**[View Full Catalog →](./docs/SKILLS_CATALOG.md) | [Quick Start Guide →](./docs/guides/SKILLS_QUICK_START.md)**
+
+---
+
 ## ⚡ Quick Start (30 Seconds)
 
-### For New Projects - Use the AI Kickstart
+### For New Projects - Use the AI Kickstart or Skills
 
 1. **Copy this prompt**: [KICKSTART_PROMPT.md](./docs/guides/KICKSTART_PROMPT.md)
 2. **Paste into any LLM** (ChatGPT, Claude, Gemini, etc.) with your project description
@@ -225,6 +269,16 @@ Documentation automatically deploys to GitHub Pages when changes are pushed to t
 - 🚀 [KICKSTART_PROMPT.md](./docs/guides/KICKSTART_PROMPT.md) - AI project analyzer
 - 📚 [UNIFIED_STANDARDS.md](./docs/standards/UNIFIED_STANDARDS.md) - Complete reference
 - ✅ [ADOPTION_CHECKLIST.md](./docs/guides/ADOPTION_CHECKLIST.md) - Implementation roadmap
+
+**Skills (NEW!)**
+
+- 🆕 [Skills Quick Start](./docs/guides/SKILLS_QUICK_START.md) - 5-minute tutorial
+- 📖 [Skills User Guide](./docs/guides/SKILLS_USER_GUIDE.md) - Complete guide
+- 📚 [Skills Catalog](./docs/SKILLS_CATALOG.md) - All available skills
+- 🔄 [Migration Guide](./docs/migration/MIGRATION_GUIDE.md) - Migrate to skills
+- ✍️ [Authoring Guide](./docs/guides/SKILL_AUTHORING_GUIDE.md) - Create skills
+- 🔌 [Claude Integration](./docs/guides/CLAUDE_INTEGRATION_GUIDE.md) - API & CLI integration
+- 📡 [API Documentation](./docs/api/SKILLS_API.md) - Programmatic API
 
 **Resources**
 

@@ -1,38 +1,53 @@
 # Link Check Report
 
-Generated: 2025-08-24
+Generated: 2025-10-17
 
 
 ## Broken Internal Links (0 found)
 
 ✅ No broken internal links found!
 
-## External Links (36 found)
+## External Links (61 found)
 
 
 ### 12factor.net (1 links)
 - docs/standards/MICROSERVICES_STANDARDS.md: [The Twelve-Factor App](https://12factor.net/)
+
+### coverage.readthedocs.io (1 links)
+- tests/scripts/README.md: [Coverage.py](https://coverage.readthedocs.io/)
 
 ### csrc.nist.gov (3 links)
 - examples/nist-templates/quickstart/README.md: [NIST 800-53r5 Controls](https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final)
 - prompts/nist-compliance/VALIDATION_RUN.md: [NIST 800-53r5 Controls](https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final)
 - prompts/nist-compliance/README.md: [NIST 800-53r5 Official Documentation](https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final)
 
+### docs.anthropic.com (3 links)
+- docs/guides/CLAUDE_INTEGRATION_GUIDE.md: [https://docs.anthropic.com/](https://docs.anthropic.com/)
+- docs/guides/CLAUDE_INTEGRATION_GUIDE.md: [https://docs.anthropic.com/claude-code/](https://docs.anthropic.com/claude-code/)
+- tests/skills/README.md: [Anthropic Skills Documentation](https://docs.anthropic.com/en/docs/build-with-claude/agent-skills)
+
+### docs.claude.com (1 links)
+- docs/migration/README.md: [Agent Skills Overview](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview)
+
 ### docs.github.com (1 links)
 - docs/core/GITHUB_WORKFLOWS.md: [GitHub Actions Documentation](https://docs.github.com/en/actions)
 
-### docs.pytest.org (3 links)
+### docs.pytest.org (4 links)
 - .pytest_cache/README.md: [the docs](https://docs.pytest.org/en/stable/how-to/cache.html)
 - examples/nist-templates/quickstart/.pytest_cache/README.md: [the docs](https://docs.pytest.org/en/stable/how-to/cache.html)
 - scripts/.pytest_cache/README.md: [the docs](https://docs.pytest.org/en/stable/how-to/cache.html)
+- tests/scripts/README.md: [Pytest Documentation](https://docs.pytest.org/)
 
-### github.com (18 links)
+### en.wikipedia.org (1 links)
+- tests/scripts/README.md: [Test-Driven Development](https://en.wikipedia.org/wiki/Test-driven_development)
+
+### github.com (34 links)
 - README.md: [GitHub Issues](https://github.com/williamzujkowski/standards/issues)
 - README.md: [Discussions](https://github.com/williamzujkowski/standards/discussions)
 - badges/standards-compliance-template.md: [Comprehensive Software Development Standards](https://github.com/williamzujkowski/standards)
 - badges/standards-compliance-template.md: [Standards Compliance Tool](https://github.com/williamzujkowski/standards)
-- docs/guides/KICKSTART_PROMPT.md: [CREATING_STANDARDS_GUIDE.md](https://github.com/williamzujkowski/standards/blob/master/CREATING_STANDARDS_GUIDE.md)
-- ... and 13 more
+- docs/SKILLS_CATALOG.md: [Report issues](https://github.com/williamzujkowski/standards/issues)
+- ... and 29 more
 
 ### keepachangelog.com (1 links)
 - CHANGELOG.md: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
@@ -52,6 +67,12 @@ Generated: 2025-08-24
 ### squidfunk.github.io (1 links)
 - README.md: [Material theme](https://squidfunk.github.io/mkdocs-material/)
 
+### williamzujkowski.github.io (1 links)
+- docs/guides/SKILLS_USER_GUIDE.md: [Full docs](https://williamzujkowski.github.io/standards/)
+
+### www.anthropic.com (1 links)
+- docs/migration/README.md: [Announcement](https://www.anthropic.com/news/skills)
+
 ### www.domainlanguage.com (1 links)
 - docs/standards/MICROSERVICES_STANDARDS.md: [Domain-Driven Design](https://www.domainlanguage.com/ddd/)
 
@@ -66,6 +87,6 @@ Generated: 2025-08-24
 
 ## Summary
 
-- Files checked: 259
+- Files checked: 299
 - Broken links: 0
-- External links: 36
+- External links: 61

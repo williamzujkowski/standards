@@ -1,0 +1,386 @@
+# SPIFFE Workload Identity Configuration
+# Provides automatic workload identity using SPIFFE/SPIRE
+
+---
+# SPIRE Server configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spire-server
+  namespace: spire
+data:
+  server.conf: |
+    server {
+      bind_address = "0.0.0.0"
+      bind_port = "8081"
+      socket_path = "/tmp/spire-server/private/api.sock"
+      trust_domain = "example.org"
+      data_dir = "/run/spire/data"
+      log_level = "INFO"
+      default_svid_ttl = "1h"
+      ca_subject = {
+        country = ["US"],
+        organization = ["ACME Inc"],
+        common_name = "SPIRE Server CA",
+      }
+    }
+
+    plugins {
+      DataStore "sql" {
+        plugin_data {
+          database_type = "postgres"
+          connection_string = "postgresql://spire:password@postgres:5432/spire?sslmode=verify-full"
+          max_open_conns = 10
+          max_idle_conns = 5
+          conn_max_lifetime = "1h"
+        }
+      }
+
+      NodeAttestor "k8s_psat" {
+        plugin_data {
+          clusters = {
+            "production" = {
+              service_account_allow_list = ["spire:spire-agent"]
+              audience = ["spire-server"]
+            }
+          }
+        }
+      }
+
+      KeyManager "disk" {
+        plugin_data {
+          keys_path = "/run/spire/data/keys.json"
+        }
+      }
+
+      Notifier "k8sbundle" {
+        plugin_data {
+          namespace = "spire"
+          config_map = "spire-bundle"
+        }
+      }
+
+      UpstreamAuthority "disk" {
+        plugin_data {
+          cert_file_path = "/run/spire/ca/intermediate.crt"
+          key_file_path = "/run/spire/ca/intermediate.key"
+          bundle_file_path = "/run/spire/ca/root.crt"
+        }
+      }
+    }
+
+    health_checks {
+      listener_enabled = true
+      bind_address = "0.0.0.0"
+      bind_port = "8080"
+      live_path = "/live"
+      ready_path = "/ready"
+    }
+
+---
+# SPIRE Agent configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spire-agent
+  namespace: spire
+data:
+  agent.conf: |
+    agent {
+      data_dir = "/run/spire"
+      log_level = "INFO"
+      server_address = "spire-server.spire.svc.cluster.local"
+      server_port = "8081"
+      socket_path = "/run/spire/sockets/agent.sock"
+      trust_bundle_path = "/run/spire/bundle/bundle.crt"
+      trust_domain = "example.org"
+    }
+
+    plugins {
+      NodeAttestor "k8s_psat" {
+        plugin_data {
+          cluster = "production"
+        }
+      }
+
+      KeyManager "memory" {
+        plugin_data {}
+      }
+
+      WorkloadAttestor "k8s" {
+        plugin_data {
+          skip_kubelet_verification = false
+          node_name_env = "MY_NODE_NAME"
+          use_new_container_locator = true
+        }
+      }
+
+      WorkloadAttestor "unix" {
+        plugin_data {}
+      }
+    }
+
+    health_checks {
+      listener_enabled = true
+      bind_address = "0.0.0.0"
+      bind_port = "8080"
+      live_path = "/live"
+      ready_path = "/ready"
+    }
+
+---
+# SPIRE Server deployment
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: spire-server
+  namespace: spire
+spec:
+  replicas: 1
+  serviceName: spire-server
+  selector:
+    matchLabels:
+      app: spire-server
+  template:
+    metadata:
+      labels:
+        app: spire-server
+    spec:
+      serviceAccountName: spire-server
+      containers:
+      - name: spire-server
+        image: ghcr.io/spiffe/spire-server:1.8.0
+        args:
+        - -config
+        - /run/spire/config/server.conf
+        ports:
+        - containerPort: 8081
+          name: grpc
+        - containerPort: 8080
+          name: healthz
+        volumeMounts:
+        - name: spire-config
+          mountPath: /run/spire/config
+          readOnly: true
+        - name: spire-data
+          mountPath: /run/spire/data
+        - name: spire-ca
+          mountPath: /run/spire/ca
+          readOnly: true
+        livenessProbe:
+          httpGet:
+            path: /live
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        resources:
+          requests:
+            cpu: 100m
+            memory: 512Mi
+          limits:
+            cpu: 500m
+            memory: 1Gi
+      volumes:
+      - name: spire-config
+        configMap:
+          name: spire-server
+      - name: spire-ca
+        secret:
+          secretName: spire-ca
+  volumeClaimTemplates:
+  - metadata:
+      name: spire-data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+
+---
+# SPIRE Agent DaemonSet
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: spire-agent
+  namespace: spire
+spec:
+  selector:
+    matchLabels:
+      app: spire-agent
+  template:
+    metadata:
+      labels:
+        app: spire-agent
+    spec:
+      serviceAccountName: spire-agent
+      hostPID: true
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+      - name: spire-agent
+        image: ghcr.io/spiffe/spire-agent:1.8.0
+        args:
+        - -config
+        - /run/spire/config/agent.conf
+        env:
+        - name: MY_NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        volumeMounts:
+        - name: spire-config
+          mountPath: /run/spire/config
+          readOnly: true
+        - name: spire-bundle
+          mountPath: /run/spire/bundle
+          readOnly: true
+        - name: spire-agent-socket
+          mountPath: /run/spire/sockets
+        - name: cgroup
+          mountPath: /sys/fs/cgroup
+          readOnly: true
+        livenessProbe:
+          httpGet:
+            path: /live
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi
+        securityContext:
+          privileged: true
+      volumes:
+      - name: spire-config
+        configMap:
+          name: spire-agent
+      - name: spire-bundle
+        configMap:
+          name: spire-bundle
+      - name: spire-agent-socket
+        hostPath:
+          path: /run/spire/sockets
+          type: DirectoryOrCreate
+      - name: cgroup
+        hostPath:
+          path: /sys/fs/cgroup
+          type: Directory
+
+---
+# Workload registration entries
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: workload-registrations
+  namespace: spire
+data:
+  entries.sh: |
+    #!/bin/bash
+    set -e
+
+    # Wait for SPIRE server to be ready
+    until kubectl exec -n spire spire-server-0 -- \
+      /opt/spire/bin/spire-server healthcheck; do
+      echo "Waiting for SPIRE server..."
+      sleep 5
+    done
+
+    # Register frontend workload
+    kubectl exec -n spire spire-server-0 -- \
+      /opt/spire/bin/spire-server entry create \
+      -spiffeID spiffe://example.org/ns/production/sa/frontend \
+      -parentID spiffe://example.org/spire/agent/k8s_psat/production \
+      -selector k8s:ns:production \
+      -selector k8s:sa:frontend \
+      -selector k8s:pod-label:app:frontend \
+      -dns frontend.production.svc.cluster.local \
+      -ttl 3600
+
+    # Register backend API workload
+    kubectl exec -n spire spire-server-0 -- \
+      /opt/spire/bin/spire-server entry create \
+      -spiffeID spiffe://example.org/ns/production/sa/backend \
+      -parentID spiffe://example.org/spire/agent/k8s_psat/production \
+      -selector k8s:ns:production \
+      -selector k8s:sa:backend \
+      -selector k8s:pod-label:app:backend \
+      -dns backend.production.svc.cluster.local \
+      -ttl 3600
+
+    # Register database workload
+    kubectl exec -n spire spire-server-0 -- \
+      /opt/spire/bin/spire-server entry create \
+      -spiffeID spiffe://example.org/ns/production/sa/database \
+      -parentID spiffe://example.org/spire/agent/k8s_psat/production \
+      -selector k8s:ns:production \
+      -selector k8s:sa:database \
+      -selector k8s:pod-label:app:postgres \
+      -dns postgres.production.svc.cluster.local \
+      -ttl 7200
+
+---
+# Example workload using SPIFFE identity
+apiVersion: v1
+kind: Pod
+metadata:
+  name: spiffe-enabled-app
+  namespace: production
+  labels:
+    app: spiffe-enabled-app
+spec:
+  serviceAccountName: spiffe-app
+  containers:
+  - name: app
+    image: myorg/spiffe-app:latest
+    env:
+    - name: SPIFFE_ENDPOINT_SOCKET
+      value: unix:///run/spire/sockets/agent.sock
+    volumeMounts:
+    - name: spire-agent-socket
+      mountPath: /run/spire/sockets
+      readOnly: true
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+  volumes:
+  - name: spire-agent-socket
+    hostPath:
+      path: /run/spire/sockets
+      type: Directory
+
+---
+# Istio integration with SPIRE
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: istio-spire-config
+  namespace: istio-system
+data:
+  mesh: |
+    trustDomain: example.org
+    defaultConfig:
+      proxyMetadata:
+        ISTIO_META_SPIFFE_ENABLED: "true"
+
+  values: |
+    global:
+      pilotCertProvider: spiffe
+      caAddress: spire-server.spire.svc.cluster.local:8081

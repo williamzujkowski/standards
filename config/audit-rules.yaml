@@ -17,13 +17,20 @@ limits:
   hub_violations: 0
   max_orphans: 5
 
+# Link checking exclusions
+link_check:
+  exclude_files:
+    - "skills/**"                    # Skills are self-contained modular system
+    - "tests/scripts/fixtures/**"    # Test fixtures with intentional broken links
+    - "docs/guides/SKILL_AUTHORING_GUIDE.md"  # Template with example placeholder links
+
 orphans:
   exclude:
     - ".claude/**"           # Agent definitions (modular design)
     - "subagents/**"         # Subagent configurations
     - "memory/**"            # Session management files
     - "prompts/**"           # Individual prompt files
-    - "reports/generated/**" # Generated reports (transient)
+    - "reports/generated/**"  # Generated reports (transient)
     - ".vscode/**"           # IDE configuration
     - ".git/**"              # Git internal files
     - "node_modules/**"      # Node.js dependencies
@@ -43,9 +50,17 @@ orphans:
     - "**/.benchmarks/**"    # Benchmark data (all levels)
     - "**/.ruff_cache/**"    # Ruff cache (all levels)
     - "project_plan.md"      # Planning document (intentional)
-    - "standards/compliance/IMPLEMENTATION_SUMMARY.md" # Generated report
+    - "standards/compliance/IMPLEMENTATION_SUMMARY.md"  # Generated report
     - "MIGRATION_LOG.md"      # Jekyll to MkDocs migration log (one-time document)
     - "site/**"               # MkDocs generated site (build output)
+    - "skills/**"             # Modular skill system - self-contained with SKILL.md pattern
+    - "docs/migration/**"     # Migration planning docs (transient, intentionally isolated)
+    - "tests/scripts/fixtures/**"  # Test fixtures (intentionally orphaned for testing)
+    - "CLAUDE_backup.md"      # Backup file (temporary)
+    - "skills_alignment.md"   # Planning document (temporary)
+    - ".playwright-mcp/**"    # Playwright MCP runtime
+    - "overrides/**"          # MkDocs theme overrides
+    - "**/structure-audit.md"  # Generated audit reports (transient)
 
   require_link_from:
     # Standards are linked from the unified hub
@@ -100,3 +115,5 @@ orphans:
     - pattern: "badges/**/*.md"
       hubs:
         - "README.md"
+
+# Note: skills/** is excluded - it's a self-contained modular system

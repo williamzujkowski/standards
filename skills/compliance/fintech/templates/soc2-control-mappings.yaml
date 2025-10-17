@@ -1,0 +1,597 @@
+# SOC2 Trust Service Criteria to Implementation Control Mappings
+# Version: Type II (Operating Effectiveness)
+
+version: "1.0"
+framework: "SOC2-Type-II"
+last_updated: "2025-10-17"
+
+common_criteria:
+  CC1_control_environment:
+    name: "Control Environment"
+    subcriteria:
+      CC1.1_integrity_ethical_values:
+        description: "Entity demonstrates commitment to integrity and ethical values"
+        controls:
+          - id: "CC1.1.1"
+            name: "Code of Conduct"
+            implementation:
+              - "Annual code of conduct acknowledgment by all employees"
+              - "Ethics hotline for reporting violations"
+              - "Board oversight of ethics program"
+            evidence:
+              - "Signed acknowledgment forms"
+              - "Board meeting minutes"
+              - "Hotline activity reports"
+            frequency: "Annual"
+
+      CC1.2_board_oversight:
+        description: "Board demonstrates independence and oversight"
+        controls:
+          - id: "CC1.2.1"
+            name: "Board Independence"
+            implementation:
+              - "Majority independent board members"
+              - "Audit committee charter"
+              - "Regular security briefings to board"
+            evidence:
+              - "Board composition documentation"
+              - "Audit committee minutes"
+              - "Security briefing presentations"
+            frequency: "Quarterly"
+
+      CC1.3_management_structure:
+        description: "Management establishes structure, authority, and responsibility"
+        controls:
+          - id: "CC1.3.1"
+            name: "Organizational Structure"
+            implementation:
+              - "Documented org chart with reporting lines"
+              - "Role descriptions with security responsibilities"
+              - "Segregation of duties matrix"
+            evidence:
+              - "Organization chart"
+              - "Job descriptions"
+              - "SOD matrix documentation"
+            frequency: "Annual"
+
+      CC1.4_competence:
+        description: "Entity demonstrates commitment to competence"
+        controls:
+          - id: "CC1.4.1"
+            name: "Training and Competency"
+            implementation:
+              - "Security awareness training upon hire and annually"
+              - "Role-based technical training"
+              - "Training completion tracking"
+            evidence:
+              - "Training records"
+              - "Quiz/assessment scores"
+              - "Certification records"
+            frequency: "Annual, ongoing"
+
+      CC1.5_accountability:
+        description: "Entity holds individuals accountable"
+        controls:
+          - id: "CC1.5.1"
+            name: "Performance Management"
+            implementation:
+              - "Security objectives in performance reviews"
+              - "Incident accountability tracking"
+              - "Disciplinary actions for violations"
+            evidence:
+              - "Performance review documentation"
+              - "Incident response records"
+              - "HR disciplinary records"
+            frequency: "Annual, as-needed"
+
+  CC2_communication_information:
+    name: "Communication and Information"
+    subcriteria:
+      CC2.1_internal_communication:
+        description: "Entity obtains or generates relevant quality information"
+        controls:
+          - id: "CC2.1.1"
+            name: "Security Policies"
+            implementation:
+              - "Comprehensive security policy documentation"
+              - "Policy version control and distribution"
+              - "Annual policy review and updates"
+            evidence:
+              - "Policy documents with version history"
+              - "Employee acknowledgment records"
+              - "Policy review sign-offs"
+            frequency: "Annual review"
+
+      CC2.2_external_communication:
+        description: "Entity communicates with external parties"
+        controls:
+          - id: "CC2.2.1"
+            name: "Customer Communication"
+            implementation:
+              - "SOC2 report distribution to customers"
+              - "Incident notification procedures"
+              - "Transparency reports"
+            evidence:
+              - "SOC2 report distribution logs"
+              - "Customer notification emails"
+              - "Transparency report publications"
+            frequency: "Annual, as-needed"
+
+  CC3_risk_assessment:
+    name: "Risk Assessment"
+    subcriteria:
+      CC3.1_objectives:
+        description: "Entity specifies objectives with clarity"
+        controls:
+          - id: "CC3.1.1"
+            name: "Risk Assessment Framework"
+            implementation:
+              - "Annual enterprise risk assessment"
+              - "Risk register maintenance"
+              - "Risk treatment plans"
+            evidence:
+              - "Risk assessment reports"
+              - "Risk register with scoring"
+              - "Risk mitigation project plans"
+            frequency: "Annual"
+
+      CC3.2_risk_identification:
+        description: "Entity identifies risks to objectives"
+        controls:
+          - id: "CC3.2.1"
+            name: "Threat Modeling"
+            implementation:
+              - "Threat modeling for critical systems"
+              - "Vulnerability scanning (quarterly)"
+              - "Penetration testing (annual)"
+            evidence:
+              - "Threat model documents"
+              - "Vulnerability scan reports"
+              - "Penetration test reports"
+            frequency: "Quarterly, annual"
+
+      CC3.3_fraud_assessment:
+        description: "Entity considers fraud in risk assessment"
+        controls:
+          - id: "CC3.3.1"
+            name: "Fraud Risk Analysis"
+            implementation:
+              - "Fraud risk assessment annually"
+              - "Anti-fraud controls implementation"
+              - "Fraud monitoring and detection"
+            evidence:
+              - "Fraud risk assessment docs"
+              - "SIEM fraud detection rules"
+              - "Fraud incident reports"
+            frequency: "Annual"
+
+      CC3.4_significant_changes:
+        description: "Entity identifies changes that affect the system"
+        controls:
+          - id: "CC3.4.1"
+            name: "Change Impact Analysis"
+            implementation:
+              - "Change management process with security review"
+              - "Architecture review board"
+              - "Business impact assessments"
+            evidence:
+              - "Change tickets with security approval"
+              - "ARB meeting minutes"
+              - "BIA documentation"
+            frequency: "Per change"
+
+  CC4_monitoring:
+    name: "Monitoring Activities"
+    subcriteria:
+      CC4.1_ongoing_monitoring:
+        description: "Entity selects, develops, and performs ongoing monitoring"
+        controls:
+          - id: "CC4.1.1"
+            name: "Continuous Monitoring"
+            implementation:
+              - "SIEM with 24/7 monitoring"
+              - "Automated compliance checks"
+              - "Security metrics dashboard"
+            evidence:
+              - "SIEM configuration and alerts"
+              - "Compliance scan results"
+              - "Security metrics reports"
+            frequency: "Continuous"
+
+      CC4.2_deficiency_evaluation:
+        description: "Entity evaluates and communicates deficiencies"
+        controls:
+          - id: "CC4.2.1"
+            name: "Deficiency Management"
+            implementation:
+              - "Issue tracking system for security deficiencies"
+              - "Remediation SLAs by severity"
+              - "Executive reporting of open issues"
+            evidence:
+              - "Issue tracker reports"
+              - "Remediation completion records"
+              - "Executive summary reports"
+            frequency: "Monthly"
+
+  CC5_control_activities:
+    name: "Control Activities"
+    subcriteria:
+      CC5.1_control_selection:
+        description: "Entity selects and develops control activities"
+        controls:
+          - id: "CC5.1.1"
+            name: "Control Framework Adoption"
+            implementation:
+              - "NIST CSF or ISO 27001 control mapping"
+              - "Control design documentation"
+              - "Control owner assignments"
+            evidence:
+              - "Control mapping matrix"
+              - "Control design specs"
+              - "RACI matrix for controls"
+            frequency: "Annual review"
+
+      CC5.2_technology_controls:
+        description: "Entity develops technology controls"
+        controls:
+          - id: "CC5.2.1"
+            name: "Technology Control Implementation"
+            implementation:
+              - "Configuration management (IaC)"
+              - "Automated security testing in CI/CD"
+              - "Security orchestration (SOAR)"
+            evidence:
+              - "Terraform/CloudFormation code"
+              - "CI/CD pipeline configs"
+              - "SOAR playbooks"
+            frequency: "Continuous"
+
+      CC5.3_policies_procedures:
+        description: "Entity deploys control activities through policies"
+        controls:
+          - id: "CC5.3.1"
+            name: "Policy Deployment"
+            implementation:
+              - "Documented procedures for all controls"
+              - "Employee training on procedures"
+              - "Periodic procedure reviews"
+            evidence:
+              - "Standard operating procedures (SOPs)"
+              - "Training attendance records"
+              - "Procedure review logs"
+            frequency: "Annual"
+
+  CC6_logical_physical_access:
+    name: "Logical and Physical Access Controls"
+    subcriteria:
+      CC6.1_credential_management:
+        description: "Entity implements credential management"
+        controls:
+          - id: "CC6.1.1"
+            name: "User Provisioning"
+            implementation:
+              - "Automated provisioning/deprovisioning"
+              - "Approval workflow for access requests"
+              - "Unique user accounts (no shared)"
+            evidence:
+              - "Provisioning system logs"
+              - "Access request tickets"
+              - "User account inventory"
+            frequency: "Real-time"
+
+          - id: "CC6.1.2"
+            name: "Privileged Access Management"
+            implementation:
+              - "Privileged account discovery"
+              - "Password vaulting for admin accounts"
+              - "Session recording for privileged access"
+            evidence:
+              - "PAM system inventory"
+              - "Password vault audit logs"
+              - "Session recordings"
+            frequency: "Continuous"
+
+      CC6.2_access_removal:
+        description: "Entity removes access when no longer required"
+        controls:
+          - id: "CC6.2.1"
+            name: "Termination Procedures"
+            implementation:
+              - "HR-triggered access revocation within 24 hours"
+              - "Automated account disablement"
+              - "Transfer/role change access adjustments"
+            evidence:
+              - "HR termination notifications"
+              - "Account disablement logs"
+              - "Role change documentation"
+            frequency: "Within 24 hours"
+
+      CC6.3_access_reviews:
+        description: "Entity reviews access rights periodically"
+        controls:
+          - id: "CC6.3.1"
+            name: "Quarterly Access Reviews"
+            implementation:
+              - "Manager-led access certification"
+              - "Automated access review campaigns"
+              - "Exception tracking for non-revoked access"
+            evidence:
+              - "Access review reports"
+              - "Manager sign-offs"
+              - "Exception documentation"
+            frequency: "Quarterly"
+
+      CC6.6_physical_access:
+        description: "Entity restricts physical access"
+        controls:
+          - id: "CC6.6.1"
+            name: "Data Center Physical Security"
+            implementation:
+              - "Badge access for authorized personnel"
+              - "Visitor escort requirements"
+              - "Camera surveillance with 90-day retention"
+            evidence:
+              - "Badge access logs"
+              - "Visitor sign-in logs"
+              - "Camera footage retention logs"
+            frequency: "Continuous"
+
+  CC7_system_operations:
+    name: "System Operations"
+    subcriteria:
+      CC7.1_change_management:
+        description: "Entity manages changes to system components"
+        controls:
+          - id: "CC7.1.1"
+            name: "Change Control Process"
+            implementation:
+              - "RFC submission for all changes"
+              - "Change advisory board (CAB) approval"
+              - "Rollback plans for all changes"
+            evidence:
+              - "Change tickets with approvals"
+              - "CAB meeting minutes"
+              - "Rollback procedure docs"
+            frequency: "Per change"
+
+      CC7.2_system_monitoring:
+        description: "Entity monitors system components"
+        controls:
+          - id: "CC7.2.1"
+            name: "Infrastructure Monitoring"
+            implementation:
+              - "APM (Application Performance Monitoring)"
+              - "Infrastructure monitoring (CPU, memory, disk)"
+              - "Alerting for anomalies"
+            evidence:
+              - "Monitoring dashboards"
+              - "Alert configuration"
+              - "Incident tickets from alerts"
+            frequency: "Continuous"
+
+  CC8_change_management:
+    name: "Change Management"
+    subcriteria:
+      CC8.1_change_control:
+        description: "Entity authorizes, designs, tests, and deploys changes"
+        controls:
+          - id: "CC8.1.1"
+            name: "SDLC with Security Gates"
+            implementation:
+              - "Security requirements in design phase"
+              - "Code review with security checklist"
+              - "Security testing before production"
+            evidence:
+              - "Design documents with security reqs"
+              - "Code review records"
+              - "Security test reports"
+            frequency: "Per release"
+
+  CC9_risk_mitigation:
+    name: "Risk Mitigation"
+    subcriteria:
+      CC9.1_vulnerability_management:
+        description: "Entity identifies and manages vulnerabilities"
+        controls:
+          - id: "CC9.1.1"
+            name: "Vulnerability Scanning"
+            implementation:
+              - "Weekly internal vulnerability scans"
+              - "Quarterly external vulnerability scans"
+              - "Risk-based remediation SLAs (Critical: 7 days, High: 30 days)"
+            evidence:
+              - "Vulnerability scan reports"
+              - "Remediation tracking tickets"
+              - "SLA compliance reports"
+            frequency: "Weekly, quarterly"
+
+      CC9.2_threat_protection:
+        description: "Entity implements threat protection mechanisms"
+        controls:
+          - id: "CC9.2.1"
+            name: "Layered Security Controls"
+            implementation:
+              - "Web application firewall (WAF)"
+              - "Intrusion detection/prevention (IDS/IPS)"
+              - "Anti-malware on all endpoints"
+            evidence:
+              - "WAF configuration and logs"
+              - "IDS/IPS alerts and responses"
+              - "Anti-malware deployment reports"
+            frequency: "Continuous"
+
+availability:
+  A1_availability:
+    name: "Availability Commitments"
+    subcriteria:
+      A1.1_availability_monitoring:
+        description: "Entity monitors system availability"
+        controls:
+          - id: "A1.1.1"
+            name: "Uptime Monitoring"
+            implementation:
+              - "Synthetic monitoring from multiple regions"
+              - "SLA tracking (99.9% uptime commitment)"
+              - "Incident escalation for outages"
+            evidence:
+              - "Uptime reports"
+              - "SLA performance dashboards"
+              - "Incident escalation logs"
+            frequency: "Continuous"
+
+      A1.2_capacity_management:
+        description: "Entity manages system capacity"
+        controls:
+          - id: "A1.2.1"
+            name: "Capacity Planning"
+            implementation:
+              - "Monthly capacity utilization reviews"
+              - "Auto-scaling configurations"
+              - "Load testing before major releases"
+            evidence:
+              - "Capacity reports"
+              - "Auto-scaling event logs"
+              - "Load test results"
+            frequency: "Monthly"
+
+      A1.3_backup_recovery:
+        description: "Entity backs up data and tests recovery"
+        controls:
+          - id: "A1.3.1"
+            name: "Backup and DR"
+            implementation:
+              - "Daily automated backups with 30-day retention"
+              - "Quarterly disaster recovery drills"
+              - "RPO: 4 hours, RTO: 8 hours"
+            evidence:
+              - "Backup success logs"
+              - "DR drill reports"
+              - "Recovery time tracking"
+            frequency: "Daily, quarterly"
+
+confidentiality:
+  C1_confidentiality:
+    name: "Confidentiality Commitments"
+    subcriteria:
+      C1.1_data_classification:
+        description: "Entity identifies and classifies confidential information"
+        controls:
+          - id: "C1.1.1"
+            name: "Data Classification Policy"
+            implementation:
+              - "Data classification framework (Public, Internal, Confidential, Restricted)"
+              - "Automated data discovery tools"
+              - "Data labeling in systems"
+            evidence:
+              - "Classification policy document"
+              - "Data discovery scan results"
+              - "Labeled data samples"
+            frequency: "Annual review"
+
+      C1.2_encryption:
+        description: "Entity encrypts confidential information"
+        controls:
+          - id: "C1.2.1"
+            name: "Encryption Standards"
+            implementation:
+              - "AES-256 encryption at rest"
+              - "TLS 1.2+ for data in transit"
+              - "Key rotation every 12 months"
+            evidence:
+              - "Encryption configuration docs"
+              - "TLS scan reports"
+              - "Key rotation logs"
+            frequency: "Continuous, annual rotation"
+
+      C1.3_confidential_disposal:
+        description: "Entity disposes of confidential information securely"
+        controls:
+          - id: "C1.3.1"
+            name: "Secure Disposal"
+            implementation:
+              - "Cryptographic erasure for storage devices"
+              - "Shredding for physical documents"
+              - "Data retention policy enforcement"
+            evidence:
+              - "Certificate of destruction"
+              - "Shredding service logs"
+              - "Retention policy documentation"
+            frequency: "Per retention schedule"
+
+mapping_to_pci_dss:
+  # Shows overlap between SOC2 and PCI-DSS
+  access_control:
+    soc2: ["CC6.1", "CC6.2", "CC6.3"]
+    pci_dss: ["7.1", "7.2", "8.1", "8.2", "8.3"]
+  encryption:
+    soc2: ["C1.2"]
+    pci_dss: ["3.5", "3.6", "4.2"]
+  logging:
+    soc2: ["CC7.2", "CC4.1"]
+    pci_dss: ["10.2", "10.3", "10.4"]
+  vulnerability_management:
+    soc2: ["CC9.1"]
+    pci_dss: ["6.3", "11.3"]
+  incident_response:
+    soc2: ["CC4.2"]
+    pci_dss: ["12.10"]
+
+audit_evidence_collection:
+  automated_tools:
+    - name: "AWS Config"
+      purpose: "Continuous configuration compliance"
+      evidence: ["Configuration snapshots", "Compliance timeline"]
+    - name: "CloudTrail"
+      purpose: "API call logging"
+      evidence: ["User activity logs", "Resource changes"]
+    - name: "IaC Version Control"
+      purpose: "Infrastructure change history"
+      evidence: ["Git commits", "Pull request approvals"]
+    - name: "SIEM"
+      purpose: "Security event aggregation"
+      evidence: ["Correlation rules", "Alert history"]
+
+  manual_evidence:
+    - name: "Policy Documents"
+      collection: "Quarterly snapshot with version control"
+    - name: "Training Records"
+      collection: "Annual export from LMS"
+    - name: "Access Reviews"
+      collection: "Manager sign-offs per campaign"
+    - name: "Vendor Assessments"
+      collection: "Annual vendor risk reviews"
+
+testing_procedures:
+  design_effectiveness:
+    description: "Verify controls are properly designed"
+    methods:
+      - "Walkthrough of control procedures"
+      - "Review of policy documentation"
+      - "Inspection of system configurations"
+
+  operating_effectiveness:
+    description: "Verify controls operate as designed over reporting period"
+    methods:
+      - "Sample testing of control execution (25-60 samples)"
+      - "Review of exceptions and remediation"
+      - "Continuous monitoring evidence"
+    sampling_rates:
+      manual_controls: "25 samples per control"
+      automated_controls: "1 sample per control (if properly configured)"
+      key_controls: "60 samples per control"
+
+reporting:
+  type_i:
+    description: "Point-in-time assessment of control design"
+    period: "Single date"
+    use_case: "Initial SOC2 readiness"
+
+  type_ii:
+    description: "Assessment of control operating effectiveness over time"
+    period: "6-12 months"
+    use_case: "Customer due diligence, contract requirements"
+    opinion_types:
+      - "Unqualified (clean)"
+      - "Qualified (exceptions noted)"
+      - "Adverse (significant deficiencies)"
+      - "Disclaimer (unable to assess)"

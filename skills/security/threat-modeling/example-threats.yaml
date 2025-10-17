@@ -1,0 +1,224 @@
+# Example Threat Model Definition
+# Use with: python scripts/threat-report-generator.py -i example-threats.yaml -o example-report.md
+
+system_name: "E-commerce Web Application"
+version: "1.0"
+date: "2025-10-17"
+analyst: "Security Team"
+
+threats:
+  - id: "THREAT-001"
+    category: "Spoofing"
+    description: "Session hijacking via XSS vulnerability"
+    attack_scenario: |
+      1. Application stores JWT in localStorage
+      2. XSS vulnerability in product review feature
+      3. Attacker injects malicious script
+      4. Script exfiltrates JWT token
+      5. Attacker uses stolen token to impersonate user
+    component: "Web Frontend"
+    dread:
+      damage: 8
+      reproducibility: 9
+      exploitability: 7
+      affected_users: 8
+      discoverability: 6
+    mitigations:
+      - control: "Store JWT in httpOnly, secure cookies"
+        nist_control: "SC-8"
+        status: "Planned"
+        owner: "Frontend Team"
+        target_date: "2025-11-15"
+      - control: "Implement Content Security Policy"
+        nist_control: "SI-10"
+        status: "In Progress"
+        owner: "Security Team"
+        target_date: "2025-11-01"
+      - control: "Sanitize user input in reviews"
+        nist_control: "SI-10"
+        status: "Planned"
+        owner: "Backend Team"
+        target_date: "2025-11-10"
+    impact_confidentiality: "High"
+    impact_integrity: "Medium"
+    impact_availability: "Low"
+
+  - id: "THREAT-002"
+    category: "Tampering"
+    description: "Price manipulation in checkout process"
+    attack_scenario: |
+      1. Product price sent in hidden form field
+      2. Attacker intercepts request with proxy
+      3. Modifies price from $100 to $1
+      4. Backend processes order at tampered price
+    component: "Checkout Service"
+    dread:
+      damage: 9
+      reproducibility: 10
+      exploitability: 9
+      affected_users: 2
+      discoverability: 8
+    mitigations:
+      - control: "Store prices server-side, reference by product ID"
+        nist_control: "SI-10"
+        status: "Implemented"
+        owner: "Backend Team"
+      - control: "Server-side validation of all prices"
+        nist_control: "SI-10"
+        status: "Implemented"
+        owner: "Backend Team"
+      - control: "Log price discrepancies for monitoring"
+        nist_control: "AU-2"
+        status: "Implemented"
+        owner: "Platform Team"
+    impact_confidentiality: "Low"
+    impact_integrity: "High"
+    impact_availability: "Low"
+
+  - id: "THREAT-003"
+    category: "Information Disclosure"
+    description: "Customer data exposure via IDOR in API"
+    attack_scenario: |
+      1. API endpoint: GET /api/orders/{orderId}
+      2. No authorization check beyond authentication
+      3. Attacker iterates orderIds 1-10000
+      4. Downloads all order details including customer PII
+    component: "Order API"
+    dread:
+      damage: 9
+      reproducibility: 10
+      exploitability: 9
+      affected_users: 10
+      discoverability: 7
+    mitigations:
+      - control: "Implement resource-level authorization"
+        nist_control: "AC-3"
+        status: "Planned"
+        owner: "Backend Team"
+        target_date: "2025-10-30"
+      - control: "Use UUIDs instead of sequential IDs"
+        nist_control: "AC-3"
+        status: "Planned"
+        owner: "Backend Team"
+        target_date: "2025-11-15"
+      - control: "Rate limit API endpoints"
+        nist_control: "SC-5"
+        status: "In Progress"
+        owner: "Platform Team"
+        target_date: "2025-10-25"
+      - control: "Monitor for enumeration patterns"
+        nist_control: "SI-4"
+        status: "Planned"
+        owner: "Security Team"
+        target_date: "2025-11-01"
+    impact_confidentiality: "High"
+    impact_integrity: "Low"
+    impact_availability: "Low"
+
+  - id: "THREAT-004"
+    category: "Denial of Service"
+    description: "Inventory search query DoS"
+    attack_scenario: |
+      1. Search API allows complex filters and sorting
+      2. Attacker crafts query with multiple JOINs
+      3. Query takes 60+ seconds to execute
+      4. Attacker submits 100 concurrent requests
+      5. Database becomes unresponsive
+    component: "Search Service"
+    dread:
+      damage: 7
+      reproducibility: 9
+      exploitability: 7
+      affected_users: 10
+      discoverability: 6
+    mitigations:
+      - control: "Implement query complexity limits"
+        nist_control: "SC-5"
+        status: "Planned"
+        owner: "Backend Team"
+        target_date: "2025-11-01"
+      - control: "Set database query timeout to 10 seconds"
+        nist_control: "SC-5"
+        status: "In Progress"
+        owner: "Platform Team"
+        target_date: "2025-10-25"
+      - control: "Rate limit search API (10 req/min per user)"
+        nist_control: "AC-7"
+        status: "Implemented"
+        owner: "Platform Team"
+    impact_confidentiality: "Low"
+    impact_integrity: "Low"
+    impact_availability: "High"
+
+  - id: "THREAT-005"
+    category: "Elevation of Privilege"
+    description: "SQL injection in admin login"
+    attack_scenario: |
+      1. Admin login vulnerable to SQL injection
+      2. Username: admin' OR 1=1--
+      3. Bypasses authentication
+      4. Gains admin panel access
+      5. Can modify all orders, customer data
+    component: "Admin Panel"
+    dread:
+      damage: 10
+      reproducibility: 10
+      exploitability: 8
+      affected_users: 10
+      discoverability: 9
+    mitigations:
+      - control: "Use parameterized queries exclusively"
+        nist_control: "SI-10"
+        status: "Implemented"
+        owner: "Backend Team"
+      - control: "Implement ORM (no raw SQL)"
+        nist_control: "SI-10"
+        status: "Implemented"
+        owner: "Backend Team"
+      - control: "Deploy Web Application Firewall"
+        nist_control: "SI-10"
+        status: "Implemented"
+        owner: "Security Team"
+      - control: "Regular security scanning"
+        nist_control: "RA-5"
+        status: "Implemented"
+        owner: "Security Team"
+    impact_confidentiality: "High"
+    impact_integrity: "High"
+    impact_availability: "High"
+
+  - id: "THREAT-006"
+    category: "Repudiation"
+    description: "Missing audit logs for admin actions"
+    attack_scenario: |
+      1. Admin panel has no audit logging
+      2. Rogue admin deletes customer orders
+      3. No record of who performed action
+      4. Admin denies involvement
+      5. Cannot prove who caused damage
+    component: "Admin Panel"
+    dread:
+      damage: 6
+      reproducibility: 10
+      exploitability: 8
+      affected_users: 5
+      discoverability: 4
+    mitigations:
+      - control: "Implement comprehensive audit logging"
+        nist_control: "AU-2"
+        status: "In Progress"
+        owner: "Platform Team"
+        target_date: "2025-10-30"
+      - control: "Protect log integrity with write-once storage"
+        nist_control: "AU-9"
+        status: "Planned"
+        owner: "Platform Team"
+        target_date: "2025-11-15"
+      - control: "Centralize logs to SIEM"
+        nist_control: "AU-6"
+        status: "Planned"
+        owner: "Security Team"
+        target_date: "2025-12-01"
+    impact_confidentiality: "Low"
+    impact_integrity: "Medium"
+    impact_availability: "Low"

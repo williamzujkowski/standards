@@ -1,0 +1,117 @@
+# @nist ac-3 "Access enforcement"
+# @nist ac-6 "Least privilege"
+# RBAC Policy Definition - Declarative role and permission configuration
+
+version: "1.0"
+description: "Role-Based Access Control policy for document management system"
+
+# Define all permissions
+permissions:
+  - id: documents:read
+    resource: documents
+    action: read
+    description: "Read documents"
+
+  - id: documents:write
+    resource: documents
+    action: write
+    description: "Create and update documents"
+
+  - id: documents:delete
+    resource: documents
+    action: delete
+    description: "Delete documents"
+
+  - id: users:read
+    resource: users
+    action: read
+    description: "View user profiles"
+
+  - id: users:write
+    resource: users
+    action: write
+    description: "Create and update users"
+
+  - id: roles:read
+    resource: roles
+    action: read
+    description: "View role definitions"
+
+  - id: roles:write
+    resource: roles
+    action: write
+    description: "Create and modify roles"
+
+  - id: audit:read
+    resource: audit
+    action: read
+    description: "View audit logs"
+
+# Define roles and their permissions
+roles:
+  - name: guest
+    description: "Guest user with read-only access"
+    parent: null
+    permissions:
+      - documents:read
+
+  - name: user
+    description: "Standard authenticated user"
+    parent: guest
+    permissions:
+      - documents:write
+      - users:read
+
+  - name: manager
+    description: "Team manager with elevated privileges"
+    parent: user
+    permissions:
+      - documents:delete
+      - audit:read
+
+  - name: admin
+    description: "System administrator"
+    parent: manager
+    permissions:
+      - users:write
+      - roles:read
+
+  - name: superadmin
+    description: "Super administrator with full access"
+    parent: admin
+    permissions:
+      - roles:write
+      - "*:*"  # Wildcard: all permissions
+
+# Role hierarchy visualization:
+# superadmin (all)
+#   └── admin (users:write, roles:read)
+#       └── manager (documents:delete, audit:read)
+#           └── user (documents:write, users:read)
+#               └── guest (documents:read)
+
+# Default role assignments
+defaults:
+  new_user_role: user
+  service_account_role: guest
+  admin_email_domain: "@example.com"
+
+# Constraints
+constraints:
+  # Separation of duties
+  - type: mutually_exclusive
+    roles:
+      - admin
+      - auditor
+    description: "Admins cannot be auditors (AC-5)"
+
+  # Maximum concurrent roles
+  - type: max_roles_per_user
+    limit: 3
+    description: "Users can have at most 3 roles"
+
+  # Temporary access support
+  - type: temporary_access
+    enabled: true
+    max_duration_days: 90
+    requires_approval: true

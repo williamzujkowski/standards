@@ -1,0 +1,448 @@
+# Kubernetes NetworkPolicy for Microsegmentation
+# Implements zero-trust network segmentation
+
+---
+# Default deny all ingress and egress traffic
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: production
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+
+---
+# Allow DNS resolution (required for service discovery)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dns
+  namespace: production
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+    - podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+
+---
+# Frontend application policies
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: frontend-policy
+  namespace: production
+spec:
+  podSelector:
+    matchLabels:
+      app: frontend
+      tier: web
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow traffic from ingress controller
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    - podSelector:
+        matchLabels:
+          app: nginx-ingress
+    ports:
+    - protocol: TCP
+      port: 8080
+  egress:
+  # Allow DNS
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+    ports:
+    - protocol: UDP
+      port: 53
+  # Allow backend API calls
+  - to:
+    - podSelector:
+        matchLabels:
+          app: backend-api
+          tier: api
+    ports:
+    - protocol: TCP
+      port: 8080
+  # Allow authentication service
+  - to:
+    - podSelector:
+        matchLabels:
+          app: auth-service
+    ports:
+    - protocol: TCP
+      port: 8443
+
+---
+# Backend API policies
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: backend-api-policy
+  namespace: production
+spec:
+  podSelector:
+    matchLabels:
+      app: backend-api
+      tier: api
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow from frontend
+  - from:
+    - podSelector:
+        matchLabels:
+          app: frontend
+          tier: web
+    ports:
+    - protocol: TCP
+      port: 8080
+  # Allow from worker services
+  - from:
+    - podSelector:
+        matchLabels:
+          app: worker
+          tier: background
+    ports:
+    - protocol: TCP
+      port: 8080
+  egress:
+  # Allow DNS
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+    ports:
+    - protocol: UDP
+      port: 53
+  # Allow database access
+  - to:
+    - podSelector:
+        matchLabels:
+          app: postgres
+          tier: database
+    ports:
+    - protocol: TCP
+      port: 5432
+  # Allow Redis cache
+  - to:
+    - podSelector:
+        matchLabels:
+          app: redis
+          tier: cache
+    ports:
+    - protocol: TCP
+      port: 6379
+  # Allow external API (specific CIDR)
+  - to:
+    - ipBlock:
+        cidr: 203.0.113.0/24
+        except:
+        - 203.0.113.5/32
+    ports:
+    - protocol: TCP
+      port: 443
+
+---
+# Database policies (most restrictive)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: database-policy
+  namespace: production
+spec:
+  podSelector:
+    matchLabels:
+      app: postgres
+      tier: database
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Only allow from backend API
+  - from:
+    - podSelector:
+        matchLabels:
+          app: backend-api
+          tier: api
+    ports:
+    - protocol: TCP
+      port: 5432
+  # Allow from backup service in different namespace
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: backup
+    - podSelector:
+        matchLabels:
+          app: database-backup
+    ports:
+    - protocol: TCP
+      port: 5432
+  egress:
+  # Allow DNS
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+    ports:
+    - protocol: UDP
+      port: 53
+  # Allow database replication (same namespace only)
+  - to:
+    - podSelector:
+        matchLabels:
+          app: postgres
+          tier: database
+    ports:
+    - protocol: TCP
+      port: 5432
+
+---
+# Cache (Redis) policies
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: cache-policy
+  namespace: production
+spec:
+  podSelector:
+    matchLabels:
+      app: redis
+      tier: cache
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow from backend API and workers
+  - from:
+    - podSelector:
+        matchLabels:
+          app: backend-api
+    ports:
+    - protocol: TCP
+      port: 6379
+  - from:
+    - podSelector:
+        matchLabels:
+          app: worker
+    ports:
+    - protocol: TCP
+      port: 6379
+  egress:
+  # Allow DNS
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+    ports:
+    - protocol: UDP
+      port: 53
+  # Allow Redis cluster communication
+  - to:
+    - podSelector:
+        matchLabels:
+          app: redis
+          tier: cache
+    ports:
+    - protocol: TCP
+      port: 6379
+    - protocol: TCP
+      port: 16379  # Cluster bus
+
+---
+# Monitoring and observability access
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-monitoring
+  namespace: production
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  ingress:
+  # Allow Prometheus scraping
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: monitoring
+    - podSelector:
+        matchLabels:
+          app: prometheus
+    ports:
+    - protocol: TCP
+      port: 9090
+    - protocol: TCP
+      port: 9091
+    - protocol: TCP
+      port: 8080  # Many apps expose metrics on main port
+  # Allow logging agents
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: logging
+    - podSelector:
+        matchLabels:
+          app: fluentd
+    ports:
+    - protocol: TCP
+      port: 24224
+
+---
+# Service mesh sidecar communication
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-istio-sidecar
+  namespace: production
+spec:
+  podSelector:
+    matchLabels:
+      security.istio.io/tlsMode: istio
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow Istio control plane communication
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: istio-system
+    ports:
+    - protocol: TCP
+      port: 15090  # Envoy Prometheus telemetry
+    - protocol: TCP
+      port: 15021  # Health checks
+  egress:
+  # Allow to Istio control plane
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: istio-system
+    ports:
+    - protocol: TCP
+      port: 15012  # XDS and CA
+    - protocol: TCP
+      port: 15017  # Webhook
+
+---
+# Cilium L7 Network Policy (HTTP)
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: backend-api-l7-policy
+  namespace: production
+spec:
+  endpointSelector:
+    matchLabels:
+      app: backend-api
+  ingress:
+  - fromEndpoints:
+    - matchLabels:
+        app: frontend
+    toPorts:
+    - ports:
+      - port: "8080"
+        protocol: TCP
+      rules:
+        http:
+        - method: "GET"
+          path: "/api/users.*"
+        - method: "POST"
+          path: "/api/users"
+          headers:
+          - "Content-Type: application/json"
+        - method: "GET"
+          path: "/api/products.*"
+        - method: "DELETE"
+          path: "/api/users/[0-9]+"
+  egress:
+  - toEndpoints:
+    - matchLabels:
+        app: postgres
+    toPorts:
+    - ports:
+      - port: "5432"
+        protocol: TCP
+
+---
+# Cilium DNS-based egress policy
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: external-api-fqdn-policy
+  namespace: production
+spec:
+  endpointSelector:
+    matchLabels:
+      app: external-api-client
+  egress:
+  - toFQDNs:
+    - matchName: "api.stripe.com"
+    - matchName: "api.twilio.com"
+    - matchPattern: "*.googleapis.com"
+    - matchPattern: "*.amazonaws.com"
+  - toPorts:
+    - ports:
+      - port: "443"
+        protocol: TCP
+
+---
+# Calico GlobalNetworkPolicy for cluster-wide rules
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: deny-all-non-whitelisted
+spec:
+  order: 1000
+  selector: all()
+  types:
+  - Ingress
+  - Egress
+  # This policy applies after namespace-specific policies
+  # Denies all traffic not explicitly allowed
+
+---
+# Calico NetworkPolicy with service account selector
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: service-account-policy
+  namespace: production
+spec:
+  order: 100
+  selector: app == "backend-api"
+  types:
+  - Ingress
+  ingress:
+  - action: Allow
+    source:
+      serviceAccounts:
+        names:
+        - frontend
+        - worker
+    destination:
+      ports:
+      - 8080

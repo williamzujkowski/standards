@@ -1,0 +1,26 @@
+name: fraud-detection-mlflow
+
+conda_env: conda.yaml
+
+entry_points:
+  main:
+    parameters:
+      data_path: {type: string, default: "data/train.csv"}
+      test_size: {type: float, default: 0.2}
+      learning_rate: {type: float, default: 0.01}
+      n_estimators: {type: int, default: 100}
+      max_depth: {type: int, default: 6}
+      random_state: {type: int, default: 42}
+    command: "python train.py --data-path {data_path} --test-size {test_size} --learning-rate {learning_rate} --n-estimators {n_estimators} --max-depth {max_depth} --random-state {random_state}"
+
+  validate:
+    parameters:
+      model_uri: {type: string}
+      test_data: {type: string, default: "data/test.csv"}
+    command: "python validate.py --model-uri {model_uri} --test-data {test_data}"
+
+  serve:
+    parameters:
+      model_uri: {type: string}
+      port: {type: int, default: 5001}
+    command: "mlflow models serve -m {model_uri} -p {port} --no-conda"

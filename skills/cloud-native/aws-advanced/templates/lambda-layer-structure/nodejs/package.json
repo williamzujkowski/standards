@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.450.0",
+    "@aws-sdk/client-s3": "^3.450.0",
+    "@aws-sdk/lib-dynamodb": "^3.450.0",
+    "aws-xray-sdk-core": "^3.5.0",
+    "jsonwebtoken": "^9.0.2",
+    "uuid": "^9.0.1"
+  },
+  "description": "Common Node.js dependencies for Lambda functions",
+  "main": "lib/utils.js",
+  "name": "lambda-layer-nodejs",
+  "version": "1.0.0"
+}

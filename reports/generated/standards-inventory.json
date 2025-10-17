@@ -53,6 +53,7 @@
         "api",
         "graphql",
         "ml",
+        "observability",
         "python",
         "react",
         "rest"
@@ -1135,9 +1136,7 @@
         "ai",
         "api",
         "auth",
-        "k8s",
-        "ml",
-        "react"
+        "k8s"
       ],
       "title": "Standards Quick Reference Index"
     },
@@ -1222,12 +1221,9 @@
       "tags": [
         "ai",
         "api",
-        "auth",
         "cicd",
-        "javascript",
         "ml",
-        "observability",
-        "python"
+        "observability"
       ],
       "title": "Unified Software Development Standards"
     },

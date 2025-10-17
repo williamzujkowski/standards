@@ -1,0 +1,434 @@
+"""
+Production-Ready GraphQL Schema
+Demonstrates best practices for type design, pagination, and federation
+"""
+
+# Custom Scalars
+scalar DateTime
+scalar Email
+scalar URL
+scalar JSON
+scalar PositiveInt
+scalar Upload
+
+# Directives
+directive @auth on FIELD_DEFINITION | OBJECT
+directive @requireRole(role: UserRole!) on FIELD_DEFINITION
+directive @rateLimit(limit: Int!, duration: Int!) on FIELD_DEFINITION
+directive @deprecated(reason: String!) on FIELD_DEFINITION | ENUM_VALUE
+
+# Enums
+enum UserRole {
+  ADMIN
+  MODERATOR
+  USER
+  GUEST
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+  DELETED
+}
+
+enum SortOrder {
+  ASC
+  DESC
+}
+
+enum NotificationType {
+  COMMENT
+  MENTION
+  LIKE
+  FOLLOW
+}
+
+# Interfaces
+interface Node {
+  id: ID!
+}
+
+interface Timestamped {
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+interface Authored {
+  author: User!
+  authorId: ID!
+}
+
+# Object Types
+type User implements Node & Timestamped {
+  id: ID!
+  email: Email!
+  username: String!
+  role: UserRole!
+  profile: Profile
+  posts(first: Int = 10, after: String, status: PostStatus): PostConnection!
+  comments(first: Int = 10, after: String): CommentConnection!
+  followers(first: Int = 10, after: String): UserConnection!
+  following(first: Int = 10, after: String): UserConnection!
+  notifications(first: Int = 10, after: String, unreadOnly: Boolean): NotificationConnection!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Profile {
+  bio: String
+  avatarUrl: URL
+  coverUrl: URL
+  location: String
+  website: URL
+  socialLinks: [SocialLink!]!
+}
+
+type SocialLink {
+  platform: String!
+  url: URL!
+}
+
+type Post implements Node & Timestamped & Authored {
+  id: ID!
+  title: String!
+  slug: String!
+  content: String!
+  excerpt: String
+  status: PostStatus!
+  publishedAt: DateTime
+  author: User!
+  authorId: ID!
+  tags: [Tag!]!
+  comments(first: Int = 10, after: String): CommentConnection!
+  likes: Int!
+  viewCount: Int!
+  readingTimeMinutes: Int!
+  featuredImage: URL
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Comment implements Node & Timestamped & Authored {
+  id: ID!
+  content: String!
+  author: User!
+  authorId: ID!
+  post: Post!
+  postId: ID!
+  parent: Comment
+  replies(first: Int = 10, after: String): CommentConnection!
+  likes: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Tag implements Node {
+  id: ID!
+  name: String!
+  slug: String!
+  description: String
+  postCount: Int!
+  posts(first: Int = 10, after: String): PostConnection!
+}
+
+type Notification implements Node & Timestamped {
+  id: ID!
+  type: NotificationType!
+  title: String!
+  message: String!
+  read: Boolean!
+  user: User!
+  userId: ID!
+  relatedUser: User
+  relatedPost: Post
+  relatedComment: Comment
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+# Pagination Types (Relay Spec)
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type UserEdge {
+  cursor: String!
+  node: User!
+}
+
+type UserConnection {
+  edges: [UserEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type PostEdge {
+  cursor: String!
+  node: Post!
+}
+
+type PostConnection {
+  edges: [PostEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type CommentEdge {
+  cursor: String!
+  node: Comment!
+}
+
+type CommentConnection {
+  edges: [CommentEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type NotificationEdge {
+  cursor: String!
+  node: Notification!
+}
+
+type NotificationConnection {
+  edges: [NotificationEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+# Input Types
+input RegisterInput {
+  email: Email!
+  username: String!
+  password: String!
+  profile: ProfileInput
+}
+
+input LoginInput {
+  email: Email!
+  password: String!
+}
+
+input ProfileInput {
+  bio: String
+  avatarUrl: URL
+  coverUrl: URL
+  location: String
+  website: URL
+  socialLinks: [SocialLinkInput!]
+}
+
+input SocialLinkInput {
+  platform: String!
+  url: URL!
+}
+
+input CreatePostInput {
+  title: String!
+  content: String!
+  excerpt: String
+  tags: [String!]
+  status: PostStatus = DRAFT
+  featuredImage: URL
+  publishedAt: DateTime
+}
+
+input UpdatePostInput {
+  title: String
+  content: String
+  excerpt: String
+  tags: [String!]
+  status: PostStatus
+  featuredImage: URL
+  publishedAt: DateTime
+}
+
+input CreateCommentInput {
+  content: String!
+  postId: ID!
+  parentId: ID
+}
+
+input UpdateCommentInput {
+  content: String!
+}
+
+input PostFilters {
+  status: PostStatus
+  authorId: ID
+  tagIds: [ID!]
+  search: String
+}
+
+input PostSortBy {
+  field: String!
+  order: SortOrder!
+}
+
+# Payload Types (Mutation Response Pattern)
+type AuthPayload {
+  token: String
+  refreshToken: String
+  user: User
+  errors: [UserError!]
+}
+
+type UserPayload {
+  user: User
+  userEdge: UserEdge
+  errors: [UserError!]
+}
+
+type PostPayload {
+  post: Post
+  postEdge: PostEdge
+  errors: [UserError!]
+}
+
+type CommentPayload {
+  comment: Comment
+  commentEdge: CommentEdge
+  errors: [UserError!]
+}
+
+type DeletePayload {
+  success: Boolean!
+  deletedId: ID
+  errors: [UserError!]
+}
+
+type UserError {
+  message: String!
+  field: String
+  code: String!
+}
+
+# Aggregation Types
+type PostStats {
+  totalPosts: Int!
+  publishedPosts: Int!
+  draftPosts: Int!
+  totalViews: Int!
+  totalLikes: Int!
+  averageReadingTime: Float!
+}
+
+type UserStats {
+  totalUsers: Int!
+  activeUsers: Int!
+  newUsersToday: Int!
+  newUsersThisWeek: Int!
+}
+
+# Union Types
+union SearchResult = User | Post | Comment | Tag
+
+# Root Query Type
+type Query {
+  # Authentication
+  me: User @auth
+
+  # Users
+  user(id: ID, username: String): User
+  users(
+    first: Int = 10
+    after: String
+    role: UserRole
+    search: String
+  ): UserConnection! @requireRole(role: ADMIN)
+
+  # Posts
+  post(id: ID, slug: String): Post
+  posts(
+    first: Int = 10
+    after: String
+    filters: PostFilters
+    sortBy: PostSortBy
+  ): PostConnection!
+
+  # Comments
+  comment(id: ID!): Comment
+  comments(
+    first: Int = 10
+    after: String
+    postId: ID
+  ): CommentConnection!
+
+  # Tags
+  tag(id: ID, slug: String): Tag
+  tags(first: Int = 50, after: String): [Tag!]!
+  popularTags(limit: Int = 10): [Tag!]!
+
+  # Search
+  search(query: String!, first: Int = 10): [SearchResult!]!
+
+  # Statistics
+  postStats: PostStats! @requireRole(role: ADMIN)
+  userStats: UserStats! @requireRole(role: ADMIN)
+}
+
+# Root Mutation Type
+type Mutation {
+  # Authentication
+  register(input: RegisterInput!): AuthPayload!
+  login(input: LoginInput!): AuthPayload!
+  logout: Boolean!
+  refreshToken(refreshToken: String!): AuthPayload!
+
+  # User Management
+  updateProfile(input: ProfileInput!): UserPayload! @auth
+  deleteAccount: DeletePayload! @auth
+  changePassword(currentPassword: String!, newPassword: String!): Boolean! @auth
+
+  # User Actions
+  followUser(userId: ID!): UserPayload! @auth
+  unfollowUser(userId: ID!): UserPayload! @auth
+
+  # Post Management
+  createPost(input: CreatePostInput!): PostPayload! @auth
+  updatePost(id: ID!, input: UpdatePostInput!): PostPayload! @auth
+  deletePost(id: ID!): DeletePayload! @auth
+  publishPost(id: ID!): PostPayload! @auth
+  likePost(postId: ID!): PostPayload! @auth
+  unlikePost(postId: ID!): PostPayload! @auth
+
+  # Comment Management
+  createComment(input: CreateCommentInput!): CommentPayload! @auth
+  updateComment(id: ID!, input: UpdateCommentInput!): CommentPayload! @auth
+  deleteComment(id: ID!): DeletePayload! @auth
+  likeComment(commentId: ID!): CommentPayload! @auth
+
+  # Notifications
+  markNotificationRead(id: ID!): Boolean! @auth
+  markAllNotificationsRead: Boolean! @auth
+
+  # Admin Operations
+  banUser(userId: ID!, reason: String!): UserPayload! @requireRole(role: ADMIN)
+  unbanUser(userId: ID!): UserPayload! @requireRole(role: ADMIN)
+  deleteUserPost(postId: ID!, reason: String!): DeletePayload! @requireRole(role: MODERATOR)
+}
+
+# Root Subscription Type
+type Subscription {
+  # User-specific subscriptions
+  notificationReceived: Notification! @auth
+
+  # Post subscriptions
+  postPublished(authorId: ID): Post!
+
+  # Comment subscriptions
+  commentAdded(postId: ID!): Comment!
+
+  # Real-time updates
+  postUpdated(postId: ID!): Post!
+  userOnlineStatus(userId: ID!): OnlineStatus!
+}
+
+type OnlineStatus {
+  userId: ID!
+  online: Boolean!
+  lastSeen: DateTime
+}

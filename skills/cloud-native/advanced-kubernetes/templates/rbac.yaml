@@ -1,0 +1,296 @@
+# RBAC Manifests for Operator Deployment
+# Includes ServiceAccount, ClusterRole, ClusterRoleBinding, and Role for leader election
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: myapp-system
+  labels:
+    app.kubernetes.io/name: myapp-operator
+    app.kubernetes.io/component: namespace
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: myapp-controller-manager
+  namespace: myapp-system
+  labels:
+    app.kubernetes.io/name: myapp-operator
+    app.kubernetes.io/component: service-account
+
+---
+# ClusterRole for managing MyApp custom resources
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: myapp-manager-role
+  labels:
+    app.kubernetes.io/name: myapp-operator
+    app.kubernetes.io/component: rbac
+rules:
+# MyApp custom resources
+- apiGroups:
+  - apps.example.com
+  resources:
+  - myapps
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apps.example.com
+  resources:
+  - myapps/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apps.example.com
+  resources:
+  - myapps/finalizers
+  verbs:
+  - update
+
+# Deployments
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+
+# Services
+- apiGroups:
+  - ""
+  resources:
+  - services
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+
+# Events (for logging)
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+
+# ConfigMaps (for leader election)
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+
+# Leases (for leader election)
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: myapp-manager-rolebinding
+  labels:
+    app.kubernetes.io/name: myapp-operator
+    app.kubernetes.io/component: rbac
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: myapp-manager-role
+subjects:
+- kind: ServiceAccount
+  name: myapp-controller-manager
+  namespace: myapp-system
+
+---
+# Role for leader election (namespace-scoped)
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: myapp-leader-election-role
+  namespace: myapp-system
+  labels:
+    app.kubernetes.io/name: myapp-operator
+    app.kubernetes.io/component: rbac
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: myapp-leader-election-rolebinding
+  namespace: myapp-system
+  labels:
+    app.kubernetes.io/name: myapp-operator
+    app.kubernetes.io/component: rbac
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: myapp-leader-election-role
+subjects:
+- kind: ServiceAccount
+  name: myapp-controller-manager
+  namespace: myapp-system
+
+---
+# ClusterRole for webhook certificate management
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: myapp-webhook-role
+  labels:
+    app.kubernetes.io/name: myapp-operator
+    app.kubernetes.io/component: rbac
+rules:
+- apiGroups:
+  - admissionregistration.k8s.io
+  resources:
+  - mutatingwebhookconfigurations
+  - validatingwebhookconfigurations
+  verbs:
+  - get
+  - list
+  - watch
+  - update
+  - patch
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: myapp-webhook-rolebinding
+  labels:
+    app.kubernetes.io/name: myapp-operator
+    app.kubernetes.io/component: rbac
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: myapp-webhook-role
+subjects:
+- kind: ServiceAccount
+  name: myapp-controller-manager
+  namespace: myapp-system
+
+---
+# ClusterRole for metrics reader (for monitoring systems)
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: myapp-metrics-reader
+  labels:
+    app.kubernetes.io/name: myapp-operator
+    app.kubernetes.io/component: rbac
+rules:
+- nonResourceURLs:
+  - /metrics
+  verbs:
+  - get
+
+---
+# ClusterRole for proxy (for kubectl proxy access)
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: myapp-proxy-role
+  labels:
+    app.kubernetes.io/name: myapp-operator
+    app.kubernetes.io/component: rbac
+rules:
+- apiGroups:
+  - authentication.k8s.io
+  resources:
+  - tokenreviews
+  verbs:
+  - create
+- apiGroups:
+  - authorization.k8s.io
+  resources:
+  - subjectaccessreviews
+  verbs:
+  - create
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: myapp-proxy-rolebinding
+  labels:
+    app.kubernetes.io/name: myapp-operator
+    app.kubernetes.io/component: rbac
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: myapp-proxy-role
+subjects:
+- kind: ServiceAccount
+  name: myapp-controller-manager
+  namespace: myapp-system

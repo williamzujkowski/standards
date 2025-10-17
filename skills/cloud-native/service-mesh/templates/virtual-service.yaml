@@ -1,0 +1,288 @@
+# VirtualService Examples - Traffic Routing Patterns
+
+---
+# Example 1: Basic HTTP routing
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: reviews-route
+  namespace: default
+spec:
+  hosts:
+  - reviews
+  http:
+  - route:
+    - destination:
+        host: reviews
+        subset: v1
+
+---
+# Example 2: Canary deployment (90/10 split)
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: reviews-canary
+  namespace: default
+spec:
+  hosts:
+  - reviews
+  http:
+  - route:
+    - destination:
+        host: reviews
+        subset: v1
+      weight: 90
+    - destination:
+        host: reviews
+        subset: v2
+      weight: 10
+
+---
+# Example 3: Header-based routing
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: reviews-header-routing
+  namespace: default
+spec:
+  hosts:
+  - reviews
+  http:
+  - match:
+    - headers:
+        end-user:
+          exact: jason
+    route:
+    - destination:
+        host: reviews
+        subset: v2
+  - route:
+    - destination:
+        host: reviews
+        subset: v1
+
+---
+# Example 4: Path-based routing with regex
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: api-versioning
+  namespace: default
+spec:
+  hosts:
+  - api.example.com
+  gateways:
+  - api-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /v2/
+    route:
+    - destination:
+        host: api
+        subset: v2
+  - match:
+    - uri:
+        regex: "^/v1/(users|posts)/.*"
+    route:
+    - destination:
+        host: api
+        subset: v1
+  - route:  # Default to v1
+    - destination:
+        host: api
+        subset: v1
+
+---
+# Example 5: Traffic mirroring
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: api-mirror
+  namespace: default
+spec:
+  hosts:
+  - api
+  http:
+  - route:
+    - destination:
+        host: api
+        subset: v1
+      weight: 100
+    mirror:
+      host: api
+      subset: v2
+    mirrorPercentage:
+      value: 50.0  # Mirror 50% of traffic
+
+---
+# Example 6: Retry and timeout configuration
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: backend-resilience
+  namespace: default
+spec:
+  hosts:
+  - backend
+  http:
+  - route:
+    - destination:
+        host: backend
+    timeout: 10s
+    retries:
+      attempts: 3
+      perTryTimeout: 2s
+      retryOn: 5xx,reset,connect-failure,refused-stream
+
+---
+# Example 7: Fault injection
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: backend-chaos
+  namespace: default
+spec:
+  hosts:
+  - backend
+  http:
+  - fault:
+      delay:
+        percentage:
+          value: 10
+        fixedDelay: 5s
+      abort:
+        percentage:
+          value: 5
+        httpStatus: 503
+    route:
+    - destination:
+        host: backend
+
+---
+# Example 8: HTTP rewrite
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: legacy-api-rewrite
+  namespace: default
+spec:
+  hosts:
+  - legacy-api.example.com
+  gateways:
+  - api-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /old-api/
+    rewrite:
+      uri: /api/v1/
+    route:
+    - destination:
+        host: new-api
+        port:
+          number: 8080
+
+---
+# Example 9: HTTP redirect
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: http-to-https-redirect
+  namespace: default
+spec:
+  hosts:
+  - example.com
+  gateways:
+  - http-gateway
+  http:
+  - match:
+    - port: 80
+    redirect:
+      uri: /
+      authority: example.com
+      scheme: https
+      redirectCode: 301
+
+---
+# Example 10: A/B testing with cookie-based routing
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: frontend-ab-test
+  namespace: default
+spec:
+  hosts:
+  - frontend.example.com
+  gateways:
+  - frontend-gateway
+  http:
+  - match:
+    - headers:
+        cookie:
+          regex: ".*experiment=variant-a.*"
+    route:
+    - destination:
+        host: frontend
+        subset: variant-a
+  - match:
+    - headers:
+        cookie:
+          regex: ".*experiment=variant-b.*"
+    route:
+    - destination:
+        host: frontend
+        subset: variant-b
+  - route:  # Default: assign to variant randomly
+    - destination:
+        host: frontend
+        subset: variant-a
+      weight: 50
+    - destination:
+        host: frontend
+        subset: variant-b
+      weight: 50
+    headers:
+      response:
+        set:
+          Set-Cookie: "experiment=variant-a; Path=/; Max-Age=2592000"  # 30 days
+
+---
+# Example 11: TCP routing (non-HTTP)
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: mongodb-route
+  namespace: default
+spec:
+  hosts:
+  - mongodb
+  tcp:
+  - match:
+    - port: 27017
+    route:
+    - destination:
+        host: mongodb
+        port:
+          number: 27017
+
+---
+# Example 12: Multi-cluster routing with locality
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: multi-cluster-backend
+  namespace: default
+spec:
+  hosts:
+  - backend.default.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: backend.default.svc.cluster.local
+      weight: 100
+    # Prefer local cluster, failover to remote
+    headers:
+      request:
+        set:
+          x-cluster-id: "cluster-1"

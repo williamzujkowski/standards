@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    // Language and Environment
+    "target": "ES2022",                    // Modern JavaScript target
+    "lib": ["ES2022"],                     // Standard library features
+    "module": "commonjs",                  // Module system (use "ESNext" for ESM)
+    "moduleResolution": "node",            // Node-style module resolution
+
+    // Strict Type-Checking Options (All enabled for maximum safety)
+    "strict": true,                        // Enable all strict type-checking options
+    "noImplicitAny": true,                 // Error on expressions and declarations with implied 'any'
+    "strictNullChecks": true,              // Enable strict null checks
+    "strictFunctionTypes": true,           // Enable strict checking of function types
+    "strictBindCallApply": true,           // Enable strict 'bind', 'call', and 'apply' methods
+    "strictPropertyInitialization": true,  // Ensure class properties are initialized
+    "noImplicitThis": true,                // Error on 'this' expressions with implied 'any'
+    "alwaysStrict": true,                  // Parse in strict mode and emit "use strict"
+
+    // Additional Checks (Prevent common mistakes)
+    "noUncheckedIndexedAccess": true,      // Add 'undefined' to index signature results
+    "noImplicitReturns": true,             // Error when not all code paths return a value
+    "noFallthroughCasesInSwitch": true,    // Error on fallthrough cases in switch statements
+    "noUnusedLocals": true,                // Error on unused local variables
+    "noUnusedParameters": true,            // Error on unused function parameters
+    "noImplicitOverride": true,            // Ensure overriding members are marked with 'override'
+    "noPropertyAccessFromIndexSignature": true, // Require indexed access for dynamic property access
+
+    // Module Resolution
+    "esModuleInterop": true,               // Enable interoperability between CommonJS and ES Modules
+    "allowSyntheticDefaultImports": true,  // Allow default imports from modules with no default export
+    "resolveJsonModule": true,             // Allow importing .json files
+    "isolatedModules": true,               // Ensure each file can be safely transpiled
+
+    // Emit
+    "declaration": true,                   // Generate .d.ts declaration files
+    "declarationMap": true,                // Generate sourcemap for .d.ts files
+    "sourceMap": true,                     // Generate .js.map files for debugging
+    "outDir": "./dist",                    // Output directory for compiled files
+    "rootDir": "./src",                    // Root directory of source files
+    "removeComments": false,               // Keep comments in output (useful for documentation)
+    "noEmit": false,                       // Set to true for type-checking only (no output)
+    "importHelpers": true,                 // Import helper functions from tslib
+    "downlevelIteration": true,            // Provide full support for iterables in older targets
+
+    // Interop Constraints
+    "allowJs": false,                      // Disallow JavaScript files (enforce TypeScript only)
+    "checkJs": false,                      // Type-check JavaScript files (if allowJs is true)
+    "maxNodeModuleJsDepth": 0,             // Limit depth of node_modules type checking
+
+    // Editor Support
+    "skipLibCheck": true,                  // Skip type checking of declaration files (faster builds)
+    "forceConsistentCasingInFileNames": true, // Ensure consistent casing in imports
+
+    // Experimental Features
+    "experimentalDecorators": false,       // Enable experimental decorators (set true if needed)
+    "emitDecoratorMetadata": false         // Emit design-type metadata for decorators
+  },
+
+  // Files to include in compilation
+  "include": [
+    "src/**/*"
+  ],
+
+  // Files to exclude from compilation
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/__tests__/**",
+    "**/__mocks__/**",
+    "coverage"
+  ],
+
+  // TypeScript file references (for monorepo/multi-project setups)
+  // "references": [
+  //   { "path": "../shared" }
+  // ],
+
+  // Watch options (for development)
+  "watchOptions": {
+    "watchFile": "useFsEvents",
+    "watchDirectory": "useFsEvents",
+    "fallbackPolling": "dynamicPriority",
+    "synchronousWatchDirectory": true,
+    "excludeDirectories": ["**/node_modules", "dist"]
+  }
+}

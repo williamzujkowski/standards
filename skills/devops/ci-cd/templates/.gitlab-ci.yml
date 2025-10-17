@@ -1,0 +1,85 @@
+stages:
+  - validate
+  - build
+  - test
+  - scan
+  - deploy
+
+variables:
+  DOCKER_DRIVER: overlay2
+  IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+
+cache:
+  paths:
+    - node_modules/
+    - .npm/
+
+validate:
+  stage: validate
+  image: node:18-alpine
+  script:
+    - npm ci
+    - npm run lint
+    - npm run typecheck
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
+unit-tests:
+  stage: test
+  image: node:18-alpine
+  script:
+    - npm ci
+    - npm test -- --coverage
+  coverage: '/Lines\s*:\s*(\d+\.\d+)%/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
+
+security-scan:
+  stage: scan
+  image: aquasec/trivy:latest
+  script:
+    - trivy fs --severity CRITICAL,HIGH --exit-code 1 .
+    - trivy config --severity CRITICAL,HIGH --exit-code 1 .
+
+build-image:
+  stage: build
+  image: docker:24-dind
+  services:
+    - docker:24-dind
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+  script:
+    - docker build -t $IMAGE_TAG .
+    - docker push $IMAGE_TAG
+  only:
+    - main
+    - develop
+
+deploy-staging:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  script:
+    - kubectl set image deployment/myapp myapp=$IMAGE_TAG --namespace=staging
+    - kubectl rollout status deployment/myapp -n staging --timeout=5m
+  environment:
+    name: staging
+    url: https://staging.example.com
+  only:
+    - develop
+
+deploy-production:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  script:
+    - kubectl set image deployment/myapp myapp=$IMAGE_TAG --namespace=production
+    - kubectl rollout status deployment/myapp -n production --timeout=5m
+  environment:
+    name: production
+    url: https://example.com
+  when: manual
+  only:
+    - main

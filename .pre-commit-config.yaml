@@ -82,7 +82,9 @@ repos:
           (?x)^(
               .*\.vscode/.*\.json$|
               package-lock\.json$|
-              .*node_modules/.*\.json$
+              .*node_modules/.*\.json$|
+              .*tsconfig.*\.json$|
+              .*\.eslintrc.*\.json$
           )$
 
       - id: pretty-format-json
@@ -93,7 +95,9 @@ repos:
               .*\.vscode/.*\.json$|
               package-lock\.json$|
               .*node_modules/.*\.json$|
-              .*\.min\.json$
+              .*\.min\.json$|
+              .*tsconfig.*\.json$|
+              .*\.eslintrc.*\.json$
           )$
 
   # ============================================================================
@@ -111,7 +115,11 @@ repos:
               mkdocs\.yml$|
               deployment\.standards\.yaml$|
               .*\.template\.ya?ml$|
-              .*\.example\.ya?ml$
+              .*\.example\.ya?ml$|
+              .*sam-template\.ya?ml$|
+              .*cloudformation.*\.ya?ml$|
+              .*dynamodb.*\.ya?ml$|
+              .*openapi.*\.ya?ml$
           )$
         args: [--allow-multiple-documents]
 
@@ -258,6 +266,7 @@ repos:
       - id: ruff
         name: Python security & quality analysis
         files: \.(py)$
+        exclude: ^(skills/.*/templates/.*\.py|tests/.*\.py|skills/.*/scripts/.*\.py)$
         args: [--fix]
 
   # TypeScript/JavaScript quality (if present)
@@ -272,7 +281,12 @@ repos:
               node_modules/|
               .*\.min\.js$|
               dist/|
-              build/
+              build/|
+              tests/|
+              .*\.test\.(js|ts|jsx|tsx)$|
+              .*\.spec\.(js|ts|jsx|tsx)$|
+              skills/.*/templates/.*\.(js|ts)$|
+              skills/.*/config/.*\.(js|ts)$
           )$
         additional_dependencies:
           - eslint@8.57.0

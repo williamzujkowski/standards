@@ -1,0 +1,309 @@
+# DestinationRule Examples - Load Balancing, Circuit Breaking, TLS
+
+---
+# Example 1: Basic subset definition
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: reviews-destination
+  namespace: default
+spec:
+  host: reviews
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+  - name: v3
+    labels:
+      version: v3
+
+---
+# Example 2: Load balancing strategies
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: backend-load-balancing
+  namespace: default
+spec:
+  host: backend
+  trafficPolicy:
+    loadBalancer:
+      # Options: ROUND_ROBIN, LEAST_CONN, RANDOM, PASSTHROUGH
+      simple: LEAST_CONN
+      # Alternative: consistent hash
+      # consistentHash:
+      #   httpHeaderName: x-user-id
+      #   minimumRingSize: 1024
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+
+---
+# Example 3: Circuit breaking configuration
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: backend-circuit-breaker
+  namespace: default
+spec:
+  host: backend
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 100
+        connectTimeout: 30ms
+        tcpKeepalive:
+          time: 7200s
+          interval: 75s
+      http:
+        http1MaxPendingRequests: 10
+        http2MaxRequests: 100
+        maxRequestsPerConnection: 2
+        maxRetries: 3
+        idleTimeout: 900s
+    outlierDetection:
+      consecutiveErrors: 5
+      interval: 30s
+      baseEjectionTime: 30s
+      maxEjectionPercent: 50
+      minHealthPercent: 40
+      consecutiveGatewayErrors: 5
+      consecutive5xxErrors: 5
+
+---
+# Example 4: TLS settings for external services
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: external-api-tls
+  namespace: default
+spec:
+  host: api.external.com
+  trafficPolicy:
+    tls:
+      mode: SIMPLE  # Options: DISABLE, SIMPLE, MUTUAL, ISTIO_MUTUAL
+      clientCertificate: /etc/certs/client-cert.pem
+      privateKey: /etc/certs/client-key.pem
+      caCertificates: /etc/certs/ca-cert.pem
+      sni: api.external.com
+      subjectAltNames:
+      - api.external.com
+
+---
+# Example 5: Consistent hash load balancing
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: session-affinity
+  namespace: default
+spec:
+  host: webapp
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpHeaderName: x-session-id
+        # Alternative: cookie-based
+        # httpCookie:
+        #   name: session-id
+        #   ttl: 3600s
+        # Alternative: source IP
+        # useSourceIp: true
+        minimumRingSize: 1024
+
+---
+# Example 6: Per-subset traffic policies
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: backend-subset-policies
+  namespace: default
+spec:
+  host: backend
+  trafficPolicy:
+    # Default policy for all subsets
+    loadBalancer:
+      simple: ROUND_ROBIN
+    connectionPool:
+      tcp:
+        maxConnections: 100
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+    trafficPolicy:
+      # Override for v1
+      loadBalancer:
+        simple: LEAST_CONN
+      connectionPool:
+        tcp:
+          maxConnections: 200
+  - name: v2
+    labels:
+      version: v2
+    trafficPolicy:
+      # Override for v2 with stricter circuit breaking
+      connectionPool:
+        tcp:
+          maxConnections: 50
+      outlierDetection:
+        consecutiveErrors: 3
+        interval: 10s
+
+---
+# Example 7: Locality-based load balancing
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: geo-load-balancing
+  namespace: default
+spec:
+  host: backend
+  trafficPolicy:
+    loadBalancer:
+      localityLbSetting:
+        enabled: true
+        distribute:
+        - from: us-west/*
+          to:
+            "us-west/zone1/*": 50
+            "us-west/zone2/*": 50
+        - from: us-east/*
+          to:
+            "us-east/zone1/*": 50
+            "us-east/zone2/*": 50
+        failover:
+        - from: us-west/zone1
+          to: us-west/zone2
+        - from: us-west/zone2
+          to: us-east
+
+---
+# Example 8: HTTP connection management
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: api-connection-tuning
+  namespace: default
+spec:
+  host: api
+  trafficPolicy:
+    connectionPool:
+      http:
+        h2UpgradePolicy: UPGRADE  # Allow HTTP/2 upgrade
+        useClientProtocol: true   # Match client protocol
+        maxRequestsPerConnection: 10
+        idleTimeout: 300s
+        http1MaxPendingRequests: 100
+        http2MaxRequests: 1000
+
+---
+# Example 9: mTLS configuration
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: backend-mtls
+  namespace: default
+spec:
+  host: backend
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL  # Use Istio's automatic mTLS
+      # Optional: custom mTLS
+      # mode: MUTUAL
+      # clientCertificate: /etc/certs/client-cert.pem
+      # privateKey: /etc/certs/client-key.pem
+      # caCertificates: /etc/certs/ca-cert.pem
+
+---
+# Example 10: Port-level policies
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: multi-port-service
+  namespace: default
+spec:
+  host: myservice
+  trafficPolicy:
+    # Default policy
+    loadBalancer:
+      simple: ROUND_ROBIN
+    portLevelSettings:
+    - port:
+        number: 8080
+      loadBalancer:
+        simple: LEAST_CONN
+      connectionPool:
+        http:
+          http1MaxPendingRequests: 10
+    - port:
+        number: 9090
+      loadBalancer:
+        consistentHash:
+          httpHeaderName: x-user-id
+      connectionPool:
+        http:
+          http1MaxPendingRequests: 100
+
+---
+# Example 11: Advanced outlier detection
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: advanced-outlier-detection
+  namespace: default
+spec:
+  host: backend
+  trafficPolicy:
+    outlierDetection:
+      # Consecutive errors before ejection
+      consecutiveErrors: 5
+      consecutive5xxErrors: 5
+      consecutiveGatewayErrors: 5
+
+      # Analysis interval
+      interval: 10s
+
+      # Ejection duration
+      baseEjectionTime: 30s
+
+      # Max ejection percentage
+      maxEjectionPercent: 50
+
+      # Minimum healthy percentage
+      minHealthPercent: 40
+
+      # Split external/local origin errors
+      splitExternalLocalOriginErrors: true
+
+      # Consecutive local origin failures
+      consecutiveLocalOriginFailures: 5
+
+---
+# Example 12: Zero-downtime deployment support
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: graceful-shutdown
+  namespace: default
+spec:
+  host: backend
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 1000
+      http:
+        http1MaxPendingRequests: 100
+        # Allow long-running connections to drain
+        idleTimeout: 3600s
+    # Ensure smooth failover during pod termination
+    outlierDetection:
+      consecutiveErrors: 10
+      interval: 5s
+      baseEjectionTime: 60s

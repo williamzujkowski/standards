@@ -1,0 +1,353 @@
+# Istio Installation IstioOperator Custom Resource
+# Production-ready configuration with high availability and resource optimization
+
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  name: istio-production
+  namespace: istio-system
+spec:
+  # Use production profile as base
+  profile: default
+
+  # Mesh configuration
+  meshConfig:
+    # Enable access logging for debugging
+    accessLogFile: /dev/stdout
+    accessLogEncoding: JSON
+    accessLogFormat: |
+      {
+        "start_time": "%START_TIME%",
+        "method": "%REQ(:METHOD)%",
+        "path": "%REQ(X-ENVOY-ORIGINAL-PATH?:PATH)%",
+        "protocol": "%PROTOCOL%",
+        "response_code": "%RESPONSE_CODE%",
+        "duration": "%DURATION%",
+        "upstream_service_time": "%RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)%",
+        "x_forwarded_for": "%REQ(X-FORWARDED-FOR)%",
+        "user_agent": "%REQ(USER-AGENT)%",
+        "request_id": "%REQ(X-REQUEST-ID)%",
+        "authority": "%REQ(:AUTHORITY)%",
+        "upstream_host": "%UPSTREAM_HOST%",
+        "upstream_cluster": "%UPSTREAM_CLUSTER%"
+      }
+
+    # Enable distributed tracing
+    enableTracing: true
+    defaultConfig:
+      tracing:
+        sampling: 1.0  # 1% sampling in production
+        zipkin:
+          address: jaeger-collector.istio-system:9411
+        tlsSettings:
+          mode: DISABLE
+
+      # Proxy settings
+      holdApplicationUntilProxyStarts: true
+      proxyMetadata:
+        ISTIO_META_DNS_CAPTURE: "true"
+        ISTIO_META_DNS_AUTO_ALLOCATE: "true"
+
+    # Default service discovery settings
+    serviceDiscovery:
+      inferenceMode: DISABLED
+
+    # TLS settings
+    tlsDefaults:
+      minProtocolVersion: TLSV1_2
+      maxProtocolVersion: TLSV1_3
+
+    # Certificate settings
+    certificates:
+    - secretName: dns.example-cacerts
+      dnsNames:
+      - example.com
+      - "*.example.com"
+
+    # Outbound traffic policy
+    outboundTrafficPolicy:
+      mode: REGISTRY_ONLY  # Block unknown outbound traffic
+
+  # Component configuration
+  components:
+    # Istiod (control plane)
+    pilot:
+      enabled: true
+      k8s:
+        # High availability with 2+ replicas
+        replicaCount: 2
+
+        # Resource allocation
+        resources:
+          requests:
+            cpu: 500m
+            memory: 2048Mi
+          limits:
+            cpu: 4000m
+            memory: 8192Mi
+
+        # Pod affinity for HA
+        affinity:
+          podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: istiod
+                topologyKey: kubernetes.io/hostname
+
+        # Horizontal Pod Autoscaler
+        hpaSpec:
+          maxReplicas: 5
+          minReplicas: 2
+          metrics:
+          - type: Resource
+            resource:
+              name: cpu
+              target:
+                type: Utilization
+                averageUtilization: 80
+
+        # Environment variables
+        env:
+        - name: PILOT_FILTER_GATEWAY_CLUSTER_CONFIG
+          value: "true"
+        - name: PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_OUTBOUND
+          value: "true"
+        - name: PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_INBOUND
+          value: "true"
+
+    # Ingress Gateway
+    ingressGateways:
+    - name: istio-ingressgateway
+      enabled: true
+      k8s:
+        replicaCount: 2
+
+        # Service configuration
+        service:
+          type: LoadBalancer
+          ports:
+          - name: status-port
+            port: 15021
+            targetPort: 15021
+          - name: http2
+            port: 80
+            targetPort: 8080
+          - name: https
+            port: 443
+            targetPort: 8443
+          - name: tcp
+            port: 31400
+            targetPort: 31400
+          - name: tls
+            port: 15443
+            targetPort: 15443
+          loadBalancerIP: ""  # Auto-assign
+          annotations:
+            service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+            service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+
+        # Resource allocation
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 2000m
+            memory: 1024Mi
+
+        # HPA for ingress
+        hpaSpec:
+          maxReplicas: 10
+          minReplicas: 2
+          metrics:
+          - type: Resource
+            resource:
+              name: cpu
+              target:
+                type: Utilization
+                averageUtilization: 80
+
+        # Pod affinity
+        affinity:
+          podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: istio-ingressgateway
+                topologyKey: kubernetes.io/hostname
+
+    # Egress Gateway (optional but recommended)
+    egressGateways:
+    - name: istio-egressgateway
+      enabled: true
+      k8s:
+        replicaCount: 2
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 2000m
+            memory: 1024Mi
+        service:
+          type: ClusterIP
+          ports:
+          - name: http2
+            port: 80
+            targetPort: 8080
+          - name: https
+            port: 443
+            targetPort: 8443
+
+  # Global values
+  values:
+    global:
+      # Proxy settings
+      proxy:
+        # Resource allocation for sidecars
+        resources:
+          requests:
+            cpu: 10m
+            memory: 40Mi
+          limits:
+            cpu: 2000m
+            memory: 1024Mi
+
+        # Logging level
+        logLevel: warning
+
+        # Component log levels
+        componentLogLevel: "misc:error"
+
+        # Readiness probe
+        readinessInitialDelaySeconds: 1
+        readinessFailureThreshold: 30
+        readinessPeriodSeconds: 2
+
+        # Lifecycle hooks
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - sh
+              - -c
+              - sleep 15
+
+        # Enable Envoy access logs
+        accessLogFile: /dev/stdout
+        accessLogEncoding: JSON
+
+      # Multi-cluster settings
+      multiCluster:
+        enabled: false
+        clusterName: ""
+
+      # Network name
+      network: ""
+
+      # Mesh ID
+      meshID: mesh1
+
+      # Pod DNS policy
+      podDNSSearchNamespaces:
+      - global
+
+      # Image settings
+      imagePullPolicy: IfNotPresent
+      imagePullSecrets: []
+
+      # Istio revision for canary upgrades
+      revision: ""
+
+      # Security settings
+      jwtPolicy: third-party-jwt
+
+    # Pilot (Istiod) settings
+    pilot:
+      autoscaleEnabled: true
+      autoscaleMin: 2
+      autoscaleMax: 5
+
+      # CPU target for autoscaling
+      cpu:
+        targetAverageUtilization: 80
+
+      # Enable locality load balancing
+      enableLocalityLoadBalancing: true
+
+      # Trace sampling percentage
+      traceSampling: 1.0
+
+    # Telemetry settings
+    telemetry:
+      enabled: true
+      v2:
+        enabled: true
+        prometheus:
+          enabled: true
+        stackdriver:
+          enabled: false
+
+    # Sidecar injector settings
+    sidecarInjectorWebhook:
+      enableNamespacesByDefault: false
+      rewriteAppHTTPProbe: true
+      injectedAnnotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+
+---
+# PeerAuthentication for strict mTLS
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: istio-system
+spec:
+  mtls:
+    mode: STRICT
+
+---
+# Telemetry configuration for reduced metrics cardinality
+apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: mesh-default
+  namespace: istio-system
+spec:
+  metrics:
+  - providers:
+    - name: prometheus
+    overrides:
+    - match:
+        metric: ALL_METRICS
+      tagOverrides:
+        # Remove high-cardinality labels
+        request_protocol:
+          operation: REMOVE
+        connection_security_policy:
+          operation: REMOVE
+
+  # Access logging
+  accessLogging:
+  - providers:
+    - name: envoy
+    filter:
+      expression: response.code >= 400  # Only log errors
+
+---
+# Default Sidecar for namespace scoping
+apiVersion: networking.istio.io/v1beta1
+kind: Sidecar
+metadata:
+  name: default
+  namespace: istio-system
+spec:
+  egress:
+  - hosts:
+    - "./*"
+    - "istio-system/*"

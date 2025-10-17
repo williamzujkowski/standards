@@ -12,11 +12,16 @@ This index provides quick summaries of all standards sections. Use the codes bel
 <!-- AUTO-LINKS:docs/guides/*.md -->
 
 - [Adoption Checklist](ADOPTION_CHECKLIST.md)
+- [Claude Integration Guide](CLAUDE_INTEGRATION_GUIDE.md)
 - [Creating Standards Guide](CREATING_STANDARDS_GUIDE.md)
 - [Kickstart Advanced](KICKSTART_ADVANCED.md)
 - [Kickstart Prompt](KICKSTART_PROMPT.md)
 - [Llm Training](LLM_TRAINING.md)
 - [Readme](README.md)
+- [Skills Implementation Summary](SKILLS_IMPLEMENTATION_SUMMARY.md)
+- [Skills Quick Start](SKILLS_QUICK_START.md)
+- [Skills User Guide](SKILLS_USER_GUIDE.md)
+- [Skill Authoring Guide](SKILL_AUTHORING_GUIDE.md)
 - [Standards Graph](STANDARDS_GRAPH.md)
 - [Standard Template](STANDARD_TEMPLATE.md)
 - [Using Product Matrix](USING_PRODUCT_MATRIX.md)

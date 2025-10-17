@@ -1,0 +1,183 @@
+# Complete CRD Definition with OpenAPI v3 Schema Validation
+# This CRD defines a custom application resource with full validation
+
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: myapps.apps.example.com
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.13.0
+spec:
+  group: apps.example.com
+  names:
+    kind: MyApp
+    listKind: MyAppList
+    plural: myapps
+    shortNames:
+    - ma
+    singular: myapp
+  scope: Namespaced
+  versions:
+  - name: v1
+    served: true
+    storage: true
+    schema:
+      openAPIV3Schema:
+        description: MyApp is the Schema for the myapps API
+        type: object
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: MyAppSpec defines the desired state of MyApp
+            type: object
+            required:
+            - size
+            - image
+            properties:
+              size:
+                description: Size is the number of replicas
+                type: integer
+                format: int32
+                minimum: 1
+                maximum: 10
+              image:
+                description: Image is the container image to run
+                type: string
+                pattern: '^[a-z0-9.-]+/[a-z0-9._-]+:[a-z0-9._-]+$'
+                minLength: 1
+              port:
+                description: Port is the application port
+                type: integer
+                format: int32
+                minimum: 1024
+                maximum: 65535
+                default: 8080
+              resources:
+                description: Resources defines CPU/memory limits
+                type: object
+                properties:
+                  cpuLimit:
+                    description: CPULimit in millicores (e.g., "500m")
+                    type: string
+                    pattern: '^[0-9]+m$'
+                  memoryLimit:
+                    description: MemoryLimit in megabytes (e.g., "512Mi")
+                    type: string
+                    pattern: '^[0-9]+Mi$'
+              env:
+                description: Environment variables
+                type: array
+                items:
+                  type: object
+                  required:
+                  - name
+                  - value
+                  properties:
+                    name:
+                      type: string
+                      minLength: 1
+                    value:
+                      type: string
+              strategy:
+                description: Deployment strategy
+                type: string
+                enum:
+                - RollingUpdate
+                - Recreate
+                default: RollingUpdate
+          status:
+            description: MyAppStatus defines the observed state of MyApp
+            type: object
+            properties:
+              readyReplicas:
+                description: ReadyReplicas is the number of ready pods
+                type: integer
+                format: int32
+              phase:
+                description: Phase represents the current lifecycle phase
+                type: string
+                enum:
+                - Pending
+                - Running
+                - Failed
+                - Succeeded
+              lastUpdateTime:
+                description: LastUpdateTime is the last time the status was updated
+                type: string
+                format: date-time
+              conditions:
+                description: Conditions represent the latest available observations
+                type: array
+                items:
+                  type: object
+                  required:
+                  - type
+                  - status
+                  - lastTransitionTime
+                  properties:
+                    type:
+                      type: string
+                    status:
+                      type: string
+                      enum:
+                      - "True"
+                      - "False"
+                      - Unknown
+                    lastTransitionTime:
+                      type: string
+                      format: date-time
+                    reason:
+                      type: string
+                    message:
+                      type: string
+    subresources:
+      status: {}
+      scale:
+        specReplicasPath: .spec.size
+        statusReplicasPath: .status.readyReplicas
+    additionalPrinterColumns:
+    - name: Size
+      type: integer
+      description: Desired number of replicas
+      jsonPath: .spec.size
+    - name: Ready
+      type: integer
+      description: Number of ready replicas
+      jsonPath: .status.readyReplicas
+    - name: Phase
+      type: string
+      description: Current phase
+      jsonPath: .status.phase
+    - name: Age
+      type: date
+      jsonPath: .metadata.creationTimestamp
+---
+# Example MyApp Custom Resource
+apiVersion: apps.example.com/v1
+kind: MyApp
+metadata:
+  name: my-application
+  namespace: default
+  labels:
+    app: my-application
+    environment: production
+spec:
+  size: 3
+  image: nginx:1.25.3
+  port: 8080
+  resources:
+    cpuLimit: "500m"
+    memoryLimit: "512Mi"
+  env:
+  - name: LOG_LEVEL
+    value: info
+  - name: APP_MODE
+    value: production
+  strategy: RollingUpdate

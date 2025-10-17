@@ -1,0 +1,21 @@
+# AWS SDK and utilities
+boto3>=1.28.0
+botocore>=1.31.0
+aws-xray-sdk>=2.12.0
+
+# Common dependencies
+requests>=2.31.0
+urllib3>=2.0.0
+certifi>=2023.7.22
+
+# Data processing
+python-dateutil>=2.8.2
+pytz>=2023.3
+
+# JSON and data validation
+jsonschema>=4.19.0
+pydantic>=2.3.0
+
+# Testing (optional, for layer testing)
+pytest>=7.4.0
+moto>=4.2.0

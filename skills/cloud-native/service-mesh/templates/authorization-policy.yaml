@@ -1,0 +1,345 @@
+# AuthorizationPolicy Examples - Zero-Trust Security
+
+---
+# Example 1: Default deny-all policy
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: deny-all
+  namespace: default
+spec:
+  {}  # Empty spec denies all traffic
+
+---
+# Example 2: Allow specific service-to-service communication
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: frontend-to-backend
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: backend
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - "cluster.local/ns/default/sa/frontend"
+    to:
+    - operation:
+        methods: ["GET", "POST"]
+        paths: ["/api/v1/*"]
+
+---
+# Example 3: JWT authentication required
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: jwt-auth
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: api
+  jwtRules:
+  - issuer: "https://auth.example.com"
+    jwksUri: "https://auth.example.com/.well-known/jwks.json"
+    audiences:
+    - "api.example.com"
+    forwardOriginalToken: true
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: require-jwt
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: api
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        requestPrincipals: ["*"]  # Any valid JWT
+
+---
+# Example 4: RBAC with JWT claims
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: admin-api-rbac
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: admin-api
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+        methods: ["GET"]
+    when:
+    - key: request.auth.claims[role]
+      values: ["admin", "operator"]
+  - to:
+    - operation:
+        methods: ["POST", "PUT", "DELETE"]
+    when:
+    - key: request.auth.claims[role]
+      values: ["admin"]
+
+---
+# Example 5: IP allowlist
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: ip-allowlist
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: admin-panel
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        ipBlocks:
+        - "10.0.0.0/8"      # Corporate network
+        - "192.168.1.0/24"  # VPN subnet
+
+---
+# Example 6: Namespace isolation
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: namespace-isolation
+  namespace: production
+spec:
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        namespaces: ["production", "monitoring"]
+
+---
+# Example 7: HTTP method restrictions
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: read-only-api
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: public-api
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+        methods: ["GET", "HEAD", "OPTIONS"]
+
+---
+# Example 8: Path-based authorization
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: path-based-auth
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: api
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+        paths: ["/api/public/*"]
+    # Public paths - no authentication
+  - from:
+    - source:
+        requestPrincipals: ["*"]
+    to:
+    - operation:
+        paths: ["/api/user/*"]
+    # User paths - any authenticated user
+  - from:
+    - source:
+        principals: ["cluster.local/ns/default/sa/admin"]
+    to:
+    - operation:
+        paths: ["/api/admin/*"]
+    # Admin paths - only admin service account
+
+---
+# Example 9: Custom header-based authorization
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: header-based-auth
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: api
+  action: ALLOW
+  rules:
+  - when:
+    - key: request.headers[x-api-key]
+      values: ["*"]  # Any API key present
+    - key: request.headers[x-api-version]
+      values: ["v1", "v2"]
+
+---
+# Example 10: Deny policy for known bad actors
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: deny-bad-actors
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: api
+  action: DENY
+  rules:
+  - from:
+    - source:
+        ipBlocks:
+        - "192.0.2.0/24"  # Known malicious IP range
+  - when:
+    - key: request.headers[user-agent]
+      values: ["BadBot/*", "Scraper/*"]
+
+---
+# Example 11: Time-based access control
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: business-hours-only
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: admin-api
+  action: ALLOW
+  rules:
+  - when:
+    - key: request.time
+      values: ["09:00:00", "17:00:00"]  # Note: Istio doesn't support time directly
+    # This is conceptual; implement via external auth service
+
+---
+# Example 12: Ingress gateway authorization
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: ingress-policy
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      app: istio-ingressgateway
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+        hosts: ["example.com", "*.example.com"]
+        methods: ["GET", "POST"]
+    when:
+    - key: connection.sni
+      values: ["example.com", "*.example.com"]
+
+---
+# Example 13: Audit mode (observe but don't enforce)
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: audit-policy
+  namespace: default
+  annotations:
+    istio.io/dry-run: "true"  # Audit mode
+spec:
+  selector:
+    matchLabels:
+      app: api
+  action: DENY
+  rules:
+  - from:
+    - source:
+        notNamespaces: ["production"]
+
+---
+# Example 14: Multi-condition complex policy
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: complex-policy
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: api
+  action: ALLOW
+  rules:
+  # Rule 1: Internal services with specific methods
+  - from:
+    - source:
+        namespaces: ["default", "production"]
+    to:
+    - operation:
+        methods: ["GET", "POST"]
+        paths: ["/api/*"]
+  # Rule 2: Authenticated external users
+  - from:
+    - source:
+        requestPrincipals: ["*"]
+    to:
+    - operation:
+        methods: ["GET"]
+        paths: ["/api/public/*"]
+    when:
+    - key: request.auth.claims[verified]
+      values: ["true"]
+  # Rule 3: Admin with MFA
+  - from:
+    - source:
+        principals: ["cluster.local/ns/default/sa/admin"]
+    when:
+    - key: request.auth.claims[mfa]
+      values: ["enabled"]
+
+---
+# Example 15: External authorization service
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: ext-authz
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: api
+  action: CUSTOM
+  provider:
+    name: ext-authz-grpc
+  rules:
+  - to:
+    - operation:
+        paths: ["/api/*"]
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: istio
+  namespace: istio-system
+data:
+  mesh: |
+    extensionProviders:
+    - name: ext-authz-grpc
+      envoyExtAuthzGrpc:
+        service: ext-authz.default.svc.cluster.local
+        port: 9000
+        timeout: 2s
