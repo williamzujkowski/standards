@@ -453,11 +453,11 @@ python scripts/migrate-to-skills.py \
   --target skills/my-custom-skill/SKILL.md
 ```
 
-Or reference them as bundled resources:
+Or reference them as bundled resources using the pattern:
 
 ```markdown
 ## Bundled Resources
-- [Custom Standard](../../docs/custom/my-standard.md)
+- [Standard Name](../../docs/standards/standard-name.md)
 ```
 
 ### Q: How do I know which skills to load?

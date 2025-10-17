@@ -46,11 +46,11 @@ profile_postgresql() {
     local PG_PORT="${2:-5432}"
     local PG_USER="${3:-postgres}"
     local PG_DB="${4:-postgres}"
-    
+
     log_info "Starting PostgreSQL profiling on ${PG_HOST}:${PG_PORT}/${PG_DB}"
-    
+
     local REPORT_FILE="${OUTPUT_DIR}/postgresql_profile_${TIMESTAMP}.txt"
-    
+
     {
         echo "=================================================="
         echo "PostgreSQL Query Profile Report"
@@ -59,7 +59,7 @@ profile_postgresql() {
         echo "Database: ${PG_DB}"
         echo "=================================================="
         echo ""
-        
+
         # Check if pg_stat_statements is enabled
         echo "Checking pg_stat_statements extension..."
         psql -h "${PG_HOST}" -p "${PG_PORT}" -U "${PG_USER}" -d "${PG_DB}" -t -c \
@@ -68,7 +68,7 @@ profile_postgresql() {
             echo "Run: CREATE EXTENSION pg_stat_statements;"
         }
         echo ""
-        
+
         # Top 20 slowest queries
         echo "=================================================="
         echo "TOP 20 SLOWEST QUERIES BY AVERAGE TIME"
@@ -86,7 +86,7 @@ profile_postgresql() {
             LIMIT 20;
         "
         echo ""
-        
+
         # Most frequently called queries
         echo "=================================================="
         echo "TOP 20 MOST FREQUENTLY CALLED QUERIES"
@@ -103,7 +103,7 @@ profile_postgresql() {
             LIMIT 20;
         "
         echo ""
-        
+
         # Cache hit ratio
         echo "=================================================="
         echo "CACHE HIT RATIO (should be > 90%)"
@@ -120,7 +120,7 @@ profile_postgresql() {
             FROM pg_statio_user_indexes;
         "
         echo ""
-        
+
         # Missing indexes (sequential scans)
         echo "=================================================="
         echo "TABLES WITH HIGH SEQUENTIAL SCANS"
@@ -139,7 +139,7 @@ profile_postgresql() {
             LIMIT 20;
         "
         echo ""
-        
+
         # Unused indexes
         echo "=================================================="
         echo "UNUSED INDEXES (consider dropping)"
@@ -158,7 +158,7 @@ profile_postgresql() {
             LIMIT 20;
         "
         echo ""
-        
+
         # Table bloat
         echo "=================================================="
         echo "TABLE BLOAT (dead tuples)"
@@ -176,9 +176,9 @@ profile_postgresql() {
             ORDER BY n_dead_tup DESC
             LIMIT 20;
         "
-        
+
     } | tee "${REPORT_FILE}"
-    
+
     log_info "PostgreSQL profile saved to: ${REPORT_FILE}"
 }
 
@@ -190,11 +190,11 @@ profile_mongodb() {
     local MONGO_HOST="${1:-localhost}"
     local MONGO_PORT="${2:-27017}"
     local MONGO_DB="${3:-test}"
-    
+
     log_info "Starting MongoDB profiling on ${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}"
-    
+
     local REPORT_FILE="${OUTPUT_DIR}/mongodb_profile_${TIMESTAMP}.txt"
-    
+
     {
         echo "=================================================="
         echo "MongoDB Query Profile Report"
@@ -203,7 +203,7 @@ profile_mongodb() {
         echo "Database: ${MONGO_DB}"
         echo "=================================================="
         echo ""
-        
+
         # Enable profiler
         echo "Enabling profiler (slow queries > ${SLOW_QUERY_THRESHOLD_MS}ms)..."
         mongosh --host "${MONGO_HOST}" --port "${MONGO_PORT}" "${MONGO_DB}" --quiet --eval "
@@ -211,11 +211,11 @@ profile_mongodb() {
             print('Profiler enabled');
         "
         echo ""
-        
+
         # Wait for some queries to be captured
         log_info "Collecting query samples (10 seconds)..."
         sleep 10
-        
+
         # Recent slow queries
         echo "=================================================="
         echo "RECENT SLOW QUERIES (> ${SLOW_QUERY_THRESHOLD_MS}ms)"
@@ -232,7 +232,7 @@ profile_mongodb() {
                 });
         "
         echo ""
-        
+
         # Queries without index usage (collection scans)
         echo "=================================================="
         echo "QUERIES WITHOUT INDEX USAGE (COLLSCAN)"
@@ -248,7 +248,7 @@ profile_mongodb() {
                 });
         "
         echo ""
-        
+
         # Index statistics
         echo "=================================================="
         echo "INDEX USAGE STATISTICS"
@@ -264,7 +264,7 @@ profile_mongodb() {
             });
         "
         echo ""
-        
+
         # Server status
         echo "=================================================="
         echo "SERVER STATUS"
@@ -274,11 +274,11 @@ profile_mongodb() {
             print('Connections: ' + status.connections.current + '/' + status.connections.available);
             print('Operations per second: ' + status.opcounters.query + ' queries, ' + status.opcounters.insert + ' inserts');
             print('Memory: ' + (status.mem.resident) + ' MB resident, ' + (status.mem.virtual) + ' MB virtual');
-            print('Network: ' + (status.network.bytesIn / 1024 / 1024).toFixed(2) + ' MB in, ' + 
+            print('Network: ' + (status.network.bytesIn / 1024 / 1024).toFixed(2) + ' MB in, ' +
                   (status.network.bytesOut / 1024 / 1024).toFixed(2) + ' MB out');
         "
         echo ""
-        
+
         # Database statistics
         echo "=================================================="
         echo "DATABASE STATISTICS"
@@ -290,9 +290,9 @@ profile_mongodb() {
             print('Index Size: ' + (stats.indexSize / 1024 / 1024).toFixed(2) + ' MB');
             print('Storage Size: ' + (stats.storageSize / 1024 / 1024).toFixed(2) + ' MB');
         "
-        
+
     } | tee "${REPORT_FILE}"
-    
+
     log_info "MongoDB profile saved to: ${REPORT_FILE}"
 }
 
@@ -304,7 +304,7 @@ main() {
     echo "Database Query Profiling Tool"
     echo "=============================="
     echo ""
-    
+
     # Parse arguments
     case "${1:-help}" in
         postgresql|pg)
@@ -330,7 +330,7 @@ main() {
             exit 0
             ;;
     esac
-    
+
     echo ""
     log_info "Profiling complete. Reports saved to: ${OUTPUT_DIR}"
 }

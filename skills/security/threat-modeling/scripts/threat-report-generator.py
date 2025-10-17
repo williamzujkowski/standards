@@ -128,9 +128,9 @@ class ThreatReportGenerator:
         """Generate report header."""
         return f"""# Threat Model Report: {self.model.system_name}
 
-**Version:** {self.model.version}  
-**Date:** {self.model.date}  
-**Analyst:** {self.model.analyst}  
+**Version:** {self.model.version}
+**Date:** {self.model.date}
+**Analyst:** {self.model.analyst}
 **Report Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 
 ---
@@ -210,8 +210,8 @@ class ThreatReportGenerator:
 
             sections.append(f"""### {threat.id}: {threat.description}
 
-**Priority:** {priority} (DREAD: {score:.1f})  
-**Category:** {threat.category.value}  
+**Priority:** {priority} (DREAD: {score:.1f})
+**Category:** {threat.category.value}
 **Affected Component:** {threat.component}
 
 **Attack Scenario:**

@@ -2,10 +2,10 @@
 
 ## System Information
 
-**System Name:** _[Your system name]_  
-**Version:** _[Version number]_  
-**Date:** _[Date of analysis]_  
-**Analyst:** _[Your name/team]_  
+**System Name:** _[Your system name]_
+**Version:** _[Version number]_
+**Date:** _[Date of analysis]_
+**Analyst:** _[Your name/team]_
 **Status:** _[Draft / Under Review / Approved]_
 
 ## System Overview

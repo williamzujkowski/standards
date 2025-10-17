@@ -51,15 +51,15 @@ export function createUserLoader(db: any): DataLoader<string, User | null> {
       const count = userIds.length;
       console.log('[DataLoader] Batch loading users:', count);
       const startTime = performance.now();
-      
+
       // Single query for all user IDs
       const users = await db.users.findMany({
         where: { id: { in: userIds as string[] } }
       });
-      
+
       const duration = performance.now() - startTime;
       console.log('[DataLoader] Loaded users in ms:', duration);
-      
+
       // CRITICAL: Return results in the exact same order as input keys
       return userIds.map(id => users.find(user => user.id === id) || null);
     },
@@ -82,7 +82,7 @@ export function createPostLoader(db: any): DataLoader<string, Post | null> {
         const posts = await db.posts.findMany({
           where: { id: { in: postIds as string[] } }
         });
-        
+
         return postIds.map(id => {
           const post = posts.find(p => p.id === id);
           if (!post) {
@@ -110,23 +110,23 @@ export function createPostsByAuthorLoader(db: any): DataLoader<string, Post[]> {
     async (authorIds: readonly string[]) => {
       const count = authorIds.length;
       console.log('[DataLoader] Batch loading posts for authors:', count);
-      
+
       const posts = await db.posts.findMany({
         where: { authorId: { in: authorIds as string[] } }
       });
-      
+
       const postsByAuthor = new Map<string, Post[]>();
-      
+
       authorIds.forEach(authorId => {
         postsByAuthor.set(authorId, []);
       });
-      
+
       posts.forEach(post => {
         const authorPosts = postsByAuthor.get(post.authorId) || [];
         authorPosts.push(post);
         postsByAuthor.set(post.authorId, authorPosts);
       });
-      
+
       return authorIds.map(authorId => postsByAuthor.get(authorId) || []);
     }
   );
@@ -142,14 +142,14 @@ export function createCommentsByPostLoader(db: any): DataLoader<string, Comment[
         where: { postId: { in: postIds as string[] } },
         orderBy: { createdAt: 'asc' }
       });
-      
+
       const commentsByPost = new Map<string, Comment[]>();
-      
+
       postIds.forEach(postId => {
         const postComments = comments.filter(c => c.postId === postId);
         commentsByPost.set(postId, postComments);
       });
-      
+
       return postIds.map(postId => commentsByPost.get(postId) || []);
     }
   );
@@ -179,11 +179,11 @@ export function createPostLikeLoader(db: any): DataLoader<CompositeKey, boolean>
           }))
         }
       });
-      
+
       const likeSet = new Set(
         likes.map(like => serializeKey({ userId: like.userId, postId: like.postId }))
       );
-      
+
       return keys.map(key => likeSet.has(serializeKey(key)));
     },
     {
@@ -204,11 +204,11 @@ export function createPostCountLoader(db: any): DataLoader<string, number> {
         where: { authorId: { in: authorIds as string[] } },
         _count: { id: true }
       });
-      
+
       const countMap = new Map(
         counts.map(c => [c.authorId, c._count.id])
       );
-      
+
       return authorIds.map(authorId => countMap.get(authorId) || 0);
     }
   );
@@ -227,9 +227,9 @@ export function createAuthorStatsLoader(db: any): DataLoader<string, PostStats> 
         where: { authorId: { in: authorIds as string[] } },
         select: { authorId: true, status: true }
       });
-      
+
       const statsByAuthor = new Map<string, PostStats>();
-      
+
       authorIds.forEach(authorId => {
         statsByAuthor.set(authorId, {
           totalPosts: 0,
@@ -237,14 +237,14 @@ export function createAuthorStatsLoader(db: any): DataLoader<string, PostStats> 
           draftPosts: 0
         });
       });
-      
+
       posts.forEach(post => {
         const stats = statsByAuthor.get(post.authorId)!;
         stats.totalPosts++;
         if (post.status === 'PUBLISHED') stats.publishedPosts++;
         if (post.status === 'DRAFT') stats.draftPosts++;
       });
-      
+
       return authorIds.map(authorId => statsByAuthor.get(authorId)!);
     }
   );
@@ -330,16 +330,16 @@ export const exampleResolvers = {
       return context.loaders.postLoader.load(id);
     }
   },
-  
+
   Post: {
     author: async (parent: Post, _args: any, context: any) => {
       return context.loaders.userLoader.load(parent.authorId);
     },
-    
+
     comments: async (parent: Post, _args: any, context: any) => {
       return context.loaders.commentsByPostLoader.load(parent.id);
     },
-    
+
     isLikedByCurrentUser: async (parent: Post, _args: any, context: any) => {
       if (!context.user) return false;
       return context.loaders.postLikeLoader.load({
@@ -348,16 +348,16 @@ export const exampleResolvers = {
       });
     }
   },
-  
+
   User: {
     posts: async (parent: User, _args: any, context: any) => {
       return context.loaders.postsByAuthorLoader.load(parent.id);
     },
-    
+
     postCount: async (parent: User, _args: any, context: any) => {
       return context.loaders.postCountLoader.load(parent.id);
     },
-    
+
     stats: async (parent: User, _args: any, context: any) => {
       return context.loaders.authorStatsLoader.load(parent.id);
     }

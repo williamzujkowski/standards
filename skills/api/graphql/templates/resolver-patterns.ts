@@ -144,7 +144,7 @@ export async function batchUsers(userIds: readonly string[]): Promise<(User | nu
   const users = await db.users.findMany({
     where: { id: { in: userIds as string[] } }
   });
-  
+
   // CRITICAL: Return values in same order as input keys
   return userIds.map(id => users.find(user => user.id === id) || null);
 }
@@ -154,7 +154,7 @@ export async function batchPosts(postIds: readonly string[]): Promise<(Post | nu
   const posts = await db.posts.findMany({
     where: { id: { in: postIds as string[] } }
   });
-  
+
   return postIds.map(id => posts.find(post => post.id === id) || null);
 }
 
@@ -165,7 +165,7 @@ export async function batchPostsByAuthor(
   const posts = await db.posts.findMany({
     where: { authorId: { in: authorIds as string[] } }
   });
-  
+
   // Group posts by authorId
   return authorIds.map(authorId =>
     posts.filter(post => post.authorId === authorId)
@@ -179,12 +179,12 @@ export function createLoaders() {
       cache: true,
       maxBatchSize: 100
     }),
-    
+
     postLoader: new DataLoader(batchPosts, {
       cache: true,
       maxBatchSize: 100
     }),
-    
+
     postsByAuthorLoader: new DataLoader(batchPostsByAuthor, {
       cache: true,
       maxBatchSize: 50
@@ -202,7 +202,7 @@ export const queryResolvers = {
     requireAuth(context);
     return context.user;
   },
-  
+
   // Get user by ID
   user: async (
     _parent: any,
@@ -212,7 +212,7 @@ export const queryResolvers = {
     // Use DataLoader for batching and caching
     return context.loaders.userLoader.load(id);
   },
-  
+
   // Get paginated list of users
   users: async (
     _parent: any,
@@ -220,10 +220,10 @@ export const queryResolvers = {
     context: GraphQLContext
   ) => {
     requireRole(context, UserRole.ADMIN);
-    
+
     return context.dataSources.userAPI.getUsers({ first, after, role });
   },
-  
+
   // Get post by ID or slug
   post: async (
     _parent: any,
@@ -233,14 +233,14 @@ export const queryResolvers = {
     if (id) {
       return context.loaders.postLoader.load(id);
     }
-    
+
     if (slug) {
       return context.dataSources.postAPI.getPostBySlug(slug);
     }
-    
+
     throw new ValidationError('Must provide either id or slug');
   },
-  
+
   // Get paginated posts with filters
   posts: async (
     _parent: any,
@@ -271,7 +271,7 @@ export const mutationResolvers = {
     context: GraphQLContext
   ) => {
     requireAuth(context);
-    
+
     // Validate input
     if (!input.title || input.title.length < 3) {
       return {
@@ -283,22 +283,22 @@ export const mutationResolvers = {
         }]
       };
     }
-    
+
     // Create post
     const post = await context.dataSources.postAPI.createPost({
       ...input,
       authorId: context.user!.id
     });
-    
+
     // Prime DataLoader cache to avoid refetch
     context.loaders.postLoader.prime(post.id, post);
-    
+
     return {
       post,
       errors: []
     };
   },
-  
+
   // Update existing post
   updatePost: async (
     _parent: any,
@@ -312,27 +312,27 @@ export const mutationResolvers = {
     context: GraphQLContext
   ) => {
     requireAuth(context);
-    
+
     // Load post to check ownership
     const post = await context.loaders.postLoader.load(id);
     if (!post) {
       throw new NotFoundError('Post', id);
     }
-    
+
     requireOwnership(context, post.authorId);
-    
+
     // Update post
     const updatedPost = await context.dataSources.postAPI.updatePost(id, input);
-    
+
     // Update DataLoader cache
     context.loaders.postLoader.clear(id).prime(id, updatedPost);
-    
+
     return {
       post: updatedPost,
       errors: []
     };
   },
-  
+
   // Delete post
   deletePost: async (
     _parent: any,
@@ -340,26 +340,26 @@ export const mutationResolvers = {
     context: GraphQLContext
   ) => {
     requireAuth(context);
-    
+
     const post = await context.loaders.postLoader.load(id);
     if (!post) {
       throw new NotFoundError('Post', id);
     }
-    
+
     requireOwnership(context, post.authorId);
-    
+
     await context.dataSources.postAPI.deletePost(id);
-    
+
     // Clear from cache
     context.loaders.postLoader.clear(id);
-    
+
     return {
       success: true,
       deletedId: id,
       errors: []
     };
   },
-  
+
   // Like a post
   likePost: async (
     _parent: any,
@@ -367,15 +367,15 @@ export const mutationResolvers = {
     context: GraphQLContext
   ) => {
     requireAuth(context);
-    
+
     const post = await context.dataSources.postAPI.likePost(
       postId,
       context.user!.id
     );
-    
+
     // Update cache
     context.loaders.postLoader.clear(postId).prime(postId, post);
-    
+
     return {
       post,
       errors: []
@@ -396,16 +396,16 @@ export const userFieldResolvers = {
   ) => {
     // Use DataLoader for efficient batching
     const allPosts = await context.loaders.postsByAuthorLoader.load(parent.id);
-    
+
     // Filter by status if provided
     const filteredPosts = status
       ? allPosts.filter(post => post.status === status)
       : allPosts;
-    
+
     // Apply pagination
     return paginatePosts(filteredPosts, { first, after });
   },
-  
+
   // Computed field: full name
   fullName: (parent: User & { firstName?: string; lastName?: string }) => {
     return `${parent.firstName || ''} ${parent.lastName || ''}`.trim();
@@ -418,14 +418,14 @@ export const postFieldResolvers = {
     // Use DataLoader to batch author fetches
     return context.loaders.userLoader.load(parent.authorId);
   },
-  
+
   // Computed field: reading time
   readingTimeMinutes: (parent: Post) => {
     const wordsPerMinute = 200;
     const wordCount = parent.content.split(/\s+/).length;
     return Math.ceil(wordCount / wordsPerMinute);
   },
-  
+
   // Computed field: excerpt
   excerpt: (parent: Post) => {
     if (parent.content.length <= 200) {
@@ -462,7 +462,7 @@ export const subscriptionResolvers = {
       }
     )
   },
-  
+
   // Subscribe to comments on a specific post
   commentAdded: {
     subscribe: withFilter(
@@ -472,7 +472,7 @@ export const subscriptionResolvers = {
       }
     )
   },
-  
+
   // Subscribe to user notifications
   notificationReceived: {
     subscribe: withFilter(
@@ -506,20 +506,20 @@ function paginatePosts(
   { first, after }: { first: number; after?: string }
 ) {
   let startIndex = 0;
-  
+
   if (after) {
     const afterIndex = posts.findIndex(post => post.id === after);
     if (afterIndex !== -1) {
       startIndex = afterIndex + 1;
     }
   }
-  
+
   const endIndex = startIndex + first;
   const edges = posts.slice(startIndex, endIndex).map(post => ({
     cursor: post.id,
     node: post
   }));
-  
+
   return {
     edges,
     pageInfo: {
@@ -549,7 +549,7 @@ class UserAPI {
   async getUserById(id: string): Promise<User | null> {
     return null;
   }
-  
+
   async getUsers({ first, after, role }: any) {
     return { edges: [], pageInfo: {}, totalCount: 0 };
   }
@@ -559,21 +559,21 @@ class PostAPI {
   async getPostBySlug(slug: string): Promise<Post | null> {
     return null;
   }
-  
+
   async getPosts({ first, after, filters }: any) {
     return { edges: [], pageInfo: {}, totalCount: 0 };
   }
-  
+
   async createPost(input: any): Promise<Post> {
     return {} as Post;
   }
-  
+
   async updatePost(id: string, input: any): Promise<Post> {
     return {} as Post;
   }
-  
+
   async deletePost(id: string): Promise<void> {}
-  
+
   async likePost(postId: string, userId: string): Promise<Post> {
     return {} as Post;
   }

@@ -330,7 +330,7 @@ union SearchResult = User | Post | Comment | Tag
 type Query {
   # Authentication
   me: User @auth
-  
+
   # Users
   user(id: ID, username: String): User
   users(
@@ -339,7 +339,7 @@ type Query {
     role: UserRole
     search: String
   ): UserConnection! @requireRole(role: ADMIN)
-  
+
   # Posts
   post(id: ID, slug: String): Post
   posts(
@@ -348,7 +348,7 @@ type Query {
     filters: PostFilters
     sortBy: PostSortBy
   ): PostConnection!
-  
+
   # Comments
   comment(id: ID!): Comment
   comments(
@@ -356,15 +356,15 @@ type Query {
     after: String
     postId: ID
   ): CommentConnection!
-  
+
   # Tags
   tag(id: ID, slug: String): Tag
   tags(first: Int = 50, after: String): [Tag!]!
   popularTags(limit: Int = 10): [Tag!]!
-  
+
   # Search
   search(query: String!, first: Int = 10): [SearchResult!]!
-  
+
   # Statistics
   postStats: PostStats! @requireRole(role: ADMIN)
   userStats: UserStats! @requireRole(role: ADMIN)
@@ -377,16 +377,16 @@ type Mutation {
   login(input: LoginInput!): AuthPayload!
   logout: Boolean!
   refreshToken(refreshToken: String!): AuthPayload!
-  
+
   # User Management
   updateProfile(input: ProfileInput!): UserPayload! @auth
   deleteAccount: DeletePayload! @auth
   changePassword(currentPassword: String!, newPassword: String!): Boolean! @auth
-  
+
   # User Actions
   followUser(userId: ID!): UserPayload! @auth
   unfollowUser(userId: ID!): UserPayload! @auth
-  
+
   # Post Management
   createPost(input: CreatePostInput!): PostPayload! @auth
   updatePost(id: ID!, input: UpdatePostInput!): PostPayload! @auth
@@ -394,17 +394,17 @@ type Mutation {
   publishPost(id: ID!): PostPayload! @auth
   likePost(postId: ID!): PostPayload! @auth
   unlikePost(postId: ID!): PostPayload! @auth
-  
+
   # Comment Management
   createComment(input: CreateCommentInput!): CommentPayload! @auth
   updateComment(id: ID!, input: UpdateCommentInput!): CommentPayload! @auth
   deleteComment(id: ID!): DeletePayload! @auth
   likeComment(commentId: ID!): CommentPayload! @auth
-  
+
   # Notifications
   markNotificationRead(id: ID!): Boolean! @auth
   markAllNotificationsRead: Boolean! @auth
-  
+
   # Admin Operations
   banUser(userId: ID!, reason: String!): UserPayload! @requireRole(role: ADMIN)
   unbanUser(userId: ID!): UserPayload! @requireRole(role: ADMIN)
@@ -415,13 +415,13 @@ type Mutation {
 type Subscription {
   # User-specific subscriptions
   notificationReceived: Notification! @auth
-  
+
   # Post subscriptions
   postPublished(authorId: ID): Post!
-  
+
   # Comment subscriptions
   commentAdded(postId: ID!): Comment!
-  
+
   # Real-time updates
   postUpdated(postId: ID!): Post!
   userOnlineStatus(userId: ID!): OnlineStatus!

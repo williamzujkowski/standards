@@ -18,10 +18,10 @@ This checklist ensures your Vue.js application meets WCAG 2.1 Level AA accessibi
 <template>
   <!-- Meaningful image -->
   <img src="user.jpg" alt="User profile photo" />
-  
+
   <!-- Decorative image -->
   <img src="decoration.png" alt="" role="presentation" />
-  
+
   <!-- Icon with label -->
   <button aria-label="Close dialog">
     <svg aria-hidden="true"><use href="#close-icon" /></svg>
@@ -49,13 +49,13 @@ This checklist ensures your Vue.js application meets WCAG 2.1 Level AA accessibi
 <template>
   <main id="main-content">
     <h1>Page Title</h1>
-    
+
     <nav aria-label="Main navigation">
       <ul>
         <li><a href="/">Home</a></li>
       </ul>
     </nav>
-    
+
     <article>
       <h2>Article Title</h2>
       <p>Content...</p>
@@ -182,11 +182,11 @@ const prefersReducedMotion = window.matchMedia(
   <a href="#main-content" class="skip-link">
     Skip to main content
   </a>
-  
+
   <nav aria-label="Main navigation">
     <!-- Navigation -->
   </nav>
-  
+
   <main id="main-content">
     <!-- Content -->
   </main>
@@ -284,11 +284,11 @@ function validateEmail() {
       :aria-invalid="!!emailError"
       @blur="validateEmail"
     />
-    
+
     <span id="email-error" role="alert" v-if="emailError">
       {{ emailError }}
     </span>
-    
+
     <button type="submit">Submit</button>
   </form>
 </template>
@@ -316,7 +316,7 @@ function validateEmail() {
     >
       Select option
     </button>
-    
+
     <ul
       id="dropdown-list"
       role="listbox"
@@ -328,7 +328,7 @@ function validateEmail() {
       </li>
     </ul>
   </div>
-  
+
   <!-- Status message -->
   <div role="status" aria-live="polite">
     {{ statusMessage }}

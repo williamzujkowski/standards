@@ -57,11 +57,11 @@ last_updated: 2025-01-17
 
 ```sql
 -- PostgreSQL: Create covering index
-CREATE INDEX idx_orders_user_date ON orders(user_id, created_at) 
+CREATE INDEX idx_orders_user_date ON orders(user_id, created_at)
 INCLUDE (status, total_amount);
 
 -- PostgreSQL: Analyze query plan
-EXPLAIN (ANALYZE, BUFFERS) 
+EXPLAIN (ANALYZE, BUFFERS)
 SELECT * FROM orders WHERE user_id = 123;
 ```
 
@@ -82,11 +82,11 @@ db.orders.aggregate([
 def get_user(user_id):
     cache_key = f"user:{user_id}"
     user = redis.get(cache_key)
-    
+
     if user is None:
         user = db.query("SELECT * FROM users WHERE id = %s", user_id)
         redis.setex(cache_key, 3600, json.dumps(user))
-    
+
     return json.loads(user)
 ```
 
@@ -131,8 +131,8 @@ def get_user(user_id):
 **Performance Monitoring:**
 ```bash
 # PostgreSQL query stats
-SELECT query, calls, total_time, mean_time 
-FROM pg_stat_statements 
+SELECT query, calls, total_time, mean_time
+FROM pg_stat_statements
 ORDER BY mean_time DESC LIMIT 10;
 
 # MongoDB profiler
@@ -163,18 +163,18 @@ CREATE INDEX idx_orders_date ON orders(created_at DESC);
 CREATE INDEX idx_orders_user_status ON orders(user_id, status);
 
 -- Partial index for specific conditions
-CREATE INDEX idx_active_users ON users(email) 
+CREATE INDEX idx_active_users ON users(email)
 WHERE status = 'active';
 
 -- Covering index (includes additional columns)
-CREATE INDEX idx_orders_covering ON orders(user_id, created_at) 
+CREATE INDEX idx_orders_covering ON orders(user_id, created_at)
 INCLUDE (status, total_amount, items_count);
 ```
 
 **GIN Indexes (Full-text and Array Search)**
 ```sql
 -- Full-text search
-CREATE INDEX idx_products_search ON products 
+CREATE INDEX idx_products_search ON products
 USING GIN(to_tsvector('english', name || ' ' || description));
 
 -- Array containment
@@ -184,8 +184,8 @@ CREATE INDEX idx_posts_tags ON posts USING GIN(tags);
 CREATE INDEX idx_users_metadata ON users USING GIN(metadata jsonb_path_ops);
 
 -- Query examples
-SELECT * FROM products 
-WHERE to_tsvector('english', name || ' ' || description) 
+SELECT * FROM products
+WHERE to_tsvector('english', name || ' ' || description)
 @@ to_tsquery('english', 'laptop');
 
 SELECT * FROM posts WHERE tags @> ARRAY['postgresql', 'optimization'];
@@ -204,7 +204,7 @@ CREATE INDEX idx_locations_point ON locations USING GiST(coordinates);
 CREATE INDEX idx_documents_text ON documents USING GiST(content_tsvector);
 
 -- Query examples
-SELECT * FROM bookings 
+SELECT * FROM bookings
 WHERE date_range && '[2025-01-01, 2025-01-31)'::daterange;
 ```
 
@@ -216,8 +216,8 @@ WHERE date_range && '[2025-01-01, 2025-01-31)'::daterange;
 EXPLAIN SELECT * FROM orders WHERE user_id = 123;
 
 -- EXPLAIN with execution statistics
-EXPLAIN (ANALYZE, BUFFERS, VERBOSE) 
-SELECT o.*, u.email 
+EXPLAIN (ANALYZE, BUFFERS, VERBOSE)
+SELECT o.*, u.email
 FROM orders o
 JOIN users u ON o.user_id = u.id
 WHERE o.created_at > NOW() - INTERVAL '30 days'
@@ -237,11 +237,11 @@ LIMIT 100;
 -------------------------------------------------------------------------------------------------------------------
  Limit  (cost=0.56..45.23 rows=100 width=148) (actual time=0.032..1.234 rows=100 loops=1)
    ->  Nested Loop  (cost=0.56..8920.45 rows=19965 width=148) (actual time=0.031..1.189 rows=100 loops=1)
-         ->  Index Scan Backward using idx_orders_created_at on orders o  
+         ->  Index Scan Backward using idx_orders_created_at on orders o
              (cost=0.42..4567.89 rows=19965 width=120) (actual time=0.018..0.456 rows=100 loops=1)
                Index Cond: (created_at > (now() - '30 days'::interval))
                Buffers: shared hit=234
-         ->  Index Scan using users_pkey on users u  
+         ->  Index Scan using users_pkey on users u
              (cost=0.14..0.21 rows=1 width=28) (actual time=0.006..0.006 rows=1 loops=100)
                Index Cond: (id = o.user_id)
                Buffers: shared hit=300
@@ -280,14 +280,14 @@ ALTER TABLE orders SET (
 );
 
 -- Monitor vacuum activity
-SELECT schemaname, relname, last_vacuum, last_autovacuum, 
+SELECT schemaname, relname, last_vacuum, last_autovacuum,
        n_dead_tup, n_live_tup
 FROM pg_stat_user_tables
 WHERE n_dead_tup > 1000
 ORDER BY n_dead_tup DESC;
 
 -- Check bloat
-SELECT schemaname, tablename, 
+SELECT schemaname, tablename,
        pg_size_pretty(pg_total_relation_size(schemaname||'.'||tablename)) AS size,
        n_dead_tup, n_live_tup,
        ROUND(n_dead_tup * 100.0 / NULLIF(n_live_tup + n_dead_tup, 0), 2) AS dead_ratio
@@ -480,17 +480,17 @@ db.orders.aggregate([
 // Optimize pipeline order: $match early, $project late
 db.orders.aggregate([
   // 1. Filter early (uses indexes)
-  { $match: { 
+  { $match: {
     status: "completed",
     createdAt: { $gte: ISODate("2025-01-01") }
   }},
-  
+
   // 2. Sort (can use index if immediately after $match)
   { $sort: { createdAt: -1 } },
-  
+
   // 3. Limit early to reduce documents processed
   { $limit: 1000 },
-  
+
   // 4. Lookup (expensive, do after filtering)
   { $lookup: {
     from: "users",
@@ -498,17 +498,17 @@ db.orders.aggregate([
     foreignField: "_id",
     as: "user"
   }},
-  
+
   // 5. Unwind after lookup
   { $unwind: "$user" },
-  
+
   // 6. Group (after filtering and limiting)
   { $group: {
     _id: "$user.country",
     totalRevenue: { $sum: "$totalAmount" },
     orderCount: { $sum: 1 }
   }},
-  
+
   // 7. Project last (remove unnecessary fields)
   { $project: {
     _id: 0,
@@ -580,18 +580,18 @@ redis_client = redis.Redis(host='localhost', port=6379, db=0)
 def get_user(user_id: int) -> Optional[dict]:
     """Cache-aside pattern: check cache first, then database"""
     cache_key = f"user:{user_id}"
-    
+
     # Try cache first
     cached = redis_client.get(cache_key)
     if cached:
         return json.loads(cached)
-    
+
     # Cache miss: query database
     user = db.query("SELECT * FROM users WHERE id = %s", user_id)
     if user:
         # Store in cache with TTL
         redis_client.setex(cache_key, 3600, json.dumps(user))
-    
+
     return user
 
 def update_user(user_id: int, data: dict):
@@ -605,10 +605,10 @@ def update_user(user_id: int, data: dict):
 def save_user(user_id: int, data: dict):
     """Write to cache and database simultaneously"""
     cache_key = f"user:{user_id}"
-    
+
     # Write to database
     db.execute("INSERT INTO users ... VALUES ...", data)
-    
+
     # Write to cache
     redis_client.setex(cache_key, 3600, json.dumps(data))
 ```
@@ -618,10 +618,10 @@ def save_user(user_id: int, data: dict):
 def save_user_async(user_id: int, data: dict):
     """Write to cache immediately, database asynchronously"""
     cache_key = f"user:{user_id}"
-    
+
     # Write to cache immediately
     redis_client.setex(cache_key, 3600, json.dumps(data))
-    
+
     # Queue database write
     redis_client.lpush("write_queue", json.dumps({
         "operation": "update_user",
@@ -642,22 +642,22 @@ def process_write_queue():
 ```python
 class CacheProxy:
     """Transparent caching layer"""
-    
+
     def get_user(self, user_id: int) -> dict:
         cache_key = f"user:{user_id}"
-        
+
         # Check cache
         cached = redis_client.get(cache_key)
         if cached:
             return json.loads(cached)
-        
+
         # Load from source
         user = self._load_from_database(user_id)
-        
+
         # Populate cache
         if user:
             redis_client.setex(cache_key, 3600, json.dumps(user))
-        
+
         return user
 ```
 
@@ -741,7 +741,7 @@ while True:
     messages = redis_client.xreadgroup(
         group_name, consumer_name, {stream_key: ">"}, count=10, block=5000
     )
-    
+
     for stream, message_list in messages:
         for message_id, data in message_list:
             try:
@@ -946,7 +946,7 @@ const pool = new Pool({
 CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
 
 -- Top 10 slowest queries by average time
-SELECT 
+SELECT
     query,
     calls,
     total_exec_time,
@@ -958,7 +958,7 @@ ORDER BY mean_exec_time DESC
 LIMIT 10;
 
 -- Most frequently called queries
-SELECT 
+SELECT
     query,
     calls,
     total_exec_time,
@@ -968,7 +968,7 @@ ORDER BY calls DESC
 LIMIT 10;
 
 -- Queries with most total time
-SELECT 
+SELECT
     query,
     calls,
     total_exec_time,
@@ -984,19 +984,19 @@ SELECT pg_stat_statements_reset();
 **Key Metrics to Monitor:**
 ```sql
 -- Connection statistics
-SELECT count(*), state 
-FROM pg_stat_activity 
+SELECT count(*), state
+FROM pg_stat_activity
 GROUP BY state;
 
 -- Cache hit ratio (should be > 90%)
-SELECT 
+SELECT
     sum(heap_blks_read) as heap_read,
     sum(heap_blks_hit)  as heap_hit,
     sum(heap_blks_hit) / (sum(heap_blks_hit) + sum(heap_blks_read)) as ratio
 FROM pg_statio_user_tables;
 
 -- Table bloat and dead tuples
-SELECT 
+SELECT
     schemaname,
     tablename,
     n_live_tup,
@@ -1007,7 +1007,7 @@ FROM pg_stat_user_tables
 ORDER BY n_dead_tup DESC;
 
 -- Index usage
-SELECT 
+SELECT
     schemaname,
     tablename,
     indexname,
@@ -1018,7 +1018,7 @@ FROM pg_stat_user_indexes
 ORDER BY idx_scan ASC;
 
 -- Blocking queries
-SELECT 
+SELECT
     blocked_locks.pid AS blocked_pid,
     blocked_activity.usename AS blocked_user,
     blocking_locks.pid AS blocking_pid,
@@ -1027,7 +1027,7 @@ SELECT
     blocking_activity.query AS blocking_statement
 FROM pg_catalog.pg_locks blocked_locks
 JOIN pg_catalog.pg_stat_activity blocked_activity ON blocked_activity.pid = blocked_locks.pid
-JOIN pg_catalog.pg_locks blocking_locks 
+JOIN pg_catalog.pg_locks blocking_locks
     ON blocking_locks.locktype = blocked_locks.locktype
     AND blocking_locks.database IS NOT DISTINCT FROM blocked_locks.database
     AND blocking_locks.relation IS NOT DISTINCT FROM blocked_locks.relation

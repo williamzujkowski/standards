@@ -106,7 +106,7 @@ sealed class NavigationEvent {
  */
 sealed class ValidationResult {
     object Valid : ValidationResult()
-    
+
     sealed class Invalid : ValidationResult() {
         data class EmptyField(val fieldName: String) : Invalid()
         data class InvalidFormat(val fieldName: String, val format: String) : Invalid()
@@ -174,11 +174,11 @@ sealed interface PaymentMethod {
     ) : PaymentMethod
 
     data class PayPal(val email: String) : PaymentMethod
-    
+
     data class BankTransfer(
         val accountNumber: String,
         val routingNumber: String
     ) : PaymentMethod
-    
+
     object Cash : PaymentMethod
 }

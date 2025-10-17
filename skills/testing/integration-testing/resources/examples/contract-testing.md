@@ -165,7 +165,7 @@ pact-broker can-i-deploy \
 
 # Example output:
 # Computer says yes \o/
-# 
+#
 # CONSUMER       | C.VERSION | PROVIDER    | P.VERSION | SUCCESS?
 # ---------------|-----------|-------------|-----------|----------
 # UserService    | 1.2.3     | APIGateway  | 2.1.0     | true

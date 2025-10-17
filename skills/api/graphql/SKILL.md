@@ -237,7 +237,7 @@ type Query {
   # Single entity
   user(id: ID!): User
   post(id: ID!): Post
-  
+
   # Lists with pagination
   users(first: Int, after: String): UserConnection!
   posts(
@@ -246,10 +246,10 @@ type Query {
     first: Int
     after: String
   ): PostConnection!
-  
+
   # Search
   searchUsers(query: String!): [User!]!
-  
+
   # Aggregations
   postStats: PostStats!
 }
@@ -315,10 +315,10 @@ type UpdatePostPayload {
 type Subscription {
   # Entity-specific
   userUpdated(userId: ID!): User!
-  
+
   # Filtered streams
   messageAdded(channelId: ID!): Message!
-  
+
   # Global events
   notificationReceived: Notification!
 }
@@ -346,37 +346,37 @@ export const userResolvers = {
     user: async (_parent, { id }, context: GraphQLContext) => {
       return context.dataSources.userAPI.getUserById(id);
     },
-    
+
     users: async (_parent, { first, after }, context: GraphQLContext) => {
       return context.dataSources.userAPI.getUsers({ first, after });
     }
   },
-  
+
   Mutation: {
     createUser: async (_parent, { input }, context: GraphQLContext) => {
       // Check authorization
       if (!context.user) {
         throw new Error('Unauthorized');
       }
-      
+
       // Validate input
       const errors = validateUserInput(input);
       if (errors.length > 0) {
         return { user: null, errors };
       }
-      
+
       // Create user
       const user = await context.dataSources.userAPI.createUser(input);
       return { user, errors: [] };
     }
   },
-  
+
   User: {
     // Field resolver for computed/related data
     posts: async (parent, { first, after }, context: GraphQLContext) => {
       return context.loaders.postLoader.loadByAuthor(parent.id, { first, after });
     },
-    
+
     fullName: (parent) => {
       return `${parent.firstName} ${parent.lastName}`;
     }
@@ -419,7 +419,7 @@ const batchUsers = async (userIds: readonly string[]) => {
   const users = await db.users.findMany({
     where: { id: { in: userIds as string[] } }
   });
-  
+
   // Must return values in same order as keys
   return userIds.map(id => users.find(user => user.id === id) || null);
 };
@@ -466,7 +466,7 @@ const batchPostsByAuthor = async (authorIds: readonly string[]) => {
   const posts = await db.posts.findMany({
     where: { authorId: { in: authorIds as string[] } }
   });
-  
+
   return authorIds.map(authorId =>
     posts.filter(post => post.authorId === authorId)
   );
@@ -475,10 +475,10 @@ const batchPostsByAuthor = async (authorIds: readonly string[]) => {
 // Prime cache from mutation
 async createPost(parent, { input }, context) {
   const post = await db.posts.create({ data: input });
-  
+
   // Prime loader cache to avoid refetch
   context.loaders.postLoader.prime(post.id, post);
-  
+
   return { post };
 }
 ```
@@ -536,12 +536,12 @@ export const resolvers = {
     __resolveReference: async (user: { id: string }) => {
       return { id: user.id };  // Minimal representation
     },
-    
+
     posts: async (user: { id: string }, _args, context) => {
       return context.dataSources.postAPI.getPostsByAuthor(user.id);
     }
   },
-  
+
   Post: {
     __resolveReference: async (post: { id: string }, context) => {
       return context.dataSources.postAPI.getPostById(post.id);
@@ -606,7 +606,7 @@ interface AuthContext {
 
 export async function createContext({ req }): Promise<AuthContext> {
   const token = req.headers.authorization?.replace('Bearer ', '');
-  
+
   let user = null;
   if (token) {
     try {
@@ -615,7 +615,7 @@ export async function createContext({ req }): Promise<AuthContext> {
       console.error('Invalid token:', error);
     }
   }
-  
+
   return {
     user,
     loaders: createLoaders()
@@ -656,7 +656,7 @@ const resolvers = {
       // User is authenticated
       return createPost(input, context.user.id);
     }),
-    
+
     deleteUser: requireRole('ADMIN')(async (parent, { id }, context) => {
       // User is admin
       return deleteUser(id);
@@ -693,10 +693,10 @@ export function authDirective(schema: GraphQLSchema) {
   return mapSchema(schema, {
     [MapperKind.OBJECT_FIELD]: (fieldConfig) => {
       const authDirective = getDirective(schema, fieldConfig, 'auth')?.[0];
-      
+
       if (authDirective) {
         const { resolve = defaultFieldResolver } = fieldConfig;
-        
+
         fieldConfig.resolve = function (source, args, context, info) {
           if (!context.user) {
             throw new Error('Unauthorized');
@@ -704,7 +704,7 @@ export function authDirective(schema: GraphQLSchema) {
           return resolve(source, args, context, info);
         };
       }
-      
+
       return fieldConfig;
     }
   });
@@ -807,7 +807,7 @@ export const subscriptionResolvers = {
         }
       )
     },
-    
+
     userUpdated: {
       subscribe: withFilter(
         () => pubsub.asyncIterator(EVENTS.USER_UPDATED),
@@ -818,14 +818,14 @@ export const subscriptionResolvers = {
       )
     }
   },
-  
+
   Mutation: {
     sendMessage: async (parent, { input }, context) => {
       const message = await createMessage(input);
-      
+
       // Publish event
       pubsub.publish(EVENTS.MESSAGE_ADDED, { message });
-      
+
       return { message };
     }
   }
@@ -873,11 +873,11 @@ export async function cacheResolver<T>(
   if (cached) {
     return JSON.parse(cached);
   }
-  
+
   // Execute and cache
   const result = await fn();
   await redis.setEx(key, ttl, JSON.stringify(result));
-  
+
   return result;
 }
 
@@ -910,7 +910,7 @@ export function complexityPlugin(maxComplexity: number): ApolloServerPlugin {
             variables: request.variables,
             estimators: [simpleEstimator({ defaultComplexity: 1 })]
           });
-          
+
           if (complexity > maxComplexity) {
             throw new Error(
               `Query too complex: ${complexity}. Maximum: ${maxComplexity}`
@@ -941,19 +941,19 @@ export async function paginate<T>(
   { first, after }: { first: number; after?: string }
 ): Promise<{ edges: Array<{ cursor: string; node: T }>; pageInfo: any }> {
   const limit = first + 1;  // Fetch one extra for hasNextPage
-  
+
   if (after) {
     query = query.where('id', '>', decodeCursor(after));
   }
-  
+
   const items = await query.limit(limit).orderBy('id');
   const hasNextPage = items.length > first;
-  
+
   const edges = items.slice(0, first).map((item: T & { id: string }) => ({
     cursor: encodeCursor(item.id),
     node: item
   }));
-  
+
   return {
     edges,
     pageInfo: {
@@ -1017,7 +1017,7 @@ const server = new ApolloServer({
     // Log internal errors
     if (formattedError.extensions?.code === 'INTERNAL_SERVER_ERROR') {
       console.error('Internal error:', error);
-      
+
       // Mask details in production
       if (process.env.NODE_ENV === 'production') {
         return {
@@ -1026,7 +1026,7 @@ const server = new ApolloServer({
         };
       }
     }
-    
+
     return formattedError;
   }
 });
@@ -1056,41 +1056,41 @@ describe('User Resolvers', () => {
     },
     user: { id: '1', role: 'USER' }
   };
-  
+
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  
+
   describe('Query.user', () => {
     it('fetches user by id', async () => {
       const mockUser = { id: '1', email: 'test@example.com' };
       mockContext.dataSources.userAPI.getUserById.mockResolvedValue(mockUser);
-      
+
       const result = await userResolvers.Query.user(
         null,
         { id: '1' },
         mockContext,
         {} as any
       );
-      
+
       expect(result).toEqual(mockUser);
       expect(mockContext.dataSources.userAPI.getUserById).toHaveBeenCalledWith('1');
     });
   });
-  
+
   describe('Mutation.createUser', () => {
     it('creates user with valid input', async () => {
       const input = { email: 'new@example.com', password: 'secure123' };
       const mockUser = { id: '2', ...input };
       mockContext.dataSources.userAPI.createUser.mockResolvedValue(mockUser);
-      
+
       const result = await userResolvers.Mutation.createUser(
         null,
         { input },
         mockContext,
         {} as any
       );
-      
+
       expect(result.user).toEqual(mockUser);
       expect(result.errors).toHaveLength(0);
     });
@@ -1109,15 +1109,15 @@ import { resolvers } from './resolvers';
 
 describe('GraphQL Server', () => {
   let server: ApolloServer;
-  
+
   beforeAll(async () => {
     server = new ApolloServer({ typeDefs, resolvers });
   });
-  
+
   afterAll(async () => {
     await server.stop();
   });
-  
+
   it('executes user query', async () => {
     const result = await server.executeOperation({
       query: `
@@ -1130,7 +1130,7 @@ describe('GraphQL Server', () => {
       `,
       variables: { id: '1' }
     });
-    
+
     expect(result.body.kind).toBe('single');
     if (result.body.kind === 'single') {
       expect(result.body.singleResult.errors).toBeUndefined();
@@ -1153,9 +1153,9 @@ export async function healthCheck() {
     redis: await checkRedis(),
     subgraphs: await checkSubgraphs()
   };
-  
+
   const isHealthy = Object.values(checks).every(check => check.status === 'ok');
-  
+
   return {
     status: isHealthy ? 'ok' : 'degraded',
     checks,

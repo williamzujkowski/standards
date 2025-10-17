@@ -58,17 +58,17 @@ repositories {
 dependencies {
     // Kotlin stdlib
     implementation(kotlin("stdlib"))
-    
+
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.7.3")
-    
+
     // Testing
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     testImplementation("io.mockk:mockk:1.13.8")
-    
+
     // Logging (optional)
     implementation("ch.qos.logback:logback-classic:1.4.11")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
@@ -76,7 +76,7 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
-    
+
     testLogging {
         events("passed", "skipped", "failed")
         showStandardStreams = false
@@ -107,7 +107,7 @@ ktlint {
     android.set(false)
     outputToConsole.set(true)
     ignoreFailures.set(false)
-    
+
     filter {
         exclude("**/generated/**")
         include("**/kotlin/**")
@@ -245,7 +245,7 @@ import kotlinx.coroutines.runBlocking
 
 fun main() = runBlocking {
     println("Hello, Kotlin!")
-    
+
     val app = Application()
     app.run()
 }
@@ -272,7 +272,7 @@ class ApplicationTest {
     @Test
     fun \`application runs successfully\`() = runTest {
         val app = Application()
-        
+
         assertDoesNotThrow {
             app.run()
         }

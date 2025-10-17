@@ -52,7 +52,7 @@ terraform fmt -recursive
 resource "aws_instance" "web" {
   ami           = var.ami_id
   instance_type = var.instance_type
-  
+
   tags = {
     Name        = "${var.environment}-web"
     Environment = var.environment
@@ -65,14 +65,14 @@ resource "aws_instance" "web" {
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 5.0"
-  
+
   name = "${var.environment}-vpc"
   cidr = var.vpc_cidr
-  
+
   azs             = var.availability_zones
   private_subnets = var.private_subnet_cidrs
   public_subnets  = var.public_subnet_cidrs
-  
+
   enable_nat_gateway = true
   enable_vpn_gateway = false
 }
@@ -163,7 +163,7 @@ infrastructure/
 # versions.tf
 terraform {
   required_version = ">= 1.5.0"
-  
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -179,7 +179,7 @@ terraform {
 # providers.tf
 provider "aws" {
   region = var.aws_region
-  
+
   default_tags {
     tags = {
       Terraform   = "true"
@@ -203,12 +203,12 @@ provider "aws" {
 data "aws_ami" "ubuntu" {
   most_recent = true
   owners      = ["099720109477"] # Canonical
-  
+
   filter {
     name   = "name"
     values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
   }
-  
+
   filter {
     name   = "virtualization-type"
     values = ["hvm"]
@@ -220,26 +220,26 @@ resource "aws_instance" "app" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
   subnet_id     = module.vpc.private_subnets[0]
-  
+
   vpc_security_group_ids = [aws_security_group.app.id]
-  
+
   user_data = templatefile("${path.module}/user-data.sh", {
     environment = var.environment
     app_version = var.app_version
   })
-  
+
   root_block_device {
     volume_type           = "gp3"
     volume_size           = 30
     encrypted             = true
     delete_on_termination = true
   }
-  
+
   lifecycle {
     create_before_destroy = true
     ignore_changes        = [ami]
   }
-  
+
   tags = {
     Name = "${var.environment}-app-server"
   }
@@ -256,7 +256,7 @@ resource "aws_vpc" "main" {
   cidr_block           = var.vpc_cidr
   enable_dns_hostnames = true
   enable_dns_support   = true
-  
+
   tags = merge(
     var.tags,
     {
@@ -270,7 +270,7 @@ resource "aws_subnet" "private" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.private_subnet_cidrs[count.index]
   availability_zone = var.availability_zones[count.index]
-  
+
   tags = merge(
     var.tags,
     {
@@ -289,7 +289,7 @@ variable "vpc_name" {
 variable "vpc_cidr" {
   description = "CIDR block for VPC"
   type        = string
-  
+
   validation {
     condition     = can(cidrhost(var.vpc_cidr, 0))
     error_message = "Must be a valid IPv4 CIDR block."
@@ -300,7 +300,7 @@ variable "private_subnet_cidrs" {
   description = "CIDR blocks for private subnets"
   type        = list(string)
   default     = []
-  
+
   validation {
     condition     = length(var.private_subnet_cidrs) <= 10
     error_message = "Maximum of 10 private subnets allowed."
@@ -346,12 +346,12 @@ output "private_subnet_cidrs" {
 # Using local modules
 module "vpc" {
   source = "../../modules/vpc"
-  
+
   vpc_name             = "${var.environment}-vpc"
   vpc_cidr             = var.vpc_cidr
   private_subnet_cidrs = var.private_subnet_cidrs
   availability_zones   = var.availability_zones
-  
+
   tags = local.common_tags
 }
 
@@ -359,29 +359,29 @@ module "vpc" {
 module "rds" {
   source  = "terraform-aws-modules/rds/aws"
   version = "~> 6.0"
-  
+
   identifier = "${var.environment}-postgres"
-  
+
   engine               = "postgres"
   engine_version       = "15.4"
   family               = "postgres15"
   major_engine_version = "15"
   instance_class       = var.db_instance_class
-  
+
   allocated_storage     = 20
   max_allocated_storage = 100
-  
+
   db_name  = var.db_name
   username = var.db_username
   port     = 5432
-  
+
   subnet_ids             = module.vpc.private_subnet_ids
   vpc_security_group_ids = [aws_security_group.database.id]
-  
+
   backup_retention_period = var.environment == "prod" ? 30 : 7
   skip_final_snapshot     = var.environment != "prod"
   deletion_protection     = var.environment == "prod"
-  
+
   tags = local.common_tags
 }
 ```
@@ -400,7 +400,7 @@ terraform {
     encrypt        = true
     dynamodb_table = "terraform-state-locks"
     kms_key_id     = "arn:aws:kms:us-east-1:123456789012:key/abcd1234-..."
-    
+
     # Prevent accidental state deletion
     skip_credentials_validation = false
     skip_metadata_api_check     = false
@@ -513,7 +513,7 @@ terraform workspace show
 # main.tf
 locals {
   environment = terraform.workspace
-  
+
   # Environment-specific configuration
   config = {
     dev = {
@@ -535,9 +535,9 @@ locals {
       db_instance   = "db.r6g.large"
     }
   }
-  
+
   current_config = local.config[local.environment]
-  
+
   common_tags = {
     Environment = local.environment
     Terraform   = "true"
@@ -549,7 +549,7 @@ resource "aws_instance" "app" {
   count         = local.current_config.min_size
   ami           = data.aws_ami.ubuntu.id
   instance_type = local.current_config.instance_type
-  
+
   tags = merge(
     local.common_tags,
     {
@@ -632,14 +632,14 @@ package test
 
 import (
 	"testing"
-	
+
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestVPCCreation(t *testing.T) {
 	t.Parallel()
-	
+
 	terraformOptions := &terraform.Options{
 		TerraformDir: "../modules/vpc",
 		Vars: map[string]interface{}{
@@ -649,17 +649,17 @@ func TestVPCCreation(t *testing.T) {
 			"private_subnet_cidrs": []string{"10.0.1.0/24", "10.0.2.0/24"},
 		},
 	}
-	
+
 	defer terraform.Destroy(t, terraformOptions)
-	
+
 	terraform.InitAndApply(t, terraformOptions)
-	
+
 	vpcId := terraform.Output(t, terraformOptions, "vpc_id")
 	assert.NotEmpty(t, vpcId)
-	
+
 	vpcCidr := terraform.Output(t, terraformOptions, "vpc_cidr")
 	assert.Equal(t, "10.0.0.0/16", vpcCidr)
-	
+
 	subnetIds := terraform.OutputList(t, terraformOptions, "private_subnet_ids")
 	assert.Len(t, subnetIds, 2)
 }
@@ -692,28 +692,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ env.TF_VERSION }}
-      
+
       - name: Terraform Format
         run: terraform fmt -check -recursive
         working-directory: infrastructure
-      
+
       - name: Terraform Init
         run: terraform init -backend=false
         working-directory: infrastructure
-      
+
       - name: Terraform Validate
         run: terraform validate
         working-directory: infrastructure
-      
+
       - name: TFLint
         uses: terraform-linters/setup-tflint@v4
         with:
           tflint_version: latest
-      
+
       - name: Run TFLint
         run: tflint --recursive
         working-directory: infrastructure
@@ -724,28 +724,28 @@ jobs:
     if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
-      
+
       - uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ env.TF_VERSION }}
-      
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
-      
+
       - name: Terraform Init
         run: terraform init
         working-directory: infrastructure
-      
+
       - name: Terraform Plan
         id: plan
         run: |
           terraform plan -no-color -out=tfplan
           terraform show -no-color tfplan > plan.txt
         working-directory: infrastructure
-      
+
       - name: Comment Plan
         uses: actions/github-script@v7
         with:
@@ -753,7 +753,7 @@ jobs:
             const fs = require('fs');
             const plan = fs.readFileSync('infrastructure/plan.txt', 'utf8');
             const output = `#### Terraform Plan\n\`\`\`\n${plan}\n\`\`\``;
-            
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -768,21 +768,21 @@ jobs:
     environment: production
     steps:
       - uses: actions/checkout@v4
-      
+
       - uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ env.TF_VERSION }}
-      
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
-      
+
       - name: Terraform Init
         run: terraform init
         working-directory: infrastructure
-      
+
       - name: Terraform Apply
         run: terraform apply -auto-approve
         working-directory: infrastructure
@@ -861,7 +861,7 @@ apply:
 # providers.tf
 terraform {
   required_version = ">= 1.5.0"
-  
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -876,7 +876,7 @@ terraform {
 
 provider "aws" {
   region = var.aws_region
-  
+
   default_tags {
     tags = local.common_tags
   }
@@ -884,7 +884,7 @@ provider "aws" {
 
 provider "azurerm" {
   features {}
-  
+
   subscription_id = var.azure_subscription_id
 }
 
@@ -892,7 +892,7 @@ provider "azurerm" {
 # AWS Resources
 resource "aws_s3_bucket" "data" {
   bucket = "${var.project_name}-data-${var.environment}"
-  
+
   tags = local.common_tags
 }
 
@@ -900,7 +900,7 @@ resource "aws_s3_bucket" "data" {
 resource "azurerm_resource_group" "main" {
   name     = "${var.project_name}-${var.environment}"
   location = var.azure_location
-  
+
   tags = local.common_tags
 }
 
@@ -910,7 +910,7 @@ resource "azurerm_storage_account" "data" {
   location                 = azurerm_resource_group.main.location
   account_tier             = "Standard"
   account_replication_type = "GRS"
-  
+
   tags = local.common_tags
 }
 ```
@@ -927,13 +927,13 @@ resource "google_storage_bucket" "data" {
   name          = "${var.project_name}-data-${var.environment}"
   location      = var.gcp_region
   force_destroy = false
-  
+
   uniform_bucket_level_access = true
-  
+
   versioning {
     enabled = true
   }
-  
+
   labels = {
     environment = var.environment
     terraform   = "true"
@@ -951,7 +951,7 @@ resource "google_compute_subnetwork" "private" {
   ip_cidr_range = var.gcp_subnet_cidr
   region        = var.gcp_region
   network       = google_compute_network.vpc.id
-  
+
   private_ip_google_access = true
 }
 ```
@@ -968,14 +968,14 @@ data "aws_secretsmanager_secret_version" "db_password" {
 
 resource "aws_db_instance" "main" {
   identifier = "${var.environment}-postgres"
-  
+
   engine         = "postgres"
   engine_version = "15.4"
   instance_class = var.db_instance_class
-  
+
   username = var.db_username
   password = data.aws_secretsmanager_secret_version.db_password.secret_string
-  
+
   # Other configuration...
 }
 
@@ -1000,33 +1000,33 @@ data "aws_iam_policy_document" "app" {
   statement {
     sid    = "AllowS3Read"
     effect = "Allow"
-    
+
     actions = [
       "s3:GetObject",
       "s3:ListBucket",
     ]
-    
+
     resources = [
       aws_s3_bucket.data.arn,
       "${aws_s3_bucket.data.arn}/*",
     ]
-    
+
     condition {
       test     = "StringEquals"
       variable = "aws:RequestedRegion"
       values   = [var.aws_region]
     }
   }
-  
+
   statement {
     sid    = "AllowKMSDecrypt"
     effect = "Allow"
-    
+
     actions = [
       "kms:Decrypt",
       "kms:DescribeKey",
     ]
-    
+
     resources = [aws_kms_key.data.arn]
   }
 }
@@ -1046,7 +1046,7 @@ resource "aws_kms_key" "data" {
   description             = "KMS key for ${var.environment} data encryption"
   deletion_window_in_days = 30
   enable_key_rotation     = true
-  
+
   tags = local.common_tags
 }
 
@@ -1062,7 +1062,7 @@ resource "aws_s3_bucket" "data" {
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "data" {
   bucket = aws_s3_bucket.data.id
-  
+
   rule {
     apply_server_side_encryption_by_default {
       sse_algorithm     = "aws:kms"
@@ -1075,10 +1075,10 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "data" {
 # RDS encryption
 resource "aws_db_instance" "main" {
   identifier = "${var.environment}-postgres"
-  
+
   storage_encrypted = true
   kms_key_id        = aws_kms_key.data.arn
-  
+
   # Other configuration...
 }
 ```
@@ -1110,22 +1110,22 @@ terraform plan -detailed-exitcode -out=drift-plan.tfplan > drift-plan.txt 2>&1 |
 # Exit codes: 0 = no changes, 1 = error, 2 = changes detected
 if [ "${EXIT_CODE:-0}" -eq 2 ]; then
   echo "⚠️  Drift detected in $ENVIRONMENT!"
-  
+
   # Parse changes
   CHANGES=$(grep -E '^\s+(~|\+|\-)' drift-plan.txt | wc -l)
-  
+
   MESSAGE="Drift detected in $ENVIRONMENT environment: $CHANGES changes found"
-  
+
   # Send notification
   if [ -n "$SLACK_WEBHOOK" ]; then
     curl -X POST "$SLACK_WEBHOOK" \
       -H 'Content-Type: application/json' \
       -d "{\"text\":\"$MESSAGE\",\"attachments\":[{\"text\":\"$(cat drift-plan.txt)\"}]}"
   fi
-  
+
   echo "$MESSAGE"
   cat drift-plan.txt
-  
+
   exit 2
 elif [ "${EXIT_CODE:-0}" -eq 1 ]; then
   echo "❌ Error running terraform plan"
@@ -1189,10 +1189,10 @@ resource "aws_security_group" "app" {
   name        = "${var.environment}-app-sg"
   description = "Security group for application"
   vpc_id      = module.vpc.vpc_id
-  
+
   dynamic "ingress" {
     for_each = var.ingress_rules
-    
+
     content {
       from_port   = ingress.value.from_port
       to_port     = ingress.value.to_port
@@ -1201,7 +1201,7 @@ resource "aws_security_group" "app" {
       description = ingress.value.description
     }
   }
-  
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -1209,7 +1209,7 @@ resource "aws_security_group" "app" {
     cidr_blocks = ["0.0.0.0/0"]
     description = "Allow all outbound traffic"
   }
-  
+
   tags = local.common_tags
 }
 ```
@@ -1223,14 +1223,14 @@ locals {
     for idx, subnet in aws_subnet.private :
     "private-${idx}" => subnet.id
   }
-  
+
   # Filter and transform
   production_instances = {
     for name, instance in aws_instance.app :
     name => instance.id
     if instance.tags["Environment"] == "prod"
   }
-  
+
   # Multiple attributes
   server_configs = [
     for idx in range(var.server_count) : {
@@ -1247,10 +1247,10 @@ locals {
 # Create resource only in production
 resource "aws_cloudwatch_log_group" "app" {
   count = var.environment == "prod" ? 1 : 0
-  
+
   name              = "/aws/app/${var.environment}"
   retention_in_days = 90
-  
+
   tags = local.common_tags
 }
 
@@ -1258,9 +1258,9 @@ resource "aws_cloudwatch_log_group" "app" {
 module "cdn" {
   source = "./modules/cloudfront"
   count  = var.enable_cdn ? 1 : 0
-  
+
   domain_name = var.domain_name
-  
+
   # Other configuration...
 }
 ```

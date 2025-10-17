@@ -83,13 +83,13 @@ type AppConfig struct {
 func (r *AppReconciler) aggregateConfig(ctx context.Context, app *App) (*Config, error) {
     // Load base config
     baseConfig := loadBaseConfig(app.Spec.Config.Base)
-    
+
     // Apply overrides
     finalConfig := baseConfig.DeepCopy()
     for key, value := range app.Spec.Config.Overrides {
         finalConfig.Set(key, value)
     }
-    
+
     return finalConfig, nil
 }
 ```
@@ -178,10 +178,10 @@ func (r *Reconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Resu
         r.Update(ctx, obj)
         return ctrl.Result{}, nil
     }
-    
+
     controllerutil.AddFinalizer(obj, finalizerName)
     r.Update(ctx, obj)
-    
+
     createS3Bucket(obj.Name)
     return ctrl.Result{}, nil
 }
@@ -363,7 +363,7 @@ func TestReconcile(t *testing.T) {
         {name: "update", input: &MyApp{...}, want: ctrl.Result{}, wantErr: false},
         {name: "delete", input: &MyApp{...}, want: ctrl.Result{}, wantErr: false},
     }
-    
+
     for _, tt := range tests {
         t.Run(tt.name, func(t *testing.T) {
             got, err := reconciler.Reconcile(ctx, req)
@@ -390,7 +390,7 @@ func TestReconcileWithMock(t *testing.T) {
             return nil // Controlled response
         },
     }
-    
+
     reconciler := &MyAppReconciler{Cloud: mock}
     // Test reconciliation
 }

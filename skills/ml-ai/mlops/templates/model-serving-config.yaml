@@ -13,25 +13,25 @@ data:
     inference_address=http://0.0.0.0:8080
     management_address=http://0.0.0.0:8081
     metrics_address=http://0.0.0.0:8082
-    
+
     # Model Store
     model_store=/mnt/models/model-store
     load_models=all
-    
+
     # Performance
     number_of_netty_threads=32
     job_queue_size=1000
     number_of_gpu=1
-    
+
     # Logging
     default_workers_per_model=4
     max_request_size=1048576000
     max_response_size=1048576000
-    
+
     # Batching
     batch_size=8
     max_batch_delay=100
-    
+
     # CORS
     cors_allowed_origin=*
     cors_allowed_methods=GET,POST,PUT,DELETE

@@ -135,24 +135,24 @@ on:
 jobs:
   build:
     runs-on: macos-latest
-    
+
     steps:
     - uses: actions/checkout@v3
-    
+
     - name: Setup Swift
       uses: swift-actions/setup-swift@v1
       with:
         swift-version: '6.0'
-    
+
     - name: Install SwiftLint
       run: brew install swiftlint
-    
+
     - name: Run SwiftLint
       run: swiftlint lint --strict
-    
+
     - name: Build
       run: swift build -v
-    
+
     - name: Run tests
       run: swift test -v
 WORKFLOW_EOF

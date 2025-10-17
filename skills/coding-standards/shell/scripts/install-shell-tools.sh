@@ -30,10 +30,10 @@ detect_os() {
 
 install_shellcheck() {
   log_info "Installing ShellCheck..."
-  
+
   local os
   os=$(detect_os)
-  
+
   case "$os" in
     linux)
       if command_exists apt-get; then
@@ -63,7 +63,7 @@ install_shellcheck() {
       return 1
       ;;
   esac
-  
+
   log_info "ShellCheck installed successfully"
 }
 
@@ -71,7 +71,7 @@ install_shellcheck_binary() {
   local version="v0.9.0"
   local arch
   arch="$(uname -m)"
-  
+
   case "$arch" in
     x86_64)  arch="x86_64" ;;
     aarch64) arch="aarch64" ;;
@@ -80,27 +80,27 @@ install_shellcheck_binary() {
       return 1
       ;;
   esac
-  
+
   local url="https://github.com/koalaman/shellcheck/releases/download/${version}/shellcheck-${version}.linux.${arch}.tar.xz"
   local temp_dir
   temp_dir="$(mktemp -d)"
-  
+
   log_info "Downloading ShellCheck from $url"
   curl -L "$url" -o "$temp_dir/shellcheck.tar.xz"
-  
+
   tar -xf "$temp_dir/shellcheck.tar.xz" -C "$temp_dir"
   sudo mv "$temp_dir/shellcheck-${version}/shellcheck" /usr/local/bin/
   sudo chmod +x /usr/local/bin/shellcheck
-  
+
   rm -rf "$temp_dir"
 }
 
 install_shfmt() {
   log_info "Installing shfmt..."
-  
+
   local os
   os=$(detect_os)
-  
+
   case "$os" in
     linux)
       if command_exists apt-get; then
@@ -125,7 +125,7 @@ install_shfmt() {
       return 1
       ;;
   esac
-  
+
   log_info "shfmt installed successfully"
 }
 
@@ -133,7 +133,7 @@ install_shfmt_binary() {
   local version="v3.7.0"
   local arch
   arch="$(uname -m)"
-  
+
   case "$arch" in
     x86_64)  arch="amd64" ;;
     aarch64) arch="arm64" ;;
@@ -142,9 +142,9 @@ install_shfmt_binary() {
       return 1
       ;;
   esac
-  
+
   local url="https://github.com/mvdan/sh/releases/download/${version}/shfmt_${version}_linux_${arch}"
-  
+
   log_info "Downloading shfmt from $url"
   sudo curl -L "$url" -o /usr/local/bin/shfmt
   sudo chmod +x /usr/local/bin/shfmt
@@ -152,10 +152,10 @@ install_shfmt_binary() {
 
 install_bats() {
   log_info "Installing bats-core..."
-  
+
   local os
   os=$(detect_os)
-  
+
   case "$os" in
     linux)
       if command_exists apt-get; then
@@ -182,7 +182,7 @@ install_bats() {
       return 1
       ;;
   esac
-  
+
   log_info "bats-core installed successfully"
 }
 
@@ -190,47 +190,47 @@ install_bats_from_source() {
   local version="v1.10.0"
   local temp_dir
   temp_dir="$(mktemp -d)"
-  
+
   log_info "Installing bats-core from source..."
-  
+
   if ! command_exists git; then
     log_error "Git is required to install bats from source"
     return 1
   fi
-  
+
   git clone --depth 1 --branch "$version" https://github.com/bats-core/bats-core.git "$temp_dir"
   cd "$temp_dir"
   sudo ./install.sh /usr/local
-  
+
   rm -rf "$temp_dir"
 }
 
 verify_installation() {
   log_info "Verifying installations..."
-  
+
   local all_installed=true
-  
+
   if command_exists shellcheck; then
     log_info "✓ ShellCheck: $(shellcheck --version | head -n2 | tail -n1)"
   else
     log_error "✗ ShellCheck not found"
     all_installed=false
   fi
-  
+
   if command_exists shfmt; then
     log_info "✓ shfmt: $(shfmt --version)"
   else
     log_error "✗ shfmt not found"
     all_installed=false
   fi
-  
+
   if command_exists bats; then
     log_info "✓ bats: $(bats --version)"
   else
     log_error "✗ bats not found"
     all_installed=false
   fi
-  
+
   if $all_installed; then
     log_info "All tools installed successfully!"
     return 0
@@ -267,7 +267,7 @@ main() {
   local install_shfmt_flag=false
   local install_bats_flag=false
   local install_all=true
-  
+
   # Parse arguments
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -301,7 +301,7 @@ main() {
         ;;
     esac
   done
-  
+
   # Install tools
   if $install_all; then
     install_shellcheck || log_warn "ShellCheck installation failed"
@@ -312,7 +312,7 @@ main() {
     $install_shfmt_flag && (install_shfmt || log_warn "shfmt installation failed")
     $install_bats_flag && (install_bats || log_warn "bats installation failed")
   fi
-  
+
   echo
   verify_installation
 }

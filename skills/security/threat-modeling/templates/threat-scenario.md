@@ -2,11 +2,11 @@
 
 ## Threat Scenario Overview
 
-**Scenario ID:** _[TS-001]_  
-**Scenario Name:** _[Brief descriptive name]_  
-**Attack Goal:** _[What attacker wants to achieve]_  
-**Affected System:** _[System or component]_  
-**Threat Category:** _[STRIDE category]_  
+**Scenario ID:** _[TS-001]_
+**Scenario Name:** _[Brief descriptive name]_
+**Attack Goal:** _[What attacker wants to achieve]_
+**Affected System:** _[System or component]_
+**Threat Category:** _[STRIDE category]_
 **Risk Level:** _[Critical/High/Medium/Low]_
 
 ## Attack Tree
@@ -138,10 +138,10 @@ Goal: Gain Unauthorized Access to User Account
 
 ### Threat Actor Profile
 
-**Actor Type:** _[Nation State / Organized Crime / Insider / Script Kiddie / Hacktivist]_  
-**Motivation:** _[Financial / Espionage / Disruption / Ideology]_  
-**Skill Level:** _[Expert / Advanced / Intermediate / Novice]_  
-**Resources:** _[High / Medium / Low]_  
+**Actor Type:** _[Nation State / Organized Crime / Insider / Script Kiddie / Hacktivist]_
+**Motivation:** _[Financial / Espionage / Disruption / Ideology]_
+**Skill Level:** _[Expert / Advanced / Intermediate / Novice]_
+**Resources:** _[High / Medium / Low]_
 **Persistence:** _[High / Medium / Low]_
 
 ### Attack Surface
@@ -179,7 +179,7 @@ Goal: Gain Unauthorized Access to User Account
 **Data Exposed:**
 - _[List data types exposed]_
 
-**Affected Records:** _[Number or scope]_  
+**Affected Records:** _[Number or scope]_
 **Sensitivity Level:** _[Public / Internal / Confidential / Secret]_
 
 ### Integrity Impact
@@ -194,14 +194,14 @@ Goal: Gain Unauthorized Access to User Account
 **Affected Services:**
 - _[List impacted services]_
 
-**Downtime Estimate:** _[Duration]_  
+**Downtime Estimate:** _[Duration]_
 **Recovery Complexity:** _[Simple / Moderate / Complex]_
 
 ### Business Impact
 
-**Financial Impact:** $[Amount or range]  
-**Reputational Impact:** _[Description]_  
-**Regulatory Impact:** _[Compliance violations]_  
+**Financial Impact:** $[Amount or range]
+**Reputational Impact:** _[Description]_
+**Regulatory Impact:** _[Compliance violations]_
 **Customer Impact:** _[Number affected]_
 
 ## Detection & Response
@@ -287,15 +287,15 @@ _[If mitigation cannot be fully implemented, describe compensating controls]_
 
 ### Test Results
 
-**Test Date:** _[Date]_  
-**Tester:** _[Name/Team]_  
-**Outcome:** _[Vulnerability confirmed/mitigated]_  
+**Test Date:** _[Date]_
+**Tester:** _[Name/Team]_
+**Outcome:** _[Vulnerability confirmed/mitigated]_
 **Evidence:** _[Reference to test report]_
 
 ## Related Threats
 
-**Related Threat IDs:** _[List related threats from threat model]_  
-**Attack Chain Dependencies:** _[What must succeed before this attack]_  
+**Related Threat IDs:** _[List related threats from threat model]_
+**Attack Chain Dependencies:** _[What must succeed before this attack]_
 **Follow-on Attacks:** _[What attacks this enables]_
 
 ## References

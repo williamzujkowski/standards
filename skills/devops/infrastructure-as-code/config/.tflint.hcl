@@ -5,13 +5,13 @@
 config {
   # Disable default rules to enable explicit rule selection
   disabled_by_default = false
-  
+
   # Enable module inspection (slower but more thorough)
   module = true
-  
+
   # Force provider initialization for validation
   force = false
-  
+
   # Varfile for validation
   varfile = ["terraform.tfvars"]
 }
@@ -21,7 +21,7 @@ plugin "terraform" {
   enabled = true
   version = "0.5.0"
   source  = "github.com/terraform-linters/tflint-ruleset-terraform"
-  
+
   # Plugin configuration
   preset = "recommended"
 }
@@ -31,7 +31,7 @@ plugin "aws" {
   enabled = true
   version = "0.27.0"
   source  = "github.com/terraform-linters/tflint-ruleset-aws"
-  
+
   # Deep checking (calls AWS APIs for validation)
   deep_check = false
 }
@@ -61,32 +61,32 @@ rule "terraform_required_providers" {
 
 rule "terraform_naming_convention" {
   enabled = true
-  
+
   # Variable naming
   variable {
     format = "snake_case"
   }
-  
+
   # Resource naming
   resource {
     format = "snake_case"
   }
-  
+
   # Data source naming
   data {
     format = "snake_case"
   }
-  
+
   # Local value naming
   locals {
     format = "snake_case"
   }
-  
+
   # Output naming
   output {
     format = "snake_case"
   }
-  
+
   # Module naming
   module {
     format = "snake_case"
@@ -127,7 +127,7 @@ rule "terraform_documented_variables" {
 
 rule "terraform_module_pinned_source" {
   enabled = true
-  
+
   # Module source style
   style = "flexible"
 }
@@ -143,14 +143,14 @@ rule "terraform_workspace_remote" {
 # AWS-Specific Rules
 rule "aws_resource_missing_tags" {
   enabled = true
-  
+
   # Required tags
   tags = [
     "Environment",
     "Terraform",
     "Project"
   ]
-  
+
   # Resources to exclude from tag checking
   exclude = [
     "aws_route_table",

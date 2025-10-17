@@ -85,32 +85,32 @@ last_updated: 2025-10-17
   □ Data at rest: AES-256 encryption
   □ Data in transit: TLS 1.2+ (preferably 1.3)
   □ Encrypted backups with key management
-  
+
 □ Access Control
   □ Unique user IDs for all personnel
   □ Role-based access control (RBAC)
   □ Multi-factor authentication (MFA) for ePHI access
   □ Emergency access procedures
   □ Automatic logoff after inactivity
-  
+
 □ Audit Logs
   □ Log all PHI access and modifications
   □ Retain logs for 6 years minimum
   □ Regular log review and monitoring
   □ Tamper-resistant log storage
-  
+
 □ Business Associates
   □ Identify all BAs with PHI access
   □ Execute BAAs before PHI disclosure
   □ Monitor BA compliance
   □ Include BAA termination rights
-  
+
 □ Breach Notification
   □ Breach detection and response procedures
   □ 60-day notification timeline to OCR
   □ Individual notification without unreasonable delay
   □ Media notification if >500 residents affected
-  
+
 □ Risk Assessment
   □ Annual risk analysis documented
   □ Risk management plan implemented
@@ -245,22 +245,22 @@ Use, disclose, or request only the minimum PHI necessary to accomplish intended 
    - Identify all systems containing ePHI
    - Document data flows (creation, receipt, maintenance, transmission)
    - Map network architecture and access points
-   
+
 2. Threat Identification
    - Natural disasters (fire, flood, earthquake)
    - Human threats (malicious insiders, hackers, social engineering)
    - Technical failures (hardware failure, software bugs, power outages)
-   
+
 3. Vulnerability Assessment
    - Technical vulnerabilities (unpatched systems, weak authentication)
    - Physical vulnerabilities (unsecured facilities, lost devices)
    - Administrative vulnerabilities (inadequate policies, insufficient training)
-   
+
 4. Risk Determination
    - Likelihood: Low, Medium, High
    - Impact: Low, Medium, High
    - Risk Level = Likelihood × Impact
-   
+
 5. Control Recommendations
    - Prioritize by risk level
    - Document implementation plan with timelines
@@ -355,27 +355,27 @@ Roles by Function:
    - Workforce reports via incident hotline/email
    - Automated alerts from security tools
    - Initial report within 1 hour of discovery
-   
+
 2. Containment
    - Isolate affected systems
    - Disable compromised accounts
    - Preserve evidence
-   
+
 3. Assessment
    - Determine if PHI was acquired, accessed, used, or disclosed
    - Identify individuals affected
    - Assess risk of harm
-   
+
 4. Notification (if breach)
    - Individuals: without unreasonable delay, max 60 days
    - OCR: within 60 days if ≥500 individuals
    - Media: if ≥500 residents of state/jurisdiction
-   
+
 5. Mitigation & Remediation
    - Implement corrective actions
    - Update policies/procedures
    - Additional training if needed
-   
+
 6. Documentation
    - Incident report with timeline
    - Risk assessment justification if notification not required
@@ -648,17 +648,17 @@ Implement procedures to verify person or entity seeking ePHI access is who they 
   - A03: Discharge/End Visit
   - A04: Register a Patient
   - A08: Update Patient Information
-  
+
 - **ORM (Order)**: Orders for medications, labs, procedures
   - O01: Order Message
-  
+
 - **ORU (Observation Result)**: Lab results, diagnostic reports
   - R01: Unsolicited Observation Message
-  
+
 - **SIU (Scheduling)**: Appointment scheduling and updates
   - S12: Notification of New Appointment
   - S13: Notification of Appointment Rescheduling
-  
+
 - **DFT (Detailed Financial Transaction)**: Billing and charges
   - P03: Post Detail Financial Transaction
 
@@ -822,15 +822,15 @@ Four-factor analysis to determine if breach notification is required:
 1. **Nature and Extent of PHI**
    - Types of identifiers involved (SSN, financial data more sensitive)
    - Clinical information sensitivity (mental health, HIV status, substance abuse)
-   
+
 2. **Unauthorized Person**
    - Who gained access? (insider vs. external hacker)
    - Likelihood of re-disclosure or misuse
-   
+
 3. **Was PHI Actually Acquired or Viewed?**
    - Evidence of actual viewing vs. potential access
    - Forensic analysis results
-   
+
 4. **Risk of Harm Mitigation**
    - Was PHI encrypted, rendered unusable?
    - Were other safeguards in place limiting risk?

@@ -167,7 +167,7 @@ description: [FILL IN: Brief description, max 1024 chars]
 [FILL IN: Implementation patterns]
 
 ### Integration Points
-- Links to related skills (example: `[Another Skill](../another-skill/SKILL.md)`)
+- Links to related skills using the pattern: `[Skill Name](../skill-path/SKILL.md)`
 
 ---
 
@@ -182,7 +182,7 @@ description: [FILL IN: Brief description, max 1024 chars]
 [FILL IN: External links, books, tools]
 
 ### Bundled Resources
-- [Resource Name](./resources/file.md)
+- Resource files using the pattern: `[Resource Name](./resources/file.md)`
 - Scripts in `./scripts/`
 - Templates in `./templates/`
 ```
@@ -325,8 +325,8 @@ def calc(u, o):
 ```
 
 ### Integration Points
-- Links to related skills (example: `[Another Skill](../another-skill/SKILL.md)`) for specific aspects
-- Links to related skills (example: `[Another Skill](../another-skill/SKILL.md)`) for integration patterns
+- Links to related skills for specific aspects (use pattern: `[Skill Name](../skill-path/SKILL.md)`)
+- Links to related skills for integration patterns
 ```
 
 **Token Budget**: <5,000 tokens (combined with Level 1)
@@ -631,9 +631,9 @@ resources/
 
 ```markdown
 ### Integration Points
-- Example: [Security Practices](../../skills/security/security-fundamentals/SKILL.md) for secure coding patterns
-- Example: [Testing Standards](../../skills/testing/unit-testing/SKILL.md) for testable code design
-- Example: [NIST Compliance](../../skills/compliance/nist/SKILL.md) for SI-10, SI-11 controls
+- Reference security skills for secure coding patterns
+- Reference testing skills for testable code design
+- Reference compliance skills for NIST controls (SI-10, SI-11)
 ```
 
 ### Linking to Original Standards
@@ -813,7 +813,7 @@ Your PR will be reviewed for:
 
 3. **Deprecation Path**
    ```markdown
-   > **Deprecated**: This skill is deprecated in favor of [New Skill](../new-skill/SKILL.md)
+   > **Deprecated**: This skill is deprecated in favor of [Replacement Skill Name](../replacement-skill/SKILL.md)
    ```
 
 ---

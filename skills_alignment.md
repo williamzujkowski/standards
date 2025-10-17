@@ -244,7 +244,7 @@ Your standards repo is already well-architected for this transformation:
 
 This migration will make your standards:
 - **More discoverable** - Claude automatically identifies relevant skills
-- **More efficient** - Progressive loading reduces token usage further  
+- **More efficient** - Progressive loading reduces token usage further
 - **More maintainable** - Each skill is independently versioned
 - **More powerful** - Skills can execute code and scripts directly
 - **More composable** - Multiple skills work together seamlessly

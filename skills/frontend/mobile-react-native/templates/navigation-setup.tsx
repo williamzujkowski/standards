@@ -1,6 +1,6 @@
 /**
  * Navigation Setup Template
- * 
+ *
  * Complete React Navigation v6 configuration with:
  * - Stack, Tab, and Drawer navigators
  * - TypeScript type safety
@@ -85,16 +85,16 @@ function HomeNavigator() {
         headerTitleStyle: { fontWeight: 'bold' },
       }}
     >
-      <HomeStack.Screen 
-        name="Home" 
+      <HomeStack.Screen
+        name="Home"
         component={HomeScreen}
         options={{ title: 'Home' }}
       />
-      <HomeStack.Screen 
-        name="Details" 
+      <HomeStack.Screen
+        name="Details"
         component={DetailsScreen}
-        options={({ route }) => ({ 
-          title: route.params.title || 'Details' 
+        options={({ route }) => ({
+          title: route.params.title || 'Details'
         })}
       />
     </HomeStack.Navigator>
@@ -131,18 +131,18 @@ function MainNavigator() {
         headerShown: false,
       })}
     >
-      <MainTab.Screen 
-        name="HomeTab" 
+      <MainTab.Screen
+        name="HomeTab"
         component={HomeNavigator}
         options={{ title: 'Home' }}
       />
-      <MainTab.Screen 
-        name="SearchTab" 
+      <MainTab.Screen
+        name="SearchTab"
         component={SearchScreen}
         options={{ title: 'Search' }}
       />
-      <MainTab.Screen 
-        name="ProfileTab" 
+      <MainTab.Screen
+        name="ProfileTab"
         component={ProfileScreen}
         options={{ title: 'Profile' }}
       />
@@ -168,8 +168,8 @@ function DrawerNavigator() {
         headerTintColor: '#fff',
       }}
     >
-      <Drawer.Screen 
-        name="Main" 
+      <Drawer.Screen
+        name="Main"
         component={MainNavigator}
         options={{
           title: 'Home',
@@ -178,8 +178,8 @@ function DrawerNavigator() {
           ),
         }}
       />
-      <Drawer.Screen 
-        name="Settings" 
+      <Drawer.Screen
+        name="Settings"
         component={SettingsScreen}
         options={{
           drawerIcon: ({ color, size }) => (
@@ -239,7 +239,7 @@ function RootNavigator() {
       // Check AsyncStorage for auth token
       // const token = await AsyncStorage.getItem('authToken');
       // setIsAuthenticated(!!token);
-      
+
       // Simulated for template
       setTimeout(() => {
         setIsAuthenticated(false); // Change based on actual auth
@@ -267,11 +267,11 @@ function RootNavigator() {
       ) : (
         <RootStack.Screen name="Auth" component={AuthNavigator} />
       )}
-      
+
       {/* Modal screens (available in both auth states) */}
       <RootStack.Group screenOptions={{ presentation: 'modal' }}>
-        <RootStack.Screen 
-          name="Profile" 
+        <RootStack.Screen
+          name="Profile"
           component={ProfileScreen}
           options={{ headerShown: true, title: 'User Profile' }}
         />
@@ -325,9 +325,9 @@ export function goBack() {
 
 /**
  * Usage in non-React files:
- * 
+ *
  * import { navigate } from './navigation-setup';
- * 
+ *
  * // Navigate from anywhere
  * navigate('Details', { itemId: '123' });
  */

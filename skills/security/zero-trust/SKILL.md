@@ -296,12 +296,12 @@ spec:
     # Enable access logging
     accessLogFile: /dev/stdout
     accessLogEncoding: JSON
-    
+
     # Default mTLS settings
     defaultConfig:
       proxyMetadata:
         ISTIO_META_TLS_AUTO: "true"
-    
+
     # Enable tracing
     enableTracing: true
     defaultConfig:
@@ -309,17 +309,17 @@ spec:
         sampling: 100.0
         zipkin:
           address: zipkin.istio-system:9411
-  
+
   values:
     global:
       # Enable strict mTLS by default
       mtls:
         enabled: true
         auto: true
-      
+
       # Security settings
       controlPlaneSecurityEnabled: true
-      
+
       # Enable SDS (Secret Discovery Service)
       sds:
         enabled: true
@@ -581,12 +581,12 @@ spec:
     defaultConfig:
       proxyMetadata:
         SPIFFE_ENABLED: "true"
-  
+
   values:
     global:
       # Use SPIRE for certificate management
       caAddress: spire-server.spire.svc.cluster.local:8081
-      
+
     pilot:
       env:
         ENABLE_CA_SERVER: "false"
@@ -603,32 +603,32 @@ import (
     "context"
     "fmt"
     "log"
-    
+
     "github.com/spiffe/go-spiffe/v2/workloadapi"
 )
 
 func main() {
     ctx := context.Background()
-    
+
     // Create X.509 source
     source, err := workloadapi.NewX509Source(ctx)
     if err != nil {
         log.Fatalf("Unable to create X.509 source: %v", err)
     }
     defer source.Close()
-    
+
     // Get SVID (SPIFFE Verifiable Identity Document)
     svid, err := source.GetX509SVID()
     if err != nil {
         log.Fatalf("Unable to get X.509 SVID: %v", err)
     }
-    
+
     fmt.Printf("SPIFFE ID: %s\n", svid.ID)
     fmt.Printf("Certificate: %v\n", svid.Certificates[0])
-    
+
     // Use SVID for mTLS connections
     tlsConfig := source.GetX509SVIDConfig()
-    
+
     // ... use tlsConfig with HTTP client or server
 }
 ```
@@ -836,26 +836,26 @@ data:
       - /etc/falco/falco_rules.yaml
       - /etc/falco/k8s_audit_rules.yaml
       - /etc/falco/custom_rules.yaml
-    
+
     json_output: true
     json_include_output_property: true
     log_stderr: true
     log_syslog: false
     log_level: info
-    
+
     # Output channels
     file_output:
       enabled: true
       keep_alive: false
       filename: /var/log/falco/events.txt
-    
+
     http_output:
       enabled: true
       url: http://falcosidekick:2801
-    
+
     program_output:
       enabled: false
-    
+
     # Rule matching
     priority: debug
     buffered_outputs: false
@@ -880,7 +880,7 @@ data:
         (user=%user.name command=%proc.cmdline connection=%fd.name)
       priority: WARNING
       tags: [network, zero-trust]
-    
+
     - rule: Process Running Without Identity
       desc: Detect processes without valid SPIFFE identity
       condition: >
@@ -891,7 +891,7 @@ data:
         (user=%user.name command=%proc.cmdline container=%container.name)
       priority: ERROR
       tags: [identity, zero-trust]
-    
+
     - rule: Suspicious Certificate Access
       desc: Detect unauthorized access to certificate files
       condition: >
@@ -948,7 +948,7 @@ spec:
       annotations:
         summary: "High rate of mTLS connection failures"
         description: "{{ $labels.destination_service }} is experiencing mTLS failures"
-    
+
     - alert: UnauthorizedAccessAttempt
       expr: |
         rate(istio_requests_total{response_code="403"}[5m]) > 1
@@ -959,7 +959,7 @@ spec:
       annotations:
         summary: "Unauthorized access attempts detected"
         description: "{{ $labels.source_app }} attempting unauthorized access to {{ $labels.destination_service }}"
-    
+
     - alert: CertificateExpirationWarning
       expr: |
         (x509_cert_not_after - time()) / 86400 < 7
@@ -970,7 +970,7 @@ spec:
       annotations:
         summary: "Certificate expiring soon"
         description: "Certificate {{ $labels.subject }} expires in {{ $value }} days"
-    
+
     - alert: AnomalousTrafficPattern
       expr: |
         (
@@ -1005,10 +1005,10 @@ spec:
     enabled: true
     oauthclientCredentials:
       secretName: oauth-client-secret
-  
+
   securityPolicy:
     name: "beyondcorp-security-policy"
-  
+
   sessionAffinity:
     affinityType: "CLIENT_IP"
     affinityCookieTtlSec: 3600
@@ -1177,7 +1177,7 @@ data:
               - name: envoy.filters.http.router
                 typed_config:
                   "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
-      
+
       clusters:
       - name: backend_service
         connect_timeout: 0.25s
@@ -1192,7 +1192,7 @@ data:
                   socket_address:
                     address: backend.production.svc.cluster.local
                     port_value: 8080
-      
+
       - name: opa_cluster
         connect_timeout: 0.25s
         type: STRICT_DNS
@@ -1337,7 +1337,7 @@ data:
         socket_address:
           address: 127.0.0.1
           port_value: 9901
-    
+
     static_resources:
       listeners:
       - name: pep_listener
@@ -1370,7 +1370,7 @@ data:
                   - match: { prefix: "/" }
                     route:
                       cluster: backend
-      
+
       clusters:
       - name: policy_engine
         connect_timeout: 0.5s
@@ -1385,7 +1385,7 @@ data:
                   socket_address:
                     address: policy-engine.zero-trust.svc.cluster.local
                     port_value: 9191
-      
+
       - name: backend
         connect_timeout: 0.5s
         type: STRICT_DNS
@@ -1423,7 +1423,7 @@ class TrustScore:
     network_score: float
     behavior_score: float
     resource_sensitivity: float
-    
+
     def compute_overall(self) -> float:
         weights = {
             'user': 0.25,
@@ -1432,7 +1432,7 @@ class TrustScore:
             'behavior': 0.20,
             'resource': 0.15
         }
-        
+
         total = (
             self.user_score * weights['user'] +
             self.device_score * weights['device'] +
@@ -1440,12 +1440,12 @@ class TrustScore:
             self.behavior_score * weights['behavior'] +
             self.resource_sensitivity * weights['resource']
         )
-        
+
         return min(max(total, 0.0), 100.0)
-    
+
     def get_trust_level(self) -> TrustLevel:
         score = self.compute_overall()
-        
+
         if score < 40:
             return TrustLevel.DENY
         elif score < 60:
@@ -1459,85 +1459,85 @@ class TrustAlgorithm:
     def __init__(self, config: Dict):
         self.config = config
         self.anomaly_threshold = config.get('anomaly_threshold', 0.7)
-    
+
     def evaluate_user(self, user_data: Dict) -> float:
         score = 100.0
-        
+
         # Authentication strength
         if not user_data.get('mfa_enabled'):
             score -= 30
-        
+
         # Account age and activity
         if user_data.get('account_age_days', 0) < 30:
             score -= 20
-        
+
         # Past violations
         violations = user_data.get('security_violations', 0)
         score -= min(violations * 10, 40)
-        
+
         return max(score, 0.0)
-    
+
     def evaluate_device(self, device_data: Dict) -> float:
         score = 100.0
-        
+
         # Device management
         if not device_data.get('managed'):
             score -= 40
-        
+
         # Encryption
         if not device_data.get('encrypted'):
             score -= 30
-        
+
         # Security posture
         if not device_data.get('firewall_enabled'):
             score -= 15
         if not device_data.get('antivirus_updated'):
             score -= 15
-        
+
         # Known device
         if not device_data.get('previously_seen'):
             score -= 20
-        
+
         return max(score, 0.0)
-    
+
     def evaluate_network(self, network_data: Dict) -> float:
         score = 100.0
-        
+
         # Location
         if network_data.get('country') not in self.config.get('allowed_countries', []):
             score -= 40
-        
+
         # IP reputation
         if network_data.get('ip_reputation') == 'bad':
             score -= 50
-        
+
         # VPN/Proxy
         if network_data.get('using_vpn') and not network_data.get('corporate_vpn'):
             score -= 20
-        
+
         return max(score, 0.0)
-    
+
     def evaluate_behavior(self, behavior_data: Dict) -> float:
         score = 100.0
-        
+
         # Time-based anomalies
         if behavior_data.get('unusual_time'):
             score -= 25
-        
+
         # Access patterns
         if behavior_data.get('unusual_resource'):
             score -= 30
-        
+
         # Volume anomalies
         if behavior_data.get('excessive_requests'):
             score -= 20
-        
+
         # Failed attempts
         failed_attempts = behavior_data.get('recent_failed_attempts', 0)
         score -= min(failed_attempts * 15, 45)
-        
+
         return max(score, 0.0)
-    
+
     def evaluate_resource(self, resource_data: Dict) -> float:
         sensitivity_map = {
             'public': 100.0,
@@ -1545,10 +1545,10 @@ class TrustAlgorithm:
             'confidential': 40.0,
             'restricted': 20.0
         }
-        
+
         sensitivity = resource_data.get('classification', 'internal')
         return sensitivity_map.get(sensitivity, 50.0)
-    
+
     def compute_trust_score(self, context: Dict) -> TrustScore:
         return TrustScore(
             user_score=self.evaluate_user(context.get('user', {})),
@@ -1557,21 +1557,21 @@ class TrustAlgorithm:
             behavior_score=self.evaluate_behavior(context.get('behavior', {})),
             resource_sensitivity=self.evaluate_resource(context.get('resource', {}))
         )
-    
+
     def make_decision(self, context: Dict) -> Dict:
         trust_score = self.compute_trust_score(context)
         overall_score = trust_score.compute_overall()
         trust_level = trust_score.get_trust_level()
-        
+
         # Determine access decision
         allow = trust_level != TrustLevel.DENY
-        
+
         # Determine additional requirements
         additional_auth = trust_level in [TrustLevel.LOW, TrustLevel.MEDIUM]
-        
+
         # Calculate session duration
         session_duration = self._calculate_session_duration(trust_level)
-        
+
         return {
             'allow': allow,
             'trust_level': trust_level.name,
@@ -1587,7 +1587,7 @@ class TrustAlgorithm:
             'session_duration_seconds': session_duration,
             'continuous_verification_interval': 300 if allow else 0
         }
-    
+
     def _calculate_session_duration(self, trust_level: TrustLevel) -> int:
         duration_map = {
             TrustLevel.DENY: 0,

@@ -431,7 +431,7 @@ istioctl install --set revision=1-20 -y
 
 # Label namespace for new revision
 kubectl label namespace default istio.io/rev=1-20 --overwrite
-kubectl label namespace default istio-injection- 
+kubectl label namespace default istio-injection-
 
 # Restart pods to pick up new revision
 kubectl rollout restart deployment -n default

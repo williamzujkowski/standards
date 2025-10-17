@@ -187,7 +187,7 @@ incident_response_team:
     - legal_counsel: 1
     - public_relations: 1
     - executive_sponsor: CISO
-  
+
   on_call_rotation:
     - tier_2_analyst: 24/7 coverage
     - tier_3_hunter: business hours + on-call
@@ -398,24 +398,24 @@ log_sources:
     - Active Directory Domain Controllers (Event IDs: 4624, 4625, 4648, 4672, 4768, 4769)
     - VPN gateways (Cisco ASA, Palo Alto GlobalProtect)
     - SSO providers (Okta, Azure AD, Google Workspace)
-  
+
   network:
     - Firewalls (allow/deny logs, IDS alerts)
     - Proxies (web traffic, SSL inspection)
     - DNS servers (query logs, sinkhole hits)
-  
+
   endpoints:
     - EDR agents (process execution, file modifications, network connections)
     - Antivirus (detection logs, quarantine events)
     - Windows Event Logs (Security, System, Application)
     - Linux syslog (auth.log, secure, audit.log)
-  
+
   cloud:
     - AWS CloudTrail (API calls, IAM changes)
     - Azure Activity Log (resource modifications)
     - Google Cloud Audit Logs
     - SaaS application logs (Salesforce, Workday)
-  
+
   applications:
     - Web servers (Apache access/error logs, IIS logs)
     - Databases (login failures, schema changes)
@@ -793,12 +793,12 @@ ir_4_implementation:
     - automated_detection: SIEM correlation rules, EDR behavioral analysis
     - manual_reporting: Security hotline, email alias (security@company.com)
     - tracking_system: Jira Service Management, incident tickets
-  
+
   incident_response_plan:
     - documented: Yes, last reviewed 2025-01-01
     - tested: Quarterly tabletop exercises
     - updated: After each major incident
-  
+
   coordination:
     - internal: IT operations, legal, HR, executive leadership
     - external: Law enforcement (FBI IC3), cyber insurance, forensic vendors
@@ -812,7 +812,7 @@ ir_5_implementation:
     - incidents_per_month: Trend analysis
     - mttd_mttr: By severity level
     - false_positive_rate: Weekly review
-  
+
   reporting:
     - executive_dashboard: Monthly
     - board_of_directors: Quarterly
@@ -826,12 +826,12 @@ ir_6_implementation:
   internal_reporting:
     - soc_to_management: Within 1 hour for critical incidents
     - management_to_board: Within 24 hours
-  
+
   external_reporting:
     - law_enforcement: For criminal activity (FBI, Secret Service)
     - regulatory: GDPR (72h), HIPAA (60d), SEC (4 business days)
     - cyber_insurance: Within policy timeframe (typically 24-48h)
-  
+
   information_sharing:
     - isac_participation: FS-ISAC, H-ISAC (sector-specific)
     - ttp_sharing: MISP, STIX/TAXII feeds
@@ -846,13 +846,13 @@ si_4_implementation:
     - ids_ips: Snort, Suricata
     - edr: CrowdStrike Falcon
     - network_tap: Full packet capture (90 days retention)
-  
+
   monitoring_coverage:
     - network_perimeter: 100%
     - internal_segments: 95% (DMZ, production, corporate)
     - endpoints: 98% (servers, workstations)
     - cloud_assets: 90% (AWS, Azure)
-  
+
   alert_escalation:
     - critical: Immediate phone call
     - high: Email + Slack within 15 min
@@ -868,12 +868,12 @@ au_6_implementation:
     - daily: SOC analyst review of high-fidelity alerts
     - weekly: Trend analysis, false positive tuning
     - monthly: Executive report, compliance reporting
-  
+
   analysis_techniques:
     - signature_based: Known malware, exploits
     - anomaly_based: UEBA, statistical outlier detection
     - threat_intelligence: IOC matching, TTP correlation
-  
+
   reporting:
     - automated: Daily SOC metrics email
     - manual: Monthly security posture report

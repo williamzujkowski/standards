@@ -731,9 +731,9 @@ cd "$EVIDENCE_DIR" && sha256sum * > evidence-integrity.sha256
 def evaluate_compliance(configuration_item):
     if configuration_item["resourceType"] != "AWS::RDS::DBInstance":
         return "NOT_APPLICABLE"
-    
+
     storage_encrypted = configuration_item["configuration"].get("storageEncrypted", False)
-    
+
     if storage_encrypted:
         return "COMPLIANT"
     else:
@@ -743,13 +743,13 @@ def evaluate_compliance(configuration_item):
 def evaluate_mfa_compliance(configuration_item):
     if configuration_item["resourceType"] != "AWS::IAM::User":
         return "NOT_APPLICABLE"
-    
+
     user_name = configuration_item["configuration"]["userName"]
     if user_name != "root":
         return "NOT_APPLICABLE"
-    
+
     mfa_devices = configuration_item["configuration"].get("mfaDevices", [])
-    
+
     if len(mfa_devices) > 0:
         return "COMPLIANT"
     else:

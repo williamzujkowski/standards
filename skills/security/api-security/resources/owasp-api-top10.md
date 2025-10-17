@@ -2,7 +2,7 @@
 
 ## API1:2023 Broken Object Level Authorization (BOLA)
 
-**Risk**: High  
+**Risk**: High
 **Description**: APIs fail to validate that authenticated users have permission to access specific objects.
 
 ### Attack Example
@@ -26,7 +26,7 @@ User 456's token is used to access user 123's profile without authorization chec
 
 ## API2:2023 Broken Authentication
 
-**Risk**: High  
+**Risk**: High
 **Description**: Weak authentication mechanisms allow attackers to assume identities.
 
 ### Common Issues
@@ -46,7 +46,7 @@ User 456's token is used to access user 123's profile without authorization chec
 
 ## API3:2023 Broken Object Property Level Authorization
 
-**Risk**: Medium  
+**Risk**: Medium
 **Description**: Missing field-level authorization allows reading/writing sensitive fields.
 
 ### Attack Example
@@ -68,7 +68,7 @@ PATCH /api/users/123
 
 ## API4:2023 Unrestricted Resource Consumption
 
-**Risk**: Medium  
+**Risk**: Medium
 **Description**: No limits on resource usage leads to DoS attacks.
 
 ### Issues
@@ -88,7 +88,7 @@ PATCH /api/users/123
 
 ## API5:2023 Broken Function Level Authorization
 
-**Risk**: High  
+**Risk**: High
 **Description**: Missing authorization checks on administrative functions.
 
 ### Attack Example
@@ -108,7 +108,7 @@ Authorization: Bearer regular_user_token
 
 ## API6:2023 Unrestricted Access to Sensitive Business Flows
 
-**Risk**: Medium  
+**Risk**: Medium
 **Description**: Automated abuse of legitimate workflows (ticket buying, voting, etc).
 
 ### Examples
@@ -128,7 +128,7 @@ Authorization: Bearer regular_user_token
 
 ## API7:2023 Server Side Request Forgery (SSRF)
 
-**Risk**: Medium  
+**Risk**: Medium
 **Description**: API accepts URLs without validation, allowing internal network access.
 
 ### Attack Example
@@ -150,7 +150,7 @@ POST /api/fetch-image
 
 ## API8:2023 Security Misconfiguration
 
-**Risk**: Medium  
+**Risk**: Medium
 **Description**: Insecure default configurations expose vulnerabilities.
 
 ### Common Issues
@@ -172,7 +172,7 @@ POST /api/fetch-image
 
 ## API9:2023 Improper Inventory Management
 
-**Risk**: Low  
+**Risk**: Low
 **Description**: Undocumented or deprecated APIs running in production.
 
 ### Issues
@@ -192,7 +192,7 @@ POST /api/fetch-image
 
 ## API10:2023 Unsafe Consumption of APIs
 
-**Risk**: Medium  
+**Risk**: Medium
 **Description**: Trusting third-party API data without validation.
 
 ### Issues

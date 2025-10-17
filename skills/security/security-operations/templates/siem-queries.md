@@ -33,7 +33,7 @@ index=email sourcetype=exchange
 
 **ELK KQL:**
 ```kql
-event.module: "o365" AND event.category: "email" AND 
+event.module: "o365" AND event.category: "email" AND
 file.extension: (exe OR scr OR bat OR cmd OR ps1 OR vbs OR js OR jar OR zip)
 ```
 
@@ -97,7 +97,7 @@ index=web sourcetype=access_combined
 
 **ELK KQL:**
 ```kql
-http.response.status_code >= 400 AND 
+http.response.status_code >= 400 AND
 url.original: (*union* OR *select* OR *exec* OR *script* OR *alert*)
 ```
 
@@ -127,7 +127,7 @@ index=edr sourcetype=sysmon EventCode=1
 
 **ELK KQL:**
 ```kql
-process.name: "powershell.exe" AND 
+process.name: "powershell.exe" AND
 process.args: (*EncodedCommand* OR *Invoke-Expression* OR *DownloadString* OR *IEX* OR *WebClient* OR *-nop* OR *-ep bypass*)
 ```
 
@@ -136,7 +136,7 @@ process.args: (*EncodedCommand* OR *Invoke-Expression* OR *DownloadString* OR *I
 DeviceProcessEvents
 | where FileName =~ "powershell.exe"
 | where ProcessCommandLine has_any (
-    "EncodedCommand", "Invoke-Expression", "DownloadString", "IEX", "WebClient", 
+    "EncodedCommand", "Invoke-Expression", "DownloadString", "IEX", "WebClient",
     "-nop", "-ep bypass", "-w hidden"
   )
 | project Timestamp, DeviceName, AccountName, ProcessCommandLine, InitiatingProcessFileName
@@ -184,7 +184,7 @@ index=edr sourcetype=sysmon EventCode=13
 
 **ELK KQL:**
 ```kql
-event.code: "13" AND 
+event.code: "13" AND
 registry.path: (*\\CurrentVersion\\Run* OR *\\CurrentVersion\\RunOnce*)
 ```
 
@@ -235,7 +235,7 @@ index=security sourcetype=wineventlog EventCode=7045
 
 **ELK KQL:**
 ```kql
-event.code: "7045" AND 
+event.code: "7045" AND
 winlog.event_data.ImagePath: (*\\temp\\* OR *\\AppData\\* OR *\\ProgramData\\* OR *\\Users\\Public\\*)
 ```
 
@@ -267,7 +267,7 @@ index=security sourcetype=wineventlog EventCode=4672
 
 **ELK KQL:**
 ```kql
-event.code: "4672" AND 
+event.code: "4672" AND
 winlog.event_data.PrivilegeList: (*SeDebugPrivilege* OR *SeImpersonatePrivilege* OR *SeAssignPrimaryTokenPrivilege*) AND
 NOT user.name: (SYSTEM OR "LOCAL SERVICE" OR "NETWORK SERVICE")
 ```
@@ -396,8 +396,8 @@ index=edr sourcetype=sysmon EventCode=10
 
 **ELK KQL:**
 ```kql
-event.code: "10" AND 
-process.name: "lsass.exe" AND 
+event.code: "10" AND
+process.name: "lsass.exe" AND
 NOT process.parent.name: (svchost.exe OR csrss.exe OR wininit.exe)
 ```
 
@@ -531,8 +531,8 @@ index=security sourcetype=wineventlog EventCode=4624
 
 **ELK KQL:**
 ```kql
-event.code: "4624" AND 
-winlog.event_data.LogonType: "3" AND 
+event.code: "4624" AND
+winlog.event_data.LogonType: "3" AND
 winlog.event_data.AuthenticationPackageName: "NTLM"
 ```
 
@@ -564,7 +564,7 @@ index=edr sourcetype=sysmon EventCode=11
 
 **ELK KQL:**
 ```kql
-event.code: "11" AND 
+event.code: "11" AND
 file.extension: (zip OR rar OR 7z OR tar OR gz) AND
 file.path: (*\\temp\\* OR *\\AppData\\* OR *\\ProgramData\\*)
 ```
@@ -816,7 +816,7 @@ DeviceProcessEvents
    ```spl
    # Good
    index=security sourcetype=wineventlog EventCode=4624
-   
+
    # Bad (slow)
    EventCode=4624 | search index=security sourcetype=wineventlog
    ```

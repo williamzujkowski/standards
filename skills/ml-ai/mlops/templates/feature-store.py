@@ -118,15 +118,15 @@ merchant_features = FeatureView(
 
 class FeatureStoreManager:
     """Manager for feature engineering and serving."""
-    
+
     def __init__(self, repo_path: str = "feature_repo/"):
         self.store = FeatureStore(repo_path=repo_path)
-    
+
     def apply_feature_definitions(self):
         """Apply feature definitions to the feature store."""
         # This would be done via: feast apply
         pass
-    
+
     def generate_training_features(
         self,
         entity_df: pd.DataFrame,
@@ -134,11 +134,11 @@ class FeatureStoreManager:
     ) -> pd.DataFrame:
         """
         Generate features for model training (historical/offline features).
-        
+
         Args:
             entity_df: DataFrame with entity keys and timestamps
             feature_refs: List of feature references (e.g., "user_features:transaction_count_7d")
-        
+
         Returns:
             DataFrame with features joined
         """
@@ -146,9 +146,9 @@ class FeatureStoreManager:
             entity_df=entity_df,
             features=feature_refs
         ).to_df()
-        
+
         return training_df
-    
+
     def get_online_features(
         self,
         entity_rows: List[Dict],
@@ -156,11 +156,11 @@ class FeatureStoreManager:
     ) -> Dict:
         """
         Get online features for real-time inference.
-        
+
         Args:
             entity_rows: List of entity dictionaries
             feature_refs: List of feature references
-        
+
         Returns:
             Dictionary of features
         """
@@ -168,9 +168,9 @@ class FeatureStoreManager:
             features=feature_refs,
             entity_rows=entity_rows
         ).to_dict()
-        
+
         return features
-    
+
     def materialize_features(
         self,
         start_date: datetime,
@@ -179,7 +179,7 @@ class FeatureStoreManager:
     ):
         """
         Materialize features from offline to online store.
-        
+
         Args:
             start_date: Start of time range
             end_date: End of time range
@@ -190,7 +190,7 @@ class FeatureStoreManager:
             end_date=end_date,
             feature_views=feature_views
         )
-    
+
     def materialize_incremental(self, end_date: datetime):
         """Incrementally materialize new features."""
         self.store.materialize_incremental(end_date=end_date)
@@ -199,18 +199,18 @@ class FeatureStoreManager:
 # Feature Engineering Pipeline
 class FeatureEngineer:
     """Feature engineering transformations."""
-    
+
     @staticmethod
     def engineer_user_features(user_transactions: pd.DataFrame) -> pd.DataFrame:
         """Engineer user-level features."""
-        
+
         # Time-based aggregations
         user_features = user_transactions.groupby('user_id').agg({
             'transaction_id': 'count',
             'amount': ['mean', 'max', 'std'],
             'is_fraud': 'mean'
         }).reset_index()
-        
+
         user_features.columns = [
             'user_id',
             'transaction_count',
@@ -219,7 +219,7 @@ class FeatureEngineer:
             'transaction_amount_std',
             'fraud_rate'
         ]
-        
+
         # Account age
         user_features['account_creation_date'] = pd.to_datetime(
             user_transactions.groupby('user_id')['timestamp'].min()
@@ -227,34 +227,34 @@ class FeatureEngineer:
         user_features['account_age_days'] = (
             datetime.now() - user_features['account_creation_date']
         ).dt.days
-        
+
         # Timestamps for Feast
         user_features['event_timestamp'] = datetime.now()
         user_features['created_timestamp'] = datetime.now()
-        
+
         return user_features
-    
+
     @staticmethod
     def engineer_transaction_features(
         current_transaction: Dict,
         user_history: pd.DataFrame
     ) -> Dict:
         """Engineer transaction-level features."""
-        
+
         features = {}
-        
+
         # Time-based features
         current_time = pd.to_datetime(current_transaction['timestamp'])
         features['hour_of_day'] = current_time.hour
         features['day_of_week'] = current_time.dayofweek
         features['is_weekend'] = int(current_time.dayofweek >= 5)
-        
+
         # Velocity features
         if not user_history.empty:
             last_transaction = user_history.iloc[-1]
             time_diff = (current_time - pd.to_datetime(last_transaction['timestamp'])).total_seconds() / 60
             features['time_since_last_transaction_minutes'] = time_diff
-            
+
             # Location features
             if 'latitude' in current_transaction and 'longitude' in current_transaction:
                 distance = FeatureEngineer._haversine_distance(
@@ -267,33 +267,33 @@ class FeatureEngineer:
         else:
             features['time_since_last_transaction_minutes'] = 0
             features['distance_from_last_transaction_km'] = 0
-        
+
         # Amount features
         features['amount'] = current_transaction['amount']
         features['is_round_amount'] = int(current_transaction['amount'] % 1 == 0)
-        
+
         # International transaction
         features['is_international'] = int(
             current_transaction.get('country') != current_transaction.get('merchant_country')
         )
-        
+
         return features
-    
+
     @staticmethod
     def _haversine_distance(lat1, lon1, lat2, lon2):
         """Calculate distance between two points in km."""
         from math import radians, cos, sin, asin, sqrt
-        
+
         # Convert to radians
         lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
-        
+
         # Haversine formula
         dlat = lat2 - lat1
         dlon = lon2 - lon1
         a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
         c = 2 * asin(sqrt(a))
         km = 6371 * c
-        
+
         return km
 
 
@@ -301,7 +301,7 @@ class FeatureEngineer:
 if __name__ == "__main__":
     # Initialize feature store manager
     fs_manager = FeatureStoreManager()
-    
+
     # Example 1: Generate training features
     print("Example 1: Historical features for training")
     entity_df = pd.DataFrame({
@@ -313,30 +313,30 @@ if __name__ == "__main__":
             datetime(2025, 1, 3)
         ]
     })
-    
+
     feature_refs = [
         "user_features:transaction_count_7d",
         "user_features:avg_transaction_amount",
         "merchant_features:fraud_rate_7d",
         "merchant_features:risk_score"
     ]
-    
+
     training_features = fs_manager.generate_training_features(entity_df, feature_refs)
     print(training_features.head())
-    
+
     # Example 2: Online features for inference
     print("\nExample 2: Online features for real-time prediction")
     entity_rows = [
         {"user_id": 1, "merchant_id": 101}
     ]
-    
+
     online_features = fs_manager.get_online_features(entity_rows, feature_refs)
     print(online_features)
-    
+
     # Example 3: Feature engineering
     print("\nExample 3: Feature engineering")
     engineer = FeatureEngineer()
-    
+
     # Sample transaction history
     user_transactions = pd.DataFrame({
         'user_id': [1, 1, 1, 2, 2],
@@ -345,11 +345,11 @@ if __name__ == "__main__":
         'is_fraud': [0, 0, 0, 1, 0],
         'timestamp': pd.date_range('2025-01-01', periods=5, freq='D')
     })
-    
+
     user_features = engineer.engineer_user_features(user_transactions)
     print("\nEngineered user features:")
     print(user_features)
-    
+
     # Example 4: Materialize features
     print("\nExample 4: Materializing features to online store")
     fs_manager.materialize_incremental(end_date=datetime.now())

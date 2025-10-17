@@ -14,10 +14,10 @@ applies_to: [backend, frontend, api, microservices, data-pipelines]
 
 ## 📋 Metadata
 
-**Category:** Testing  
-**Difficulty:** Intermediate  
-**Prerequisites:** API testing basics, monitoring fundamentals  
-**Estimated Time:** 45 minutes  
+**Category:** Testing
+**Difficulty:** Intermediate
+**Prerequisites:** API testing basics, monitoring fundamentals
+**Estimated Time:** 45 minutes
 **Last Updated:** 2025-10-17
 
 ---
@@ -144,17 +144,17 @@ slis:
   availability:
     target: 99.9%
     measurement: successful_requests / total_requests
-  
+
   latency:
     p50: 100ms
     p95: 500ms
     p99: 1000ms
     measurement: response time at percentile
-  
+
   throughput:
     target: 1000 rps
     measurement: requests per second
-  
+
   error_rate:
     target: 0.1%
     measurement: failed_requests / total_requests
@@ -163,15 +163,15 @@ critical_user_journeys:
   - name: user_login
     weight: 30%
     slo_p95: 300ms
-  
+
   - name: fetch_dashboard
     weight: 40%
     slo_p95: 500ms
-  
+
   - name: submit_transaction
     weight: 20%
     slo_p95: 1000ms
-  
+
   - name: search_products
     weight: 10%
     slo_p95: 400ms
@@ -251,26 +251,26 @@ export const options = {
     { duration: '5m', target: 200 },
     { duration: '2m', target: 0 },
   ],
-  
+
   thresholds: {
     // HTTP-specific thresholds
     'http_req_duration': ['p(95)<500', 'p(99)<1000'],
     'http_req_duration{type:api}': ['p(95)<300'],
     'http_req_duration{type:static}': ['p(95)<100'],
     'http_req_failed': ['rate<0.01'],
-    
+
     // Custom metric thresholds
     'errors': ['rate<0.01'],
     'custom_duration': ['p(95)<400'],
-    
+
     // Group-specific thresholds
     'group_duration{group:::Login Flow}': ['p(95)<800'],
     'group_duration{group:::Dashboard Load}': ['p(95)<600'],
   },
-  
+
   // Graceful stop configuration
   gracefulStop: '30s',
-  
+
   // Disable default summary
   summaryTrendStats: ['min', 'med', 'avg', 'p(90)', 'p(95)', 'p(99)', 'max'],
 };
@@ -286,7 +286,7 @@ export function setup() {
     username: 'test-user',
     password: 'test-password',
   });
-  
+
   return {
     token: loginRes.json('token'),
     timestamp: new Date().toISOString(),
@@ -302,24 +302,24 @@ export default function (data) {
     },
     tags: { type: 'api' },
   };
-  
+
   // User login flow
   group('Login Flow', () => {
     const loginStart = new Date();
     const res = http.get(`${BASE_URL}/api/user/profile`, params);
-    
+
     const success = check(res, {
       'login status is 200': (r) => r.status === 200,
       'response has user data': (r) => r.json('id') !== undefined,
     });
-    
+
     errorRate.add(!success);
     customTrend.add(new Date() - loginStart);
     requestCount.add(1);
   });
-  
+
   sleep(1);
-  
+
   // Dashboard load flow
   group('Dashboard Load', () => {
     const responses = http.batch([
@@ -327,16 +327,16 @@ export default function (data) {
       ['GET', `${BASE_URL}/api/notifications`, null, params],
       ['GET', `${BASE_URL}/api/user/settings`, null, params],
     ]);
-    
+
     responses.forEach((res) => {
       check(res, {
         'dashboard status is 200': (r) => r.status === 200,
       });
     });
   });
-  
+
   sleep(2);
-  
+
   // Transaction submission
   group('Submit Transaction', () => {
     const payload = JSON.stringify({
@@ -344,15 +344,15 @@ export default function (data) {
       currency: 'USD',
       description: `Test transaction ${__VU}-${__ITER}`,
     });
-    
+
     const res = http.post(`${BASE_URL}/api/transactions`, payload, params);
-    
+
     check(res, {
       'transaction created': (r) => r.status === 201,
       'transaction ID returned': (r) => r.json('transactionId') !== undefined,
     });
   });
-  
+
   sleep(1);
 }
 
@@ -385,7 +385,7 @@ export const options = {
     { duration: '10m', target: 100 },
     { duration: '5m', target: 0 },
   ],
-  
+
   // Send metrics to Prometheus via remote write
   ext: {
     loadimpact: {
@@ -405,7 +405,7 @@ export default function () {
 export function handleSummary(data) {
   // Export metrics for Prometheus
   const prometheusMetrics = generatePrometheusMetrics(data);
-  
+
   return {
     'stdout': textSummary(data, { indent: ' ', enableColors: true }),
     'prometheus.txt': prometheusMetrics,
@@ -414,24 +414,24 @@ export function handleSummary(data) {
 
 function generatePrometheusMetrics(data) {
   let output = '';
-  
+
   // Request duration
   output += `# HELP http_req_duration HTTP request duration\n`;
   output += `# TYPE http_req_duration summary\n`;
   output += `http_req_duration{quantile="0.5"} ${data.metrics.http_req_duration.values['p(50)']}\n`;
   output += `http_req_duration{quantile="0.95"} ${data.metrics.http_req_duration.values['p(95)']}\n`;
   output += `http_req_duration{quantile="0.99"} ${data.metrics.http_req_duration.values['p(99)']}\n`;
-  
+
   // Request rate
   output += `# HELP http_reqs_total Total HTTP requests\n`;
   output += `# TYPE http_reqs_total counter\n`;
   output += `http_reqs_total ${data.metrics.http_reqs.values.count}\n`;
-  
+
   // Error rate
   output += `# HELP http_req_failed HTTP request failure rate\n`;
   output += `# TYPE http_req_failed gauge\n`;
   output += `http_req_failed ${data.metrics.http_req_failed.values.rate}\n`;
-  
+
   return output;
 }
 ```
@@ -449,7 +449,7 @@ function generatePrometheusMetrics(data) {
       <stringProp name="TestPlan.comments">Performance test for User API</stringProp>
       <boolProp name="TestPlan.functional_mode">false</boolProp>
       <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
-      
+
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments">
         <collectionProp name="Arguments.arguments">
           <elementProp name="BASE_URL" elementType="Argument">
@@ -463,7 +463,7 @@ function generatePrometheusMetrics(data) {
         </collectionProp>
       </elementProp>
     </TestPlan>
-    
+
     <hashTree>
       <!-- Thread Group -->
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="User Load">
@@ -472,7 +472,7 @@ function generatePrometheusMetrics(data) {
         <stringProp name="ThreadGroup.duration">600</stringProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
       </ThreadGroup>
-      
+
       <hashTree>
         <!-- HTTP Request Defaults -->
         <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement">
@@ -481,7 +481,7 @@ function generatePrometheusMetrics(data) {
           <stringProp name="HTTPSampler.connect_timeout">10000</stringProp>
           <stringProp name="HTTPSampler.response_timeout">30000</stringProp>
         </ConfigTestElement>
-        
+
         <!-- HTTP Header Manager -->
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager">
           <collectionProp name="HeaderManager.headers">
@@ -491,13 +491,13 @@ function generatePrometheusMetrics(data) {
             </elementProp>
           </collectionProp>
         </HeaderManager>
-        
+
         <!-- HTTP Requests -->
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get User Profile">
           <stringProp name="HTTPSampler.path">/api/user/profile</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
         </HTTPSamplerProxy>
-        
+
         <!-- Response Assertions -->
         <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion">
           <collectionProp name="Asserion.test_strings">
@@ -505,7 +505,7 @@ function generatePrometheusMetrics(data) {
           </collectionProp>
           <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
         </ResponseAssertion>
-        
+
         <!-- Duration Assertion -->
         <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion">
           <stringProp name="DurationAssertion.duration">500</stringProp>
@@ -544,21 +544,21 @@ export const PerformanceMetrics = {
     p99: '99th percentile - Worst-case for most users',
     p99_9: '99.9th percentile - Absolute worst-case',
   },
-  
+
   // Throughput metrics
   throughput: {
     rps: 'Requests per second',
     tps: 'Transactions per second',
     data_transfer: 'MB/s transferred',
   },
-  
+
   // Error metrics
   errors: {
     error_rate: 'Failed requests / Total requests',
     timeout_rate: 'Timed out requests / Total requests',
     error_types: 'Breakdown by HTTP status code',
   },
-  
+
   // Resource utilization
   resources: {
     cpu_usage: 'Percentage of CPU capacity',
@@ -566,7 +566,7 @@ export const PerformanceMetrics = {
     disk_io: 'Read/write operations per second',
     network_bandwidth: 'MB/s network throughput',
   },
-  
+
   // Application-specific metrics
   application: {
     db_query_time: 'Database query duration',
@@ -589,11 +589,11 @@ slis:
   - name: availability
     description: "Percentage of successful requests"
     query: "sum(rate(http_requests_total{status=~'2..'}[5m])) / sum(rate(http_requests_total[5m]))"
-    
+
   - name: latency_p95
     description: "95th percentile response time"
     query: "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))"
-    
+
   - name: error_rate
     description: "Percentage of failed requests"
     query: "sum(rate(http_requests_total{status=~'5..'}[5m])) / sum(rate(http_requests_total[5m]))"
@@ -604,12 +604,12 @@ slos:
     target: 99.9
     unit: percent
     window: 30d
-    
+
   - sli: latency_p95
     target: 500
     unit: milliseconds
     window: 30d
-    
+
   - sli: error_rate
     target: 0.1
     unit: percent
@@ -622,7 +622,7 @@ slas:
     latency_p95: 300
     support_response: 1h
     credits: "10% monthly fee per 0.1% below SLA"
-    
+
   - name: "Silver Tier SLA"
     availability: 99.9
     latency_p95: 500
@@ -661,17 +661,17 @@ on:
 jobs:
   performance-test:
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Install k6
         run: |
           sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
           echo "deb https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
           sudo apt-get update
           sudo apt-get install k6
-      
+
       - name: Run Load Test
         env:
           BASE_URL: ${{ secrets.PERF_TEST_URL }}
@@ -682,29 +682,29 @@ jobs:
             --out json=results.json \
             --summary-export=summary.json \
             tests/performance/load-test.js
-      
+
       - name: Parse Results
         id: results
         run: |
           p95=$(jq -r '.metrics.http_req_duration.values["p(95)"]' summary.json)
           error_rate=$(jq -r '.metrics.http_req_failed.values.rate' summary.json)
-          
+
           echo "p95_latency=$p95" >> $GITHUB_OUTPUT
           echo "error_rate=$error_rate" >> $GITHUB_OUTPUT
-          
+
           # Check thresholds
           if (( $(echo "$p95 > 500" | bc -l) )); then
             echo "threshold_status=failed" >> $GITHUB_OUTPUT
             exit 1
           fi
-          
+
           if (( $(echo "$error_rate > 0.01" | bc -l) )); then
             echo "threshold_status=failed" >> $GITHUB_OUTPUT
             exit 1
           fi
-          
+
           echo "threshold_status=passed" >> $GITHUB_OUTPUT
-      
+
       - name: Upload Results
         uses: actions/upload-artifact@v3
         with:
@@ -713,7 +713,7 @@ jobs:
             results.json
             summary.json
             summary.html
-      
+
       - name: Comment on PR
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v6
@@ -722,24 +722,24 @@ jobs:
             const p95 = '${{ steps.results.outputs.p95_latency }}';
             const errorRate = '${{ steps.results.outputs.error_rate }}';
             const status = '${{ steps.results.outputs.threshold_status }}';
-            
+
             const body = `## Performance Test Results
-            
+
             **Status:** ${status === 'passed' ? '✅ PASSED' : '❌ FAILED'}
-            
+
             | Metric | Value | Threshold | Status |
             |--------|-------|-----------|--------|
             | p95 Latency | ${p95}ms | < 500ms | ${p95 < 500 ? '✅' : '❌'} |
             | Error Rate | ${(errorRate * 100).toFixed(2)}% | < 1% | ${errorRate < 0.01 ? '✅' : '❌'} |
             `;
-            
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: body
             });
-      
+
       - name: Send Slack Notification
         if: failure()
         uses: slackapi/slack-github-action@v1
@@ -792,7 +792,7 @@ clinic doctor --visualize
 ALTER DATABASE mydb SET log_min_duration_statement = 100; -- Log queries > 100ms
 
 -- Identify slow queries
-SELECT 
+SELECT
   query,
   calls,
   total_time,
@@ -1026,6 +1026,6 @@ By completing this skill, you should be able to:
 
 ---
 
-**Last Updated:** 2025-10-17  
-**Version:** 1.0.0  
+**Last Updated:** 2025-10-17
+**Version:** 1.0.0
 **Maintainer:** Testing Standards Team

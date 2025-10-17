@@ -99,14 +99,14 @@ await page.fill('input', 'text'); // Waits automatically
 **Wait for Element State**
 ```typescript
 // ✅ Wait for specific condition
-await page.waitForSelector('[data-testid="results"]', { 
+await page.waitForSelector('[data-testid="results"]', {
   state: 'visible',
-  timeout: 5000 
+  timeout: 5000
 });
 
 // ✅ Wait for element to disappear
-await page.waitForSelector('[data-testid="loading"]', { 
-  state: 'detached' 
+await page.waitForSelector('[data-testid="loading"]', {
+  state: 'detached'
 });
 ```
 
@@ -175,11 +175,11 @@ await page.click('button'); // Now reliable
 test('create item', async ({ page }) => {
   // Setup
   const item = await createItemViaAPI();
-  
+
   // Test
   await page.goto(`/items/${item.id}`);
   await expect(page.getByTestId('item-name')).toContainText(item.name);
-  
+
   // Cleanup
   await deleteItemViaAPI(item.id);
 });
@@ -206,11 +206,11 @@ test('edit item', async ({ page }) => {
 test.beforeEach(async ({ page, context }) => {
   // Clear cookies
   await context.clearCookies();
-  
+
   // Clear local storage
   await page.goto('/');
   await page.evaluate(() => localStorage.clear());
-  
+
   // Reset database state
   await resetTestDatabase();
 });
@@ -249,11 +249,11 @@ test('display user profile', async ({ page, request }) => {
     data: { name: 'Test User', email: 'test@example.com' }
   });
   const user = await response.json();
-  
+
   // Test UI
   await page.goto(`/users/${user.id}`);
   await expect(page.getByTestId('username')).toContainText('Test User');
-  
+
   // Cleanup via API
   await request.delete(`/api/users/${user.id}`);
 });
@@ -299,9 +299,9 @@ export const test = base.extend<TestFixtures>({
     await page.evaluate(token => {
       localStorage.setItem('auth_token', token);
     }, token);
-    
+
     await use(page);
-    
+
     // Cleanup
     await page.evaluate(() => localStorage.clear());
   }
@@ -320,14 +320,14 @@ test('view dashboard', async ({ authenticatedPage }) => {
 // ✅ Always clean up
 test('create item', async ({ page, request }) => {
   let itemId;
-  
+
   try {
     const response = await request.post('/api/items', {
       data: { name: 'Test Item' }
     });
     const item = await response.json();
     itemId = item.id;
-    
+
     // Test logic
     await page.goto(`/items/${itemId}`);
     // ...
@@ -345,7 +345,7 @@ test.afterEach(async ({ request }, testInfo) => {
   const itemIds = testInfo.annotations
     .filter(a => a.type === 'item')
     .map(a => a.description);
-  
+
   for (const id of itemIds) {
     await request.delete(`/api/items/${id}`);
   }
@@ -367,7 +367,7 @@ test('load user data', async ({ page }) => {
       body: JSON.stringify({ name: 'John', email: 'john@example.com' })
     });
   });
-  
+
   await page.goto('/profile');
   await expect(page.getByTestId('username')).toContainText('John');
 });
@@ -380,7 +380,7 @@ test('handle API error', async ({ page }) => {
       body: JSON.stringify({ error: 'Internal Server Error' })
     });
   });
-  
+
   await page.goto('/profile');
   await expect(page.getByTestId('error-message')).toBeVisible();
 });
@@ -394,7 +394,7 @@ test('show loading state', async ({ page }) => {
       body: JSON.stringify({ name: 'John' })
     });
   });
-  
+
   await page.goto('/profile');
   await expect(page.getByTestId('loading-spinner')).toBeVisible();
 });
@@ -408,10 +408,10 @@ test('load dashboard', async ({ page }) => {
   const apiResponsePromise = page.waitForResponse(
     response => response.url().includes('/api/dashboard') && response.ok()
   );
-  
+
   await page.goto('/dashboard');
   await apiResponsePromise; // Ensure API completes
-  
+
   await expect(page.getByTestId('dashboard-content')).toBeVisible();
 });
 
@@ -426,7 +426,7 @@ test('retry failed requests', async ({ page }) => {
       route.fulfill({ status: 200, body: '{"data": "success"}' });
     }
   });
-  
+
   await page.goto('/data');
   // App should retry and eventually succeed
   await expect(page.getByText('success')).toBeVisible();

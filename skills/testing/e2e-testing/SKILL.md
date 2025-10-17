@@ -53,7 +53,7 @@ End-to-end testing validates complete user workflows across the entire applicati
 // Page Object
 class LoginPage {
   constructor(private page: Page) {}
-  
+
   async login(username: string, password: string) {
     await this.page.fill('[data-testid="username"]', username);
     await this.page.fill('[data-testid="password"]', password);
@@ -239,9 +239,9 @@ export abstract class BasePage {
   }
 
   async takeScreenshot(name: string) {
-    await this.page.screenshot({ 
+    await this.page.screenshot({
       path: `screenshots/${name}.png`,
-      fullPage: true 
+      fullPage: true
     });
   }
 }
@@ -539,7 +539,7 @@ npx playwright test --project=chromium --project=webkit
 ```typescript
 test('feature only available in chromium', async ({ page, browserName }) => {
   test.skip(browserName !== 'chromium', 'Chromium-only feature');
-  
+
   // Test chromium-specific feature
   await page.evaluate(() => {
     // Use chromium-specific API
@@ -569,24 +569,24 @@ jobs:
         browser: [chromium, firefox, webkit]
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: 'npm'
-      
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: Install Playwright browsers
         run: npx playwright install --with-deps ${{ matrix.browser }}
-      
+
       - name: Run E2E tests
         run: npx playwright test --project=${{ matrix.browser }}
         env:
           BASE_URL: http://localhost:3000
-      
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v3
@@ -827,7 +827,7 @@ test('loads user data', async ({ page }) => {
       body: JSON.stringify({ name: 'John', email: 'john@example.com' }),
     });
   });
-  
+
   await page.goto('/profile');
   await expect(page.getByTestId('username')).toContainText('John');
 });
@@ -848,7 +848,7 @@ setup('authenticate', async ({ page }) => {
   await page.fill('[data-testid="username"]', process.env.TEST_USER!);
   await page.fill('[data-testid="password"]', process.env.TEST_PASSWORD!);
   await page.click('[data-testid="login-button"]');
-  
+
   await page.waitForURL('/dashboard');
   await page.context().storageState({ path: 'auth-state.json' });
 });
@@ -859,7 +859,7 @@ export default defineConfig({
     { name: 'setup', testMatch: /auth\.setup\.ts/ },
     {
       name: 'chromium',
-      use: { 
+      use: {
         ...devices['Desktop Chrome'],
         storageState: 'auth-state.json', // Reuse auth state
       },
@@ -906,9 +906,9 @@ import AxeBuilder from '@axe-core/playwright';
 
 test('homepage should not have accessibility violations', async ({ page }) => {
   await page.goto('/');
-  
+
   const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
-  
+
   expect(accessibilityScanResults.violations).toEqual([]);
 });
 ```

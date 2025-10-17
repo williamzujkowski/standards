@@ -153,6 +153,6 @@ custom_rules:
     regex: '(class|struct|enum|protocol|func|var|let)\s+\w+'
     message: "Use explicit access control (private, internal, public, open)"
     severity: warning
-    
+
 # Reporter
 reporter: "xcode"

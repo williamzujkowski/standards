@@ -3,7 +3,7 @@
 
 terraform {
   required_version = ">= 1.5.0"
-  
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -14,7 +14,7 @@ terraform {
       version = "~> 3.5"
     }
   }
-  
+
   backend "s3" {
     bucket         = "your-terraform-state"
     key            = "infrastructure/terraform.tfstate"
@@ -27,7 +27,7 @@ terraform {
 # Provider Configuration
 provider "aws" {
   region = var.aws_region
-  
+
   default_tags {
     tags = {
       Terraform   = "true"
@@ -41,14 +41,14 @@ provider "aws" {
 # Local Variables
 locals {
   environment = terraform.workspace != "default" ? terraform.workspace : var.environment
-  
+
   common_tags = {
     Environment = local.environment
     Project     = var.project_name
     Terraform   = "true"
     CreatedAt   = timestamp()
   }
-  
+
   # Environment-specific configuration
   config = {
     dev = {
@@ -73,7 +73,7 @@ locals {
       enable_backup     = true
     }
   }
-  
+
   current_config = local.config[local.environment]
 }
 
@@ -85,12 +85,12 @@ data "aws_availability_zones" "available" {
 data "aws_ami" "amazon_linux_2" {
   most_recent = true
   owners      = ["amazon"]
-  
+
   filter {
     name   = "name"
     values = ["amzn2-ami-hvm-*-x86_64-gp2"]
   }
-  
+
   filter {
     name   = "virtualization-type"
     values = ["hvm"]
@@ -106,24 +106,24 @@ resource "random_id" "suffix" {
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 5.0"
-  
+
   name = "${var.project_name}-${local.environment}-vpc"
   cidr = var.vpc_cidr
-  
+
   azs             = slice(data.aws_availability_zones.available.names, 0, 3)
   private_subnets = [for k, v in slice(data.aws_availability_zones.available.names, 0, 3) : cidrsubnet(var.vpc_cidr, 8, k)]
   public_subnets  = [for k, v in slice(data.aws_availability_zones.available.names, 0, 3) : cidrsubnet(var.vpc_cidr, 8, k + 100)]
   database_subnets = [for k, v in slice(data.aws_availability_zones.available.names, 0, 3) : cidrsubnet(var.vpc_cidr, 8, k + 200)]
-  
+
   enable_nat_gateway     = true
   single_nat_gateway     = local.environment != "prod"
   enable_dns_hostnames   = true
   enable_dns_support     = true
-  
+
   enable_flow_log                      = true
   create_flow_log_cloudwatch_iam_role  = true
   create_flow_log_cloudwatch_log_group = true
-  
+
   tags = local.common_tags
 }
 
@@ -132,7 +132,7 @@ resource "aws_security_group" "alb" {
   name_prefix = "${var.project_name}-${local.environment}-alb-"
   description = "Security group for Application Load Balancer"
   vpc_id      = module.vpc.vpc_id
-  
+
   ingress {
     from_port   = 80
     to_port     = 80
@@ -140,7 +140,7 @@ resource "aws_security_group" "alb" {
     cidr_blocks = ["0.0.0.0/0"]
     description = "Allow HTTP from internet"
   }
-  
+
   ingress {
     from_port   = 443
     to_port     = 443
@@ -148,7 +148,7 @@ resource "aws_security_group" "alb" {
     cidr_blocks = ["0.0.0.0/0"]
     description = "Allow HTTPS from internet"
   }
-  
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -156,14 +156,14 @@ resource "aws_security_group" "alb" {
     cidr_blocks = ["0.0.0.0/0"]
     description = "Allow all outbound traffic"
   }
-  
+
   tags = merge(
     local.common_tags,
     {
       Name = "${var.project_name}-${local.environment}-alb-sg"
     }
   )
-  
+
   lifecycle {
     create_before_destroy = true
   }
@@ -173,7 +173,7 @@ resource "aws_security_group" "app" {
   name_prefix = "${var.project_name}-${local.environment}-app-"
   description = "Security group for application servers"
   vpc_id      = module.vpc.vpc_id
-  
+
   ingress {
     from_port       = 8080
     to_port         = 8080
@@ -181,7 +181,7 @@ resource "aws_security_group" "app" {
     security_groups = [aws_security_group.alb.id]
     description     = "Allow traffic from ALB"
   }
-  
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -189,14 +189,14 @@ resource "aws_security_group" "app" {
     cidr_blocks = ["0.0.0.0/0"]
     description = "Allow all outbound traffic"
   }
-  
+
   tags = merge(
     local.common_tags,
     {
       Name = "${var.project_name}-${local.environment}-app-sg"
     }
   )
-  
+
   lifecycle {
     create_before_destroy = true
   }
@@ -206,7 +206,7 @@ resource "aws_security_group" "database" {
   name_prefix = "${var.project_name}-${local.environment}-db-"
   description = "Security group for database"
   vpc_id      = module.vpc.vpc_id
-  
+
   ingress {
     from_port       = 5432
     to_port         = 5432
@@ -214,7 +214,7 @@ resource "aws_security_group" "database" {
     security_groups = [aws_security_group.app.id]
     description     = "Allow PostgreSQL from app servers"
   }
-  
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -222,14 +222,14 @@ resource "aws_security_group" "database" {
     cidr_blocks = ["0.0.0.0/0"]
     description = "Allow all outbound traffic"
   }
-  
+
   tags = merge(
     local.common_tags,
     {
       Name = "${var.project_name}-${local.environment}-db-sg"
     }
   )
-  
+
   lifecycle {
     create_before_destroy = true
   }
@@ -240,7 +240,7 @@ resource "aws_kms_key" "main" {
   description             = "KMS key for ${var.project_name} ${local.environment}"
   deletion_window_in_days = 30
   enable_key_rotation     = true
-  
+
   tags = local.common_tags
 }
 
@@ -256,17 +256,17 @@ resource "aws_lb" "main" {
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb.id]
   subnets            = module.vpc.public_subnets
-  
+
   enable_deletion_protection = local.environment == "prod"
   enable_http2              = true
   enable_cross_zone_load_balancing = true
-  
+
   access_logs {
     bucket  = aws_s3_bucket.logs.id
     prefix  = "alb"
     enabled = true
   }
-  
+
   tags = local.common_tags
 }
 
@@ -275,7 +275,7 @@ resource "aws_lb_target_group" "app" {
   port     = 8080
   protocol = "HTTP"
   vpc_id   = module.vpc.vpc_id
-  
+
   health_check {
     enabled             = true
     healthy_threshold   = 2
@@ -287,9 +287,9 @@ resource "aws_lb_target_group" "app" {
     timeout             = 5
     unhealthy_threshold = 2
   }
-  
+
   deregistration_delay = 30
-  
+
   tags = local.common_tags
 }
 
@@ -297,7 +297,7 @@ resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.main.arn
   port              = 80
   protocol          = "HTTP"
-  
+
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.app.arn
@@ -309,16 +309,16 @@ resource "aws_launch_template" "app" {
   name_prefix   = "${var.project_name}-${local.environment}-"
   image_id      = data.aws_ami.amazon_linux_2.id
   instance_type = local.current_config.instance_type
-  
+
   vpc_security_group_ids = [aws_security_group.app.id]
-  
+
   iam_instance_profile {
     name = aws_iam_instance_profile.app.name
   }
-  
+
   block_device_mappings {
     device_name = "/dev/xvda"
-    
+
     ebs {
       volume_size           = 30
       volume_type           = "gp3"
@@ -327,22 +327,22 @@ resource "aws_launch_template" "app" {
       delete_on_termination = true
     }
   }
-  
+
   user_data = base64encode(templatefile("${path.module}/user-data.sh", {
     environment  = local.environment
     project_name = var.project_name
   }))
-  
+
   metadata_options {
     http_endpoint               = "enabled"
     http_tokens                 = "required"
     http_put_response_hop_limit = 1
   }
-  
+
   monitoring {
     enabled = true
   }
-  
+
   tag_specifications {
     resource_type = "instance"
     tags = merge(
@@ -352,7 +352,7 @@ resource "aws_launch_template" "app" {
       }
     )
   }
-  
+
   lifecycle {
     create_before_destroy = true
   }
@@ -363,21 +363,21 @@ resource "aws_autoscaling_group" "app" {
   name                = "${var.project_name}-${local.environment}-asg"
   vpc_zone_identifier = module.vpc.private_subnets
   target_group_arns   = [aws_lb_target_group.app.arn]
-  
+
   min_size         = local.current_config.min_size
   max_size         = local.current_config.max_size
   desired_capacity = local.current_config.min_size
-  
+
   health_check_type         = "ELB"
   health_check_grace_period = 300
   force_delete              = false
   wait_for_capacity_timeout = "10m"
-  
+
   launch_template {
     id      = aws_launch_template.app.id
     version = "$Latest"
   }
-  
+
   enabled_metrics = [
     "GroupDesiredCapacity",
     "GroupInServiceInstances",
@@ -385,23 +385,23 @@ resource "aws_autoscaling_group" "app" {
     "GroupMaxSize",
     "GroupTotalInstances",
   ]
-  
+
   tag {
     key                 = "Name"
     value               = "${var.project_name}-${local.environment}-app"
     propagate_at_launch = true
   }
-  
+
   dynamic "tag" {
     for_each = local.common_tags
-    
+
     content {
       key                 = tag.key
       value               = tag.value
       propagate_at_launch = true
     }
   }
-  
+
   lifecycle {
     create_before_destroy = true
     ignore_changes        = [desired_capacity]
@@ -437,7 +437,7 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu" {
   threshold           = "80"
   alarm_description   = "This metric monitors ec2 cpu utilization"
   alarm_actions       = [aws_autoscaling_policy.scale_up.arn]
-  
+
   dimensions = {
     AutoScalingGroupName = aws_autoscaling_group.app.name
   }
@@ -454,7 +454,7 @@ resource "aws_cloudwatch_metric_alarm" "low_cpu" {
   threshold           = "20"
   alarm_description   = "This metric monitors ec2 cpu utilization"
   alarm_actions       = [aws_autoscaling_policy.scale_down.arn]
-  
+
   dimensions = {
     AutoScalingGroupName = aws_autoscaling_group.app.name
   }
@@ -464,50 +464,50 @@ resource "aws_cloudwatch_metric_alarm" "low_cpu" {
 module "rds" {
   source  = "terraform-aws-modules/rds/aws"
   version = "~> 6.0"
-  
+
   identifier = "${var.project_name}-${local.environment}-db"
-  
+
   engine               = "postgres"
   engine_version       = "15.4"
   family               = "postgres15"
   major_engine_version = "15"
   instance_class       = local.current_config.db_instance_class
-  
+
   allocated_storage     = 20
   max_allocated_storage = 100
   storage_encrypted     = true
   kms_key_id            = aws_kms_key.main.arn
-  
+
   db_name  = var.db_name
   username = var.db_username
   port     = 5432
-  
+
   multi_az               = local.environment == "prod"
   db_subnet_group_name   = module.vpc.database_subnet_group_name
   vpc_security_group_ids = [aws_security_group.database.id]
-  
+
   backup_retention_period = local.current_config.enable_backup ? 30 : 7
   backup_window           = "03:00-04:00"
   maintenance_window      = "mon:04:00-mon:05:00"
-  
+
   enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
-  
+
   skip_final_snapshot = local.environment != "prod"
   deletion_protection = local.environment == "prod"
-  
+
   tags = local.common_tags
 }
 
 # S3 Bucket for Logs
 resource "aws_s3_bucket" "logs" {
   bucket = "${var.project_name}-${local.environment}-logs-${random_id.suffix.hex}"
-  
+
   tags = local.common_tags
 }
 
 resource "aws_s3_bucket_versioning" "logs" {
   bucket = aws_s3_bucket.logs.id
-  
+
   versioning_configuration {
     status = "Enabled"
   }
@@ -515,7 +515,7 @@ resource "aws_s3_bucket_versioning" "logs" {
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "logs" {
   bucket = aws_s3_bucket.logs.id
-  
+
   rule {
     apply_server_side_encryption_by_default {
       sse_algorithm     = "aws:kms"
@@ -527,7 +527,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "logs" {
 
 resource "aws_s3_bucket_public_access_block" "logs" {
   bucket = aws_s3_bucket.logs.id
-  
+
   block_public_acls       = true
   block_public_policy     = true
   ignore_public_acls      = true
@@ -536,15 +536,15 @@ resource "aws_s3_bucket_public_access_block" "logs" {
 
 resource "aws_s3_bucket_lifecycle_configuration" "logs" {
   bucket = aws_s3_bucket.logs.id
-  
+
   rule {
     id     = "log-expiration"
     status = "Enabled"
-    
+
     expiration {
       days = 90
     }
-    
+
     noncurrent_version_expiration {
       noncurrent_days = 30
     }
@@ -554,7 +554,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "logs" {
 # IAM Role for EC2 Instances
 resource "aws_iam_role" "app" {
   name = "${var.project_name}-${local.environment}-app-role"
-  
+
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -567,7 +567,7 @@ resource "aws_iam_role" "app" {
       }
     ]
   })
-  
+
   tags = local.common_tags
 }
 
@@ -584,6 +584,6 @@ resource "aws_iam_role_policy_attachment" "app_cloudwatch" {
 resource "aws_iam_instance_profile" "app" {
   name = "${var.project_name}-${local.environment}-app-profile"
   role = aws_iam_role.app.name
-  
+
   tags = local.common_tags
 }

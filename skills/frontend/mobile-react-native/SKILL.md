@@ -9,8 +9,8 @@ applies_to: [mobile-apps, hybrid-apps]
 
 # React Native Mobile Development
 
-> **Level 1**: Quick Reference (~700-900 tokens)  
-> **Level 2**: Implementation Guide (~4000-5000 tokens)  
+> **Level 1**: Quick Reference (~700-900 tokens)
+> **Level 2**: Implementation Guide (~4000-5000 tokens)
 > **Level 3**: Deep Dive Resources (external links)
 
 ---
@@ -166,7 +166,7 @@ import { Button, TouchableOpacity, TouchableHighlight, Pressable } from 'react-n
 <Button title="Press Me" onPress={handlePress} color="#007AFF" />
 
 // Custom Button (full control)
-<TouchableOpacity 
+<TouchableOpacity
   onPress={handlePress}
   activeOpacity={0.7}
   disabled={isLoading}
@@ -230,28 +230,28 @@ import { TextInput, Switch } from 'react-native';
   data={items}
   renderItem={({ item, index }) => <ItemRow item={item} index={index} />}
   keyExtractor={(item, index) => item.id || index.toString()}
-  
+
   // Performance
   removeClippedSubviews={true}
   maxToRenderPerBatch={10}
   windowSize={10}
   initialNumToRender={10}
-  
+
   // Pagination
   onEndReached={loadMore}
   onEndReachedThreshold={0.5}
-  
+
   // Refresh
   refreshing={isRefreshing}
   onRefresh={handleRefresh}
-  
+
   // Empty State
   ListEmptyComponent={<EmptyState />}
-  
+
   // Headers/Footers
   ListHeaderComponent={<Header />}
   ListFooterComponent={<Footer />}
-  
+
   // Separators
   ItemSeparatorComponent={() => <View style={styles.separator} />}
 />
@@ -323,13 +323,13 @@ function App() {
           headerTitleStyle: { fontWeight: 'bold' },
         }}
       >
-        <Stack.Screen 
-          name="Home" 
+        <Stack.Screen
+          name="Home"
           component={HomeScreen}
           options={{ title: 'Welcome' }}
         />
-        <Stack.Screen 
-          name="Profile" 
+        <Stack.Screen
+          name="Profile"
           component={ProfileScreen}
           options={({ route }) => ({ title: `User ${route.params.userId}` })}
         />
@@ -353,13 +353,13 @@ function TabNavigator() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName: keyof typeof Ionicons.glyphMap;
-          
+
           if (route.name === 'Home') {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'Settings') {
             iconName = focused ? 'settings' : 'settings-outline';
           }
-          
+
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: '#007AFF',
@@ -621,12 +621,12 @@ import { useWindowDimensions } from 'react-native';
 
 function ResponsiveComponent() {
   const { width, height, fontScale } = useWindowDimensions();
-  
+
   const isSmallDevice = width < 375;
   const isTablet = width >= 768;
-  
+
   return (
-    <View style={{ 
+    <View style={{
       padding: isTablet ? 32 : 16,
       fontSize: isSmallDevice ? 14 : 16,
     }}>
@@ -786,14 +786,14 @@ function ParentComponent() {
   data={items}
   renderItem={renderItem}
   keyExtractor={keyExtractor}
-  
+
   // Performance props
   removeClippedSubviews={true}
   maxToRenderPerBatch={10}
   windowSize={10}
   initialNumToRender={10}
   updateCellsBatchingPeriod={50}
-  
+
   // Use getItemLayout for fixed-height items
   getItemLayout={(data, index) => ({
     length: ITEM_HEIGHT,
@@ -866,7 +866,7 @@ describe('Button', () => {
   it('handles press events', () => {
     const onPress = jest.fn();
     const { getByText } = render(<Button title="Press" onPress={onPress} />);
-    
+
     fireEvent.press(getByText('Press'));
     expect(onPress).toHaveBeenCalledTimes(1);
   });
@@ -922,7 +922,7 @@ describe('Login Flow', () => {
     await element(by.id('email-input')).typeText('user@example.com');
     await element(by.id('password-input')).typeText('password123');
     await element(by.id('login-button')).tap();
-    
+
     await expect(element(by.id('home-screen'))).toBeVisible();
   });
 });

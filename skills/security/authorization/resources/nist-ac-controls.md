@@ -105,12 +105,12 @@ def evaluate_policy(subject, resource, environment):
     if resource['classification'] == 'classified':
         if not is_ip_in_secure_network(environment['ip_address']):
             return (False, "Classified documents require secure network")
-    
+
     # Cross-department flow control
     if subject['department'] != resource['department']:
         if not subject['role'] in ['admin', 'auditor']:
             return (False, "Cross-department access denied")
-    
+
     return (True, "Flow allowed")
 ```
 
@@ -140,14 +140,14 @@ MUTUALLY_EXCLUSIVE_ROLES = [
 
 def assign_role(user_id, new_role):
     current_roles = get_user_roles(user_id)
-    
+
     # Check for conflicts (AC-5)
     for role_a, role_b in MUTUALLY_EXCLUSIVE_ROLES:
         if new_role == role_a and role_b in current_roles:
             raise ConflictError(f"Cannot assign {new_role}: conflicts with {role_b}")
         if new_role == role_b and role_a in current_roles:
             raise ConflictError(f"Cannot assign {new_role}: conflicts with {role_a}")
-    
+
     db.assign_role(user_id, new_role)
 
 # AC-5(3): Dual authorization
@@ -183,7 +183,7 @@ def assign_role(user_id, role):
         if not current_user.has_permission('roles:grant_privileged'):
             raise PermissionError("Cannot grant privileged role")
         audit_log.warning(f"Privileged role {role} granted to user {user_id}")
-    
+
     db.assign_role(user_id, role)
 
 # AC-6(2): Non-privileged accounts

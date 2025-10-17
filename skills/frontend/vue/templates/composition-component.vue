@@ -111,7 +111,7 @@ watch(isEditing, (editing) => {
 
 function startEdit() {
   if (!canEdit.value) return;
-  
+
   isEditing.value = true;
   localUser.value = { ...props.user };
   error.value = null;
@@ -122,14 +122,14 @@ async function saveEdit() {
     error.value = 'Please enter valid information';
     return;
   }
-  
+
   isSaving.value = true;
   error.value = null;
-  
+
   try {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
+
     emit('update', localUser.value);
     isEditing.value = false;
   } catch (err) {
@@ -164,17 +164,17 @@ function useKeyboardShortcuts() {
       event.preventDefault();
       startEdit();
     }
-    
+
     // Escape to cancel
     if (event.key === 'Escape' && isEditing.value) {
       cancelEdit();
     }
   }
-  
+
   onMounted(() => {
     window.addEventListener('keydown', handleKeydown);
   });
-  
+
   onUnmounted(() => {
     window.removeEventListener('keydown', handleKeydown);
   });
@@ -225,10 +225,10 @@ defineExpose({
       <dl>
         <dt>Name:</dt>
         <dd>{{ displayName }}</dd>
-        
+
         <dt>Email:</dt>
         <dd>{{ user.email }}</dd>
-        
+
         <dt>Role:</dt>
         <dd>{{ user.role }}</dd>
       </dl>
@@ -246,7 +246,7 @@ defineExpose({
         >
           Edit
         </button>
-        
+
         <button
           v-if="isAdmin"
           @click="handleDelete"
@@ -254,7 +254,7 @@ defineExpose({
         >
           Delete
         </button>
-        
+
         <!-- Default slot -->
         <slot />
       </div>
@@ -309,7 +309,7 @@ defineExpose({
         >
           {{ isSaving ? 'Saving...' : 'Save' }}
         </button>
-        
+
         <button
           type="button"
           @click="cancelEdit"

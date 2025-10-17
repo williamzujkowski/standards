@@ -9,7 +9,7 @@ metadata:
 spec:
   # Use production profile as base
   profile: default
-  
+
   # Mesh configuration
   meshConfig:
     # Enable access logging for debugging
@@ -31,7 +31,7 @@ spec:
         "upstream_host": "%UPSTREAM_HOST%",
         "upstream_cluster": "%UPSTREAM_CLUSTER%"
       }
-    
+
     # Enable distributed tracing
     enableTracing: true
     defaultConfig:
@@ -41,33 +41,33 @@ spec:
           address: jaeger-collector.istio-system:9411
         tlsSettings:
           mode: DISABLE
-      
+
       # Proxy settings
       holdApplicationUntilProxyStarts: true
       proxyMetadata:
         ISTIO_META_DNS_CAPTURE: "true"
         ISTIO_META_DNS_AUTO_ALLOCATE: "true"
-    
+
     # Default service discovery settings
     serviceDiscovery:
       inferenceMode: DISABLED
-    
+
     # TLS settings
     tlsDefaults:
       minProtocolVersion: TLSV1_2
       maxProtocolVersion: TLSV1_3
-    
+
     # Certificate settings
     certificates:
     - secretName: dns.example-cacerts
       dnsNames:
       - example.com
       - "*.example.com"
-    
+
     # Outbound traffic policy
     outboundTrafficPolicy:
       mode: REGISTRY_ONLY  # Block unknown outbound traffic
-  
+
   # Component configuration
   components:
     # Istiod (control plane)
@@ -76,7 +76,7 @@ spec:
       k8s:
         # High availability with 2+ replicas
         replicaCount: 2
-        
+
         # Resource allocation
         resources:
           requests:
@@ -85,7 +85,7 @@ spec:
           limits:
             cpu: 4000m
             memory: 8192Mi
-        
+
         # Pod affinity for HA
         affinity:
           podAntiAffinity:
@@ -96,7 +96,7 @@ spec:
                   matchLabels:
                     app: istiod
                 topologyKey: kubernetes.io/hostname
-        
+
         # Horizontal Pod Autoscaler
         hpaSpec:
           maxReplicas: 5
@@ -108,7 +108,7 @@ spec:
               target:
                 type: Utilization
                 averageUtilization: 80
-        
+
         # Environment variables
         env:
         - name: PILOT_FILTER_GATEWAY_CLUSTER_CONFIG
@@ -117,14 +117,14 @@ spec:
           value: "true"
         - name: PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_INBOUND
           value: "true"
-    
+
     # Ingress Gateway
     ingressGateways:
     - name: istio-ingressgateway
       enabled: true
       k8s:
         replicaCount: 2
-        
+
         # Service configuration
         service:
           type: LoadBalancer
@@ -148,7 +148,7 @@ spec:
           annotations:
             service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
             service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
-        
+
         # Resource allocation
         resources:
           requests:
@@ -157,7 +157,7 @@ spec:
           limits:
             cpu: 2000m
             memory: 1024Mi
-        
+
         # HPA for ingress
         hpaSpec:
           maxReplicas: 10
@@ -169,7 +169,7 @@ spec:
               target:
                 type: Utilization
                 averageUtilization: 80
-        
+
         # Pod affinity
         affinity:
           podAntiAffinity:
@@ -180,7 +180,7 @@ spec:
                   matchLabels:
                     app: istio-ingressgateway
                 topologyKey: kubernetes.io/hostname
-    
+
     # Egress Gateway (optional but recommended)
     egressGateways:
     - name: istio-egressgateway
@@ -203,7 +203,7 @@ spec:
           - name: https
             port: 443
             targetPort: 8443
-  
+
   # Global values
   values:
     global:
@@ -217,18 +217,18 @@ spec:
           limits:
             cpu: 2000m
             memory: 1024Mi
-        
+
         # Logging level
         logLevel: warning
-        
+
         # Component log levels
         componentLogLevel: "misc:error"
-        
+
         # Readiness probe
         readinessInitialDelaySeconds: 1
         readinessFailureThreshold: 30
         readinessPeriodSeconds: 2
-        
+
         # Lifecycle hooks
         lifecycle:
           preStop:
@@ -237,52 +237,52 @@ spec:
               - sh
               - -c
               - sleep 15
-        
+
         # Enable Envoy access logs
         accessLogFile: /dev/stdout
         accessLogEncoding: JSON
-      
+
       # Multi-cluster settings
       multiCluster:
         enabled: false
         clusterName: ""
-      
+
       # Network name
       network: ""
-      
+
       # Mesh ID
       meshID: mesh1
-      
+
       # Pod DNS policy
       podDNSSearchNamespaces:
       - global
-      
+
       # Image settings
       imagePullPolicy: IfNotPresent
       imagePullSecrets: []
-      
+
       # Istio revision for canary upgrades
       revision: ""
-      
+
       # Security settings
       jwtPolicy: third-party-jwt
-    
+
     # Pilot (Istiod) settings
     pilot:
       autoscaleEnabled: true
       autoscaleMin: 2
       autoscaleMax: 5
-      
+
       # CPU target for autoscaling
       cpu:
         targetAverageUtilization: 80
-      
+
       # Enable locality load balancing
       enableLocalityLoadBalancing: true
-      
+
       # Trace sampling percentage
       traceSampling: 1.0
-    
+
     # Telemetry settings
     telemetry:
       enabled: true
@@ -292,7 +292,7 @@ spec:
           enabled: true
         stackdriver:
           enabled: false
-    
+
     # Sidecar injector settings
     sidecarInjectorWebhook:
       enableNamespacesByDefault: false
@@ -331,7 +331,7 @@ spec:
           operation: REMOVE
         connection_security_policy:
           operation: REMOVE
-  
+
   # Access logging
   accessLogging:
   - providers:

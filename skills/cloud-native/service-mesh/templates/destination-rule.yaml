@@ -266,22 +266,22 @@ spec:
       consecutiveErrors: 5
       consecutive5xxErrors: 5
       consecutiveGatewayErrors: 5
-      
+
       # Analysis interval
       interval: 10s
-      
+
       # Ejection duration
       baseEjectionTime: 30s
-      
+
       # Max ejection percentage
       maxEjectionPercent: 50
-      
+
       # Minimum healthy percentage
       minHealthPercent: 40
-      
+
       # Split external/local origin errors
       splitExternalLocalOriginErrors: true
-      
+
       # Consecutive local origin failures
       consecutiveLocalOriginFailures: 5
 

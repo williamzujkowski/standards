@@ -96,13 +96,13 @@ count=$(($count + 1))      # ✗ Unnecessary quotes
 function_name() {
   local param1="$1"
   local param2="${2:-default}"  # Default value
-  
+
   # Validation
   if [[ -z "$param1" ]]; then
     echo "Error: param1 required" >&2
     return 1
   fi
-  
+
   # Logic here
   echo "Result"
   return 0
@@ -238,7 +238,7 @@ timeout 30s long_running_command
 retry() {
   local max_attempts=3
   local attempt=1
-  
+
   while ((attempt <= max_attempts)); do
     if "$@"; then
       return 0
@@ -247,7 +247,7 @@ retry() {
     ((attempt++))
     sleep 2
   done
-  
+
   return 1
 }
 
@@ -255,7 +255,7 @@ retry() {
 confirm() {
   local prompt="${1:-Are you sure?}"
   local response
-  
+
   read -rp "$prompt [y/N] " response
   [[ "$response" =~ ^[Yy]$ ]]
 }
@@ -361,22 +361,22 @@ trap 'error_handler ${LINENO} $?' ERR
 # Cleanup function
 cleanup() {
   local exit_code=$?
-  
+
   # Remove temporary files
   if [[ -n "${temp_dir:-}" && -d "$temp_dir" ]]; then
     rm -rf "$temp_dir"
   fi
-  
+
   # Release locks
   if [[ -n "${lock_file:-}" && -f "$lock_file" ]]; then
     rm -f "$lock_file"
   fi
-  
+
   # Restore terminal settings if needed
   if [[ -n "${terminal_settings:-}" ]]; then
     stty "$terminal_settings"
   fi
-  
+
   return "$exit_code"
 }
 
@@ -386,9 +386,9 @@ trap cleanup EXIT INT TERM
 acquire_lock() {
   local lock_file="$1"
   local lock_fd=200
-  
+
   eval "exec $lock_fd>\"$lock_file\""
-  
+
   if ! flock -n "$lock_fd"; then
     log_error "Another instance is already running"
     exit "$EXIT_ERROR"
@@ -417,14 +417,14 @@ log_message() {
   local color=$2
   local prefix=$3
   shift 3
-  
+
   if ((level >= log_level)); then
     local timestamp
     timestamp="$(date '+%Y-%m-%d %H:%M:%S')"
-    
+
     # Console output with color
     echo -e "${color}[${prefix}]${NC} $*" >&2
-    
+
     # File output without color
     if [[ -w "$(dirname "$LOG_FILE")" ]]; then
       echo "[${timestamp}] [${prefix}] $*" >> "$LOG_FILE"
@@ -479,27 +479,27 @@ perform_backup() {
   local timestamp
   timestamp="$(date '+%Y%m%d_%H%M%S')"
   local backup_path="${dest}/backup_${timestamp}"
-  
+
   # Validate inputs
   if [[ ! -d "$source" ]]; then
     log_error "Source directory does not exist: $source"
     return 1
   fi
-  
+
   if [[ ! -w "$dest" ]]; then
     log_error "Destination is not writable: $dest"
     return 1
   fi
-  
+
   # Create backup directory
   if ! mkdir -p "$backup_path"; then
     log_error "Failed to create backup directory"
     return 1
   fi
-  
+
   # Perform backup
   log_info "Backing up $source to $backup_path"
-  
+
   if rsync -av --delete \
       --exclude='.git' \
       --exclude='node_modules' \
@@ -516,13 +516,13 @@ perform_backup() {
 demonstrate_scope() {
   local local_var="visible only in function"
   global_var="visible everywhere"  # Avoid this!
-  
+
   # Read-only variables
   local -r readonly_var="cannot be changed"
-  
+
   # Arrays
   local -a array=("item1" "item2" "item3")
-  
+
   # Associative arrays (bash 4+)
   local -A map=( ["key1"]="value1" ["key2"]="value2" )
 }
@@ -537,7 +537,7 @@ parse_arguments() {
   local output=""
   local retention_days=$DEFAULT_RETENTION_DAYS
   local dry_run=false
-  
+
   # Parse options
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -589,14 +589,14 @@ parse_arguments() {
         ;;
     esac
   done
-  
+
   # Validate positional arguments
   if [[ $# -lt 2 ]]; then
     log_error "Missing required arguments"
     usage
     exit "$EXIT_USAGE"
   fi
-  
+
   readonly SOURCE="$1"
   readonly DEST="$2"
   readonly VERBOSE=$verbose
@@ -646,22 +646,22 @@ USAGE
 validate_file() {
   local file="$1"
   local description="${2:-File}"
-  
+
   if [[ -z "$file" ]]; then
     log_error "$description path is empty"
     return 1
   fi
-  
+
   if [[ ! -f "$file" ]]; then
     log_error "$description does not exist: $file"
     return 1
   fi
-  
+
   if [[ ! -r "$file" ]]; then
     log_error "$description is not readable: $file"
     return 1
   fi
-  
+
   return 0
 }
 
@@ -670,22 +670,22 @@ validate_directory() {
   local dir="$1"
   local description="${2:-Directory}"
   local must_be_writable="${3:-false}"
-  
+
   if [[ -z "$dir" ]]; then
     log_error "$description path is empty"
     return 1
   fi
-  
+
   if [[ ! -d "$dir" ]]; then
     log_error "$description does not exist: $dir"
     return 1
   fi
-  
+
   if [[ "$must_be_writable" == "true" && ! -w "$dir" ]]; then
     log_error "$description is not writable: $dir"
     return 1
   fi
-  
+
   return 0
 }
 
@@ -695,22 +695,22 @@ validate_number() {
   local description="${2:-Value}"
   local min="${3:-}"
   local max="${4:-}"
-  
+
   if [[ ! "$value" =~ ^[0-9]+$ ]]; then
     log_error "$description must be a number: $value"
     return 1
   fi
-  
+
   if [[ -n "$min" && "$value" -lt "$min" ]]; then
     log_error "$description must be >= $min: $value"
     return 1
   fi
-  
+
   if [[ -n "$max" && "$value" -gt "$max" ]]; then
     log_error "$description must be <= $max: $value"
     return 1
   fi
-  
+
   return 0
 }
 
@@ -718,22 +718,22 @@ validate_number() {
 validate_email() {
   local email="$1"
   local regex='^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-  
+
   if [[ ! "$email" =~ $regex ]]; then
     log_error "Invalid email format: $email"
     return 1
   fi
-  
+
   return 0
 }
 
 # Sanitize user input
 sanitize_input() {
   local input="$1"
-  
+
   # Remove potentially dangerous characters
   input="${input//[^a-zA-Z0-9._-]/}"
-  
+
   echo "$input"
 }
 ```
@@ -744,7 +744,7 @@ sanitize_input() {
 # Check for required commands
 validate_dependencies() {
   local missing_deps=()
-  
+
   local required_commands=(
     rsync
     gzip
@@ -752,23 +752,23 @@ validate_dependencies() {
     date
     mktemp
   )
-  
+
   for cmd in "${required_commands[@]}"; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
       missing_deps+=("$cmd")
     fi
   done
-  
+
   if ((${#missing_deps[@]} > 0)); then
     log_error "Missing required commands: ${missing_deps[*]}"
     log_info "Install with: apt-get install ${missing_deps[*]}"
     exit "$EXIT_ERROR"
   fi
-  
+
   # Check versions if needed
   local rsync_version
   rsync_version="$(rsync --version | head -n1 | grep -oP '\d+\.\d+\.\d+')"
-  
+
   if ! version_gt "$rsync_version" "3.0.0"; then
     log_error "rsync version must be >= 3.0.0 (found: $rsync_version)"
     exit "$EXIT_ERROR"
@@ -779,7 +779,7 @@ validate_dependencies() {
 version_gt() {
   local version1="$1"
   local version2="$2"
-  
+
   printf '%s\n%s\n' "$version1" "$version2" | sort -V -C
   return $?
 }
@@ -788,7 +788,7 @@ version_gt() {
 check_optional_tool() {
   local tool="$1"
   local fallback="$2"
-  
+
   if command -v "$tool" >/dev/null 2>&1; then
     echo "$tool"
   else
@@ -813,10 +813,10 @@ setup() {
   TEST_DIR="$(mktemp -d)"
   SOURCE_DIR="$TEST_DIR/source"
   DEST_DIR="$TEST_DIR/dest"
-  
+
   mkdir -p "$SOURCE_DIR" "$DEST_DIR"
   echo "test content" > "$SOURCE_DIR/file.txt"
-  
+
   # Source the script to test
   source ./backup-manager.sh
 }
@@ -846,10 +846,10 @@ teardown() {
 
 @test "perform_backup preserves file content" {
   perform_backup "$SOURCE_DIR" "$DEST_DIR"
-  
+
   local backup_dir
   backup_dir="$(find "$DEST_DIR" -maxdepth 1 -type d -name 'backup_*')"
-  
+
   [ -f "$backup_dir/file.txt" ]
   [ "$(cat "$backup_dir/file.txt")" = "test content" ]
 }
@@ -898,17 +898,17 @@ good_alternative() {
 # 2. Sanitize paths
 sanitize_path() {
   local path="$1"
-  
+
   # Remove .. and . components
   path="$(realpath -m "$path")"
-  
+
   # Ensure path is within allowed directory
   local allowed_dir="/home/user/allowed"
   if [[ "$path" != "$allowed_dir"* ]]; then
     log_error "Path outside allowed directory: $path"
     return 1
   fi
-  
+
   echo "$path"
 }
 
@@ -919,24 +919,24 @@ create_secure_temp() {
     log_error "Failed to create temp file"
     return 1
   }
-  
+
   # Set restrictive permissions
   chmod 600 "$temp_file"
-  
+
   echo "$temp_file"
 }
 
 # 4. Avoid command injection
 execute_safely() {
   local file="$1"
-  
+
   # Bad: subject to injection
   # ls "$file"*.txt
-  
+
   # Good: use arrays
   local -a files
   mapfile -t files < <(find . -name "${file}*.txt")
-  
+
   for f in "${files[@]}"; do
     echo "$f"
   done
@@ -948,7 +948,7 @@ run_as_root() {
     log_error "This function must be run as root"
     return 1
   fi
-  
+
   # Drop privileges when possible
   sudo -u nobody some_command
 }
@@ -958,7 +958,7 @@ validate_env() {
   # Set safe defaults
   : "${HOME:=/home/user}"
   : "${PATH:=/usr/local/bin:/usr/bin:/bin}"
-  
+
   # Validate PATH doesn't include current directory
   if [[ "$PATH" =~ (^|:)\.(:|$) ]]; then
     log_error "PATH contains current directory"
@@ -969,14 +969,14 @@ validate_env() {
 # 7. Secure password handling
 read_password() {
   local password
-  
+
   # Don't echo password
   read -rsp "Enter password: " password
   echo >&2
-  
+
   # Use password
   some_command <<< "$password"
-  
+
   # Clear password variable
   unset password
 }
@@ -1015,12 +1015,12 @@ count=$(wc -l < file.txt)
 # Process array efficiently
 process_array() {
   local -a items=("$@")
-  
+
   # Slow: loop with external commands
   # for item in "${items[@]}"; do
   #   result=$(echo "$item" | tr '[:lower:]' '[:upper:]')
   # done
-  
+
   # Fast: bash built-ins
   for item in "${items[@]}"; do
     result="${item^^}"  # Bash 4+
@@ -1040,7 +1040,7 @@ cp *.txt /dest/
 parallel_process() {
   # Process files in parallel
   find . -name "*.log" | parallel -j4 gzip
-  
+
   # Or with bash
   for file in *.log; do
     gzip "$file" &
@@ -1103,19 +1103,19 @@ shellcheck script.sh
 # Parse JSON with jq
 parse_json() {
   local json_file="$1"
-  
+
   # Extract value
   local name
   name=$(jq -r '.name' "$json_file")
-  
+
   # Extract array
   local -a items
   mapfile -t items < <(jq -r '.items[]' "$json_file")
-  
+
   # Complex query
   local version
   version=$(jq -r '.packages[] | select(.name=="mypackage") | .version' "$json_file")
-  
+
   echo "Name: $name"
   echo "Items: ${items[*]}"
   echo "Version: $version"
@@ -1125,7 +1125,7 @@ parse_json() {
 generate_json() {
   local name="$1"
   local version="$2"
-  
+
   jq -n \
     --arg name "$name" \
     --arg version "$version" \
@@ -1140,7 +1140,7 @@ generate_json() {
 parse_json_basic() {
   local json="$1"
   local key="$2"
-  
+
   # Extract simple string value
   echo "$json" | grep -o "\"$key\"[[:space:]]*:[[:space:]]*\"[^\"]*\"" | cut -d'"' -f4
 }
@@ -1154,10 +1154,10 @@ api_request() {
   local method="$1"
   local endpoint="$2"
   local data="${3:-}"
-  
+
   local base_url="https://api.example.com"
   local token="$API_TOKEN"
-  
+
   local -a curl_args=(
     -X "$method"
     -H "Authorization: Bearer $token"
@@ -1167,16 +1167,16 @@ api_request() {
     --show-error
     --fail
   )
-  
+
   if [[ -n "$data" ]]; then
     curl_args+=(-d "$data")
   fi
-  
+
   if ! response=$(curl "${curl_args[@]}" "$base_url$endpoint"); then
     log_error "API request failed: $method $endpoint"
     return 1
   fi
-  
+
   echo "$response"
 }
 
@@ -1185,22 +1185,22 @@ api_request_with_retry() {
   local max_attempts=3
   local attempt=1
   local backoff=2
-  
+
   while ((attempt <= max_attempts)); do
     if response=$(api_request "$@"); then
       echo "$response"
       return 0
     fi
-    
+
     if ((attempt < max_attempts)); then
       log_warn "Request failed, retrying in ${backoff}s..."
       sleep "$backoff"
       backoff=$((backoff * 2))
     fi
-    
+
     ((attempt++))
   done
-  
+
   log_error "API request failed after $max_attempts attempts"
   return 1
 }
@@ -1209,7 +1209,7 @@ api_request_with_retry() {
 upload_file() {
   local file="$1"
   local endpoint="$2"
-  
+
   curl -X POST \
     -H "Authorization: Bearer $API_TOKEN" \
     -F "file=@$file" \
@@ -1223,12 +1223,12 @@ upload_file() {
 # Load configuration from file
 load_config() {
   local config_file="${1:-config.conf}"
-  
+
   if [[ ! -f "$config_file" ]]; then
     log_error "Config file not found: $config_file"
     return 1
   fi
-  
+
   # Source config file in subshell for safety
   if ! (
     # Validate config file first
@@ -1238,7 +1238,7 @@ load_config() {
     log_error "Invalid config file: $config_file"
     return 1
   fi
-  
+
   # Now source it for real
   source "$config_file"
 }
@@ -1248,7 +1248,7 @@ parse_ini() {
   local file="$1"
   local section="$2"
   local key="$3"
-  
+
   # Extract value from [section]
   awk -F= -v section="$section" -v key="$key" '
     /^\[.*\]$/ { current_section = substr($0, 2, length($0)-2) }
@@ -1260,17 +1260,17 @@ parse_ini() {
 load_env_config() {
   local env="${ENV:-development}"
   local config_dir="${CONFIG_DIR:-./config}"
-  
+
   # Load base config
   if [[ -f "$config_dir/base.conf" ]]; then
     source "$config_dir/base.conf"
   fi
-  
+
   # Override with environment-specific config
   if [[ -f "$config_dir/${env}.conf" ]]; then
     source "$config_dir/${env}.conf"
   fi
-  
+
   log_info "Loaded configuration for environment: $env"
 }
 ```
@@ -1305,10 +1305,10 @@ handle_sighup() {
 # Ignore signals during critical section
 critical_section() {
   trap '' INT TERM  # Ignore signals
-  
+
   # Critical operations
   important_operation
-  
+
   trap - INT TERM  # Restore handlers
 }
 ```
@@ -1327,31 +1327,31 @@ wait_for_process() {
   local pid="$1"
   local timeout="${2:-30}"
   local elapsed=0
-  
+
   while is_running "$pid"; do
     if ((elapsed >= timeout)); then
       log_error "Timeout waiting for process $pid"
       return 1
     fi
-    
+
     sleep 1
     ((elapsed++))
   done
-  
+
   return 0
 }
 
 # Run command in background with monitoring
 run_background() {
   local -a cmd=("$@")
-  
+
   # Start process
   "${cmd[@]}" &
   local pid=$!
-  
+
   # Store PID for cleanup
   echo "$pid" >> "$PID_FILE"
-  
+
   log_info "Started background process: $pid"
   echo "$pid"
 }
@@ -1360,10 +1360,10 @@ run_background() {
 kill_tree() {
   local pid="$1"
   local signal="${2:-TERM}"
-  
+
   # Kill all child processes
   pkill -"$signal" -P "$pid"
-  
+
   # Kill parent process
   kill -"$signal" "$pid"
 }
@@ -1387,7 +1387,7 @@ detect_os() {
 get_cpu_count() {
   local os
   os=$(detect_os)
-  
+
   case "$os" in
     linux)
       nproc
@@ -1405,7 +1405,7 @@ get_cpu_count() {
 portable_sed() {
   local os
   os=$(detect_os)
-  
+
   if [[ "$os" == "macos" ]]; then
     sed -i '' "$@"  # macOS requires empty string
   else
@@ -1416,7 +1416,7 @@ portable_sed() {
 # Check bash version
 require_bash_version() {
   local required_version="$1"
-  
+
   if ! version_gt "$BASH_VERSION" "$required_version"; then
     log_error "Bash version $required_version or higher required (found: $BASH_VERSION)"
     exit 1

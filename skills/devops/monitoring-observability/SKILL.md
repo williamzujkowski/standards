@@ -168,7 +168,7 @@ var (
         },
         []string{"method", "endpoint", "status"},
     )
-    
+
     httpRequestDuration = promauto.NewHistogramVec(
         prometheus.HistogramOpts{
             Name:    "http_request_duration_seconds",
@@ -183,9 +183,9 @@ func instrumentHandler(handler http.HandlerFunc) http.HandlerFunc {
     return func(w http.ResponseWriter, r *http.Request) {
         timer := prometheus.NewTimer(httpRequestDuration.WithLabelValues(r.Method, r.URL.Path))
         defer timer.ObserveDuration()
-        
+
         handler(w, r)
-        
+
         httpRequestsTotal.WithLabelValues(r.Method, r.URL.Path, "200").Inc()
     }
 }
@@ -264,13 +264,13 @@ groups:
       # Pre-compute expensive queries
       - record: job:http_requests:rate5m
         expr: sum(rate(http_requests_total[5m])) by (job)
-      
+
       - record: job:http_request_duration:p95
         expr: histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (job, le))
-      
+
       - record: job:http_errors:rate5m
         expr: sum(rate(http_requests_total{status=~"5.."}[5m])) by (job)
-      
+
       - record: instance:cpu:usage
         expr: 100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
 ```
@@ -517,7 +517,7 @@ trace.get_tracer_provider().add_span_processor(
 with tracer.start_as_current_span("handle_request") as span:
     span.set_attribute("user.id", "12345")
     span.set_attribute("http.method", "GET")
-    
+
     with tracer.start_as_current_span("database_query") as db_span:
         db_span.set_attribute("db.system", "postgresql")
         # Perform database operation
@@ -669,19 +669,19 @@ route:
   group_wait: 10s
   group_interval: 10s
   repeat_interval: 12h
-  
+
   routes:
     # Critical alerts to PagerDuty
     - match:
         severity: critical
       receiver: 'pagerduty'
       continue: true
-    
+
     # Warning alerts to Slack
     - match:
         severity: warning
       receiver: 'slack-warnings'
-    
+
     # Team-specific routing
     - match:
         team: backend
@@ -912,7 +912,7 @@ data:
     processors:
       probabilistic_sampler:
         sampling_percentage: 10  # Sample 10% of traces
-      
+
       tail_sampling:
         policies:
           # Always keep error traces

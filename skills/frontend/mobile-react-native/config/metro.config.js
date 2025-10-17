@@ -1,6 +1,6 @@
 /**
  * Metro Bundler Configuration
- * 
+ *
  * Optimized configuration for React Native bundling
  */
 
@@ -14,10 +14,10 @@ const config = {
   transformer: {
     // Use Babel to transform JS
     babelTransformerPath: require.resolve('react-native-svg-transformer'),
-    
+
     // Inline requires for better performance
     inlineRequires: true,
-    
+
     // Minifier options
     minifierConfig: {
       keep_classnames: true,
@@ -28,7 +28,7 @@ const config = {
       },
     },
   },
-  
+
   resolver: {
     // Asset extensions
     assetExts: [
@@ -43,14 +43,14 @@ const config = {
       'mp4',
       'mov',
     ],
-    
+
     // Source extensions
     sourceExts: ['js', 'jsx', 'ts', 'tsx', 'json'],
-    
+
     // Platform-specific extensions (processed in order)
     platforms: ['ios', 'android'],
   },
-  
+
   // Cache configuration
   cacheStores: [
     {
@@ -60,10 +60,10 @@ const config = {
       },
     },
   ],
-  
+
   // Watch configuration
   watchFolders: [],
-  
+
   // Server configuration
   server: {
     port: 8081,

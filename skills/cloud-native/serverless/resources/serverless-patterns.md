@@ -99,7 +99,7 @@ EventBridge Rule (cron) → Lambda → Execute Task → Notify (SNS/SES)
 def lambda_handler(event, context):
     rds = boto3.client('rds')
     snapshot_id = f"backup-{datetime.now().strftime('%Y%m%d')}"
-    
+
     rds.create_db_snapshot(
         DBInstanceIdentifier='prod-db',
         DBSnapshotIdentifier=snapshot_id
@@ -146,10 +146,10 @@ def lambda_handler(event, context):
         # Kinesis data is base64 encoded
         payload = base64.b64decode(record['kinesis']['data'])
         data = json.loads(payload)
-        
+
         # Process record
         process_event(data)
-    
+
     # Return partial batch failures (Lambda retries only failed records)
     return {
         "batchItemFailures": [
@@ -188,7 +188,7 @@ Client → API Gateway → Lambda (Producer) → SQS → Lambda (Consumer)
 def lambda_handler(event, context):
     for record in event['Records']:
         body = json.loads(record['body'])
-        
+
         try:
             process_message(body)
         except Exception as e:
@@ -294,12 +294,12 @@ Client → CloudFront → Lambda@Edge → Origin (S3/API)
 function handler(event) {
     var request = event.request;
     var uri = request.uri;
-    
+
     // 50% traffic to variant B
     if (Math.random() < 0.5) {
         request.uri = uri.replace('/index.html', '/index-b.html');
     }
-    
+
     return request;
 }
 ```
@@ -322,7 +322,7 @@ Client (WebSocket) → API Gateway WebSocket → Lambda
 # $connect route
 def connect_handler(event, context):
     connection_id = event['requestContext']['connectionId']
-    
+
     # Store connection
     table.put_item(Item={
         'connectionId': connection_id,
@@ -338,7 +338,7 @@ def disconnect_handler(event, context):
 def message_handler(event, context):
     connection_id = event['requestContext']['connectionId']
     body = json.loads(event['body'])
-    
+
     # Broadcast to all connections
     api_gateway = boto3.client('apigatewaymanagementapi')
     for conn in get_all_connections():

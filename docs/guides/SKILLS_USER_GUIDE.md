@@ -453,9 +453,9 @@ Skills automatically reference related skills:
 
 ```markdown
 ## Integration Points
-- Links to [Security Standards](../security-practices/SKILL.md) for secure coding
-- Links to [Testing Standards](../testing/SKILL.md) for testable code design
-- Links to [NIST Compliance](../nist-compliance/SKILL.md) for SI-10, SI-11 controls
+- Reference related skills for secure coding
+- Reference related skills for testable code design
+- Reference related skills for compliance controls
 ```
 
 **Navigation is automatic** when skills are composed together.

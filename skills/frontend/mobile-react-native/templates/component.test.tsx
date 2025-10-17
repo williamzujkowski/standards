@@ -46,10 +46,10 @@ describe('UserProfile', () => {
   });
 
   it('displays loading state', () => {
-    (global.fetch as jest.Mock).mockImplementation(() => 
+    (global.fetch as jest.Mock).mockImplementation(() =>
       new Promise(() => {}) // Never resolves
     );
-    
+
     const { getByTestId } = renderComponent();
     expect(getByTestId('loading-indicator')).toBeTruthy();
   });
@@ -104,15 +104,15 @@ describe('UserProfile', () => {
 
     const input = getByPlaceholderText('Enter name');
     fireEvent.changeText(input, 'John');
-    
+
     expect(onChangeText).toHaveBeenCalledWith('John');
   });
 
   it('navigates to detail screen', () => {
     const { getByText } = renderComponent();
-    
+
     fireEvent.press(getByText('View Details'));
-    
+
     expect(mockNavigation.navigate).toHaveBeenCalledWith('Details', {
       userId: expect.any(String),
     });

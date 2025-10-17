@@ -56,7 +56,7 @@ array_contains() {
   local element="$1"
   shift
   local array=("$@")
-  
+
   for item in "${array[@]}"; do
     if [[ "$item" == "$element" ]]; then
       return 0
@@ -77,7 +77,7 @@ array_join() {
   shift
   local array=("$@")
   local result=""
-  
+
   for item in "${array[@]}"; do
     if [[ -z "$result" ]]; then
       result="$item"
@@ -85,7 +85,7 @@ array_join() {
       result="${result}${delimiter}${item}"
     fi
   done
-  
+
   echo "$result"
 }
 
@@ -119,7 +119,7 @@ backup_file() {
   local timestamp
   timestamp="$(date '+%Y%m%d_%H%M%S')"
   local backup="${file}.backup.${timestamp}"
-  
+
   if [[ -f "$file" ]]; then
     cp "$file" "$backup"
     echo "$backup"
@@ -147,20 +147,20 @@ is_valid_email() {
 is_valid_ip() {
   local ip="$1"
   local regex='^([0-9]{1,3}\.){3}[0-9]{1,3}$'
-  
+
   if [[ ! "$ip" =~ $regex ]]; then
     return 1
   fi
-  
+
   local -a octets
   IFS='.' read -ra octets <<< "$ip"
-  
+
   for octet in "${octets[@]}"; do
     if ((octet > 255)); then
       return 1
     fi
   done
-  
+
   return 0
 }
 
@@ -208,7 +208,7 @@ format_duration() {
   local hours=$((seconds / 3600))
   local minutes=$(((seconds % 3600) / 60))
   local secs=$((seconds % 60))
-  
+
   printf "%02d:%02d:%02d" "$hours" "$minutes" "$secs"
 }
 
@@ -231,7 +231,7 @@ get_os() {
 get_cpu_count() {
   local os
   os=$(get_os)
-  
+
   case "$os" in
     linux)  nproc ;;
     macos)  sysctl -n hw.ncpu ;;
@@ -243,7 +243,7 @@ get_cpu_count() {
 get_memory_mb() {
   local os
   os=$(get_os)
-  
+
   case "$os" in
     linux)
       free -m | awk '/^Mem:/ {print $7}'
@@ -265,7 +265,7 @@ get_memory_mb() {
 is_host_reachable() {
   local host="$1"
   local timeout="${2:-5}"
-  
+
   ping -c 1 -W "$timeout" "$host" >/dev/null 2>&1
 }
 
@@ -274,7 +274,7 @@ is_port_open() {
   local host="$1"
   local port="$2"
   local timeout="${3:-5}"
-  
+
   timeout "$timeout" bash -c "cat < /dev/null > /dev/tcp/${host}/${port}" 2>/dev/null
 }
 
@@ -300,7 +300,7 @@ wait_for_process() {
   local pid="$1"
   local timeout="${2:-0}"
   local elapsed=0
-  
+
   while is_process_running "$pid"; do
     if ((timeout > 0 && elapsed >= timeout)); then
       return 1
@@ -308,7 +308,7 @@ wait_for_process() {
     sleep 1
     ((elapsed++))
   done
-  
+
   return 0
 }
 
@@ -328,23 +328,23 @@ retry() {
   local initial_delay="${2:-1}"
   shift 2
   local -a cmd=("$@")
-  
+
   local attempt=1
   local delay=$initial_delay
-  
+
   while ((attempt <= max_attempts)); do
     if "${cmd[@]}"; then
       return 0
     fi
-    
+
     if ((attempt < max_attempts)); then
       sleep "$delay"
       delay=$((delay * 2))
     fi
-    
+
     ((attempt++))
   done
-  
+
   return 1
 }
 
@@ -374,12 +374,12 @@ spinner() {
   local pid=$1
   local spin='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
   local i=0
-  
+
   while is_process_running "$pid"; do
     printf "\r[%s] Processing..." "${spin:i++%${#spin}:1}"
     sleep 0.1
   done
-  
+
   printf "\r[✓] Done!         \n"
 }
 
@@ -388,11 +388,11 @@ progress_bar() {
   local current=$1
   local total=$2
   local width=50
-  
+
   local percentage=$((current * 100 / total))
   local filled=$((width * current / total))
   local empty=$((width - filled))
-  
+
   printf "\r["
   printf "%${filled}s" | tr ' ' '='
   printf "%${empty}s" | tr ' ' ' '
@@ -454,6 +454,6 @@ print_blue() { print_color "$COLOR_BLUE" "$@"; }
 version_gte() {
   local v1="$1"
   local v2="$2"
-  
+
   printf '%s\n%s\n' "$v1" "$v2" | sort -V -C
 }

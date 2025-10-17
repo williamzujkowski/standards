@@ -182,16 +182,16 @@ config_file="${CONFIG_FILE:-${HOME}/.config/app.conf}"
 my_function() {
   local arg1="$1"
   local arg2="${2:-default}"
-  
+
   # Validate inputs
   if [[ -z "$arg1" ]]; then
     echo "Error: arg1 required" >&2
     return 1
   fi
-  
+
   # Do work
   local result="processed $arg1"
-  
+
   # Return value via stdout
   echo "$result"
   return 0
@@ -307,16 +307,16 @@ sanitize() {
 validate_path() {
   local path="$1"
   local allowed_dir="/home/user/allowed"
-  
+
   # Resolve to absolute path
   path="$(realpath -m "$path")"
-  
+
   # Check if within allowed directory
   if [[ "$path" != "$allowed_dir"* ]]; then
     echo "Error: Path outside allowed directory" >&2
     return 1
   fi
-  
+
   echo "$path"
 }
 ```
@@ -437,16 +437,16 @@ declare -A cache
 
 cached_function() {
   local key="$1"
-  
+
   if [[ -n "${cache[$key]:-}" ]]; then
     echo "${cache[$key]}"
     return 0
   fi
-  
+
   local result
   result=$(expensive_operation "$key")
   cache[$key]="$result"
-  
+
   echo "$result"
 }
 ```
@@ -570,21 +570,21 @@ retry() {
   local max_attempts=3
   local attempt=1
   local delay=2
-  
+
   while ((attempt <= max_attempts)); do
     if "$@"; then
       return 0
     fi
-    
+
     if ((attempt < max_attempts)); then
       echo "Attempt $attempt failed, retrying..." >&2
       sleep "$delay"
       delay=$((delay * 2))
     fi
-    
+
     ((attempt++))
   done
-  
+
   return 1
 }
 

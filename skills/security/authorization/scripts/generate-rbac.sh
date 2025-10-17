@@ -107,13 +107,13 @@ role_hierarchy = {
 
 for dept in org.get('departments', []):
     dept_name = dept['name']
-    
+
     for team in dept.get('teams', []):
         team_name = team['name']
-        
+
         for role_name in team.get('roles', []):
             full_role_name = f'{dept_name}_{team_name}_{role_name}'
-            
+
             # Determine parent role
             if role_name == 'developer':
                 parent = 'user'
@@ -123,12 +123,12 @@ for dept in org.get('departments', []):
                 parent = 'user'
             else:
                 parent = 'user'
-            
+
             role_hierarchy[full_role_name] = parent
-            
+
             # Get permissions for this role type
             permissions = PERMISSION_MAPPINGS.get(role_name, ['documents:read'])
-            
+
             policy['roles'].append({
                 'name': full_role_name,
                 'description': f'{role_name.replace("_", " ").title()} in {dept_name}/{team_name}',

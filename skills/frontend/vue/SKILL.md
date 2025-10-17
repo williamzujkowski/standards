@@ -324,17 +324,17 @@ interface SlotProps {
   <div class="card">
     <!-- Default slot -->
     <slot />
-    
+
     <!-- Named slots -->
     <header>
       <slot name="header" />
     </header>
-    
+
     <!-- Scoped slots -->
     <div v-for="(item, index) in items" :key="item.id">
       <slot name="item" :item="item" :index="index" />
     </div>
-    
+
     <!-- Fallback content -->
     <footer>
       <slot name="footer">
@@ -349,11 +349,11 @@ interface SlotProps {
   <template #header>
     <h1>Custom Header</h1>
   </template>
-  
+
   <template #item="{ item, index }">
     <p>{{ index }}: {{ item.name }}</p>
   </template>
-  
+
   Default content
 </Card>
 ```
@@ -452,12 +452,12 @@ export default router;
 // Global guards
 router.beforeEach(async (to, from) => {
   const authStore = useAuthStore();
-  
+
   // Redirect to login if not authenticated
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     return { name: 'Login', query: { redirect: to.fullPath } };
   }
-  
+
   // Check permissions
   if (to.meta.roles && !authStore.hasRole(to.meta.roles)) {
     return { name: 'Forbidden' };
@@ -510,15 +510,15 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 // Type-safe params
-router.push({ 
-  name: 'UserDetail', 
-  params: { id: userId } 
+router.push({
+  name: 'UserDetail',
+  params: { id: userId }
 });
 
 // Query parameters
-router.push({ 
-  name: 'Search', 
-  query: { q: searchTerm, page: '1' } 
+router.push({
+  name: 'Search',
+  query: { q: searchTerm, page: '1' }
 });
 ```
 
@@ -537,18 +537,18 @@ export const useUserStore = defineStore('user', () => {
   const user = ref<User | null>(null);
   const isLoading = ref(false);
   const error = ref<string | null>(null);
-  
+
   // Getters (computed)
   const isAuthenticated = computed(() => user.value !== null);
-  const fullName = computed(() => 
+  const fullName = computed(() =>
     user.value ? `${user.value.firstName} ${user.value.lastName}` : ''
   );
-  
+
   // Actions
   async function login(email: string, password: string) {
     isLoading.value = true;
     error.value = null;
-    
+
     try {
       const response = await api.login(email, password);
       user.value = response.data.user;
@@ -560,12 +560,12 @@ export const useUserStore = defineStore('user', () => {
       isLoading.value = false;
     }
   }
-  
+
   function logout() {
     user.value = null;
     localStorage.removeItem('token');
   }
-  
+
   return {
     // State
     user,
@@ -586,11 +586,11 @@ export const useUserStore = defineStore('user', {
     user: null as User | null,
     isLoading: false
   }),
-  
+
   getters: {
     isAuthenticated: (state) => state.user !== null
   },
-  
+
   actions: {
     async login(email: string, password: string) {
       // Same implementation
@@ -605,21 +605,21 @@ export const useUserStore = defineStore('user', {
 // Compose multiple stores
 export const useCartStore = defineStore('cart', () => {
   const userStore = useUserStore();
-  
+
   const items = ref<CartItem[]>([]);
-  
+
   const total = computed(() => {
     if (!userStore.isAuthenticated) return 0;
     return items.value.reduce((sum, item) => sum + item.price, 0);
   });
-  
+
   async function checkout() {
     if (!userStore.isAuthenticated) {
       throw new Error('Must be logged in');
     }
     // Checkout logic
   }
-  
+
   return { items, total, checkout };
 });
 ```
@@ -634,12 +634,12 @@ export const usePreferencesStore = defineStore('preferences', () => {
   // Auto-persist to localStorage
   const theme = useStorage('theme', 'light');
   const language = useStorage('language', 'en');
-  
+
   function setTheme(newTheme: string) {
     theme.value = newTheme;
     // Automatically saved to localStorage
   }
-  
+
   return { theme, language, setTheme };
 });
 
@@ -682,8 +682,8 @@ const { list, containerProps, wrapperProps } = useVirtualList(
 <template>
   <div v-bind="containerProps" style="height: 600px; overflow: auto;">
     <div v-bind="wrapperProps">
-      <div 
-        v-for="{ data, index } in list" 
+      <div
+        v-for="{ data, index } in list"
         :key="data.id"
         style="height: 50px;"
       >
@@ -766,14 +766,14 @@ const processedItems = computed(() => {
 
 <template>
   <!-- v-memo: only re-render if dependencies change -->
-  <div 
-    v-for="item in items" 
+  <div
+    v-for="item in items"
     :key="item.id"
     v-memo="[item.id, item.updated]"
   >
     {{ expensiveCalculation(item.id) }}
   </div>
-  
+
   <!-- v-once: render once, never update -->
   <div v-once>
     Static content that never changes
@@ -827,18 +827,18 @@ describe('UserProfile', () => {
         }
       }
     });
-    
+
     expect(wrapper.text()).toContain('John Doe');
     expect(wrapper.text()).toContain('john@example.com');
   });
-  
+
   it('emits update event on edit', async () => {
     const wrapper = mount(UserProfile, {
       props: { user: { name: 'John', email: 'john@example.com' } }
     });
-    
+
     await wrapper.find('button.edit').trigger('click');
-    
+
     expect(wrapper.emitted()).toHaveProperty('update');
     expect(wrapper.emitted('update')?.[0]).toEqual([{
       name: 'John',
@@ -860,16 +860,16 @@ describe('User Store', () => {
   beforeEach(() => {
     setActivePinia(createPinia());
   });
-  
+
   it('initializes with null user', () => {
     const store = useUserStore();
     expect(store.user).toBeNull();
     expect(store.isAuthenticated).toBe(false);
   });
-  
+
   it('logs in user successfully', async () => {
     const store = useUserStore();
-    
+
     // Mock API
     vi.mock('@/api', () => ({
       login: vi.fn().mockResolvedValue({
@@ -879,9 +879,9 @@ describe('User Store', () => {
         }
       })
     }));
-    
+
     await store.login('john@example.com', 'password');
-    
+
     expect(store.user).toEqual({ id: 1, name: 'John' });
     expect(store.isAuthenticated).toBe(true);
   });
@@ -898,12 +898,12 @@ import { useCounter } from '@/composables/useCounter';
 describe('useCounter', () => {
   it('increments count', () => {
     const { count, increment } = useCounter();
-    
+
     expect(count.value).toBe(0);
     increment();
     expect(count.value).toBe(1);
   });
-  
+
   it('accepts initial value', () => {
     const { count } = useCounter(10);
     expect(count.value).toBe(10);
@@ -924,19 +924,19 @@ describe('useCounter', () => {
       <li><a href="/about">About</a></li>
     </ul>
   </nav>
-  
+
   <main id="main-content">
     <article>
       <h1>Page Title</h1>
       <p>Content...</p>
     </article>
   </main>
-  
+
   <!-- Form accessibility -->
   <form @submit.prevent="handleSubmit">
     <label for="email">Email:</label>
-    <input 
-      id="email" 
+    <input
+      id="email"
       v-model="email"
       type="email"
       required
@@ -968,7 +968,7 @@ const menuId = useId(); // Generate unique ID
   >
     Menu
   </button>
-  
+
   <!-- Menu with ARIA -->
   <ul
     :id="menuId"
@@ -983,7 +983,7 @@ const menuId = useId(); // Generate unique ID
       <a href="/settings">Settings</a>
     </li>
   </ul>
-  
+
   <!-- Loading state -->
   <div v-if="isLoading" role="status" aria-live="polite">
     Loading...
@@ -1020,7 +1020,7 @@ function handleKeydown(event: KeyboardEvent) {
 </script>
 
 <template>
-  <ul 
+  <ul
     role="listbox"
     @keydown="handleKeydown"
     tabindex="0"
@@ -1066,7 +1066,7 @@ function handleKeydown(event: KeyboardEvent) {
   if (event.key === 'Escape') {
     closeModal();
   }
-  
+
   if (event.key === 'Tab') {
     // Implement focus trap logic
     const focusableElements = modalRef.value?.querySelectorAll(
@@ -1081,7 +1081,7 @@ function handleKeydown(event: KeyboardEvent) {
   <button ref="triggerRef" @click="openModal">
     Open Modal
   </button>
-  
+
   <div
     v-if="modalOpen"
     ref="modalRef"
@@ -1117,10 +1117,10 @@ const sanitizedHTML = computed(() => {
   <!-- NEVER use v-html with unsanitized user input -->
   <!-- ❌ Dangerous -->
   <div v-html="userInput"></div>
-  
+
   <!-- ✅ Safe - sanitized -->
   <div v-html="sanitizedHTML"></div>
-  
+
   <!-- ✅ Best - no v-html needed -->
   <div>{{ userInput }}</div>
 </template>
@@ -1198,7 +1198,7 @@ const schema = z.object({
 
 export function useForm() {
   const errors = ref<Record<string, string>>({});
-  
+
   function validate(data: unknown) {
     try {
       schema.parse(data);
@@ -1214,7 +1214,7 @@ export function useForm() {
       return false;
     }
   }
-  
+
   return { errors, validate };
 }
 ```

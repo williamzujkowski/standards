@@ -12,19 +12,19 @@
   - [ ] Threats and vulnerabilities assessed (natural, human, technical)
   - [ ] Likelihood and impact ratings assigned
   - [ ] Risk assessment documented and retained
-  
+
 - [ ] **Risk Management**
   - [ ] Risk management plan implemented
   - [ ] Security measures implemented to reduce risks to reasonable/appropriate level
   - [ ] Prioritized risk remediation based on criticality
   - [ ] Risk mitigation progress tracked and documented
-  
+
 - [ ] **Sanction Policy**
   - [ ] Written sanction policy established
   - [ ] Workforce members aware of sanctions for violations
   - [ ] Sanctions applied consistently when violations occur
   - [ ] Sanction actions documented
-  
+
 - [ ] **Information System Activity Review**
   - [ ] Regular audit log review performed (weekly/monthly)
   - [ ] Security incident tracking system in place
@@ -43,12 +43,12 @@
 - [ ] **Authorization and/or Supervision**
   - [ ] Workforce access authorization procedures implemented
   - [ ] Supervision procedures for workforce members accessing ePHI
-  
+
 - [ ] **Workforce Clearance**
   - [ ] Background checks conducted for positions with ePHI access
   - [ ] Access authorization based on role and job function
   - [ ] Access authorization forms signed and retained
-  
+
 - [ ] **Termination Procedures**
   - [ ] Termination checklist implemented
   - [ ] ePHI access disabled immediately upon termination
@@ -61,7 +61,7 @@
   - [ ] Access control policies and procedures documented
   - [ ] Role-based access control (RBAC) implemented
   - [ ] Access granted based on minimum necessary principle
-  
+
 - [ ] **Access Establishment and Modification**
   - [ ] New access request procedures established
   - [ ] Access modification procedures for role changes
@@ -73,21 +73,21 @@
 - [ ] **Security Reminders**
   - [ ] Periodic security reminders sent to workforce (monthly/quarterly)
   - [ ] Security posters displayed in common areas
-  
+
 - [ ] **Malicious Software Protection**
   - [ ] Procedures for detecting and reporting malware
   - [ ] Workforce trained on malware risks (phishing, ransomware)
-  
+
 - [ ] **Log-in Monitoring**
   - [ ] Procedures for monitoring log-in attempts
   - [ ] Workforce trained on reporting suspicious log-in activity
-  
+
 - [ ] **Password Management**
   - [ ] Password creation requirements documented (length, complexity)
   - [ ] Password change procedures established
   - [ ] Workforce trained on password safeguarding
   - [ ] Prohibition of password sharing communicated
-  
+
 - [ ] **General Training**
   - [ ] New hire HIPAA training within 30 days of hire
   - [ ] Annual HIPAA refresher training for all workforce
@@ -115,24 +115,24 @@
   - [ ] Backups stored off-site or in encrypted cloud storage
   - [ ] Backup retention aligns with legal requirements (6+ years)
   - [ ] Backup restoration tested quarterly
-  
+
 - [ ] **Disaster Recovery Plan**
   - [ ] Disaster recovery procedures documented
   - [ ] Recovery time objectives (RTO) defined for critical systems
   - [ ] Recovery point objectives (RPO) defined for critical systems
   - [ ] Disaster recovery plan tested annually
-  
+
 - [ ] **Emergency Mode Operation Plan**
   - [ ] Emergency access procedures established
   - [ ] Critical business processes identified
   - [ ] Alternative communication methods defined
   - [ ] Emergency contacts documented
-  
+
 - [ ] **Testing and Revision**
   - [ ] Contingency plan tested annually minimum
   - [ ] Test results documented
   - [ ] Plan revised based on test findings
-  
+
 - [ ] **Applications and Data Criticality Analysis**
   - [ ] Critical applications identified and prioritized
   - [ ] Data criticality assessment completed
@@ -166,18 +166,18 @@
 - [ ] **Contingency Operations**
   - [ ] Facility access procedures for contingency operations documented
   - [ ] Emergency access to facility for data restoration
-  
+
 - [ ] **Facility Security Plan**
   - [ ] Facility security plan documented
   - [ ] Physical access controls implemented (badge readers, locks, biometrics)
   - [ ] Visitor sign-in and escort procedures
   - [ ] Security cameras in data center and PHI storage areas
   - [ ] Intrusion detection alarms on data center doors
-  
+
 - [ ] **Access Control and Validation**
   - [ ] Access granted based on role or function
   - [ ] Access validation procedures (badge checks, sign-in)
-  
+
 - [ ] **Maintenance Records**
   - [ ] Facility maintenance documented (repairs, modifications)
   - [ ] Physical component changes tracked
@@ -206,16 +206,16 @@
   - [ ] Solid-state drives cryptographically erased or physically destroyed
   - [ ] Paper records cross-cut shredded (P-4 standard minimum)
   - [ ] Certificates of destruction retained for disposed media
-  
+
 - [ ] **Media Re-use**
   - [ ] ePHI removal procedures before media re-use
   - [ ] Media sanitization documented
-  
+
 - [ ] **Accountability**
   - [ ] Asset tags on all portable media devices
   - [ ] Checkout log for USB drives, external hard drives, backup tapes
   - [ ] Media movement tracked
-  
+
 - [ ] **Data Backup and Storage**
   - [ ] Backup copies created before equipment movement
   - [ ] Backup media stored securely
@@ -230,17 +230,17 @@
   - [ ] Unique user IDs assigned to all workforce members
   - [ ] No shared accounts (except audited emergency "break glass" account)
   - [ ] User ID format standardized
-  
+
 - [ ] **Emergency Access Procedure**
   - [ ] Emergency access ("break glass") account established
   - [ ] Emergency access requires multi-factor authentication
   - [ ] All emergency access logged and reviewed within 24 hours
   - [ ] Justification documented for each emergency access use
-  
+
 - [ ] **Automatic Logoff**
   - [ ] Automatic logoff or screen lock after inactivity
   - [ ] Inactivity timeout configured (5-15 minutes based on risk)
-  
+
 - [ ] **Encryption and Decryption**
   - [ ] ePHI encrypted at rest (AES-256)
   - [ ] ePHI encrypted in transit (TLS 1.2+, preferably TLS 1.3)
@@ -274,14 +274,14 @@
   - [ ] MFA implemented for remote access (required)
   - [ ] MFA implemented for ePHI access (recommended)
   - [ ] MFA enrollment procedures documented
-  
+
 - [ ] **Password Authentication**
   - [ ] Password minimum length: 12+ characters (14+ preferred)
   - [ ] Password complexity requirements enforced
   - [ ] Password expiration: 90 days (or passphrase-based with no expiration if 20+ characters)
   - [ ] Password history: prevent reuse of last 10 passwords
   - [ ] Account lockout: 5 failed attempts, 30-minute lockout
-  
+
 - [ ] **Entity Authentication**
   - [ ] Certificate-based authentication for system-to-system communication
   - [ ] API keys with secure generation, storage, and rotation
@@ -292,7 +292,7 @@
 - [ ] **Integrity Controls**
   - [ ] Security measures to ensure ePHI transmission integrity
   - [ ] Checksums or hash values for transmitted ePHI
-  
+
 - [ ] **Encryption**
   - [ ] TLS 1.2+ for all ePHI transmissions (TLS 1.3 preferred)
   - [ ] SSLv3, TLS 1.0, TLS 1.1 disabled
@@ -324,23 +324,23 @@
   - [ ] Reasonable fee structure documented (labor, supplies, postage only)
   - [ ] Access in form and format requested (including electronic)
   - [ ] Access denial procedures documented (limited scenarios)
-  
+
 - [ ] **Right to Amend**
   - [ ] Amendment request procedures documented
   - [ ] Amendment provided within 60 days (one 30-day extension permitted)
   - [ ] Amendment denial procedures documented (limited scenarios)
   - [ ] Individual statement of disagreement appended if denied
-  
+
 - [ ] **Right to Accounting of Disclosures**
   - [ ] Disclosure tracking for 6 years (excluding TPO, authorized, etc.)
   - [ ] Accounting provided within 60 days (one 30-day extension permitted)
   - [ ] First accounting free; reasonable fee for subsequent requests
-  
+
 - [ ] **Right to Request Restrictions**
   - [ ] Restriction request procedures documented
   - [ ] Self-pay restriction honored (required): no disclosure to health plan if service paid out-of-pocket in full
   - [ ] Other restriction requests considered (not required to agree)
-  
+
 - [ ] **Right to Confidential Communications**
   - [ ] Alternative communication procedures documented
   - [ ] Reasonable requests accommodated
@@ -358,12 +358,12 @@
 - [ ] **Treatment, Payment, Healthcare Operations (TPO)**
   - [ ] TPO uses and disclosures permitted without authorization
   - [ ] TPO defined in policies
-  
+
 - [ ] **Authorizations**
   - [ ] Authorization form includes all required elements
   - [ ] Signed authorization obtained before non-permitted disclosure
   - [ ] Individual right to revoke authorization documented
-  
+
 - [ ] **Permitted Without Authorization**
   - [ ] Procedures for permitted disclosures documented (public health, law enforcement, etc.)
   - [ ] Limited data set agreements for research
@@ -396,14 +396,14 @@
   - [ ] First-class mail or email (if individual agreed to electronic notice)
   - [ ] Notification content includes: description, PHI types, steps to protect, organization actions, contact info
   - [ ] Substitute notice procedures for insufficient contact info
-  
+
 - [ ] **OCR Notification**
   - [ ] ≥500 individuals: notify OCR within 60 days via OCR Portal
   - [ ] <500 individuals: maintain log, submit annually within 60 days of year end
-  
+
 - [ ] **Media Notification**
   - [ ] ≥500 residents of state/jurisdiction: notify prominent media outlet within 60 days
-  
+
 - [ ] **Business Associate Notification to Covered Entity**
   - [ ] BA notifies CE within 60 days of breach discovery
 

@@ -140,7 +140,7 @@ table = dynamodb.Table(os.environ['TABLE_NAME'])
 def lambda_handler(event, context):
     """
     Lambda handler function (runs per invocation).
-    
+
     Args:
         event: Input event data (dict)
         context: Runtime information (LambdaContext)
@@ -149,11 +149,11 @@ def lambda_handler(event, context):
         # Extract request data
         body = json.loads(event['body'])
         user_id = body['user_id']
-        
+
         # Business logic
         response = table.get_item(Key={'id': user_id})
         item = response.get('Item', {})
-        
+
         # Return API Gateway response
         return {
             'statusCode': 200,
@@ -388,7 +388,7 @@ def lambda_handler(event, context):
     for record in event['Records']:
         bucket = record['s3']['bucket']['name']
         key = record['s3']['object']['key']
-        
+
         # Process file
         s3 = boto3.client('s3')
         obj = s3.get_object(Bucket=bucket, Key=key)
@@ -416,7 +416,7 @@ def lambda_handler(event, context):
     for record in event['Records']:
         body = json.loads(record['body'])
         process_order(body['order_id'])
-    
+
     # Partial batch failures (SQS FIFO)
     return {
         "batchItemFailures": [
@@ -582,17 +582,17 @@ Resources:
 
 def lambda_handler(event, context):
     cache_file = '/tmp/data.json'
-    
+
     # Check cache
     if os.path.exists(cache_file):
         with open(cache_file) as f:
             return json.load(f)
-    
+
     # Fetch and cache
     data = fetch_from_api()
     with open(cache_file, 'w') as f:
         json.dump(data, f)
-    
+
     return data
 ```
 
@@ -649,12 +649,12 @@ redis_client = redis.Redis(
 
 def lambda_handler(event, context):
     user_id = event['user_id']
-    
+
     # Check cache
     cached = redis_client.get(f'user:{user_id}')
     if cached:
         return json.loads(cached)
-    
+
     # Fetch from DB and cache
     user = fetch_user_from_db(user_id)
     redis_client.setex(f'user:{user_id}', 300, json.dumps(user))
@@ -705,7 +705,7 @@ def lambda_handler(event, context):
         "user_id": event.get('user_id'),
         "action": "get_profile"
     })
-    
+
     try:
         result = process_request(event)
         logger.info("Request successful", extra={"result_size": len(result)})
@@ -729,11 +729,11 @@ def process_order(order_id):
     subsegment = xray_recorder.current_subsegment()
     subsegment.put_annotation('order_id', order_id)
     subsegment.put_metadata('order_details', {'items': 3, 'total': 99.99})
-    
+
     # Traced automatically
     dynamodb.get_item(Key={'id': order_id})
     requests.post('https://api.example.com/notify')
-    
+
     return {'status': 'completed'}
 ```
 
@@ -745,7 +745,7 @@ cloudwatch = boto3.client('cloudwatch')
 def lambda_handler(event, context):
     # Business metric
     order_total = event['total']
-    
+
     cloudwatch.put_metric_data(
         Namespace='ECommerce',
         MetricData=[
@@ -831,7 +831,7 @@ def get_secret(secret_name):
 def lambda_handler(event, context):
     # Retrieve DB credentials
     db_secret = get_secret(os.environ['DB_SECRET_ARN'])
-    
+
     conn = pymysql.connect(
         host=os.environ['DB_HOST'],
         user=db_secret['username'],
@@ -886,10 +886,10 @@ def lambda_handler(event, context):
         # Validate input
         body = json.loads(event['body'])
         validate(instance=body, schema=request_schema)
-        
+
         # Sanitize for SQL injection
         user_id = body['user_id'].replace("'", "''")
-        
+
         # Process request
         return process_user(user_id)
     except ValidationError as e:
@@ -920,19 +920,19 @@ def test_get_user_success():
         AttributeDefinitions=[{'AttributeName': 'id', 'AttributeType': 'S'}],
         BillingMode='PAY_PER_REQUEST'
     )
-    
+
     # Insert test data
     table.put_item(Item={'id': '123', 'name': 'John Doe'})
-    
+
     # Mock event
     event = {
         'httpMethod': 'GET',
         'pathParameters': {'id': '123'}
     }
-    
+
     # Invoke handler
     response = lambda_handler(event, None)
-    
+
     # Assert
     assert response['statusCode'] == 200
     body = json.loads(response['body'])
@@ -968,7 +968,7 @@ def test_lambda_invocation():
         FunctionName='my-function',
         Payload=json.dumps({'user_id': '123'})
     )
-    
+
     result = json.loads(response['Payload'].read())
     assert result['statusCode'] == 200
 ```

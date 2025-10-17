@@ -28,30 +28,30 @@ log_error() {
 
 check_dependencies() {
     log_info "Checking dependencies..."
-    
+
     if ! command -v docker &> /dev/null; then
         log_error "Docker is not installed. Please install Docker first."
         exit 1
     fi
-    
+
     if ! command -v docker-compose &> /dev/null; then
         log_error "Docker Compose is not installed. Please install Docker Compose first."
         exit 1
     fi
-    
+
     log_info "Dependencies check passed."
 }
 
 create_directories() {
     log_info "Creating necessary directories..."
-    
+
     mkdir -p "${PROJECT_ROOT}/data/prometheus"
     mkdir -p "${PROJECT_ROOT}/data/grafana"
     mkdir -p "${PROJECT_ROOT}/data/loki"
     mkdir -p "${PROJECT_ROOT}/data/jaeger"
     mkdir -p "${PROJECT_ROOT}/data/alertmanager"
     mkdir -p "${PROJECT_ROOT}/logs"
-    
+
     # Set permissions
     chmod -R 777 "${PROJECT_ROOT}/data"
     chmod -R 777 "${PROJECT_ROOT}/logs"
@@ -59,7 +59,7 @@ create_directories() {
 
 generate_docker_compose() {
     log_info "Generating docker-compose.yml..."
-    
+
     cat > "${PROJECT_ROOT}/docker-compose.yml" << 'COMPOSE_EOF'
 version: '3.8'
 
@@ -285,9 +285,9 @@ COMPOSE_EOF
 
 generate_alertmanager_config() {
     log_info "Generating alertmanager configuration..."
-    
+
     mkdir -p "${PROJECT_ROOT}/data/alertmanager"
-    
+
     cat > "${PROJECT_ROOT}/data/alertmanager/alertmanager.yml" << 'ALERTMANAGER_EOF'
 global:
   resolve_timeout: 5m
@@ -299,13 +299,13 @@ route:
   group_wait: 10s
   group_interval: 10s
   repeat_interval: 12h
-  
+
   routes:
     - match:
         severity: critical
       receiver: 'pagerduty'
       continue: true
-    
+
     - match:
         severity: warning
       receiver: 'slack-warnings'
@@ -338,13 +338,13 @@ ALERTMANAGER_EOF
 
 start_stack() {
     log_info "Starting monitoring stack..."
-    
+
     cd "${PROJECT_ROOT}"
     docker-compose up -d
-    
+
     log_info "Waiting for services to be healthy..."
     sleep 10
-    
+
     log_info "Monitoring stack started successfully!"
 }
 

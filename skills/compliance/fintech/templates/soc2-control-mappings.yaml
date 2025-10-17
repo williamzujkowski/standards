@@ -23,7 +23,7 @@ common_criteria:
               - "Board meeting minutes"
               - "Hotline activity reports"
             frequency: "Annual"
-            
+
       CC1.2_board_oversight:
         description: "Board demonstrates independence and oversight"
         controls:
@@ -38,7 +38,7 @@ common_criteria:
               - "Audit committee minutes"
               - "Security briefing presentations"
             frequency: "Quarterly"
-            
+
       CC1.3_management_structure:
         description: "Management establishes structure, authority, and responsibility"
         controls:
@@ -53,7 +53,7 @@ common_criteria:
               - "Job descriptions"
               - "SOD matrix documentation"
             frequency: "Annual"
-            
+
       CC1.4_competence:
         description: "Entity demonstrates commitment to competence"
         controls:
@@ -68,7 +68,7 @@ common_criteria:
               - "Quiz/assessment scores"
               - "Certification records"
             frequency: "Annual, ongoing"
-            
+
       CC1.5_accountability:
         description: "Entity holds individuals accountable"
         controls:
@@ -101,7 +101,7 @@ common_criteria:
               - "Employee acknowledgment records"
               - "Policy review sign-offs"
             frequency: "Annual review"
-            
+
       CC2.2_external_communication:
         description: "Entity communicates with external parties"
         controls:
@@ -134,7 +134,7 @@ common_criteria:
               - "Risk register with scoring"
               - "Risk mitigation project plans"
             frequency: "Annual"
-            
+
       CC3.2_risk_identification:
         description: "Entity identifies risks to objectives"
         controls:
@@ -149,7 +149,7 @@ common_criteria:
               - "Vulnerability scan reports"
               - "Penetration test reports"
             frequency: "Quarterly, annual"
-            
+
       CC3.3_fraud_assessment:
         description: "Entity considers fraud in risk assessment"
         controls:
@@ -164,7 +164,7 @@ common_criteria:
               - "SIEM fraud detection rules"
               - "Fraud incident reports"
             frequency: "Annual"
-            
+
       CC3.4_significant_changes:
         description: "Entity identifies changes that affect the system"
         controls:
@@ -197,7 +197,7 @@ common_criteria:
               - "Compliance scan results"
               - "Security metrics reports"
             frequency: "Continuous"
-            
+
       CC4.2_deficiency_evaluation:
         description: "Entity evaluates and communicates deficiencies"
         controls:
@@ -230,7 +230,7 @@ common_criteria:
               - "Control design specs"
               - "RACI matrix for controls"
             frequency: "Annual review"
-            
+
       CC5.2_technology_controls:
         description: "Entity develops technology controls"
         controls:
@@ -245,7 +245,7 @@ common_criteria:
               - "CI/CD pipeline configs"
               - "SOAR playbooks"
             frequency: "Continuous"
-            
+
       CC5.3_policies_procedures:
         description: "Entity deploys control activities through policies"
         controls:
@@ -278,7 +278,7 @@ common_criteria:
               - "Access request tickets"
               - "User account inventory"
             frequency: "Real-time"
-            
+
           - id: "CC6.1.2"
             name: "Privileged Access Management"
             implementation:
@@ -290,7 +290,7 @@ common_criteria:
               - "Password vault audit logs"
               - "Session recordings"
             frequency: "Continuous"
-            
+
       CC6.2_access_removal:
         description: "Entity removes access when no longer required"
         controls:
@@ -305,7 +305,7 @@ common_criteria:
               - "Account disablement logs"
               - "Role change documentation"
             frequency: "Within 24 hours"
-            
+
       CC6.3_access_reviews:
         description: "Entity reviews access rights periodically"
         controls:
@@ -320,7 +320,7 @@ common_criteria:
               - "Manager sign-offs"
               - "Exception documentation"
             frequency: "Quarterly"
-            
+
       CC6.6_physical_access:
         description: "Entity restricts physical access"
         controls:
@@ -353,7 +353,7 @@ common_criteria:
               - "CAB meeting minutes"
               - "Rollback procedure docs"
             frequency: "Per change"
-            
+
       CC7.2_system_monitoring:
         description: "Entity monitors system components"
         controls:
@@ -404,7 +404,7 @@ common_criteria:
               - "Remediation tracking tickets"
               - "SLA compliance reports"
             frequency: "Weekly, quarterly"
-            
+
       CC9.2_threat_protection:
         description: "Entity implements threat protection mechanisms"
         controls:
@@ -438,7 +438,7 @@ availability:
               - "SLA performance dashboards"
               - "Incident escalation logs"
             frequency: "Continuous"
-            
+
       A1.2_capacity_management:
         description: "Entity manages system capacity"
         controls:
@@ -453,7 +453,7 @@ availability:
               - "Auto-scaling event logs"
               - "Load test results"
             frequency: "Monthly"
-            
+
       A1.3_backup_recovery:
         description: "Entity backs up data and tests recovery"
         controls:
@@ -487,7 +487,7 @@ confidentiality:
               - "Data discovery scan results"
               - "Labeled data samples"
             frequency: "Annual review"
-            
+
       C1.2_encryption:
         description: "Entity encrypts confidential information"
         controls:
@@ -502,7 +502,7 @@ confidentiality:
               - "TLS scan reports"
               - "Key rotation logs"
             frequency: "Continuous, annual rotation"
-            
+
       C1.3_confidential_disposal:
         description: "Entity disposes of confidential information securely"
         controls:
@@ -550,7 +550,7 @@ audit_evidence_collection:
     - name: "SIEM"
       purpose: "Security event aggregation"
       evidence: ["Correlation rules", "Alert history"]
-  
+
   manual_evidence:
     - name: "Policy Documents"
       collection: "Quarterly snapshot with version control"
@@ -568,7 +568,7 @@ testing_procedures:
       - "Walkthrough of control procedures"
       - "Review of policy documentation"
       - "Inspection of system configurations"
-    
+
   operating_effectiveness:
     description: "Verify controls operate as designed over reporting period"
     methods:
@@ -585,7 +585,7 @@ reporting:
     description: "Point-in-time assessment of control design"
     period: "Single date"
     use_case: "Initial SOC2 readiness"
-    
+
   type_ii:
     description: "Assessment of control operating effectiveness over time"
     period: "6-12 months"

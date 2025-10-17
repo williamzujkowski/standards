@@ -27,7 +27,7 @@ const typeDefs = `#graphql
     online: Boolean!
     lastSeen: String
   }
-  
+
   type Message {
     id: ID!
     content: String!
@@ -35,13 +35,13 @@ const typeDefs = `#graphql
     author: User!
     createdAt: String!
   }
-  
+
   type Channel {
     id: ID!
     name: String!
     members: [User!]!
   }
-  
+
   type Notification {
     id: ID!
     type: String!
@@ -50,25 +50,25 @@ const typeDefs = `#graphql
     read: Boolean!
     createdAt: String!
   }
-  
+
   type OnlineStatus {
     userId: ID!
     online: Boolean!
     lastSeen: String
   }
-  
+
   type TypingIndicator {
     userId: ID!
     channelId: ID!
     username: String!
     typing: Boolean!
   }
-  
+
   type Query {
     messages(channelId: ID!): [Message!]!
     channels: [Channel!]!
   }
-  
+
   type Mutation {
     sendMessage(channelId: ID!, content: String!): Message!
     joinChannel(channelId: ID!): Channel!
@@ -76,7 +76,7 @@ const typeDefs = `#graphql
     setTyping(channelId: ID!, typing: Boolean!): Boolean!
     markNotificationRead(notificationId: ID!): Notification!
   }
-  
+
   type Subscription {
     messageAdded(channelId: ID!): Message!
     messageBroadcast: Message!
@@ -126,13 +126,13 @@ const resolvers = {
       // Fetch messages from database
       return [];
     },
-    
+
     channels: async () => {
       // Fetch channels from database
       return [];
     }
   },
-  
+
   Mutation: {
     sendMessage: async (
       _parent: any,
@@ -142,7 +142,7 @@ const resolvers = {
       if (!context.user) {
         throw new Error('Unauthorized');
       }
-      
+
       // Create message in database
       const message = {
         id: Math.random().toString(),
@@ -151,21 +151,21 @@ const resolvers = {
         author: context.user,
         createdAt: new Date().toISOString()
       };
-      
+
       // Publish to specific channel
       await pubsub.publish(EVENTS.MESSAGE_ADDED, {
         messageAdded: message,
         channelId
       });
-      
+
       // Publish to all subscribers (broadcast)
       await pubsub.publish(EVENTS.MESSAGE_BROADCAST, {
         messageBroadcast: message
       });
-      
+
       return message;
     },
-    
+
     joinChannel: async (
       _parent: any,
       { channelId }: { channelId: string },
@@ -174,23 +174,23 @@ const resolvers = {
       if (!context.user) {
         throw new Error('Unauthorized');
       }
-      
+
       // Add user to channel in database
       const channel = {
         id: channelId,
         name: 'Channel Name',
         members: [context.user]
       };
-      
+
       // Notify channel members
       await pubsub.publish(EVENTS.CHANNEL_MEMBER_JOINED, {
         channelMemberJoined: context.user,
         channelId
       });
-      
+
       return channel;
     },
-    
+
     setTyping: async (
       _parent: any,
       { channelId, typing }: { channelId: string; typing: boolean },
@@ -199,7 +199,7 @@ const resolvers = {
       if (!context.user) {
         throw new Error('Unauthorized');
       }
-      
+
       // Publish typing indicator
       await pubsub.publish(EVENTS.TYPING_INDICATOR, {
         typingIndicator: {
@@ -210,10 +210,10 @@ const resolvers = {
         },
         channelId
       });
-      
+
       return true;
     },
-    
+
     markNotificationRead: async (
       _parent: any,
       { notificationId }: { notificationId: string },
@@ -222,7 +222,7 @@ const resolvers = {
       if (!context.user) {
         throw new Error('Unauthorized');
       }
-      
+
       // Update notification in database
       const notification = {
         id: notificationId,
@@ -232,11 +232,11 @@ const resolvers = {
         read: true,
         createdAt: new Date().toISOString()
       };
-      
+
       return notification;
     }
   },
-  
+
   Subscription: {
     // Subscribe to messages in a specific channel
     messageAdded: {
@@ -248,12 +248,12 @@ const resolvers = {
         }
       )
     },
-    
+
     // Subscribe to all messages (broadcast)
     messageBroadcast: {
       subscribe: () => pubsub.asyncIterator(EVENTS.MESSAGE_BROADCAST)
     },
-    
+
     // Subscribe to user online status
     userOnlineStatus: {
       subscribe: withFilter(
@@ -267,7 +267,7 @@ const resolvers = {
         }
       )
     },
-    
+
     // Subscribe to typing indicators in a channel
     typingIndicator: {
       subscribe: withFilter(
@@ -281,7 +281,7 @@ const resolvers = {
         }
       )
     },
-    
+
     // Subscribe to user notifications
     notificationReceived: {
       subscribe: withFilter(
@@ -296,7 +296,7 @@ const resolvers = {
       ),
       resolve: (payload) => payload.notificationReceived
     },
-    
+
     // Subscribe to channel member joins
     channelMemberJoined: {
       subscribe: withFilter(
@@ -322,18 +322,18 @@ const schema = makeExecutableSchema({ typeDefs, resolvers });
 export async function createSubscriptionServer() {
   const app = express();
   const httpServer = createServer(app);
-  
+
   // WebSocket server for subscriptions
   const wsServer = new WebSocketServer({
     server: httpServer,
     path: '/graphql'
   });
-  
+
   // Context function for WebSocket connections
   const getSubscriptionContext = (ctx: any) => {
     // Extract token from connection params
     const token = ctx.connectionParams?.authorization?.replace('Bearer ', '');
-    
+
     // Verify token and return user
     let user = null;
     if (token) {
@@ -343,24 +343,24 @@ export async function createSubscriptionServer() {
         console.error('Invalid token:', error);
       }
     }
-    
+
     return { user };
   };
-  
+
   // Setup WebSocket server with graphql-ws
   const serverCleanup = useServer(
     {
       schema,
       context: getSubscriptionContext,
-      
+
       // Connection lifecycle
       onConnect: async (ctx) => {
         console.log('Client connected:', ctx.connectionParams);
       },
-      
+
       onDisconnect: async (ctx) => {
         console.log('Client disconnected');
-        
+
         // Publish user offline status
         const user = getSubscriptionContext(ctx).user;
         if (user) {
@@ -373,25 +373,25 @@ export async function createSubscriptionServer() {
           });
         }
       },
-      
+
       onSubscribe: async (_ctx, message) => {
         console.log('Subscription started:', message.payload.operationName);
       },
-      
+
       onComplete: async (_ctx, message) => {
         console.log('Subscription completed');
       }
     },
     wsServer
   );
-  
+
   // Apollo Server for HTTP operations
   const apolloServer = new ApolloServer({
     schema,
     plugins: [
       // Proper shutdown for HTTP server
       ApolloServerPluginDrainHttpServer({ httpServer }),
-      
+
       // Proper shutdown for WebSocket server
       {
         async serverWillStart() {
@@ -404,9 +404,9 @@ export async function createSubscriptionServer() {
       }
     ]
   });
-  
+
   await apolloServer.start();
-  
+
   // Express middleware
   app.use(
     '/graphql',
@@ -419,7 +419,7 @@ export async function createSubscriptionServer() {
       context: async ({ req }) => {
         const token = req.headers.authorization?.replace('Bearer ', '');
         let user = null;
-        
+
         if (token) {
           try {
             user = verifyToken(token);
@@ -427,24 +427,24 @@ export async function createSubscriptionServer() {
             console.error('Invalid token:', error);
           }
         }
-        
+
         return { user };
       }
     })
   );
-  
+
   // Health check endpoint
   app.get('/health', (_req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
   });
-  
+
   const PORT = process.env.PORT || 4000;
-  
+
   httpServer.listen(PORT, () => {
     console.log('Server ready at http://localhost:' + PORT + '/graphql');
     console.log('Subscriptions ready at ws://localhost:' + PORT + '/graphql');
   });
-  
+
   return { httpServer, apolloServer, serverCleanup };
 }
 
@@ -522,9 +522,9 @@ function ChatMessages({ channelId }) {
   const { data, loading } = useSubscription(MESSAGE_SUBSCRIPTION, {
     variables: { channelId }
   });
-  
+
   if (loading) return <div>Loading...</div>;
-  
+
   return <div>{data?.messageAdded?.content}</div>;
 }
 `;

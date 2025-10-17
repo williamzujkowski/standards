@@ -67,7 +67,7 @@ class UserRepository @Inject constructor(
             try {
                 // Save to network
                 apiService.saveUser(user)
-                
+
                 // Update local cache
                 userDao.insertUser(user)
             } catch (e: Exception) {
@@ -126,7 +126,7 @@ class UserRepository @Inject constructor(
     suspend fun syncPendingChanges() {
         withContext(Dispatchers.IO) {
             val pendingUsers = userDao.getPendingUsers()
-            
+
             pendingUsers.forEach { user ->
                 try {
                     apiService.saveUser(user)

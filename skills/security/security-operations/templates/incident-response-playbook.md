@@ -254,7 +254,7 @@ sudo insmod lime-$(uname -r).ko "path=/mnt/evidence/memory-$(hostname)-$(date +%
 
 ```bash
 # Check process tree
-ps aux | grep -E "(suspicious|unusual)" 
+ps aux | grep -E "(suspicious|unusual)"
 pstree -p
 
 # Get file hash
@@ -632,11 +632,11 @@ attack_vectors:
     - UDP flood: High packet rate, random source IPs
     - ICMP flood: Ping flood from botnet
     - DNS amplification: Small queries, large responses
-  
+
   protocol:
     - SYN flood: Half-open TCP connections
     - ACK flood: TCP ACK packets to random ports
-  
+
   application:
     - HTTP flood: Legitimate-looking HTTP GET/POST requests
     - Slowloris: Slow HTTP requests keeping connections open
@@ -672,7 +672,7 @@ aws shield describe-attack --attack-id $ATTACK_ID
 # Nginx: Rate limiting config
 http {
     limit_req_zone $binary_remote_addr zone=one:10m rate=10r/s;
-    
+
     server {
         location / {
             limit_req zone=one burst=20 nodelay;

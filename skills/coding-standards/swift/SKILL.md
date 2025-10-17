@@ -223,7 +223,7 @@ func processUser(_ user: User?) {
         print("No user provided")
         return
     }
-    
+
     // user is available for rest of scope
     print(user.name)
 }
@@ -260,9 +260,9 @@ guard let apiKey = ProcessInfo.processInfo.environment["API_KEY"] else {
 // Use only for delayed initialization
 class ViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!  // Set by storyboard
-    
+
     var viewModel: ViewModel!  // Set before viewDidLoad
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Both guaranteed to exist here
@@ -339,7 +339,7 @@ struct UserDefaultsStore: DataStore {
         let data = try JSONEncoder().encode(item)
         UserDefaults.standard.set(data, forKey: key)
     }
-    
+
     func load<T: Codable>(key: String) throws -> T? {
         guard let data = UserDefaults.standard.data(forKey: key) else {
             return nil
@@ -350,13 +350,13 @@ struct UserDefaultsStore: DataStore {
 
 struct FileStore: DataStore {
     let directory: URL
-    
+
     func save<T: Codable>(_ item: T, key: String) throws {
         let url = directory.appendingPathComponent(key)
         let data = try JSONEncoder().encode(item)
         try data.write(to: url)
     }
-    
+
     func load<T: Codable>(key: String) throws -> T? {
         let url = directory.appendingPathComponent(key)
         guard FileManager.default.fileExists(atPath: url.path) else {
@@ -370,15 +370,15 @@ struct FileStore: DataStore {
 // Dependency injection with protocols
 class UserRepository {
     private let store: DataStore
-    
+
     init(store: DataStore) {
         self.store = store
     }
-    
+
     func saveUser(_ user: User) throws {
         try store.save(user, key: "user_\(user.id)")
     }
-    
+
     func loadUser(id: UUID) throws -> User? {
         try store.load(key: "user_\(id)")
     }
@@ -389,7 +389,7 @@ class UserRepository {
 ```swift
 protocol Repository {
     associatedtype Item
-    
+
     func fetchAll() async throws -> [Item]
     func save(_ item: Item) async throws
     func delete(_ item: Item) async throws
@@ -397,15 +397,15 @@ protocol Repository {
 
 struct UserRepository: Repository {
     typealias Item = User
-    
+
     func fetchAll() async throws -> [User] {
         // Implementation
     }
-    
+
     func save(_ user: User) async throws {
         // Implementation
     }
-    
+
     func delete(_ user: User) async throws {
         // Implementation
     }
@@ -440,7 +440,7 @@ let sharedPoint = Point(x: 5, y: 5)
 class Rectangle {
     var width: Double
     var height: Double
-    
+
     init(width: Double, height: Double) {
         self.width = width
         self.height = height
@@ -497,7 +497,7 @@ array2.append(6)  // Now copies and modifies
 // Implementing COW in custom types
 struct MyArray<Element> {
     private var storage: ArrayStorage<Element>
-    
+
     mutating func append(_ element: Element) {
         if !isKnownUniquelyReferenced(&storage) {
             storage = storage.copy()  // Copy before mutating
@@ -516,11 +516,11 @@ Automatic Reference Counting manages memory automatically but requires understan
 class Person {
     let name: String
     var apartment: Apartment?
-    
+
     init(name: String) {
         self.name = name
     }
-    
+
     deinit {
         print("\(name) is being deinitialized")
     }
@@ -529,11 +529,11 @@ class Person {
 class Apartment {
     let unit: String
     var tenant: Person?
-    
+
     init(unit: String) {
         self.unit = unit
     }
-    
+
     deinit {
         print("Apartment \(unit) is being deinitialized")
     }
@@ -556,11 +556,11 @@ unit4A = nil
 class Person {
     let name: String
     var apartment: Apartment?
-    
+
     init(name: String) {
         self.name = name
     }
-    
+
     deinit {
         print("\(name) is being deinitialized")
     }
@@ -569,11 +569,11 @@ class Person {
 class Apartment {
     let unit: String
     weak var tenant: Person?  // weak breaks the cycle
-    
+
     init(unit: String) {
         self.unit = unit
     }
-    
+
     deinit {
         print("Apartment \(unit) is being deinitialized")
     }
@@ -604,7 +604,7 @@ class ChildView {
 class Customer {
     let name: String
     var card: CreditCard?
-    
+
     init(name: String) {
         self.name = name
     }
@@ -613,7 +613,7 @@ class Customer {
 class CreditCard {
     let number: String
     unowned let customer: Customer  // Card can't exist without customer
-    
+
     init(number: String, customer: Customer) {
         self.number = number
         self.customer = customer
@@ -625,24 +625,24 @@ class CreditCard {
 ```swift
 class NetworkClient {
     var onComplete: (() -> Void)?
-    
+
     func fetchData() {
         // ❌ Strong reference cycle
         onComplete = {
             self.processResult()  // Captures self strongly
         }
-        
+
         // ✅ Break cycle with capture list
         onComplete = { [weak self] in
             self?.processResult()  // Safe optional call
         }
-        
+
         // ✅ Unowned when self outlives closure
         onComplete = { [unowned self] in
             self.processResult()  // No optional needed
         }
     }
-    
+
     private func processResult() { }
 }
 ```
@@ -664,17 +664,17 @@ func fetchUser(id: Int) throws -> User {
     guard let url = URL(string: "https://api.example.com/users/\(id)") else {
         throw NetworkError.invalidURL
     }
-    
+
     let (data, response) = try await URLSession.shared.data(from: url)
-    
+
     guard let httpResponse = response as? HTTPURLResponse else {
         throw NetworkError.noConnection
     }
-    
+
     guard (200...299).contains(httpResponse.statusCode) else {
         throw NetworkError.serverError(statusCode: httpResponse.statusCode)
     }
-    
+
     do {
         return try JSONDecoder().decode(User.self, from: data)
     } catch {
@@ -702,18 +702,18 @@ func fetchUser(id: Int, completion: @escaping (Result<User, NetworkError>) -> Vo
         completion(.failure(.invalidURL))
         return
     }
-    
+
     URLSession.shared.dataTask(with: url) { data, response, error in
         if let error = error {
             completion(.failure(.noConnection))
             return
         }
-        
+
         guard let data = data else {
             completion(.failure(.noConnection))
             return
         }
-        
+
         do {
             let user = try JSONDecoder().decode(User.self, from: data)
             completion(.success(user))
@@ -786,7 +786,7 @@ func fetchAllUsersParallel(ids: [Int]) async throws -> [User] {
                 try await fetchUser(id: id)  // All execute concurrently
             }
         }
-        
+
         var users: [User] = []
         for try await user in group {
             users.append(user)
@@ -800,18 +800,18 @@ func fetchAllUsersParallel(ids: [Int]) async throws -> [User] {
 ```swift
 actor BankAccount {
     private var balance: Double = 0
-    
+
     func deposit(_ amount: Double) {
         balance += amount
     }
-    
+
     func withdraw(_ amount: Double) throws {
         guard balance >= amount else {
             throw BankError.insufficientFunds
         }
         balance -= amount
     }
-    
+
     func getBalance() -> Double {
         balance
     }
@@ -834,11 +834,11 @@ class ViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var users: [User] = []
     @Published var error: Error?
-    
+
     func loadUsers() async {
         isLoading = true
         defer { isLoading = false }
-        
+
         do {
             // Background work
             users = try await fetchAllUsers()
@@ -868,37 +868,37 @@ import XCTest
 final class UserManagerTests: XCTestCase {
     var sut: UserManager!
     var mockStore: MockDataStore!
-    
+
     override func setUp() {
         super.setUp()
         mockStore = MockDataStore()
         sut = UserManager(store: mockStore)
     }
-    
+
     override func tearDown() {
         sut = nil
         mockStore = nil
         super.tearDown()
     }
-    
+
     func testFetchUser_Success() async throws {
         // Arrange
         let expectedUser = User(id: 1, name: "John")
         mockStore.userToReturn = expectedUser
-        
+
         // Act
         let user = try await sut.fetchUser(id: 1)
-        
+
         // Assert
         XCTAssertEqual(user.id, expectedUser.id)
         XCTAssertEqual(user.name, expectedUser.name)
         XCTAssertTrue(mockStore.fetchUserCalled)
     }
-    
+
     func testFetchUser_NetworkError() async {
         // Arrange
         mockStore.errorToThrow = NetworkError.noConnection
-        
+
         // Act & Assert
         do {
             _ = try await sut.fetchUser(id: 1)
@@ -917,7 +917,7 @@ class MockDataStore: DataStore {
     var errorToThrow: Error?
     var fetchUserCalled = false
     var saveUserCalled = false
-    
+
     func fetchUser(id: Int) async throws -> User {
         fetchUserCalled = true
         if let error = errorToThrow {
@@ -928,7 +928,7 @@ class MockDataStore: DataStore {
         }
         return user
     }
-    
+
     func saveUser(_ user: User) async throws {
         saveUserCalled = true
         if let error = errorToThrow {
@@ -947,12 +947,12 @@ func testAsyncFunction() async throws {
 
 func testWithExpectation() {
     let expectation = expectation(description: "Callback called")
-    
+
     service.fetchData { result in
         XCTAssertNotNil(result)
         expectation.fulfill()
     }
-    
+
     waitForExpectations(timeout: 5)
 }
 ```
@@ -961,26 +961,26 @@ func testWithExpectation() {
 ```swift
 final class AppUITests: XCTestCase {
     var app: XCUIApplication!
-    
+
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
         app = XCUIApplication()
         app.launch()
     }
-    
+
     func testLoginFlow() {
         // Find and tap elements
         let emailField = app.textFields["Email"]
         emailField.tap()
         emailField.typeText("test@example.com")
-        
+
         let passwordField = app.secureTextFields["Password"]
         passwordField.tap()
         passwordField.typeText("password123")
-        
+
         app.buttons["Log In"].tap()
-        
+
         // Assert navigation occurred
         XCTAssertTrue(app.navigationBars["Home"].exists)
     }

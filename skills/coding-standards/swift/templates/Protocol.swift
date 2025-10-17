@@ -13,7 +13,7 @@ extension Drawable {
     func draw() {
         print("Drawing with color: \(color)")
     }
-    
+
     // Additional functionality via extension
     func highlight() {
         print("Highlighting \(color)")
@@ -42,7 +42,7 @@ struct User: Entity {
 // Example 3: Protocol with Associated Types
 protocol Repository {
     associatedtype Item
-    
+
     func fetchAll() async throws -> [Item]
     func save(_ item: Item) async throws
     func delete(_ item: Item) async throws
@@ -51,7 +51,7 @@ protocol Repository {
 protocol Cache {
     associatedtype Key: Hashable
     associatedtype Value
-    
+
     func get(_ key: Key) -> Value?
     func set(_ key: Key, value: Value)
     func clear()
@@ -61,17 +61,17 @@ protocol Cache {
 struct InMemoryCache<K: Hashable, V>: Cache {
     typealias Key = K
     typealias Value = V
-    
+
     private var storage: [K: V] = [:]
-    
+
     func get(_ key: K) -> V? {
         storage[key]
     }
-    
+
     mutating func set(_ key: K, value: V) {
         storage[key] = value
     }
-    
+
     mutating func clear() {
         storage.removeAll()
     }
@@ -90,24 +90,24 @@ protocol StorageService {
 class UserManager {
     private let network: NetworkService
     private let storage: StorageService
-    
+
     init(network: NetworkService, storage: StorageService) {
         self.network = network
         self.storage = storage
     }
-    
+
     func fetchUser(id: String) async throws -> User {
         // Try cache first
         if let cached: User = try? storage.load(key: "user_\(id)") {
             return cached
         }
-        
+
         // Fetch from network
         let user: User = try await network.request("/users/\(id)")
-        
+
         // Cache result
         try? storage.save(user, key: "user_\(id)")
-        
+
         return user
     }
 }
@@ -118,7 +118,7 @@ extension Array: Drawable where Element: Drawable {
         get { first?.color ?? "default" }
         set { forEach { var element = $0; element.color = newValue } }
     }
-    
+
     func draw() {
         forEach { $0.draw() }
     }
@@ -138,11 +138,11 @@ protocol Pet: Animal {
 struct Dog: Pet {
     let name: String
     let owner: String
-    
+
     func makeSound() {
         print("\(name) says: Woof!")
     }
-    
+
     func cuddle() {
         print("\(name) cuddles with \(owner)")
     }
@@ -159,7 +159,7 @@ extension Logger {
     func logError(_ error: Error) {
         log("ERROR: \(error.localizedDescription)")
     }
-    
+
     func logWarning(_ message: String) {
         log("WARNING: \(message)")
     }
@@ -190,11 +190,11 @@ struct DescendingSort: SortStrategy {
 
 class DataSorter {
     private let strategy: SortStrategy
-    
+
     init(strategy: SortStrategy) {
         self.strategy = strategy
     }
-    
+
     func sort<T: Comparable>(_ items: [T]) -> [T] {
         strategy.sort(items)
     }
@@ -203,19 +203,19 @@ class DataSorter {
 // Example 10: Protocol with @escaping Closures
 protocol EventHandler {
     associatedtype Event
-    
+
     func handle(_ event: Event, completion: @escaping (Result<Void, Error>) -> Void)
 }
 
 class AsyncEventHandler<E>: EventHandler {
     typealias Event = E
-    
+
     private let handler: (E) async throws -> Void
-    
+
     init(handler: @escaping (E) async throws -> Void) {
         self.handler = handler
     }
-    
+
     func handle(_ event: E, completion: @escaping (Result<Void, Error>) -> Void) {
         Task {
             do {

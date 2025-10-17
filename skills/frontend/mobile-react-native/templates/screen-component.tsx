@@ -1,6 +1,6 @@
 /**
  * Screen Component Template
- * 
+ *
  * Complete template for a typical React Native screen with:
  * - TypeScript typing
  * - Navigation integration
@@ -167,10 +167,10 @@ const UserScreen: React.FC<Props> = ({ route, navigation }) => {
         data={posts}
         renderItem={renderPost}
         keyExtractor={keyExtractor}
-        
+
         // Header (user profile)
         ListHeaderComponent={
-          <View 
+          <View
             style={styles.profileSection}
             accessible={true}
             accessibilityRole="header"
@@ -184,14 +184,14 @@ const UserScreen: React.FC<Props> = ({ route, navigation }) => {
             <Text style={styles.userEmail}>{user.email}</Text>
           </View>
         }
-        
+
         // Empty state
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>No posts yet</Text>
           </View>
         }
-        
+
         // Refresh control
         refreshControl={
           <RefreshControl
@@ -200,12 +200,12 @@ const UserScreen: React.FC<Props> = ({ route, navigation }) => {
             tintColor="#007AFF"
           />
         }
-        
+
         // Performance
         removeClippedSubviews={true}
         maxToRenderPerBatch={10}
         windowSize={10}
-        
+
         // Styling
         contentContainerStyle={styles.listContent}
       />
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
   listContent: {
     paddingBottom: 20,
   },
-  
+
   // Profile Section
   profileSection: {
     backgroundColor: '#fff',
@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#666',
   },
-  
+
   // Post Card
   postCard: {
     backgroundColor: '#fff',
@@ -286,14 +286,14 @@ const styles = StyleSheet.create({
     color: '#666',
     lineHeight: 20,
   },
-  
+
   // Loading State
   loadingText: {
     marginTop: 12,
     fontSize: 16,
     color: '#666',
   },
-  
+
   // Error State
   errorText: {
     fontSize: 16,
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
-  
+
   // Empty State
   emptyContainer: {
     padding: 40,

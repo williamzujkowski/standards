@@ -8,7 +8,7 @@ services:
     url: http://backend:8000
     protocol: https
     port: 443
-    
+
     plugins:
       # Rate limiting
       - name: rate-limiting
@@ -19,14 +19,14 @@ services:
           redis_host: redis
           redis_port: 6379
           fault_tolerant: true
-      
+
       # Authentication
       - name: jwt
         config:
           key_claim_name: kid
           secret_is_base64: false
           maximum_expiration: 3600
-          
+
       # CORS
       - name: cors
         config:
@@ -44,7 +44,7 @@ services:
             - X-Total-Count
           credentials: true
           max_age: 3600
-      
+
       # Request validation
       - name: request-validator
         config:
@@ -53,19 +53,19 @@ services:
               "type": "object",
               "additionalProperties": false
             }
-      
+
       # IP restriction
       - name: ip-restriction
         config:
           allow:
             - 10.0.0.0/8
             - 192.168.0.0/16
-      
+
       # Request size limit
       - name: request-size-limiting
         config:
           allowed_payload_size: 10
-      
+
       # Bot detection
       - name: bot-detection
         config:
@@ -73,13 +73,13 @@ services:
             - googlebot
           deny:
             - scrapy
-    
+
     routes:
       - name: api-route
         paths:
           - /api/v2
         strip_path: true
-        
+
         plugins:
           # Route-specific rate limit
           - name: rate-limiting
@@ -93,7 +93,7 @@ plugins:
       header_name: X-Request-ID
       generator: uuid
       echo_downstream: true
-  
+
   - name: prometheus
     config:
       per_consumer: true

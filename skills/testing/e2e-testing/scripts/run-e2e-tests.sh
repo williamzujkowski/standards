@@ -38,7 +38,7 @@ log_error() {
 
 check_dependencies() {
     log_info "Checking dependencies..."
-    
+
     if [ "$FRAMEWORK" = "playwright" ]; then
         if ! command -v npx &> /dev/null || ! npx playwright --version &> /dev/null; then
             log_error "Playwright not found. Installing..."
@@ -55,14 +55,14 @@ check_dependencies() {
 
 setup_environment() {
     log_info "Setting up environment: $ENVIRONMENT"
-    
+
     # Load environment-specific variables
     if [ -f ".env.$ENVIRONMENT" ]; then
         export $(cat ".env.$ENVIRONMENT" | xargs)
     elif [ -f ".env" ]; then
         export $(cat ".env" | xargs)
     fi
-    
+
     # Set base URL based on environment
     case $ENVIRONMENT in
         development)
@@ -75,7 +75,7 @@ setup_environment() {
             export BASE_URL="${BASE_URL:-https://example.com}"
             ;;
     esac
-    
+
     log_info "Base URL: $BASE_URL"
 }
 
@@ -83,9 +83,9 @@ wait_for_server() {
     local url=$1
     local timeout=${2:-300}
     local elapsed=0
-    
+
     log_info "Waiting for server at $url..."
-    
+
     while [ $elapsed -lt $timeout ]; do
         if curl -sf "$url" > /dev/null 2>&1; then
             log_info "Server is ready!"
@@ -95,32 +95,32 @@ wait_for_server() {
         elapsed=$((elapsed + 5))
         echo -n "."
     done
-    
+
     log_error "Server did not become ready after ${timeout}s"
     return 1
 }
 
 run_playwright_tests() {
     log_info "Running Playwright tests..."
-    
+
     local args=""
-    
+
     # Browser selection
     if [ "$BROWSER" != "all" ]; then
         args="--project=$BROWSER"
     fi
-    
+
     # Headless mode
     if [ "$HEADLESS" = "false" ]; then
         args="$args --headed"
     fi
-    
+
     # Workers
     args="$args --workers=$WORKERS"
-    
+
     # Retries
     args="$args --retries=$RETRIES"
-    
+
     # Reporter
     case $REPORT in
         html)
@@ -133,9 +133,9 @@ run_playwright_tests() {
             args="$args --reporter=junit"
             ;;
     esac
-    
+
     log_info "Playwright command: npx playwright test $args"
-    
+
     if npx playwright test $args; then
         log_info "Playwright tests passed!"
         return 0
@@ -147,29 +147,29 @@ run_playwright_tests() {
 
 run_cypress_tests() {
     log_info "Running Cypress tests..."
-    
+
     local args=""
-    
+
     # Browser selection
     if [ "$BROWSER" != "all" ]; then
         args="--browser=$BROWSER"
     fi
-    
+
     # Headless mode
     if [ "$HEADLESS" = "false" ]; then
         args="$args --headed"
     fi
-    
+
     # Parallel execution
     if [ "$PARALLEL" = "true" ]; then
         args="$args --parallel"
     fi
-    
+
     # Reporter
     args="$args --reporter=$REPORT"
-    
+
     log_info "Cypress command: npx cypress run $args"
-    
+
     if npx cypress run $args; then
         log_info "Cypress tests passed!"
         return 0
@@ -181,11 +181,11 @@ run_cypress_tests() {
 
 generate_report() {
     log_info "Generating test report..."
-    
+
     if [ "$FRAMEWORK" = "playwright" ]; then
         if [ -d "playwright-report" ]; then
             log_info "Playwright report available at: playwright-report/index.html"
-            
+
             # Open report in CI (if supported)
             if [ "$CI" != "true" ]; then
                 npx playwright show-report
@@ -200,11 +200,11 @@ generate_report() {
 
 upload_artifacts() {
     log_info "Uploading test artifacts..."
-    
+
     # This function can be extended to upload to S3, Azure, etc.
     local artifact_dir="test-artifacts"
     mkdir -p "$artifact_dir"
-    
+
     if [ "$FRAMEWORK" = "playwright" ]; then
         [ -d "playwright-report" ] && cp -r playwright-report "$artifact_dir/"
         [ -d "test-results" ] && cp -r test-results "$artifact_dir/"
@@ -213,17 +213,17 @@ upload_artifacts() {
         [ -d "cypress/screenshots" ] && cp -r cypress/screenshots "$artifact_dir/"
         [ -d "cypress/reports" ] && cp -r cypress/reports "$artifact_dir/"
     fi
-    
+
     log_info "Artifacts saved to: $artifact_dir"
 }
 
 cleanup() {
     log_info "Cleaning up..."
-    
+
     # Kill any remaining processes
     pkill -f "node.*webpack" || true
     pkill -f "node.*server" || true
-    
+
     # Remove temporary files
     rm -rf .tmp-test-* || true
 }
@@ -234,21 +234,21 @@ main() {
     log_info "Framework: $FRAMEWORK"
     log_info "Browser: $BROWSER"
     log_info "Environment: $ENVIRONMENT"
-    
+
     # Trap cleanup on exit
     trap cleanup EXIT
-    
+
     # Check dependencies
     check_dependencies
-    
+
     # Setup environment
     setup_environment
-    
+
     # Wait for server if needed
     if [ "$WAIT_FOR_SERVER" = "true" ]; then
         wait_for_server "$BASE_URL" || exit 1
     fi
-    
+
     # Run tests
     local exit_code=0
     if [ "$FRAMEWORK" = "playwright" ]; then
@@ -259,21 +259,21 @@ main() {
         log_error "Unknown framework: $FRAMEWORK"
         exit 1
     fi
-    
+
     # Generate report
     generate_report
-    
+
     # Upload artifacts if in CI
     if [ "$CI" = "true" ]; then
         upload_artifacts
     fi
-    
+
     if [ $exit_code -eq 0 ]; then
         log_info "All tests passed successfully!"
     else
         log_error "Tests failed with exit code: $exit_code"
     fi
-    
+
     exit $exit_code
 }
 

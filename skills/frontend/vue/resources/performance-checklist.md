@@ -135,7 +135,7 @@ const expensiveComputation = (id: number) => {
   >
     {{ expensiveComputation(item.id) }}
   </div>
-  
+
   <!-- v-once: render once, never update -->
   <footer v-once>
     <p>© 2025 Company Name</p>
@@ -264,7 +264,7 @@ async function fetchUser(id: string) {
   if (cache.has(id)) {
     return cache.get(id);
   }
-  
+
   const user = await api.getUser(id);
   cache.set(id, user);
   return user;
@@ -320,7 +320,7 @@ function prefetchDashboard() {
     loading="lazy"
     alt="Description"
   />
-  
+
   <!-- Custom lazy loading with placeholder -->
   <img
     :src="isLoaded ? actualSrc : placeholderSrc"
@@ -372,25 +372,25 @@ export const useUserStore = defineStore('user', () => {
   // Split large stores
   const profile = ref<Profile | null>(null);
   const settings = ref<Settings>({});
-  
+
   // Use getters for derived state
   const fullName = computed(() => {
     return profile.value
       ? `${profile.value.firstName} ${profile.value.lastName}`
       : '';
   });
-  
+
   // Batch updates
   function updateProfile(updates: Partial<Profile>) {
     if (!profile.value) return;
-    
+
     // Single update
     profile.value = {
       ...profile.value,
       ...updates
     };
   }
-  
+
   return { profile, settings, fullName, updateProfile };
 });
 ```
@@ -409,11 +409,11 @@ onMounted(() => {
   const timer = setInterval(() => {
     // Do something
   }, 1000);
-  
+
   const observer = new IntersectionObserver(() => {
     // Observe
   });
-  
+
   onUnmounted(() => {
     clearInterval(timer);
     observer.disconnect();
@@ -434,7 +434,7 @@ function getData(key: object) {
   if (cache.has(key)) {
     return cache.get(key);
   }
-  
+
   const data = expensiveOperation(key);
   cache.set(key, data);
   return data;

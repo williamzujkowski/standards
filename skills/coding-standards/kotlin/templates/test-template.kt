@@ -159,7 +159,7 @@ class UserViewModelTest {
             User("3", "Charlie", "charlie@example.com", true)
         )
         coEvery { mockRepository.getUsers() } returns flowOf(users)
-        
+
         viewModel.loadUsers()
         testDispatcher.scheduler.advanceUntilIdle()
 
@@ -178,7 +178,7 @@ class UserViewModelTest {
         // Given
         val users = listOf(User("1", "Alice", "alice@example.com", true))
         coEvery { mockRepository.getUsers() } returns flowOf(users)
-        
+
         viewModel.loadUsers()
         testDispatcher.scheduler.advanceUntilIdle()
 
@@ -240,10 +240,10 @@ class UserViewModelTest {
         val userId = "123"
         val user = User(userId, "Alice", "alice@example.com", true)
         val users = listOf(user)
-        
+
         coEvery { mockRepository.getUsers() } returns flowOf(users)
         coEvery { mockRepository.saveUser(any()) } just Runs
-        
+
         viewModel.loadUsers()
         testDispatcher.scheduler.advanceUntilIdle()
 
@@ -264,7 +264,7 @@ class UserViewModelTest {
         val user = User("1", "Alice", "alice@example.com", true)
         coEvery { mockRepository.getUsers() } returns flowOf(listOf(user))
         coEvery { mockRepository.saveUser(any()) } just Runs
-        
+
         viewModel.loadUsers()
         testDispatcher.scheduler.advanceUntilIdle()
 

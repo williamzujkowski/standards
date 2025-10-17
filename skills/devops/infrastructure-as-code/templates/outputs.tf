@@ -328,7 +328,7 @@ output "infrastructure_json" {
 output "validated_environment" {
   description = "Environment name after validation"
   value       = var.environment
-  
+
   precondition {
     condition     = contains(["dev", "staging", "prod"], var.environment)
     error_message = "Environment must be dev, staging, or prod"
@@ -340,19 +340,19 @@ output "post_apply_instructions" {
   description = "Instructions to follow after Terraform apply"
   value = <<-EOT
     Infrastructure has been successfully deployed!
-    
+
     Next Steps:
     1. Configure DNS to point to ALB: ${aws_lb.main.dns_name}
     2. Update application configuration with database endpoint
     3. Deploy application code to Auto Scaling Group
     4. Configure monitoring dashboards
     5. Set up alerting for CloudWatch alarms
-    
+
     Database Connection:
       Host: ${module.rds.db_instance_address}
       Port: ${module.rds.db_instance_port}
       Database: ${module.rds.db_instance_name}
-      
+
     Application URL: http://${aws_lb.main.dns_name}
   EOT
 }

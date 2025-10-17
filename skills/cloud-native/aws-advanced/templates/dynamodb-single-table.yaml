@@ -7,7 +7,7 @@ Resources:
     Properties:
       TableName: !Sub '${AWS::StackName}-single-table'
       BillingMode: PAY_PER_REQUEST  # or PROVISIONED
-      
+
       # Primary key
       AttributeDefinitions:
         - AttributeName: PK
@@ -23,13 +23,13 @@ Resources:
           AttributeType: S
         - AttributeName: GSI2SK
           AttributeType: S
-      
+
       KeySchema:
         - AttributeName: PK
           KeyType: HASH
         - AttributeName: SK
           KeyType: RANGE
-      
+
       # Global Secondary Indexes
       GlobalSecondaryIndexes:
         - IndexName: GSI1
@@ -40,7 +40,7 @@ Resources:
               KeyType: RANGE
           Projection:
             ProjectionType: ALL
-        
+
         - IndexName: GSI2
           KeySchema:
             - AttributeName: GSI2PK
@@ -49,26 +49,26 @@ Resources:
               KeyType: RANGE
           Projection:
             ProjectionType: ALL
-      
+
       # Enable streams for change data capture
       StreamSpecification:
         StreamViewType: NEW_AND_OLD_IMAGES
-      
+
       # Point-in-time recovery
       PointInTimeRecoverySpecification:
         PointInTimeRecoveryEnabled: true
-      
+
       # Server-side encryption
       SSESpecification:
         SSEEnabled: true
         SSEType: KMS
         KMSMasterKeyId: !Ref KMSKey
-      
+
       # Time to Live
       TimeToLiveSpecification:
         AttributeName: ttl
         Enabled: true
-      
+
       Tags:
         - Key: Environment
           Value: !Ref Environment
@@ -120,7 +120,7 @@ Parameters:
       - dev
       - staging
       - prod
-  
+
   ApplicationName:
     Type: String
     Default: myapp
@@ -130,12 +130,12 @@ Outputs:
     Value: !Ref SingleTable
     Export:
       Name: !Sub '${AWS::StackName}-table-name'
-  
+
   TableArn:
     Value: !GetAtt SingleTable.Arn
     Export:
       Name: !Sub '${AWS::StackName}-table-arn'
-  
+
   StreamArn:
     Value: !GetAtt SingleTable.StreamArn
     Export:

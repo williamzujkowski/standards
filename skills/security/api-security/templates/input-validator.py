@@ -15,13 +15,13 @@ class CreateUserRequest(BaseModel):
     password: str = Field(..., min_length=12, max_length=128)
     age: Optional[int] = Field(None, ge=0, le=150)
     roles: List[str] = Field(default_factory=list, max_items=10)
-    
+
     @validator('username')
     def username_alphanumeric(cls, v):
         if not re.match(r'^[a-zA-Z0-9_-]+$', v):
             raise ValueError('Username must be alphanumeric with hyphens/underscores')
         return v
-    
+
     @validator('password')
     def password_strength(cls, v):
         if len(v) < 12:
@@ -35,14 +35,14 @@ class CreateUserRequest(BaseModel):
         if not re.search(r'[!@#$%^&*(),.?":{}|<>]', v):
             raise ValueError('Password must contain special character')
         return v
-    
+
     @validator('roles')
     def validate_roles(cls, v):
         allowed = {'user', 'admin', 'moderator'}
         if not set(v).issubset(allowed):
             raise ValueError(f'Invalid roles. Allowed: {allowed}')
         return v
-    
+
     class Config:
         extra = 'forbid'
 
@@ -50,7 +50,7 @@ class DateRangeQuery(BaseModel):
     """Date range with validation"""
     start_date: datetime
     end_date: datetime
-    
+
     @root_validator
     def check_date_range(cls, values):
         start = values.get('start_date')
@@ -63,7 +63,7 @@ class PaginationParams(BaseModel):
     """Pagination with sensible limits"""
     page: int = Field(1, ge=1, le=10000)
     per_page: int = Field(20, ge=1, le=100)
-    
+
     @property
     def offset(self):
         return (self.page - 1) * self.per_page
@@ -73,14 +73,14 @@ class FileUploadRequest(BaseModel):
     filename: str = Field(..., max_length=255)
     content_type: str
     size_bytes: int = Field(..., ge=1, le=10485760)  # Max 10MB
-    
+
     @validator('content_type')
     def validate_content_type(cls, v):
         allowed = {'image/jpeg', 'image/png', 'application/pdf'}
         if v not in allowed:
             raise ValueError(f'Content type not allowed. Allowed: {allowed}')
         return v
-    
+
     @validator('filename')
     def sanitize_filename(cls, v):
         # Remove path traversal attempts

@@ -1,8 +1,8 @@
 # Post-Incident Report Template
 
-**Incident ID:** [INC-YYYY-XXX]  
-**Report Date:** [YYYY-MM-DD]  
-**Prepared By:** [Name, Title]  
+**Incident ID:** [INC-YYYY-XXX]
+**Report Date:** [YYYY-MM-DD]
+**Prepared By:** [Name, Title]
 **Classification:** [Confidential / Internal Use Only]
 
 ---
@@ -258,8 +258,8 @@
 - **Malware Samples:** TrickBot downloader, Ryuk ransomware
 - **IOCs:** File hashes, C2 IPs/domains, registry keys
 
-**Evidence Location:** `/forensic-storage/INC-2025-001/`  
-**Chain of Custody:** Maintained in incident ticket INC-2025-001  
+**Evidence Location:** `/forensic-storage/INC-2025-001/`
+**Chain of Custody:** Maintained in incident ticket INC-2025-001
 **Retention Period:** 1 year (extended to 7 years if legal hold required)
 
 ### 7.2 Indicators of Compromise (IOCs)
@@ -351,23 +351,23 @@
 
 ### 10.1 Report Prepared By
 
-**Name:** [John Smith]  
-**Title:** Senior Security Analyst  
-**Date:** 2025-01-18  
+**Name:** [John Smith]
+**Title:** Senior Security Analyst
+**Date:** 2025-01-18
 **Signature:** _______________________
 
 ### 10.2 Reviewed By
 
-**Name:** [Jane Doe]  
-**Title:** SOC Manager  
-**Date:** 2025-01-19  
+**Name:** [Jane Doe]
+**Title:** SOC Manager
+**Date:** 2025-01-19
 **Signature:** _______________________
 
 ### 10.3 Approved By
 
-**Name:** [Bob Johnson]  
-**Title:** Chief Information Security Officer (CISO)  
-**Date:** 2025-01-20  
+**Name:** [Bob Johnson]
+**Title:** Chief Information Security Officer (CISO)
+**Date:** 2025-01-20
 **Signature:** _______________________
 
 ---
@@ -412,6 +412,6 @@
 
 ---
 
-*Report Classification: Confidential - Internal Use Only*  
-*Document Version: 1.0*  
+*Report Classification: Confidential - Internal Use Only*
+*Document Version: 1.0*
 *Last Updated: 2025-01-20*

@@ -63,7 +63,7 @@ export const options = {
 
   // Detailed summary statistics
   summaryTrendStats: ['min', 'avg', 'med', 'p(90)', 'p(95)', 'p(99)', 'p(99.9)', 'max'],
-  
+
   // Output results to multiple formats
   noConnectionReuse: false,
   userAgent: 'k6-load-test/1.0',
@@ -86,7 +86,7 @@ export function setup() {
   console.log(`Starting load test against ${BASE_URL}`);
   console.log(`Test duration: ${TEST_DURATION}`);
   console.log(`Virtual users: ${options.stages.map(s => s.target).join(' → ')}`);
-  
+
   // Authenticate and get token (if needed)
   const loginRes = http.post(`${BASE_URL}/auth/login`, JSON.stringify({
     username: 'load-test-user',
@@ -204,7 +204,7 @@ export default function (data) {
         [`batch[${index}] status is 200`]: (r) => r.status === 200,
         [`batch[${index}] response time < 500ms`]: (r) => r.timings.duration < 500,
       });
-      
+
       if (!success) allSuccess = false;
       apiCallCount.add(1);
     });
@@ -251,7 +251,7 @@ export default function (data) {
     // If processing succeeded, verify the transaction
     if (processSuccess && processRes.json('transactionId')) {
       const txnId = processRes.json('transactionId');
-      
+
       sleep(0.5);
 
       const verifyRes = http.get(

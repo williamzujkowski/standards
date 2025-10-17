@@ -8,10 +8,10 @@
 graph:
   # Graph reference from Apollo Studio (format: account-id@graph-id)
   ref: "${APOLLO_GRAPH_REF}"
-  
+
   # Variant (typically: main, staging, development)
   variant: "${APOLLO_GRAPH_VARIANT:-main}"
-  
+
   # API key for authentication
   apiKey: "${APOLLO_KEY}"
 
@@ -24,38 +24,38 @@ schema:
   reporting:
     enabled: true
     endpoint: "https://usage-reporting.api.apollographql.com/api/ingress/traces"
-    
+
     # Report schema on server start
     reportOnStartup: true
-    
+
     # Include schema hash in reports
     includeSchemaHash: true
-    
+
   # Schema registry
   registry:
     enabled: true
-    
+
     # Publish schema changes automatically
     autoPublish: false
-    
+
     # Schema validation on publish
     validateOnPublish: true
-    
+
   # Schema checks (run before deployment)
   checks:
     enabled: true
-    
+
     # Check against production traffic
     queryCountThreshold: 10
-    
+
     # Check duration
     validationPeriod: "7d"
-    
+
     # Severity thresholds
     failOn:
       - FAILURE
       - INVALID
-    
+
     warnOn:
       - WARNING
 
@@ -65,21 +65,21 @@ schema:
 
 operationRegistry:
   enabled: true
-  
+
   # Safelist mode (only registered operations allowed)
   safelistEnabled: false
-  
+
   # Automatic registration of operations
   autoRegister: true
-  
+
   # Registration signature version
   signatureVersion: "v2"
-  
+
   # Operation filtering
   filters:
     # Include anonymous operations
     includeAnonymous: true
-    
+
     # Include introspection queries
     includeIntrospection: false
 
@@ -89,43 +89,43 @@ operationRegistry:
 
 usageReporting:
   enabled: true
-  
+
   # Report all operations
   reportAllOperations: true
-  
+
   # Variable value reporting
   sendVariableValues:
     mode: "none"  # Options: none, all, exceptNames, onlyNames
-    
+
     # Specific variables to include/exclude
     exceptNames:
       - password
       - token
       - secret
       - apiKey
-    
+
   # Header reporting
   sendHeaders:
     mode: "none"  # Options: none, all, exceptNames, onlyNames
-    
+
     exceptNames:
       - authorization
       - cookie
       - x-api-key
-  
+
   # Error reporting
   sendErrors:
     enabled: true
     maskErrors: true
-    
+
     # Transform errors before sending
     transform: true
-  
+
   # Sampling
   sampling:
     # Sample rate (0.0 to 1.0)
     rate: 1.0
-    
+
     # Sample expensive operations more
     adaptiveSampling: true
 
@@ -135,23 +135,23 @@ usageReporting:
 
 tracing:
   enabled: true
-  
+
   # Trace sampling rate
   samplingRate: 0.01  # 1% of requests
-  
+
   # Include query plan in traces
   includeQueryPlan: true
-  
+
   # Trace all operations (disable sampling)
   traceAll: false
-  
+
   # Field-level instrumentation
   fieldLevelInstrumentation:
     enabled: true
-    
+
     # Limit traced fields
     maxFields: 1000
-  
+
   # Timing precision
   timingPrecision: "nanoseconds"
 
@@ -163,29 +163,29 @@ performance:
   # Operation performance tracking
   operationTracking:
     enabled: true
-    
+
     # Alert thresholds
     thresholds:
       # P95 latency threshold (ms)
       p95Latency: 1000
-      
+
       # P99 latency threshold (ms)
       p99Latency: 2000
-      
+
       # Error rate threshold (%)
       errorRate: 1.0
-  
+
   # Field performance tracking
   fieldTracking:
     enabled: true
-    
+
     # Track slow fields
     slowFieldThreshold: 100  # ms
-  
+
   # Query complexity tracking
   complexityTracking:
     enabled: true
-    
+
     # Alert on high complexity
     complexityThreshold: 1000
 
@@ -198,33 +198,33 @@ metrics:
   operations:
     # Track operation execution time
     executionTime: true
-    
+
     # Track operation errors
     errors: true
-    
+
     # Track operation variables
     variables: false
-    
+
     # Track cache hits
     cacheHits: true
-  
+
   # Resolver metrics
   resolvers:
     # Track resolver execution time
     executionTime: true
-    
+
     # Track resolver errors
     errors: true
-    
+
     # Track resolver cache hits
     cacheHits: true
-  
+
   # Client metrics
   clients:
     # Track client identification
     clientName: true
     clientVersion: true
-    
+
     # Track client operations
     operationCount: true
 
@@ -234,36 +234,36 @@ metrics:
 
 errorTracking:
   enabled: true
-  
+
   # Error categorization
   categories:
     - name: "AUTHENTICATION_ERROR"
       severity: "WARNING"
-      
+
     - name: "VALIDATION_ERROR"
       severity: "INFO"
-      
+
     - name: "INTERNAL_SERVER_ERROR"
       severity: "ERROR"
-  
+
   # Error aggregation
   aggregation:
     enabled: true
-    
+
     # Group similar errors
     groupByMessage: true
     groupByPath: true
-    
+
   # Error notifications
   notifications:
     enabled: true
-    
+
     # Slack integration
     slack:
       enabled: false
       webhookUrl: "${SLACK_WEBHOOK_URL}"
       channel: "#graphql-errors"
-    
+
     # PagerDuty integration
     pagerduty:
       enabled: false
@@ -276,16 +276,16 @@ errorTracking:
 documentation:
   # Generate documentation
   enabled: true
-  
+
   # Include field descriptions
   includeFieldDescriptions: true
-  
+
   # Include deprecation reasons
   includeDeprecations: true
-  
+
   # Include examples
   includeExamples: true
-  
+
   # Public documentation
   public:
     enabled: false
@@ -298,19 +298,19 @@ documentation:
 explorer:
   # Enable Explorer in Studio
   enabled: true
-  
+
   # Embed Explorer in application
   embed:
     enabled: false
-    
+
   # Explorer settings
   settings:
     # Include cookies in requests
     includeCookies: true
-    
+
     # Auto-complete
     autoComplete: true
-    
+
     # Query history
     saveHistory: true
 
@@ -322,39 +322,39 @@ governance:
   # Linting rules
   linting:
     enabled: true
-    
+
     rules:
       # Naming conventions
       - name: "FIELD_NAMES_SHOULD_BE_CAMEL_CASE"
         severity: "ERROR"
-        
+
       - name: "TYPE_NAMES_SHOULD_BE_PASCAL_CASE"
         severity: "ERROR"
-        
+
       - name: "ENUM_VALUES_SHOULD_BE_UPPERCASE"
         severity: "WARNING"
-      
+
       # Documentation
       - name: "ALL_TYPES_SHOULD_HAVE_DESCRIPTIONS"
         severity: "WARNING"
-        
+
       - name: "ALL_FIELDS_SHOULD_HAVE_DESCRIPTIONS"
         severity: "WARNING"
-      
+
       # Best practices
       - name: "NO_DEPRECATED_WITHOUT_REASON"
         severity: "ERROR"
-        
+
       - name: "CONSISTENT_PAGINATION_PATTERN"
         severity: "ERROR"
-  
+
   # Breaking change detection
   breakingChanges:
     enabled: true
-    
+
     # Block on breaking changes
     blockOnBreakingChanges: true
-    
+
     # Allowed breaking changes
     allowList:
       - "FIELD_REMOVED"  # If usage is zero
@@ -366,31 +366,31 @@ governance:
 
 federation:
   enabled: true
-  
+
   # Subgraph configuration
   subgraphs:
     - name: "users"
       url: "http://users-service:4001/graphql"
       routingUrl: "http://users-service:4001/graphql"
-      
+
     - name: "posts"
       url: "http://posts-service:4002/graphql"
       routingUrl: "http://posts-service:4002/graphql"
-  
+
   # Composition
   composition:
     enabled: true
-    
+
     # Validate composition
     validate: true
-    
+
     # Version
     version: "2"
-  
+
   # Managed federation
   managed:
     enabled: true
-    
+
     # Poll interval for schema updates
     pollInterval: 10000  # 10 seconds
 
@@ -402,28 +402,28 @@ cicd:
   # Schema checks in CI
   schemaChecks:
     enabled: true
-    
+
     # Rover CLI configuration
     rover:
       version: "latest"
-      
+
       # Check command
       checkCommand: "rover subgraph check ${APOLLO_GRAPH_REF}@${APOLLO_GRAPH_VARIANT} --schema ./schema.graphql"
-  
+
   # Publish schema in CD
   schemaPublish:
     enabled: true
-    
+
     # Publish command
     publishCommand: "rover subgraph publish ${APOLLO_GRAPH_REF}@${APOLLO_GRAPH_VARIANT} --schema ./schema.graphql --name ${SUBGRAPH_NAME}"
-  
+
   # GitHub integration
   github:
     enabled: false
-    
+
     # Check annotations
     annotations: true
-    
+
     # PR comments
     prComments: true
 
@@ -435,17 +435,17 @@ development:
   # Local schema development
   local:
     enabled: true
-    
+
     # Schema file location
     schemaFile: "./schema.graphql"
-    
+
     # Hot reload
     hotReload: true
-  
+
   # Mocking
   mocking:
     enabled: false
-    
+
     # Mock resolver behavior
     mockResolvers: true
 
@@ -458,18 +458,18 @@ security:
   apiKeys:
     # Rotate keys regularly
     rotationPeriod: "90d"
-    
+
     # Key permissions
     permissions:
       - "schema:publish"
       - "metrics:read"
       - "traces:read"
-  
+
   # Access control
   accessControl:
     # IP allowlist
     ipAllowlist: []
-    
+
     # Require authentication
     requireAuth: true
 
@@ -481,27 +481,27 @@ notifications:
   # Schema change notifications
   schemaChanges:
     enabled: true
-    
+
     channels:
       - slack
       - email
-  
+
   # Performance degradation
   performanceDegradation:
     enabled: true
-    
+
     threshold: 50  # % increase in P95 latency
-    
+
     channels:
       - slack
       - pagerduty
-  
+
   # Error rate increase
   errorRateIncrease:
     enabled: true
-    
+
     threshold: 100  # % increase in error rate
-    
+
     channels:
       - slack
 
@@ -511,21 +511,21 @@ notifications:
 
 rover:
   # Install command: npm install -g @apollo/rover
-  
+
   # Common commands
   commands:
     # Check schema
     check: "rover subgraph check ${APOLLO_GRAPH_REF}@${APOLLO_GRAPH_VARIANT} --schema ./schema.graphql"
-    
+
     # Publish schema
     publish: "rover subgraph publish ${APOLLO_GRAPH_REF}@${APOLLO_GRAPH_VARIANT} --schema ./schema.graphql --name ${SUBGRAPH_NAME} --routing-url ${ROUTING_URL}"
-    
+
     # Fetch schema
     fetch: "rover subgraph fetch ${APOLLO_GRAPH_REF}@${APOLLO_GRAPH_VARIANT} --name ${SUBGRAPH_NAME}"
-    
+
     # List subgraphs
     list: "rover subgraph list ${APOLLO_GRAPH_REF}@${APOLLO_GRAPH_VARIANT}"
-    
+
     # Compose supergraph
     compose: "rover supergraph compose --config ./supergraph.yaml"
 
@@ -537,12 +537,12 @@ env:
   required:
     - APOLLO_KEY
     - APOLLO_GRAPH_REF
-    
+
   optional:
     - APOLLO_GRAPH_VARIANT
     - APOLLO_SCHEMA_REPORTING
     - APOLLO_SCHEMA_CONFIG_DELIVERY_ENDPOINT
-    
+
   defaults:
     APOLLO_GRAPH_VARIANT: "main"
     APOLLO_SCHEMA_REPORTING: "true"

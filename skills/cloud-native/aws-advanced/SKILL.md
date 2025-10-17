@@ -358,7 +358,7 @@ def start_workflow(order_id: str, order_data: dict):
         **order_data,
         'timestamp': datetime.utcnow().isoformat()
     }
-    
+
     try:
         response = sfn_client.start_execution(
             stateMachineArn=os.environ['STATE_MACHINE_ARN'],
@@ -478,7 +478,7 @@ def publish_event(event_type: str, detail_data: Dict[str, Any]):
         'Detail': json.dumps(detail_data),
         'EventBusName': 'default'
     }
-    
+
     try:
         response = eventbridge.put_events(Entries=[event])
         if response['FailedEntryCount'] > 0:
@@ -626,7 +626,7 @@ const docClient = DynamoDBDocumentClient.from(client);
 export const handler = async (event) => {
   try {
     const data = JSON.parse(event.body);
-    
+
     // Use layer utility
     const validation = validateInput(data);
     if (!validation.valid) {
@@ -679,17 +679,17 @@ import { verify } from 'jsonwebtoken';
 
 export const handler = async (event) => {
   const token = event.authorizationToken.replace('Bearer ', '');
-  
+
   try {
     const decoded = verify(token, process.env.JWT_SECRET);
-    
+
     // Generate IAM policy
     const policy = generatePolicy(decoded.sub, 'Allow', event.methodArn, {
       userId: decoded.sub,
       email: decoded.email,
       roles: decoded.roles
     });
-    
+
     return policy;
   } catch (error) {
     console.error('Authorization failed:', error);
@@ -718,14 +718,14 @@ function generatePolicy(principalId, effect, resource, context = {}) {
 export const handler = async (event) => {
   const apiKey = event.headers['x-api-key'];
   const sourceIp = event.requestContext.identity.sourceIp;
-  
+
   // Validate API key and IP whitelist
   const isValid = await validateApiKey(apiKey, sourceIp);
-  
+
   if (!isValid) {
     throw new Error('Unauthorized');
   }
-  
+
   return {
     isAuthorized: true,
     context: {
@@ -739,19 +739,19 @@ async function validateApiKey(apiKey, sourceIp) {
   // Check DynamoDB for valid API key and IP whitelist
   const { DynamoDBClient } = await import('@aws-sdk/client-dynamodb');
   const { DynamoDBDocumentClient, GetCommand } = await import('@aws-sdk/lib-dynamodb');
-  
+
   const client = new DynamoDBClient({});
   const docClient = DynamoDBDocumentClient.from(client);
-  
+
   const result = await docClient.send(new GetCommand({
     TableName: process.env.API_KEYS_TABLE,
     Key: { apiKey }
   }));
-  
+
   if (!result.Item || !result.Item.active) {
     return false;
   }
-  
+
   // Check IP whitelist
   const allowedIps = result.Item.allowedIps || [];
   return allowedIps.length === 0 || allowedIps.includes(sourceIp);
@@ -916,10 +916,10 @@ async function getOrderWithItems(orderId) {
       ':pk': `ORDER#${orderId}`
     }
   }));
-  
+
   const metadata = result.Items.find(item => item.SK === 'METADATA');
   const items = result.Items.filter(item => item.SK.startsWith('ITEM#'));
-  
+
   return { metadata, items };
 }
 ```
@@ -934,10 +934,10 @@ import { unmarshall } from '@aws-sdk/util-dynamodb';
 export const handler = async (event) => {
   for (const record of event.Records) {
     const { eventName, dynamodb } = record;
-    
+
     if (eventName === 'INSERT' || eventName === 'MODIFY') {
       const newImage = unmarshall(dynamodb.NewImage);
-      
+
       // Process different entity types
       if (newImage.PK.startsWith('ORDER#')) {
         await processOrderChange(newImage, eventName);
@@ -1124,7 +1124,7 @@ def publish_order_event(event_type: str, order_data: dict):
         'timestamp': datetime.utcnow().isoformat(),
         'data': order_data
     }
-    
+
     response = sns_client.publish(
         TopicArn=os.environ['ORDER_TOPIC_ARN'],
         Message=json.dumps(message),
@@ -1139,7 +1139,7 @@ def publish_order_event(event_type: str, order_data: dict):
             }
         }
     )
-    
+
     return response['MessageId']
 ```
 
@@ -1155,16 +1155,16 @@ export const handler = async (event) => {
   for (const record of event.Records) {
     try {
       const message = JSON.parse(record.body);
-      
+
       // Process message
       await processMessage(message);
-      
+
       // Delete from queue on success
       await client.send(new DeleteMessageCommand({
         QueueUrl: process.env.QUEUE_URL,
         ReceiptHandle: record.receiptHandle
       }));
-      
+
     } catch (error) {
       console.error('Processing failed:', error);
       // Message will return to queue and eventually move to DLQ
@@ -1181,10 +1181,10 @@ async function processMessage(message) {
     console.log('Message already processed:', message.id);
     return;
   }
-  
+
   // Process business logic
   await performBusinessLogic(message);
-  
+
   // Mark as processed
   await recordProcessingComplete(message.id);
 }
@@ -1225,7 +1225,7 @@ ProcessOrderFunction:
 def analyze_dynamodb_usage():
     """Determine if on-demand or provisioned is more cost-effective"""
     cloudwatch = boto3.client('cloudwatch')
-    
+
     # Get read/write capacity units consumed
     read_metrics = cloudwatch.get_metric_statistics(
         Namespace='AWS/DynamoDB',
@@ -1236,11 +1236,11 @@ def analyze_dynamodb_usage():
         Period=3600,
         Statistics=['Sum']
     )
-    
+
     # Calculate costs
     # On-Demand: $1.25 per million reads, $6.25 per million writes
     # Provisioned: $0.00065 per RCU-hour, $0.00325 per WCU-hour
-    
+
     # Switch to provisioned if usage is predictable and constant
 ```
 
@@ -1315,18 +1315,18 @@ export const handler = async (event) => {
   // Create subsegment for custom operations
   const segment = AWSXRay.getSegment();
   const subsegment = segment.addNewSubsegment('processOrder');
-  
+
   try {
     // Add annotations (indexed for filtering)
     subsegment.addAnnotation('orderId', event.orderId);
     subsegment.addAnnotation('customerId', event.customerId);
-    
+
     // Add metadata (not indexed, but visible in traces)
     subsegment.addMetadata('orderDetails', event);
-    
+
     const order = await getOrder(event.orderId);
     const processed = await processOrder(order);
-    
+
     subsegment.close();
     return processed;
   } catch (error) {
@@ -1361,24 +1361,24 @@ table = dynamodb.Table(os.environ['TABLE_NAME'])
 @xray_recorder.capture('process_order')
 def process_order(order_id):
     """Process order with X-Ray tracing"""
-    
+
     # Add annotations
     xray_recorder.put_annotation('order_id', order_id)
     xray_recorder.put_annotation('service', 'order-processor')
-    
+
     # Add metadata
     xray_recorder.put_metadata('processing_time', datetime.now().isoformat())
-    
+
     try:
         # Subsegment for database operation
         with xray_recorder.capture('fetch_order'):
             response = table.get_item(Key={'PK': f'ORDER#{order_id}', 'SK': 'METADATA'})
             order = response['Item']
-        
+
         # Subsegment for business logic
         with xray_recorder.capture('validate_order'):
             validate_order(order)
-        
+
         return order
     except Exception as e:
         xray_recorder.put_metadata('error', str(e))
@@ -1391,10 +1391,10 @@ def process_order(order_id):
 ```javascript
 export const handler = async (event) => {
   const startTime = Date.now();
-  
+
   try {
     await processOrder(event);
-    
+
     // Emit custom metrics using EMF
     console.log(JSON.stringify({
       _aws: {
@@ -1415,7 +1415,7 @@ export const handler = async (event) => {
       OrderId: event.orderId,
       CustomerId: event.customerId
     }));
-    
+
     return { statusCode: 200 };
   } catch (error) {
     // Emit error metric
@@ -1433,7 +1433,7 @@ export const handler = async (event) => {
       Errors: 1,
       ErrorType: error.name
     }));
-    
+
     throw error;
   }
 };
@@ -1496,7 +1496,7 @@ class Logger {
       functionVersion: this.context.functionVersion,
       ...metadata
     };
-    
+
     console.log(JSON.stringify(logEntry));
   }
 
@@ -1522,12 +1522,12 @@ class Logger {
 
 export const handler = async (event, context) => {
   const logger = new Logger(context);
-  
+
   logger.info('Processing started', {
     orderId: event.orderId,
     customerId: event.customerId
   });
-  
+
   try {
     const result = await processOrder(event);
     logger.info('Processing completed', { result });

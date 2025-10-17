@@ -488,6 +488,6 @@ Based on your scorecard, assess your zero-trust maturity:
 - [CISA Zero Trust Maturity Model](https://www.cisa.gov/zero-trust-maturity-model)
 - [NSA Zero Trust Guidance](https://media.defense.gov/2021/Feb/25/2002588479/-1/-1/0/CSI_EMBRACING_ZT_SECURITY_MODEL_UOO115131-21.PDF)
 
-**Assessment Completed By:** ___________________  
-**Date:** ___________________  
+**Assessment Completed By:** ___________________
+**Date:** ___________________
 **Next Review Date:** ___________________

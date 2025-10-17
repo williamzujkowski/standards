@@ -4,7 +4,7 @@
 # Cognitive complexity threshold
 cognitive-complexity-threshold = 25
 
-# Cyclomatic complexity threshold  
+# Cyclomatic complexity threshold
 cyclomatic-complexity-threshold = 30
 
 # Documentation settings

@@ -56,7 +56,7 @@ describe('UserProfile', () => {
 
     it('displays admin badge for admin users', () => {
       const adminUser = { ...mockUser, role: 'admin' as const };
-      
+
       wrapper = mount(UserProfile, {
         props: { user: adminUser },
         global: { plugins: [pinia] }
@@ -172,14 +172,14 @@ describe('UserProfile', () => {
 
       // Should exit edit mode
       expect(wrapper.classes()).not.toContain('is-editing');
-      
+
       // Should emit cancel event
       expect(wrapper.emitted('cancel')).toBeTruthy();
     });
 
     it('confirms before deleting', async () => {
       const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(true);
-      
+
       wrapper = mount(UserProfile, {
         props: { user: { ...mockUser, role: 'admin' } },
         global: { plugins: [pinia] }
@@ -256,7 +256,7 @@ describe('UserProfile', () => {
 
     it('identifies admin users', () => {
       const adminUser = { ...mockUser, role: 'admin' as const };
-      
+
       wrapper = mount(UserProfile, {
         props: { user: adminUser },
         global: { plugins: [pinia] }
@@ -278,7 +278,7 @@ describe('UserProfile', () => {
       });
 
       await wrapper.find('button.btn-primary').trigger('click');
-      
+
       // Trigger save
       const savePromise = wrapper.find('form').trigger('submit.prevent');
 
@@ -320,7 +320,7 @@ describe('UserProfile', () => {
   describe('Store Integration', () => {
     it('updates store when user changes', async () => {
       const store = useUserStore(pinia);
-      
+
       wrapper = mount(UserProfile, {
         props: { user: mockUser },
         global: { plugins: [pinia] }

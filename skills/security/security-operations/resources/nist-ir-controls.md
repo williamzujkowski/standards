@@ -34,19 +34,19 @@ preparation_checklist:
     - incident_response_policy: "Documented, approved by management"
     - escalation_matrix: "Critical: CISO within 15min, Board within 24h"
     - communication_plan: "Legal, PR, customers, regulators"
-  
+
   team:
     - tier1_analysts: 3 (24/7 coverage)
     - tier2_responders: 2 (on-call)
     - tier3_hunters: 1 (business hours)
     - incident_commander: CISO designee
-  
+
   tools:
     - siem: "Splunk Enterprise Security"
     - edr: "CrowdStrike Falcon"
     - forensics: "Volatility, Autopsy, FTK Imager"
     - threat_intel: "MISP, AlienVault OTX, VirusTotal"
-  
+
   training:
     - frequency: Quarterly tabletop exercises
     - phishing_sims: Monthly
@@ -218,12 +218,12 @@ training_program:
     frequency: Annual
     content: "How to report incidents, phishing awareness"
     method: CBT (Computer-Based Training)
-  
+
   it_staff:
     frequency: Quarterly
     content: "Incident detection, initial response, escalation"
     method: Instructor-led + hands-on labs
-  
+
   ir_team:
     frequency: Monthly (tabletop) + Quarterly (full exercise)
     content: "Advanced forensics, malware analysis, legal considerations"
@@ -357,12 +357,12 @@ internal_reporting:
   users:
     method: "Email security@company.com, Intranet 'Report Incident' button"
     response_time: "Acknowledgment within 1 hour"
-  
+
   soc_to_management:
     critical: "Phone call within 15 minutes"
     high: "Email within 1 hour"
     medium: "Email within 4 hours"
-  
+
   management_to_board:
     critical: "Within 24 hours"
     high: "Monthly board report"
@@ -374,17 +374,17 @@ external_reporting:
   law_enforcement:
     trigger: "Criminal activity (CFAA violation, financial fraud)"
     contact: "FBI Internet Crime Complaint Center (IC3), Secret Service"
-  
+
   regulatory:
     gdpr: "72 hours to supervisory authority (DPO coordinates)"
     hipaa: "60 days to HHS for PHI breach >500 individuals"
     sec: "4 business days for material cybersecurity incident (8-K filing)"
     state_breach_laws: "Per state requirements (30-90 days typical)"
-  
+
   cyber_insurance:
     timing: "Within 24-48 hours per policy terms"
     contact: "Insurance broker, claims hotline"
-  
+
   isac_sharing:
     method: "STIX/TAXII, MISP"
     data: "Anonymized IOCs, TTPs (no PII)"
@@ -423,12 +423,12 @@ external_support:
     provider: "Mandiant"
     retainer: "$50,000/year (10 hours prepaid)"
     response_time: "4 hours for critical incidents"
-  
+
   legal_counsel:
     provider: "Data Breach Law Firm"
     retainer: "$25,000/year"
     services: "Regulatory notification, class action defense"
-  
+
   cyber_insurance:
     provider: "Chubb"
     coverage: "$5M cyber liability"

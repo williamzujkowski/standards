@@ -33,67 +33,67 @@ log_error() {
 # Check prerequisites
 check_prerequisites() {
     log_info "Checking prerequisites..."
-    
+
     # Check kubectl
     if ! command -v kubectl &> /dev/null; then
         log_error "kubectl not found. Please install kubectl."
         exit 1
     fi
-    
+
     # Check cluster access
     if ! kubectl cluster-info &> /dev/null; then
         log_error "Cannot access Kubernetes cluster. Check your kubeconfig."
         exit 1
     fi
-    
+
     # Check istioctl
     if ! command -v istioctl &> /dev/null; then
         log_warn "istioctl not found. Installing..."
         install_istioctl
     fi
-    
+
     log_info "Prerequisites check passed."
 }
 
 # Install istioctl
 install_istioctl() {
     log_info "Installing istioctl ${ISTIO_VERSION}..."
-    
+
     curl -L https://istio.io/downloadIstio | ISTIO_VERSION=${ISTIO_VERSION} sh -
-    
+
     cd "istio-${ISTIO_VERSION}"
     export PATH=$PWD/bin:$PATH
     cd ..
-    
+
     log_info "istioctl installed successfully."
 }
 
 # Validate cluster resources
 validate_cluster() {
     log_info "Validating cluster resources..."
-    
+
     # Check node resources
     NODES=$(kubectl get nodes --no-headers | wc -l)
     if [ "$NODES" -lt 3 ]; then
         log_warn "Cluster has less than 3 nodes. High availability may be compromised."
     fi
-    
+
     # Check available resources
     TOTAL_CPU=$(kubectl top nodes 2>/dev/null | awk 'NR>1 {sum+=$3} END {print sum}' || echo "0")
     if [ "$TOTAL_CPU" == "0" ]; then
         log_warn "Cannot determine cluster CPU resources. Ensure metrics-server is installed."
     fi
-    
+
     log_info "Cluster validation completed."
 }
 
 # Install Istio
 install_istio() {
     log_info "Installing Istio with profile: ${PROFILE}..."
-    
+
     # Create istio-system namespace
     kubectl create namespace istio-system --dry-run=client -o yaml | kubectl apply -f -
-    
+
     # Install Istio
     if [ "$PROFILE" == "production" ]; then
         istioctl install -y \
@@ -108,20 +108,20 @@ install_istio() {
     else
         istioctl install --set profile="${PROFILE}" -y
     fi
-    
+
     # Verify installation
     kubectl get pods -n istio-system
-    
+
     log_info "Istio installed successfully."
 }
 
 # Enable sidecar injection
 enable_sidecar_injection() {
     log_info "Enabling sidecar injection for namespace: ${NAMESPACE}..."
-    
+
     kubectl create namespace "${NAMESPACE}" --dry-run=client -o yaml | kubectl apply -f -
     kubectl label namespace "${NAMESPACE}" istio-injection=enabled --overwrite
-    
+
     log_info "Sidecar injection enabled for ${NAMESPACE}."
 }
 
@@ -131,23 +131,23 @@ install_addons() {
         log_info "Skipping addon installation."
         return
     fi
-    
+
     log_info "Installing observability addons..."
-    
+
     ISTIO_DIR="istio-${ISTIO_VERSION}"
-    
+
     # Prometheus
     kubectl apply -f "${ISTIO_DIR}/samples/addons/prometheus.yaml" || true
-    
+
     # Grafana
     kubectl apply -f "${ISTIO_DIR}/samples/addons/grafana.yaml" || true
-    
+
     # Kiali
     kubectl apply -f "${ISTIO_DIR}/samples/addons/kiali.yaml" || true
-    
+
     # Jaeger
     kubectl apply -f "${ISTIO_DIR}/samples/addons/jaeger.yaml" || true
-    
+
     # Wait for addons to be ready
     log_info "Waiting for addons to be ready..."
     kubectl wait --for=condition=available --timeout=300s \
@@ -158,7 +158,7 @@ install_addons() {
         deployment/kiali -n istio-system 2>/dev/null || true
     kubectl wait --for=condition=available --timeout=300s \
         deployment/jaeger -n istio-system 2>/dev/null || true
-    
+
     log_info "Addons installed successfully."
 }
 
@@ -168,9 +168,9 @@ enable_mtls() {
         log_info "Skipping mTLS configuration."
         return
     fi
-    
+
     log_info "Enabling strict mTLS..."
-    
+
     kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
@@ -181,27 +181,27 @@ spec:
   mtls:
     mode: STRICT
 EOF
-    
+
     log_info "Strict mTLS enabled."
 }
 
 # Verify installation
 verify_installation() {
     log_info "Verifying Istio installation..."
-    
+
     # Check Istio components
     if ! kubectl get deployment -n istio-system istiod &> /dev/null; then
         log_error "Istiod deployment not found."
         exit 1
     fi
-    
+
     # Run istioctl verify
     if istioctl verify-install &> /dev/null; then
         log_info "Istio installation verified successfully."
     else
         log_warn "Istio verification completed with warnings. Check the output."
     fi
-    
+
     # Check proxy status
     log_info "Checking proxy status..."
     istioctl proxy-status || true
@@ -210,7 +210,7 @@ verify_installation() {
 # Display access information
 display_access_info() {
     log_info "=== Istio Dashboard Access ==="
-    
+
     echo ""
     echo "To access dashboards, run these commands in separate terminals:"
     echo ""
@@ -219,7 +219,7 @@ display_access_info() {
     echo "  Grafana:    istioctl dashboard grafana"
     echo "  Jaeger:     istioctl dashboard jaeger"
     echo ""
-    
+
     log_info "=== Next Steps ==="
     echo ""
     echo "1. Deploy your application to namespace: ${NAMESPACE}"
@@ -240,7 +240,7 @@ cleanup() {
 # Main execution
 main() {
     log_info "Starting Istio service mesh installation..."
-    
+
     check_prerequisites
     validate_cluster
     install_istio
@@ -250,7 +250,7 @@ main() {
     verify_installation
     display_access_info
     cleanup
-    
+
     log_info "Istio service mesh installation completed successfully!"
 }
 

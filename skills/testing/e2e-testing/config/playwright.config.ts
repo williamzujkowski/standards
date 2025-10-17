@@ -7,19 +7,19 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests/e2e',
-  
+
   // Run tests in files in parallel
   fullyParallel: true,
-  
+
   // Fail the build on CI if you accidentally left test.only in the source code
   forbidOnly: !!process.env.CI,
-  
+
   // Retry on CI only
   retries: process.env.CI ? 2 : 0,
-  
+
   // Opt out of parallel tests on CI
   workers: process.env.CI ? 1 : undefined,
-  
+
   // Reporter to use
   reporter: [
     ['html', { outputFolder: 'playwright-report', open: 'never' }],
@@ -35,35 +35,35 @@ export default defineConfig({
 
     // Collect trace when retrying the failed test
     trace: 'on-first-retry',
-    
+
     // Screenshot on failure
     screenshot: 'only-on-failure',
-    
+
     // Video on failure
     video: 'retain-on-failure',
-    
+
     // Maximum time each action such as `click()` can take
     actionTimeout: 10000,
-    
+
     // Navigation timeout
     navigationTimeout: 30000,
-    
+
     // Viewport size
     viewport: { width: 1280, height: 720 },
-    
+
     // Ignore HTTPS errors
     ignoreHTTPSErrors: true,
-    
+
     // Locale and timezone
     locale: 'en-US',
     timezoneId: 'America/New_York',
-    
+
     // Permissions
     permissions: [],
-    
+
     // Geolocation
     // geolocation: { longitude: -74.006, latitude: 40.7128 },
-    
+
     // Color scheme
     colorScheme: 'light',
   },
@@ -79,7 +79,7 @@ export default defineConfig({
     // Desktop browsers
     {
       name: 'chromium',
-      use: { 
+      use: {
         ...devices['Desktop Chrome'],
         // Use saved authentication state
         storageState: 'playwright/.auth/user.json',
@@ -89,7 +89,7 @@ export default defineConfig({
 
     {
       name: 'firefox',
-      use: { 
+      use: {
         ...devices['Desktop Firefox'],
         storageState: 'playwright/.auth/user.json',
       },
@@ -98,7 +98,7 @@ export default defineConfig({
 
     {
       name: 'webkit',
-      use: { 
+      use: {
         ...devices['Desktop Safari'],
         storageState: 'playwright/.auth/user.json',
       },
@@ -108,7 +108,7 @@ export default defineConfig({
     // Mobile browsers
     {
       name: 'mobile-chrome',
-      use: { 
+      use: {
         ...devices['Pixel 5'],
         storageState: 'playwright/.auth/user.json',
       },
@@ -117,7 +117,7 @@ export default defineConfig({
 
     {
       name: 'mobile-safari',
-      use: { 
+      use: {
         ...devices['iPhone 12'],
         storageState: 'playwright/.auth/user.json',
       },
@@ -127,7 +127,7 @@ export default defineConfig({
     // Tablet
     {
       name: 'tablet',
-      use: { 
+      use: {
         ...devices['iPad Pro'],
         storageState: 'playwright/.auth/user.json',
       },
@@ -137,7 +137,7 @@ export default defineConfig({
     // Branded tests - tests that require specific browser features
     {
       name: 'chromium-branded',
-      use: { 
+      use: {
         ...devices['Desktop Chrome'],
         channel: 'chrome',
       },
@@ -146,7 +146,7 @@ export default defineConfig({
 
     {
       name: 'edge-branded',
-      use: { 
+      use: {
         ...devices['Desktop Edge'],
         channel: 'msedge',
       },

@@ -421,8 +421,8 @@ This document provides practical examples of STRIDE threats from real-world secu
 
 **DREAD Score:** (10+10+7+10+9)/5 = **9.2 (Critical)**
 
-**Risk Level:** Critical  
-**Action Required:** Immediate remediation (0-7 days)  
+**Risk Level:** Critical
+**Action Required:** Immediate remediation (0-7 days)
 **NIST Controls:** SI-10, RA-3, RA-5
 
 ---

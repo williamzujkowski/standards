@@ -1,8 +1,8 @@
 # HealthTech HIPAA Compliance Skill
 
-**Category**: Compliance  
-**Difficulty**: Advanced  
-**Standards**: HIPAA, HITECH, HL7-v2, FHIR-R4  
+**Category**: Compliance
+**Difficulty**: Advanced
+**Standards**: HIPAA, HITECH, HL7-v2, FHIR-R4
 **Version**: 1.0.0
 
 ## Overview

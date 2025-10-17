@@ -73,23 +73,23 @@ func (r *MyReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Re
     if err := r.Get(ctx, req.NamespacedName, obj); err != nil {
         return ctrl.Result{}, client.IgnoreNotFound(err)
     }
-    
+
     // 2. Handle deletion (finalizers)
     if !obj.DeletionTimestamp.IsZero() {
         return r.handleDeletion(ctx, obj)
     }
-    
+
     // 3. Reconcile external state
     if err := r.reconcileExternal(ctx, obj); err != nil {
         return ctrl.Result{}, err
     }
-    
+
     // 4. Update status
     obj.Status.Ready = true
     if err := r.Status().Update(ctx, obj); err != nil {
         return ctrl.Result{}, err
     }
-    
+
     return ctrl.Result{}, nil // Success, no requeue
 }
 ```
@@ -192,17 +192,17 @@ type MyAppSpec struct {
     // +kubebuilder:validation:Minimum=1
     // +kubebuilder:validation:Maximum=10
     Size int32 `json:"size"`
-    
+
     // Image is the container image to run
     // +kubebuilder:validation:Pattern=`^[a-z0-9.-]+/[a-z0-9.-]+:[a-z0-9.-]+$`
     Image string `json:"image"`
-    
+
     // Port is the application port
     // +kubebuilder:validation:Minimum=1024
     // +kubebuilder:validation:Maximum=65535
     // +optional
     Port int32 `json:"port,omitempty"`
-    
+
     // Resources defines CPU/memory limits
     // +optional
     Resources *ResourceRequirements `json:"resources,omitempty"`
@@ -212,7 +212,7 @@ type ResourceRequirements struct {
     // CPULimit in millicores (e.g., "500m")
     // +kubebuilder:validation:Pattern=`^[0-9]+m$`
     CPULimit string `json:"cpuLimit,omitempty"`
-    
+
     // MemoryLimit in megabytes (e.g., "512Mi")
     // +kubebuilder:validation:Pattern=`^[0-9]+Mi$`
     MemoryLimit string `json:"memoryLimit,omitempty"`
@@ -222,14 +222,14 @@ type ResourceRequirements struct {
 type MyAppStatus struct {
     // Conditions represent the latest available observations
     Conditions []metav1.Condition `json:"conditions,omitempty"`
-    
+
     // ReadyReplicas is the number of ready pods
     ReadyReplicas int32 `json:"readyReplicas"`
-    
+
     // Phase represents the current lifecycle phase
     // +kubebuilder:validation:Enum=Pending;Running;Failed;Succeeded
     Phase string `json:"phase,omitempty"`
-    
+
     // LastUpdateTime is the last time the status was updated
     LastUpdateTime metav1.Time `json:"lastUpdateTime,omitempty"`
 }
@@ -355,14 +355,14 @@ package main
 import (
     "flag"
     "os"
-    
+
     "k8s.io/apimachinery/pkg/runtime"
     utilruntime "k8s.io/apimachinery/pkg/util/runtime"
     clientgoscheme "k8s.io/client-go/kubernetes/scheme"
     ctrl "sigs.k8s.io/controller-runtime"
     "sigs.k8s.io/controller-runtime/pkg/healthz"
     "sigs.k8s.io/controller-runtime/pkg/log/zap"
-    
+
     appsv1 "github.com/myorg/my-operator/api/v1"
     "github.com/myorg/my-operator/controllers"
 )
@@ -381,17 +381,17 @@ func main() {
     var metricsAddr string
     var probeAddr string
     var enableLeaderElection bool
-    
+
     flag.StringVar(&metricsAddr, "metrics-bind-address", ":8080", "Metrics endpoint")
     flag.StringVar(&probeAddr, "health-probe-bind-address", ":8081", "Health probe endpoint")
     flag.BoolVar(&enableLeaderElection, "leader-elect", false, "Enable leader election")
-    
+
     opts := zap.Options{Development: true}
     opts.BindFlags(flag.CommandLine)
     flag.Parse()
-    
+
     ctrl.SetLogger(zap.New(zap.UseFlagOptions(&opts)))
-    
+
     mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
         Scheme:                 scheme,
         MetricsBindAddress:     metricsAddr,
@@ -403,7 +403,7 @@ func main() {
         setupLog.Error(err, "unable to start manager")
         os.Exit(1)
     }
-    
+
     if err = (&controllers.MyAppReconciler{
         Client: mgr.GetClient(),
         Scheme: mgr.GetScheme(),
@@ -411,7 +411,7 @@ func main() {
         setupLog.Error(err, "unable to create controller", "controller", "MyApp")
         os.Exit(1)
     }
-    
+
     if err := mgr.AddHealthzCheck("healthz", healthz.Ping); err != nil {
         setupLog.Error(err, "unable to set up health check")
         os.Exit(1)
@@ -420,7 +420,7 @@ func main() {
         setupLog.Error(err, "unable to set up ready check")
         os.Exit(1)
     }
-    
+
     setupLog.Info("starting manager")
     if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
         setupLog.Error(err, "problem running manager")
@@ -440,7 +440,7 @@ import (
     "context"
     "fmt"
     "time"
-    
+
     appsv1 "k8s.io/api/apps/v1"
     corev1 "k8s.io/api/core/v1"
     "k8s.io/apimachinery/pkg/api/errors"
@@ -452,13 +452,13 @@ import (
     "sigs.k8s.io/controller-runtime/pkg/client"
     "sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
     "sigs.k8s.io/controller-runtime/pkg/log"
-    
+
     myappsv1 "github.com/myorg/my-operator/api/v1"
 )
 
 const (
     finalizerName = "myapp.example.com/finalizer"
-    
+
     // Condition types
     ConditionTypeReady      = "Ready"
     ConditionTypeProgressing = "Progressing"
@@ -480,7 +480,7 @@ type MyAppReconciler struct {
 
 func (r *MyAppReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
     log := log.FromContext(ctx)
-    
+
     // Fetch the MyApp instance
     myApp := &myappsv1.MyApp{}
     if err := r.Get(ctx, req.NamespacedName, myApp); err != nil {
@@ -491,12 +491,12 @@ func (r *MyAppReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
         log.Error(err, "Failed to get MyApp")
         return ctrl.Result{}, err
     }
-    
+
     // Handle deletion with finalizers
     if !myApp.DeletionTimestamp.IsZero() {
         return r.reconcileDelete(ctx, myApp)
     }
-    
+
     // Add finalizer if not present
     if !controllerutil.ContainsFinalizer(myApp, finalizerName) {
         controllerutil.AddFinalizer(myApp, finalizerName)
@@ -505,7 +505,7 @@ func (r *MyAppReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
         }
         log.Info("Added finalizer to MyApp")
     }
-    
+
     // Set Progressing condition
     meta.SetStatusCondition(&myApp.Status.Conditions, metav1.Condition{
         Type:    ConditionTypeProgressing,
@@ -513,7 +513,7 @@ func (r *MyAppReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
         Reason:  "Reconciling",
         Message: "Starting reconciliation",
     })
-    
+
     // Reconcile Deployment
     if err := r.reconcileDeployment(ctx, myApp); err != nil {
         log.Error(err, "Failed to reconcile Deployment")
@@ -523,7 +523,7 @@ func (r *MyAppReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
         }
         return ctrl.Result{RequeueAfter: 30 * time.Second}, err
     }
-    
+
     // Reconcile Service
     if err := r.reconcileService(ctx, myApp); err != nil {
         log.Error(err, "Failed to reconcile Service")
@@ -533,7 +533,7 @@ func (r *MyAppReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
         }
         return ctrl.Result{RequeueAfter: 30 * time.Second}, err
     }
-    
+
     // Update status based on Deployment readiness
     deployment := &appsv1.Deployment{}
     if err := r.Get(ctx, types.NamespacedName{
@@ -542,10 +542,10 @@ func (r *MyAppReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
     }, deployment); err != nil {
         return ctrl.Result{}, err
     }
-    
+
     myApp.Status.ReadyReplicas = deployment.Status.ReadyReplicas
     myApp.Status.LastUpdateTime = metav1.Now()
-    
+
     if deployment.Status.ReadyReplicas == myApp.Spec.Size {
         myApp.Status.Phase = "Running"
         meta.SetStatusCondition(&myApp.Status.Conditions, metav1.Condition{
@@ -564,29 +564,29 @@ func (r *MyAppReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
             Message: fmt.Sprintf("%d/%d replicas ready", myApp.Status.ReadyReplicas, myApp.Spec.Size),
         })
     }
-    
+
     if err := r.Status().Update(ctx, myApp); err != nil {
         log.Error(err, "Failed to update MyApp status")
         return ctrl.Result{}, err
     }
-    
+
     log.Info("Successfully reconciled MyApp",
         "readyReplicas", myApp.Status.ReadyReplicas,
         "desiredReplicas", myApp.Spec.Size)
-    
+
     return ctrl.Result{RequeueAfter: 5 * time.Minute}, nil
 }
 
 func (r *MyAppReconciler) reconcileDeployment(ctx context.Context, myApp *myappsv1.MyApp) error {
     log := log.FromContext(ctx)
-    
+
     deployment := &appsv1.Deployment{
         ObjectMeta: metav1.ObjectMeta{
             Name:      myApp.Name,
             Namespace: myApp.Namespace,
         },
     }
-    
+
     op, err := controllerutil.CreateOrUpdate(ctx, r.Client, deployment, func() error {
         // Set labels
         deployment.Labels = map[string]string{
@@ -594,7 +594,7 @@ func (r *MyAppReconciler) reconcileDeployment(ctx context.Context, myApp *myapps
             "app.kubernetes.io/instance":   myApp.Name,
             "app.kubernetes.io/managed-by": "myapp-operator",
         }
-        
+
         // Set spec
         replicas := myApp.Spec.Size
         deployment.Spec.Replicas = &replicas
@@ -604,7 +604,7 @@ func (r *MyAppReconciler) reconcileDeployment(ctx context.Context, myApp *myapps
                 "app.kubernetes.io/instance": myApp.Name,
             },
         }
-        
+
         deployment.Spec.Template = corev1.PodTemplateSpec{
             ObjectMeta: metav1.ObjectMeta{
                 Labels: map[string]string{
@@ -628,7 +628,7 @@ func (r *MyAppReconciler) reconcileDeployment(ctx context.Context, myApp *myapps
                 },
             },
         }
-        
+
         // Apply resource limits if specified
         if myApp.Spec.Resources != nil {
             deployment.Spec.Template.Spec.Containers[0].Resources = corev1.ResourceRequirements{
@@ -638,41 +638,41 @@ func (r *MyAppReconciler) reconcileDeployment(ctx context.Context, myApp *myapps
                 },
             }
         }
-        
+
         // Set owner reference
         return controllerutil.SetControllerReference(myApp, deployment, r.Scheme)
     })
-    
+
     if err != nil {
         return err
     }
-    
+
     log.Info("Deployment reconciled", "operation", op)
     return nil
 }
 
 func (r *MyAppReconciler) reconcileService(ctx context.Context, myApp *myappsv1.MyApp) error {
     log := log.FromContext(ctx)
-    
+
     service := &corev1.Service{
         ObjectMeta: metav1.ObjectMeta{
             Name:      myApp.Name,
             Namespace: myApp.Namespace,
         },
     }
-    
+
     op, err := controllerutil.CreateOrUpdate(ctx, r.Client, service, func() error {
         service.Labels = map[string]string{
             "app.kubernetes.io/name":       "myapp",
             "app.kubernetes.io/instance":   myApp.Name,
             "app.kubernetes.io/managed-by": "myapp-operator",
         }
-        
+
         service.Spec.Selector = map[string]string{
             "app.kubernetes.io/name":     "myapp",
             "app.kubernetes.io/instance": myApp.Name,
         }
-        
+
         service.Spec.Ports = []corev1.ServicePort{
             {
                 Name:     "http",
@@ -681,32 +681,32 @@ func (r *MyAppReconciler) reconcileService(ctx context.Context, myApp *myappsv1.
                 Protocol:   corev1.ProtocolTCP,
             },
         }
-        
+
         service.Spec.Type = corev1.ServiceTypeClusterIP
-        
+
         return controllerutil.SetControllerReference(myApp, service, r.Scheme)
     })
-    
+
     if err != nil {
         return err
     }
-    
+
     log.Info("Service reconciled", "operation", op)
     return nil
 }
 
 func (r *MyAppReconciler) reconcileDelete(ctx context.Context, myApp *myappsv1.MyApp) (ctrl.Result, error) {
     log := log.FromContext(ctx)
-    
+
     if controllerutil.ContainsFinalizer(myApp, finalizerName) {
         // Perform cleanup (e.g., delete external resources)
         log.Info("Performing cleanup before deletion")
-        
+
         // Example: Clean up external resources
         if err := r.cleanupExternalResources(ctx, myApp); err != nil {
             return ctrl.Result{}, err
         }
-        
+
         // Remove finalizer
         controllerutil.RemoveFinalizer(myApp, finalizerName)
         if err := r.Update(ctx, myApp); err != nil {
@@ -714,7 +714,7 @@ func (r *MyAppReconciler) reconcileDelete(ctx context.Context, myApp *myappsv1.M
         }
         log.Info("Removed finalizer from MyApp")
     }
-    
+
     return ctrl.Result{}, nil
 }
 
@@ -775,14 +775,14 @@ func (r *MyAppReconciler) handleError(ctx context.Context, myApp *myappsv1.MyApp
         // Temporary issue (network timeout, API rate limit) - retry
         return ctrl.Result{RequeueAfter: 30 * time.Second}, nil
     }
-    
+
     if isPermanentError(err) {
         // Configuration issue - set error condition, don't requeue
         r.setDegradedCondition(myApp, "ConfigurationError", err.Error())
         r.Status().Update(ctx, myApp)
         return ctrl.Result{}, nil // Don't requeue until user fixes config
     }
-    
+
     // Unknown error - let controller retry with exponential backoff
     return ctrl.Result{}, err
 }
@@ -846,73 +846,73 @@ var _ webhook.Validator = &MyApp{}
 // ValidateCreate implements webhook.Validator
 func (r *MyApp) ValidateCreate() (admission.Warnings, error) {
     myapplog.Info("validate create", "name", r.Name)
-    
+
     return r.validateMyApp()
 }
 
 // ValidateUpdate implements webhook.Validator
 func (r *MyApp) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
     myapplog.Info("validate update", "name", r.Name)
-    
+
     oldMyApp := old.(*MyApp)
-    
+
     // Prevent scaling down below 1 replica
     if r.Spec.Size < oldMyApp.Spec.Size && r.Spec.Size < 1 {
         return nil, fmt.Errorf("cannot scale below 1 replica")
     }
-    
+
     // Prevent changing image registry
     oldRegistry := getRegistry(oldMyApp.Spec.Image)
     newRegistry := getRegistry(r.Spec.Image)
     if oldRegistry != newRegistry {
         return admission.Warnings{"Changing image registry may cause downtime"}, nil
     }
-    
+
     return r.validateMyApp()
 }
 
 // ValidateDelete implements webhook.Validator
 func (r *MyApp) ValidateDelete() (admission.Warnings, error) {
     myapplog.Info("validate delete", "name", r.Name)
-    
+
     // Example: Prevent deletion of production instances
     if r.Labels["environment"] == "production" {
         return nil, fmt.Errorf("production instances cannot be deleted via API")
     }
-    
+
     return nil, nil
 }
 
 func (r *MyApp) validateMyApp() (admission.Warnings, error) {
     var allWarnings admission.Warnings
     var allErrors []string
-    
+
     // Validate size is within reasonable bounds
     if r.Spec.Size > 100 {
         allWarnings = append(allWarnings, "Large replica count may consume excessive resources")
     }
-    
+
     // Validate image format
     if !isValidImageFormat(r.Spec.Image) {
         allErrors = append(allErrors, "image must be in format registry/name:tag")
     }
-    
+
     // Validate port range
     if r.Spec.Port != 0 && (r.Spec.Port < 1024 || r.Spec.Port > 65535) {
         allErrors = append(allErrors, "port must be between 1024 and 65535")
     }
-    
+
     // Cross-field validation
     if r.Spec.Resources != nil {
         if err := validateResources(r.Spec.Resources); err != nil {
             allErrors = append(allErrors, err.Error())
         }
     }
-    
+
     if len(allErrors) > 0 {
         return allWarnings, fmt.Errorf("validation failed: %v", allErrors)
     }
-    
+
     return allWarnings, nil
 }
 
@@ -929,7 +929,7 @@ func validateResources(res *ResourceRequirements) error {
             return fmt.Errorf("CPU limit must be at least 100m")
         }
     }
-    
+
     // Example: Memory limit must be at least 64Mi
     if res.MemoryLimit != "" {
         mem := parseMegabytes(res.MemoryLimit)
@@ -937,7 +937,7 @@ func validateResources(res *ResourceRequirements) error {
             return fmt.Errorf("memory limit must be at least 64Mi")
         }
     }
-    
+
     return nil
 }
 
@@ -961,12 +961,12 @@ var _ webhook.Defaulter = &MyApp{}
 // Default implements webhook.Defaulter
 func (r *MyApp) Default() {
     myapplog.Info("default", "name", r.Name)
-    
+
     // Set default port if not specified
     if r.Spec.Port == 0 {
         r.Spec.Port = 8080
     }
-    
+
     // Set default resources if not specified
     if r.Spec.Resources == nil {
         r.Spec.Resources = &ResourceRequirements{
@@ -974,13 +974,13 @@ func (r *MyApp) Default() {
             MemoryLimit: "512Mi",
         }
     }
-    
+
     // Add standard labels
     if r.Labels == nil {
         r.Labels = make(map[string]string)
     }
     r.Labels["app.kubernetes.io/managed-by"] = "myapp-operator"
-    
+
     // Set default size
     if r.Spec.Size == 0 {
         r.Spec.Size = 1
@@ -993,12 +993,12 @@ func (r *MyApp) Default() {
 ```go
 func main() {
     // ... manager setup ...
-    
+
     if err = (&appsv1.MyApp{}).SetupWebhookWithManager(mgr); err != nil {
         setupLog.Error(err, "unable to create webhook", "webhook", "MyApp")
         os.Exit(1)
     }
-    
+
     // ... start manager ...
 }
 ```
@@ -1098,17 +1098,17 @@ package controllers
 import (
     "path/filepath"
     "testing"
-    
+
     . "github.com/onsi/ginkgo/v2"
     . "github.com/onsi/gomega"
-    
+
     "k8s.io/client-go/kubernetes/scheme"
     ctrl "sigs.k8s.io/controller-runtime"
     "sigs.k8s.io/controller-runtime/pkg/client"
     "sigs.k8s.io/controller-runtime/pkg/envtest"
     logf "sigs.k8s.io/controller-runtime/pkg/log"
     "sigs.k8s.io/controller-runtime/pkg/log/zap"
-    
+
     appsv1 "github.com/myorg/my-operator/api/v1"
 )
 
@@ -1125,20 +1125,20 @@ func TestControllers(t *testing.T) {
 
 var _ = BeforeSuite(func() {
     logf.SetLogger(zap.New(zap.WriteTo(GinkgoWriter), zap.UseDevMode(true)))
-    
+
     By("bootstrapping test environment")
     testEnv = &envtest.Environment{
         CRDDirectoryPaths:     []string{filepath.Join("..", "config", "crd", "bases")},
         ErrorIfCRDPathMissing: true,
     }
-    
+
     cfg, err := testEnv.Start()
     Expect(err).NotTo(HaveOccurred())
     Expect(cfg).NotTo(BeNil())
-    
+
     err = appsv1.AddToScheme(scheme.Scheme)
     Expect(err).NotTo(HaveOccurred())
-    
+
     k8sClient, err = client.New(cfg, client.Options{Scheme: scheme.Scheme})
     Expect(err).NotTo(HaveOccurred())
     Expect(k8sClient).NotTo(BeNil())
@@ -1159,15 +1159,15 @@ package controllers
 import (
     "context"
     "time"
-    
+
     . "github.com/onsi/ginkgo/v2"
     . "github.com/onsi/gomega"
-    
+
     appsv1 "k8s.io/api/apps/v1"
     corev1 "k8s.io/api/core/v1"
     metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
     "k8s.io/apimachinery/pkg/types"
-    
+
     myappsv1 "github.com/myorg/my-operator/api/v1"
 )
 
@@ -1176,11 +1176,11 @@ var _ = Describe("MyApp Controller", func() {
         timeout  = time.Second * 10
         interval = time.Millisecond * 250
     )
-    
+
     Context("When creating MyApp", func() {
         It("Should create Deployment and Service", func() {
             ctx := context.Background()
-            
+
             myApp := &myappsv1.MyApp{
                 ObjectMeta: metav1.ObjectMeta{
                     Name:      "test-myapp",
@@ -1192,9 +1192,9 @@ var _ = Describe("MyApp Controller", func() {
                     Port:  8080,
                 },
             }
-            
+
             Expect(k8sClient.Create(ctx, myApp)).Should(Succeed())
-            
+
             // Wait for Deployment
             deployment := &appsv1.Deployment{}
             Eventually(func() error {
@@ -1203,10 +1203,10 @@ var _ = Describe("MyApp Controller", func() {
                     Namespace: "default",
                 }, deployment)
             }, timeout, interval).Should(Succeed())
-            
+
             Expect(*deployment.Spec.Replicas).To(Equal(int32(3)))
             Expect(deployment.Spec.Template.Spec.Containers[0].Image).To(Equal("nginx:latest"))
-            
+
             // Wait for Service
             service := &corev1.Service{}
             Eventually(func() error {
@@ -1215,23 +1215,23 @@ var _ = Describe("MyApp Controller", func() {
                     Namespace: "default",
                 }, service)
             }, timeout, interval).Should(Succeed())
-            
+
             Expect(service.Spec.Ports[0].TargetPort.IntVal).To(Equal(int32(8080)))
         })
-        
+
         It("Should update status when replicas are ready", func() {
             ctx := context.Background()
-            
+
             // Simulate Deployment readiness
             deployment := &appsv1.Deployment{}
             Expect(k8sClient.Get(ctx, types.NamespacedName{
                 Name:      "test-myapp",
                 Namespace: "default",
             }, deployment)).Should(Succeed())
-            
+
             deployment.Status.ReadyReplicas = 3
             Expect(k8sClient.Status().Update(ctx, deployment)).Should(Succeed())
-            
+
             // Wait for MyApp status update
             myApp := &myappsv1.MyApp{}
             Eventually(func() int32 {
@@ -1241,7 +1241,7 @@ var _ = Describe("MyApp Controller", func() {
                 }, myApp)
                 return myApp.Status.ReadyReplicas
             }, timeout, interval).Should(Equal(int32(3)))
-            
+
             Expect(myApp.Status.Phase).To(Equal("Running"))
         })
     })

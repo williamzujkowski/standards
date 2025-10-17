@@ -148,13 +148,13 @@ service_tiers:
     latency_p95: 200ms
     support: 24/7 phone + slack
     price: premium
-  
+
   - name: Professional
     availability: 99.95%
     latency_p95: 300ms
     support: 24/7 email
     price: standard
-  
+
   - name: Starter
     availability: 99.9%
     latency_p95: 500ms
@@ -244,12 +244,12 @@ error_budget_alerts:
     window: 1 hour
     severity: critical
     action: page oncall engineer
-  
+
   - burn_rate: 5x
     window: 6 hours
     severity: high
     action: notify team lead
-  
+
   - burn_rate: 2x
     window: 24 hours
     severity: warning
@@ -264,19 +264,19 @@ error_budget_policy:
       - normal_deployment_cadence
       - feature_development
       - controlled_experiments
-  
+
   - budget_remaining: "25-50%"
     actions:
       - cautious_deployments
       - increased_monitoring
       - prioritize_reliability
-  
+
   - budget_remaining: "< 25%"
     actions:
       - freeze_non_critical_changes
       - focus_on_reliability_work
       - root_cause_analysis
-  
+
   - budget_remaining: "< 0%"
     actions:
       - deployment_freeze
@@ -305,12 +305,12 @@ alerts:
     duration: 5m
     severity: high
     notify: [team-oncall]
-  
+
   - name: Error Budget Exhausted
     condition: error_budget_remaining < 0
     severity: critical
     notify: [team-lead, engineering-manager]
-  
+
   - name: High Burn Rate
     condition: burn_rate > 10
     duration: 1h

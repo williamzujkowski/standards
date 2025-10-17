@@ -88,14 +88,14 @@ log_message() {
   local color=$2
   local prefix=$3
   shift 3
-  
+
   if ((level >= log_level_num)); then
     local timestamp
     timestamp="$(date '+%Y-%m-%d %H:%M:%S')"
-    
+
     # Console output with color
     echo -e "${color}[${prefix}]${NC} $*" >&2
-    
+
     # File output without color
     if [[ -n "$LOG_FILE" && -w "$(dirname "$LOG_FILE")" ]]; then
       echo "[${timestamp}] [${prefix}] $*" >> "$LOG_FILE"
@@ -124,7 +124,7 @@ declare -a TEMP_DIRS=()
 #######################################
 cleanup() {
   local exit_code=$?
-  
+
   # Remove temporary files
   for file in "${TEMP_FILES[@]}"; do
     if [[ -f "$file" ]]; then
@@ -132,7 +132,7 @@ cleanup() {
       log_debug "Removed temp file: $file"
     fi
   done
-  
+
   # Remove temporary directories
   for dir in "${TEMP_DIRS[@]}"; do
     if [[ -d "$dir" ]]; then
@@ -140,11 +140,11 @@ cleanup() {
       log_debug "Removed temp dir: $dir"
     fi
   done
-  
+
   if ((exit_code != 0)); then
     log_error "Script exited with code: $exit_code"
   fi
-  
+
   exit "$exit_code"
 }
 
@@ -222,22 +222,22 @@ create_temp_dir() {
 validate_file() {
   local file="$1"
   local desc="${2:-File}"
-  
+
   if [[ -z "$file" ]]; then
     log_error "$desc path is empty"
     return 1
   fi
-  
+
   if [[ ! -f "$file" ]]; then
     log_error "$desc does not exist: $file"
     return 1
   fi
-  
+
   if [[ ! -r "$file" ]]; then
     log_error "$desc is not readable: $file"
     return 1
   fi
-  
+
   return 0
 }
 
@@ -254,22 +254,22 @@ validate_directory() {
   local dir="$1"
   local desc="${2:-Directory}"
   local writable="${3:-false}"
-  
+
   if [[ -z "$dir" ]]; then
     log_error "$desc path is empty"
     return 1
   fi
-  
+
   if [[ ! -d "$dir" ]]; then
     log_error "$desc does not exist: $dir"
     return 1
   fi
-  
+
   if [[ "$writable" == "true" && ! -w "$dir" ]]; then
     log_error "$desc is not writable: $dir"
     return 1
   fi
-  
+
   return 0
 }
 
@@ -283,7 +283,7 @@ validate_directory() {
 confirm() {
   local prompt="${1:-Are you sure?}"
   local response
-  
+
   read -rp "$prompt [y/N] " response
   [[ "$response" =~ ^[Yy]$ ]]
 }
@@ -299,24 +299,24 @@ confirm() {
 #######################################
 validate_dependencies() {
   local -a missing_deps=()
-  
+
   local -a required_commands=(
     grep
     sed
     awk
   )
-  
+
   for cmd in "${required_commands[@]}"; do
     if ! command_exists "$cmd"; then
       missing_deps+=("$cmd")
     fi
   done
-  
+
   if ((${#missing_deps[@]} > 0)); then
     log_error "Missing required commands: ${missing_deps[*]}"
     exit "$EXIT_DEPENDENCY"
   fi
-  
+
   log_debug "All dependencies satisfied"
 }
 
@@ -422,10 +422,10 @@ parse_arguments() {
         ;;
     esac
   done
-  
+
   # Parse positional arguments
   # TODO: Add your positional argument handling here
-  
+
   # Example validation
   # if [[ $# -lt 1 ]]; then
   #   log_error "Missing required argument"
@@ -445,13 +445,13 @@ parse_arguments() {
 #######################################
 main() {
   log_info "Starting ${SCRIPT_NAME} v${SCRIPT_VERSION}"
-  
+
   # Parse arguments
   parse_arguments "$@"
-  
+
   # Validate dependencies
   validate_dependencies
-  
+
   # Load configuration if specified
   if [[ -n "$CONFIG_FILE" ]]; then
     if validate_file "$CONFIG_FILE" "Config file"; then
@@ -461,9 +461,9 @@ main() {
       exit "$EXIT_ERROR"
     fi
   fi
-  
+
   # TODO: Implement your main logic here
-  
+
   log_info "Script completed successfully"
 }
 

@@ -150,11 +150,11 @@ fun getUserName(user: User?): String {
 class MyActivity : Activity() {
     // Will be initialized in onCreate
     private lateinit var binding: ActivityMainBinding
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        
+
         // Check initialization
         if (::binding.isInitialized) {
             setContentView(binding.root)
@@ -174,7 +174,7 @@ class DataRepository {
             "app-db"
         ).build()
     }
-    
+
     fun getUsers() = database.userDao().getAll()
 }
 ```
@@ -209,13 +209,13 @@ class UserRepository(
             database.insertAll(users)
         }
     }
-    
+
     // async - Return deferred result
     suspend fun getUserWithDetails(id: String): UserDetails {
         return coroutineScope {
             val userDeferred = async { apiService.getUser(id) }
             val postsDeferred = async { apiService.getUserPosts(id) }
-            
+
             UserDetails(
                 user = userDeferred.await(),
                 posts = postsDeferred.await()
@@ -232,14 +232,14 @@ class UserRepository(private val database: UserDao) {
     fun getUsers(): Flow<List<User>> {
         return database.getUsersFlow()
     }
-    
+
     // Transform flows
     fun getActiveUsers(): Flow<List<User>> {
         return database.getUsersFlow()
             .map { users -> users.filter { it.isActive } }
             .distinctUntilChanged()
     }
-    
+
     // Combine flows
     fun getUsersWithStatus(
         usersFlow: Flow<List<User>>,
@@ -258,15 +258,15 @@ class UserViewModel : ViewModel() {
     // StateFlow - Always has value, replays last
     private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
-    
+
     // SharedFlow - Events without initial value
     private val _events = MutableSharedFlow<UserEvent>()
     val events: SharedFlow<UserEvent> = _events.asSharedFlow()
-    
+
     fun loadUsers() {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
-            
+
             try {
                 val users = repository.getUsers()
                 _uiState.value = UiState.Success(users)
@@ -283,7 +283,7 @@ class UserViewModel : ViewModel() {
 ```kotlin
 class UserService {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
-    
+
     fun startPeriodicSync() {
         scope.launch {
             while (isActive) {
@@ -298,7 +298,7 @@ class UserService {
             }
         }
     }
-    
+
     fun cleanup() {
         scope.cancel()
     }
@@ -389,7 +389,7 @@ class User {
     var name: String by Delegates.observable("Unknown") { prop, old, new ->
         println("Name changed from $old to $new")
     }
-    
+
     var email: String by Delegates.vetoable("") { _, _, newValue ->
         newValue.contains("@")  // Veto if invalid
     }
@@ -409,7 +409,7 @@ class StringPreference(
     override fun getValue(thisRef: Any?, property: KProperty<*>): String {
         return prefs.getString(key, default) ?: default
     }
-    
+
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: String) {
         prefs.edit().putString(key, value).apply()
     }
@@ -524,29 +524,29 @@ class UserRepositoryTest {
     private lateinit var repository: UserRepository
     private lateinit var mockApi: ApiService
     private lateinit var mockDatabase: UserDao
-    
+
     @BeforeEach
     fun setup() {
         mockApi = mockk()
         mockDatabase = mockk()
         repository = UserRepository(mockApi, mockDatabase)
     }
-    
+
     @AfterEach
     fun teardown() {
         clearAllMocks()
     }
-    
+
     @Test
     fun `getUser returns user from API`() = runTest {
         // Given
         val userId = "123"
         val expectedUser = User(userId, "Alice")
         coEvery { mockApi.getUser(userId) } returns expectedUser
-        
+
         // When
         val result = repository.getUser(userId)
-        
+
         // Then
         assertEquals(expectedUser, result)
         coVerify(exactly = 1) { mockApi.getUser(userId) }
@@ -560,32 +560,32 @@ class UserRepositoryTest {
 class UserViewModelTest {
     private lateinit var viewModel: UserViewModel
     private lateinit var mockRepository: UserRepository
-    
+
     // Test dispatcher for coroutines
     private val testDispatcher = StandardTestDispatcher()
-    
+
     @BeforeEach
     fun setup() {
         Dispatchers.setMain(testDispatcher)
         mockRepository = mockk()
         viewModel = UserViewModel(mockRepository)
     }
-    
+
     @AfterEach
     fun teardown() {
         Dispatchers.resetMain()
     }
-    
+
     @Test
     fun `loadUsers updates state to Success`() = runTest {
         // Given
         val users = listOf(User("1", "Alice"))
         coEvery { mockRepository.getUsers() } returns users
-        
+
         // When
         viewModel.loadUsers()
         testDispatcher.scheduler.advanceUntilIdle()
-        
+
         // Then
         val state = viewModel.uiState.value
         assertTrue(state is UiState.Success)
@@ -603,14 +603,14 @@ class UserRepositoryTest {
         val users = listOf(User("1", "Alice"))
         val flow = flow { emit(users) }
         every { mockDatabase.getUsersFlow() } returns flow
-        
+
         // When/Then
         repository.getUsers().test {
             assertEquals(users, awaitItem())
             awaitComplete()
         }
     }
-    
+
     @Test
     fun `getActiveUsers filters inactive users`() = runTest {
         // Given
@@ -619,7 +619,7 @@ class UserRepositoryTest {
             User("2", "Bob", isActive = false)
         )
         every { mockDatabase.getUsersFlow() } returns flowOf(users)
-        
+
         // When/Then
         repository.getActiveUsers().test {
             val result = awaitItem()
@@ -639,7 +639,7 @@ class ValidationTest {
     fun `valid emails pass validation`(email: String) {
         assertTrue(email.isValidEmail())
     }
-    
+
     @ParameterizedTest
     @CsvSource(
         "Alice, 25, true",
@@ -650,7 +650,7 @@ class ValidationTest {
         val user = User(name, age)
         assertEquals(expected, user.isAdult())
     }
-    
+
     @ParameterizedTest
     @MethodSource("provideUserData")
     fun `user creation with various inputs`(data: UserData) {
@@ -658,7 +658,7 @@ class ValidationTest {
         assertNotNull(user.id)
         assertEquals(data.name, user.name)
     }
-    
+
     companion object {
         @JvmStatic
         fun provideUserData() = listOf(
@@ -676,21 +676,21 @@ fun `service calls repository with correct parameters`() {
     // Relaxed mock returns default values
     val mockRepo = mockk<UserRepository>(relaxed = true)
     val service = UserService(mockRepo)
-    
+
     // When
     runBlocking {
         service.updateUser("123", "Alice")
     }
-    
+
     // Verify call order
     coVerifyOrder {
         mockRepo.getUser("123")
         mockRepo.saveUser(any())
     }
-    
+
     // Verify called at least once
     coVerify(atLeast = 1) { mockRepo.getUser("123") }
-    
+
     // Verify not called
     coVerify(exactly = 0) { mockRepo.deleteUser(any()) }
 }
@@ -721,7 +721,7 @@ tasks.register("ktlintFormat", JavaExec::class) {
 // Example: Detect usage of !! operator
 class NotNullAssertionDetector : Detector(), SourceCodeScanner {
     override fun getApplicableUastTypes() = listOf(UCallExpression::class.java)
-    
+
     override fun createUastHandler(context: JavaContext): UElementHandler {
         return object : UElementHandler() {
             override fun visitCallExpression(node: UCallExpression) {

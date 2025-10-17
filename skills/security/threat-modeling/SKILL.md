@@ -24,27 +24,27 @@ threats:
     description: Impersonating something or someone else
     targets: [authentication, identity]
     example: "Using stolen credentials to access system"
-    
+
   T_tampering:
     description: Modifying data or code maliciously
     targets: [data_integrity, code_integrity]
     example: "Altering transaction amounts in transit"
-    
+
   R_repudiation:
     description: Claiming to not have performed an action
     targets: [logging, audit_trails]
     example: "Denying fraudulent transaction was performed"
-    
+
   I_information_disclosure:
     description: Exposing information to unauthorized parties
     targets: [confidentiality, data_protection]
     example: "Leaking customer PII through error messages"
-    
+
   D_denial_of_service:
     description: Making system unavailable or degraded
     targets: [availability, performance]
     example: "Overwhelming API with requests"
-    
+
   E_elevation_of_privilege:
     description: Gaining unauthorized higher access level
     targets: [authorization, access_control]
@@ -56,15 +56,15 @@ threats:
 1. **What are we building?**
    - System architecture, components, data flows
    - Trust boundaries, entry/exit points
-   
+
 2. **What can go wrong?**
    - Apply STRIDE to each component
    - Identify threat scenarios
-   
+
 3. **What should we do about it?**
    - Prioritize threats (DREAD scoring)
    - Design mitigations
-   
+
 4. **Did we do a good job?**
    - Review threat model coverage
    - Validate mitigations
@@ -128,7 +128,7 @@ processes:
         - "Brute force password attempts"
       elevation_of_privilege:
         - "JWT signature bypass"
-        
+
 data_stores:
   - name: "User Database"
     threats:
@@ -145,7 +145,7 @@ data_stores:
         - "Resource exhaustion via complex queries"
       elevation_of_privilege:
         - "Privilege escalation via stored procedures"
-        
+
 data_flows:
   - name: "Login Request → Auth Service"
     threats:
@@ -200,7 +200,7 @@ class ThreatModelElement:
     element_type: ElementType
     threats: List[Threat]
     trust_boundary: Optional[str] = None
-    
+
     def applicable_stride_categories(self) -> List[ThreatCategory]:
         """Return STRIDE categories applicable to this element type."""
         if self.element_type == ElementType.PROCESS:
@@ -281,11 +281,11 @@ Goal: Gain Unauthorized Access to Admin Panel
 attack_tree:
   goal: "Primary attack objective"
   attack_id: "ATK-001"
-  
+
   root_node:
     type: "AND" / "OR"
     description: "Attack step description"
-    
+
     children:
       - id: "ATK-001-1"
         type: "OR"
@@ -294,7 +294,7 @@ attack_tree:
         impact: "Critical" / "High" / "Medium" / "Low"
         cost_to_attacker: "Low" / "Medium" / "High"
         detection_difficulty: "Easy" / "Medium" / "Hard"
-        
+
         mitigations:
           - control: "Implement MFA"
             effectiveness: "High"
@@ -302,7 +302,7 @@ attack_tree:
           - control: "Rate limiting on login"
             effectiveness: "Medium"
             nist_control: "AC-7"
-            
+
         children:
           - id: "ATK-001-1-1"
             type: "LEAF"
@@ -392,7 +392,7 @@ trust_boundaries:
       - "DDoS protection"
       - "Input validation"
     nist_controls: ["SC-8", "SC-5", "SI-10"]
-    
+
   dmz_internal:
     description: "DMZ to internal network"
     crossing_points:
@@ -404,7 +404,7 @@ trust_boundaries:
       - "Least privilege access"
       - "Encrypted connections"
     nist_controls: ["AC-3", "SC-7", "IA-2"]
-    
+
   application_database:
     description: "Application tier to data tier"
     crossing_points:
@@ -427,18 +427,18 @@ class TrustBoundary:
     def __init__(self, name, trust_level):
         self.name = name
         self.trust_level = trust_level  # 0-10, 0=untrusted
-        
+
 class BoundaryCrossing:
     def __init__(self, from_boundary, to_boundary, data_flow):
         self.from_boundary = from_boundary
         self.to_boundary = to_boundary
         self.data_flow = data_flow
         self.threats = []
-        
+
     def analyze_threats(self):
         """Identify threats when crossing trust boundaries."""
         trust_decrease = self.from_boundary.trust_level - self.to_boundary.trust_level
-        
+
         if trust_decrease > 0:
             # Data flowing to less trusted zone
             self.threats.append({
@@ -446,7 +446,7 @@ class BoundaryCrossing:
                 'description': f'Sensitive data exposed to {self.to_boundary.name}',
                 'severity': 'High' if trust_decrease > 5 else 'Medium'
             })
-            
+
         if trust_decrease < 0:
             # Data flowing from less trusted zone
             self.threats.extend([
@@ -461,7 +461,7 @@ class BoundaryCrossing:
                     'severity': 'High' if abs(trust_decrease) > 5 else 'Medium'
                 }
             ])
-            
+
         return self.threats
 
 # Example
@@ -488,22 +488,22 @@ dread_scoring:
     0: "No damage"
     5: "Individual user data compromised"
     10: "Complete system compromise, data destruction"
-    
+
   reproducibility:
     0: "Nearly impossible"
     5: "Requires specific conditions"
     10: "Trivial to reproduce"
-    
+
   exploitability:
     0: "Requires expert, custom tools"
     5: "Skilled attacker with available tools"
     10: "Unskilled attacker, browser/publicly available"
-    
+
   affected_users:
     0: "No users affected"
     5: "Some users affected"
     10: "All users affected"
-    
+
   discoverability:
     0: "Hidden, requires source code"
     5: "Requires scanning/tool use"
@@ -527,16 +527,16 @@ class DREADScore:
     exploitability: int
     affected_users: int
     discoverability: int
-    
+
     def calculate(self) -> float:
         return (
-            self.damage + 
-            self.reproducibility + 
-            self.exploitability + 
-            self.affected_users + 
+            self.damage +
+            self.reproducibility +
+            self.exploitability +
+            self.affected_users +
             self.discoverability
         ) / 5
-    
+
     def priority(self) -> str:
         score = self.calculate()
         if score >= 7:
@@ -573,7 +573,7 @@ spoofing_mitigations:
       - Certificate-based authentication
       - Biometric authentication
     nist_controls: ["IA-2(1)", "IA-2(2)"]
-    
+
   - pattern: "Session Management"
     techniques:
       - Secure session tokens
@@ -588,7 +588,7 @@ tampering_mitigations:
       - HMAC validation
       - Cryptographic hashing
     nist_controls: ["SC-8(1)", "SI-7"]
-    
+
   - pattern: "Input Validation"
     techniques:
       - Whitelist validation
@@ -603,7 +603,7 @@ repudiation_mitigations:
       - Log integrity protection
       - Time synchronization
     nist_controls: ["AU-2", "AU-9", "AU-8"]
-    
+
 information_disclosure_mitigations:
   - pattern: "Data Protection"
     techniques:
@@ -612,7 +612,7 @@ information_disclosure_mitigations:
       - Data classification
       - Secure key management
     nist_controls: ["SC-28", "SC-8", "SC-12"]
-    
+
   - pattern: "Access Control"
     techniques:
       - Least privilege
@@ -627,7 +627,7 @@ denial_of_service_mitigations:
       - Resource quotas
       - Circuit breakers
     nist_controls: ["SC-5"]
-    
+
   - pattern: "Resilience"
     techniques:
       - Load balancing
@@ -642,7 +642,7 @@ elevation_of_privilege_mitigations:
       - Privilege separation
       - Secure defaults
     nist_controls: ["AC-6", "AC-3"]
-    
+
   - pattern: "Validation"
     techniques:
       - Authorization checks
@@ -666,7 +666,7 @@ stage_1_define_objectives:
   deliverables:
     - Business impact analysis
     - Security objectives document
-    
+
 stage_2_define_technical_scope:
   description: "Define technical scope of analysis"
   activities:
@@ -678,7 +678,7 @@ stage_2_define_technical_scope:
     - System architecture diagram
     - Technology inventory
     - Data flow diagrams
-    
+
 stage_3_application_decomposition:
   description: "Decompose application into components"
   activities:
@@ -690,7 +690,7 @@ stage_3_application_decomposition:
     - Component diagram
     - Trust boundary map
     - Actor-use case matrix
-    
+
 stage_4_threat_analysis:
   description: "Analyze threats using intelligence"
   activities:
@@ -702,7 +702,7 @@ stage_4_threat_analysis:
     - Threat intelligence report
     - STRIDE analysis matrix
     - Attack trees
-    
+
 stage_5_vulnerability_analysis:
   description: "Identify vulnerabilities and weaknesses"
   activities:
@@ -713,7 +713,7 @@ stage_5_vulnerability_analysis:
   deliverables:
     - Vulnerability assessment report
     - Control gap analysis (NIST RA-5)
-    
+
 stage_6_attack_modeling:
   description: "Model attack scenarios"
   activities:
@@ -725,7 +725,7 @@ stage_6_attack_modeling:
     - Attack scenario documentation
     - Attack path diagrams
     - Exploitability assessment
-    
+
 stage_7_risk_analysis:
   description: "Analyze and prioritize risks"
   activities:
@@ -759,7 +759,7 @@ microsoft_tmt:
     - Add mitigations
     - Export reports
   download: "https://www.microsoft.com/en-us/securityengineering/sdl/threatmodeling"
-  
+
 owasp_threat_dragon:
   description: "Open-source threat modeling tool"
   features:
@@ -774,7 +774,7 @@ owasp_threat_dragon:
     - Generate threats from template
     - Document mitigations
   repository: "https://github.com/OWASP/threat-dragon"
-  
+
 pytm:
   description: "Python-based threat modeling framework"
   features:
@@ -784,7 +784,7 @@ pytm:
     - PlantUML/Graphviz output
   example: |
     from pytm import TM, Server, Datastore, Dataflow
-    
+
     tm = TM("Web App Threat Model")
     web = Server("Web Server")
     db = Datastore("Database")
@@ -839,7 +839,7 @@ EOF
 nist_ra_3:
   control: "RA-3: Risk Assessment"
   description: "Conduct risk assessments at regular intervals"
-  
+
   threat_modeling_activities:
     - Identify threats to organizational operations
     - Identify threats to assets
@@ -848,13 +848,13 @@ nist_ra_3:
     - Assess impact of threat realization
     - Determine risk (likelihood × impact)
     - Document risk assessment results
-    
+
   integration:
     - Use threat models as input to risk assessment
     - Map STRIDE threats to organizational risks
     - Include threat models in risk register
     - Update threat models when architecture changes
-    
+
   frequency:
     - Initial system authorization
     - When significant changes occur
@@ -868,30 +868,30 @@ nist_ra_3:
 nist_ra_5:
   control: "RA-5: Vulnerability Monitoring and Scanning"
   description: "Monitor and scan for vulnerabilities"
-  
+
   threat_modeling_integration:
     - Use threat models to focus scanning efforts
     - Prioritize scanning based on threat analysis
     - Map discovered vulnerabilities to threats
     - Validate threat model assumptions
     - Update threat models with new vulnerabilities
-    
+
   process:
     1_threat_informed_scanning:
       - Review threat model for attack surfaces
       - Configure scanners for identified entry points
       - Focus on high-risk components
-      
+
     2_vulnerability_analysis:
       - Map CVEs to threat model components
       - Assess exploitability in context
       - Update DREAD scores with real data
-      
+
     3_remediation_prioritization:
       - Use threat model to prioritize fixes
       - Address threats with highest risk first
       - Validate mitigations against threat scenarios
-      
+
     4_continuous_monitoring:
       - Automate vulnerability scanning
       - Integrate with CI/CD pipeline
@@ -932,7 +932,7 @@ components:
           - control: "Anomaly detection on login"
             nist: "SI-4"
             status: "Not Started"
-            
+
   - name: "Password Reset Flow"
     type: process
     threats:

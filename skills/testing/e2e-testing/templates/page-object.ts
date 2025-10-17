@@ -39,9 +39,9 @@ export abstract class BasePage {
    * Take a screenshot
    */
   async takeScreenshot(name: string, fullPage = true) {
-    await this.page.screenshot({ 
+    await this.page.screenshot({
       path: `screenshots/${name}.png`,
-      fullPage 
+      fullPage
     });
   }
 
@@ -88,7 +88,7 @@ export class LoginPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    
+
     // Initialize locators
     this.usernameInput = page.getByTestId('username-input');
     this.passwordInput = page.getByTestId('password-input');
@@ -113,11 +113,11 @@ export class LoginPage extends BasePage {
   async login(username: string, password: string, rememberMe = false) {
     await this.usernameInput.fill(username);
     await this.passwordInput.fill(password);
-    
+
     if (rememberMe) {
       await this.rememberMeCheckbox.check();
     }
-    
+
     await this.loginButton.click();
   }
 
@@ -203,7 +203,7 @@ export class DashboardPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    
+
     this.welcomeMessage = page.getByTestId('welcome-message');
     this.logoutButton = page.getByRole('button', { name: 'Logout' });
     this.userMenu = page.getByTestId('user-menu');
@@ -286,7 +286,7 @@ export class ProductListPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    
+
     this.productCards = page.getByTestId('product-card');
     this.addToCartButtons = page.getByRole('button', { name: /add to cart/i });
     this.sortDropdown = page.getByTestId('sort-dropdown');
@@ -413,7 +413,7 @@ export class ShoppingCartPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    
+
     this.cartItems = page.getByTestId('cart-item');
     this.checkoutButton = page.getByRole('button', { name: /checkout/i });
     this.continueShoppingButton = page.getByRole('button', { name: /continue shopping/i });

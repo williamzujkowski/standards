@@ -29,7 +29,7 @@ spec:
           parameters:
           - name: data-path
             value: "{{workflow.parameters.data-path}}"
-      
+
       - name: feature-engineering
         dependencies: [data-validation]
         template: engineer-features
@@ -37,7 +37,7 @@ spec:
           parameters:
           - name: data-path
             value: "{{workflow.parameters.data-path}}"
-      
+
       - name: train-model
         dependencies: [feature-engineering]
         template: train
@@ -49,7 +49,7 @@ spec:
             value: "{{workflow.parameters.learning-rate}}"
           - name: epochs
             value: "{{workflow.parameters.epochs}}"
-      
+
       - name: evaluate-model
         dependencies: [train-model]
         template: evaluate
@@ -57,7 +57,7 @@ spec:
           parameters:
           - name: model-path
             value: "{{tasks.train-model.outputs.parameters.model-path}}"
-      
+
       - name: register-model
         dependencies: [evaluate-model]
         when: "{{tasks.evaluate-model.outputs.parameters.auc}} >= 0.85"
@@ -68,7 +68,7 @@ spec:
             value: "{{tasks.train-model.outputs.parameters.model-path}}"
           - name: model-name
             value: "{{workflow.parameters.model-name}}"
-      
+
       - name: deploy-staging
         dependencies: [register-model]
         template: deploy
@@ -78,7 +78,7 @@ spec:
             value: "{{tasks.register-model.outputs.parameters.version}}"
           - name: environment
             value: "staging"
-      
+
       - name: canary-test
         dependencies: [deploy-staging]
         template: canary-test
@@ -86,7 +86,7 @@ spec:
           parameters:
           - name: endpoint
             value: "{{tasks.deploy-staging.outputs.parameters.endpoint}}"
-      
+
       - name: deploy-production
         dependencies: [canary-test]
         when: "{{tasks.canary-test.outputs.parameters.success}} == true"
@@ -111,15 +111,15 @@ spec:
       - |
         import pandas as pd
         import great_expectations as ge
-        
+
         # Load data
         df = ge.read_parquet("{{inputs.parameters.data-path}}")
-        
+
         # Validate
         assert df.expect_column_to_exist('target').success
         assert df.expect_column_values_to_not_be_null('target').success
         assert df.expect_column_values_to_be_between('feature_1', -10, 10).success
-        
+
         print("Data validation passed")
     resources:
       requests:
@@ -143,18 +143,18 @@ spec:
       - |
         import pandas as pd
         from sklearn.preprocessing import StandardScaler
-        
+
         # Load data
         df = pd.read_parquet("{{inputs.parameters.data-path}}")
-        
+
         # Feature engineering
         df['feature_interaction'] = df['feature_1'] * df['feature_2']
         df['feature_ratio'] = df['feature_3'] / (df['feature_4'] + 1e-6)
-        
+
         # Save processed data
         output_path = "s3://ml-data/processed/features.parquet"
         df.to_parquet(output_path)
-        
+
         with open('/tmp/output_path.txt', 'w') as f:
             f.write(output_path)
     resources:
@@ -233,24 +233,24 @@ spec:
       - |
         import mlflow
         from mlflow.tracking import MlflowClient
-        
+
         mlflow.set_tracking_uri("http://mlflow-server:5000")
         client = MlflowClient()
-        
+
         # Register model
         mv = client.create_model_version(
             name="{{inputs.parameters.model-name}}",
             source="{{inputs.parameters.model-path}}",
             run_id=extract_run_id("{{inputs.parameters.model-path}}")
         )
-        
+
         # Transition to staging
         client.transition_model_version_stage(
             name="{{inputs.parameters.model-name}}",
             version=mv.version,
             stage="Staging"
         )
-        
+
         with open('/tmp/version.txt', 'w') as f:
             f.write(str(mv.version))
 
@@ -274,7 +274,7 @@ spec:
         kubectl set image deployment/model-server \
           model=gcr.io/project/model:v{{inputs.parameters.model-version}} \
           -n {{inputs.parameters.environment}}
-        
+
         # Get endpoint
         ENDPOINT=$(kubectl get svc model-server -n {{inputs.parameters.environment}} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
         echo "http://${ENDPOINT}:8080/predict" > /tmp/endpoint.txt
@@ -296,11 +296,11 @@ spec:
       - |
         import requests
         import time
-        
+
         endpoint = "{{inputs.parameters.endpoint}}"
         success_count = 0
         total_requests = 100
-        
+
         for _ in range(total_requests):
             try:
                 response = requests.post(
@@ -313,11 +313,11 @@ spec:
             except:
                 pass
             time.sleep(0.1)
-        
+
         success_rate = success_count / total_requests
         passed = success_rate >= 0.95
-        
+
         with open('/tmp/success.txt', 'w') as f:
             f.write(str(passed).lower())
-        
+
         print(f"Canary test: {success_rate:.2%} success rate")

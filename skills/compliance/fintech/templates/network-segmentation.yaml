@@ -17,7 +17,7 @@ network_zones:
         port: 443
         destination: "dmz"
     allowed_outbound: []
-    
+
   corporate:
     name: "Corporate Network"
     description: "Employee workstations and general business applications"
@@ -40,7 +40,7 @@ network_zones:
       - "DLP (Data Loss Prevention)"
       - "Email security gateway"
       - "Web content filtering"
-    
+
   dmz:
     name: "Demilitarized Zone"
     description: "Public-facing web servers and API gateways"
@@ -71,7 +71,7 @@ network_zones:
       - "IDS/IPS monitoring"
       - "DDoS protection"
       - "Rate limiting"
-    
+
   cde:
     name: "Cardholder Data Environment"
     description: "Systems that store, process, or transmit cardholder data"
@@ -114,7 +114,7 @@ network_zones:
       - "Full track data"
       - "CAV2/CVC2/CVV2/CID"
       - "PIN/PIN block"
-    
+
   management:
     name: "Management Network"
     description: "Administrative access, monitoring, and logging systems"
@@ -161,7 +161,7 @@ firewall_rules:
         port: 443
         inspection: "SSL decryption, IPS, malware scan"
         logging: true
-        
+
       - rule_id: "FW-002"
         action: "DENY"
         source: "0.0.0.0/0"
@@ -169,7 +169,7 @@ firewall_rules:
         protocol: "any"
         port: "any"
         logging: true
-    
+
   internal_firewall:
     name: "DMZ to CDE"
     type: "stateful firewall"
@@ -184,7 +184,7 @@ firewall_rules:
         protocol: "HTTPS"
         port: 443
         logging: true
-        
+
       - rule_id: "FW-102"
         action: "ALLOW"
         source: "bastion"
@@ -194,7 +194,7 @@ firewall_rules:
         port: 22
         logging: true
         mfa_required: true
-        
+
       - rule_id: "FW-103"
         action: "DENY"
         source: "any"
@@ -202,7 +202,7 @@ firewall_rules:
         protocol: "any"
         port: "any"
         logging: true
-    
+
   cde_firewall:
     name: "CDE Internal Segmentation"
     type: "micro-segmentation"
@@ -218,7 +218,7 @@ firewall_rules:
         port: 5432
         encryption: "TLS 1.2"
         logging: true
-        
+
       - rule_id: "FW-202"
         action: "ALLOW"
         source: "payment_gateway"
@@ -229,7 +229,7 @@ firewall_rules:
         port: 5696
         encryption: "TLS 1.2"
         logging: true
-        
+
       - rule_id: "FW-203"
         action: "ALLOW"
         source: "cde"
@@ -246,23 +246,23 @@ network_access_control:
       name: "Corporate"
       subnet: "10.0.0.0/16"
       gateway: "10.0.0.1"
-      
+
     - vlan_id: 200
       name: "DMZ"
       subnet: "172.16.0.0/24"
       gateway: "172.16.0.1"
-      
+
     - vlan_id: 300
       name: "CDE"
       subnet: "192.168.10.0/24"
       gateway: "192.168.10.1"
       pvlan: true  # Private VLAN for isolation
-      
+
     - vlan_id: 400
       name: "Management"
       subnet: "172.31.0.0/24"
       gateway: "172.31.0.1"
-  
+
   acls:
     - acl_name: "CDE-INGRESS"
       interface: "CDE-VLAN-300"
@@ -274,14 +274,14 @@ network_access_control:
           source: "172.16.0.0/24"
           destination: "192.168.10.0/24"
           destination_port: 443
-          
+
         - sequence: 20
           action: "permit"
           protocol: "tcp"
           source: "172.31.0.10/32"  # Bastion
           destination: "192.168.10.0/24"
           destination_port: 22
-          
+
         - sequence: 100
           action: "deny"
           protocol: "ip"
@@ -296,13 +296,13 @@ wireless_security:
       authentication: "802.1X with RADIUS"
       vlan: 100
       access_to_cde: false
-      
+
     - ssid: "Guest-WiFi"
       security: "WPA3-Personal"
       vlan: 500  # Isolated guest VLAN
       access_to_cde: false
       internet_only: true
-      
+
   wireless_controllers:
     - vendor: "Cisco"
       model: "Catalyst 9800"
@@ -328,7 +328,7 @@ remote_access:
       - "Split tunneling disabled for CDE access"
       - "Endpoint posture check (OS patches, anti-malware)"
       - "Session timeout: 30 minutes idle"
-      
+
   bastion_hosts:
     - hostname: "bastion-01.example.com"
       ip: "172.31.0.10"
@@ -348,44 +348,44 @@ data_flows:
         data: "Card details"
         encryption: "TLS 1.2+"
         notes: "Card data never touches merchant server (SAQ A)"
-        
+
       - step: 2
         source: "Stripe.js"
         destination: "Stripe API"
         data: "Tokenized card data"
         encryption: "TLS 1.2+"
-        
+
       - step: 3
         source: "Stripe API"
         destination: "Merchant Server (DMZ)"
         data: "Token (tok_xxxx)"
         encryption: "TLS 1.2+"
-        
+
       - step: 4
         source: "Merchant Server (DMZ)"
         destination: "Payment Gateway (CDE)"
         data: "Token + amount"
         encryption: "TLS 1.2+ (mutual TLS)"
         network: "DMZ -> CDE (firewall permitted)"
-        
+
       - step: 5
         source: "Payment Gateway (CDE)"
         destination: "Database (CDE)"
         data: "Transaction record (no PAN)"
         encryption: "TLS 1.2 + AES-256 at rest"
-        
+
       - step: 6
         source: "Payment Gateway (CDE)"
         destination: "Stripe API"
         data: "Charge request with token"
         encryption: "TLS 1.2+"
-        
+
       - step: 7
         source: "Payment Gateway (CDE)"
         destination: "SIEM (Management)"
         data: "Audit logs"
         encryption: "Syslog over TLS"
-  
+
   administrative_access:
     description: "Administrator accessing CDE systems"
     steps:
@@ -394,14 +394,14 @@ data_flows:
         destination: "VPN Gateway"
         authentication: "Certificate + MFA"
         encryption: "IKEv2 with AES-256"
-        
+
       - step: 2
         source: "VPN Gateway"
         destination: "Bastion Host (Management)"
         authentication: "MFA (RSA token)"
         encryption: "SSH with certificate"
         logging: "Session recorded"
-        
+
       - step: 3
         source: "Bastion Host"
         destination: "CDE Server"
@@ -420,27 +420,27 @@ segmentation_testing:
       - "Test wireless network isolation"
       - "Verify DMZ cannot directly access internet"
       - "Validate VPN access controls"
-    
+
   vulnerability_scanning:
     internal:
       frequency: "Quarterly"
       tool: "Tenable Nessus"
       scope: "All zones"
-      
+
     external:
       frequency: "Quarterly"
       tool: "Qualys (ASV)"
       scope: "DMZ public IPs"
-      
+
   compliance_validation:
     - requirement: "1.2.2"
       test: "Verify firewall restricts connections between untrusted and CDE"
       evidence: "Firewall rule review, penetration test results"
-      
+
     - requirement: "1.3.1"
       test: "Verify inbound traffic to CDE is restricted"
       evidence: "Firewall logs, IDS alerts"
-      
+
     - requirement: "11.4.5"
       test: "Verify network segmentation annually via penetration test"
       evidence: "Annual pen test report"
@@ -462,7 +462,7 @@ monitoring_and_logging:
       - "Failed MFA attempts (threshold: 3)"
       - "New device on network (rogue detection)"
       - "Large data transfers from CDE"
-    
+
   network_monitoring:
     tools:
       - "NetFlow analysis"
@@ -481,7 +481,7 @@ disaster_recovery:
     encryption: "AES-256"
     storage_location: "Off-site secure facility"
     testing: "Quarterly restore drills"
-    
+
   network_redundancy:
     firewalls: "Active-passive HA pair"
     internet_connections: "Dual ISP with BGP"
@@ -495,22 +495,22 @@ compliance_matrix:
       control: "Configuration standards for NSCs"
       implementation: "Firewall rule documentation"
       evidence: "firewall_rules.yaml, change log"
-      
+
     - requirement: "1.2.2"
       control: "Restrict connections between untrusted and CDE"
       implementation: "Perimeter and internal firewalls"
       evidence: "Firewall configs, pen test results"
-      
+
     - requirement: "1.2.7"
       control: "Review NSC configs every six months"
       implementation: "Scheduled firewall rule reviews"
       evidence: "Review sign-offs, before/after configs"
-      
+
     - requirement: "1.3.3"
       control: "NSCs between wireless and CDE"
       implementation: "Wireless on separate VLAN, no CDE access"
       evidence: "Network diagram, VLAN configs"
-      
+
     - requirement: "2.3.1"
       control: "Strong cryptography for wireless"
       implementation: "WPA3-Enterprise with 802.1X"

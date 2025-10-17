@@ -13,20 +13,20 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
  */
 export const handler = async (event) => {
   console.log('Authorizer event:', JSON.stringify(event, null, 2));
-  
+
   try {
     // Extract token from Authorization header
     const token = extractToken(event);
-    
+
     // Verify and decode JWT
     const decoded = verify(token, JWT_SECRET, {
       algorithms: ['HS256'],
       issuer: 'myapp.com',
       audience: 'api.myapp.com'
     });
-    
+
     console.log('Token decoded:', decoded);
-    
+
     // Generate IAM policy
     const policy = generatePolicy(
       decoded.sub,           // principalId (user ID)
@@ -39,12 +39,12 @@ export const handler = async (event) => {
         tenantId: decoded.tenantId
       }
     );
-    
+
     return policy;
-    
+
   } catch (error) {
     console.error('Authorization failed:', error);
-    
+
     // Return Unauthorized for invalid tokens
     if (error.name === 'JsonWebTokenError') {
       throw new Error('Unauthorized: Invalid token');
@@ -52,7 +52,7 @@ export const handler = async (event) => {
     if (error.name === 'TokenExpiredError') {
       throw new Error('Unauthorized: Token expired');
     }
-    
+
     throw new Error('Unauthorized');
   }
 };
@@ -69,7 +69,7 @@ function extractToken(event) {
     }
     return match[1];
   }
-  
+
   // REQUEST authorizer
   if (event.headers && event.headers.Authorization) {
     const match = event.headers.Authorization.match(/^Bearer (.+)$/);
@@ -78,7 +78,7 @@ function extractToken(event) {
     }
     return match[1];
   }
-  
+
   throw new Error('No authorization token found');
 }
 
@@ -100,7 +100,7 @@ function generatePolicy(principalId, effect, resource, context = {}) {
     },
     context: {}
   };
-  
+
   // Add context (available in integration as $context.authorizer.*)
   // Context values must be strings, numbers, or booleans
   for (const [key, value] of Object.entries(context)) {
@@ -112,7 +112,7 @@ function generatePolicy(principalId, effect, resource, context = {}) {
       policy.context[key] = String(value);
     }
   }
-  
+
   return policy;
 }
 
@@ -123,21 +123,21 @@ export const rbacHandler = async (event) => {
   try {
     const token = extractToken(event);
     const decoded = verify(token, JWT_SECRET);
-    
+
     // Extract API method and resource
     const { httpMethod, resource } = event;
-    
+
     // Check permissions based on roles
     const hasPermission = checkPermissions(
       decoded.roles,
       httpMethod,
       resource
     );
-    
+
     if (!hasPermission) {
       return generatePolicy(decoded.sub, 'Deny', event.methodArn);
     }
-    
+
     return generatePolicy(
       decoded.sub,
       'Allow',
@@ -148,7 +148,7 @@ export const rbacHandler = async (event) => {
         permissions: getPermissions(decoded.roles)
       }
     );
-    
+
   } catch (error) {
     console.error('RBAC authorization failed:', error);
     throw new Error('Unauthorized');
@@ -164,14 +164,14 @@ function checkPermissions(roles, httpMethod, resource) {
     editor: ['GET', 'POST', 'PUT'],
     viewer: ['GET']
   };
-  
+
   for (const role of roles) {
     const allowedMethods = permissions[role] || [];
     if (allowedMethods.includes('*') || allowedMethods.includes(httpMethod)) {
       return true;
     }
   }
-  
+
   return false;
 }
 
@@ -180,18 +180,18 @@ function checkPermissions(roles, httpMethod, resource) {
  */
 function getPermissions(roles) {
   const allPermissions = new Set();
-  
+
   const rolePermissions = {
     admin: ['read', 'write', 'delete', 'manage'],
     editor: ['read', 'write'],
     viewer: ['read']
   };
-  
+
   for (const role of roles) {
     const perms = rolePermissions[role] || [];
     perms.forEach(p => allPermissions.add(p));
   }
-  
+
   return Array.from(allPermissions);
 }
 
@@ -202,18 +202,18 @@ export const apiKeyHandler = async (event) => {
   try {
     const apiKey = event.headers['x-api-key'];
     const sourceIp = event.requestContext.identity.sourceIp;
-    
+
     if (!apiKey) {
       throw new Error('API key required');
     }
-    
+
     // Validate API key (check DynamoDB in production)
     const isValid = await validateApiKey(apiKey, sourceIp);
-    
+
     if (!isValid) {
       return generatePolicy('user', 'Deny', event.methodArn);
     }
-    
+
     return generatePolicy(
       apiKey,
       'Allow',
@@ -223,7 +223,7 @@ export const apiKeyHandler = async (event) => {
         sourceIp: sourceIp
       }
     );
-    
+
   } catch (error) {
     console.error('API key authorization failed:', error);
     throw new Error('Unauthorized');
@@ -241,17 +241,17 @@ async function validateApiKey(apiKey, sourceIp) {
       allowedIps: ['*'] // or specific IPs
     }
   };
-  
+
   const keyData = validKeys[apiKey];
   if (!keyData || !keyData.active) {
     return false;
   }
-  
+
   // Check IP whitelist
   if (keyData.allowedIps.includes('*')) {
     return true;
   }
-  
+
   return keyData.allowedIps.includes(sourceIp);
 }
 
@@ -263,7 +263,7 @@ export const cachedHandler = async (event) => {
   try {
     const token = extractToken(event);
     const decoded = verify(token, JWT_SECRET);
-    
+
     const policy = generatePolicy(
       decoded.sub,
       'Allow',
@@ -273,12 +273,12 @@ export const cachedHandler = async (event) => {
         email: decoded.email
       }
     );
-    
+
     // Enable caching with usage identifier
     policy.usageIdentifierKey = decoded.sub;
-    
+
     return policy;
-    
+
   } catch (error) {
     console.error('Cached authorization failed:', error);
     throw new Error('Unauthorized');

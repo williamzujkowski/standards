@@ -14,10 +14,10 @@ use thiserror::Error;
 pub enum LibError {
     #[error("Invalid input: {0}")]
     InvalidInput(String),
-    
+
     #[error("Operation failed: {0}")]
     OperationFailed(String),
-    
+
     #[error("IO error: {0}")]
     Io(#[from] std::io::Error),
 }
@@ -65,7 +65,7 @@ impl MyLib {
         }
         Ok(Self { config })
     }
-    
+
     /// Processes input data
     ///
     /// # Arguments
@@ -87,7 +87,7 @@ impl MyLib {
         }
         Ok(format!("PROCESSED: {}", input))
     }
-    
+
     /// Gets the configuration
     pub fn config(&self) -> &str {
         &self.config
@@ -115,14 +115,14 @@ impl Processor for MyLib {
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+
     #[test]
     fn test_new_success() {
         let lib = MyLib::new("test");
         assert!(lib.is_ok());
         assert_eq!(lib.unwrap().config(), "test");
     }
-    
+
     #[test]
     fn test_new_empty_config() {
         let lib = MyLib::new("");
@@ -132,7 +132,7 @@ mod tests {
             _ => panic!("Expected InvalidInput error"),
         }
     }
-    
+
     #[test]
     fn test_process_success() {
         let lib = MyLib::new("config").unwrap();
@@ -140,20 +140,20 @@ mod tests {
         assert!(result.is_ok());
         assert_eq!(result.unwrap(), "PROCESSED: hello");
     }
-    
+
     #[test]
     fn test_process_empty_input() {
         let lib = MyLib::new("config").unwrap();
         let result = lib.process("");
         assert!(result.is_err());
     }
-    
+
     #[test]
     fn test_display() {
         let lib = MyLib::new("test").unwrap();
         assert_eq!(format!("{}", lib), "MyLib(config: test)");
     }
-    
+
     #[test]
     fn test_trait_implementation() {
         let lib = MyLib::new("config").unwrap();

@@ -13,13 +13,13 @@ const logger = createLogger('authz-middleware');
  */
 function authenticateJWT(req, res, next) {
   const authHeader = req.headers.authorization;
-  
+
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ error: 'Missing or invalid Authorization header' });
   }
-  
+
   const token = authHeader.substring(7);
-  
+
   try {
     const publicKey = process.env.JWT_PUBLIC_KEY;
     const decoded = jwt.verify(token, publicKey, {
@@ -27,7 +27,7 @@ function authenticateJWT(req, res, next) {
       issuer: process.env.JWT_ISSUER,
       audience: process.env.JWT_AUDIENCE
     });
-    
+
     req.user = decoded;
     next();
   } catch (err) {
@@ -43,7 +43,7 @@ function authenticateJWT(req, res, next) {
 function requireScope(...requiredScopes) {
   return (req, res, next) => {
     const tokenScopes = req.user.scope ? req.user.scope.split(' ') : [];
-    
+
     const hasScope = requiredScopes.some(required => {
       if (required.endsWith(':*')) {
         const prefix = required.slice(0, -1);
@@ -51,21 +51,21 @@ function requireScope(...requiredScopes) {
       }
       return tokenScopes.includes(required);
     });
-    
+
     if (!hasScope) {
       logger.warn('Insufficient scope', {
         user: req.user.sub,
         required: requiredScopes,
         provided: tokenScopes
       });
-      
+
       return res.status(403).json({
         error: 'insufficient_scope',
         message: `Required scopes: ${requiredScopes.join(' or ')}`,
         provided: tokenScopes.join(' ')
       });
     }
-    
+
     next();
   };
 }
@@ -78,20 +78,20 @@ function requireScope(...requiredScopes) {
 function requireRole(...allowedRoles) {
   return (req, res, next) => {
     const userRole = req.user.role;
-    
+
     if (!allowedRoles.includes(userRole)) {
       logger.warn('Insufficient role', {
         user: req.user.sub,
         required: allowedRoles,
         actual: userRole
       });
-      
+
       return res.status(403).json({
         error: 'Forbidden',
         message: `Required role: ${allowedRoles.join(' or ')}`
       });
     }
-    
+
     next();
   };
 }
@@ -104,18 +104,18 @@ function requireOwnership(resourceIdParam = 'id', ownerField = 'owner_id') {
   return async (req, res, next) => {
     const resourceId = req.params[resourceIdParam];
     const userId = req.user.sub;
-    
+
     try {
       // Fetch resource from database
       const resource = await req.app.locals.db.query(
         `SELECT ${ownerField} FROM resources WHERE id = ?`,
         [resourceId]
       );
-      
+
       if (!resource) {
         return res.status(404).json({ error: 'Resource not found' });
       }
-      
+
       // Check ownership (or admin override)
       if (resource[ownerField] !== userId && req.user.role !== 'admin') {
         logger.warn('Ownership check failed', {
@@ -123,13 +123,13 @@ function requireOwnership(resourceIdParam = 'id', ownerField = 'owner_id') {
           resource: resourceId,
           owner: resource[ownerField]
         });
-        
+
         return res.status(403).json({
           error: 'Forbidden',
           message: 'You do not own this resource'
         });
       }
-      
+
       req.resource = resource;
       next();
     } catch (err) {
@@ -148,7 +148,7 @@ function enforcePolicyPEP(resourceExtractor, actionExtractor = null) {
   return async (req, res, next) => {
     const { ABACEngine } = require('./abac-engine');
     const abac = new ABACEngine(process.env.ABAC_POLICY_FILE);
-    
+
     try {
       // Extract subject attributes
       const subject = {
@@ -158,15 +158,15 @@ function enforcePolicyPEP(resourceExtractor, actionExtractor = null) {
         clearance_level: req.user.clearance_level || 0,
         groups: req.user.groups || []
       };
-      
+
       // Extract resource attributes
       const resource = await resourceExtractor(req);
-      
+
       // Extract action
       const action = actionExtractor
         ? actionExtractor(req)
         : mapHttpMethodToAction(req.method);
-      
+
       // Environment context
       const environment = {
         current_time: new Date().toISOString(),
@@ -174,10 +174,10 @@ function enforcePolicyPEP(resourceExtractor, actionExtractor = null) {
         user_agent: req.get('user-agent'),
         day_of_week: new Date().toLocaleDateString('en-US', { weekday: 'long' })
       };
-      
+
       // Evaluate policy
       const [allowed, reason] = await abac.evaluate(subject, resource, action, environment);
-      
+
       // Audit decision
       await auditAuthzDecision({
         user_id: subject.id,
@@ -188,7 +188,7 @@ function enforcePolicyPEP(resourceExtractor, actionExtractor = null) {
         timestamp: new Date(),
         ip_address: req.ip
       });
-      
+
       if (!allowed) {
         logger.warn('ABAC policy denied access', {
           user: subject.id,
@@ -196,7 +196,7 @@ function enforcePolicyPEP(resourceExtractor, actionExtractor = null) {
           action: action,
           reason: reason
         });
-        
+
         return res.status(403).json({
           error: 'Forbidden',
           message: `Access denied: ${reason}`,
@@ -204,7 +204,7 @@ function enforcePolicyPEP(resourceExtractor, actionExtractor = null) {
           action: action
         });
       }
-      
+
       // Attach authorization context
       req.authz = { subject, resource, action, allowed };
       next();
@@ -235,9 +235,9 @@ function mapHttpMethodToAction(method) {
  */
 async function auditAuthzDecision(data) {
   const db = require('./database');
-  
+
   await db.query(
-    `INSERT INTO authorization_audit 
+    `INSERT INTO authorization_audit
      (user_id, resource_type, resource_id, action, allowed, reason, ip_address, timestamp)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
     [

@@ -475,7 +475,7 @@ spec:
 WEIGHTS=(10 25 50 100)
 for weight in "${WEIGHTS[@]}"; do
   echo "Shifting $weight% traffic to v2..."
-  
+
   kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -495,14 +495,14 @@ spec:
         subset: v2
       weight: $weight
 EOF
-  
+
   # Monitor metrics for 5 minutes
   sleep 300
-  
+
   # Check error rate
   ERROR_RATE=$(kubectl exec -it deploy/prometheus -n istio-system -- \
     promtool query instant 'rate(istio_requests_total{destination_version="v2",response_code=~"5.."}[5m])')
-  
+
   if (( $(echo "$ERROR_RATE > 0.05" | bc -l) )); then
     echo "Error rate too high, rolling back!"
     kubectl apply -f virtualservice-v1-only.yaml
@@ -757,7 +757,7 @@ rate(istio_requests_total{reporter="source",response_code=~"5.."}[1m])
  / rate(istio_requests_total{reporter="source"}[1m])
 
 # P95 latency
-histogram_quantile(0.95, 
+histogram_quantile(0.95,
   rate(istio_request_duration_milliseconds_bucket{reporter="source"}[1m])
 )
 

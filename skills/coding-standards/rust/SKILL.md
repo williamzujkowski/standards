@@ -90,13 +90,13 @@ use thiserror::Error;
 pub enum AppError {
     #[error("IO error: {0}")]
     Io(#[from] std::io::Error),
-    
+
     #[error("Database error: {0}")]
     Database(#[from] sqlx::Error),
-    
+
     #[error("Invalid configuration: {0}")]
     Config(String),
-    
+
     #[error("Not found: {0}")]
     NotFound(String),
 }
@@ -181,7 +181,7 @@ const CONFIG: &'static str = "default";
 fn main() {
     let s1 = String::from("hello");
     let s2 = s1; // s1 moved to s2
-    
+
     // println!("{}", s1); // ✗ Error: value borrowed after move
     println!("{}", s2); // ✓ OK
 }
@@ -214,7 +214,7 @@ fn main() {
     let s = String::from("hello");
     takes_ownership(s); // s moved into function
     // println!("{}", s); // ✗ Error
-    
+
     let x = 5;
     makes_copy(x); // x copied
     println!("{}", x); // ✓ Still valid
@@ -334,13 +334,13 @@ fn first_word(s: &str) -> &str { // actually: fn first_word<'a>(s: &'a str) -> &
 // Rule 2: If exactly one input lifetime, it's assigned to all outputs
 fn parse(s: &str) -> &str { // fn parse<'a>(s: &'a str) -> &'a str
 
-// Rule 3: If multiple inputs and one is &self or &mut self, 
+// Rule 3: If multiple inputs and one is &self or &mut self,
 // the lifetime of self is assigned to all outputs
 impl<'a> ImportantExcerpt<'a> {
     fn level(&self) -> i32 { // no lifetime annotation needed
         3
     }
-    
+
     fn announce_and_return_part(&self, announcement: &str) -> &str {
         println!("Attention: {}", announcement);
         self.part // returns with lifetime of self
@@ -362,7 +362,7 @@ impl<'a> ImportantExcerpt<'a> {
             part: &text[start..end],
         }
     }
-    
+
     fn get_part(&self) -> &str {
         self.part
     }
@@ -403,12 +403,12 @@ impl<'a, 'b> Parser<'a, 'b> {
 pub trait Summary {
     // Required method
     fn summarize(&self) -> String;
-    
+
     // Default implementation
     fn summarize_author(&self) -> String {
         String::from("Anonymous")
     }
-    
+
     // Method using other trait methods
     fn full_summary(&self) -> String {
         format!("{} by {}", self.summarize(), self.summarize_author())
@@ -427,7 +427,7 @@ impl Summary for NewsArticle {
     fn summarize(&self) -> String {
         format!("{}, by {} ({})", self.headline, self.author, self.location)
     }
-    
+
     fn summarize_author(&self) -> String {
         self.author.clone()
     }
@@ -444,7 +444,7 @@ impl Summary for Tweet {
     fn summarize(&self) -> String {
         format!("{}: {}", self.username, self.content)
     }
-    
+
     fn summarize_author(&self) -> String {
         format!("@{}", self.username)
     }
@@ -554,23 +554,23 @@ use thiserror::Error;
 pub enum DataStoreError {
     #[error("Connection failed: {0}")]
     ConnectionFailed(String),
-    
+
     #[error("Query failed: {query}")]
     QueryFailed {
         query: String,
         #[source]
         source: sqlx::Error,
     },
-    
+
     #[error("Record not found: {0}")]
     NotFound(String),
-    
+
     #[error("Invalid input: {0}")]
     InvalidInput(String),
-    
+
     #[error("I/O error")]
     Io(#[from] std::io::Error),
-    
+
     #[error("Database error")]
     Database(#[from] sqlx::Error),
 }
@@ -587,7 +587,7 @@ fn read_config() -> Result<Config> {
     let path = "config.toml";
     let content = fs::read_to_string(path)
         .context(format!("Failed to read config file: {}", path))?;
-    
+
     toml::from_str(&content)
         .context("Failed to parse config as TOML")
 }
@@ -595,9 +595,9 @@ fn read_config() -> Result<Config> {
 fn main() -> Result<()> {
     let config = read_config()
         .context("Application initialization failed")?;
-    
+
     process(&config)?;
-    
+
     Ok(())
 }
 ```
@@ -609,7 +609,7 @@ fn main() -> Result<()> {
 pub enum AppError {
     #[error("Configuration error: {0}")]
     Config(#[from] ConfigError),
-    
+
     #[error("Database error: {0}")]
     Database(#[from] DbError),
 }
@@ -618,7 +618,7 @@ pub enum AppError {
 pub enum ConfigError {
     #[error("Parse error: {0}")]
     Parse(#[from] toml::de::Error),
-    
+
     #[error("IO error: {0}")]
     Io(#[from] std::io::Error),
 }
@@ -669,17 +669,17 @@ async fn fetch_all() -> Result<Vec<Data>> {
         "https://api.example.com/2",
         "https://api.example.com/3",
     ];
-    
+
     // Sequential (slow)
     let mut results = Vec::new();
     for url in urls {
         results.push(fetch_url(url).await?);
     }
-    
+
     // Concurrent with join_all
     let futures = urls.iter().map(|url| fetch_url(url));
     let results: Vec<_> = futures::future::join_all(futures).await;
-    
+
     // Concurrent with tokio::spawn
     let mut handles = Vec::new();
     for url in urls {
@@ -688,12 +688,12 @@ async fn fetch_all() -> Result<Vec<Data>> {
         });
         handles.push(handle);
     }
-    
+
     let mut results = Vec::new();
     for handle in handles {
         results.push(handle.await??);
     }
-    
+
     Ok(results)
 }
 ```
@@ -706,7 +706,7 @@ use tokio::sync::{mpsc, oneshot};
 // Multi-producer, single-consumer
 async fn worker_pool() {
     let (tx, mut rx) = mpsc::channel(32);
-    
+
     // Spawn workers
     for i in 0..4 {
         let tx = tx.clone();
@@ -720,7 +720,7 @@ async fn worker_pool() {
         });
     }
     drop(tx); // Close channel when all senders dropped
-    
+
     // Consume results
     while let Some(result) = rx.recv().await {
         process_result(result).await;
@@ -730,12 +730,12 @@ async fn worker_pool() {
 // One-shot channel for single value
 async fn compute_async(x: i32) -> Result<i32> {
     let (tx, rx) = oneshot::channel();
-    
+
     tokio::spawn(async move {
         let result = expensive_computation(x);
         let _ = tx.send(result);
     });
-    
+
     rx.await.map_err(|_| anyhow::anyhow!("Computation failed"))
 }
 ```
@@ -777,25 +777,25 @@ async fn write_cache(state: AppState, key: String, value: String) {
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+
     #[test]
     fn test_addition() {
         assert_eq!(2 + 2, 4);
     }
-    
+
     #[test]
     fn test_string_contains() {
         let s = "hello world";
         assert!(s.contains("world"));
         assert!(!s.contains("goodbye"));
     }
-    
+
     #[test]
     #[should_panic(expected = "divide by zero")]
     fn test_division_by_zero() {
         divide(10, 0);
     }
-    
+
     #[test]
     fn test_result() -> Result<()> {
         let result = parse_number("42")?;
@@ -815,10 +815,10 @@ use my_crate::{Config, App};
 fn test_full_workflow() {
     let config = Config::default();
     let app = App::new(config);
-    
+
     let result = app.process_data("input.txt");
     assert!(result.is_ok());
-    
+
     let output = result.unwrap();
     assert_eq!(output.len(), 100);
 }
@@ -842,7 +842,7 @@ proptest! {
             .chars().rev().collect();
         assert_eq!(s, reversed_twice);
     }
-    
+
     #[test]
     fn test_addition_commutative(a in 0..1000i32, b in 0..1000i32) {
         assert_eq!(a + b, b + a);
@@ -857,19 +857,19 @@ proptest! {
 mod tests {
     use super::*;
     use tempfile::TempDir;
-    
+
     struct TestContext {
         temp_dir: TempDir,
         db: Database,
     }
-    
+
     impl TestContext {
         fn new() -> Self {
             let temp_dir = TempDir::new().unwrap();
             let db = Database::connect_memory().unwrap();
             Self { temp_dir, db }
         }
-        
+
         fn create_test_user(&self) -> User {
             User {
                 id: 1,
@@ -878,12 +878,12 @@ mod tests {
             }
         }
     }
-    
+
     #[test]
     fn test_with_context() {
         let ctx = TestContext::new();
         let user = ctx.create_test_user();
-        
+
         let result = ctx.db.insert_user(&user);
         assert!(result.is_ok());
     }
@@ -904,17 +904,17 @@ trait Database {
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+
     #[test]
     fn test_with_mock() {
         let mut mock_db = MockDatabase::new();
-        
+
         mock_db
             .expect_get_user()
             .with(eq(1))
             .times(1)
             .returning(|_| Ok(User::default()));
-        
+
         let user = mock_db.get_user(1).unwrap();
         assert_eq!(user.id, 0);
     }
@@ -1112,7 +1112,7 @@ When `unsafe` is necessary:
 
 ```rust
 /// # Safety
-/// 
+///
 /// - `ptr` must be valid for reads of `len` bytes
 /// - Memory must be initialized
 /// - No mutable aliases during lifetime 'a

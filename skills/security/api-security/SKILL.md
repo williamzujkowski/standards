@@ -118,9 +118,9 @@ const jwt = require('jsonwebtoken');
 
 function authenticateToken(req, res, next) {
   const token = req.headers['authorization']?.split(' ')[1];
-  
+
   if (!token) return res.sendStatus(401);
-  
+
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) return res.sendStatus(403);
     req.user = user;
@@ -152,7 +152,7 @@ class APIKeyManager:
         """Generate cryptographically secure API key"""
         key = secrets.token_urlsafe(32)  # 256-bit key
         key_hash = hashlib.sha256(key.encode()).hexdigest()
-        
+
         return {
             "key": key,  # Return to user once
             "hash": key_hash,  # Store in database
@@ -161,7 +161,7 @@ class APIKeyManager:
             "expires_at": datetime.utcnow() + timedelta(days=expires_days),
             "permissions": []
         }
-    
+
     def validate_api_key(self, provided_key: str, stored_hash: str) -> bool:
         """Constant-time comparison to prevent timing attacks"""
         provided_hash = hashlib.sha256(provided_key.encode()).hexdigest()
@@ -205,29 +205,29 @@ function generatePKCE() {
     .createHash('sha256')
     .update(verifier)
     .digest('base64url');
-  
+
   return { verifier, challenge };
 }
 
 // Step 2: Authorization endpoint
 router.get('/authorize', (req, res) => {
   const { client_id, redirect_uri, state, code_challenge, code_challenge_method } = req.query;
-  
+
   // Validate client_id and redirect_uri
   if (!validateClient(client_id, redirect_uri)) {
     return res.status(400).json({ error: 'invalid_client' });
   }
-  
+
   // Validate PKCE parameters
   if (code_challenge_method !== 'S256') {
-    return res.status(400).json({ error: 'invalid_request', 
+    return res.status(400).json({ error: 'invalid_request',
                                   error_description: 'code_challenge_method must be S256' });
   }
-  
+
   // Store code_challenge associated with authorization code
   const authCode = generateAuthCode();
   storePKCEChallenge(authCode, code_challenge);
-  
+
   // Redirect with authorization code
   res.redirect(`${redirect_uri}?code=${authCode}&state=${state}`);
 });
@@ -235,26 +235,26 @@ router.get('/authorize', (req, res) => {
 // Step 3: Token endpoint
 router.post('/token', async (req, res) => {
   const { grant_type, code, redirect_uri, client_id, code_verifier } = req.body;
-  
+
   if (grant_type !== 'authorization_code') {
     return res.status(400).json({ error: 'unsupported_grant_type' });
   }
-  
+
   // Verify code_verifier against stored challenge
   const storedChallenge = getPKCEChallenge(code);
   const computedChallenge = crypto
     .createHash('sha256')
     .update(code_verifier)
     .digest('base64url');
-  
+
   if (computedChallenge !== storedChallenge) {
     return res.status(400).json({ error: 'invalid_grant' });
   }
-  
+
   // Issue tokens
   const accessToken = generateJWT({ client_id }, '15m');
   const refreshToken = generateRefreshToken();
-  
+
   res.json({
     access_token: accessToken,
     token_type: 'Bearer',
@@ -291,23 +291,23 @@ function generateJWT(payload, expiresIn = '15m') {
 class TokenManager {
   async refreshAccessToken(refreshToken) {
     const storedToken = await db.refreshTokens.findOne({ token: refreshToken });
-    
+
     if (!storedToken || storedToken.expiresAt < new Date()) {
       throw new Error('Invalid or expired refresh token');
     }
-    
+
     // Rotate refresh token (one-time use)
     await db.refreshTokens.deleteOne({ token: refreshToken });
-    
+
     const newAccessToken = generateJWT({ user_id: storedToken.userId });
     const newRefreshToken = crypto.randomBytes(40).toString('hex');
-    
+
     await db.refreshTokens.insertOne({
       token: newRefreshToken,
       userId: storedToken.userId,
       expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days
     });
-    
+
     return { accessToken: newAccessToken, refreshToken: newRefreshToken };
   }
 }
@@ -375,24 +375,24 @@ from flask import request, jsonify
 class AdaptiveRateLimiter:
     def __init__(self, base_limit=100):
         self.base_limit = base_limit
-    
+
     def get_current_limit(self):
         """Adjust rate limit based on CPU/memory usage"""
         cpu_percent = psutil.cpu_percent(interval=1)
         memory_percent = psutil.virtual_memory().percent
-        
+
         if cpu_percent > 80 or memory_percent > 80:
             return int(self.base_limit * 0.5)  # Reduce by 50%
         elif cpu_percent > 60 or memory_percent > 60:
             return int(self.base_limit * 0.75)  # Reduce by 25%
         else:
             return self.base_limit
-    
+
     def check_limit(self, user_id):
         current_limit = self.get_current_limit()
         current_count = redis_client.incr(f"rate:{user_id}:{int(time.time() / 60)}")
         redis_client.expire(f"rate:{user_id}:{int(time.time() / 60)}", 60)
-        
+
         if current_count > current_limit:
             return False, current_limit, current_count
         return True, current_limit, current_count
@@ -401,9 +401,9 @@ class AdaptiveRateLimiter:
 def adaptive_rate_limit():
     limiter = AdaptiveRateLimiter()
     user_id = get_current_user_id()
-    
+
     allowed, limit, count = limiter.check_limit(user_id)
-    
+
     if not allowed:
         return jsonify({
             "error": "Rate limit exceeded",
@@ -428,13 +428,13 @@ class CreateUserRequest(BaseModel):
     username: str = Field(..., min_length=3, max_length=30, regex=r'^[a-zA-Z0-9_-]+$')
     age: Optional[int] = Field(None, ge=0, le=150)
     roles: List[str] = Field(default_factory=list, max_items=10)
-    
+
     @validator('username')
     def username_no_profanity(cls, v):
         if contains_profanity(v):
             raise ValueError('Username contains inappropriate content')
         return v
-    
+
     @validator('roles')
     def validate_roles(cls, v):
         allowed_roles = {'user', 'admin', 'moderator'}
@@ -466,20 +466,20 @@ async def create_user(user_data: CreateUserRequest):
 function validateContentType(allowedTypes) {
   return (req, res, next) => {
     const contentType = req.headers['content-type'];
-    
+
     if (!contentType) {
       return res.status(400).json({ error: 'Content-Type header required' });
     }
-    
+
     const mediaType = contentType.split(';')[0].trim();
-    
+
     if (!allowedTypes.includes(mediaType)) {
-      return res.status(415).json({ 
+      return res.status(415).json({
         error: 'Unsupported Media Type',
         allowed: allowedTypes
       });
     }
-    
+
     next();
   };
 }
@@ -533,7 +533,7 @@ const corsOptions = {
       'https://app.example.com',
       'https://admin.example.com'
     ];
-    
+
     // Allow requests with no origin (mobile apps, Postman)
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
@@ -626,13 +626,13 @@ components:
       in: header
       name: X-API-Key
       description: API key for server-to-server communication
-    
+
     BearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
       description: JWT token for user authentication
-    
+
     OAuth2:
       type: oauth2
       flows:
@@ -656,7 +656,7 @@ paths:
       responses:
         '200':
           description: Service healthy
-  
+
   /users:
     get:
       summary: List users
@@ -669,7 +669,7 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
         '403':
           $ref: '#/components/responses/ForbiddenError'
-  
+
   /admin/users:
     post:
       summary: Create user (admin only)
@@ -700,7 +700,7 @@ components:
           schema:
             type: string
             example: Bearer realm="api"
-    
+
     ForbiddenError:
       description: Insufficient permissions
       content:
@@ -1065,16 +1065,16 @@ nmap --script ssl-enum-ciphers -p 443 api.example.com
 class LoginAttemptTracker:
     MAX_ATTEMPTS = 5
     LOCKOUT_DURATION = 900  # 15 minutes
-    
+
     def record_failed_attempt(self, user_id: str):
         key = f"login_attempts:{user_id}"
         attempts = redis.incr(key)
         redis.expire(key, self.LOCKOUT_DURATION)
-        
+
         if attempts >= self.MAX_ATTEMPTS:
             redis.setex(f"lockout:{user_id}", self.LOCKOUT_DURATION, "locked")
             alert_security_team(user_id, attempts)
-    
+
     def is_locked_out(self, user_id: str) -> bool:
         return redis.exists(f"lockout:{user_id}")
 ```

@@ -12,12 +12,12 @@ provider:
   tracing:
     apiGateway: true
     lambda: true
-  
+
   environment:
     TABLE_NAME: user-service-dev-users
     ENVIRONMENT: dev
     LOG_LEVEL: INFO
-  
+
   iam:
     role:
       statements:
@@ -46,7 +46,7 @@ custom:
     layer: true
     slim: true
     strip: false
-  
+
   prune:
     automatic: true
     number: 3

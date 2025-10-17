@@ -5,31 +5,31 @@ terraform {
   backend "s3" {
     # S3 bucket for state storage
     bucket = "company-terraform-state"
-    
+
     # Path to state file within bucket
     # Use a hierarchical structure for organization
     key = "environments/${var.environment}/terraform.tfstate"
-    
+
     # AWS region for S3 bucket
     region = "us-east-1"
-    
+
     # Enable server-side encryption
     encrypt = true
-    
+
     # KMS key for encryption (optional, uses default if not specified)
     kms_key_id = "arn:aws:kms:us-east-1:123456789012:key/abcd1234-5678-90ef-ghij-klmnopqrstuv"
-    
+
     # DynamoDB table for state locking
     dynamodb_table = "terraform-state-locks"
-    
+
     # Workspace key prefix for multi-workspace configurations
     workspace_key_prefix = "workspaces"
-    
+
     # Security settings
     skip_credentials_validation = false
     skip_metadata_api_check     = false
     skip_region_validation      = false
-    
+
     # ACL for state file (use 'bucket-owner-full-control' for cross-account)
     acl = "private"
   }
@@ -56,7 +56,7 @@ terraform {
 # terraform {
 #   backend "remote" {
 #     organization = "your-organization"
-#     
+#
 #     workspaces {
 #       name = "production"
 #     }
@@ -99,38 +99,38 @@ terraform {
 
 # Backend Initialization Script
 # Run before first terraform init:
-# 
+#
 # #!/bin/bash
 # # init-backend.sh
-# 
+#
 # AWS_REGION="us-east-1"
 # STATE_BUCKET="company-terraform-state"
 # LOCK_TABLE="terraform-state-locks"
 # KMS_KEY_ALIAS="alias/terraform-state"
-# 
+#
 # # Create KMS key
 # KMS_KEY_ID=$(aws kms create-key \
 #   --description "Terraform state encryption key" \
 #   --region $AWS_REGION \
 #   --query 'KeyMetadata.KeyId' \
 #   --output text)
-# 
+#
 # aws kms create-alias \
 #   --alias-name $KMS_KEY_ALIAS \
 #   --target-key-id $KMS_KEY_ID \
 #   --region $AWS_REGION
-# 
+#
 # # Create S3 bucket
 # aws s3api create-bucket \
 #   --bucket $STATE_BUCKET \
 #   --region $AWS_REGION \
 #   --create-bucket-configuration LocationConstraint=$AWS_REGION
-# 
+#
 # # Enable versioning
 # aws s3api put-bucket-versioning \
 #   --bucket $STATE_BUCKET \
 #   --versioning-configuration Status=Enabled
-# 
+#
 # # Enable encryption
 # aws s3api put-bucket-encryption \
 #   --bucket $STATE_BUCKET \
@@ -143,13 +143,13 @@ terraform {
 #       "BucketKeyEnabled": true
 #     }]
 #   }'
-# 
+#
 # # Block public access
 # aws s3api put-public-access-block \
 #   --bucket $STATE_BUCKET \
 #   --public-access-block-configuration \
 #     BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true
-# 
+#
 # # Enable logging
 # aws s3api put-bucket-logging \
 #   --bucket $STATE_BUCKET \
@@ -159,7 +159,7 @@ terraform {
 #       "TargetPrefix": "s3-access-logs/"
 #     }
 #   }'
-# 
+#
 # # Create DynamoDB table for locking
 # aws dynamodb create-table \
 #   --table-name $LOCK_TABLE \
@@ -168,13 +168,13 @@ terraform {
 #   --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 \
 #   --region $AWS_REGION \
 #   --tags Key=Purpose,Value=TerraformStateLocking
-# 
+#
 # # Enable point-in-time recovery
 # aws dynamodb update-continuous-backups \
 #   --table-name $LOCK_TABLE \
 #   --point-in-time-recovery-specification PointInTimeRecoveryEnabled=true \
 #   --region $AWS_REGION
-# 
+#
 # echo "Backend resources created successfully"
 # echo "S3 Bucket: $STATE_BUCKET"
 # echo "DynamoDB Table: $LOCK_TABLE"
@@ -182,7 +182,7 @@ terraform {
 
 # State Migration
 # To migrate from local to remote backend:
-# 
+#
 # 1. Add backend configuration to this file
 # 2. Run: terraform init -migrate-state
 # 3. Confirm migration when prompted

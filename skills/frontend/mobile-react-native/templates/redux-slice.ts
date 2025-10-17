@@ -83,10 +83,10 @@ export const createPost = createAsyncThunk(
       const state = getState() as RootState;
       const userId = state.user.currentUser?.id;
       if (!userId) throw new Error('User not authenticated');
-      
+
       const response = await fetch('https://api.example.com/posts', {
         method: 'POST',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${getAuthToken()}`,
         },
