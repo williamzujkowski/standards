@@ -280,7 +280,10 @@ repos:
               node_modules/|
               .*\.min\.js$|
               dist/|
-              build/
+              build/|
+              tests/|
+              .*\.test\.(js|ts|jsx|tsx)$|
+              .*\.spec\.(js|ts|jsx|tsx)$
           )$
         additional_dependencies:
           - eslint@8.57.0
