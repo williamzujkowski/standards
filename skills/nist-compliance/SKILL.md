@@ -8,9 +8,11 @@ description: NIST 800-53r5 control implementation, tagging, evidence collection,
 ## Level 1: Quick Start (5 minutes)
 
 ### What You'll Learn
+
 Tag code with NIST 800-53r5 controls, track compliance, and generate evidence for security audits.
 
 ### Core Principles
+
 - **Traceability**: Link code to security controls
 - **Evidence**: Automate compliance documentation
 - **Continuous Compliance**: Integrate into CI/CD
@@ -62,6 +64,7 @@ security:
 ```
 
 ### Essential Checklist
+
 - [ ] Install pre-commit hooks for NIST validation
 - [ ] Tag authentication code (IA family)
 - [ ] Tag access control (AC family)
@@ -480,6 +483,7 @@ class SSPGenerator {
 ```
 
 ### Integration Points
+
 - Links to [Security Practices](../security-practices/SKILL.md) for control implementation
 - Links to [Testing Standards](../testing/SKILL.md) for evidence collection
 - Links to [Coding Standards](../coding-standards/SKILL.md) for tagging conventions
@@ -557,11 +561,13 @@ jobs:
 ### Resources
 
 #### Essential Reading
+
 - [NIST 800-53r5 Control Catalog](https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final)
 - [NIST Cybersecurity Framework](https://www.nist.gov/cyberframework)
 - [NIST Risk Management Framework](https://csrc.nist.gov/projects/risk-management)
 
 #### Tools
+
 - **Compliance Automation**: OpenControl, Compliance-as-Code
 - **Evidence Collection**: GRC tools (Vanta, Drata, Secureframe)
 - **Audit Tools**: SCAP scanners, OpenSCAP
@@ -569,6 +575,7 @@ jobs:
 #### Templates
 
 See `./templates/` for:
+
 - SSP templates
 - POAM templates
 - Control implementation templates
@@ -577,6 +584,7 @@ See `./templates/` for:
 ### Scripts
 
 See `./scripts/` for:
+
 - NIST tag validators
 - SSP generators
 - Evidence collectors

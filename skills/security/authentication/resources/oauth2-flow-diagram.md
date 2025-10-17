@@ -188,6 +188,7 @@ clients:
 **Attack:** Tokens exposed in application logs, browser history, or analytics
 
 **Mitigation:**
+
 - Never log tokens (access, refresh, or authorization codes)
 - Use httpOnly cookies for token storage (prevents XSS)
 - Avoid passing tokens in URL query parameters
@@ -197,6 +198,7 @@ clients:
 **Attack:** Long-lived refresh token stolen and used indefinitely
 
 **Mitigation:**
+
 - Implement refresh token rotation (new token on each refresh, old invalidated)
 - Set maximum refresh token lifetime (e.g., 30 days)
 - Revoke all refresh tokens on password change or logout
@@ -253,6 +255,7 @@ clients:
 | **Refresh Token** | AAL2 | Token rotation, revocation on suspicious activity |
 
 **NIST Controls:**
+
 - **IA-2:** User authentication (OAuth2 flows)
 - **IA-5:** Authenticator management (PKCE, client secrets)
 - **SC-8:** Transmission confidentiality (HTTPS enforcement)

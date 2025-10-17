@@ -48,6 +48,7 @@ terraform fmt -recursive
 ### Essential Patterns
 
 **Basic Resource:**
+
 ```hcl
 resource "aws_instance" "web" {
   ami           = var.ami_id
@@ -61,6 +62,7 @@ resource "aws_instance" "web" {
 ```
 
 **Module Usage:**
+
 ```hcl
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
@@ -79,6 +81,7 @@ module "vpc" {
 ```
 
 **Remote State:**
+
 ```hcl
 terraform {
   backend "s3" {

@@ -61,11 +61,13 @@ examples/nist-templates/quickstart/structure-audit.json
 **Root Cause:** Kubernetes NetworkPolicy YAML uses 2-space indentation for list items under keys, but yamllint expects 4-space indentation based on `.yamllint.yaml` config.
 
 **Errors Summary:**
+
 - **Line 14:** Expected 4 spaces, found 2 (policyTypes list)
 - **Lines 27-37:** Multiple indentation errors in `egress` section
 - **Lines 55-206:** Repeated pattern throughout all NetworkPolicy resources
 
 **Example of Current (Incorrect) Format:**
+
 ```yaml
 spec:
   podSelector: {}
@@ -75,6 +77,7 @@ spec:
 ```
 
 **Correct Format (Per yamllint config):**
+
 ```yaml
 spec:
   podSelector: {}
@@ -86,6 +89,7 @@ spec:
 **Options to Fix:**
 
 **Option A: Fix the YAML file** (Recommended)
+
 ```bash
 # Re-indent the entire file with 4-space list indentation
 sed -i 's/^  - /    - /g' skills/security/zero-trust/templates/network-policy.yaml
@@ -93,6 +97,7 @@ sed -i 's/^  - /    - /g' skills/security/zero-trust/templates/network-policy.ya
 
 **Option B: Exclude this file from yamllint**
 Add to `.yamllint.yaml` ignore list:
+
 ```yaml
 ignore: |
   skills/cloud-native/service-mesh/templates/istio-installation.yaml
@@ -109,6 +114,7 @@ ignore: |
 ### 3. Markdown Style Issues
 
 **Files:**
+
 - `docs/migration/phase1-gate-checklist.md` (3 errors)
 - `docs/migration/phase1-progress-tracker.md` (18 errors)
 
@@ -117,31 +123,38 @@ ignore: |
 **Error Types:**
 
 #### A. Horizontal Rule Style (MD035)
+
 **Issue:** Using underscores instead of dashes
 
 **Current:**
+
 ```markdown
 _______________
 ```
 
 **Fixed to:**
+
 ```markdown
 ---
 ```
 
 **Affected:**
+
 - `phase1-gate-checklist.md`: Lines 408, 409, 410
 - `phase1-progress-tracker.md`: Lines 478, 479
 
 #### B. Strong Style (MD050)
+
 **Issue:** Using underscore-based bold instead of asterisk-based bold
 
 **Current:**
+
 ```markdown
 __PASS__
 ```
 
 **Fixed to:**
+
 ```markdown
 **PASS**
 ```
@@ -159,22 +172,27 @@ __PASS__
 **Files Affected (5 total):**
 
 #### File 1: `skills/coding-standards/javascript/config/eslint.config.js`
+
 - **Errors:** 8 errors (no-undef for ESLint globals)
 - **Cause:** ESLint config file not recognizing its own globals
 
 #### File 2: `skills/testing/integration-testing/templates/api-test-template.js`
+
 - **Errors:** 21 errors (no-undef for test globals)
 - **Cause:** Missing Jest/testing environment in ESLint config
 
 #### File 3: `skills/testing/performance-testing/templates/k6-stress-test.js`
+
 - **Errors:** 7 errors/warnings
 - **Cause:** Missing k6 globals (\__ENV, \__VU, \__ITER)
 
 #### File 4: `skills/testing/unit-testing/templates/test-template-jest.js`
+
 - **Errors:** 31 errors (no-undef for Jest globals)
 - **Cause:** Missing Jest environment in ESLint config
 
 #### File 5: Various config files
+
 - **Warning:** Files ignored by pattern but still scanned
 
 **Root Cause Analysis:**
@@ -196,6 +214,7 @@ The `.pre-commit-config.yaml` already excludes test files:
 ```
 
 **However**, it does NOT exclude:
+
 1. Template files in `skills/*/templates/` directories
 2. Config files in `skills/*/config/` directories
 
@@ -224,6 +243,7 @@ Update `.pre-commit-config.yaml` line 278:
 
 **Option B: Add ESLint Comments to Templates**
 Add to top of each template file:
+
 ```javascript
 /* eslint-env jest, node */
 /* global describe, it, expect, beforeEach, afterEach, jest */
@@ -231,6 +251,7 @@ Add to top of each template file:
 
 **Option C: Create Separate ESLint Config for Templates**
 Create `skills/.eslintrc.js`:
+
 ```javascript
 module.exports = {
   env: {
@@ -254,6 +275,7 @@ module.exports = {
 ### Immediate Actions (To Fix CI)
 
 1. **Commit Auto-Fixed Files:**
+
    ```bash
    git add reports/generated/*.json
    git add skills/**/*.json
@@ -263,6 +285,7 @@ module.exports = {
    ```
 
 2. **Fix YAML Indentation:**
+
    ```bash
    # Option A: Fix the file
    python3 << 'EOF'
@@ -288,6 +311,7 @@ module.exports = {
    ```
 
 3. **Update ESLint Exclusions:**
+
    ```bash
    # Edit .pre-commit-config.yaml
    # Add the two lines to the eslint exclude pattern (lines shown above)
@@ -297,6 +321,7 @@ module.exports = {
    ```
 
 4. **Push Changes:**
+
    ```bash
    git push
    ```
@@ -326,6 +351,7 @@ pre-commit run --all-files
 ### 1. Add to Pre-Commit Documentation
 
 Create `docs/guides/PRE_COMMIT_GUIDE.md` with:
+
 - Common failure patterns
 - How to test locally before pushing
 - How to interpret pre-commit errors
@@ -333,6 +359,7 @@ Create `docs/guides/PRE_COMMIT_GUIDE.md` with:
 ### 2. Update CONTRIBUTING.md
 
 Add section on running pre-commit:
+
 ```markdown
 ## Pre-Commit Checks
 
@@ -350,6 +377,7 @@ pre-commit install
 ### 3. Consider Pre-Push Hook
 
 Add to `.pre-commit-config.yaml`:
+
 ```yaml
 default_stages: [commit, push]
 ```
@@ -363,6 +391,7 @@ This catches issues before CI runs.
 ### Pre-Commit Hook Execution Order
 
 The workflow executes hooks in this order:
+
 1. Security checks (gitleaks)
 2. File integrity checks
 3. Formatting (JSON, whitespace) ← Auto-fixes here
@@ -392,11 +421,13 @@ The workflow executes hooks in this order:
 ## Files Reference
 
 ### Configuration Files Examined
+
 - `/home/william/git/standards/.pre-commit-config.yaml` (347 lines)
 - `/home/william/git/standards/.yamllint.yaml` (51 lines)
 - `/home/william/git/standards/.markdownlint.yaml` (107 lines)
 
 ### Log Sources
+
 - GitHub Actions Workflow Run: 18598728416
 - Job ID: 53031646052
 - Full logs available via: `gh run view 18598728416 --log`
@@ -414,16 +445,20 @@ The workflow executes hooks in this order:
 ## Appendix: Complete Error List
 
 ### JSON Files (16 - Auto-Fixed)
+
 All fixed with `--indent=2` formatting.
 
 ### YAML Indentation (44 Errors in 1 File)
+
 All in `skills/security/zero-trust/templates/network-policy.yaml` - Lines: 14, 27, 29, 30, 37, 55, 59, 60, 67, 71, 72, 76, 80, 85, 89, 93, 109, 113, 114, 119, 123, 128, 132, 133, 137, 141, 146, 150, 155, 159, 162, 164, 180, 184, 185, 190, 194, 201, 205, 206...
 
 ### Markdown Violations (21 Total)
+
 - MD035 (Horizontal rule style): 5 instances
 - MD050 (Strong style): 16 instances
 
 ### ESLint Errors (69 Total)
+
 - Configuration files: 8 errors
 - Test templates: 61 errors
 

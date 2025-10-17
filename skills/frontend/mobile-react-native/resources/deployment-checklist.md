@@ -3,6 +3,7 @@
 ## Pre-Deployment
 
 ### Code Quality
+
 - [ ] All tests passing (unit, integration, E2E)
 - [ ] No console.log statements in production code
 - [ ] Remove development/debug code
@@ -11,6 +12,7 @@
 - [ ] Environment variables properly configured
 
 ### Performance
+
 - [ ] Images optimized (proper sizes, formats)
 - [ ] Bundle size analyzed and optimized
 - [ ] Performance profiling completed
@@ -19,6 +21,7 @@
 - [ ] FlatList/SectionList used for long lists
 
 ### Security
+
 - [ ] API keys stored securely (not in code)
 - [ ] SSL/TLS certificate pinning implemented
 - [ ] User input validation on all forms
@@ -27,6 +30,7 @@
 - [ ] Deep linking validated and secured
 
 ### Accessibility
+
 - [ ] All interactive elements have accessibility labels
 - [ ] Screen reader tested on iOS (VoiceOver)
 - [ ] Screen reader tested on Android (TalkBack)
@@ -36,6 +40,7 @@
 ## iOS App Store Deployment
 
 ### Preparation
+
 - [ ] Apple Developer account active
 - [ ] App ID created in App Store Connect
 - [ ] Provisioning profiles configured
@@ -45,6 +50,7 @@
 - [ ] Privacy policy URL ready
 
 ### Build Configuration
+
 ```bash
 # Update version and build number
 # ios/YourApp/Info.plist
@@ -55,6 +61,7 @@
 ```
 
 ### Build Steps
+
 ```bash
 # 1. Install pods
 cd ios && pod install && cd ..
@@ -71,6 +78,7 @@ open ios/YourApp.xcworkspace
 ```
 
 ### App Store Connect
+
 - [ ] App metadata filled (name, description, keywords)
 - [ ] Screenshots uploaded (all required sizes)
 - [ ] App preview videos added (optional)
@@ -80,6 +88,7 @@ open ios/YourApp.xcworkspace
 - [ ] Build selected and submitted for review
 
 ### Post-Submission
+
 - [ ] Monitor App Review status
 - [ ] Respond to review feedback promptly
 - [ ] Test on TestFlight before public release
@@ -88,6 +97,7 @@ open ios/YourApp.xcworkspace
 ## Android Play Store Deployment
 
 ### Preparation
+
 - [ ] Google Play Developer account active
 - [ ] App created in Play Console
 - [ ] Signing key generated and backed up
@@ -96,6 +106,7 @@ open ios/YourApp.xcworkspace
 - [ ] Privacy policy URL ready
 
 ### Signing Configuration
+
 ```bash
 # Generate signing key (first time only)
 keytool -genkeypair -v -storetype PKCS12 \
@@ -127,6 +138,7 @@ android {
 ```
 
 ### Build Steps
+
 ```bash
 # 1. Clean build
 cd android && ./gradlew clean && cd ..
@@ -143,6 +155,7 @@ cd android && ./gradlew assembleRelease
 ```
 
 ### Play Console Configuration
+
 - [ ] Store listing completed
   - [ ] App name and short description
   - [ ] Full description (up to 4000 characters)
@@ -160,6 +173,7 @@ cd android && ./gradlew assembleRelease
   - [ ] Release to production/beta/alpha
 
 ### Post-Submission
+
 - [ ] Monitor review status
 - [ ] Test on internal/beta track first
 - [ ] Roll out gradually (staged rollout)
@@ -168,6 +182,7 @@ cd android && ./gradlew assembleRelease
 ## Over-the-Air (OTA) Updates
 
 ### CodePush Setup
+
 ```bash
 # Install CodePush CLI
 npm install -g appcenter-cli
@@ -181,6 +196,7 @@ appcenter apps create -d MyApp-Android -o Android -p React-Native
 ```
 
 ### Deploy Update
+
 ```bash
 # Release to production
 appcenter codepush release-react -a <ownerName>/MyApp-iOS -d Production
@@ -191,6 +207,7 @@ appcenter codepush release-react -a <ownerName>/MyApp-iOS -d Staging
 ```
 
 ### OTA Best Practices
+
 - [ ] Only use for JS/asset changes (not native code)
 - [ ] Test updates on staging first
 - [ ] Roll out gradually (10%, 25%, 50%, 100%)
@@ -201,12 +218,14 @@ appcenter codepush release-react -a <ownerName>/MyApp-iOS -d Staging
 ## Post-Deployment Monitoring
 
 ### Analytics
+
 - [ ] Crash reporting configured (Sentry, Firebase)
 - [ ] Analytics tracking implemented
 - [ ] Performance monitoring active
 - [ ] User engagement metrics tracked
 
 ### Monitoring Checklist
+
 - [ ] Monitor crash-free rate (target: >99%)
 - [ ] Track app launch time
 - [ ] Monitor API response times
@@ -215,6 +234,7 @@ appcenter codepush release-react -a <ownerName>/MyApp-iOS -d Staging
 - [ ] Monitor network error rates
 
 ### Maintenance
+
 - [ ] Regular dependency updates
 - [ ] Security patches applied promptly
 - [ ] Performance optimization ongoing
@@ -224,15 +244,18 @@ appcenter codepush release-react -a <ownerName>/MyApp-iOS -d Staging
 ## Version Numbering
 
 ### Semantic Versioning
+
 - **Major** (1.x.x): Breaking changes
 - **Minor** (x.1.x): New features, backward compatible
 - **Patch** (x.x.1): Bug fixes
 
 ### Build Numbers
+
 - iOS: Increment for every build
 - Android: versionCode in build.gradle (integer)
 
 ### Example
+
 - Version: 1.2.3
 - iOS Build: 15
 - Android versionCode: 123015
@@ -240,16 +263,19 @@ appcenter codepush release-react -a <ownerName>/MyApp-iOS -d Staging
 ## Emergency Rollback Plan
 
 ### iOS
+
 - [ ] Previous version archived and available
 - [ ] Emergency update prepared
 - [ ] Expedited review requested if needed
 
 ### Android
+
 - [ ] Previous APK/AAB backed up
 - [ ] Can halt rollout immediately
 - [ ] Emergency update prepared
 
 ### OTA (CodePush)
+
 ```bash
 # Rollback to previous release
 appcenter codepush rollback <ownerName>/<appName> Production

@@ -51,6 +51,7 @@ Based on actual repository analysis:
 ### Example: Python Coding Skill
 
 **Current Standard Approach:**
+
 ```
 CODING_STANDARDS.md → Full file loaded (~5,000 tokens)
 ├── General principles
@@ -61,6 +62,7 @@ CODING_STANDARDS.md → Full file loaded (~5,000 tokens)
 ```
 
 **Skills Approach:**
+
 ```
 python-coding/SKILL.md
 ├── Level 1: Frontmatter (20 tokens) ✓ Always loaded
@@ -72,6 +74,7 @@ python-coding/SKILL.md
 ```
 
 **Token Savings:**
+
 - Initial discovery: **5,000 → 20 tokens (99.6% reduction)**
 - With core instructions: **5,000 → 620 tokens (87.6% reduction)**
 - Full depth: **5,000 → 1,820 tokens (63.6% reduction)**
@@ -83,11 +86,13 @@ python-coding/SKILL.md
 **User Query**: "What skills are available for API development?"
 
 **Legacy Approach:**
+
 - Load UNIFIED_STANDARDS.md (~10,000 tokens)
 - Parse all sections
 - **Total: ~10,000 tokens**
 
 **Skills Approach:**
+
 - Load all Level 1 frontmatter (24 skills × 20 tokens)
 - Filter by relevance
 - **Total: ~480 tokens (95% reduction)**
@@ -97,11 +102,13 @@ python-coding/SKILL.md
 **User Query**: "Apply Python coding standards to this file"
 
 **Legacy Approach:**
+
 - Load CODING_STANDARDS.md (~5,000 tokens)
 - Navigate to Python section
 - **Total: ~5,000 tokens**
 
 **Skills Approach:**
+
 - Load `python-coding` Level 1 (20 tokens)
 - Load Level 2 core instructions (600 tokens)
 - **Total: ~620 tokens (87.6% reduction)**
@@ -111,11 +118,13 @@ python-coding/SKILL.md
 **User Query**: "Show me Python project templates and linter configs"
 
 **Legacy Approach:**
+
 - Load CODING_STANDARDS.md (~5,000 tokens)
 - May not include templates/scripts (separate files)
 - **Total: ~5,000+ tokens**
 
 **Skills Approach:**
+
 - Load python-coding Level 1 (20 tokens)
 - Load Level 2 (600 tokens)
 - Load specific Level 3 resources (800 tokens)
@@ -162,14 +171,17 @@ python-coding/SKILL.md
 ### Context Window Efficiency
 
 Claude API context windows:
+
 - Claude 3.5 Sonnet: 200,000 tokens
 - Claude 3.5 Haiku: 200,000 tokens
 
 **Legacy Approach:**
+
 - Standards consume ~91,200 tokens (45.6% of context)
 - Remaining for user queries: ~108,800 tokens
 
 **Skills Approach (5 active skills):**
+
 - Skills consume ~3,100 tokens (1.6% of context)
 - Remaining for user queries: ~196,900 tokens
 - **81% more context available** for user work
@@ -181,6 +193,7 @@ Claude API context windows:
 Example: Building a secure Python API
 
 **Skills Loaded:**
+
 1. `python-coding` (Level 1 + 2: 620 tokens)
 2. `api-design` (Level 1 + 2: 580 tokens)
 3. `security-auth` (Level 1 + 2: 650 tokens)
@@ -195,16 +208,19 @@ Example: Building a secure Python API
 Based on expected usage:
 
 ### Pattern 1: Exploration (60% of queries)
+
 - Users browse and discover skills
 - **Tokens needed**: Level 1 only (~480 for all skills)
 - **Reduction**: 99.5% vs. loading all standards
 
 ### Pattern 2: Focused Work (30% of queries)
+
 - Users activate 1-3 specific skills
 - **Tokens needed**: Level 1 + Level 2 (~1,200-2,000)
 - **Reduction**: 97-98% vs. loading relevant standards
 
 ### Pattern 3: Deep Dive (10% of queries)
+
 - Users access templates, scripts, detailed guides
 - **Tokens needed**: Level 1 + 2 + specific Level 3 (~3,000-5,000)
 - **Reduction**: 93-95% vs. loading everything
@@ -233,6 +249,7 @@ Based on expected usage:
 ### 3. Optimization Priorities
 
 High-priority conversions (largest token impact):
+
 1. OBSERVABILITY_STANDARDS.md (6,462 tokens)
 2. FRONTEND_MOBILE_STANDARDS.md (6,428 tokens)
 3. UNIFIED_STANDARDS.md (split into focused skills)
@@ -250,6 +267,7 @@ High-priority conversions (largest token impact):
 Test suite location: `/tests/skills/test_token_optimization.py`
 
 **Run tests:**
+
 ```bash
 # Unit tests
 pytest tests/skills/test_token_optimization.py -v
@@ -259,6 +277,7 @@ python3 tests/skills/test_token_optimization.py
 ```
 
 **Test coverage:**
+
 - ✓ Token counting accuracy
 - ✓ Progressive loading structure
 - ✓ Level separation validation
@@ -280,6 +299,7 @@ This represents a significant improvement in efficiency while enhancing user exp
 ---
 
 **Next Steps:**
+
 1. Run baseline measurements on current standards
 2. Create first pilot skills from high-usage standards
 3. A/B test token efficiency in real usage
@@ -287,6 +307,7 @@ This represents a significant improvement in efficiency while enhancing user exp
 5. Complete full migration based on data
 
 **Test Execution:**
+
 ```bash
 cd /home/william/git/standards
 pytest tests/skills/ -v --tb=short

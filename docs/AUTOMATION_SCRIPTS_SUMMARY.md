@@ -29,6 +29,7 @@ Successfully implemented 5 critical automation scripts for the skills-based stan
 **Purpose**: Generate properly structured SKILL.md files from template.
 
 **Key Features**:
+
 - YAML frontmatter generation with name and description
 - 3-level progressive disclosure structure (Level 1/2/3)
 - Automatic directory creation (templates/, scripts/, resources/)
@@ -40,6 +41,7 @@ Successfully implemented 5 critical automation scripts for the skills-based stan
 **Location**: `/home/william/git/standards/scripts/generate-skill.py`
 
 **Usage Example**:
+
 ```bash
 python3 scripts/generate-skill.py \
   --name "API Security" \
@@ -49,6 +51,7 @@ python3 scripts/generate-skill.py \
 ```
 
 **Output Structure**:
+
 ```
 skills/
   api-security/
@@ -66,6 +69,7 @@ skills/
 **Purpose**: Comprehensive validation of SKILL.md files.
 
 **Validation Checks**:
+
 - ✓ File existence
 - ✓ YAML frontmatter (name, description fields)
 - ✓ Description length (≤1024 chars)
@@ -77,6 +81,7 @@ skills/
 **Location**: `/home/william/git/standards/scripts/validate-skills.py`
 
 **Usage Example**:
+
 ```bash
 # Single file
 python3 scripts/validate-skills.py skills/api-security/SKILL.md
@@ -86,6 +91,7 @@ python3 scripts/validate-skills.py --directory skills/ --verbose
 ```
 
 **Exit Codes**:
+
 - 0 = All validations passed
 - 1 = Validation failures detected
 - 2 = No skills found
@@ -108,6 +114,7 @@ python3 scripts/validate-skills.py --directory skills/ --verbose
 | References/Resources | Level 3 | Resources |
 
 **Key Features**:
+
 - Automatic section parsing
 - YAML frontmatter generation
 - Progressive disclosure mapping
@@ -118,6 +125,7 @@ python3 scripts/validate-skills.py --directory skills/ --verbose
 **Location**: `/home/william/git/standards/scripts/migrate-to-skills.py`
 
 **Usage Example**:
+
 ```bash
 # Single file
 python3 scripts/migrate-to-skills.py \
@@ -137,11 +145,13 @@ python3 scripts/migrate-to-skills.py \
 **Purpose**: Token counting and validation using tiktoken.
 
 **Token Limits**:
+
 - Level 1: ≤1000 tokens
 - Level 2: ≤5000 tokens
 - Level 3: No limit
 
 **Key Features**:
+
 - Accurate token counting (tiktoken with cl100k_base encoding)
 - Fallback estimation (~4 chars/token) if tiktoken unavailable
 - Per-level breakdown (L1, L2, L3)
@@ -152,6 +162,7 @@ python3 scripts/migrate-to-skills.py \
 **Location**: `/home/william/git/standards/scripts/count-tokens.py`
 
 **Usage Example**:
+
 ```bash
 # Single file
 python3 scripts/count-tokens.py skills/api-security/SKILL.md
@@ -163,6 +174,7 @@ python3 scripts/count-tokens.py \
 ```
 
 **Exit Codes**:
+
 - 0 = No violations
 - 1 = Violations detected
 - 2 = No skills found
@@ -174,6 +186,7 @@ python3 scripts/count-tokens.py \
 **Purpose**: Skill search, recommendation, and dependency resolution.
 
 **Key Features**:
+
 - Keyword search (name, description, tags)
 - Category filtering
 - Product-type recommendations (via product-matrix.yaml)
@@ -184,6 +197,7 @@ python3 scripts/count-tokens.py \
 **Location**: `/home/william/git/standards/scripts/discover-skills.py`
 
 **Usage Example**:
+
 ```bash
 # Search by keyword
 python3 scripts/discover-skills.py --search "security"
@@ -201,6 +215,7 @@ python3 scripts/discover-skills.py \
 ```
 
 **Load Command Output**:
+
 ```bash
 @load skills:[api-security,input-validation,error-handling]
 ```
@@ -238,6 +253,7 @@ pytest tests/scripts/ -v
 ### Test Structure
 
 Each test suite includes:
+
 - Unit tests for individual functions
 - Integration tests for end-to-end workflows
 - Fixture management for temporary directories
@@ -253,6 +269,7 @@ Each test suite includes:
 **Location**: `/home/william/git/standards/scripts/README.md`
 
 **Contents**:
+
 - Overview of all 5 scripts
 - Prerequisites and dependencies
 - Detailed usage examples
@@ -264,6 +281,7 @@ Each test suite includes:
 ### Script-Level Documentation
 
 Each script includes:
+
 - Comprehensive `--help` output
 - Usage examples in docstrings
 - Exit code documentation
@@ -496,6 +514,7 @@ pytest tests/scripts/ --collect-only
 ### Memory Storage
 
 All coordination data stored in:
+
 - `.swarm/memory.db`
 - Key: `swarm/coder/automation-scripts`
 

@@ -97,23 +97,27 @@ func (r *MyReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Re
 ### Essential Checklist
 
 **Prerequisites:**
+
 - [ ] Kubernetes cluster (v1.25+) - local (kind, minikube) or remote
 - [ ] kubectl configured with admin access
 - [ ] Go 1.21+ installed
 - [ ] Docker/Podman for building operator images
 
 **Development Tools:**
+
 - [ ] `kubebuilder` (v3.12+) - scaffolding and code generation
 - [ ] `operator-sdk` (optional) - alternative framework
 - [ ] `controller-gen` - generates CRDs, RBACs, webhooks
 - [ ] `kustomize` - manages Kubernetes manifests
 
 **Testing Tools:**
+
 - [ ] `envtest` - runs API server locally for unit tests
 - [ ] `kind` - Kubernetes in Docker for integration tests
 - [ ] `ginkgo` - BDD testing framework (optional)
 
 **Key Files in Operator Project:**
+
 ```
 my-operator/
 ├── api/v1/           # CRD definitions (Go structs)
@@ -128,6 +132,7 @@ my-operator/
 ```
 
 **Quick Commands:**
+
 ```bash
 # Initialize operator project
 kubebuilder init --domain example.com --repo github.com/myorg/my-operator
@@ -149,6 +154,7 @@ make docker-build docker-push deploy IMG=myregistry/my-operator:v1.0.0
 ```
 
 **Common Pitfalls:**
+
 - ❌ Forgetting to update CRD when changing API structs → run `make manifests`
 - ❌ Infinite reconciliation loops → use `ctrl.Result{RequeueAfter: time.Minute}`
 - ❌ Not handling deletion properly → implement finalizers
@@ -156,6 +162,7 @@ make docker-build docker-push deploy IMG=myregistry/my-operator:v1.0.0
 - ❌ Not setting owner references → orphaned resources on deletion
 
 **When to Use Operators:**
+
 - ✅ Managing complex stateful applications (databases, message queues)
 - ✅ Automating operational tasks (backups, upgrades, scaling)
 - ✅ Integrating with external systems (cloud APIs, SaaS platforms)
@@ -170,6 +177,7 @@ make docker-build docker-push deploy IMG=myregistry/my-operator:v1.0.0
 ### 2.1 Custom Resource Definitions (CRDs)
 
 CRDs extend the Kubernetes API with custom object types. They consist of:
+
 - **Schema** - OpenAPI v3 validation rules
 - **Versions** - Support multiple API versions with conversion
 - **Scope** - Namespaced or cluster-scoped resources
@@ -1385,60 +1393,74 @@ spec:
 #### Best Practices
 
 ✅ **Idempotent Reconciliation**
+
 - Ensure reconcile function produces same result when called multiple times
 - Use `CreateOrUpdate` instead of separate `Create`/`Update` logic
 
 ✅ **Status Conditions**
+
 - Use standard condition types (`Ready`, `Progressing`, `Degraded`)
 - Include detailed messages for debugging
 
 ✅ **Finalizers for Cleanup**
+
 - Use finalizers to clean up external resources before deletion
 - Implement robust cleanup logic with timeouts
 
 ✅ **Owner References**
+
 - Set owner references for managed resources (automatic garbage collection)
 - Use `controllerutil.SetControllerReference()`
 
 ✅ **Structured Logging**
+
 - Use controller-runtime's logger with consistent key-value pairs
 - Log important state transitions and errors
 
 ✅ **Resource Limits**
+
 - Set CPU/memory limits for operator pods
 - Monitor resource usage in production
 
 ✅ **Graceful Error Handling**
+
 - Distinguish transient vs permanent errors
 - Use appropriate requeue strategies
 
 #### Anti-Patterns
 
 ❌ **Blocking Operations**
+
 - Don't make synchronous API calls that block reconciliation
 - Use background workers for long-running tasks
 
 ❌ **Infinite Loops**
+
 - Don't update resource spec in reconcile (triggers another reconcile)
 - Only update status subresource
 
 ❌ **Missing Watch Permissions**
+
 - Ensure RBAC allows watching all dependent resources
 - Missing watches cause stale cache reads
 
 ❌ **Hardcoded Values**
+
 - Don't hardcode namespaces, names, or configurations
 - Use environment variables or ConfigMaps
 
 ❌ **Ignoring Errors**
+
 - Always handle and log errors
 - Return errors to trigger exponential backoff
 
 ❌ **No Health Checks**
+
 - Implement `/healthz` and `/readyz` endpoints
 - Enable Kubernetes to detect unhealthy controllers
 
 ❌ **Testing Only in Production**
+
 - Write unit tests with envtest
 - Use integration tests with kind/minikube
 
@@ -1449,21 +1471,25 @@ spec:
 ### Advanced Operator Patterns
 
 **State Machine Operators**
+
 - Model complex workflows as finite state machines
 - Use status phases to track progression through states
 - Implement state transition validations and guards
 
 **Multi-Tenancy Operators**
+
 - Namespace isolation strategies
 - Shared vs dedicated operator deployments
 - RBAC scoping for tenant-specific resources
 
 **GitOps Integration**
+
 - Reconcile against Git repository state
 - Implement drift detection and auto-remediation
 - Use annotations to track source commits
 
 **External Secret Management**
+
 - Integrate with Vault, AWS Secrets Manager, or Azure Key Vault
 - Implement secret rotation without downtime
 - Use external-secrets operator pattern
@@ -1477,12 +1503,14 @@ spec:
 3. **Active-Active** - Operators in multiple clusters handle same resources
 
 **Implementation Considerations:**
+
 - Use cluster-api for cluster lifecycle management
 - Implement cross-cluster service discovery (e.g., Submariner)
 - Handle network partitions and split-brain scenarios
 - Use consensus protocols for distributed state
 
 **Tools:**
+
 - **KubeFed** (deprecated) - Kubernetes Federation v2
 - **OCM (Open Cluster Management)** - CNCF sandbox project
 - **Argo CD ApplicationSet** - Multi-cluster GitOps
@@ -1491,11 +1519,13 @@ spec:
 ### Operator Lifecycle Manager (OLM)
 
 **What is OLM?**
+
 - Package manager for Kubernetes operators
 - Handles installation, upgrades, and dependency management
 - Used by OpenShift and available as CNCF project
 
 **OLM Components:**
+
 - **Catalog** - Repository of operator metadata (CSV, CRD)
 - **Subscription** - Declarative operator installation
 - **InstallPlan** - Execution plan for operator installation
@@ -1520,6 +1550,7 @@ opm index add --bundles myregistry/myapp-operator-bundle:v1.0.0 \
 ```
 
 **OLM Best Practices:**
+
 - Define proper upgrade paths in CSV
 - Test upgrade scenarios (skip versions, downgrades)
 - Use semantic versioning
@@ -1528,16 +1559,19 @@ opm index add --bundles myregistry/myapp-operator-bundle:v1.0.0 \
 ### Advanced Testing Strategies
 
 **Property-Based Testing:**
+
 - Use tools like `gopter` for property-based tests
 - Test invariants across state transitions
 - Generate random valid/invalid inputs
 
 **Chaos Testing:**
+
 - Use Chaos Mesh or Litmus to inject failures
 - Test operator resilience to node failures, network partitions
 - Verify recovery from partial updates
 
 **Performance Testing:**
+
 - Benchmark reconciliation loop latency
 - Test with 1000+ custom resources
 - Measure memory/CPU usage under load
@@ -1546,12 +1580,14 @@ opm index add --bundles myregistry/myapp-operator-bundle:v1.0.0 \
 ### Production Readiness Checklist
 
 **Observability:**
+
 - [ ] Metrics exported via Prometheus endpoint
 - [ ] Structured logging with levels (info, warn, error)
 - [ ] Distributed tracing (OpenTelemetry)
 - [ ] Custom metrics for business logic (e.g., backup success rate)
 
 **Security:**
+
 - [ ] RBAC follows least-privilege principle
 - [ ] Secrets encrypted at rest and in transit
 - [ ] Pod Security Standards enforced
@@ -1559,6 +1595,7 @@ opm index add --bundles myregistry/myapp-operator-bundle:v1.0.0 \
 - [ ] Image vulnerability scanning in CI/CD
 
 **Reliability:**
+
 - [ ] Leader election enabled for HA
 - [ ] Graceful shutdown with finalizers
 - [ ] Rate limiting to prevent API server overload
@@ -1566,6 +1603,7 @@ opm index add --bundles myregistry/myapp-operator-bundle:v1.0.0 \
 - [ ] Backup/restore procedures documented
 
 **Operational:**
+
 - [ ] Runbooks for common failure scenarios
 - [ ] SLO/SLI definitions (e.g., 99.9% reconciliation success)
 - [ ] Alerting rules for critical conditions
@@ -1575,11 +1613,13 @@ opm index add --bundles myregistry/myapp-operator-bundle:v1.0.0 \
 ### Resources and Further Learning
 
 **Official Documentation:**
+
 - [Kubebuilder Book](https://book.kubebuilder.io/)
 - [Operator SDK Documentation](https://sdk.operatorframework.io/)
 - [Kubernetes Controller Runtime](https://github.com/kubernetes-sigs/controller-runtime)
 
 **Bundled Resources in This Directory:**
+
 1. `templates/crd-definition.yaml` - Complete CRD with OpenAPI schema
 2. `templates/operator-scaffold.go` - Controller with reconcile logic
 3. `templates/webhook.go` - Validating and mutating webhooks
@@ -1588,11 +1628,13 @@ opm index add --bundles myregistry/myapp-operator-bundle:v1.0.0 \
 6. `resources/operator-patterns.md` - Common patterns and anti-patterns
 
 **Community Resources:**
+
 - [CNCF Operator White Paper](https://github.com/cncf/tag-app-delivery/blob/main/operator-wg/whitepaper/Operator-WhitePaper_v1-0.md)
 - [Awesome Operators](https://github.com/operator-framework/awesome-operators)
 - [Kubernetes Slack #kubebuilder](https://kubernetes.slack.com/)
 
 **Example Production Operators:**
+
 - [etcd-operator](https://github.com/coreos/etcd-operator)
 - [prometheus-operator](https://github.com/prometheus-operator/prometheus-operator)
 - [cert-manager](https://github.com/cert-manager/cert-manager)
@@ -1607,6 +1649,7 @@ opm index add --bundles myregistry/myapp-operator-bundle:v1.0.0 \
 5. **Iterate** - Add features based on operational experience
 
 **Advanced Topics to Explore:**
+
 - Custom admission plugins
 - API aggregation and extension API servers
 - Operator Hub and OLM

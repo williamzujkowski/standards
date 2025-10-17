@@ -37,6 +37,7 @@ skills/database/advanced-optimization/
 ### 1. Review the Skill
 
 Start with the SKILL.md file:
+
 - Level 1 (5 min): Quick reference and essential checklists
 - Level 2 (45 min): Comprehensive implementation guide
 - Level 3 (10 min): Deep dive resources and practice exercises
@@ -78,6 +79,7 @@ curl -X POST http://localhost:3000/api/dashboards/db \
 ## Key Topics Covered
 
 ### PostgreSQL
+
 - B-tree, GIN, and GiST indexes
 - EXPLAIN ANALYZE query optimization
 - VACUUM and autovacuum tuning
@@ -86,6 +88,7 @@ curl -X POST http://localhost:3000/api/dashboards/db \
 - Performance configuration tuning
 
 ### MongoDB
+
 - Shard key selection strategies
 - Compound and partial indexes
 - Aggregation pipeline optimization
@@ -94,6 +97,7 @@ curl -X POST http://localhost:3000/api/dashboards/db \
 - Profiler and index usage analysis
 
 ### Redis
+
 - Cache-aside (lazy loading) pattern
 - Write-through and write-behind caching
 - Read-through pattern
@@ -102,6 +106,7 @@ curl -X POST http://localhost:3000/api/dashboards/db \
 - Data structures and use cases
 
 ### Query Optimization
+
 - N+1 query problem solutions
 - Batch loading techniques
 - Join optimization
@@ -109,6 +114,7 @@ curl -X POST http://localhost:3000/api/dashboards/db \
 - Query profiling and analysis
 
 ### Scaling & Monitoring
+
 - Vertical vs horizontal scaling
 - Read replicas and sharding
 - Monitoring with pg_stat_statements, MongoDB profiler, Redis INFO

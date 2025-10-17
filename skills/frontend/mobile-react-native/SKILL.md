@@ -1041,28 +1041,34 @@ export default codePush(App);
 ## Level 3: Deep Dive Resources
 
 ### Official Documentation
+
 - [React Native Docs](https://reactnative.dev/docs/getting-started)
 - [React Navigation](https://reactnavigation.org/docs/getting-started)
 - [Expo Documentation](https://docs.expo.dev/)
 
 ### Performance
+
 - [React Native Performance Guide](https://reactnative.dev/docs/performance)
 - [Profiling React Native](https://reactnative.dev/docs/profiling)
 
 ### Testing
+
 - [Testing Library for React Native](https://callstack.github.io/react-native-testing-library/)
 - [Detox E2E Framework](https://wix.github.io/Detox/)
 
 ### State Management
+
 - [Redux Toolkit](https://redux-toolkit.js.org/)
 - [Zustand](https://github.com/pmndrs/zustand)
 - [React Query](https://tanstack.com/query/latest)
 
 ### Native Modules
+
 - [Native Modules Guide](https://reactnative.dev/docs/native-modules-intro)
 - [Turbo Modules](https://reactnative.dev/docs/the-new-architecture/pillars-turbomodules)
 
 ### Deployment
+
 - [App Store Guidelines](https://developer.apple.com/app-store/review/guidelines/)
 - [Play Store Policies](https://play.google.com/about/developer-content-policy/)
 - [CodePush](https://github.com/microsoft/react-native-code-push)

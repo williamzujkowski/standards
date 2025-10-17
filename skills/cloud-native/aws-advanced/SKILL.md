@@ -26,19 +26,23 @@ Master advanced AWS serverless architectures, event-driven patterns, and enterpr
 ### AWS Advanced Services Overview
 
 **Orchestration & Events:**
+
 - **Step Functions**: State machine orchestration for complex workflows
 - **EventBridge**: Serverless event bus for event-driven architectures
 - **Lambda Layers**: Shared code and dependencies across functions
 
 **Data & Storage:**
+
 - **DynamoDB Advanced**: Single-table design, streams, global tables
 - **S3 Advanced**: Event notifications, object lifecycle, intelligent tiering
 
 **Integration:**
+
 - **API Gateway Advanced**: Custom authorizers, usage plans, WebSocket APIs
 - **SQS/SNS Patterns**: FIFO queues, DLQ, fan-out, message filtering
 
 **Observability:**
+
 - **CloudWatch**: Custom metrics, composite alarms, insights
 - **X-Ray**: Distributed tracing, service maps, annotations
 
@@ -74,6 +78,7 @@ Key Services: Step Functions, Lambda, DynamoDB
 ### Essential Checklist
 
 **Security:**
+
 - [ ] IAM least privilege policies (resource-level permissions)
 - [ ] Secrets Manager for credentials (automatic rotation)
 - [ ] VPC endpoints for private connectivity
@@ -81,6 +86,7 @@ Key Services: Step Functions, Lambda, DynamoDB
 - [ ] WAF rules for API Gateway
 
 **Cost Optimization:**
+
 - [ ] Lambda reserved concurrency for predictable workloads
 - [ ] DynamoDB on-demand vs provisioned capacity
 - [ ] S3 Intelligent-Tiering for variable access patterns
@@ -88,6 +94,7 @@ Key Services: Step Functions, Lambda, DynamoDB
 - [ ] Cost allocation tags for all resources
 
 **Reliability:**
+
 - [ ] Multi-AZ deployments
 - [ ] Dead-letter queues (DLQ) for failed messages
 - [ ] Circuit breakers in Step Functions
@@ -95,6 +102,7 @@ Key Services: Step Functions, Lambda, DynamoDB
 - [ ] Chaos engineering tests
 
 **Observability:**
+
 - [ ] X-Ray tracing enabled on all Lambda functions
 - [ ] Custom CloudWatch metrics for business KPIs
 - [ ] Structured logging (JSON format)
@@ -112,6 +120,7 @@ Step Functions provides serverless orchestration for complex workflows with buil
 #### State Machine Patterns
 
 **Sequential Workflow:**
+
 ```json
 {
   "Comment": "Order Processing Workflow",
@@ -161,6 +170,7 @@ Step Functions provides serverless orchestration for complex workflows with buil
 ```
 
 **Parallel Execution:**
+
 ```json
 {
   "Comment": "Parallel Data Processing",
@@ -221,6 +231,7 @@ Step Functions provides serverless orchestration for complex workflows with buil
 ```
 
 **Map State (Dynamic Parallelism):**
+
 ```json
 {
   "Comment": "Process batch of items",
@@ -259,6 +270,7 @@ Step Functions provides serverless orchestration for complex workflows with buil
 ```
 
 **Saga Pattern (Compensating Transactions):**
+
 ```json
 {
   "Comment": "Distributed transaction with rollback",
@@ -315,6 +327,7 @@ Step Functions provides serverless orchestration for complex workflows with buil
 ```
 
 **Step Functions SDK Integration (AWS SDK v3):**
+
 ```javascript
 // Node.js - AWS SDK v3
 import { SFNClient, StartExecutionCommand } from '@aws-sdk/client-sfn';
@@ -379,6 +392,7 @@ EventBridge enables building scalable, loosely-coupled event-driven systems with
 #### Event Patterns
 
 **Basic Event Pattern:**
+
 ```json
 {
   "source": ["myapp.orders"],
@@ -391,6 +405,7 @@ EventBridge enables building scalable, loosely-coupled event-driven systems with
 ```
 
 **Advanced Pattern Matching:**
+
 ```json
 {
   "source": ["aws.ec2"],
@@ -403,6 +418,7 @@ EventBridge enables building scalable, loosely-coupled event-driven systems with
 ```
 
 **Content-Based Filtering:**
+
 ```json
 {
   "source": ["myapp.users"],
@@ -419,6 +435,7 @@ EventBridge enables building scalable, loosely-coupled event-driven systems with
 ```
 
 **EventBridge Publisher (AWS SDK v3):**
+
 ```javascript
 // Node.js - AWS SDK v3
 import { EventBridgeClient, PutEventsCommand } from '@aws-sdk/client-eventbridge';
@@ -499,6 +516,7 @@ publish_event('OrderPlaced', {
 ```
 
 **EventBridge Schema Registry:**
+
 ```json
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
@@ -544,6 +562,7 @@ Lambda Layers enable sharing code, libraries, and custom runtimes across multipl
 #### Creating Lambda Layers
 
 **Python Layer Structure:**
+
 ```
 python-layer/
 ├── python/
@@ -558,6 +577,7 @@ python-layer/
 ```
 
 **Python Layer Build Script:**
+
 ```bash
 #!/bin/bash
 # build.sh
@@ -578,6 +598,7 @@ aws lambda publish-layer-version \
 ```
 
 **Node.js Layer Structure:**
+
 ```
 nodejs-layer/
 ├── nodejs/
@@ -592,6 +613,7 @@ nodejs-layer/
 ```
 
 **Node.js Layer Build Script:**
+
 ```bash
 #!/bin/bash
 # build.sh
@@ -613,6 +635,7 @@ aws lambda publish-layer-version \
 ```
 
 **Using Layers in Lambda Function:**
+
 ```javascript
 // Lambda function using layer dependencies
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
@@ -646,6 +669,7 @@ export const handler = async (event) => {
 ```
 
 **Custom Runtime Layer:**
+
 ```python
 # bootstrap file for custom runtime
 #!/opt/bin/python3.11
@@ -673,6 +697,7 @@ if __name__ == '__main__':
 #### Custom Authorizers (Lambda Authorizers)
 
 **JWT Token Authorizer:**
+
 ```javascript
 // custom-authorizer.js - AWS SDK v3
 import { verify } from 'jsonwebtoken';
@@ -714,6 +739,7 @@ function generatePolicy(principalId, effect, resource, context = {}) {
 ```
 
 **Request-Based Authorizer:**
+
 ```javascript
 export const handler = async (event) => {
   const apiKey = event.headers['x-api-key'];
@@ -761,6 +787,7 @@ async function validateApiKey(apiKey, sourceIp) {
 #### Usage Plans and API Keys
 
 **CloudFormation Template:**
+
 ```yaml
 ApiUsagePlan:
   Type: AWS::ApiGateway::UsagePlan
@@ -795,6 +822,7 @@ UsagePlanKey:
 #### Request/Response Transformations
 
 **VTL Mapping Template (Request):**
+
 ```vtl
 ## Transform incoming request
 #set($inputRoot = $input.path('$'))
@@ -813,6 +841,7 @@ UsagePlanKey:
 ```
 
 **VTL Mapping Template (Response):**
+
 ```vtl
 ## Transform response
 #set($inputRoot = $input.path('$'))
@@ -835,6 +864,7 @@ UsagePlanKey:
 #### Single-Table Design
 
 **Table Structure:**
+
 ```
 PK                          SK                      GSI1PK              GSI1SK              Data
 USER#123                    PROFILE                 EMAIL#john@ex.com   USER#123            {name, email, ...}
@@ -847,6 +877,7 @@ PRODUCT#abc                 DETAILS                 CATEGORY#electronics PRODUCT
 ```
 
 **Access Patterns:**
+
 ```javascript
 // AWS SDK v3
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
@@ -927,6 +958,7 @@ async function getOrderWithItems(orderId) {
 #### DynamoDB Streams and Change Data Capture
 
 **Stream Processor:**
+
 ```javascript
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
@@ -963,6 +995,7 @@ async function processOrderChange(order, eventName) {
 #### DynamoDB Transactions
 
 **Transaction Example:**
+
 ```javascript
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, TransactWriteCommand } from '@aws-sdk/lib-dynamodb';
@@ -1027,6 +1060,7 @@ async function transferFunds(fromUserId, toUserId, amount) {
 #### FIFO Queue with Deduplication
 
 **Queue Configuration:**
+
 ```javascript
 import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs';
 
@@ -1064,6 +1098,7 @@ async function sendMessage(orderId, orderData) {
 #### Fan-Out Pattern (SNS → Multiple SQS)
 
 **CloudFormation Setup:**
+
 ```yaml
 OrderTopic:
   Type: AWS::SNS::Topic
@@ -1111,6 +1146,7 @@ NotificationSubscription:
 ```
 
 **SNS Publisher:**
+
 ```python
 import boto3
 import json
@@ -1146,6 +1182,7 @@ def publish_order_event(event_type: str, order_data: dict):
 #### Dead-Letter Queue Pattern
 
 **SQS Consumer with DLQ:**
+
 ```javascript
 import { SQSClient, ReceiveMessageCommand, DeleteMessageCommand } from '@aws-sdk/client-sqs';
 
@@ -1195,6 +1232,7 @@ async function processMessage(message) {
 #### Lambda Optimization
 
 **Right-Sizing Memory:**
+
 ```javascript
 // Use AWS Lambda Power Tuning to find optimal memory
 // https://github.com/alexcasalboni/aws-lambda-power-tuning
@@ -1208,6 +1246,7 @@ const OPTIMAL_MEMORY = 512; // MB
 ```
 
 **Reserved Concurrency for Predictable Workloads:**
+
 ```yaml
 ProcessOrderFunction:
   Type: AWS::Lambda::Function
@@ -1220,6 +1259,7 @@ ProcessOrderFunction:
 #### DynamoDB Cost Optimization
 
 **On-Demand vs Provisioned:**
+
 ```python
 # Analyze usage patterns to choose capacity mode
 def analyze_dynamodb_usage():
@@ -1245,6 +1285,7 @@ def analyze_dynamodb_usage():
 ```
 
 **DynamoDB Auto Scaling:**
+
 ```yaml
 ReadCapacityScalableTarget:
   Type: AWS::ApplicationAutoScaling::ScalableTarget
@@ -1271,6 +1312,7 @@ ReadScalingPolicy:
 #### S3 Cost Optimization
 
 **Intelligent-Tiering and Lifecycle Policies:**
+
 ```yaml
 OrdersBucket:
   Type: AWS::S3::Bucket
@@ -1302,6 +1344,7 @@ OrdersBucket:
 #### X-Ray Distributed Tracing
 
 **Lambda Function with X-Ray:**
+
 ```javascript
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, GetCommand } from '@aws-sdk/lib-dynamodb';
@@ -1347,6 +1390,7 @@ async function getOrder(orderId) {
 ```
 
 **Custom Tracing:**
+
 ```python
 from aws_xray_sdk.core import xray_recorder
 from aws_xray_sdk.core import patch_all
@@ -1388,6 +1432,7 @@ def process_order(order_id):
 #### CloudWatch Custom Metrics
 
 **Embedded Metric Format (EMF):**
+
 ```javascript
 export const handler = async (event) => {
   const startTime = Date.now();
@@ -1440,6 +1485,7 @@ export const handler = async (event) => {
 ```
 
 **CloudWatch Composite Alarms:**
+
 ```yaml
 HighErrorRateAlarm:
   Type: AWS::CloudWatch::Alarm
@@ -1480,6 +1526,7 @@ CompositeAlarm:
 #### Structured Logging
 
 **Best Practices:**
+
 ```javascript
 class Logger {
   constructor(context) {
@@ -1548,36 +1595,43 @@ export const handler = async (event, context) => {
 ### Official AWS Documentation
 
 **Step Functions:**
+
 - [Developer Guide](https://docs.aws.amazon.com/step-functions/latest/dg/)
 - [State Machine Examples](https://github.com/aws-samples/aws-stepfunctions-examples)
 - [Best Practices](https://docs.aws.amazon.com/step-functions/latest/dg/bp-general.html)
 
 **EventBridge:**
+
 - [User Guide](https://docs.aws.amazon.com/eventbridge/latest/userguide/)
 - [Event Patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-patterns.html)
 - [Schema Registry](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-schema.html)
 
 **Lambda Layers:**
+
 - [Working with Layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html)
 - [Creating Layers](https://docs.aws.amazon.com/lambda/latest/dg/creating-deleting-layers.html)
 
 **DynamoDB:**
+
 - [Single-Table Design](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-general-nosql-design.html)
 - [DynamoDB Streams](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html)
 - [Transactions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/transaction-apis.html)
 
 **Observability:**
+
 - [X-Ray Developer Guide](https://docs.aws.amazon.com/xray/latest/devguide/)
 - [CloudWatch Embedded Metrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Embedded_Metric_Format.html)
 
 ### Books and Courses
 
 **Books:**
+
 - "AWS Lambda in Action" by Danilo Poccia
 - "The DynamoDB Book" by Alex DeBrie
 - "Serverless Architectures on AWS" by Peter Sbarski
 
 **Courses:**
+
 - AWS Certified Solutions Architect Professional
 - A Cloud Guru: AWS Serverless
 - Linux Academy: DynamoDB Deep Dive
@@ -1585,17 +1639,20 @@ export const handler = async (event, context) => {
 ### Architecture Patterns
 
 **AWS Prescriptive Guidance:**
+
 - [Serverless Patterns Collection](https://serverlessland.com/patterns)
 - [EventBridge Patterns](https://serverlessland.com/event-driven-architecture)
 - [Step Functions Workflows](https://serverlessland.com/workflows)
 
 **Reference Architectures:**
+
 - [AWS Samples Repository](https://github.com/aws-samples)
 - [Serverless Application Repository](https://serverlessrepo.aws.amazon.com/)
 
 ### Bundled Resources
 
 See included templates and scripts:
+
 - `templates/step-functions-state-machine.json`
 - `templates/eventbridge-patterns.json`
 - `templates/lambda-layer-structure/`

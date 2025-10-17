@@ -35,6 +35,7 @@ A **skill** is a self-contained, modular standard that uses **progressive disclo
 ### Why Author Skills?
 
 **Benefits of Skills Format:**
+
 - ✅ **Modular**: Each skill is independent and versioned
 - ✅ **Discoverable**: Auto-recommendations based on context
 - ✅ **Efficient**: 90%+ token reduction through progressive loading
@@ -87,6 +88,7 @@ skills/
 ### Step 1: Choose a Name
 
 **Naming Conventions:**
+
 - Use `kebab-case` for directory names
 - Be descriptive and specific
 - Avoid generic names
@@ -214,6 +216,7 @@ description: [FILL IN: Brief description, max 1024 chars]
 # Minimal code example demonstrating core concept
 [5-10 lines maximum]
 ```
+
 ```
 
 ### Essential Checklist
@@ -262,6 +265,7 @@ def calc(u, o):
 ```
 
 ### Essential Checklist
+
 - [ ] Follow language-specific style guide
 - [ ] Use meaningful, descriptive names
 - [ ] Limit function complexity (cyclomatic < 10)
@@ -269,10 +273,12 @@ def calc(u, o):
 - [ ] Add pre-commit hooks
 
 ### Common Pitfalls
+
 - Inconsistent naming conventions within a project
 - Functions that do too many things
 - Missing or outdated documentation
 - Skipping code reviews
+
 ```
 
 **Why This Works:**
@@ -325,8 +331,10 @@ def calc(u, o):
 ```
 
 ### Integration Points
+
 - Links to related skills for specific aspects (use pattern: `[Skill Name](../skill-path/SKILL.md)`)
 - Links to related skills for integration patterns
+
 ```
 
 **Token Budget**: <5,000 tokens (combined with Level 1)
@@ -353,6 +361,7 @@ API_ENDPOINT = "..."           # UPPER_SNAKE_CASE for constants
 ```
 
 **File Organization:**
+
 ```
 src/
 ├── models/           # Data models and types
@@ -361,6 +370,7 @@ src/
 ├── utils/           # Shared utilities
 └── config/          # Configuration
 ```
+
 ```
 
 **Why This Works:**
@@ -397,14 +407,17 @@ src/
 ### Resources
 
 #### Essential Reading
+
 - Example: `[Book/Article Title](https://example.com)`
 - Example: `[Documentation](https://docs.example.com)`
 
 #### Tools and Frameworks
+
 - **Category**: Tool 1, Tool 2, Tool 3
 - **Category**: Tool 1, Tool 2, Tool 3
 
 #### Language-Specific Style Guides
+
 - Example: `[Python PEP 8](https://peps.python.org/pep-0008/)`
 - Example: `[JavaScript Standard Style](https://standardjs.com/)`
 
@@ -424,6 +437,7 @@ src/
 - Templates in `./templates/`
 - Scripts in `./scripts/`
 - Resources in `./resources/`
+
 ```
 
 **Token Budget**: Flexible
@@ -518,22 +532,26 @@ estimated_time:
 ### Description Guidelines
 
 **Good Description:**
+
 ```yaml
 description: Comprehensive coding standards and best practices for maintainable, consistent software development across multiple languages and paradigms. Load when starting projects, conducting code reviews, or establishing team conventions.
 ```
 
 **Why It Works:**
+
 - Clear scope (coding standards)
 - Key benefits (maintainable, consistent)
 - Coverage (multiple languages)
 - Use cases (when to load)
 
 **Bad Description:**
+
 ```yaml
 description: Coding stuff.
 ```
 
 **Why It Fails:**
+
 - Too vague
 - No use cases
 - No scope
@@ -784,6 +802,7 @@ Your PR will be reviewed for:
    - ❌ Toy examples
 
 2. **Show Good vs Bad**
+
    ```language
    // ✅ Good: Description
    [good example]
@@ -800,18 +819,21 @@ Your PR will be reviewed for:
 ### Maintenance
 
 1. **Version Your Skill**
+
    ```yaml
    version: 1.0.0
    last_updated: 2025-10-16
    ```
 
 2. **Update Dependencies**
+
    ```yaml
    dependencies:
      - skill:security-practices@1.0.0
    ```
 
 3. **Deprecation Path**
+
    ```markdown
    > **Deprecated**: This skill is deprecated in favor of [Replacement Skill Name](../replacement-skill/SKILL.md)
    ```
@@ -845,11 +867,14 @@ Core concept in 2-3 sentences.
 ```
 
 ### Essential Checklist
+
 - [ ] Item 1
 - [ ] Item 2
 
 ### Common Pitfalls
+
 - Pitfall 1: Solution
+
 ```
 
 ### Example 2: Full Skill

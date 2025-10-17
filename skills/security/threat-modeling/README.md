@@ -5,6 +5,7 @@
 ## Overview
 
 This skill teaches comprehensive threat modeling for software systems, focusing on:
+
 - STRIDE threat categorization
 - Attack tree analysis
 - Data flow diagrams (DFD)
@@ -24,6 +25,7 @@ This skill teaches comprehensive threat modeling for software systems, focusing 
 ### Main Skill Document
 
 **`SKILL.md`** - Complete learning path with three levels:
+
 1. **Level 1:** Quick reference (600-800 tokens)
    - STRIDE categories
    - Four key questions
@@ -43,6 +45,7 @@ This skill teaches comprehensive threat modeling for software systems, focusing 
 ### Templates (`templates/`)
 
 Ready-to-use templates for threat modeling:
+
 - **`stride-template.md`** - Complete STRIDE threat model template
 - **`data-flow-diagram.md`** - DFD creation with examples
 - **`threat-scenario.md`** - Attack tree and scenario template
@@ -51,11 +54,13 @@ Ready-to-use templates for threat modeling:
 ### Scripts (`scripts/`)
 
 Automation tools:
+
 - **`threat-report-generator.py`** - Generate reports from YAML threat definitions
 
 ### Resources (`resources/`)
 
 Learning materials:
+
 - **`stride-examples.md`** - 15+ real-world STRIDE examples with:
   - Actual security incidents
   - DREAD scoring
@@ -224,12 +229,14 @@ jobs:
 ## NIST Controls
 
 This skill addresses:
+
 - **RA-3:** Risk Assessment - Systematic threat identification
 - **RA-5:** Vulnerability Monitoring - Threat-informed scanning
 
 ## Metrics
 
 Track your threat modeling effectiveness:
+
 - Threats identified per system
 - Average DREAD score
 - Mitigation completion rate

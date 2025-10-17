@@ -97,18 +97,21 @@ Goal: Gain Unauthorized Access to User Account
 ### Step-by-Step Attack Path
 
 **Step 1: Initial Access**
+
 - **Attacker Action:** _[What attacker does]_
 - **System Response:** _[How system reacts]_
 - **Prerequisites:** _[What must be in place]_
 - **Indicators:** _[Signs of attack]_
 
 **Step 2: Privilege Escalation**
+
 - **Attacker Action:** _[What attacker does]_
 - **System Response:** _[How system reacts]_
 - **Prerequisites:** _[What must be in place]_
 - **Indicators:** _[Signs of attack]_
 
 **Step 3: Goal Achievement**
+
 - **Attacker Action:** _[What attacker does]_
 - **System Response:** _[How system reacts]_
 - **Impact:** _[What damage is done]_
@@ -117,18 +120,21 @@ Goal: Gain Unauthorized Access to User Account
 ### Example: SQL Injection Attack Scenario
 
 **Step 1: Reconnaissance**
+
 - **Attacker Action:** Probe login form with `' OR 1=1--` in username field
 - **System Response:** Error message reveals SQL syntax, confirming vulnerability
 - **Prerequisites:** Unfiltered input, verbose error messages
 - **Indicators:** Unusual characters in request logs, SQL errors in application logs
 
 **Step 2: Exploitation**
+
 - **Attacker Action:** Craft SQL injection payload to dump user table: `admin' UNION SELECT username,password,email FROM users--`
 - **System Response:** Returns all user records including password hashes
 - **Prerequisites:** Database connection with SELECT privileges
 - **Indicators:** Complex queries in logs, unusually large responses, UNION keywords in requests
 
 **Step 3: Privilege Escalation**
+
 - **Attacker Action:** Crack admin password hash offline, login as admin
 - **System Response:** Grants admin access to system
 - **Impact:** Full control of application and data
@@ -147,12 +153,15 @@ Goal: Gain Unauthorized Access to User Account
 ### Attack Surface
 
 **Entry Points:**
+
 - _[List all potential entry points]_
 
 **Attack Vectors:**
+
 - _[List attack vectors used]_
 
 **Required Access:**
+
 - _[Network access, physical access, credentials, etc.]_
 
 ### Technical Details
@@ -168,6 +177,7 @@ Goal: Gain Unauthorized Access to User Account
 | _[Tool]_ | _[Usage]_ | _[Technique ID]_ |
 
 **Payload Example:**
+
 ```
 [Include actual payload or code snippet if relevant]
 ```
@@ -177,6 +187,7 @@ Goal: Gain Unauthorized Access to User Account
 ### Confidentiality Impact
 
 **Data Exposed:**
+
 - _[List data types exposed]_
 
 **Affected Records:** _[Number or scope]_
@@ -185,6 +196,7 @@ Goal: Gain Unauthorized Access to User Account
 ### Integrity Impact
 
 **Modified Components:**
+
 - _[List what could be altered]_
 
 **Data Corruption Risk:** _[Describe potential corruption]_
@@ -192,6 +204,7 @@ Goal: Gain Unauthorized Access to User Account
 ### Availability Impact
 
 **Affected Services:**
+
 - _[List impacted services]_
 
 **Downtime Estimate:** _[Duration]_
@@ -209,29 +222,36 @@ Goal: Gain Unauthorized Access to User Account
 ### Detection Mechanisms
 
 **Preventive Controls:**
+
 - [ ] _[Control 1]_ - NIST: _[Control ID]_
 - [ ] _[Control 2]_ - NIST: _[Control ID]_
 
 **Detective Controls:**
+
 - [ ] _[Monitor/alert 1]_ - NIST: _[Control ID]_
 - [ ] _[Monitor/alert 2]_ - NIST: _[Control ID]_
 
 **Response Controls:**
+
 - [ ] _[Response 1]_ - NIST: _[Control ID]_
 - [ ] _[Response 2]_ - NIST: _[Control ID]_
 
 ### Indicators of Compromise (IOCs)
 
 **Network Indicators:**
+
 - _[Suspicious IP addresses, domains, URLs]_
 
 **Host Indicators:**
+
 - _[File hashes, registry keys, processes]_
 
 **Application Indicators:**
+
 - _[Error patterns, unusual queries, timing anomalies]_
 
 **Behavioral Indicators:**
+
 - _[Access patterns, data volume, timing]_
 
 ### Detection Rules
@@ -315,6 +335,7 @@ _[If mitigation cannot be fully implemented, describe compensating controls]_
 ---
 
 **Next Steps:**
+
 1. Review scenario with security team
 2. Validate with penetration testing
 3. Implement prioritized mitigations

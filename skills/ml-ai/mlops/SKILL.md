@@ -36,6 +36,7 @@ last_updated: 2025-01-17
 MLOps brings DevOps principles to machine learning workflows, enabling reliable, scalable, and reproducible ML systems in production. It covers the entire ML lifecycle from experimentation to deployment and monitoring.
 
 **Core Principles:**
+
 - **Reproducibility**: Version everything (code, data, models, environments)
 - **Automation**: Automate training, testing, deployment pipelines
 - - **Monitoring**: Track model performance, data drift, system health
@@ -75,6 +76,7 @@ MLOps brings DevOps principles to machine learning workflows, enabling reliable,
 ### Essential MLOps Checklist
 
 **Experimentation & Development:**
+
 - [ ] Experiment tracking (MLflow, Weights & Biases, Neptune.ai)
 - [ ] Notebook versioning and parameterization (Papermill)
 - [ ] Feature engineering pipelines with versioning
@@ -82,6 +84,7 @@ MLOps brings DevOps principles to machine learning workflows, enabling reliable,
 - [ ] Model versioning and registry
 
 **Training Pipelines:**
+
 - [ ] Automated data validation before training
 - [ ] Reproducible training environments (Docker, Conda)
 - [ ] Hyperparameter tuning (Optuna, Ray Tune)
@@ -89,6 +92,7 @@ MLOps brings DevOps principles to machine learning workflows, enabling reliable,
 - [ ] Model evaluation metrics logged and tracked
 
 **Deployment & Serving:**
+
 - [ ] Model serving infrastructure (TorchServe, TensorFlow Serving, Seldon)
 - [ ] Batch prediction pipelines for offline inference
 - [ ] Real-time inference APIs with latency SLAs
@@ -96,6 +100,7 @@ MLOps brings DevOps principles to machine learning workflows, enabling reliable,
 - [ ] Shadow mode for model validation
 
 **Monitoring & Maintenance:**
+
 - [ ] Data drift detection (statistical tests, KL divergence)
 - [ ] Concept drift detection (model performance degradation)
 - [ ] Prediction monitoring and alerting
@@ -132,6 +137,7 @@ feast materialize-incremental $(date -u +"%Y-%m-%dT%H:%M:%S")
 ### Common Patterns
 
 **1. Experiment Tracking**
+
 ```python
 import mlflow
 
@@ -142,6 +148,7 @@ with mlflow.start_run():
 ```
 
 **2. Model Versioning**
+
 ```python
 from mlflow.tracking import MlflowClient
 
@@ -154,6 +161,7 @@ result = client.create_model_version(
 ```
 
 **3. Model Serving**
+
 ```python
 # Load model from registry
 model = mlflow.pyfunc.load_model(f"models:/my_model/production")
@@ -163,6 +171,7 @@ predictions = model.predict(input_data)
 ```
 
 **4. Drift Detection**
+
 ```python
 from scipy.stats import ks_2samp
 
@@ -181,6 +190,7 @@ if p_value < 0.05:
 #### Training Phase
 
 **Reproducible Training Environment:**
+
 ```python
 # training/train.py
 import os
@@ -236,6 +246,7 @@ def train_model(config):
 ```
 
 **Hyperparameter Optimization:**
+
 ```python
 import optuna
 from optuna.integration.mlflow import MLflowCallback
@@ -263,6 +274,7 @@ study.optimize(objective, n_trials=50, callbacks=[mlflc])
 #### Model Versioning
 
 **Model Registry Pattern:**
+
 ```python
 from mlflow.tracking import MlflowClient
 
@@ -304,6 +316,7 @@ client.transition_model_version_stage(
 ### 2. Feature Engineering & Feature Stores
 
 **Feature Store with Feast:**
+
 ```python
 # feature_repo/features.py
 from feast import Entity, Feature, FeatureView, FileSource, ValueType
@@ -341,6 +354,7 @@ user_features = FeatureView(
 ```
 
 **Feature Retrieval in Training:**
+
 ```python
 from feast import FeatureStore
 
@@ -380,6 +394,7 @@ online_features = store.get_online_features(
 #### Batch Prediction Pipeline
 
 **Apache Airflow DAG:**
+
 ```python
 from airflow import DAG
 from airflow.operators.python import PythonOperator
@@ -445,6 +460,7 @@ with DAG(
 #### Real-Time Inference API
 
 **FastAPI Model Serving:**
+
 ```python
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
@@ -514,6 +530,7 @@ async def metrics():
 #### Streaming Inference
 
 **Kafka Consumer with Model:**
+
 ```python
 from kafka import KafkaConsumer, KafkaProducer
 import json
@@ -564,6 +581,7 @@ for message in consumer:
 #### Data Drift Detection
 
 **Statistical Testing Approach:**
+
 ```python
 import numpy as np
 from scipy.stats import ks_2samp, chi2_contingency
@@ -626,6 +644,7 @@ class DriftDetector:
 #### Concept Drift Detection
 
 **Performance-Based Monitoring:**
+
 ```python
 from collections import deque
 import numpy as np
@@ -674,6 +693,7 @@ class ConceptDriftDetector:
 #### Production Monitoring Dashboard
 
 **Prometheus Metrics + Grafana:**
+
 ```python
 from prometheus_client import Gauge, Counter, Histogram, start_http_server
 import threading
@@ -740,6 +760,7 @@ class ModelMonitor:
 #### Kubeflow Pipelines
 
 **Pipeline Definition:**
+
 ```python
 from kfp import dsl
 from kfp import compiler
@@ -847,6 +868,7 @@ compiler.Compiler().compile(ml_pipeline, 'ml_pipeline.yaml')
 ### 6. A/B Testing & Canary Deployments
 
 **Multi-Armed Bandit for Model Selection:**
+
 ```python
 import numpy as np
 from typing import List, Dict
@@ -925,6 +947,7 @@ def update_rewards():
 #### Model Governance
 
 **Model Card Documentation:**
+
 ```python
 # model_card.yaml
 model_details:
@@ -974,6 +997,7 @@ monitoring:
 #### CI/CD for ML
 
 **GitHub Actions Workflow:**
+
 ```yaml
 # .github/workflows/ml-pipeline.yml
 name: ML Pipeline CI/CD
@@ -1155,7 +1179,9 @@ jobs:
 ## Practice Exercises
 
 ### Exercise 1: End-to-End Pipeline
+
 Build a complete MLOps pipeline:
+
 1. Version dataset with DVC
 2. Train model with MLflow tracking
 3. Register model in MLflow Model Registry
@@ -1164,7 +1190,9 @@ Build a complete MLOps pipeline:
 6. Monitor with Prometheus + Grafana
 
 ### Exercise 2: Drift Detection System
+
 Implement comprehensive drift detection:
+
 1. Collect baseline statistics from training data
 2. Implement KS test for numerical features
 3. Implement Chi-square test for categorical features
@@ -1173,7 +1201,9 @@ Implement comprehensive drift detection:
 6. Build automated retraining trigger
 
 ### Exercise 3: A/B Testing Framework
+
 Build an A/B testing system for models:
+
 1. Deploy two model versions
 2. Implement Thompson Sampling for traffic routing
 3. Collect feedback and update reward statistics
@@ -1182,7 +1212,9 @@ Build an A/B testing system for models:
 6. Gradual rollout of winning model
 
 ### Exercise 4: Feature Store
+
 Set up a production feature store:
+
 1. Define entities and feature views in Feast
 2. Materialize historical features for training
 3. Set up online feature serving

@@ -13,15 +13,18 @@ This document provides actionable recommendations for completing Phase 2 and imp
 ### Priority Framework
 
 **P0 (Critical - Must Fix):**
+
 - Meta-skills implementation (legacy-bridge, skill-loader)
 - Phase 2 content creation (10 skills)
 
 **P1 (High - Should Fix):**
+
 - Script test coverage (reach 90% target)
 - Complete directory structure (6 remaining)
 - Fix test failures
 
 **P2 (Medium - Nice to Fix):**
+
 - Subsection gaps in valid skills
 - CLI documentation
 - Token estimation improvements
@@ -33,16 +36,19 @@ This document provides actionable recommendations for completing Phase 2 and imp
 ### P0-01: Meta-Skills Implementation (10 hours)
 
 **Issue:**
+
 - legacy-bridge: Missing all Level 1-3 content (347 bytes stub file)
 - skill-loader: Missing all Level 1-3 content, no CLI implementation
 
 **Impact:**
+
 - ❌ Cannot demonstrate backward compatibility
 - ❌ Cannot validate skill loading workflows
 - ❌ Blocks user testing and feedback
 - ❌ Production readiness unknown
 
 **Root Cause:**
+
 - Meta-skills scope underestimated in planning
 - Assumed to be "simple" but require significant design work
 - Not included in 22-hour remediation allocation
@@ -52,6 +58,7 @@ This document provides actionable recommendations for completing Phase 2 and imp
 #### legacy-bridge Implementation (6 hours)
 
 **Hour 1-2: Level 1 Content**
+
 ```markdown
 ## Level 1: Quick Start
 
@@ -86,12 +93,14 @@ This document provides actionable recommendations for completing Phase 2 and imp
 ```
 
 **Hour 3-4: Level 2 Implementation**
+
 - Document all product type mappings
 - Show CLI usage for discovery
 - Provide migration examples for each product type
 - Include troubleshooting section
 
 **Hour 5-6: CLI Implementation**
+
 ```python
 #!/usr/bin/env python3
 """Legacy bridge for backward compatibility with @load product:* syntax."""
@@ -113,6 +122,7 @@ def generate_legacy_command(product_type: str) -> str:
 ```
 
 **Validation:**
+
 - [ ] All product types mapped to skills
 - [ ] CLI generates correct @load commands
 - [ ] Integration tests pass
@@ -123,6 +133,7 @@ def generate_legacy_command(product_type: str) -> str:
 #### skill-loader Implementation (4 hours)
 
 **Hour 1: Level 1 Content**
+
 ```markdown
 ## Level 1: Quick Start
 
@@ -160,12 +171,14 @@ def generate_legacy_command(product_type: str) -> str:
 ```
 
 **Hour 2: Level 2 Implementation**
+
 - CLI usage patterns
 - Skill discovery examples
 - Dependency resolution examples
 - Token management strategies
 
 **Hour 3-4: CLI Enhancement**
+
 ```python
 def load_skill(slug: str, level: int = 1, resolve_deps: bool = False) -> str:
     """Load skill content at specified level."""
@@ -186,6 +199,7 @@ def resolve_dependencies(slug: str) -> list[str]:
 ```
 
 **Validation:**
+
 - [ ] CLI can load skills by slug
 - [ ] Level 1/2/3 loading works
 - [ ] Dependency resolution functional
@@ -197,17 +211,20 @@ def resolve_dependencies(slug: str) -> list[str]:
 ### P0-02: Phase 2 Skills Creation (40 hours)
 
 **Issue:**
+
 - 0 of 10 Phase 2 target skills have content
 - Directories exist but no SKILL.md files
 - Phase 2 objectives completely unmet
 
 **Impact:**
+
 - ❌ No progress on Week 2-3 deliverables
 - ❌ Timeline slip by 2 weeks
 - ❌ Confidence in approach reduced
 - ❌ Risk to overall 8-week timeline
 
 **Root Cause:**
+
 - Attempted to move to Phase 2 before Phase 1 complete
 - Underestimated time for remediation work
 - Meta-skills blocked progress on content
@@ -217,6 +234,7 @@ def resolve_dependencies(slug: str) -> list[str]:
 #### Content Creation Template (Based on Python Reference)
 
 **Hour 1: Level 1 Quick Start**
+
 1. Define core principles (5-7 key concepts)
 2. Create essential checklist (8-12 items)
 3. Write quick example (working code, 20-30 lines)
@@ -224,6 +242,7 @@ def resolve_dependencies(slug: str) -> list[str]:
 5. Verify <2k tokens (estimate: 400-500 tokens)
 
 **Hour 2: Level 2 Implementation**
+
 1. Expand each core principle (2-3 paragraphs each)
 2. Add code examples for each concept (3-5 examples)
 3. Include good/bad comparisons (✅/❌ notation)
@@ -231,6 +250,7 @@ def resolve_dependencies(slug: str) -> list[str]:
 5. Verify <5k tokens (estimate: 2k-2.5k tokens)
 
 **Hour 3: Level 3 Mastery**
+
 1. Reference advanced topics
 2. Bundle resources (templates/, scripts/, config/)
 3. Add external links (documentation, tools)
@@ -238,6 +258,7 @@ def resolve_dependencies(slug: str) -> list[str]:
 5. Verify overall token count (~3.5k-4k total)
 
 **Hour 4: Polish & Validation**
+
 1. Run validation script
 2. Fix any warnings
 3. Add cross-references to related skills
@@ -249,6 +270,7 @@ def resolve_dependencies(slug: str) -> list[str]:
 #### Phase 2 Skills Prioritization
 
 **Week 2 (First 5 skills - 20 hours):**
+
 1. **Python** (4h) - Enhance existing, add Level 2/3
 2. **JavaScript** (4h) - ES6+, Node.js, React patterns
 3. **TypeScript** (4h) - Type system, compiler, best practices
@@ -263,6 +285,7 @@ def resolve_dependencies(slug: str) -> list[str]:
 10. **Data Quality** (4h) - Validation, testing, monitoring
 
 **Rationale:**
+
 - Start with most common languages (Python, JavaScript, TypeScript)
 - Add high-value skills (API Design, Unit Testing)
 - Mix coding standards with DevOps/infrastructure
@@ -275,11 +298,13 @@ def resolve_dependencies(slug: str) -> list[str]:
 ### P1-01: Script Test Coverage (2 hours)
 
 **Issue:**
+
 - migrate-to-skills.py: 87% coverage (target: 90%)
 - validate-skills.py: 82% coverage (target: 90%)
 - Average: 84.5% (5.5% below target)
 
 **Missing Coverage:**
+
 ```python
 # migrate-to-skills.py (19 uncovered statements)
 Lines 27-56: CLI argument parsing edge cases
@@ -295,6 +320,7 @@ Line 336: Exit code handling
 **Solution:**
 
 **Test 1: CLI Edge Cases (30 min)**
+
 ```python
 def test_migrate_cli_missing_args():
     """Test CLI with missing required arguments."""
@@ -316,6 +342,7 @@ def test_migrate_cli_invalid_source():
 ```
 
 **Test 2: JSON Export Edge Cases (30 min)**
+
 ```python
 def test_validate_json_export_empty():
     """Test JSON export with no skills."""
@@ -331,6 +358,7 @@ def test_validate_json_export_errors():
 ```
 
 **Test 3: Summary Formatting (30 min)**
+
 ```python
 def test_validate_summary_with_warnings():
     """Test summary formatting with warnings."""
@@ -346,6 +374,7 @@ def test_validate_summary_all_valid():
 ```
 
 **Test 4: Exit Codes (30 min)**
+
 ```python
 def test_exit_code_success():
     """Test exit code 0 for success."""
@@ -359,6 +388,7 @@ def test_exit_code_errors():
 ```
 
 **Verification:**
+
 ```bash
 pytest tests/scripts/ --cov=scripts --cov-report=term-missing
 # Target: 90% coverage for migrate-to-skills.py and validate-skills.py
@@ -369,17 +399,20 @@ pytest tests/scripts/ --cov=scripts --cov-report=term-missing
 ### P1-02: Test Failure Fix (1 hour)
 
 **Issue:**
+
 ```python
 FAILED tests/scripts/test_discover_skills.py::TestSkillDiscovery::test_search_by_keyword
 # Expected 2 security skills, found 1
 ```
 
 **Root Cause:**
+
 - Test creates 2 security skills (api-security, input-validation)
 - Search for "security" keyword
 - Expected 2 results, but search only finds 1
 
 **Investigation (15 min):**
+
 ```python
 # Check search implementation
 def search_by_keyword(self, keyword: str) -> list:
@@ -395,6 +428,7 @@ def search_by_keyword(self, keyword: str) -> list:
 ```
 
 **Solution 1: Fix Search Logic (30 min)**
+
 ```python
 def search_by_keyword(self, keyword: str) -> list:
     """Search skills by keyword in name, description, tags."""
@@ -409,6 +443,7 @@ def search_by_keyword(self, keyword: str) -> list:
 ```
 
 **Solution 2: Update Test Expectations (15 min)**
+
 ```python
 def test_search_by_keyword(self, sample_skill_files):
     """Test searching by keyword in name/description."""
@@ -428,10 +463,12 @@ def test_search_by_keyword(self, sample_skill_files):
 ### P1-03: Complete Directory Structure (1 hour)
 
 **Issue:**
+
 - 44 of 50 directories created (88%)
 - 6 remaining directories missing
 
 **Missing Directories:**
+
 1. `skills/architecture/microservices/`
 2. `skills/architecture/event-driven/`
 3. `skills/architecture/domain-driven/`
@@ -440,6 +477,7 @@ def test_search_by_keyword(self, sample_skill_files):
 6. `skills/content/api-docs/`
 
 **Solution:**
+
 ```bash
 # Run generation script for each
 python3 scripts/generate-skill.py \
@@ -474,6 +512,7 @@ python3 scripts/generate-skill.py \
 ```
 
 **Verification:**
+
 ```bash
 find skills -type d -mindepth 1 -maxdepth 1 | wc -l
 # Should output: 50
@@ -486,6 +525,7 @@ find skills -type d -mindepth 1 -maxdepth 1 | wc -l
 ### P2-01: Missing Subsections in Valid Skills (2 hours)
 
 **Issue:**
+
 - nist-compliance: Missing "Quick Reference"
 - security-practices: Missing "Quick Reference" + "Essential Checklist"
 - testing: Missing "Quick Reference"
@@ -495,6 +535,7 @@ find skills -type d -mindepth 1 -maxdepth 1 | wc -l
 **Solution (30 min per skill):**
 
 **nist-compliance Quick Reference:**
+
 ```markdown
 ### Quick Reference
 
@@ -522,6 +563,7 @@ def create_user(username: str, role: str) -> User:
 ```
 
 **security-practices Quick Reference + Checklist:**
+
 ```markdown
 ### Quick Reference
 
@@ -555,6 +597,7 @@ cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
 ```
 
 **testing Quick Reference:**
+
 ```markdown
 ### Quick Reference
 
@@ -602,6 +645,7 @@ def test_user_login():
 ### P2-02: CLI Usage Guides (4 hours)
 
 **Issue:**
+
 - Scripts have `--help` flags but no comprehensive guides
 - Users must experiment to learn workflows
 - No examples for complex use cases
@@ -609,6 +653,7 @@ def test_user_login():
 **Solution: Create `docs/guides/SKILLS_CLI_GUIDE.md`**
 
 **Hour 1: discover-skills.py Guide**
+
 ```markdown
 # Skills CLI Usage Guide
 
@@ -658,6 +703,7 @@ python3 scripts/discover-skills.py \
 ```
 
 **Hour 2: generate-skill.py Guide**
+
 ```markdown
 ## Creating New Skills
 
@@ -691,6 +737,7 @@ python3 scripts/generate-skill.py \
 **Hour 3: validate-skills.py + migrate-to-skills.py Guides**
 
 **Hour 4: Complete Examples + Workflows**
+
 - End-to-end workflow examples
 - Troubleshooting common issues
 - Advanced usage patterns
@@ -700,6 +747,7 @@ python3 scripts/generate-skill.py \
 ### P2-03: Token Estimation Improvements (2 hours)
 
 **Issue:**
+
 - Current implementation uses `chars / 4` (rough estimate)
 - Not accurate for actual GPT-4 token encoding
 - tiktoken library available but not fully integrated
@@ -707,6 +755,7 @@ python3 scripts/generate-skill.py \
 **Solution:**
 
 **Hour 1: Integrate tiktoken**
+
 ```python
 import tiktoken
 
@@ -721,6 +770,7 @@ def estimate_tokens_accurate(text: str, model: str = "gpt-4") -> int:
 ```
 
 **Hour 2: Update count-tokens.py**
+
 - Replace all `len(text) // 4` with `estimate_tokens_accurate(text)`
 - Add `--model` flag to select encoding
 - Update tests with accurate token counts
@@ -733,10 +783,12 @@ def estimate_tokens_accurate(text: str, model: str = "gpt-4") -> int:
 ### 4.1 Stricter Gate Enforcement
 
 **Problem:**
+
 - Phase 2 started before Phase 1 complete
 - Led to compounding gaps and timeline slip
 
 **Solution:**
+
 ```yaml
 Gate Requirements:
   Hard Blocks (Must be 100%):
@@ -761,12 +813,14 @@ Gate Requirements:
 ### 4.2 Daily Progress Tracking
 
 **Problem:**
+
 - Gaps discovered at week-end gate (too late)
 - No early warning system
 
 **Solution:**
 
 **Daily Standup (15 min):**
+
 ```markdown
 ### Daily Progress Report (Template)
 
@@ -796,6 +850,7 @@ Gate Requirements:
 ```
 
 **Automated Checks (Run daily):**
+
 ```bash
 #!/bin/bash
 # Daily validation script
@@ -834,6 +889,7 @@ fi
 ### 4.3 Content Creation Automation
 
 **Problem:**
+
 - Creating skills manually is time-consuming
 - Inconsistency between skills
 - Hard to maintain quality at scale
@@ -905,6 +961,7 @@ level1 = generate_level1_from_outline(
 ### 4.4 Quality Metrics Dashboard
 
 **Problem:**
+
 - No real-time visibility into quality metrics
 - Hard to track progress across 50 skills
 
@@ -984,6 +1041,7 @@ if __name__ == "__main__":
 ### Current Timeline
 
 **Original Plan:**
+
 - Phase 1: Week 1 (Foundation) ← **Complete with gaps**
 - Phase 2: Week 2-3 (First 10 skills) ← **0% complete**
 - Phase 3: Week 4-5 (Next 21 skills)
@@ -991,6 +1049,7 @@ if __name__ == "__main__":
 - Phase 5: Week 8 (Integration & launch)
 
 **Actual Status:**
+
 - Phase 1: Week 1 (88% complete)
 - Phase 2: Week 2-3 (0% complete, need extension)
 
@@ -999,6 +1058,7 @@ if __name__ == "__main__":
 ### Revised Timeline (10 weeks)
 
 **Week 2-3: Phase 2 Extension (52 hours)**
+
 - Meta-skills: 10h
 - First 5 Phase 2 skills: 20h
 - Next 5 Phase 2 skills: 20h
@@ -1006,18 +1066,22 @@ if __name__ == "__main__":
 - **Deliverable**: 10 Phase 2 skills + functional meta-skills
 
 **Week 4-5: Phase 3 (44 hours)**
+
 - Skill 11-21: 44h (4h each)
 - **Deliverable**: 21 additional skills
 
 **Week 6-7: Phase 4 (24 hours)**
+
 - Skill 22-27: 24h (4h each)
 - **Deliverable**: 6 extended skills
 
 **Week 8-9: Phase 5 (40 hours)**
+
 - Skill 28-37: 40h (4h each)
 - **Deliverable**: 10 specialized skills
 
 **Week 10: Integration & Launch (24 hours)**
+
 - Final validation
 - Integration testing
 - Documentation updates
@@ -1031,11 +1095,13 @@ if __name__ == "__main__":
 ### Risk Mitigation
 
 **Timeline Risks:**
+
 - ⚠️ Further delays if Week 2-3 underperforms
 - ⚠️ Scope creep (adding skills not in original plan)
 - ⚠️ Quality pressure (rushing for timeline)
 
 **Mitigation Strategies:**
+
 1. **Fixed scope**: No adding skills beyond 50 (defer to Phase 2 of project)
 2. **Quality gates**: Daily validation, no skipping checks
 3. **Buffer time**: 20% buffer in each week (included in estimates)
@@ -1049,6 +1115,7 @@ if __name__ == "__main__":
 ### Phase 2 Gate Criteria (Week 3)
 
 **Must Achieve (100%):**
+
 - [ ] 50 skill directories created
 - [ ] Meta-skills functional (legacy-bridge, skill-loader)
 - [ ] 10 Phase 2 skills complete and validated
@@ -1058,6 +1125,7 @@ if __name__ == "__main__":
 - [ ] 0 validation errors
 
 **Should Achieve (>90%):**
+
 - [ ] All skills have required subsections
 - [ ] Token counts within limits
 - [ ] Cross-skill consistency
@@ -1070,6 +1138,7 @@ if __name__ == "__main__":
 ### Phase 3-5 Gate Criteria
 
 **Each phase must achieve:**
+
 - All planned skills for phase: 100%
 - Validation errors: 0
 - Test coverage: ≥90%
@@ -1118,11 +1187,13 @@ if __name__ == "__main__":
 ### Critical Path Forward
 
 **Week 2 (Immediate):**
+
 1. ⚠️ **Implement meta-skills** (10h) ← **Blocking everything**
 2. ⚠️ **Create first 5 Phase 2 skills** (20h)
 3. ⚠️ **Fix script coverage** (2h)
 
 **Week 3 (Short-term):**
+
 1. Create remaining 5 Phase 2 skills (20h)
 2. Complete directory structure (1h)
 3. Fix subsections (2h)
@@ -1130,6 +1201,7 @@ if __name__ == "__main__":
 5. **Re-gate for Phase 3** (must hit 95/100)
 
 **Week 4-10 (Long-term):**
+
 1. Execute Phases 3-5 systematically
 2. Daily validation and tracking
 3. Quality gates every week
@@ -1140,6 +1212,7 @@ if __name__ == "__main__":
 ### Success Criteria
 
 **Phase 2 approved when:**
+
 - ✅ 10 Phase 2 skills complete (4/10 quality)
 - ✅ Meta-skills functional and tested
 - ✅ Script coverage ≥90%
@@ -1147,6 +1220,7 @@ if __name__ == "__main__":
 - ✅ Gate score ≥95/100
 
 **Overall migration success:**
+
 - ✅ 50 skills complete with high quality (avg 8/10)
 - ✅ All integration tests passing
 - ✅ Token efficiency proven (avg <4k tokens per skill)

@@ -13,15 +13,17 @@ Usage:
 
 import argparse
 import sys
-import yaml
-from datetime import datetime
-from typing import Dict, List, Any
 from dataclasses import dataclass, field
+from datetime import datetime
 from enum import Enum
+from typing import List
+
+import yaml
 
 
 class StrideCategory(Enum):
     """STRIDE threat categories."""
+
     SPOOFING = "Spoofing"
     TAMPERING = "Tampering"
     REPUDIATION = "Repudiation"
@@ -32,15 +34,17 @@ class StrideCategory(Enum):
 
 class Priority(Enum):
     """Threat priority levels based on DREAD score."""
+
     CRITICAL = "Critical"  # 8.0-10.0
-    HIGH = "High"          # 6.0-7.9
-    MEDIUM = "Medium"      # 4.0-5.9
-    LOW = "Low"            # 0-3.9
+    HIGH = "High"  # 6.0-7.9
+    MEDIUM = "Medium"  # 4.0-5.9
+    LOW = "Low"  # 0-3.9
 
 
 @dataclass
 class DreadScore:
     """DREAD scoring for threat prioritization."""
+
     damage: int  # 0-10
     reproducibility: int  # 0-10
     exploitability: int  # 0-10
@@ -50,11 +54,7 @@ class DreadScore:
     def calculate(self) -> float:
         """Calculate DREAD score."""
         return (
-            self.damage +
-            self.reproducibility +
-            self.exploitability +
-            self.affected_users +
-            self.discoverability
+            self.damage + self.reproducibility + self.exploitability + self.affected_users + self.discoverability
         ) / 5
 
     def priority(self) -> Priority:
@@ -73,6 +73,7 @@ class DreadScore:
 @dataclass
 class Mitigation:
     """Threat mitigation control."""
+
     control: str
     nist_control: str
     status: str  # Planned, In Progress, Implemented, Not Applicable
@@ -83,6 +84,7 @@ class Mitigation:
 @dataclass
 class Threat:
     """Threat definition."""
+
     id: str
     category: StrideCategory
     description: str
@@ -98,6 +100,7 @@ class Threat:
 @dataclass
 class ThreatModel:
     """Complete threat model."""
+
     system_name: str
     version: str
     date: str
@@ -120,7 +123,7 @@ class ThreatReportGenerator:
             self._critical_threats(),
             self._mitigation_summary(),
             self._nist_control_mapping(),
-            self._recommendations()
+            self._recommendations(),
         ]
         return "\n\n".join(sections)
 
@@ -144,10 +147,7 @@ class ThreatReportGenerator:
         medium = sum(1 for t in self.model.threats if t.dread.priority() == Priority.MEDIUM)
         low = sum(1 for t in self.model.threats if t.dread.priority() == Priority.LOW)
 
-        mitigated = sum(
-            1 for t in self.model.threats
-            if any(m.status == "Implemented" for m in t.mitigations)
-        )
+        mitigated = sum(1 for t in self.model.threats if any(m.status == "Implemented" for m in t.mitigations))
 
         return f"""## Executive Summary
 
@@ -188,10 +188,7 @@ class ThreatReportGenerator:
 
     def _critical_threats(self) -> str:
         """Generate detailed section for critical and high threats."""
-        critical_threats = [
-            t for t in self.model.threats
-            if t.dread.priority() in [Priority.CRITICAL, Priority.HIGH]
-        ]
+        critical_threats = [t for t in self.model.threats if t.dread.priority() in [Priority.CRITICAL, Priority.HIGH]]
 
         if not critical_threats:
             return "## Critical & High Priority Threats\n\n✅ No critical or high priority threats identified."
@@ -204,11 +201,10 @@ class ThreatReportGenerator:
 
             mitigation_rows = []
             for m in threat.mitigations:
-                mitigation_rows.append(
-                    f"| {m.control} | {m.nist_control} | {m.status} | {m.owner} |"
-                )
+                mitigation_rows.append(f"| {m.control} | {m.nist_control} | {m.status} | {m.owner} |")
 
-            sections.append(f"""### {threat.id}: {threat.description}
+            sections.append(
+                f"""### {threat.id}: {threat.description}
 
 **Priority:** {priority} (DREAD: {score:.1f})
 **Category:** {threat.category.value}
@@ -236,7 +232,8 @@ class ThreatReportGenerator:
 {chr(10).join(mitigation_rows) if mitigation_rows else "| No mitigations defined | - | - | - |"}
 
 ---
-""")
+"""
+            )
 
         return "\n".join(sections)
 
@@ -287,17 +284,10 @@ class ThreatReportGenerator:
 
     def _recommendations(self) -> str:
         """Generate recommendations section."""
-        critical_count = sum(
-            1 for t in self.model.threats if t.dread.priority() == Priority.CRITICAL
-        )
-        high_count = sum(
-            1 for t in self.model.threats if t.dread.priority() == Priority.HIGH
-        )
+        critical_count = sum(1 for t in self.model.threats if t.dread.priority() == Priority.CRITICAL)
+        high_count = sum(1 for t in self.model.threats if t.dread.priority() == Priority.HIGH)
 
-        unmitigated = [
-            t for t in self.model.threats
-            if not any(m.status == "Implemented" for m in t.mitigations)
-        ]
+        unmitigated = [t for t in self.model.threats if not any(m.status == "Implemented" for m in t.mitigations)]
 
         recommendations = ["## Recommendations\n"]
 
@@ -312,9 +302,7 @@ class ThreatReportGenerator:
 
         if high_count > 0:
             recommendations.append(
-                f"\n### 🟠 HIGH PRIORITY\n\n"
-                f"{high_count} high priority threat(s). "
-                f"Address within 30 days.\n"
+                f"\n### 🟠 HIGH PRIORITY\n\n" f"{high_count} high priority threat(s). " f"Address within 30 days.\n"
             )
 
         if unmitigated:
@@ -337,78 +325,64 @@ class ThreatReportGenerator:
 
 def load_threat_model(yaml_file: str) -> ThreatModel:
     """Load threat model from YAML file."""
-    with open(yaml_file, 'r') as f:
+    with open(yaml_file) as f:
         data = yaml.safe_load(f)
 
     threats = []
-    for threat_data in data.get('threats', []):
-        dread_data = threat_data['dread']
+    for threat_data in data.get("threats", []):
+        dread_data = threat_data["dread"]
         dread = DreadScore(
-            damage=dread_data['damage'],
-            reproducibility=dread_data['reproducibility'],
-            exploitability=dread_data['exploitability'],
-            affected_users=dread_data['affected_users'],
-            discoverability=dread_data['discoverability']
+            damage=dread_data["damage"],
+            reproducibility=dread_data["reproducibility"],
+            exploitability=dread_data["exploitability"],
+            affected_users=dread_data["affected_users"],
+            discoverability=dread_data["discoverability"],
         )
 
         mitigations = [
             Mitigation(
-                control=m['control'],
-                nist_control=m['nist_control'],
-                status=m['status'],
-                owner=m.get('owner', ''),
-                target_date=m.get('target_date', '')
+                control=m["control"],
+                nist_control=m["nist_control"],
+                status=m["status"],
+                owner=m.get("owner", ""),
+                target_date=m.get("target_date", ""),
             )
-            for m in threat_data.get('mitigations', [])
+            for m in threat_data.get("mitigations", [])
         ]
 
         threat = Threat(
-            id=threat_data['id'],
-            category=StrideCategory[threat_data['category'].upper().replace(' ', '_')],
-            description=threat_data['description'],
-            attack_scenario=threat_data['attack_scenario'],
-            component=threat_data['component'],
+            id=threat_data["id"],
+            category=StrideCategory[threat_data["category"].upper().replace(" ", "_")],
+            description=threat_data["description"],
+            attack_scenario=threat_data["attack_scenario"],
+            component=threat_data["component"],
             dread=dread,
             mitigations=mitigations,
-            impact_confidentiality=threat_data.get('impact_confidentiality', ''),
-            impact_integrity=threat_data.get('impact_integrity', ''),
-            impact_availability=threat_data.get('impact_availability', '')
+            impact_confidentiality=threat_data.get("impact_confidentiality", ""),
+            impact_integrity=threat_data.get("impact_integrity", ""),
+            impact_availability=threat_data.get("impact_availability", ""),
         )
         threats.append(threat)
 
     return ThreatModel(
-        system_name=data['system_name'],
-        version=data['version'],
-        date=data['date'],
-        analyst=data['analyst'],
-        threats=threats
+        system_name=data["system_name"],
+        version=data["version"],
+        date=data["date"],
+        analyst=data["analyst"],
+        threats=threats,
     )
 
 
 def main():
     """Main entry point."""
-    parser = argparse.ArgumentParser(
-        description='Generate threat modeling reports from YAML definitions'
+    parser = argparse.ArgumentParser(description="Generate threat modeling reports from YAML definitions")
+    parser.add_argument("--input", "-i", required=True, help="Input YAML file with threat definitions")
+    parser.add_argument("--output", "-o", help="Output file (default: stdout)")
+    parser.add_argument(
+        "--format", "-f", choices=["markdown", "md"], default="markdown", help="Output format (default: markdown)"
     )
     parser.add_argument(
-        '--input', '-i',
-        required=True,
-        help='Input YAML file with threat definitions'
-    )
-    parser.add_argument(
-        '--output', '-o',
-        help='Output file (default: stdout)'
-    )
-    parser.add_argument(
-        '--format', '-f',
-        choices=['markdown', 'md'],
-        default='markdown',
-        help='Output format (default: markdown)'
-    )
-    parser.add_argument(
-        '--summary-only',
-        action='store_true',
-        help='Generate summary only (no detailed threat listings)'
+        "--summary-only", action="store_true", help="Generate summary only (no detailed threat listings)"
     )
 
     args = parser.parse_args()
@@ -423,7 +397,7 @@ def main():
 
         # Output
         if args.output:
-            with open(args.output, 'w') as f:
+            with open(args.output, "w") as f:
                 f.write(report)
             print(f"✅ Report generated: {args.output}")
         else:
@@ -440,5 +414,5 @@ def main():
         sys.exit(1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

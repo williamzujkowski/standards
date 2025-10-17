@@ -22,6 +22,7 @@ The Test Pyramid is a framework for organizing automated tests by scope, speed, 
 ## Pyramid Layers (Bottom to Top)
 
 ### 1. Unit Tests (Base - 70%)
+
 - **Purpose**: Test individual functions, methods, or classes in isolation
 - **Scope**: Single component/module
 - **Speed**: Very fast (milliseconds)
@@ -33,6 +34,7 @@ The Test Pyramid is a framework for organizing automated tests by scope, speed, 
   - Test a utility function that formats dates
 
 **Characteristics:**
+
 - ✅ Fast execution
 - ✅ Easy to write and maintain
 - ✅ Precise failure localization
@@ -40,6 +42,7 @@ The Test Pyramid is a framework for organizing automated tests by scope, speed, 
 - ❌ Don't test integration points
 
 ### 2. Integration Tests (Middle - 20%)
+
 - **Purpose**: Test interactions between components, modules, or external systems
 - **Scope**: Multiple components working together
 - **Speed**: Moderate (seconds)
@@ -52,6 +55,7 @@ The Test Pyramid is a framework for organizing automated tests by scope, speed, 
   - Test file system operations
 
 **Characteristics:**
+
 - ✅ Test real interactions
 - ✅ Catch integration bugs
 - ✅ Verify component contracts
@@ -60,6 +64,7 @@ The Test Pyramid is a framework for organizing automated tests by scope, speed, 
 - ❌ Require infrastructure (databases, APIs)
 
 ### 3. UI/E2E Tests (Top - 10%)
+
 - **Purpose**: Test complete user workflows from end to end
 - **Scope**: Entire application stack
 - **Speed**: Slow (minutes)
@@ -71,6 +76,7 @@ The Test Pyramid is a framework for organizing automated tests by scope, speed, 
   - Test full business critical user journeys
 
 **Characteristics:**
+
 - ✅ Test real user scenarios
 - ✅ High confidence in system behavior
 - ✅ Catch issues across the stack
@@ -118,6 +124,7 @@ graph TD
 ```
 
 **Problems:**
+
 - ❌ Slow test suite (hours instead of minutes)
 - ❌ High maintenance cost
 - ❌ Flaky tests cause CI/CD failures
@@ -127,26 +134,31 @@ graph TD
 ## Test Pyramid Best Practices
 
 ### 1. Maintain the Ratio
+
 - **70% Unit Tests**: Fast feedback on code changes
 - **20% Integration Tests**: Verify component interactions
 - **10% E2E Tests**: Critical user journeys only
 
 ### 2. Test at the Right Level
+
 - **Unit**: Business logic, algorithms, calculations
 - **Integration**: Database access, API calls, message queues
 - **E2E**: Critical user flows, happy paths
 
 ### 3. Optimize for Speed
+
 - Run unit tests on every commit
 - Run integration tests on pull requests
 - Run E2E tests before deployment
 
 ### 4. Keep Tests Independent
+
 - Tests should not depend on each other
 - Each test should set up its own data
 - Clean up after each test
 
 ### 5. Mock External Dependencies
+
 - Unit tests should mock databases, APIs, file systems
 - Integration tests can use real dependencies
 - Use test doubles (mocks, stubs, fakes)
@@ -154,6 +166,7 @@ graph TD
 ## Implementation Example
 
 ### Unit Test (Fast, Many)
+
 ```python
 def test_calculate_discount():
     # Arrange
@@ -168,6 +181,7 @@ def test_calculate_discount():
 ```
 
 ### Integration Test (Moderate, Some)
+
 ```python
 def test_user_repository_save():
     # Arrange
@@ -183,6 +197,7 @@ def test_user_repository_save():
 ```
 
 ### E2E Test (Slow, Few)
+
 ```python
 def test_user_registration_flow():
     # Navigate to registration page
@@ -204,16 +219,19 @@ def test_user_registration_flow():
 ## Metrics to Track
 
 ### Coverage
+
 - **Unit Test Coverage**: Aim for >80% line coverage
 - **Integration Test Coverage**: Focus on critical paths
 - **E2E Test Coverage**: Cover business-critical flows
 
 ### Speed
+
 - **Unit Tests**: < 1 minute for entire suite
 - **Integration Tests**: < 10 minutes for entire suite
 - **E2E Tests**: < 30 minutes for entire suite
 
 ### Reliability
+
 - **Flakiness Rate**: < 1% (tests that randomly fail)
 - **Failure Analysis Time**: < 5 minutes to identify root cause
 - **Fix Time**: < 30 minutes to fix failing tests
@@ -221,17 +239,20 @@ def test_user_registration_flow():
 ## Tools by Layer
 
 ### Unit Testing
+
 - **JavaScript/TypeScript**: Jest, Mocha, Vitest
 - **Python**: pytest, unittest
 - **Go**: testing package
 - **Java**: JUnit, TestNG
 
 ### Integration Testing
+
 - **Databases**: Testcontainers, in-memory databases
 - **APIs**: Supertest, RestAssured
 - **Message Queues**: Testcontainers, embedded brokers
 
 ### E2E Testing
+
 - **Web**: Playwright, Cypress, Selenium
 - **Mobile**: Appium, Detox
 - **API**: Postman, Newman
@@ -239,6 +260,7 @@ def test_user_registration_flow():
 ## Conclusion
 
 The Test Pyramid is a guideline, not a hard rule. Adjust ratios based on:
+
 - **Application Type**: APIs may have fewer UI tests
 - **Team Size**: Smaller teams may focus on unit + integration
 - **Risk Profile**: High-risk systems may need more E2E tests

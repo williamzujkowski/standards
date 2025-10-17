@@ -7,6 +7,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
 ### Structure
 
 - [ ] **Use semantic HTML5 elements**
+
   ```tsx
   <header>
     <nav>
@@ -30,6 +31,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
   ```
 
 - [ ] **Avoid div soup - use meaningful elements**
+
   ```tsx
   // Bad
   <div className="header">
@@ -45,6 +47,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
 ### Headings
 
 - [ ] **Use heading hierarchy (h1 → h2 → h3)**
+
   ```tsx
   <h1>Page Title</h1>
     <h2>Section</h2>
@@ -52,6 +55,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
   ```
 
 - [ ] **Don't skip heading levels**
+
   ```tsx
   // Bad: h1 → h3 (skips h2)
   <h1>Title</h1>
@@ -68,6 +72,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
 ### Focus Management
 
 - [ ] **All interactive elements must be keyboard accessible**
+
   ```tsx
   // Buttons are naturally keyboard accessible
   <button onClick={handleClick}>Click me</button>
@@ -84,6 +89,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
   ```
 
 - [ ] **Manage focus for dynamic content**
+
   ```tsx
   const dialogRef = useRef<HTMLDivElement>(null);
 
@@ -109,6 +115,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
 ### Tab Order
 
 - [ ] **Ensure logical tab order**
+
   ```tsx
   // Use natural DOM order (preferred)
   <form>
@@ -123,6 +130,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
   ```
 
 - [ ] **Skip links for main content**
+
   ```tsx
   <a href="#main-content" className="skip-link">
     Skip to main content
@@ -136,6 +144,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
 ### Keyboard Shortcuts
 
 - [ ] **Implement common keyboard patterns**
+
   ```tsx
   // Escape to close modals
   useEffect(() => {
@@ -160,6 +169,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
 ### When to Use ARIA
 
 - [ ] **First Rule of ARIA: Don't use ARIA**
+
   ```tsx
   // Bad: unnecessary ARIA
   <button role="button">Click me</button>
@@ -169,6 +179,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
   ```
 
 - [ ] **Use ARIA only when semantic HTML isn't enough**
+
   ```tsx
   // Dialog pattern (no native element)
   <div
@@ -185,6 +196,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
 ### Common ARIA Attributes
 
 - [ ] **aria-label for icon buttons**
+
   ```tsx
   <button aria-label="Close dialog">
     <XIcon />
@@ -192,6 +204,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
   ```
 
 - [ ] **aria-labelledby for associating labels**
+
   ```tsx
   <div role="region" aria-labelledby="section-heading">
     <h2 id="section-heading">Section Title</h2>
@@ -199,6 +212,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
   ```
 
 - [ ] **aria-describedby for additional context**
+
   ```tsx
   <input
     id="email"
@@ -208,6 +222,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
   ```
 
 - [ ] **aria-expanded for collapsible content**
+
   ```tsx
   <button
     aria-expanded={isOpen}
@@ -222,6 +237,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
   ```
 
 - [ ] **aria-live for dynamic updates**
+
   ```tsx
   // Announcements
   <div role="alert" aria-live="assertive">
@@ -237,6 +253,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
 ### ARIA States
 
 - [ ] **aria-invalid for form validation**
+
   ```tsx
   <input
     id="email"
@@ -250,6 +267,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
   ```
 
 - [ ] **aria-disabled vs disabled**
+
   ```tsx
   // Use disabled for interactive elements
   <button disabled={isLoading}>Submit</button>
@@ -269,6 +287,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
 ### Labels
 
 - [ ] **Every input must have a label**
+
   ```tsx
   // Explicit association (preferred)
   <label htmlFor="name">Name</label>
@@ -282,6 +301,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
   ```
 
 - [ ] **Use aria-label for inputs without visible labels**
+
   ```tsx
   <input
     type="search"
@@ -293,6 +313,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
 ### Validation
 
 - [ ] **Clear error messages**
+
   ```tsx
   function FormField({ id, label, error }: Props) {
     return (
@@ -314,6 +335,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
   ```
 
 - [ ] **Required field indicators**
+
   ```tsx
   <label htmlFor="email">
     Email <span aria-label="required">*</span>
@@ -324,6 +346,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
 ### Fieldsets
 
 - [ ] **Group related inputs with fieldset**
+
   ```tsx
   <fieldset>
     <legend>Shipping Address</legend>
@@ -339,6 +362,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
 ### Contrast Ratios (WCAG AA)
 
 - [ ] **Text contrast: 4.5:1 minimum (normal text)**
+
   ```tsx
   // Good (7:1 contrast)
   <p style={{ color: '#000', backgroundColor: '#fff' }}>Text</p>
@@ -360,6 +384,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
 ### Don't Rely on Color Alone
 
 - [ ] **Use multiple indicators**
+
   ```tsx
   // Bad: color only
   <span style={{ color: 'red' }}>Error</span>
@@ -376,6 +401,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
 ### Alternative Text
 
 - [ ] **Provide alt text for all images**
+
   ```tsx
   // Informative image
   <img src="chart.png" alt="Sales increased 25% in Q4" />
@@ -390,6 +416,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
   ```
 
 - [ ] **Use empty alt for decorative images**
+
   ```tsx
   <img src="divider.png" alt="" role="presentation" />
   ```
@@ -397,6 +424,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
 ### Video and Audio
 
 - [ ] **Provide captions for videos**
+
   ```tsx
   <video controls>
     <source src="video.mp4" type="video/mp4" />
@@ -407,6 +435,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
 - [ ] **Provide transcripts for audio**
 
 - [ ] **Don't autoplay media**
+
   ```tsx
   // Bad
   <video autoPlay />
@@ -428,12 +457,14 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
 ### Best Practices
 
 - [ ] **Hide decorative elements from screen readers**
+
   ```tsx
   <span aria-hidden="true">→</span>
   <img src="decoration.png" alt="" aria-hidden="true" />
   ```
 
 - [ ] **Provide screen reader-only text when needed**
+
   ```tsx
   <button>
     <span aria-hidden="true">×</span>
@@ -442,6 +473,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
   ```
 
 - [ ] **Use visually-hidden class for important info**
+
   ```tsx
   // CSS
   .sr-only {
@@ -462,6 +494,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
 ### Touch Targets
 
 - [ ] **Minimum touch target size: 44x44 pixels**
+
   ```css
   button {
     min-width: 44px;
@@ -472,11 +505,13 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
 ### Viewport
 
 - [ ] **Set proper viewport meta tag**
+
   ```html
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   ```
 
 - [ ] **Don't disable zoom**
+
   ```html
   <!-- Bad -->
   <meta name="viewport" content="user-scalable=no" />
@@ -490,6 +525,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
 ### Automated Testing
 
 - [ ] **Run axe-core in tests**
+
   ```tsx
   import { axe, toHaveNoViolations } from 'jest-axe';
   expect.extend(toHaveNoViolations);
@@ -502,6 +538,7 @@ Comprehensive accessibility checklist for React applications to meet WCAG 2.1 Le
   ```
 
 - [ ] **Run Lighthouse accessibility audit**
+
   ```bash
   lighthouse https://yoursite.com --only-categories=accessibility
   ```

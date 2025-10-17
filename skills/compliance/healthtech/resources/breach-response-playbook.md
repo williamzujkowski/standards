@@ -41,6 +41,7 @@ Unless the covered entity or business associate demonstrates a **low probability
 ### 1. Activate Incident Response Team
 
 **Core Team Members:**
+
 - Privacy Officer (lead coordinator)
 - Security Officer
 - Legal Counsel
@@ -50,6 +51,7 @@ Unless the covered entity or business associate demonstrates a **low probability
 - Executive Leadership (for significant breaches)
 
 **Immediate Actions:**
+
 - Convene emergency meeting (in-person or conference call)
 - Brief team on known facts
 - Assign roles and responsibilities
@@ -58,6 +60,7 @@ Unless the covered entity or business associate demonstrates a **low probability
 ### 2. Contain the Breach
 
 **Technical Containment:**
+
 - Isolate affected systems
 - Disable compromised accounts immediately
 - Revoke access credentials
@@ -65,12 +68,14 @@ Unless the covered entity or business associate demonstrates a **low probability
 - Preserve evidence (do not delete logs or data)
 
 **Physical Containment:**
+
 - Secure physical location where breach occurred
 - Retrieve stolen/lost devices if possible
 - Lock down areas with PHI exposure
 - Control access to breach scene
 
 **Administrative Containment:**
+
 - Notify affected departments
 - Implement additional monitoring
 - Brief workforce on situation (need-to-know basis)
@@ -79,6 +84,7 @@ Unless the covered entity or business associate demonstrates a **low probability
 ### 3. Preserve Evidence
 
 **Critical Evidence:**
+
 - System logs (authentication, access, modifications)
 - Network traffic logs
 - Physical security logs (badge access, cameras)
@@ -88,6 +94,7 @@ Unless the covered entity or business associate demonstrates a **low probability
 - Timeline of events
 
 **Evidence Handling:**
+
 - Create forensic copies of affected systems
 - Document chain of custody
 - Store evidence securely
@@ -98,6 +105,7 @@ Unless the covered entity or business associate demonstrates a **low probability
 ### 4. Initial Assessment
 
 **Determine:**
+
 - What PHI was involved?
 - How many individuals affected?
 - Who had unauthorized access?
@@ -107,6 +115,7 @@ Unless the covered entity or business associate demonstrates a **low probability
 - Is PHI encrypted or otherwise secured?
 
 **Document:**
+
 - Date and time of discovery
 - Who discovered the breach
 - Initial facts and circumstances
@@ -124,11 +133,13 @@ Unless the covered entity or business associate demonstrates a **low probability
 **Factor 1: Nature and Extent of PHI Involved**
 
 Assess **types of identifiers**:
+
 - High sensitivity: SSN, financial information, genetic data, mental health records, HIV status, substance abuse treatment
 - Medium sensitivity: Medical record number, diagnosis codes, treatment information
 - Lower sensitivity: Demographic information only (name, address, date of birth)
 
 Questions:
+
 - What specific PHI elements were involved?
 - How sensitive is the clinical information?
 - Could the PHI be used for identity theft or fraud?
@@ -137,12 +148,14 @@ Questions:
 **Factor 2: Unauthorized Person Who Used or Received PHI**
 
 Assess **identity and intent of recipient**:
+
 - Known malicious actor (hacker, identity thief): Higher risk
 - Unknown/unintentional recipient (wrong fax, misdirected email): Lower risk
 - Business associate or other HIPAA-covered entity: Lower risk
 - General public/media: Higher risk
 
 Questions:
+
 - Who is the unauthorized person/entity?
 - What is their likely intent (malicious vs. inadvertent)?
 - What is the likelihood they will further disclose or misuse PHI?
@@ -151,12 +164,14 @@ Questions:
 **Factor 3: Was PHI Actually Acquired or Viewed?**
 
 Assess **evidence of acquisition**:
+
 - Confirmed viewing/download: Higher risk
 - Potential access only (no evidence of viewing): Lower risk
 - Encrypted PHI accessed without decryption key: Lower risk
 - Clear evidence PHI was not accessed: Lower risk
 
 Questions:
+
 - Is there forensic evidence PHI was accessed?
 - Can access logs confirm or rule out viewing?
 - Was PHI downloaded, printed, or copied?
@@ -165,12 +180,14 @@ Questions:
 **Factor 4: Extent to Which Risk Has Been Mitigated**
 
 Assess **mitigation measures**:
+
 - PHI encrypted and key not compromised: Significant mitigation
 - Devices remotely wiped after loss: Significant mitigation
 - PHI retrieved and destroyed: Significant mitigation
 - Business associate agreement in place with recipient: Some mitigation
 
 Questions:
+
 - Was PHI encrypted with strong encryption (AES-256)?
 - Was encryption key compromised?
 - Has PHI been retrieved or destroyed?
@@ -268,6 +285,7 @@ Legal Counsel: ___________________ Date: _______
 **Plain Language Requirement**: Written at 6th-8th grade reading level, avoiding technical jargon.
 
 **Method:**
+
 - **First-class mail** to last known address
 - **Email** if individual agreed to electronic notice AND has not withdrawn consent
 - **Substitute notice** if insufficient contact information:
@@ -277,15 +295,18 @@ Legal Counsel: ___________________ Date: _______
 ### HHS OCR Notification
 
 **≥500 Individuals Affected:**
+
 - Submit via **OCR Breach Reporting Portal**: <https://ocrportal.hhs.gov/ocr/breach/wizard_breach.jsf>
 - **Within 60 days** of breach discovery
 - **Concurrent** with individual notification
 
 **<500 Individuals Affected:**
+
 - Maintain **breach log** internally
 - Submit **annual log** to OCR within 60 days of calendar year end (by March 1)
 
 **Information Required:**
+
 - Organization details (name, address, contact)
 - Date of breach and date of discovery
 - Number of individuals affected
@@ -299,6 +320,7 @@ Legal Counsel: ___________________ Date: _______
 **Requirement**: If breach affects **≥500 residents of a state or jurisdiction**
 
 **Method:**
+
 - Notice to **prominent media outlet** serving the state or jurisdiction
 - Press release or media advisory
 
@@ -311,6 +333,7 @@ Legal Counsel: ___________________ Date: _______
 **Requirement**: BA must notify CE within **60 days of discovery**
 
 **Content:**
+
 - Identification of each individual whose PHI was breached (or reasonably believed to be breached)
 - Date of breach and date of discovery
 - Description of breach
@@ -467,6 +490,7 @@ This notice will remain posted for 90 days from [Date].
 ### 1. Root Cause Analysis
 
 **Conduct thorough investigation:**
+
 - What vulnerabilities were exploited?
 - How did security controls fail?
 - Were policies and procedures followed?
@@ -478,6 +502,7 @@ This notice will remain posted for 90 days from [Date].
 ### 2. Corrective Action Plan (CAP)
 
 **Develop comprehensive CAP addressing:**
+
 - Technical vulnerabilities (patch systems, implement encryption, enhance access controls)
 - Policy gaps (update policies, create new procedures)
 - Training deficiencies (provide additional workforce training)
@@ -491,12 +516,14 @@ This notice will remain posted for 90 days from [Date].
 ### 3. Regulatory Compliance
 
 **Cooperate with HHS OCR investigation:**
+
 - Respond to requests for information promptly
 - Provide requested documentation
 - Allow on-site inspection if requested
 - Be transparent and honest
 
 **Prepare for potential penalties:**
+
 - Review penalty tiers (Tier 1-4 based on culpability)
 - Engage legal counsel
 - Consider settlement negotiations if appropriate
@@ -504,16 +531,19 @@ This notice will remain posted for 90 days from [Date].
 ### 4. Stakeholder Communication
 
 **Internal communication:**
+
 - Brief workforce on incident and lessons learned
 - Reinforce security awareness
 - Recognize individuals who detected/responded to breach
 
 **External communication:**
+
 - Update affected individuals on corrective actions
 - Maintain dedicated communication channel for questions
 - Issue follow-up communications as appropriate
 
 **Board/executive reporting:**
+
 - Present incident report to board of directors
 - Report on CAP implementation
 - Provide ongoing risk updates
@@ -521,12 +551,14 @@ This notice will remain posted for 90 days from [Date].
 ### 5. Continuous Improvement
 
 **Update security program:**
+
 - Revise risk assessment based on incident findings
 - Implement enhanced monitoring and detection
 - Conduct additional security assessments
 - Test incident response plan
 
 **Lessons learned session:**
+
 - Convene incident response team debrief
 - Identify what worked well and what needs improvement
 - Update incident response plan
@@ -539,12 +571,14 @@ This notice will remain posted for 90 days from [Date].
 ### Scenario 1: Lost/Stolen Unencrypted Device
 
 **Facts:**
+
 - Laptop stolen from employee vehicle
 - Contains ePHI of 500 patients
 - Laptop not encrypted
 - Password-protected but not encrypted
 
 **Risk Assessment:**
+
 - Factor 1: Names, DOB, MRN, diagnoses (Medium-High sensitivity)
 - Factor 2: Unknown/potentially malicious (Higher risk)
 - Factor 3: Unable to confirm if accessed, but opportunity existed (Higher risk)
@@ -553,6 +587,7 @@ This notice will remain posted for 90 days from [Date].
 **Conclusion**: **Breach notification REQUIRED**
 
 **Actions:**
+
 - Notify 500 individuals within 60 days
 - Notify HHS OCR within 60 days via Breach Portal
 - Notify media (≥500 affected)
@@ -564,12 +599,14 @@ This notice will remain posted for 90 days from [Date].
 ### Scenario 2: Misdirected Fax
 
 **Facts:**
+
 - Fax with patient information sent to wrong fax number
 - 1 patient affected
 - Recipient: another medical office (covered entity)
 - Recipient notified immediately, confirmed PHI destroyed
 
 **Risk Assessment:**
+
 - Factor 1: Name, DOB, diagnosis, treatment (Medium sensitivity)
 - Factor 2: Healthcare provider (covered entity), bound by HIPAA (Lower risk)
 - Factor 3: Likely viewed, but no evidence of retention (Medium risk)
@@ -580,6 +617,7 @@ This notice will remain posted for 90 days from [Date].
 **Documentation**: Detailed risk assessment justification; confirmation of destruction from recipient
 
 **Actions:**
+
 - Document incident in breach log (for annual OCR submission if <500 total for year)
 - Implement fax verification procedures (CAP)
 - Train workforce on fax security
@@ -589,6 +627,7 @@ This notice will remain posted for 90 days from [Date].
 ### Scenario 3: Hacking Incident with Encryption
 
 **Facts:**
+
 - Hacker gained access to database server
 - Database contains ePHI of 10,000 patients
 - Database encrypted with AES-256
@@ -597,6 +636,7 @@ This notice will remain posted for 90 days from [Date].
 - Forensic analysis confirms hacker accessed encrypted database files but not keys
 
 **Risk Assessment:**
+
 - Factor 1: Full patient records (High sensitivity)
 - Factor 2: Malicious actor (hacker) (Higher risk)
 - Factor 3: Encrypted files acquired, but no decryption capability (Lower risk)
@@ -607,6 +647,7 @@ This notice will remain posted for 90 days from [Date].
 **Documentation**: Detailed forensic report; encryption strength documentation; key management evidence
 
 **Actions:**
+
 - Document incident in breach log
 - Notify HHS OCR if cannot demonstrate low probability
 - Enhanced monitoring for unusual activity
@@ -618,6 +659,7 @@ This notice will remain posted for 90 days from [Date].
 ### Scenario 4: Insider Snooping
 
 **Facts:**
+
 - Employee accessed records of 50 patients without legitimate treatment relationship
 - Employee not assigned to care for these patients
 - Detected through routine audit log review
@@ -625,6 +667,7 @@ This notice will remain posted for 90 days from [Date].
 - Employee terminated immediately
 
 **Risk Assessment:**
+
 - Factor 1: Full patient records viewed (High sensitivity)
 - Factor 2: Former employee, likely curiosity, not malicious intent (Medium risk)
 - Factor 3: Confirmed viewing, but no evidence of further disclosure (Higher risk)
@@ -633,6 +676,7 @@ This notice will remain posted for 90 days from [Date].
 **Conclusion**: **Breach notification REQUIRED**
 
 **Actions:**
+
 - Notify 50 individuals within 60 days
 - Notify HHS OCR (annual log, <500 total for year)
 - Disciplinary action (termination) documented
@@ -694,6 +738,7 @@ This notice will remain posted for 90 days from [Date].
 **END OF HIPAA BREACH RESPONSE PLAYBOOK**
 
 For questions or support during an actual breach, contact:
+
 - HHS OCR: <https://www.hhs.gov/ocr>
 - OCR Hotline: 1-800-368-1019
 - OCR Breach Portal: <https://ocrportal.hhs.gov/ocr/breach/wizard_breach.jsf>

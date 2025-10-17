@@ -18,6 +18,7 @@ related_skills: [kotlin-coding-standards, typescript-coding-standards]
 Swift combines powerful type safety with expressive syntax optimized for Apple platforms. This skill teaches idiomatic Swift following Apple's API Design Guidelines, protocol-oriented programming, and modern async/await patterns.
 
 **What You'll Learn:**
+
 - Swift optionals and safety patterns
 - Protocol-oriented design principles
 - Value types vs reference types
@@ -26,6 +27,7 @@ Swift combines powerful type safety with expressive syntax optimized for Apple p
 - Testing with XCTest
 
 **Prerequisites:**
+
 - Basic programming concepts (variables, functions, control flow)
 - Familiarity with object-oriented programming
 - Xcode installed (for iOS/macOS development)
@@ -130,6 +132,7 @@ var temperature: Double {
 ### Essential Checklist
 
 **Before Every Commit:**
+
 - [ ] SwiftLint passes with zero warnings
 - [ ] All optionals handled safely (no force unwrapping)
 - [ ] Naming follows Apple conventions (camelCase, PascalCase)
@@ -140,6 +143,7 @@ var temperature: Double {
 - [ ] Documentation comments for public APIs
 
 **Naming Conventions:**
+
 ```swift
 // Types: PascalCase
 class UserProfileViewController { }
@@ -169,6 +173,7 @@ enum Direction { case north, south, east, west }
 ```
 
 **Quick SwiftLint Setup:**
+
 ```bash
 # Install SwiftLint
 brew install swiftlint
@@ -192,6 +197,7 @@ swiftlint autocorrect
 Swift's optional system eliminates null pointer exceptions through compile-time safety.
 
 **Optional Fundamentals:**
+
 ```swift
 // Optional represents presence or absence of a value
 var middleName: String? = nil  // Can be nil
@@ -205,6 +211,7 @@ enum Optional<Wrapped> {
 ```
 
 **Safe Unwrapping Patterns:**
+
 ```swift
 // 1. Optional binding (most common)
 if let unwrapped = optionalValue {
@@ -242,6 +249,7 @@ let userID = userIDString.flatMap { Int($0) }
 ```
 
 **When to Use Force Unwrapping:**
+
 ```swift
 // ❌ Avoid in production code
 let user = users.first!  // Crashes if empty
@@ -256,6 +264,7 @@ guard let apiKey = ProcessInfo.processInfo.environment["API_KEY"] else {
 ```
 
 **Implicitly Unwrapped Optionals:**
+
 ```swift
 // Use only for delayed initialization
 class ViewController: UIViewController {
@@ -276,6 +285,7 @@ class ViewController: UIViewController {
 Swift favors composition over inheritance through protocols.
 
 **Protocol Basics:**
+
 ```swift
 // Protocol definition
 protocol Identifiable {
@@ -303,6 +313,7 @@ protocol Entity: Identifiable, Nameable {
 ```
 
 **Protocol Extensions (Superpowers):**
+
 ```swift
 // Provide default implementations
 extension Collection {
@@ -326,6 +337,7 @@ extension Array: Drawable where Element: Drawable {
 ```
 
 **Protocol-Oriented Architecture:**
+
 ```swift
 // Define capabilities through protocols
 protocol DataStore {
@@ -386,6 +398,7 @@ class UserRepository {
 ```
 
 **Associated Types:**
+
 ```swift
 protocol Repository {
     associatedtype Item
@@ -417,6 +430,7 @@ struct UserRepository: Repository {
 Understanding the difference is crucial for performance and correctness.
 
 **Value Types (struct, enum):**
+
 ```swift
 struct Point {
     var x: Double
@@ -436,6 +450,7 @@ let sharedPoint = Point(x: 5, y: 5)
 ```
 
 **Reference Types (class):**
+
 ```swift
 class Rectangle {
     var width: Double
@@ -456,6 +471,7 @@ print(rect2.width)  // 30
 ```
 
 **When to Use Each:**
+
 ```swift
 // ✅ Use struct (value type) for:
 // - Simple data models
@@ -487,6 +503,7 @@ enum LoadingState {
 ```
 
 **Copy-on-Write (COW):**
+
 ```swift
 // Swift arrays, dictionaries, and sets use COW
 var array1 = [1, 2, 3, 4, 5]
@@ -512,6 +529,7 @@ struct MyArray<Element> {
 Automatic Reference Counting manages memory automatically but requires understanding of retain cycles.
 
 **Strong References (Default):**
+
 ```swift
 class Person {
     let name: String
@@ -552,6 +570,7 @@ unit4A = nil
 ```
 
 **Breaking Cycles with weak and unowned:**
+
 ```swift
 class Person {
     let name: String
@@ -590,6 +609,7 @@ unit4A = nil  // "Apartment 4A is being deinitialized"
 ```
 
 **weak vs unowned:**
+
 ```swift
 // Use weak when reference can become nil
 class ParentView {
@@ -622,6 +642,7 @@ class CreditCard {
 ```
 
 **Closure Capture Lists:**
+
 ```swift
 class NetworkClient {
     var onComplete: (() -> Void)?
@@ -652,6 +673,7 @@ class NetworkClient {
 Swift provides multiple error handling strategies.
 
 **Throwing Functions:**
+
 ```swift
 enum NetworkError: Error {
     case invalidURL
@@ -696,6 +718,7 @@ do {
 ```
 
 **Result Type:**
+
 ```swift
 func fetchUser(id: Int, completion: @escaping (Result<User, NetworkError>) -> Void) {
     guard let url = URL(string: "https://api.example.com/users/\(id)") else {
@@ -735,6 +758,7 @@ fetchUser(id: 123) { result in
 ```
 
 **try? and try!:**
+
 ```swift
 // try? converts result to optional
 let user = try? fetchUser(id: 123)  // Returns nil on error
@@ -748,6 +772,7 @@ let configFile = try! String(contentsOf: configURL)  // Use only when certain
 Swift's structured concurrency makes asynchronous code safe and readable.
 
 **Async Functions:**
+
 ```swift
 func fetchUser(id: Int) async throws -> User {
     let url = URL(string: "https://api.example.com/users/\(id)")!
@@ -767,6 +792,7 @@ Task {
 ```
 
 **Parallel Execution:**
+
 ```swift
 // Sequential (slow)
 func fetchAllUsersSequential(ids: [Int]) async throws -> [User] {
@@ -797,6 +823,7 @@ func fetchAllUsersParallel(ids: [Int]) async throws -> [User] {
 ```
 
 **Actors (Thread-Safe Classes):**
+
 ```swift
 actor BankAccount {
     private var balance: Double = 0
@@ -828,6 +855,7 @@ Task {
 ```
 
 **MainActor (UI Updates):**
+
 ```swift
 @MainActor
 class ViewModel: ObservableObject {
@@ -861,6 +889,7 @@ Button("Load") {
 Write comprehensive tests for reliability.
 
 **Unit Test Structure:**
+
 ```swift
 import XCTest
 @testable import MyApp
@@ -911,6 +940,7 @@ final class UserManagerTests: XCTestCase {
 ```
 
 **Mock Objects:**
+
 ```swift
 class MockDataStore: DataStore {
     var userToReturn: User?
@@ -939,6 +969,7 @@ class MockDataStore: DataStore {
 ```
 
 **Testing Async Code:**
+
 ```swift
 func testAsyncFunction() async throws {
     let result = await someAsyncFunction()
@@ -958,6 +989,7 @@ func testWithExpectation() {
 ```
 
 **UI Testing:**
+
 ```swift
 final class AppUITests: XCTestCase {
     var app: XCUIApplication!
@@ -994,6 +1026,7 @@ final class AppUITests: XCTestCase {
 ### Advanced Topics
 
 **Generics Deep Dive:**
+
 - Generic type constraints and where clauses
 - Associated types with constraints
 - Generic subscripts and operators
@@ -1001,18 +1034,21 @@ final class AppUITests: XCTestCase {
 - Phantom types for compile-time safety
 
 **Property Wrappers:**
+
 - @State, @Binding, @Published, @Environment in SwiftUI
 - Creating custom property wrappers
 - Projected values ($-syntax)
 - Composition of property wrappers
 
 **Result Builders:**
+
 - Understanding @resultBuilder (SwiftUI views, etc.)
 - Creating custom DSLs
 - buildBlock, buildOptional, buildEither
 - Declarative syntax patterns
 
 **SwiftUI Architecture:**
+
 - MVVM pattern with Combine/async-await
 - State management (State, StateObject, ObservedObject)
 - Environment and dependency injection
@@ -1020,6 +1056,7 @@ final class AppUITests: XCTestCase {
 - Custom view modifiers and view builders
 
 **Performance Optimization:**
+
 - Instruments profiling (Time Profiler, Allocations)
 - Copy-on-write optimization
 - Lazy initialization patterns
@@ -1053,18 +1090,22 @@ final class AppUITests: XCTestCase {
 ## Practice Projects
 
 ### Beginner: Todo App with SwiftUI
+
 Build a todo list with local persistence using UserDefaults and protocol-oriented architecture.
 
 **Skills practiced:**
+
 - SwiftUI views and state management
 - Protocol-oriented design (DataStore protocol)
 - MVVM architecture
 - Unit testing with XCTest
 
 ### Intermediate: GitHub Client
+
 Create a GitHub repository browser using async/await and URLSession.
 
 **Skills practiced:**
+
 - Modern concurrency (async/await)
 - Network layer architecture
 - Error handling with Result type
@@ -1072,9 +1113,11 @@ Create a GitHub repository browser using async/await and URLSession.
 - Actor-based caching
 
 ### Advanced: Real-time Chat
+
 Build a chat application with WebSocket support and local database.
 
 **Skills practiced:**
+
 - Structured concurrency with TaskGroup
 - Actor isolation for thread safety
 - CoreData or Realm integration
@@ -1130,16 +1173,19 @@ Before considering this skill mastered, ensure you can:
 ## Additional Learning Resources
 
 ### Books
+
 - "Swift Programming: The Big Nerd Ranch Guide"
 - "Advanced Swift" by objc.io
 - "Thinking in SwiftUI"
 
 ### Video Courses
+
 - Stanford CS193p (SwiftUI)
 - Ray Wenderlich iOS & Swift tutorials
 - WWDC session videos
 
 ### Practice Platforms
+
 - LeetCode (Swift problems)
 - HackerRank (Swift track)
 - Project Euler (algorithm practice)
@@ -1153,6 +1199,7 @@ Before considering this skill mastered, ensure you can:
 **Last Updated:** Swift 6.0, iOS 18, Xcode 16
 
 This skill is maintained in alignment with:
+
 - Apple's Swift Evolution roadmap
 - Current Xcode releases
 - iOS/macOS SDK updates

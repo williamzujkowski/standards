@@ -1,8 +1,1295 @@
 {
+  "standards": [
+    {
+      "code": "ADO",
+      "description": "Use this checklist to systematically adopt the comprehensive development standards in your project.",
+      "id": "adoption-checklist",
+      "nist_controls": [],
+      "path": "docs/guides/ADOPTION_CHECKLIST.md",
+      "related": [
+        "NIST-IG"
+      ],
+      "slug": "adoption_checklist",
+      "tags": [
+        "ai",
+        "api",
+        "cicd",
+        "observability"
+      ],
+      "title": "Standards Adoption Checklist"
+    },
+    {
+      "code": "ANN",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](../../docs/standards/UNIFIED_STANDARDS.md) A multi-language parser framework for extracting NIST 800-53r5 control annotations from source code.",
+      "id": "annotation-framework",
+      "nist_controls": [],
+      "path": "standards/compliance/ANNOTATION_FRAMEWORK.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "annotation_framework",
+      "tags": [
+        "ai",
+        "auth",
+        "cicd",
+        "compliance",
+        "javascript",
+        "ml",
+        "python",
+        "typescript"
+      ],
+      "title": "NIST Annotation Framework"
+    },
+    {
+      "code": "CLA",
+      "description": "",
+      "id": "claude",
+      "nist_controls": [],
+      "path": "CLAUDE.md",
+      "related": [],
+      "slug": "claude",
+      "tags": [
+        "ai",
+        "api",
+        "graphql",
+        "ml",
+        "observability",
+        "python",
+        "react",
+        "rest"
+      ],
+      "title": "Claude Code Configuration - Standards Router & SPARC Environment"
+    },
+    {
+      "code": "CN",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "id": "cloud-native-standards",
+      "nist_controls": [],
+      "path": "docs/standards/CLOUD_NATIVE_STANDARDS.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "cloud_native_standards",
+      "tags": [
+        "ai",
+        "cicd",
+        "containers",
+        "infrastructure",
+        "k8s",
+        "ml",
+        "observability"
+      ],
+      "title": "Cloud-Native and Container Standards"
+    },
+    {
+      "code": "COD",
+      "description": "",
+      "id": "nist-code-review-prompt",
+      "nist_controls": [],
+      "path": "prompts/nist-compliance/code-review-prompt.md",
+      "related": [],
+      "slug": "code-review-prompt",
+      "tags": [
+        "ai",
+        "auth",
+        "compliance",
+        "nist",
+        "observability",
+        "python",
+        "rest"
+      ],
+      "title": "NIST Code Review Prompt"
+    },
+    {
+      "code": "COMP",
+      "description": "**Version:** 1.0.0 **Last Updated:** 2025-01-18",
+      "id": "compliance-standards",
+      "nist_controls": [
+        "AC-2"
+      ],
+      "path": "docs/standards/COMPLIANCE_STANDARDS.md",
+      "related": [
+        "CS",
+        "NIST-IG",
+        "SEC",
+        "TS",
+        "UNIFIED"
+      ],
+      "slug": "compliance_standards",
+      "tags": [
+        "ai",
+        "auth",
+        "compliance",
+        "encryption",
+        "javascript",
+        "ml",
+        "observability",
+        "python",
+        "rest",
+        "typescript"
+      ],
+      "title": "Compliance Standards"
+    },
+    {
+      "code": "CON",
+      "description": "",
+      "id": "nist-control-suggestion-prompt",
+      "nist_controls": [],
+      "path": "prompts/nist-compliance/control-suggestion-prompt.md",
+      "related": [],
+      "slug": "control-suggestion-prompt",
+      "tags": [
+        "ai",
+        "auth",
+        "compliance",
+        "encryption",
+        "javascript",
+        "nist",
+        "observability",
+        "python",
+        "rest",
+        "typescript"
+      ],
+      "title": "NIST Control Suggestion Prompt"
+    },
+    {
+      "code": "CONT",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "id": "content-standards",
+      "nist_controls": [],
+      "path": "docs/standards/CONTENT_STANDARDS.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "content_standards",
+      "tags": [
+        "ai",
+        "ml",
+        "typescript"
+      ],
+      "title": "Content Standards"
+    },
+    {
+      "code": "COST",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "id": "cost-optimization-standards",
+      "nist_controls": [],
+      "path": "docs/standards/COST_OPTIMIZATION_STANDARDS.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "cost_optimization_standards",
+      "tags": [
+        "ai",
+        "ml",
+        "observability",
+        "python"
+      ],
+      "title": "Cost Optimization and FinOps Standards"
+    },
+    {
+      "code": "CS",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "id": "coding-standards",
+      "nist_controls": [],
+      "path": "docs/standards/CODING_STANDARDS.md",
+      "related": [
+        "COMP",
+        "CREATING_GUIDE",
+        "KM",
+        "MCP",
+        "NIST-IG",
+        "UNIFIED"
+      ],
+      "slug": "coding_standards",
+      "tags": [
+        "ai",
+        "api",
+        "cicd",
+        "javascript",
+        "python"
+      ],
+      "title": "Comprehensive Coding Standards for LLM Projects"
+    },
+    {
+      "code": "DB",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "id": "database-standards",
+      "nist_controls": [],
+      "path": "docs/standards/DATABASE_STANDARDS.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "database_standards",
+      "tags": [
+        "ai",
+        "data",
+        "encryption",
+        "javascript",
+        "observability"
+      ],
+      "title": "Database Standards"
+    },
+    {
+      "code": "DE",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "id": "data-engineering-standards",
+      "nist_controls": [],
+      "path": "docs/standards/DATA_ENGINEERING_STANDARDS.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "data_engineering_standards",
+      "tags": [
+        "ai",
+        "api",
+        "data",
+        "gdpr",
+        "ml",
+        "observability",
+        "privacy",
+        "python",
+        "rest"
+      ],
+      "title": "Data Engineering Standards"
+    },
+    {
+      "code": "DOP",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "id": "devops-platform-standards",
+      "nist_controls": [],
+      "path": "docs/standards/DEVOPS_PLATFORM_STANDARDS.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "devops_platform_standards",
+      "tags": [
+        "ai",
+        "cicd",
+        "encryption",
+        "infrastructure",
+        "ml",
+        "observability",
+        "rest"
+      ],
+      "title": "DevOps and Platform Engineering Standards"
+    },
+    {
+      "code": "EVT",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "id": "event-driven-standards",
+      "nist_controls": [],
+      "path": "docs/standards/EVENT_DRIVEN_STANDARDS.md",
+      "related": [
+        "CS",
+        "DE",
+        "MCP",
+        "OBS",
+        "UNIFIED"
+      ],
+      "slug": "event_driven_standards",
+      "tags": [
+        "ai",
+        "ml",
+        "observability",
+        "typescript"
+      ],
+      "title": "Event-Driven Architecture Standards"
+    },
+    {
+      "code": "FE",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "id": "frontend-mobile-standards",
+      "nist_controls": [],
+      "path": "docs/standards/FRONTEND_MOBILE_STANDARDS.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "frontend_mobile_standards",
+      "tags": [
+        "ai",
+        "api",
+        "cicd",
+        "frontend",
+        "ml",
+        "react",
+        "typescript"
+      ],
+      "title": "Frontend and Mobile Development Standards"
+    },
+    {
+      "code": "GAP",
+      "description": "",
+      "id": "nist-gap-analysis-prompt",
+      "nist_controls": [],
+      "path": "prompts/nist-compliance/gap-analysis-prompt.md",
+      "related": [],
+      "slug": "gap-analysis-prompt",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "compliance",
+        "k8s",
+        "nist",
+        "observability",
+        "rest"
+      ],
+      "title": "NIST Gap Analysis Prompt"
+    },
+    {
+      "code": "GH",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "id": "github-platform-standards",
+      "nist_controls": [],
+      "path": "docs/standards/GITHUB_PLATFORM_STANDARDS.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "github_platform_standards",
+      "tags": [
+        "ai",
+        "cicd",
+        "ml",
+        "rest"
+      ],
+      "title": "GitHub Platform Standards"
+    },
+    {
+      "code": "IMP",
+      "description": "",
+      "id": "nist-implement-800-53",
+      "nist_controls": [],
+      "path": "docs/nist/implement_800-53.md",
+      "related": [],
+      "slug": "implement_800-53",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "compliance",
+        "encryption",
+        "ml",
+        "nist",
+        "observability",
+        "privacy",
+        "typescript"
+      ],
+      "title": "NIST 800-53r5 OSCAL-Native Implementation Plan"
+    },
+    {
+      "code": "IMP",
+      "description": "",
+      "id": "nist-implementation-guide-prompt",
+      "nist_controls": [],
+      "path": "prompts/nist-compliance/implementation-guide-prompt.md",
+      "related": [],
+      "slug": "implementation-guide-prompt",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "compliance",
+        "encryption",
+        "k8s",
+        "nist",
+        "observability",
+        "python",
+        "rest"
+      ],
+      "title": "NIST Implementation Guide Prompt"
+    },
+    {
+      "code": "IMP",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](../../docs/standards/UNIFIED_STANDARDS.md)",
+      "id": "implementation-summary",
+      "nist_controls": [],
+      "path": "standards/compliance/IMPLEMENTATION_SUMMARY.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "implementation_summary",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "compliance",
+        "encryption",
+        "graphql",
+        "ml",
+        "observability",
+        "python",
+        "react",
+        "rest",
+        "typescript"
+      ],
+      "title": "NIST 800-53r5 OSCAL-Native Compliance Platform - Implementation Summary"
+    },
+    {
+      "code": "KIC",
+      "description": "",
+      "id": "kickstart-advanced",
+      "nist_controls": [],
+      "path": "docs/guides/KICKSTART_ADVANCED.md",
+      "related": [],
+      "slug": "kickstart_advanced",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "cicd",
+        "gdpr",
+        "graphql",
+        "javascript",
+        "k8s",
+        "ml",
+        "observability",
+        "python",
+        "react",
+        "rest",
+        "typescript"
+      ],
+      "title": "Advanced Kickstart Guide"
+    },
+    {
+      "code": "KIC",
+      "description": "Copy this prompt into any web-based LLM chat (ChatGPT, Claude, Gemini, etc.) along with your project_plan.md content. ---",
+      "id": "kickstart-prompt",
+      "nist_controls": [],
+      "path": "docs/guides/KICKSTART_PROMPT.md",
+      "related": [
+        "CREATING_GUIDE",
+        "NIST-IG"
+      ],
+      "slug": "kickstart_prompt",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "cicd",
+        "containers",
+        "ml",
+        "observability",
+        "privacy",
+        "python",
+        "react"
+      ],
+      "title": "Universal Project Kickstart Prompt"
+    },
+    {
+      "code": "KM",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "id": "knowledge-management-standards",
+      "nist_controls": [],
+      "path": "docs/standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md",
+      "related": [
+        "CONT",
+        "CREATING_GUIDE",
+        "MCP",
+        "UNIFIED"
+      ],
+      "slug": "knowledge_management_standards",
+      "tags": [
+        "ai",
+        "cicd",
+        "management",
+        "ml"
+      ],
+      "title": "Knowledge Management Standards"
+    },
+    {
+      "code": "LEG",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "id": "legal-compliance-standards",
+      "nist_controls": [],
+      "path": "docs/standards/LEGAL_COMPLIANCE_STANDARDS.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "legal_compliance_standards",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "compliance",
+        "encryption",
+        "ml",
+        "observability",
+        "privacy",
+        "rest"
+      ],
+      "title": "Legal Compliance Standards"
+    },
+    {
+      "code": "MCP",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "id": "model-context-protocol-standards",
+      "nist_controls": [],
+      "path": "docs/standards/MODEL_CONTEXT_PROTOCOL_STANDARDS.md",
+      "related": [
+        "CS",
+        "EVT",
+        "KM",
+        "SEC",
+        "TS",
+        "UNIFIED"
+      ],
+      "slug": "model_context_protocol_standards",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "ml",
+        "observability",
+        "privacy",
+        "python",
+        "typescript"
+      ],
+      "title": "Model Context Protocol Standards"
+    },
+    {
+      "code": "MLAI",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "id": "ml-ai-standards",
+      "nist_controls": [],
+      "path": "docs/standards/ML_AI_STANDARDS.md",
+      "related": [
+        "CN",
+        "CS",
+        "DB",
+        "DE",
+        "OBS",
+        "SEC",
+        "TS",
+        "UNIFIED"
+      ],
+      "slug": "ml_ai_standards",
+      "tags": [
+        "ai",
+        "api",
+        "ml",
+        "observability",
+        "python",
+        "rest"
+      ],
+      "title": "ML/AI Standards"
+    },
+    {
+      "code": "MS",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "id": "microservices-standards",
+      "nist_controls": [],
+      "path": "docs/standards/MICROSERVICES_STANDARDS.md",
+      "related": [
+        "CN",
+        "CS",
+        "DB",
+        "EVT",
+        "OBS",
+        "SEC",
+        "TS",
+        "UNIFIED"
+      ],
+      "slug": "microservices_standards",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "ml",
+        "observability",
+        "rest"
+      ],
+      "title": "Microservices Architecture Standards"
+    },
+    {
+      "code": "NIS",
+      "description": "",
+      "id": "nist-nist-quick-context",
+      "nist_controls": [],
+      "path": "docs/nist/NIST_QUICK_CONTEXT.md",
+      "related": [],
+      "slug": "nist_quick_context",
+      "tags": [
+        "auth",
+        "cicd",
+        "compliance",
+        "nist",
+        "typescript"
+      ],
+      "title": "NIST Compliance Implementation - Quick Context Recovery"
+    },
+    {
+      "code": "NIS",
+      "description": "**Version:** 1.0.0 **Last Updated:** 2025-01-18",
+      "id": "nist-nist-quick-reference",
+      "nist_controls": [],
+      "path": "docs/nist/NIST_QUICK_REFERENCE.md",
+      "related": [
+        "COMP",
+        "NIST-IG"
+      ],
+      "slug": "nist_quick_reference",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "cicd",
+        "compliance",
+        "encryption",
+        "ml",
+        "nist",
+        "observability",
+        "python"
+      ],
+      "title": "NIST Compliance Quick Reference"
+    },
+    {
+      "code": "NIS",
+      "description": "",
+      "id": "nist-nist-tagging-proposal",
+      "nist_controls": [
+        "AC-12",
+        "AC-2",
+        "AC-3"
+      ],
+      "path": "docs/nist/NIST_TAGGING_PROPOSAL.md",
+      "related": [],
+      "slug": "nist_tagging_proposal",
+      "tags": [
+        "ai",
+        "auth",
+        "cicd",
+        "compliance",
+        "encryption",
+        "ml",
+        "nist",
+        "observability",
+        "typescript"
+      ],
+      "title": "NIST 800-53r5 Automatic Control Tagging Proposal"
+    },
+    {
+      "code": "NIS",
+      "description": "A comprehensive collection of prompts for LLMs to assist with NIST 800-53r5 compliance implementation.",
+      "id": "nist-nist-prompt-library",
+      "nist_controls": [],
+      "path": "prompts/nist-compliance/NIST_PROMPT_LIBRARY.md",
+      "related": [],
+      "slug": "nist_prompt_library",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "compliance",
+        "encryption",
+        "nist",
+        "observability"
+      ],
+      "title": "NIST Compliance LLM Prompt Library"
+    },
+    {
+      "code": "NIST-IG",
+      "description": "**Version:** 1.0.0 **Last Updated:** 2025-01-18",
+      "id": "nist-nist-implementation-guide",
+      "nist_controls": [],
+      "path": "docs/nist/NIST_IMPLEMENTATION_GUIDE.md",
+      "related": [
+        "COMP",
+        "CS",
+        "PM",
+        "SEC",
+        "STANDARDS_INDEX",
+        "UNIFIED"
+      ],
+      "slug": "nist_implementation_guide",
+      "tags": [
+        "ai",
+        "auth",
+        "cicd",
+        "compliance",
+        "encryption",
+        "javascript",
+        "ml",
+        "nist",
+        "observability",
+        "python",
+        "typescript"
+      ],
+      "title": "NIST 800-53r5 Control Tagging Implementation Guide"
+    },
+    {
+      "code": "OBS",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "id": "observability-standards",
+      "nist_controls": [],
+      "path": "docs/standards/OBSERVABILITY_STANDARDS.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "observability_standards",
+      "tags": [
+        "ai",
+        "ml",
+        "observability",
+        "python"
+      ],
+      "title": "Observability and Monitoring Standards"
+    },
+    {
+      "code": "PM",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 2.0.0",
+      "id": "project-management-standards",
+      "nist_controls": [],
+      "path": "docs/standards/PROJECT_MANAGEMENT_STANDARDS.md",
+      "related": [
+        "NIST-IG",
+        "UNIFIED"
+      ],
+      "slug": "project_management_standards",
+      "tags": [
+        "agile",
+        "ai",
+        "management",
+        "ml",
+        "observability"
+      ],
+      "title": "Project Management Standards"
+    },
+    {
+      "code": "REA",
+      "description": "Complete NIST 800-53r5 compliance implementation guides, templates, and control mappings for software development projects.",
+      "id": "nist-readme",
+      "nist_controls": [],
+      "path": "docs/nist/README.md",
+      "related": [
+        "NIST-IG"
+      ],
+      "slug": "readme",
+      "tags": [
+        "ai",
+        "compliance",
+        "nist"
+      ],
+      "title": "NIST 800-53r5 Compliance Documentation"
+    },
+    {
+      "code": "REA",
+      "description": "Complete collection of software development standards covering all aspects of modern development from coding to deployment.",
+      "id": "readme",
+      "nist_controls": [],
+      "path": "docs/standards/README.md",
+      "related": [
+        "CN",
+        "COMP",
+        "CONT",
+        "COST",
+        "CS",
+        "DB",
+        "DE",
+        "DOP",
+        "EVT",
+        "FE",
+        "GH",
+        "KM",
+        "LEG",
+        "MCP",
+        "MLAI",
+        "MS",
+        "OBS",
+        "PM",
+        "SEC",
+        "SEO",
+        "TOOL",
+        "TS",
+        "UNIFIED",
+        "WD"
+      ],
+      "slug": "readme",
+      "tags": [
+        "ai",
+        "ml"
+      ],
+      "title": "Software Development Standards"
+    },
+    {
+      "code": "REA",
+      "description": "Pre-built security components with NIST 800-53r5 control tags already applied. Use these templates as starting points for secure implementations.",
+      "id": "nist-readme",
+      "nist_controls": [],
+      "path": "examples/nist-templates/README.md",
+      "related": [],
+      "slug": "readme",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "compliance",
+        "nist",
+        "observability",
+        "python",
+        "typescript"
+      ],
+      "title": "NIST-Tagged Security Templates"
+    },
+    {
+      "code": "REA",
+      "description": "A collection of battle-tested prompts for leveraging LLMs in NIST 800-53r5 compliance implementation.",
+      "id": "nist-readme",
+      "nist_controls": [],
+      "path": "prompts/nist-compliance/README.md",
+      "related": [],
+      "slug": "readme",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "cicd",
+        "compliance",
+        "javascript",
+        "ml",
+        "nist",
+        "observability",
+        "python",
+        "react"
+      ],
+      "title": "NIST Compliance LLM Prompts"
+    },
+    {
+      "code": "REA",
+      "description": "Standards documentation root",
+      "id": "readme",
+      "nist_controls": [],
+      "path": "standards/README.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "readme",
+      "tags": [
+        "ai"
+      ],
+      "title": "Standards"
+    },
+    {
+      "code": "REA",
+      "description": "",
+      "id": "readme",
+      "nist_controls": [
+        "AU-2"
+      ],
+      "path": "standards/compliance/README.md",
+      "related": [
+        "CREATING_GUIDE",
+        "KM"
+      ],
+      "slug": "readme",
+      "tags": [
+        "ai",
+        "cicd",
+        "compliance",
+        "ml",
+        "observability",
+        "typescript"
+      ],
+      "title": "NIST 800-53r5 OSCAL-Native Compliance Platform"
+    },
+    {
+      "code": "REA",
+      "description": "Automation directory ---",
+      "id": "readme",
+      "nist_controls": [],
+      "path": "standards/compliance/automation/README.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "readme",
+      "tags": [
+        "ai",
+        "compliance"
+      ],
+      "title": "Automation"
+    },
+    {
+      "code": "REA",
+      "description": "Examples directory",
+      "id": "readme",
+      "nist_controls": [],
+      "path": "standards/compliance/examples/README.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "readme",
+      "tags": [
+        "ai",
+        "compliance"
+      ],
+      "title": "Examples"
+    },
+    {
+      "code": "REA",
+      "description": "Oscal directory",
+      "id": "readme",
+      "nist_controls": [],
+      "path": "standards/compliance/oscal/README.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "readme",
+      "tags": [
+        "ai",
+        "compliance"
+      ],
+      "title": "Oscal"
+    },
+    {
+      "code": "REA",
+      "description": "Catalogs directory",
+      "id": "readme",
+      "nist_controls": [],
+      "path": "standards/compliance/oscal/catalogs/README.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "readme",
+      "tags": [
+        "ai",
+        "compliance"
+      ],
+      "title": "Catalogs"
+    },
+    {
+      "code": "REA",
+      "description": "Profiles directory",
+      "id": "readme",
+      "nist_controls": [],
+      "path": "standards/compliance/oscal/profiles/README.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "readme",
+      "tags": [
+        "ai",
+        "compliance",
+        "privacy"
+      ],
+      "title": "Profiles"
+    },
+    {
+      "code": "REA",
+      "description": "Types directory ---",
+      "id": "readme",
+      "nist_controls": [],
+      "path": "standards/compliance/oscal/types/README.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "readme",
+      "tags": [
+        "ai",
+        "compliance"
+      ],
+      "title": "Types"
+    },
+    {
+      "code": "REA",
+      "description": "Scripts directory ---",
+      "id": "readme",
+      "nist_controls": [],
+      "path": "standards/compliance/scripts/README.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "readme",
+      "tags": [
+        "ai",
+        "compliance"
+      ],
+      "title": "Scripts"
+    },
+    {
+      "code": "REA",
+      "description": "Semantic directory",
+      "id": "readme",
+      "nist_controls": [],
+      "path": "standards/compliance/semantic/README.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "readme",
+      "tags": [
+        "ai",
+        "compliance",
+        "ml"
+      ],
+      "title": "Semantic"
+    },
+    {
+      "code": "REA",
+      "description": "Src directory",
+      "id": "readme",
+      "nist_controls": [],
+      "path": "standards/compliance/src/README.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "readme",
+      "tags": [
+        "ai",
+        "compliance"
+      ],
+      "title": "Src"
+    },
+    {
+      "code": "REA",
+      "description": "Parsers directory ---",
+      "id": "readme",
+      "nist_controls": [],
+      "path": "standards/compliance/src/parsers/README.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "readme",
+      "tags": [
+        "ai",
+        "compliance"
+      ],
+      "title": "Parsers"
+    },
+    {
+      "code": "SEC",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "id": "modern-security-standards",
+      "nist_controls": [],
+      "path": "docs/standards/MODERN_SECURITY_STANDARDS.md",
+      "related": [
+        "COMP",
+        "CS",
+        "MCP",
+        "NIST-IG",
+        "TS",
+        "UNIFIED"
+      ],
+      "slug": "modern_security_standards",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "cicd",
+        "k8s",
+        "ml",
+        "observability",
+        "security"
+      ],
+      "title": "Modern Security Standards"
+    },
+    {
+      "code": "SEO",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "id": "seo-web-marketing-standards",
+      "nist_controls": [],
+      "path": "docs/standards/SEO_WEB_MARKETING_STANDARDS.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "seo_web_marketing_standards",
+      "tags": [
+        "ai",
+        "api",
+        "ml"
+      ],
+      "title": "SEO & Web Marketing Standards"
+    },
+    {
+      "code": "STA",
+      "description": "",
+      "id": "standards-graph",
+      "nist_controls": [],
+      "path": "docs/guides/STANDARDS_GRAPH.md",
+      "related": [],
+      "slug": "standards_graph",
+      "tags": [
+        "agile",
+        "ai",
+        "api",
+        "containers",
+        "encryption",
+        "javascript",
+        "k8s",
+        "observability",
+        "privacy",
+        "python",
+        "react"
+      ],
+      "title": "Standards Relationship Graph"
+    },
+    {
+      "code": "STA",
+      "description": "**Auto-generated from actual standards files for instant LLM access** *Last Updated: January 2025*",
+      "id": "standards-index",
+      "nist_controls": [],
+      "path": "docs/guides/STANDARDS_INDEX.md",
+      "related": [
+        "CREATING_GUIDE",
+        "STANDARDS_GRAPH"
+      ],
+      "slug": "standards_index",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "k8s"
+      ],
+      "title": "Standards Quick Reference Index"
+    },
+    {
+      "code": "TOOL",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "id": "toolchain-standards",
+      "nist_controls": [],
+      "path": "docs/standards/TOOLCHAIN_STANDARDS.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "toolchain_standards",
+      "tags": [
+        "ai",
+        "containers",
+        "javascript",
+        "k8s",
+        "ml",
+        "python",
+        "react",
+        "typescript"
+      ],
+      "title": "Toolchain Standards"
+    },
+    {
+      "code": "TS",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "id": "testing-standards",
+      "nist_controls": [],
+      "path": "docs/standards/TESTING_STANDARDS.md",
+      "related": [
+        "COMP",
+        "CREATING_GUIDE",
+        "KM",
+        "MCP",
+        "UNIFIED"
+      ],
+      "slug": "testing_standards",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "python",
+        "testing"
+      ],
+      "title": "Comprehensive Testing Manifesto for LLM Coding Projects"
+    },
+    {
+      "code": "UNIFIED",
+      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
+      "id": "unified-standards",
+      "nist_controls": [],
+      "path": "docs/standards/UNIFIED_STANDARDS.md",
+      "related": [
+        "CN",
+        "COMP",
+        "CONT",
+        "COST",
+        "CS",
+        "DB",
+        "DE",
+        "DOP",
+        "EVT",
+        "FE",
+        "GH",
+        "KM",
+        "LEG",
+        "MCP",
+        "MLAI",
+        "MS",
+        "NIST-IG",
+        "OBS",
+        "PM",
+        "SEC",
+        "SEO",
+        "TOOL",
+        "TS",
+        "WD"
+      ],
+      "slug": "unified_standards",
+      "tags": [
+        "ai",
+        "api",
+        "cicd",
+        "ml",
+        "observability"
+      ],
+      "title": "Unified Software Development Standards"
+    },
+    {
+      "code": "VAL",
+      "description": "**Version:** 1.0.0 **Last Updated:** 2025-01-13",
+      "id": "validation-patterns",
+      "nist_controls": [],
+      "path": "docs/guides/VALIDATION_PATTERNS.md",
+      "related": [],
+      "slug": "validation_patterns",
+      "tags": [
+        "ai",
+        "api",
+        "auth",
+        "cicd",
+        "python",
+        "react",
+        "typescript"
+      ],
+      "title": "Interactive Validation Patterns"
+    },
+    {
+      "code": "VAL",
+      "description": "**Version:** 1.0.0 **Last Updated:** 2025-08-23",
+      "id": "nist-validation-run",
+      "nist_controls": [],
+      "path": "prompts/nist-compliance/VALIDATION_RUN.md",
+      "related": [
+        "NIST-IG"
+      ],
+      "slug": "validation_run",
+      "tags": [
+        "ai",
+        "auth",
+        "cicd",
+        "compliance",
+        "ml",
+        "nist",
+        "python"
+      ],
+      "title": "NIST Compliance Validation Run"
+    },
+    {
+      "code": "WD",
+      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
+      "id": "web-design-ux-standards",
+      "nist_controls": [],
+      "path": "docs/standards/WEB_DESIGN_UX_STANDARDS.md",
+      "related": [
+        "UNIFIED"
+      ],
+      "slug": "web_design_ux_standards",
+      "tags": [
+        "ai",
+        "ml",
+        "typescript"
+      ],
+      "title": "Web Design and UX Standards"
+    }
+  ],
   "summary": {
-    "total_documents": 60,
     "categories": 37,
+    "generation_timestamp": "2025-08-23T00:00:00Z",
     "nist_enabled": 3,
+    "total_documents": 60,
     "unique_tags": [
       "agile",
       "ai",
@@ -30,1293 +1317,6 @@
       "security",
       "testing",
       "typescript"
-    ],
-    "generation_timestamp": "2025-08-23T00:00:00Z"
-  },
-  "standards": [
-    {
-      "id": "adoption-checklist",
-      "slug": "adoption_checklist",
-      "code": "ADO",
-      "title": "Standards Adoption Checklist",
-      "path": "docs/guides/ADOPTION_CHECKLIST.md",
-      "tags": [
-        "ai",
-        "api",
-        "cicd",
-        "observability"
-      ],
-      "description": "Use this checklist to systematically adopt the comprehensive development standards in your project.",
-      "related": [
-        "NIST-IG"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "annotation-framework",
-      "slug": "annotation_framework",
-      "code": "ANN",
-      "title": "NIST Annotation Framework",
-      "path": "standards/compliance/ANNOTATION_FRAMEWORK.md",
-      "tags": [
-        "ai",
-        "auth",
-        "cicd",
-        "compliance",
-        "javascript",
-        "ml",
-        "python",
-        "typescript"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](../../docs/standards/UNIFIED_STANDARDS.md) A multi-language parser framework for extracting NIST 800-53r5 control annotations from source code.",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "claude",
-      "slug": "claude",
-      "code": "CLA",
-      "title": "Claude Code Configuration - Standards Router & SPARC Environment",
-      "path": "CLAUDE.md",
-      "tags": [
-        "ai",
-        "api",
-        "graphql",
-        "ml",
-        "observability",
-        "python",
-        "react",
-        "rest"
-      ],
-      "description": "",
-      "related": [],
-      "nist_controls": []
-    },
-    {
-      "id": "cloud-native-standards",
-      "slug": "cloud_native_standards",
-      "code": "CN",
-      "title": "Cloud-Native and Container Standards",
-      "path": "docs/standards/CLOUD_NATIVE_STANDARDS.md",
-      "tags": [
-        "ai",
-        "cicd",
-        "containers",
-        "infrastructure",
-        "k8s",
-        "ml",
-        "observability"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "nist-code-review-prompt",
-      "slug": "code-review-prompt",
-      "code": "COD",
-      "title": "NIST Code Review Prompt",
-      "path": "prompts/nist-compliance/code-review-prompt.md",
-      "tags": [
-        "ai",
-        "auth",
-        "compliance",
-        "nist",
-        "observability",
-        "python",
-        "rest"
-      ],
-      "description": "",
-      "related": [],
-      "nist_controls": []
-    },
-    {
-      "id": "compliance-standards",
-      "slug": "compliance_standards",
-      "code": "COMP",
-      "title": "Compliance Standards",
-      "path": "docs/standards/COMPLIANCE_STANDARDS.md",
-      "tags": [
-        "ai",
-        "auth",
-        "compliance",
-        "encryption",
-        "javascript",
-        "ml",
-        "observability",
-        "python",
-        "rest",
-        "typescript"
-      ],
-      "description": "**Version:** 1.0.0 **Last Updated:** 2025-01-18",
-      "related": [
-        "CS",
-        "NIST-IG",
-        "SEC",
-        "TS",
-        "UNIFIED"
-      ],
-      "nist_controls": [
-        "AC-2"
-      ]
-    },
-    {
-      "id": "nist-control-suggestion-prompt",
-      "slug": "control-suggestion-prompt",
-      "code": "CON",
-      "title": "NIST Control Suggestion Prompt",
-      "path": "prompts/nist-compliance/control-suggestion-prompt.md",
-      "tags": [
-        "ai",
-        "auth",
-        "compliance",
-        "encryption",
-        "javascript",
-        "nist",
-        "observability",
-        "python",
-        "rest",
-        "typescript"
-      ],
-      "description": "",
-      "related": [],
-      "nist_controls": []
-    },
-    {
-      "id": "content-standards",
-      "slug": "content_standards",
-      "code": "CONT",
-      "title": "Content Standards",
-      "path": "docs/standards/CONTENT_STANDARDS.md",
-      "tags": [
-        "ai",
-        "ml",
-        "typescript"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "cost-optimization-standards",
-      "slug": "cost_optimization_standards",
-      "code": "COST",
-      "title": "Cost Optimization and FinOps Standards",
-      "path": "docs/standards/COST_OPTIMIZATION_STANDARDS.md",
-      "tags": [
-        "ai",
-        "ml",
-        "observability",
-        "python"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "coding-standards",
-      "slug": "coding_standards",
-      "code": "CS",
-      "title": "Comprehensive Coding Standards for LLM Projects",
-      "path": "docs/standards/CODING_STANDARDS.md",
-      "tags": [
-        "ai",
-        "api",
-        "cicd",
-        "javascript",
-        "python"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
-      "related": [
-        "COMP",
-        "CREATING_GUIDE",
-        "KM",
-        "MCP",
-        "NIST-IG",
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "database-standards",
-      "slug": "database_standards",
-      "code": "DB",
-      "title": "Database Standards",
-      "path": "docs/standards/DATABASE_STANDARDS.md",
-      "tags": [
-        "ai",
-        "data",
-        "encryption",
-        "javascript",
-        "observability"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "data-engineering-standards",
-      "slug": "data_engineering_standards",
-      "code": "DE",
-      "title": "Data Engineering Standards",
-      "path": "docs/standards/DATA_ENGINEERING_STANDARDS.md",
-      "tags": [
-        "ai",
-        "api",
-        "data",
-        "gdpr",
-        "ml",
-        "observability",
-        "privacy",
-        "python",
-        "rest"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "devops-platform-standards",
-      "slug": "devops_platform_standards",
-      "code": "DOP",
-      "title": "DevOps and Platform Engineering Standards",
-      "path": "docs/standards/DEVOPS_PLATFORM_STANDARDS.md",
-      "tags": [
-        "ai",
-        "cicd",
-        "encryption",
-        "infrastructure",
-        "ml",
-        "observability",
-        "rest"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "event-driven-standards",
-      "slug": "event_driven_standards",
-      "code": "EVT",
-      "title": "Event-Driven Architecture Standards",
-      "path": "docs/standards/EVENT_DRIVEN_STANDARDS.md",
-      "tags": [
-        "ai",
-        "ml",
-        "observability",
-        "typescript"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
-      "related": [
-        "CS",
-        "DE",
-        "MCP",
-        "OBS",
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "frontend-mobile-standards",
-      "slug": "frontend_mobile_standards",
-      "code": "FE",
-      "title": "Frontend and Mobile Development Standards",
-      "path": "docs/standards/FRONTEND_MOBILE_STANDARDS.md",
-      "tags": [
-        "ai",
-        "api",
-        "cicd",
-        "frontend",
-        "ml",
-        "react",
-        "typescript"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "nist-gap-analysis-prompt",
-      "slug": "gap-analysis-prompt",
-      "code": "GAP",
-      "title": "NIST Gap Analysis Prompt",
-      "path": "prompts/nist-compliance/gap-analysis-prompt.md",
-      "tags": [
-        "ai",
-        "api",
-        "auth",
-        "compliance",
-        "k8s",
-        "nist",
-        "observability",
-        "rest"
-      ],
-      "description": "",
-      "related": [],
-      "nist_controls": []
-    },
-    {
-      "id": "github-platform-standards",
-      "slug": "github_platform_standards",
-      "code": "GH",
-      "title": "GitHub Platform Standards",
-      "path": "docs/standards/GITHUB_PLATFORM_STANDARDS.md",
-      "tags": [
-        "ai",
-        "cicd",
-        "ml",
-        "rest"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "nist-implement-800-53",
-      "slug": "implement_800-53",
-      "code": "IMP",
-      "title": "NIST 800-53r5 OSCAL-Native Implementation Plan",
-      "path": "docs/nist/implement_800-53.md",
-      "tags": [
-        "ai",
-        "api",
-        "auth",
-        "compliance",
-        "encryption",
-        "ml",
-        "nist",
-        "observability",
-        "privacy",
-        "typescript"
-      ],
-      "description": "",
-      "related": [],
-      "nist_controls": []
-    },
-    {
-      "id": "nist-implementation-guide-prompt",
-      "slug": "implementation-guide-prompt",
-      "code": "IMP",
-      "title": "NIST Implementation Guide Prompt",
-      "path": "prompts/nist-compliance/implementation-guide-prompt.md",
-      "tags": [
-        "ai",
-        "api",
-        "auth",
-        "compliance",
-        "encryption",
-        "k8s",
-        "nist",
-        "observability",
-        "python",
-        "rest"
-      ],
-      "description": "",
-      "related": [],
-      "nist_controls": []
-    },
-    {
-      "id": "implementation-summary",
-      "slug": "implementation_summary",
-      "code": "IMP",
-      "title": "NIST 800-53r5 OSCAL-Native Compliance Platform - Implementation Summary",
-      "path": "standards/compliance/IMPLEMENTATION_SUMMARY.md",
-      "tags": [
-        "ai",
-        "api",
-        "auth",
-        "compliance",
-        "encryption",
-        "graphql",
-        "ml",
-        "observability",
-        "python",
-        "react",
-        "rest",
-        "typescript"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](../../docs/standards/UNIFIED_STANDARDS.md)",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "kickstart-advanced",
-      "slug": "kickstart_advanced",
-      "code": "KIC",
-      "title": "Advanced Kickstart Guide",
-      "path": "docs/guides/KICKSTART_ADVANCED.md",
-      "tags": [
-        "ai",
-        "api",
-        "auth",
-        "cicd",
-        "gdpr",
-        "graphql",
-        "javascript",
-        "k8s",
-        "ml",
-        "observability",
-        "python",
-        "react",
-        "rest",
-        "typescript"
-      ],
-      "description": "",
-      "related": [],
-      "nist_controls": []
-    },
-    {
-      "id": "kickstart-prompt",
-      "slug": "kickstart_prompt",
-      "code": "KIC",
-      "title": "Universal Project Kickstart Prompt",
-      "path": "docs/guides/KICKSTART_PROMPT.md",
-      "tags": [
-        "ai",
-        "api",
-        "auth",
-        "cicd",
-        "containers",
-        "ml",
-        "observability",
-        "privacy",
-        "python",
-        "react"
-      ],
-      "description": "Copy this prompt into any web-based LLM chat (ChatGPT, Claude, Gemini, etc.) along with your project_plan.md content. ---",
-      "related": [
-        "CREATING_GUIDE",
-        "NIST-IG"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "knowledge-management-standards",
-      "slug": "knowledge_management_standards",
-      "code": "KM",
-      "title": "Knowledge Management Standards",
-      "path": "docs/standards/KNOWLEDGE_MANAGEMENT_STANDARDS.md",
-      "tags": [
-        "ai",
-        "cicd",
-        "management",
-        "ml"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
-      "related": [
-        "CONT",
-        "CREATING_GUIDE",
-        "MCP",
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "legal-compliance-standards",
-      "slug": "legal_compliance_standards",
-      "code": "LEG",
-      "title": "Legal Compliance Standards",
-      "path": "docs/standards/LEGAL_COMPLIANCE_STANDARDS.md",
-      "tags": [
-        "ai",
-        "api",
-        "auth",
-        "compliance",
-        "encryption",
-        "ml",
-        "observability",
-        "privacy",
-        "rest"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "model-context-protocol-standards",
-      "slug": "model_context_protocol_standards",
-      "code": "MCP",
-      "title": "Model Context Protocol Standards",
-      "path": "docs/standards/MODEL_CONTEXT_PROTOCOL_STANDARDS.md",
-      "tags": [
-        "ai",
-        "api",
-        "auth",
-        "ml",
-        "observability",
-        "privacy",
-        "python",
-        "typescript"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
-      "related": [
-        "CS",
-        "EVT",
-        "KM",
-        "SEC",
-        "TS",
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "ml-ai-standards",
-      "slug": "ml_ai_standards",
-      "code": "MLAI",
-      "title": "ML/AI Standards",
-      "path": "docs/standards/ML_AI_STANDARDS.md",
-      "tags": [
-        "ai",
-        "api",
-        "ml",
-        "observability",
-        "python",
-        "rest"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
-      "related": [
-        "CN",
-        "CS",
-        "DB",
-        "DE",
-        "OBS",
-        "SEC",
-        "TS",
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "microservices-standards",
-      "slug": "microservices_standards",
-      "code": "MS",
-      "title": "Microservices Architecture Standards",
-      "path": "docs/standards/MICROSERVICES_STANDARDS.md",
-      "tags": [
-        "ai",
-        "api",
-        "auth",
-        "ml",
-        "observability",
-        "rest"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
-      "related": [
-        "CN",
-        "CS",
-        "DB",
-        "EVT",
-        "OBS",
-        "SEC",
-        "TS",
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "nist-nist-quick-context",
-      "slug": "nist_quick_context",
-      "code": "NIS",
-      "title": "NIST Compliance Implementation - Quick Context Recovery",
-      "path": "docs/nist/NIST_QUICK_CONTEXT.md",
-      "tags": [
-        "auth",
-        "cicd",
-        "compliance",
-        "nist",
-        "typescript"
-      ],
-      "description": "",
-      "related": [],
-      "nist_controls": []
-    },
-    {
-      "id": "nist-nist-quick-reference",
-      "slug": "nist_quick_reference",
-      "code": "NIS",
-      "title": "NIST Compliance Quick Reference",
-      "path": "docs/nist/NIST_QUICK_REFERENCE.md",
-      "tags": [
-        "ai",
-        "api",
-        "auth",
-        "cicd",
-        "compliance",
-        "encryption",
-        "ml",
-        "nist",
-        "observability",
-        "python"
-      ],
-      "description": "**Version:** 1.0.0 **Last Updated:** 2025-01-18",
-      "related": [
-        "COMP",
-        "NIST-IG"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "nist-nist-tagging-proposal",
-      "slug": "nist_tagging_proposal",
-      "code": "NIS",
-      "title": "NIST 800-53r5 Automatic Control Tagging Proposal",
-      "path": "docs/nist/NIST_TAGGING_PROPOSAL.md",
-      "tags": [
-        "ai",
-        "auth",
-        "cicd",
-        "compliance",
-        "encryption",
-        "ml",
-        "nist",
-        "observability",
-        "typescript"
-      ],
-      "description": "",
-      "related": [],
-      "nist_controls": [
-        "AC-12",
-        "AC-2",
-        "AC-3"
-      ]
-    },
-    {
-      "id": "nist-nist-prompt-library",
-      "slug": "nist_prompt_library",
-      "code": "NIS",
-      "title": "NIST Compliance LLM Prompt Library",
-      "path": "prompts/nist-compliance/NIST_PROMPT_LIBRARY.md",
-      "tags": [
-        "ai",
-        "api",
-        "auth",
-        "compliance",
-        "encryption",
-        "nist",
-        "observability"
-      ],
-      "description": "A comprehensive collection of prompts for LLMs to assist with NIST 800-53r5 compliance implementation.",
-      "related": [],
-      "nist_controls": []
-    },
-    {
-      "id": "nist-nist-implementation-guide",
-      "slug": "nist_implementation_guide",
-      "code": "NIST-IG",
-      "title": "NIST 800-53r5 Control Tagging Implementation Guide",
-      "path": "docs/nist/NIST_IMPLEMENTATION_GUIDE.md",
-      "tags": [
-        "ai",
-        "auth",
-        "cicd",
-        "compliance",
-        "encryption",
-        "javascript",
-        "ml",
-        "nist",
-        "observability",
-        "python",
-        "typescript"
-      ],
-      "description": "**Version:** 1.0.0 **Last Updated:** 2025-01-18",
-      "related": [
-        "COMP",
-        "CS",
-        "PM",
-        "SEC",
-        "STANDARDS_INDEX",
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "observability-standards",
-      "slug": "observability_standards",
-      "code": "OBS",
-      "title": "Observability and Monitoring Standards",
-      "path": "docs/standards/OBSERVABILITY_STANDARDS.md",
-      "tags": [
-        "ai",
-        "ml",
-        "observability",
-        "python"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "project-management-standards",
-      "slug": "project_management_standards",
-      "code": "PM",
-      "title": "Project Management Standards",
-      "path": "docs/standards/PROJECT_MANAGEMENT_STANDARDS.md",
-      "tags": [
-        "agile",
-        "ai",
-        "management",
-        "ml",
-        "observability"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 2.0.0",
-      "related": [
-        "NIST-IG",
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "nist-readme",
-      "slug": "readme",
-      "code": "REA",
-      "title": "NIST 800-53r5 Compliance Documentation",
-      "path": "docs/nist/README.md",
-      "tags": [
-        "ai",
-        "compliance",
-        "nist"
-      ],
-      "description": "Complete NIST 800-53r5 compliance implementation guides, templates, and control mappings for software development projects.",
-      "related": [
-        "NIST-IG"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "readme",
-      "slug": "readme",
-      "code": "REA",
-      "title": "Software Development Standards",
-      "path": "docs/standards/README.md",
-      "tags": [
-        "ai",
-        "ml"
-      ],
-      "description": "Complete collection of software development standards covering all aspects of modern development from coding to deployment.",
-      "related": [
-        "CN",
-        "COMP",
-        "CONT",
-        "COST",
-        "CS",
-        "DB",
-        "DE",
-        "DOP",
-        "EVT",
-        "FE",
-        "GH",
-        "KM",
-        "LEG",
-        "MCP",
-        "MLAI",
-        "MS",
-        "OBS",
-        "PM",
-        "SEC",
-        "SEO",
-        "TOOL",
-        "TS",
-        "UNIFIED",
-        "WD"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "nist-readme",
-      "slug": "readme",
-      "code": "REA",
-      "title": "NIST-Tagged Security Templates",
-      "path": "examples/nist-templates/README.md",
-      "tags": [
-        "ai",
-        "api",
-        "auth",
-        "compliance",
-        "nist",
-        "observability",
-        "python",
-        "typescript"
-      ],
-      "description": "Pre-built security components with NIST 800-53r5 control tags already applied. Use these templates as starting points for secure implementations.",
-      "related": [],
-      "nist_controls": []
-    },
-    {
-      "id": "nist-readme",
-      "slug": "readme",
-      "code": "REA",
-      "title": "NIST Compliance LLM Prompts",
-      "path": "prompts/nist-compliance/README.md",
-      "tags": [
-        "ai",
-        "api",
-        "auth",
-        "cicd",
-        "compliance",
-        "javascript",
-        "ml",
-        "nist",
-        "observability",
-        "python",
-        "react"
-      ],
-      "description": "A collection of battle-tested prompts for leveraging LLMs in NIST 800-53r5 compliance implementation.",
-      "related": [],
-      "nist_controls": []
-    },
-    {
-      "id": "readme",
-      "slug": "readme",
-      "code": "REA",
-      "title": "Standards",
-      "path": "standards/README.md",
-      "tags": [
-        "ai"
-      ],
-      "description": "Standards documentation root",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "readme",
-      "slug": "readme",
-      "code": "REA",
-      "title": "NIST 800-53r5 OSCAL-Native Compliance Platform",
-      "path": "standards/compliance/README.md",
-      "tags": [
-        "ai",
-        "cicd",
-        "compliance",
-        "ml",
-        "observability",
-        "typescript"
-      ],
-      "description": "",
-      "related": [
-        "CREATING_GUIDE",
-        "KM"
-      ],
-      "nist_controls": [
-        "AU-2"
-      ]
-    },
-    {
-      "id": "readme",
-      "slug": "readme",
-      "code": "REA",
-      "title": "Automation",
-      "path": "standards/compliance/automation/README.md",
-      "tags": [
-        "ai",
-        "compliance"
-      ],
-      "description": "Automation directory ---",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "readme",
-      "slug": "readme",
-      "code": "REA",
-      "title": "Examples",
-      "path": "standards/compliance/examples/README.md",
-      "tags": [
-        "ai",
-        "compliance"
-      ],
-      "description": "Examples directory",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "readme",
-      "slug": "readme",
-      "code": "REA",
-      "title": "Oscal",
-      "path": "standards/compliance/oscal/README.md",
-      "tags": [
-        "ai",
-        "compliance"
-      ],
-      "description": "Oscal directory",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "readme",
-      "slug": "readme",
-      "code": "REA",
-      "title": "Catalogs",
-      "path": "standards/compliance/oscal/catalogs/README.md",
-      "tags": [
-        "ai",
-        "compliance"
-      ],
-      "description": "Catalogs directory",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "readme",
-      "slug": "readme",
-      "code": "REA",
-      "title": "Profiles",
-      "path": "standards/compliance/oscal/profiles/README.md",
-      "tags": [
-        "ai",
-        "compliance",
-        "privacy"
-      ],
-      "description": "Profiles directory",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "readme",
-      "slug": "readme",
-      "code": "REA",
-      "title": "Types",
-      "path": "standards/compliance/oscal/types/README.md",
-      "tags": [
-        "ai",
-        "compliance"
-      ],
-      "description": "Types directory ---",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "readme",
-      "slug": "readme",
-      "code": "REA",
-      "title": "Scripts",
-      "path": "standards/compliance/scripts/README.md",
-      "tags": [
-        "ai",
-        "compliance"
-      ],
-      "description": "Scripts directory ---",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "readme",
-      "slug": "readme",
-      "code": "REA",
-      "title": "Semantic",
-      "path": "standards/compliance/semantic/README.md",
-      "tags": [
-        "ai",
-        "compliance",
-        "ml"
-      ],
-      "description": "Semantic directory",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "readme",
-      "slug": "readme",
-      "code": "REA",
-      "title": "Src",
-      "path": "standards/compliance/src/README.md",
-      "tags": [
-        "ai",
-        "compliance"
-      ],
-      "description": "Src directory",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "readme",
-      "slug": "readme",
-      "code": "REA",
-      "title": "Parsers",
-      "path": "standards/compliance/src/parsers/README.md",
-      "tags": [
-        "ai",
-        "compliance"
-      ],
-      "description": "Parsers directory ---",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "modern-security-standards",
-      "slug": "modern_security_standards",
-      "code": "SEC",
-      "title": "Modern Security Standards",
-      "path": "docs/standards/MODERN_SECURITY_STANDARDS.md",
-      "tags": [
-        "ai",
-        "api",
-        "auth",
-        "cicd",
-        "k8s",
-        "ml",
-        "observability",
-        "security"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
-      "related": [
-        "COMP",
-        "CS",
-        "MCP",
-        "NIST-IG",
-        "TS",
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "seo-web-marketing-standards",
-      "slug": "seo_web_marketing_standards",
-      "code": "SEO",
-      "title": "SEO & Web Marketing Standards",
-      "path": "docs/standards/SEO_WEB_MARKETING_STANDARDS.md",
-      "tags": [
-        "ai",
-        "api",
-        "ml"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "standards-graph",
-      "slug": "standards_graph",
-      "code": "STA",
-      "title": "Standards Relationship Graph",
-      "path": "docs/guides/STANDARDS_GRAPH.md",
-      "tags": [
-        "agile",
-        "ai",
-        "api",
-        "containers",
-        "encryption",
-        "javascript",
-        "k8s",
-        "observability",
-        "privacy",
-        "python",
-        "react"
-      ],
-      "description": "",
-      "related": [],
-      "nist_controls": []
-    },
-    {
-      "id": "standards-index",
-      "slug": "standards_index",
-      "code": "STA",
-      "title": "Standards Quick Reference Index",
-      "path": "docs/guides/STANDARDS_INDEX.md",
-      "tags": [
-        "ai",
-        "api",
-        "auth",
-        "k8s"
-      ],
-      "description": "**Auto-generated from actual standards files for instant LLM access** *Last Updated: January 2025*",
-      "related": [
-        "CREATING_GUIDE",
-        "STANDARDS_GRAPH"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "toolchain-standards",
-      "slug": "toolchain_standards",
-      "code": "TOOL",
-      "title": "Toolchain Standards",
-      "path": "docs/standards/TOOLCHAIN_STANDARDS.md",
-      "tags": [
-        "ai",
-        "containers",
-        "javascript",
-        "k8s",
-        "ml",
-        "python",
-        "react",
-        "typescript"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "testing-standards",
-      "slug": "testing_standards",
-      "code": "TS",
-      "title": "Comprehensive Testing Manifesto for LLM Coding Projects",
-      "path": "docs/standards/TESTING_STANDARDS.md",
-      "tags": [
-        "ai",
-        "api",
-        "auth",
-        "python",
-        "testing"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
-      "related": [
-        "COMP",
-        "CREATING_GUIDE",
-        "KM",
-        "MCP",
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "unified-standards",
-      "slug": "unified_standards",
-      "code": "UNIFIED",
-      "title": "Unified Software Development Standards",
-      "path": "docs/standards/UNIFIED_STANDARDS.md",
-      "tags": [
-        "ai",
-        "api",
-        "cicd",
-        "ml",
-        "observability"
-      ],
-      "description": "**Version:** 1.0.0 **Last Updated:** January 2025",
-      "related": [
-        "CN",
-        "COMP",
-        "CONT",
-        "COST",
-        "CS",
-        "DB",
-        "DE",
-        "DOP",
-        "EVT",
-        "FE",
-        "GH",
-        "KM",
-        "LEG",
-        "MCP",
-        "MLAI",
-        "MS",
-        "NIST-IG",
-        "OBS",
-        "PM",
-        "SEC",
-        "SEO",
-        "TOOL",
-        "TS",
-        "WD"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "validation-patterns",
-      "slug": "validation_patterns",
-      "code": "VAL",
-      "title": "Interactive Validation Patterns",
-      "path": "docs/guides/VALIDATION_PATTERNS.md",
-      "tags": [
-        "ai",
-        "api",
-        "auth",
-        "cicd",
-        "python",
-        "react",
-        "typescript"
-      ],
-      "description": "**Version:** 1.0.0 **Last Updated:** 2025-01-13",
-      "related": [],
-      "nist_controls": []
-    },
-    {
-      "id": "nist-validation-run",
-      "slug": "validation_run",
-      "code": "VAL",
-      "title": "NIST Compliance Validation Run",
-      "path": "prompts/nist-compliance/VALIDATION_RUN.md",
-      "tags": [
-        "ai",
-        "auth",
-        "cicd",
-        "compliance",
-        "ml",
-        "nist",
-        "python"
-      ],
-      "description": "**Version:** 1.0.0 **Last Updated:** 2025-08-23",
-      "related": [
-        "NIST-IG"
-      ],
-      "nist_controls": []
-    },
-    {
-      "id": "web-design-ux-standards",
-      "slug": "web_design_ux_standards",
-      "code": "WD",
-      "title": "Web Design and UX Standards",
-      "path": "docs/standards/WEB_DESIGN_UX_STANDARDS.md",
-      "tags": [
-        "ai",
-        "ml",
-        "typescript"
-      ],
-      "description": "> \ud83d\udcda See also: [Unified Software Development Standards](./UNIFIED_STANDARDS.md) **Version:** 1.0.0",
-      "related": [
-        "UNIFIED"
-      ],
-      "nist_controls": []
-    }
-  ]
+    ]
+  }
 }

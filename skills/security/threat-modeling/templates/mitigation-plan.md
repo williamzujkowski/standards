@@ -17,6 +17,7 @@
 **Low Priority:** _[Number]_
 
 **Mitigation Status:**
+
 - ✅ Complete: _[Number]_
 - 🔄 In Progress: _[Number]_
 - 📋 Planned: _[Number]_
@@ -45,6 +46,7 @@
 _[Brief description of how attack would occur]_
 
 **Impact:**
+
 - **Confidentiality:** _[High/Med/Low]_
 - **Integrity:** _[High/Med/Low]_
 - **Availability:** _[High/Med/Low]_
@@ -58,6 +60,7 @@ _[Brief description of how attack would occur]_
 | MIT-CRIT-001-2 | _[Control]_ | _[Type]_ | _[ID]_ | _[Name]_ | $[Amount] | _[Effort]_ | _[Date]_ | _[Status]_ |
 
 **Progress Tracking:**
+
 - [ ] Design approved
 - [ ] Implementation started
 - [ ] Code review complete
@@ -108,10 +111,12 @@ _[Brief description of how attack would occur]_
 | _[ID]_ | _[Brief description]_ | _[Score]_ | _[Why accepting risk]_ | _[Name/Role]_ | _[Date]_ |
 
 **Conditions for Risk Acceptance:**
+
 - _[Condition 1]_
 - _[Condition 2]_
 
 **Compensating Controls:**
+
 - _[Control 1]_
 - _[Control 2]_
 
@@ -254,18 +259,22 @@ _[Brief description of how attack would occur]_
 **Period:** _[Date range]_
 
 **Highlights:**
+
 - _[Key accomplishment 1]_
 - _[Key accomplishment 2]_
 
 **Challenges:**
+
 - _[Issue 1]_ - _[Resolution plan]_
 - _[Issue 2]_ - _[Resolution plan]_
 
 **Upcoming:**
+
 - _[Next milestone 1]_
 - _[Next milestone 2]_
 
 **Metrics:**
+
 - Mitigations completed this period: _[#]_
 - Current completion rate: _[%]_
 - On track / Behind schedule: _[Status]_

@@ -69,6 +69,7 @@ Required Claims:
 ### Common Vulnerabilities to Avoid
 
 ❌ **NEVER:**
+
 - Store passwords in plain text
 - Use MD5 or SHA-1 for password hashing
 - Store JWTs in localStorage (XSS vulnerable)

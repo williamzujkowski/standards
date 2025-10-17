@@ -1,75 +1,60 @@
 {
   "workflows": {
-    "sequential_with_error_handling": {
-      "Comment": "Sequential workflow with comprehensive error handling",
-      "StartAt": "ValidateInput",
+    "map_state_batch": {
+      "Comment": "Process batch of items with Map state",
+      "StartAt": "GetBatch",
       "States": {
-        "ValidateInput": {
-          "Type": "Task",
-          "Resource": "arn:aws:lambda:us-east-1:123456789012:function:ValidateInput",
-          "ResultPath": "$.validation",
-          "Next": "ProcessData",
-          "Catch": [
-            {
-              "ErrorEquals": ["ValidationError"],
-              "ResultPath": "$.error",
-              "Next": "ValidationFailed"
-            }
-          ],
-          "Retry": [
-            {
-              "ErrorEquals": ["States.TaskFailed"],
-              "IntervalSeconds": 2,
-              "MaxAttempts": 3,
-              "BackoffRate": 2.0
-            }
-          ]
+        "GenerateReport": {
+          "End": true,
+          "Resource": "arn:aws:lambda:us-east-1:123456789012:function:GenerateReport",
+          "Type": "Task"
         },
-        "ProcessData": {
-          "Type": "Task",
-          "Resource": "arn:aws:states:::lambda:invoke",
-          "Parameters": {
-            "FunctionName": "ProcessData",
-            "Payload": {
-              "input.$": "$.input",
-              "validation.$": "$.validation"
+        "GetBatch": {
+          "Next": "ProcessBatch",
+          "Resource": "arn:aws:lambda:us-east-1:123456789012:function:GetBatch",
+          "ResultPath": "$.batch",
+          "Type": "Task"
+        },
+        "ProcessBatch": {
+          "ItemsPath": "$.batch.items",
+          "Iterator": {
+            "StartAt": "ProcessItem",
+            "States": {
+              "ItemFailed": {
+                "End": true,
+                "Result": "Item processing failed",
+                "Type": "Pass"
+              },
+              "ProcessItem": {
+                "Catch": [
+                  {
+                    "ErrorEquals": [
+                      "States.ALL"
+                    ],
+                    "Next": "ItemFailed",
+                    "ResultPath": "$.error"
+                  }
+                ],
+                "End": true,
+                "Resource": "arn:aws:lambda:us-east-1:123456789012:function:ProcessItem",
+                "Retry": [
+                  {
+                    "BackoffRate": 2.0,
+                    "ErrorEquals": [
+                      "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 1,
+                    "MaxAttempts": 2
+                  }
+                ],
+                "Type": "Task"
+              }
             }
           },
-          "ResultPath": "$.processResult",
-          "Next": "StoreResults",
-          "Retry": [
-            {
-              "ErrorEquals": ["States.Timeout"],
-              "IntervalSeconds": 1,
-              "MaxAttempts": 2,
-              "BackoffRate": 1.5
-            }
-          ]
-        },
-        "StoreResults": {
-          "Type": "Task",
-          "Resource": "arn:aws:states:::dynamodb:putItem",
-          "Parameters": {
-            "TableName": "Results",
-            "Item": {
-              "id": {"S.$": "$.processResult.id"},
-              "data": {"S.$": "States.JsonToString($.processResult.data)"},
-              "timestamp": {"S.$": "$$.State.EnteredTime"}
-            }
-          },
-          "End": true
-        },
-        "ValidationFailed": {
-          "Type": "Task",
-          "Resource": "arn:aws:states:::sns:publish",
-          "Parameters": {
-            "TopicArn": "arn:aws:sns:us-east-1:123456789012:ValidationFailures",
-            "Message": {
-              "error.$": "$.error",
-              "input.$": "$.input"
-            }
-          },
-          "End": true
+          "MaxConcurrency": 10,
+          "Next": "GenerateReport",
+          "ResultPath": "$.results",
+          "Type": "Map"
         }
       }
     },
@@ -77,21 +62,30 @@
       "Comment": "Parallel processing with aggregation",
       "StartAt": "FetchData",
       "States": {
+        "AggregateResults": {
+          "End": true,
+          "Resource": "arn:aws:lambda:us-east-1:123456789012:function:AggregateResults",
+          "Type": "Task"
+        },
         "FetchData": {
-          "Type": "Task",
+          "Next": "ParallelProcessing",
           "Resource": "arn:aws:lambda:us-east-1:123456789012:function:FetchData",
-          "Next": "ParallelProcessing"
+          "Type": "Task"
+        },
+        "HandleParallelFailure": {
+          "End": true,
+          "Result": "Parallel processing failed",
+          "Type": "Pass"
         },
         "ParallelProcessing": {
-          "Type": "Parallel",
           "Branches": [
             {
               "StartAt": "ProcessImageResize",
               "States": {
                 "ProcessImageResize": {
-                  "Type": "Task",
+                  "End": true,
                   "Resource": "arn:aws:lambda:us-east-1:123456789012:function:ResizeImage",
-                  "End": true
+                  "Type": "Task"
                 }
               }
             },
@@ -99,9 +93,9 @@
               "StartAt": "ExtractMetadata",
               "States": {
                 "ExtractMetadata": {
-                  "Type": "Task",
+                  "End": true,
                   "Resource": "arn:aws:lambda:us-east-1:123456789012:function:ExtractMetadata",
-                  "End": true
+                  "Type": "Task"
                 }
               }
             },
@@ -109,94 +103,35 @@
               "StartAt": "VirusScan",
               "States": {
                 "VirusScan": {
-                  "Type": "Task",
+                  "End": true,
                   "Resource": "arn:aws:lambda:us-east-1:123456789012:function:VirusScan",
                   "Retry": [
                     {
-                      "ErrorEquals": ["States.TaskFailed"],
+                      "BackoffRate": 2.0,
+                      "ErrorEquals": [
+                        "States.TaskFailed"
+                      ],
                       "IntervalSeconds": 5,
-                      "MaxAttempts": 2,
-                      "BackoffRate": 2.0
+                      "MaxAttempts": 2
                     }
                   ],
-                  "End": true
+                  "Type": "Task"
                 }
               }
             }
           ],
-          "ResultPath": "$.parallelResults",
-          "Next": "AggregateResults",
           "Catch": [
             {
-              "ErrorEquals": ["States.ALL"],
-              "ResultPath": "$.error",
-              "Next": "HandleParallelFailure"
+              "ErrorEquals": [
+                "States.ALL"
+              ],
+              "Next": "HandleParallelFailure",
+              "ResultPath": "$.error"
             }
-          ]
-        },
-        "AggregateResults": {
-          "Type": "Task",
-          "Resource": "arn:aws:lambda:us-east-1:123456789012:function:AggregateResults",
-          "End": true
-        },
-        "HandleParallelFailure": {
-          "Type": "Pass",
-          "Result": "Parallel processing failed",
-          "End": true
-        }
-      }
-    },
-    "map_state_batch": {
-      "Comment": "Process batch of items with Map state",
-      "StartAt": "GetBatch",
-      "States": {
-        "GetBatch": {
-          "Type": "Task",
-          "Resource": "arn:aws:lambda:us-east-1:123456789012:function:GetBatch",
-          "ResultPath": "$.batch",
-          "Next": "ProcessBatch"
-        },
-        "ProcessBatch": {
-          "Type": "Map",
-          "ItemsPath": "$.batch.items",
-          "MaxConcurrency": 10,
-          "Iterator": {
-            "StartAt": "ProcessItem",
-            "States": {
-              "ProcessItem": {
-                "Type": "Task",
-                "Resource": "arn:aws:lambda:us-east-1:123456789012:function:ProcessItem",
-                "Retry": [
-                  {
-                    "ErrorEquals": ["States.TaskFailed"],
-                    "IntervalSeconds": 1,
-                    "MaxAttempts": 2,
-                    "BackoffRate": 2.0
-                  }
-                ],
-                "Catch": [
-                  {
-                    "ErrorEquals": ["States.ALL"],
-                    "ResultPath": "$.error",
-                    "Next": "ItemFailed"
-                  }
-                ],
-                "End": true
-              },
-              "ItemFailed": {
-                "Type": "Pass",
-                "Result": "Item processing failed",
-                "End": true
-              }
-            }
-          },
-          "ResultPath": "$.results",
-          "Next": "GenerateReport"
-        },
-        "GenerateReport": {
-          "Type": "Task",
-          "Resource": "arn:aws:lambda:us-east-1:123456789012:function:GenerateReport",
-          "End": true
+          ],
+          "Next": "AggregateResults",
+          "ResultPath": "$.parallelResults",
+          "Type": "Parallel"
         }
       }
     },
@@ -204,85 +139,176 @@
       "Comment": "Saga pattern with compensating transactions",
       "StartAt": "ReserveInventory",
       "States": {
-        "ReserveInventory": {
-          "Type": "Task",
-          "Resource": "arn:aws:lambda:us-east-1:123456789012:function:ReserveInventory",
-          "ResultPath": "$.reservation",
-          "Next": "ChargeCustomer",
+        "ChargeCustomer": {
           "Catch": [
             {
-              "ErrorEquals": ["States.ALL"],
-              "ResultPath": "$.error",
-              "Next": "TransactionFailed"
+              "ErrorEquals": [
+                "States.ALL"
+              ],
+              "Next": "ReleaseInventory",
+              "ResultPath": "$.error"
             }
-          ]
-        },
-        "ChargeCustomer": {
-          "Type": "Task",
+          ],
+          "Next": "ShipOrder",
           "Resource": "arn:aws:lambda:us-east-1:123456789012:function:ChargeCustomer",
           "ResultPath": "$.charge",
-          "Next": "ShipOrder",
-          "Catch": [
-            {
-              "ErrorEquals": ["States.ALL"],
-              "ResultPath": "$.error",
-              "Next": "ReleaseInventory"
-            }
-          ]
+          "Type": "Task"
         },
-        "ShipOrder": {
-          "Type": "Task",
-          "Resource": "arn:aws:lambda:us-east-1:123456789012:function:ShipOrder",
-          "ResultPath": "$.shipment",
-          "Next": "SendConfirmation",
+        "FailState": {
+          "Cause": "Transaction failed and compensated",
+          "Type": "Fail"
+        },
+        "RefundCustomer": {
+          "Next": "ReleaseInventory",
+          "Resource": "arn:aws:lambda:us-east-1:123456789012:function:RefundCustomer",
+          "ResultPath": "$.refund",
+          "Type": "Task"
+        },
+        "ReleaseInventory": {
+          "Next": "TransactionFailed",
+          "Resource": "arn:aws:lambda:us-east-1:123456789012:function:ReleaseInventory",
+          "ResultPath": "$.release",
+          "Type": "Task"
+        },
+        "ReserveInventory": {
           "Catch": [
             {
-              "ErrorEquals": ["States.ALL"],
-              "ResultPath": "$.error",
-              "Next": "RefundCustomer"
+              "ErrorEquals": [
+                "States.ALL"
+              ],
+              "Next": "TransactionFailed",
+              "ResultPath": "$.error"
             }
-          ]
+          ],
+          "Next": "ChargeCustomer",
+          "Resource": "arn:aws:lambda:us-east-1:123456789012:function:ReserveInventory",
+          "ResultPath": "$.reservation",
+          "Type": "Task"
         },
         "SendConfirmation": {
-          "Type": "Task",
-          "Resource": "arn:aws:states:::sns:publish",
+          "End": true,
           "Parameters": {
-            "TopicArn": "arn:aws:sns:us-east-1:123456789012:OrderConfirmations",
             "Message": {
               "orderId.$": "$.orderId",
               "status": "confirmed"
-            }
+            },
+            "TopicArn": "arn:aws:sns:us-east-1:123456789012:OrderConfirmations"
           },
-          "End": true
+          "Resource": "arn:aws:states:::sns:publish",
+          "Type": "Task"
         },
-        "RefundCustomer": {
-          "Type": "Task",
-          "Resource": "arn:aws:lambda:us-east-1:123456789012:function:RefundCustomer",
-          "ResultPath": "$.refund",
-          "Next": "ReleaseInventory"
-        },
-        "ReleaseInventory": {
-          "Type": "Task",
-          "Resource": "arn:aws:lambda:us-east-1:123456789012:function:ReleaseInventory",
-          "ResultPath": "$.release",
-          "Next": "TransactionFailed"
+        "ShipOrder": {
+          "Catch": [
+            {
+              "ErrorEquals": [
+                "States.ALL"
+              ],
+              "Next": "RefundCustomer",
+              "ResultPath": "$.error"
+            }
+          ],
+          "Next": "SendConfirmation",
+          "Resource": "arn:aws:lambda:us-east-1:123456789012:function:ShipOrder",
+          "ResultPath": "$.shipment",
+          "Type": "Task"
         },
         "TransactionFailed": {
-          "Type": "Task",
-          "Resource": "arn:aws:states:::sns:publish",
+          "Next": "FailState",
           "Parameters": {
-            "TopicArn": "arn:aws:sns:us-east-1:123456789012:FailedTransactions",
             "Message": {
-              "orderId.$": "$.orderId",
+              "compensated": true,
               "error.$": "$.error",
-              "compensated": true
+              "orderId.$": "$.orderId"
+            },
+            "TopicArn": "arn:aws:sns:us-east-1:123456789012:FailedTransactions"
+          },
+          "Resource": "arn:aws:states:::sns:publish",
+          "Type": "Task"
+        }
+      }
+    },
+    "sequential_with_error_handling": {
+      "Comment": "Sequential workflow with comprehensive error handling",
+      "StartAt": "ValidateInput",
+      "States": {
+        "ProcessData": {
+          "Next": "StoreResults",
+          "Parameters": {
+            "FunctionName": "ProcessData",
+            "Payload": {
+              "input.$": "$.input",
+              "validation.$": "$.validation"
             }
           },
-          "Next": "FailState"
+          "Resource": "arn:aws:states:::lambda:invoke",
+          "ResultPath": "$.processResult",
+          "Retry": [
+            {
+              "BackoffRate": 1.5,
+              "ErrorEquals": [
+                "States.Timeout"
+              ],
+              "IntervalSeconds": 1,
+              "MaxAttempts": 2
+            }
+          ],
+          "Type": "Task"
         },
-        "FailState": {
-          "Type": "Fail",
-          "Cause": "Transaction failed and compensated"
+        "StoreResults": {
+          "End": true,
+          "Parameters": {
+            "Item": {
+              "data": {
+                "S.$": "States.JsonToString($.processResult.data)"
+              },
+              "id": {
+                "S.$": "$.processResult.id"
+              },
+              "timestamp": {
+                "S.$": "$$.State.EnteredTime"
+              }
+            },
+            "TableName": "Results"
+          },
+          "Resource": "arn:aws:states:::dynamodb:putItem",
+          "Type": "Task"
+        },
+        "ValidateInput": {
+          "Catch": [
+            {
+              "ErrorEquals": [
+                "ValidationError"
+              ],
+              "Next": "ValidationFailed",
+              "ResultPath": "$.error"
+            }
+          ],
+          "Next": "ProcessData",
+          "Resource": "arn:aws:lambda:us-east-1:123456789012:function:ValidateInput",
+          "ResultPath": "$.validation",
+          "Retry": [
+            {
+              "BackoffRate": 2.0,
+              "ErrorEquals": [
+                "States.TaskFailed"
+              ],
+              "IntervalSeconds": 2,
+              "MaxAttempts": 3
+            }
+          ],
+          "Type": "Task"
+        },
+        "ValidationFailed": {
+          "End": true,
+          "Parameters": {
+            "Message": {
+              "error.$": "$.error",
+              "input.$": "$.input"
+            },
+            "TopicArn": "arn:aws:sns:us-east-1:123456789012:ValidationFailures"
+          },
+          "Resource": "arn:aws:states:::sns:publish",
+          "Type": "Task"
         }
       }
     },
@@ -290,65 +316,65 @@
       "Comment": "Wait state and conditional branching",
       "StartAt": "SubmitJob",
       "States": {
-        "SubmitJob": {
-          "Type": "Task",
-          "Resource": "arn:aws:lambda:us-east-1:123456789012:function:SubmitJob",
-          "ResultPath": "$.job",
-          "Next": "WaitForCompletion"
-        },
-        "WaitForCompletion": {
-          "Type": "Wait",
-          "Seconds": 30,
-          "Next": "CheckJobStatus"
-        },
         "CheckJobStatus": {
-          "Type": "Task",
+          "Next": "JobComplete?",
           "Resource": "arn:aws:lambda:us-east-1:123456789012:function:CheckJobStatus",
           "ResultPath": "$.status",
-          "Next": "JobComplete?"
-        },
-        "JobComplete?": {
-          "Type": "Choice",
-          "Choices": [
-            {
-              "Variable": "$.status.state",
-              "StringEquals": "COMPLETED",
-              "Next": "ProcessResults"
-            },
-            {
-              "Variable": "$.status.state",
-              "StringEquals": "FAILED",
-              "Next": "JobFailed"
-            },
-            {
-              "Variable": "$.status.attempts",
-              "NumericGreaterThan": 10,
-              "Next": "JobTimeout"
-            }
-          ],
-          "Default": "IncrementAttempts"
+          "Type": "Task"
         },
         "IncrementAttempts": {
-          "Type": "Pass",
+          "Next": "WaitForCompletion",
           "Parameters": {
+            "attempts.$": "States.MathAdd($.status.attempts, 1)",
             "job.$": "$.job",
-            "status.$": "$.status",
-            "attempts.$": "States.MathAdd($.status.attempts, 1)"
+            "status.$": "$.status"
           },
-          "Next": "WaitForCompletion"
+          "Type": "Pass"
         },
-        "ProcessResults": {
-          "Type": "Task",
-          "Resource": "arn:aws:lambda:us-east-1:123456789012:function:ProcessResults",
-          "End": true
+        "JobComplete?": {
+          "Choices": [
+            {
+              "Next": "ProcessResults",
+              "StringEquals": "COMPLETED",
+              "Variable": "$.status.state"
+            },
+            {
+              "Next": "JobFailed",
+              "StringEquals": "FAILED",
+              "Variable": "$.status.state"
+            },
+            {
+              "Next": "JobTimeout",
+              "NumericGreaterThan": 10,
+              "Variable": "$.status.attempts"
+            }
+          ],
+          "Default": "IncrementAttempts",
+          "Type": "Choice"
         },
         "JobFailed": {
-          "Type": "Fail",
-          "Cause": "Job execution failed"
+          "Cause": "Job execution failed",
+          "Type": "Fail"
         },
         "JobTimeout": {
-          "Type": "Fail",
-          "Cause": "Job exceeded maximum attempts"
+          "Cause": "Job exceeded maximum attempts",
+          "Type": "Fail"
+        },
+        "ProcessResults": {
+          "End": true,
+          "Resource": "arn:aws:lambda:us-east-1:123456789012:function:ProcessResults",
+          "Type": "Task"
+        },
+        "SubmitJob": {
+          "Next": "WaitForCompletion",
+          "Resource": "arn:aws:lambda:us-east-1:123456789012:function:SubmitJob",
+          "ResultPath": "$.job",
+          "Type": "Task"
+        },
+        "WaitForCompletion": {
+          "Next": "CheckJobStatus",
+          "Seconds": 30,
+          "Type": "Wait"
         }
       }
     }

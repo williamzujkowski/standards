@@ -4,11 +4,12 @@ Test Suite: Skill Discovery
 Tests skill discovery and loading mechanisms.
 """
 
-import pytest
+import re
 from pathlib import Path
 from typing import Dict, List, Optional
+
+import pytest
 import yaml
-import re
 
 
 class SkillDiscovery:
@@ -35,7 +36,7 @@ class SkillDiscovery:
 
             skill_info = self._extract_skill_metadata(skill_md)
             if skill_info:
-                skill_info['directory'] = str(skill_dir)
+                skill_info["directory"] = str(skill_dir)
                 skills.append(skill_info)
 
         return skills
@@ -43,19 +44,19 @@ class SkillDiscovery:
     def _extract_skill_metadata(self, skill_path: Path) -> Optional[Dict]:
         """Extract metadata from SKILL.md."""
         try:
-            content = skill_path.read_text(encoding='utf-8')
+            content = skill_path.read_text(encoding="utf-8")
 
             # Extract frontmatter
-            frontmatter_match = re.match(r'^---\s*\n(.*?\n)---\s*\n', content, re.DOTALL)
+            frontmatter_match = re.match(r"^---\s*\n(.*?\n)---\s*\n", content, re.DOTALL)
             if not frontmatter_match:
                 return None
 
             metadata = yaml.safe_load(frontmatter_match.group(1))
 
             return {
-                'name': metadata.get('name', ''),
-                'description': metadata.get('description', ''),
-                'path': str(skill_path)
+                "name": metadata.get("name", ""),
+                "description": metadata.get("description", ""),
+                "path": str(skill_path),
             }
         except Exception:
             return None
@@ -69,18 +70,18 @@ class SkillDiscovery:
 
         for skill in all_skills:
             # Search in name
-            if query_lower in skill['name'].lower():
-                skill['match_score'] = 2  # High relevance
+            if query_lower in skill["name"].lower():
+                skill["match_score"] = 2  # High relevance
                 matches.append(skill)
                 continue
 
             # Search in description
-            if query_lower in skill['description'].lower():
-                skill['match_score'] = 1  # Medium relevance
+            if query_lower in skill["description"].lower():
+                skill["match_score"] = 1  # Medium relevance
                 matches.append(skill)
 
         # Sort by match score
-        matches.sort(key=lambda x: x.get('match_score', 0), reverse=True)
+        matches.sort(key=lambda x: x.get("match_score", 0), reverse=True)
 
         return matches
 
@@ -93,7 +94,7 @@ class SkillDiscovery:
 
         for skill in all_skills:
             # Check if category appears in name or description
-            if category_lower in skill['name'].lower() or category_lower in skill['description'].lower():
+            if category_lower in skill["name"].lower() or category_lower in skill["description"].lower():
                 matches.append(skill)
 
         return matches
@@ -111,7 +112,7 @@ class SkillDiscovery:
         skill_info = self._extract_skill_metadata(skill_path)
 
         if skill_info:
-            skill_info['directory'] = str(self.skills_dir / name)
+            skill_info["directory"] = str(self.skills_dir / name)
             self.skill_cache[name] = skill_info
 
         return skill_info
@@ -120,12 +121,12 @@ class SkillDiscovery:
         """Recommend skills based on context."""
         # Simple keyword-based recommendation
         keywords = {
-            'api': ['security', 'testing', 'coding'],
-            'web': ['frontend', 'security', 'performance'],
-            'mobile': ['frontend', 'mobile', 'testing'],
-            'security': ['security', 'nist-compliance', 'testing'],
-            'testing': ['testing', 'tdd', 'integration'],
-            'data': ['data-engineering', 'observability', 'performance'],
+            "api": ["security", "testing", "coding"],
+            "web": ["frontend", "security", "performance"],
+            "mobile": ["frontend", "mobile", "testing"],
+            "security": ["security", "nist-compliance", "testing"],
+            "testing": ["testing", "tdd", "integration"],
+            "data": ["data-engineering", "observability", "performance"],
         }
 
         context_lower = context.lower()
@@ -144,7 +145,7 @@ class SkillDiscovery:
 
         for skill in all_skills:
             for category in relevant_categories:
-                if category in skill['name'].lower() or category in skill['description'].lower():
+                if category in skill["name"].lower() or category in skill["description"].lower():
                     recommendations.append(skill)
                     break
 
@@ -191,15 +192,15 @@ Content here.
         skills = discovery.discover_all_skills()
 
         assert len(skills) == 4
-        assert all('name' in skill for skill in skills)
-        assert all('description' in skill for skill in skills)
+        assert all("name" in skill for skill in skills)
+        assert all("description" in skill for skill in skills)
 
     def test_search_by_keyword(self, discovery):
         """Test searching skills by keyword."""
         results = discovery.search_skills("python")
 
         assert len(results) > 0
-        assert any('python' in skill['name'].lower() for skill in results)
+        assert any("python" in skill["name"].lower() for skill in results)
 
     def test_search_ranking(self, discovery):
         """Test that search results are ranked."""
@@ -208,21 +209,21 @@ Content here.
         assert len(results) > 0
         # Skills with keyword in name should rank higher
         if len(results) > 1:
-            assert results[0]['match_score'] >= results[-1]['match_score']
+            assert results[0]["match_score"] >= results[-1]["match_score"]
 
     def test_find_by_category(self, discovery):
         """Test finding skills by category."""
         results = discovery.find_skills_by_category("testing")
 
         assert len(results) > 0
-        assert any('testing' in skill['name'].lower() for skill in results)
+        assert any("testing" in skill["name"].lower() for skill in results)
 
     def test_get_specific_skill(self, discovery):
         """Test getting a specific skill by name."""
         skill = discovery.get_skill_by_name("python-coding")
 
         assert skill is not None
-        assert skill['name'] == 'python-coding'
+        assert skill["name"] == "python-coding"
 
     def test_get_nonexistent_skill(self, discovery):
         """Test getting a skill that doesn't exist."""
@@ -246,8 +247,8 @@ Content here.
 
         # Should recommend API and security skills
         assert len(recommendations) > 0
-        names = [skill['name'] for skill in recommendations]
-        assert any('api' in name or 'security' in name for name in names)
+        names = [skill["name"] for skill in recommendations]
+        assert any("api" in name or "security" in name for name in names)
 
     def test_recommend_web_context(self, discovery):
         """Test recommendations for web development context."""
@@ -282,7 +283,7 @@ Content here.
         assert len(skills) == 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Run discovery analysis
     repo_root = Path(__file__).parent.parent.parent
     skills_dir = repo_root / "docs" / "skills"

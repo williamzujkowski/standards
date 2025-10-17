@@ -11,18 +11,20 @@ Security Features:
 - Audit logging for all payment operations
 """
 
-import os
 import logging
-from typing import Dict, Any, Optional
+import os
 from datetime import datetime
-import stripe
+from typing import Any, Dict, Optional
+
 import braintree
+import stripe
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # ==== Stripe Implementation ====
+
 
 class StripeTokenizer:
     """
@@ -49,7 +51,7 @@ class StripeTokenizer:
         amount: int,
         currency: str = "usd",
         customer_id: Optional[str] = None,
-        metadata: Optional[Dict[str, str]] = None
+        metadata: Optional[Dict[str, str]] = None,
     ) -> Dict[str, Any]:
         """
         Create a PaymentIntent for Stripe.js to complete
@@ -69,7 +71,7 @@ class StripeTokenizer:
                 currency=currency,
                 customer=customer_id,
                 metadata=metadata or {},
-                automatic_payment_methods={"enabled": True}
+                automatic_payment_methods={"enabled": True},
             )
 
             logger.info(f"PaymentIntent created: {intent.id}")
@@ -79,7 +81,7 @@ class StripeTokenizer:
                 "client_secret": intent.client_secret,
                 "payment_intent_id": intent.id,
                 "amount": amount,
-                "currency": currency
+                "currency": currency,
             }
         except stripe.error.StripeError as e:
             logger.error(f"Stripe error: {e}")
@@ -102,7 +104,7 @@ class StripeTokenizer:
                 amount=amount,
                 currency="usd",
                 source=token,  # Token from Stripe.js (NOT raw card data)
-                description=description
+                description=description,
             )
 
             logger.info(f"Payment processed: {charge.id}")
@@ -113,28 +115,18 @@ class StripeTokenizer:
                 "charge_id": charge.id,
                 "amount": charge.amount,
                 "status": charge.status,
-                "receipt_url": charge.receipt_url
+                "receipt_url": charge.receipt_url,
             }
         except stripe.error.CardError as e:
             # Card declined
             logger.warning(f"Card declined: {e.user_message}")
-            return {
-                "success": False,
-                "error": e.user_message,
-                "decline_code": e.code
-            }
+            return {"success": False, "error": e.user_message, "decline_code": e.code}
         except stripe.error.StripeError as e:
             logger.error(f"Stripe error: {e}")
-            return {
-                "success": False,
-                "error": "Payment processing failed"
-            }
+            return {"success": False, "error": "Payment processing failed"}
 
     def create_customer_with_payment_method(
-        self,
-        email: str,
-        payment_method_id: str,
-        metadata: Optional[Dict[str, str]] = None
+        self, email: str, payment_method_id: str, metadata: Optional[Dict[str, str]] = None
     ) -> Dict[str, Any]:
         """
         Create a customer and attach a payment method (tokenized)
@@ -151,30 +143,19 @@ class StripeTokenizer:
             customer = stripe.Customer.create(
                 email=email,
                 payment_method=payment_method_id,
-                invoice_settings={
-                    "default_payment_method": payment_method_id
-                },
-                metadata=metadata or {}
+                invoice_settings={"default_payment_method": payment_method_id},
+                metadata=metadata or {},
             )
 
             logger.info(f"Customer created: {customer.id}")
             self._audit_log("customer_created", customer.id, 0)
 
-            return {
-                "customer_id": customer.id,
-                "email": customer.email,
-                "payment_method": payment_method_id
-            }
+            return {"customer_id": customer.id, "email": customer.email, "payment_method": payment_method_id}
         except stripe.error.StripeError as e:
             logger.error(f"Customer creation failed: {e}")
             raise
 
-    def charge_saved_customer(
-        self,
-        customer_id: str,
-        amount: int,
-        description: str
-    ) -> Dict[str, Any]:
+    def charge_saved_customer(self, customer_id: str, amount: int, description: str) -> Dict[str, Any]:
         """
         Charge an existing customer using saved payment method
 
@@ -187,27 +168,15 @@ class StripeTokenizer:
             Charge details
         """
         try:
-            charge = stripe.Charge.create(
-                amount=amount,
-                currency="usd",
-                customer=customer_id,
-                description=description
-            )
+            charge = stripe.Charge.create(amount=amount, currency="usd", customer=customer_id, description=description)
 
             logger.info(f"Recurring payment processed: {charge.id}")
             self._audit_log("recurring_payment", charge.id, amount)
 
-            return {
-                "success": True,
-                "charge_id": charge.id,
-                "amount": charge.amount
-            }
+            return {"success": True, "charge_id": charge.id, "amount": charge.amount}
         except stripe.error.StripeError as e:
             logger.error(f"Recurring payment failed: {e}")
-            return {
-                "success": False,
-                "error": str(e)
-            }
+            return {"success": False, "error": str(e)}
 
     def _audit_log(self, event_type: str, reference_id: str, amount: int):
         """
@@ -223,7 +192,7 @@ class StripeTokenizer:
             "event_type": event_type,
             "reference_id": reference_id,
             "amount": amount,
-            "user": "system"  # Replace with actual user ID in production
+            "user": "system",  # Replace with actual user ID in production
         }
 
         # In production: Send to SIEM, write to audit database
@@ -231,6 +200,7 @@ class StripeTokenizer:
 
 
 # ==== Braintree Implementation ====
+
 
 class BraintreeTokenizer:
     """
@@ -245,15 +215,17 @@ class BraintreeTokenizer:
                 environment=braintree.Environment.Production,  # or Sandbox for testing
                 merchant_id=os.environ.get("BRAINTREE_MERCHANT_ID"),
                 public_key=os.environ.get("BRAINTREE_PUBLIC_KEY"),
-                private_key=os.environ.get("BRAINTREE_PRIVATE_KEY")
+                private_key=os.environ.get("BRAINTREE_PRIVATE_KEY"),
             )
         )
 
-        if not all([
-            os.environ.get("BRAINTREE_MERCHANT_ID"),
-            os.environ.get("BRAINTREE_PUBLIC_KEY"),
-            os.environ.get("BRAINTREE_PRIVATE_KEY")
-        ]):
+        if not all(
+            [
+                os.environ.get("BRAINTREE_MERCHANT_ID"),
+                os.environ.get("BRAINTREE_PUBLIC_KEY"),
+                os.environ.get("BRAINTREE_PRIVATE_KEY"),
+            ]
+        ):
             raise ValueError("Braintree credentials not set in environment")
 
         logger.info("Braintree gateway initialized")
@@ -293,14 +265,14 @@ class BraintreeTokenizer:
             Transaction result
         """
         try:
-            result = self.gateway.transaction.sale({
-                "amount": amount,
-                "payment_method_nonce": nonce,
-                "customer_id": customer_id,
-                "options": {
-                    "submit_for_settlement": True
+            result = self.gateway.transaction.sale(
+                {
+                    "amount": amount,
+                    "payment_method_nonce": nonce,
+                    "customer_id": customer_id,
+                    "options": {"submit_for_settlement": True},
                 }
-            })
+            )
 
             if result.is_success:
                 transaction = result.transaction
@@ -311,21 +283,18 @@ class BraintreeTokenizer:
                     "success": True,
                     "transaction_id": transaction.id,
                     "amount": transaction.amount,
-                    "status": transaction.status
+                    "status": transaction.status,
                 }
             else:
                 logger.warning(f"Payment declined: {result.message}")
                 return {
                     "success": False,
                     "error": result.message,
-                    "errors": [error.message for error in result.errors.deep_errors]
+                    "errors": [error.message for error in result.errors.deep_errors],
                 }
         except Exception as e:
             logger.error(f"Braintree error: {e}")
-            return {
-                "success": False,
-                "error": "Payment processing failed"
-            }
+            return {"success": False, "error": "Payment processing failed"}
 
     def create_customer(self, email: str, payment_method_nonce: str) -> Dict[str, Any]:
         """
@@ -339,10 +308,7 @@ class BraintreeTokenizer:
             Customer details
         """
         try:
-            result = self.gateway.customer.create({
-                "email": email,
-                "payment_method_nonce": payment_method_nonce
-            })
+            result = self.gateway.customer.create({"email": email, "payment_method_nonce": payment_method_nonce})
 
             if result.is_success:
                 customer = result.customer
@@ -352,7 +318,7 @@ class BraintreeTokenizer:
                 return {
                     "customer_id": customer.id,
                     "email": customer.email,
-                    "payment_methods": [pm.token for pm in customer.payment_methods]
+                    "payment_methods": [pm.token for pm in customer.payment_methods],
                 }
             else:
                 logger.error(f"Customer creation failed: {result.message}")
@@ -373,35 +339,21 @@ class BraintreeTokenizer:
             Transaction result
         """
         try:
-            result = self.gateway.transaction.sale({
-                "amount": amount,
-                "customer_id": customer_id,
-                "options": {
-                    "submit_for_settlement": True
-                }
-            })
+            result = self.gateway.transaction.sale(
+                {"amount": amount, "customer_id": customer_id, "options": {"submit_for_settlement": True}}
+            )
 
             if result.is_success:
                 transaction = result.transaction
                 logger.info(f"Recurring payment successful: {transaction.id}")
                 self._audit_log("recurring_payment", transaction.id, amount)
 
-                return {
-                    "success": True,
-                    "transaction_id": transaction.id,
-                    "amount": transaction.amount
-                }
+                return {"success": True, "transaction_id": transaction.id, "amount": transaction.amount}
             else:
-                return {
-                    "success": False,
-                    "error": result.message
-                }
+                return {"success": False, "error": result.message}
         except Exception as e:
             logger.error(f"Braintree error: {e}")
-            return {
-                "success": False,
-                "error": str(e)
-            }
+            return {"success": False, "error": str(e)}
 
     def _audit_log(self, event_type: str, reference_id: str, amount: str):
         """Audit logging for compliance"""
@@ -410,12 +362,13 @@ class BraintreeTokenizer:
             "event_type": event_type,
             "reference_id": reference_id,
             "amount": amount,
-            "user": "system"
+            "user": "system",
         }
         logger.info(f"AUDIT: {log_entry}")
 
 
 # ==== Usage Examples ====
+
 
 def example_stripe_flow():
     """Example Stripe payment flow"""
@@ -428,14 +381,12 @@ def example_stripe_flow():
     customer = tokenizer.create_customer_with_payment_method(
         email="customer@example.com",
         payment_method_id="pm_xxxxxxxxxxxxxx",  # From Stripe.js
-        metadata={"user_id": "12345"}
+        metadata={"user_id": "12345"},
     )
 
     # Charge the customer
     result = tokenizer.charge_saved_customer(
-        customer_id=customer["customer_id"],
-        amount=5000,  # $50.00
-        description="Product purchase"
+        customer_id=customer["customer_id"], amount=5000, description="Product purchase"  # $50.00
     )
 
     print(f"Payment result: {result}")
@@ -453,15 +404,11 @@ def example_braintree_flow():
 
     # Create customer and process payment
     customer = tokenizer.create_customer(
-        email="customer@example.com",
-        payment_method_nonce="fake-valid-nonce"  # From Braintree.js
+        email="customer@example.com", payment_method_nonce="fake-valid-nonce"  # From Braintree.js
     )
 
     # Charge saved customer
-    result = tokenizer.charge_saved_customer(
-        customer_id=customer["customer_id"],
-        amount="50.00"
-    )
+    result = tokenizer.charge_saved_customer(customer_id=customer["customer_id"], amount="50.00")
 
     print(f"Payment result: {result}")
 

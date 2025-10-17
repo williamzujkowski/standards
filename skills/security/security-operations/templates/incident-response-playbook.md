@@ -14,11 +14,13 @@
 ## Playbook 1: Phishing Response
 
 ### Trigger
+
 - User reports suspicious email via security@company.com
 - Email security gateway flags malicious attachment/link
 - EDR detects payload execution from email attachment
 
 ### Severity Assessment
+
 - **Critical:** Credential compromise OR payload execution on critical systems
 - **High:** Payload execution on standard endpoints
 - **Medium:** Suspicious email with no execution confirmed
@@ -213,11 +215,13 @@ Next update: 2 hours
 ## Playbook 2: Malware Outbreak
 
 ### Trigger
+
 - EDR detects malicious process execution
 - Antivirus quarantine alerts spike
 - User reports ransomware note or system slowdown
 
 ### Severity Assessment
+
 - **Critical:** Ransomware encrypting production systems OR wiper malware
 - **High:** Malware with data exfiltration capability
 - **Medium:** Commodity malware (Emotet, Qbot) contained to single host
@@ -404,11 +408,13 @@ See template: `post-incident-report.md`
 ## Playbook 3: Data Breach
 
 ### Trigger
+
 - SIEM alerts on large data download/upload
 - External notification (security researcher, customer complaint)
 - Database audit log shows unauthorized access
 
 ### Severity Assessment
+
 - **Critical:** PII/PHI of >10,000 individuals OR financial data
 - **High:** Confidential IP, customer data (<10,000 records)
 - **Medium:** Internal documents, non-sensitive data
@@ -599,11 +605,13 @@ credit_monitoring:
 ## Playbook 4: DDoS Attack
 
 ### Trigger
+
 - Network monitoring alerts on traffic spike
 - Application performance degradation
 - ISP notification of inbound DDoS
 
 ### Severity Assessment
+
 - **Critical:** Multi-vector attack >100 Gbps, business-critical service offline
 - **High:** Single-vector attack 10-100 Gbps, degraded performance
 - **Medium:** <10 Gbps, intermittent service issues
@@ -762,12 +770,14 @@ improvements:
 ## Playbook 5: Insider Threat
 
 ### Trigger
+
 - DLP alert on large data transfer to personal cloud storage
 - UEBA anomaly: User accessing unusual systems/data
 - Manager reports suspicious employee behavior
 - Exit interview: Departing employee with access to sensitive data
 
 ### Severity Assessment
+
 - **Critical:** Active data exfiltration OR sabotage (deleted databases, malware deployment)
 - **High:** Unauthorized access to trade secrets, customer data
 - **Medium:** Policy violation (personal use of company resources)

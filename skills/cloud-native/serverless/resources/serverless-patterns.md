@@ -5,6 +5,7 @@
 **Use Case:** RESTful API, GraphQL endpoint, mobile backend
 
 **Architecture:**
+
 ```
 Client → API Gateway → Lambda → DynamoDB/RDS
          ↓
@@ -14,12 +15,14 @@ Client → API Gateway → Lambda → DynamoDB/RDS
 ```
 
 **Key Components:**
+
 - **API Gateway:** HTTP routing, throttling, API keys, CORS
 - **Lambda:** Business logic execution
 - **DynamoDB:** NoSQL database (PAY_PER_REQUEST)
 - **CloudWatch:** Logs, metrics, alarms
 
 **Best Practices:**
+
 - Use Lambda Proxy integration for full control
 - Enable X-Ray tracing for distributed debugging
 - Implement API Gateway caching (TTL 60-3600s)
@@ -27,6 +30,7 @@ Client → API Gateway → Lambda → DynamoDB/RDS
 - Configure throttling limits (burst, rate)
 
 **Cost Optimization:**
+
 - Cache frequent queries (API Gateway, ElastiCache)
 - Use DynamoDB on-demand billing for variable traffic
 - Implement exponential backoff for retries
@@ -38,6 +42,7 @@ Client → API Gateway → Lambda → DynamoDB/RDS
 **Use Case:** File upload processing, ETL pipelines, data transformation
 
 **Architecture:**
+
 ```
 S3 Upload → S3 Event → Lambda → Transform → Store (S3/DynamoDB)
                        ↓
@@ -45,6 +50,7 @@ S3 Upload → S3 Event → Lambda → Transform → Store (S3/DynamoDB)
 ```
 
 **Key Components:**
+
 - **S3 Event Notifications:** Trigger on ObjectCreated, ObjectRemoved
 - **Lambda:** Process files (parse CSV, resize images, transcode video)
 - **SQS Dead Letter Queue:** Handle failures
@@ -52,6 +58,7 @@ S3 Upload → S3 Event → Lambda → Transform → Store (S3/DynamoDB)
 **Patterns:**
 
 ### Fan-Out Pattern
+
 ```
 S3 Event → SNS → Lambda 1 (Thumbnail)
            ↓
@@ -60,6 +67,7 @@ S3 Event → SNS → Lambda 1 (Thumbnail)
 ```
 
 ### Fan-In Pattern (with Step Functions)
+
 ```
 S3 Event → Lambda (Orchestrator) → Step Functions
            ↓
@@ -69,6 +77,7 @@ S3 Event → Lambda (Orchestrator) → Step Functions
 ```
 
 **Best Practices:**
+
 - Use S3 batch operations for bulk processing
 - Implement idempotent handlers (S3 events may duplicate)
 - Configure S3 event filtering (prefix, suffix)
@@ -82,11 +91,13 @@ S3 Event → Lambda (Orchestrator) → Step Functions
 **Use Case:** Backup automation, report generation, data aggregation
 
 **Architecture:**
+
 ```
 EventBridge Rule (cron) → Lambda → Execute Task → Notify (SNS/SES)
 ```
 
 **Cron Expressions:**
+
 - `rate(5 minutes)` - Every 5 minutes
 - `cron(0 12 * * ? *)` - Daily at noon UTC
 - `cron(0 0 ? * MON *)` - Every Monday at midnight
@@ -94,6 +105,7 @@ EventBridge Rule (cron) → Lambda → Execute Task → Notify (SNS/SES)
 **Example Use Cases:**
 
 ### Database Backup
+
 ```python
 # EventBridge: cron(0 2 * * ? *) - 2 AM daily
 def lambda_handler(event, context):
@@ -107,6 +119,7 @@ def lambda_handler(event, context):
 ```
 
 ### Aggregation Pipeline
+
 ```python
 # EventBridge: rate(1 hour)
 def lambda_handler(event, context):
@@ -116,6 +129,7 @@ def lambda_handler(event, context):
 ```
 
 **Best Practices:**
+
 - Use idempotent task IDs (date-based)
 - Configure CloudWatch alarms for task failures
 - Implement retry logic with exponential backoff
@@ -128,6 +142,7 @@ def lambda_handler(event, context):
 **Use Case:** Real-time analytics, clickstream processing, IoT data ingestion
 
 **Architecture:**
+
 ```
 Kinesis Data Stream → Lambda (consumer) → Transform → Elasticsearch/S3
                                          ↓
@@ -135,11 +150,13 @@ Kinesis Data Stream → Lambda (consumer) → Transform → Elasticsearch/S3
 ```
 
 **Key Components:**
+
 - **Kinesis Data Streams:** Real-time data ingestion (1 MB/s per shard)
 - **Lambda:** Process records in batches (1-10,000 records)
 - **Kinesis Data Firehose:** Direct load to S3/Redshift/Elasticsearch
 
 **Batch Processing:**
+
 ```python
 def lambda_handler(event, context):
     for record in event['Records']:
@@ -159,6 +176,7 @@ def lambda_handler(event, context):
 ```
 
 **Best Practices:**
+
 - Use batch processing (up to 10,000 records)
 - Configure bisect batch on error (automatic retry)
 - Set appropriate batch window (0-300 seconds)
@@ -172,6 +190,7 @@ def lambda_handler(event, context):
 **Use Case:** Order processing, background jobs, rate limiting
 
 **Architecture:**
+
 ```
 Client → API Gateway → Lambda (Producer) → SQS → Lambda (Consumer)
                                            ↓
@@ -179,10 +198,12 @@ Client → API Gateway → Lambda (Producer) → SQS → Lambda (Consumer)
 ```
 
 **SQS Configuration:**
+
 - **Standard Queue:** At-least-once delivery, unlimited throughput
 - **FIFO Queue:** Exactly-once processing, 3000 TPS, ordered
 
 **Consumer Pattern:**
+
 ```python
 # Lambda polls SQS (batch size 1-10)
 def lambda_handler(event, context):
@@ -201,6 +222,7 @@ def lambda_handler(event, context):
 ```
 
 **Best Practices:**
+
 - Set visibility timeout > Lambda timeout
 - Configure DLQ after 3-5 retries
 - Use batch processing for efficiency
@@ -214,6 +236,7 @@ def lambda_handler(event, context):
 **Use Case:** Multi-step workflows, order fulfillment, payment processing
 
 **Architecture (Step Functions):**
+
 ```
 Start → Reserve Inventory → Process Payment → Ship Order → Complete
         ↓ (failure)           ↓ (failure)      ↓ (failure)
@@ -221,6 +244,7 @@ Start → Reserve Inventory → Process Payment → Ship Order → Complete
 ```
 
 **Step Functions State Machine:**
+
 ```json
 {
   "StartAt": "ReserveInventory",
@@ -259,6 +283,7 @@ Start → Reserve Inventory → Process Payment → Ship Order → Complete
 ```
 
 **Best Practices:**
+
 - Implement compensating transactions (rollback)
 - Use Step Functions for orchestration (vs. Lambda)
 - Store state in DynamoDB or Step Functions context
@@ -272,6 +297,7 @@ Start → Reserve Inventory → Process Payment → Ship Order → Complete
 **Use Case:** URL rewriting, A/B testing, geolocation routing
 
 **Architecture:**
+
 ```
 Client → CloudFront → Lambda@Edge → Origin (S3/API)
          ↓
@@ -289,6 +315,7 @@ Client → CloudFront → Lambda@Edge → Origin (S3/API)
 | **Cost** | $0.10/1M | $0.60/1M |
 
 **Example: A/B Testing**
+
 ```javascript
 // CloudFront Function (viewer request)
 function handler(event) {
@@ -311,6 +338,7 @@ function handler(event) {
 **Use Case:** Chat applications, live dashboards, collaborative editing
 
 **Architecture:**
+
 ```
 Client (WebSocket) → API Gateway WebSocket → Lambda
                      ↓
@@ -318,6 +346,7 @@ Client (WebSocket) → API Gateway WebSocket → Lambda
 ```
 
 **Connection Lifecycle:**
+
 ```python
 # $connect route
 def connect_handler(event, context):
@@ -349,6 +378,7 @@ def message_handler(event, context):
 ```
 
 **Best Practices:**
+
 - Store connection IDs in DynamoDB (TTL 2 hours)
 - Handle stale connections gracefully
 - Implement connection authorization ($connect route)
@@ -360,17 +390,20 @@ def message_handler(event, context):
 ## Cost Comparison (Monthly)
 
 **API Backend (10M requests, 200ms avg):**
+
 - Lambda: $2.40
 - API Gateway: $35
 - DynamoDB: $5 (on-demand)
 - **Total: ~$42**
 
 **Event Processing (1M S3 uploads, 5s processing):**
+
 - Lambda: $30
 - S3: $23 (storage)
 - **Total: ~$53**
 
 **Cron Jobs (24 hourly tasks, 1s each):**
+
 - Lambda: $0.01
 - EventBridge: $0
 - **Total: <$0.01**

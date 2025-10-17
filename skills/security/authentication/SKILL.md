@@ -738,6 +738,7 @@ node templates/oauth2-client.js
 ## NIST Controls Coverage
 
 **Primary Controls:**
+
 - **IA-2**: Identification and Authentication (Organizational Users)
 - **IA-5**: Authenticator Management
 - **IA-8**: Identification and Authentication (Non-Organizational Users)

@@ -20,6 +20,7 @@ A comprehensive guide to writing stable, maintainable, and reliable end-to-end t
 ### Priority Order
 
 **1. Test IDs (Highest Priority)**
+
 ```typescript
 // ✅ Best: Dedicated test attributes
 <button data-testid="submit-button">Submit</button>
@@ -29,6 +30,7 @@ await page.getByTestId('submit-button').click();
 ```
 
 **2. Accessibility Attributes**
+
 ```typescript
 // ✅ Good: Semantic and accessible
 <button aria-label="Submit form">Submit</button>
@@ -42,6 +44,7 @@ await page.getByLabel('Email').fill('user@example.com');
 ```
 
 **3. Text Content**
+
 ```typescript
 // ✅ Acceptable: Unique visible text
 await page.getByText('Welcome back, John').click();
@@ -50,6 +53,7 @@ await page.getByText('Welcome back, John').click();
 ```
 
 **4. CSS Selectors (Last Resort)**
+
 ```typescript
 // ❌ Avoid: Brittle, breaks with styling
 await page.locator('.btn.btn-primary.mt-3').click();
@@ -83,6 +87,7 @@ await page.getByTestId('modal-close').click(); // Might fail if modal animates
 ### Auto-Waiting (Preferred)
 
 Playwright and Cypress automatically wait for elements to be:
+
 - Present in DOM
 - Visible
 - Enabled
@@ -97,6 +102,7 @@ await page.fill('input', 'text'); // Waits automatically
 ### Explicit Waits (When Necessary)
 
 **Wait for Element State**
+
 ```typescript
 // ✅ Wait for specific condition
 await page.waitForSelector('[data-testid="results"]', {
@@ -111,6 +117,7 @@ await page.waitForSelector('[data-testid="loading"]', {
 ```
 
 **Wait for Network**
+
 ```typescript
 // ✅ Wait for API response
 const responsePromise = page.waitForResponse(
@@ -124,6 +131,7 @@ await page.waitForLoadState('networkidle');
 ```
 
 **Wait for Custom Conditions**
+
 ```typescript
 // ✅ Wait for complex condition
 await page.waitForFunction(() => {
@@ -241,6 +249,7 @@ test('login user', async () => {
 ### Test Data Strategies
 
 **1. API Setup (Fastest)**
+
 ```typescript
 // ✅ Use API for data setup
 test('display user profile', async ({ page, request }) => {
@@ -269,6 +278,7 @@ test('display user profile', async ({ page }) => {
 ```
 
 **2. Database Seeding**
+
 ```typescript
 // ✅ Seed database before tests
 test.beforeEach(async () => {
@@ -283,6 +293,7 @@ test.beforeEach(async () => {
 ```
 
 **3. Fixtures**
+
 ```typescript
 // ✅ Create reusable fixtures
 import { test as base } from '@playwright/test';

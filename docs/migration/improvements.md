@@ -12,6 +12,7 @@
 This document provides prioritized recommendations to successfully implement the Anthropic Skills migration for the standards repository. Recommendations are based on analysis of the current planning documentation, existing repository structure, and Anthropic Skills best practices.
 
 **Priority Levels**:
+
 - 🔴 **P0**: Critical - Must implement before proceeding
 - 🟡 **P1**: High - Should implement early in process
 - 🟢 **P2**: Medium - Implement after core functionality
@@ -131,6 +132,7 @@ if __name__ == '__main__':
 **Supporting Scripts Needed**:
 
 1. **Token Counter** (`scripts/migration/count-tokens.py`):
+
    ```python
    def count_tokens(text: str) -> int:
        """Estimate token count for content"""
@@ -139,6 +141,7 @@ if __name__ == '__main__':
    ```
 
 2. **YAML Validator** (`scripts/migration/validate-yaml.py`):
+
    ```python
    def validate_yaml_frontmatter(file_path: Path) -> bool:
        """Ensure frontmatter is valid YAML"""
@@ -146,6 +149,7 @@ if __name__ == '__main__':
    ```
 
 3. **Link Checker** (`scripts/migration/check-links.py`):
+
    ```python
    def validate_resource_links(skill_dir: Path) -> List[str]:
        """Verify all resource references exist"""
@@ -153,6 +157,7 @@ if __name__ == '__main__':
    ```
 
 **Benefits**:
+
 - Consistent formatting across all skills
 - Rapid iteration and refinement
 - Easy to fix issues globally
@@ -173,6 +178,7 @@ if __name__ == '__main__':
 **Suggested First Skill**: `coding-standards`
 
 **Why This Skill**:
+
 - Well-defined scope
 - Rich existing content
 - Multiple resources to bundle
@@ -183,6 +189,7 @@ if __name__ == '__main__':
 
 1. **Extract Content** from `/home/william/git/standards/docs/standards/CODING_STANDARDS.md`
 2. **Create YAML Frontmatter**:
+
    ```yaml
    ---
    name: coding-standards
@@ -196,6 +203,7 @@ if __name__ == '__main__':
    ```
 
 3. **Structure Level 2 Content** (Main SKILL.md):
+
    ```markdown
    # Coding Standards
 
@@ -244,6 +252,7 @@ if __name__ == '__main__':
    Create `docs/migration/skill-template-guide.md` explaining the pattern for others to follow.
 
 **Deliverables**:
+
 - Complete `skills/coding-standards/SKILL.md`
 - All bundled resources
 - Test results
@@ -627,6 +636,7 @@ jobs:
 **Test Types**:
 
 1. **Unit Tests** (Per Skill):
+
    ```python
    def test_skill_loads():
        """Test skill loads without errors"""
@@ -650,6 +660,7 @@ jobs:
    ```
 
 2. **Integration Tests** (Cross-Skill):
+
    ```python
    def test_skill_composition():
        """Test multiple skills work together"""
@@ -664,6 +675,7 @@ jobs:
    ```
 
 3. **API Tests** (With Claude):
+
    ```python
    def test_claude_api_integration():
        """Test skill works with actual Claude API"""
@@ -733,6 +745,7 @@ TARGETS = {
 **Documentation Needed**:
 
 1. **Skills Catalog** (`docs/skills-catalog.md`):
+
    ```markdown
    # Available Skills Catalog
 
@@ -752,6 +765,7 @@ TARGETS = {
    ```
 
 2. **Migration Guide** (`docs/migration/user-migration-guide.md`):
+
    ```markdown
    # Migrating to Skills Format
 
@@ -768,6 +782,7 @@ TARGETS = {
    ```
 
 3. **Quick Start Guide** (`docs/skills-quick-start.md`):
+
    ```markdown
    # Skills Quick Start
 
@@ -793,6 +808,7 @@ TARGETS = {
 **Recommendation**: Build intelligent skill discovery system.
 
 **Features**:
+
 - Analyze user prompts to suggest relevant skills
 - Show skill usage statistics
 - Recommend skill combinations
@@ -808,6 +824,7 @@ TARGETS = {
 **Recommendation**: Implement skill versioning for backward compatibility.
 
 **Example**:
+
 ```
 skills/
   coding-standards/
@@ -828,6 +845,7 @@ skills/
 **Recommendation**: Enable community-contributed skills.
 
 **Features**:
+
 - Skill submission template
 - Review process
 - Quality gates
@@ -841,21 +859,25 @@ skills/
 ## Implementation Roadmap
 
 ### Week 1: Foundation
+
 - [ ] Day 1-2: Build migration automation (24h)
 - [ ] Day 3-4: Create reference implementation (16h)
 - [ ] Day 5: Complete directory structure (8h)
 
 ### Week 2-3: Content Migration
+
 - [ ] Days 6-10: Migrate Tier 1 skills (40h)
 - [ ] Days 11-14: Migrate Tier 2-3 skills (32h)
 - [ ] Day 15: Resource bundling completion (8h)
 
 ### Week 4: Quality & Testing
+
 - [ ] Days 16-17: Build validation pipeline (16h)
 - [ ] Days 18-19: Comprehensive testing (16h)
 - [ ] Day 20: User documentation (8h)
 
 ### Week 5: Polish & Deploy
+
 - [ ] Days 21-22: Bug fixes and refinements (16h)
 - [ ] Day 23: Final validation (8h)
 - [ ] Day 24: Staging deployment (8h)
@@ -870,6 +892,7 @@ skills/
 ### Risk 1: Token Budget Exceeded
 
 **Mitigation**:
+
 - Automated token counting in CI/CD
 - Clear guidelines for content length
 - Resource splitting strategies
@@ -878,6 +901,7 @@ skills/
 ### Risk 2: Broken Cross-References
 
 **Mitigation**:
+
 - Automated link validation
 - Integration tests
 - Dependency graph visualization
@@ -886,6 +910,7 @@ skills/
 ### Risk 3: User Adoption Slow
 
 **Mitigation**:
+
 - Excellent documentation
 - Migration guide with examples
 - Backward compatibility maintained
@@ -894,6 +919,7 @@ skills/
 ### Risk 4: Quality Inconsistency
 
 **Mitigation**:
+
 - Strong reference implementation
 - Automated validation
 - Peer review process

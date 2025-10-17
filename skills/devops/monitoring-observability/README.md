@@ -25,12 +25,14 @@ Total: ~2,842 lines of production-ready configuration
 ## Skill Content
 
 ### Level 1: Quick Reference (~800 tokens)
+
 - Three pillars of observability
 - Golden signals (latency, traffic, errors, saturation)
 - Essential checklist
 - Quick commands
 
 ### Level 2: Implementation Guide (~4,500 tokens)
+
 1. **Metrics with Prometheus**
    - Architecture and configuration
    - Application instrumentation (Go, Python)
@@ -72,6 +74,7 @@ Total: ~2,842 lines of production-ready configuration
    - Sampling strategies
 
 ### Level 3: Deep Dive Resources
+
 - Official documentation links
 - Recommended books
 - Advanced topics
@@ -80,6 +83,7 @@ Total: ~2,842 lines of production-ready configuration
 ## Bundled Resources
 
 ### 1. Prometheus Configuration (`config/prometheus.yml`)
+
 - Global settings and alerting
 - Kubernetes service discovery
 - Static targets
@@ -88,6 +92,7 @@ Total: ~2,842 lines of production-ready configuration
 - Remote write configuration
 
 ### 2. Recording Rules (`templates/recording-rules.yml`)
+
 - API performance metrics
 - Infrastructure resource usage
 - Database performance
@@ -97,6 +102,7 @@ Total: ~2,842 lines of production-ready configuration
 - Cluster aggregates
 
 ### 3. Alert Rules (`templates/alert-rules.yml`)
+
 - Infrastructure alerts (CPU, memory, disk)
 - API service alerts (errors, latency, traffic)
 - SLO and error budget alerts
@@ -107,6 +113,7 @@ Total: ~2,842 lines of production-ready configuration
 - Self-monitoring alerts
 
 ### 4. Grafana Dashboard (`templates/grafana-dashboard.json`)
+
 - Request rate visualization
 - Error rate with thresholds
 - Latency percentiles
@@ -117,6 +124,7 @@ Total: ~2,842 lines of production-ready configuration
 - Template variables for filtering
 
 ### 5. OpenTelemetry Collector (`templates/otel-collector.yaml`)
+
 - Multiple receivers (OTLP, Jaeger, Zipkin, Prometheus)
 - Processors (batch, sampling, filtering, resource detection)
 - Multiple exporters (Jaeger, Tempo, Loki, Prometheus)
@@ -124,6 +132,7 @@ Total: ~2,842 lines of production-ready configuration
 - Complete pipelines for traces, metrics, logs
 
 ### 6. Monitoring Stack Setup (`scripts/setup-monitoring-stack.sh`)
+
 - Docker Compose orchestration
 - Services included:
   - Prometheus + Node Exporter + cAdvisor
@@ -203,6 +212,7 @@ cd skills/devops/monitoring-observability
 ## Support
 
 For issues or questions:
+
 - Review the SKILL.md documentation
 - Check official documentation linked in Level 3
 - Consult the SPARC methodology for systematic troubleshooting

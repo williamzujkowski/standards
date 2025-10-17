@@ -512,6 +512,7 @@ myproject/
 ```
 
 **Why src layout?**
+
 - Enforces testing against installed package
 - Prevents accidental imports from source
 - Matches production environment structure
@@ -946,6 +947,7 @@ twine upload dist/*
 ## Validation
 
 This skill has been validated with:
+
 - ✅ Token count: Level 1 <2,000, Level 2 <5,000
 - ✅ Code examples: All tested and working
 - ✅ Links: All internal references valid

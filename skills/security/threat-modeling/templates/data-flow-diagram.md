@@ -284,5 +284,6 @@ Trust Boundary: ______________
 ---
 
 **Related Templates:**
+
 - `stride-template.md` - Use this DFD for STRIDE analysis
 - `threat-scenario.md` - Map attack paths to DFD elements

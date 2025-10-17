@@ -42,67 +42,66 @@ class TestSkillLoaderClass:
 
         # Check that known skills exist
         skill_names = [s.name for s in skills]
-        assert 'coding-standards' in skill_names
-        assert 'testing' in skill_names
-        assert 'security-practices' in skill_names
+        assert "coding-standards" in skill_names
+        assert "testing" in skill_names
+        assert "security-practices" in skill_names
 
     def test_discover_by_keyword(self, loader):
         """Test keyword-based discovery"""
-        skills = loader.discover(keyword='testing')
+        skills = loader.discover(keyword="testing")
         assert len(skills) > 0
 
         # All results should contain 'testing' in name or description
         for skill in skills:
-            assert 'testing' in skill.name.lower() or \
-                   'testing' in skill.description.lower()
+            assert "testing" in skill.name.lower() or "testing" in skill.description.lower()
 
     def test_discover_by_category(self, loader):
         """Test category-based discovery"""
-        skills = loader.discover(category='security-practices')
+        skills = loader.discover(category="security-practices")
         assert len(skills) > 0
 
         # All results should be in the security category
         for skill in skills:
-            assert skill.category == 'security-practices'
+            assert skill.category == "security-practices"
 
     def test_load_skill(self, loader):
         """Test loading a specific skill"""
-        skill = loader.load_skill('coding-standards', level=2)
+        skill = loader.load_skill("coding-standards", level=2)
         assert skill is not None
-        assert skill.name == 'coding-standards'
+        assert skill.name == "coding-standards"
         assert skill.level == 2
 
     def test_load_nonexistent_skill(self, loader):
         """Test loading a skill that doesn't exist"""
-        skill = loader.load_skill('nonexistent-skill')
+        skill = loader.load_skill("nonexistent-skill")
         assert skill is None
 
     def test_recommend_for_product(self, loader):
         """Test skill recommendations for product types"""
-        skills = loader.recommend('api')
+        skills = loader.recommend("api")
         assert len(skills) > 0
 
         # Should include core skills for API development
         skill_names = [s.name for s in skills]
-        assert 'coding-standards' in skill_names
-        assert 'testing' in skill_names
-        assert 'security-practices' in skill_names
+        assert "coding-standards" in skill_names
+        assert "testing" in skill_names
+        assert "security-practices" in skill_names
 
     def test_get_skill_info(self, loader):
         """Test getting skill information"""
-        skill = loader.get_skill_info('coding-standards')
+        skill = loader.get_skill_info("coding-standards")
         assert skill is not None
-        assert skill.name == 'coding-standards'
+        assert skill.name == "coding-standards"
         assert len(skill.description) > 0
         assert skill.path.exists()
 
     def test_validate_skill(self, loader):
         """Test skill validation"""
         # Valid skill
-        assert loader.validate_skill('coding-standards') is True
+        assert loader.validate_skill("coding-standards") is True
 
         # Invalid skill
-        assert loader.validate_skill('nonexistent-skill') is False
+        assert loader.validate_skill("nonexistent-skill") is False
 
 
 class TestSkillLoaderCLI:
@@ -111,83 +110,80 @@ class TestSkillLoaderCLI:
     def run_cli(self, args):
         """Helper to run CLI command"""
         result = subprocess.run(
-            [sys.executable, str(SCRIPTS_DIR / 'skill-loader.py')] + args,
-            capture_output=True,
-            text=True,
-            cwd=REPO_ROOT
+            [sys.executable, str(SCRIPTS_DIR / "skill-loader.py")] + args, capture_output=True, text=True, cwd=REPO_ROOT
         )
         return result
 
     def test_cli_discover(self):
         """Test discover command"""
-        result = self.run_cli(['discover', '--keyword', 'testing'])
+        result = self.run_cli(["discover", "--keyword", "testing"])
         assert result.returncode == 0
-        assert 'testing' in result.stdout.lower()
+        assert "testing" in result.stdout.lower()
 
     def test_cli_list(self):
         """Test list command"""
-        result = self.run_cli(['list', '--category', 'all'])
+        result = self.run_cli(["list", "--category", "all"])
         assert result.returncode == 0
-        assert 'Available Skills' in result.stdout
+        assert "Available Skills" in result.stdout
 
     def test_cli_list_json(self):
         """Test list command with JSON output"""
-        result = self.run_cli(['list', '--format', 'json'])
+        result = self.run_cli(["list", "--format", "json"])
         assert result.returncode == 0
 
         data = json.loads(result.stdout)
-        assert 'skills' in data
-        assert len(data['skills']) > 0
+        assert "skills" in data
+        assert len(data["skills"]) > 0
 
     def test_cli_info(self):
         """Test info command"""
-        result = self.run_cli(['info', 'coding-standards'])
+        result = self.run_cli(["info", "coding-standards"])
         assert result.returncode == 0
-        assert 'coding-standards' in result.stdout
-        assert 'Description:' in result.stdout
+        assert "coding-standards" in result.stdout
+        assert "Description:" in result.stdout
 
     def test_cli_info_nonexistent(self):
         """Test info command with nonexistent skill"""
-        result = self.run_cli(['info', 'nonexistent-skill'])
+        result = self.run_cli(["info", "nonexistent-skill"])
         assert result.returncode != 0
-        assert 'not found' in result.stderr.lower()
+        assert "not found" in result.stderr.lower()
 
     def test_cli_validate(self):
         """Test validate command"""
-        result = self.run_cli(['validate', 'coding-standards'])
+        result = self.run_cli(["validate", "coding-standards"])
         assert result.returncode == 0
-        assert '✅' in result.stdout or 'validated' in result.stdout.lower()
+        assert "✅" in result.stdout or "validated" in result.stdout.lower()
 
     def test_cli_load_single(self):
         """Test loading a single skill"""
-        result = self.run_cli(['load', 'coding-standards', '--level', '2'])
+        result = self.run_cli(["load", "coding-standards", "--level", "2"])
         assert result.returncode == 0
-        assert 'coding-standards' in result.stdout
-        assert 'Loaded' in result.stdout
+        assert "coding-standards" in result.stdout
+        assert "Loaded" in result.stdout
 
     def test_cli_load_multiple(self):
         """Test loading multiple skills"""
-        result = self.run_cli(['load', 'coding-standards,testing', '--level', '2'])
+        result = self.run_cli(["load", "coding-standards,testing", "--level", "2"])
         assert result.returncode == 0
-        assert 'coding-standards' in result.stdout
-        assert 'testing' in result.stdout
+        assert "coding-standards" in result.stdout
+        assert "testing" in result.stdout
 
     def test_cli_load_json(self):
         """Test loading skills with JSON output"""
-        result = self.run_cli(['load', 'coding-standards', '--format', 'json'])
+        result = self.run_cli(["load", "coding-standards", "--format", "json"])
         assert result.returncode == 0
 
         data = json.loads(result.stdout)
-        assert 'skills' in data
-        assert len(data['skills']) > 0
-        assert data['skills'][0]['name'] == 'coding-standards'
+        assert "skills" in data
+        assert len(data["skills"]) > 0
+        assert data["skills"][0]["name"] == "coding-standards"
 
     def test_cli_recommend(self):
         """Test recommend command"""
-        result = self.run_cli(['recommend', '--product-type', 'api'])
+        result = self.run_cli(["recommend", "--product-type", "api"])
         assert result.returncode == 0
-        assert 'Recommended skills' in result.stdout
-        assert 'api' in result.stdout
+        assert "Recommended skills" in result.stdout
+        assert "api" in result.stdout
 
 
 class TestLegacyBridge:
@@ -199,12 +195,12 @@ class TestLegacyBridge:
 
     def test_load_legacy_product_pattern(self, loader):
         """Test loading legacy product:api pattern"""
-        skill = loader._translate_legacy_pattern('product:api')
+        skill = loader._translate_legacy_pattern("product:api")
         assert skill is not None
 
     def test_load_legacy_cs_pattern(self, loader):
         """Test loading legacy CS:python pattern"""
-        skill = loader._translate_legacy_pattern('CS:python')
+        skill = loader._translate_legacy_pattern("CS:python")
         # This may return None if the mapping isn't complete yet
         # Just verify it doesn't crash
         assert skill is None or isinstance(skill, Skill)
@@ -212,7 +208,7 @@ class TestLegacyBridge:
     def test_legacy_mappings_loaded(self, loader):
         """Test that legacy mappings are loaded"""
         assert loader.legacy_mappings is not None
-        assert 'product_mappings' in loader.legacy_mappings
+        assert "product_mappings" in loader.legacy_mappings
 
     def test_product_matrix_loaded(self, loader):
         """Test that product matrix is loaded"""
@@ -228,11 +224,7 @@ class TestSkillValidation:
 
     def test_all_skills_have_required_sections(self, loader):
         """Verify all skills have required sections"""
-        required_sections = [
-            '## Overview',
-            '## When to Use This Skill',
-            '## Core Instructions'
-        ]
+        required_sections = ["## Overview", "## When to Use This Skill", "## Core Instructions"]
 
         for skill in loader.skills_cache.values():
             skill_file = skill.path / "SKILL.md"
@@ -240,8 +232,7 @@ class TestSkillValidation:
                 content = f.read()
 
             for section in required_sections:
-                assert section in content, \
-                    f"Skill {skill.name} missing section: {section}"
+                assert section in content, f"Skill {skill.name} missing section: {section}"
 
     def test_all_skills_have_frontmatter(self, loader):
         """Verify all skills have YAML frontmatter"""
@@ -250,14 +241,11 @@ class TestSkillValidation:
             with open(skill_file) as f:
                 content = f.read()
 
-            assert content.startswith('---'), \
-                f"Skill {skill.name} missing YAML frontmatter"
-            assert 'name:' in content[:200], \
-                f"Skill {skill.name} missing 'name' in frontmatter"
-            assert 'description:' in content[:200], \
-                f"Skill {skill.name} missing 'description' in frontmatter"
+            assert content.startswith("---"), f"Skill {skill.name} missing YAML frontmatter"
+            assert "name:" in content[:200], f"Skill {skill.name} missing 'name' in frontmatter"
+            assert "description:" in content[:200], f"Skill {skill.name} missing 'description' in frontmatter"
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Run tests
-    pytest.main([__file__, '-v', '--tb=short'])
+    pytest.main([__file__, "-v", "--tb=short"])

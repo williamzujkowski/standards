@@ -369,18 +369,21 @@ it('has no accessibility violations', async () => {
 ### Screen Reader Testing Commands
 
 **NVDA (Windows)**
+
 - `Insert + Down Arrow` - Read next line
 - `Insert + Space` - Switch mode
 - `H` - Next heading
 - `Tab` - Next focusable element
 
 **VoiceOver (Mac)**
+
 - `VO + A` - Read all
 - `VO + Right/Left Arrow` - Navigate
 - `VO + H` - Next heading
 - `Tab` - Next focusable element
 
 **JAWS (Windows)**
+
 - `Insert + Down Arrow` - Say all
 - `H` - Next heading
 - `T` - Next table
@@ -389,7 +392,9 @@ it('has no accessibility violations', async () => {
 ## Common Issues & Solutions
 
 ### Issue: Focus not visible
+
 **Solution**: Add clear focus styles
+
 ```css
 *:focus {
   outline: 2px solid #2196f3;
@@ -398,7 +403,9 @@ it('has no accessibility violations', async () => {
 ```
 
 ### Issue: Screen reader can't read dynamic content
+
 **Solution**: Use `aria-live` regions
+
 ```vue
 <div aria-live="polite" role="status">
   {{ dynamicMessage }}
@@ -406,7 +413,9 @@ it('has no accessibility violations', async () => {
 ```
 
 ### Issue: Custom controls not keyboard accessible
+
 **Solution**: Add keyboard event handlers
+
 ```vue
 <div
   role="button"

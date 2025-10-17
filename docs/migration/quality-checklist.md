@@ -37,6 +37,7 @@ Use this checklist for each skill being created:
 ### 1. File Structure
 
 **Directory Structure**:
+
 - [ ] `SKILL.md` file created in skill root
 - [ ] `/resources` subdirectory present
 - [ ] `/scripts` subdirectory present (if applicable)
@@ -44,6 +45,7 @@ Use this checklist for each skill being created:
 - [ ] `/examples` subdirectory present
 
 **File Naming**:
+
 - [ ] Main file named exactly `SKILL.md` (case-sensitive)
 - [ ] Resource files use descriptive kebab-case names
 - [ ] Script files include `.sh` or `.py` extensions
@@ -52,6 +54,7 @@ Use this checklist for each skill being created:
 ### 2. YAML Frontmatter Validation
 
 **Required Fields**:
+
 ```yaml
 ---
 name: skill-name
@@ -60,6 +63,7 @@ description: Clear description text
 ```
 
 **Checklist**:
+
 - [ ] YAML frontmatter present at file start
 - [ ] Opening and closing `---` delimiters present
 - [ ] `name` field present and valid
@@ -75,6 +79,7 @@ description: Clear description text
 ### 3. Description Quality Assessment
 
 **Content Requirements**:
+
 - [ ] Clearly states what the skill does
 - [ ] Explains when Claude should use it
 - [ ] Lists key capabilities (3-5 items)
@@ -83,12 +88,14 @@ description: Clear description text
 - [ ] Includes specific triggers/use cases
 
 **Quality Metrics**:
+
 - [ ] Character count: ____ / 1024 (must be ≤ 1024)
 - [ ] Clarity score: Excellent / Good / Needs Improvement
 - [ ] Completeness: All required elements present
 - [ ] Actionability: Clear when to activate skill
 
 **Example Good Description**:
+
 ```yaml
 description: |
   Provides comprehensive coding standards and best practices for multiple
@@ -101,6 +108,7 @@ description: |
 ### 4. Content Structure Validation
 
 **Required Sections**:
+
 - [ ] `# [Skill Title]` - Main heading present
 - [ ] `## Overview` - Brief introduction (Level 2)
 - [ ] `## When to Use This Skill` - Clear triggers
@@ -109,6 +117,7 @@ description: |
 - [ ] `## Examples` - At least 2-3 concrete examples
 
 **Content Quality**:
+
 - [ ] Overview is concise (2-4 paragraphs)
 - [ ] "When to Use" lists 3-5 specific scenarios
 - [ ] Core Instructions are actionable and clear
@@ -120,11 +129,13 @@ description: |
 ### 5. Progressive Disclosure Implementation
 
 **Level 1 (Metadata - Always Loaded)**:
+
 - [ ] YAML frontmatter only
 - [ ] Name and description fields
 - [ ] No additional metadata bloating
 
 **Level 2 (Core Instructions - Loaded When Activated)**:
+
 - [ ] Main SKILL.md body content
 - [ ] Token count < 5,000 tokens
 - [ ] Essential knowledge only
@@ -132,6 +143,7 @@ description: |
 - [ ] References to Level 3 resources
 
 **Level 3 (Resources - Loaded On Demand)**:
+
 - [ ] Additional markdown files in `/resources`
 - [ ] Scripts in `/scripts` directory
 - [ ] Templates in `/templates` directory
@@ -139,6 +151,7 @@ description: |
 - [ ] Each resource properly referenced from SKILL.md
 
 **Token Budget**:
+
 - [ ] Level 1: < 100 tokens (frontmatter)
 - [ ] Level 2: < 5,000 tokens (main content)
 - [ ] Level 3: Unlimited (lazy loaded)
@@ -146,6 +159,7 @@ description: |
 ### 6. Resource References Validation
 
 **Reference Format**:
+
 ```markdown
 For detailed Python standards, see `./resources/python-style-guide.md`
 For linting configuration, access `./scripts/setup-linters.sh`
@@ -153,6 +167,7 @@ For boilerplate code, use `./templates/class-template.py`
 ```
 
 **Checklist**:
+
 - [ ] All resources use relative paths
 - [ ] Paths start with `./resources/`, `./scripts/`, or `./templates/`
 - [ ] Referenced files actually exist
@@ -164,6 +179,7 @@ For boilerplate code, use `./templates/class-template.py`
 ### 7. Examples Quality
 
 **Requirements**:
+
 - [ ] Minimum 2 examples provided
 - [ ] Maximum 5 examples (avoid bloat)
 - [ ] Each example has clear context
@@ -173,6 +189,7 @@ For boilerplate code, use `./templates/class-template.py`
 - [ ] Each example is self-contained
 
 **Example Format**:
+
 ```markdown
 ## Examples
 
@@ -184,11 +201,13 @@ def calcTotal(x, y):  # Issue: camelCase instead of snake_case
 ```
 
 **Recommendation**:
+
 ```python
 def calculate_total(amount_x: float, amount_y: float) -> float:
     """Calculate the sum of two amounts."""
     return amount_x + amount_y
 ```
+
 ```
 
 ### 8. Cross-Skill Dependencies
@@ -212,6 +231,7 @@ def calculate_total(amount_x: float, amount_y: float) -> float:
 ```
 
 **Validation**:
+
 - [ ] All referenced skills exist
 - [ ] Circular dependencies avoided
 - [ ] Dependency graph is acyclic
@@ -220,6 +240,7 @@ def calculate_total(amount_x: float, amount_y: float) -> float:
 ### 9. Scripts and Automation
 
 **If skill includes scripts**:
+
 - [ ] Scripts have proper shebang (`#!/usr/bin/env python3`)
 - [ ] Scripts are executable (`chmod +x`)
 - [ ] Scripts include usage documentation
@@ -229,6 +250,7 @@ def calculate_total(amount_x: float, amount_y: float) -> float:
 - [ ] Scripts are tested
 
 **Script Documentation**:
+
 ```bash
 #!/usr/bin/env bash
 # Script: setup-linters.sh
@@ -240,6 +262,7 @@ def calculate_total(amount_x: float, amount_y: float) -> float:
 ### 10. Templates Quality
 
 **If skill includes templates**:
+
 - [ ] Templates are complete and usable
 - [ ] Placeholder syntax is consistent (`{{variable}}`)
 - [ ] Templates include comments/documentation
@@ -250,6 +273,7 @@ def calculate_total(amount_x: float, amount_y: float) -> float:
 ### 11. Accessibility and Internationalization
 
 **Content Accessibility**:
+
 - [ ] Headings use proper hierarchy (H1 > H2 > H3)
 - [ ] Lists use proper markdown syntax
 - [ ] Code blocks specify language for syntax highlighting
@@ -257,6 +281,7 @@ def calculate_total(amount_x: float, amount_y: float) -> float:
 - [ ] Images include alt text (if any)
 
 **Language**:
+
 - [ ] Uses clear, professional English
 - [ ] Avoids idioms or colloquialisms
 - [ ] Technical terms are defined on first use
@@ -265,6 +290,7 @@ def calculate_total(amount_x: float, amount_y: float) -> float:
 ### 12. Testing and Validation
 
 **Automated Tests**:
+
 - [ ] YAML frontmatter parses correctly
 - [ ] All resource links resolve
 - [ ] Token count within limits
@@ -273,6 +299,7 @@ def calculate_total(amount_x: float, amount_y: float) -> float:
 - [ ] Code examples are syntactically valid
 
 **Manual Testing**:
+
 - [ ] Loaded in Claude API successfully
 - [ ] Progressive disclosure works correctly
 - [ ] Examples are helpful and accurate
@@ -281,6 +308,7 @@ def calculate_total(amount_x: float, amount_y: float) -> float:
 - [ ] Cross-skill composition works
 
 **Test Script**:
+
 ```bash
 # Validate skill format
 python3 scripts/validate-skill.py skills/coding-standards/
@@ -295,6 +323,7 @@ python3 scripts/analyze-tokens.py skills/coding-standards/SKILL.md
 ### 13. Documentation Completeness
 
 **Internal Documentation**:
+
 - [ ] All sections have content (no TODOs)
 - [ ] Code examples include comments
 - [ ] Complex concepts are explained
@@ -302,6 +331,7 @@ python3 scripts/analyze-tokens.py skills/coding-standards/SKILL.md
 - [ ] Version history maintained
 
 **External Documentation**:
+
 - [ ] Skill listed in skills catalog
 - [ ] Dependencies documented in mapping
 - [ ] Migration notes updated
@@ -414,6 +444,7 @@ python3 scripts/analyze-tokens.py skills/coding-standards/SKILL.md
 ## Severity Levels for Issues
 
 **Critical (Must Fix)**:
+
 - YAML frontmatter invalid
 - SKILL.md file missing
 - Description > 1024 chars
@@ -421,6 +452,7 @@ python3 scripts/analyze-tokens.py skills/coding-standards/SKILL.md
 - Security vulnerabilities
 
 **Major (Should Fix)**:
+
 - Missing required sections
 - Token count > 5000 for Level 2
 - Poor quality examples
@@ -428,6 +460,7 @@ python3 scripts/analyze-tokens.py skills/coding-standards/SKILL.md
 - Inconsistent formatting
 
 **Minor (Nice to Have)**:
+
 - Typos or grammar issues
 - Suboptimal organization
 - Additional examples desired
@@ -448,11 +481,13 @@ python3 scripts/analyze-tokens.py skills/coding-standards/SKILL.md
 - [ ] Documentation updated
 
 **Reviewers**:
+
 - [ ] Technical Lead Sign-off: ________________
 - [ ] Quality Assurance Sign-off: ________________
 - [ ] Product Owner Sign-off: ________________
 
 **Deployment Approval**:
+
 - [ ] Staging deployment successful
 - [ ] Production deployment approved
 - [ ] Rollback plan confirmed
@@ -463,6 +498,7 @@ python3 scripts/analyze-tokens.py skills/coding-standards/SKILL.md
 ## Appendix: Validation Scripts
 
 ### Quick Validation Command
+
 ```bash
 # Run all validation checks
 ./scripts/validate-all-skills.sh
@@ -475,6 +511,7 @@ python3 scripts/analyze-tokens.py skills/coding-standards/SKILL.md
 ```
 
 ### Expected Output
+
 ```
 ✅ YAML Frontmatter Valid
 ✅ Description Length: 512/1024 chars

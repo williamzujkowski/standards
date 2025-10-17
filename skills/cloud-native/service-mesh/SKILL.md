@@ -16,6 +16,7 @@ estimated_time: 8-12 hours
 A service mesh is an infrastructure layer that provides transparent service-to-service communication with built-in observability, traffic management, and security features without requiring application code changes.
 
 **Core Components:**
+
 - **Control Plane**: Configuration and policy management (Istiod)
 - **Data Plane**: Sidecar proxies handling traffic (Envoy)
 - **Service Identity**: Certificate-based authentication (mTLS)
@@ -23,24 +24,28 @@ A service mesh is an infrastructure layer that provides transparent service-to-s
 ### Key Benefits
 
 **1. Observability**
+
 - Automatic metrics collection (latency, throughput, errors)
 - Distributed tracing (request flow visualization)
 - Traffic topology and service dependencies
 - Real-time dashboards (Kiali, Grafana)
 
 **2. Traffic Management**
+
 - Intelligent routing (canary, blue-green, A/B)
 - Load balancing (round-robin, least-request, consistent hash)
 - Traffic splitting and mirroring
 - Request retries and timeouts
 
 **3. Security**
+
 - Automatic mutual TLS (mTLS) encryption
 - Service-to-service authentication
 - Fine-grained authorization policies
 - Certificate rotation and management
 
 **4. Resilience**
+
 - Circuit breaking and outlier detection
 - Rate limiting and quota management
 - Fault injection for chaos testing
@@ -60,12 +65,14 @@ A service mesh is an infrastructure layer that provides transparent service-to-s
 | **Maturity** | Production-ready (CNCF) | Production-ready (CNCF) |
 
 **Choose Istio when:**
+
 - Need advanced traffic management (mirroring, A/B testing)
 - Multi-cluster or multi-cloud deployments
 - Complex authorization requirements
 - Established operations team
 
 **Choose Linkerd when:**
+
 - Resource efficiency is critical
 - Prefer simplicity over features
 - Kubernetes-only environment
@@ -74,6 +81,7 @@ A service mesh is an infrastructure layer that provides transparent service-to-s
 ### Essential Service Mesh Checklist
 
 **Pre-Installation:**
+
 ```yaml
 □ Kubernetes cluster v1.22+ running
 □ CNI plugin supporting network policies
@@ -83,6 +91,7 @@ A service mesh is an infrastructure layer that provides transparent service-to-s
 ```
 
 **Post-Installation:**
+
 ```yaml
 □ mTLS enabled cluster-wide (STRICT mode)
 □ Sidecar injection configured (automatic/manual)
@@ -93,6 +102,7 @@ A service mesh is an infrastructure layer that provides transparent service-to-s
 ```
 
 **Traffic Management:**
+
 ```yaml
 □ VirtualService defines routing rules
 □ DestinationRule configures load balancing
@@ -102,6 +112,7 @@ A service mesh is an infrastructure layer that provides transparent service-to-s
 ```
 
 **Security:**
+
 ```yaml
 □ Authorization policies applied (default-deny)
 □ PeerAuthentication enforces mTLS
@@ -135,6 +146,7 @@ kubectl -n istio-system port-forward svc/kiali 20001:20001
 ### Common Patterns
 
 **Canary Deployment:**
+
 ```yaml
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -164,6 +176,7 @@ spec:
 ```
 
 **Circuit Breaking:**
+
 ```yaml
 apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
@@ -186,6 +199,7 @@ spec:
 ```
 
 **Zero Trust Security:**
+
 ```yaml
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -224,12 +238,14 @@ spec:
 The control plane manages and configures the data plane proxies:
 
 **Core Functions:**
+
 1. **Service Discovery**: Abstracts platform-specific discovery mechanisms
 2. **Configuration Distribution**: Pushes routing rules to proxies
 3. **Certificate Authority**: Issues and rotates mTLS certificates
 4. **Policy Enforcement**: Applies security and traffic policies
 
 **Istiod Components:**
+
 ```
 ┌─────────────────────────────────────────┐
 │             Istiod (Control Plane)      │
@@ -248,6 +264,7 @@ The control plane manages and configures the data plane proxies:
 #### Data Plane (Envoy Proxies)
 
 **Sidecar Pattern:**
+
 ```
 ┌────────────────────────────────────┐
 │             Pod                    │
@@ -264,6 +281,7 @@ The control plane manages and configures the data plane proxies:
 ```
 
 **Envoy Capabilities:**
+
 - Layer 7 (HTTP/gRPC) and Layer 4 (TCP) proxying
 - Dynamic configuration via xDS APIs
 - Advanced load balancing algorithms
@@ -297,6 +315,7 @@ Client Request
 #### Installation Options
 
 **1. IstioOperator (Recommended):**
+
 ```yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -340,6 +359,7 @@ spec:
 ```
 
 **2. Helm Installation:**
+
 ```bash
 # Add Istio repository
 helm repo add istio https://istio-release.storage.googleapis.com/charts
@@ -359,6 +379,7 @@ helm install istio-ingress istio/gateway -n istio-system
 ```
 
 **3. Production Profile:**
+
 ```bash
 # Minimal production setup
 istioctl install --set profile=minimal \
@@ -374,6 +395,7 @@ istioctl install --set profile=minimal \
 #### Sidecar Injection Strategies
 
 **Automatic Injection (Namespace-level):**
+
 ```bash
 # Label namespace for injection
 kubectl label namespace production istio-injection=enabled
@@ -383,6 +405,7 @@ kubectl get namespace -L istio-injection
 ```
 
 **Manual Injection (Pod-level):**
+
 ```bash
 # Inject sidecar into existing deployment
 kubectl get deployment myapp -o yaml | \
@@ -391,6 +414,7 @@ kubectl get deployment myapp -o yaml | \
 ```
 
 **Selective Injection (Pod annotation):**
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -425,6 +449,7 @@ istioctl proxy-config cluster <pod-name> -n <namespace>
 #### 1. Canary Deployments
 
 **Gradual Rollout Strategy:**
+
 ```yaml
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -468,6 +493,7 @@ spec:
 ```
 
 **Progressive Rollout Script:**
+
 ```bash
 #!/bin/bash
 # Gradual canary rollout: 10% → 25% → 50% → 100%
@@ -514,6 +540,7 @@ done
 #### 2. Blue-Green Deployments
 
 **Zero-Downtime Cutover:**
+
 ```yaml
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -554,6 +581,7 @@ spec:
 ```
 
 **Cutover Process:**
+
 ```bash
 # 1. Deploy green version
 kubectl apply -f deployment-green.yaml
@@ -584,6 +612,7 @@ kubectl delete deployment myapp-blue
 #### 3. A/B Testing
 
 **User Cohort Routing:**
+
 ```yaml
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -620,6 +649,7 @@ spec:
 #### 4. Traffic Mirroring
 
 **Shadow Testing:**
+
 ```yaml
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -642,6 +672,7 @@ spec:
 ```
 
 **Use Cases:**
+
 - Test new version without impacting users
 - Load testing with real traffic patterns
 - Validate refactored services
@@ -652,6 +683,7 @@ spec:
 #### Kiali (Service Mesh Dashboard)
 
 **Installation:**
+
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.20/samples/addons/kiali.yaml
 
@@ -660,12 +692,14 @@ istioctl dashboard kiali
 ```
 
 **Key Features:**
+
 - Service topology graph
 - Traffic flow visualization
 - Configuration validation
 - Distributed tracing integration
 
 **Kiali Configuration:**
+
 ```yaml
 apiVersion: v1
 kind: ConfigMap
@@ -691,6 +725,7 @@ data:
 #### Jaeger (Distributed Tracing)
 
 **Installation:**
+
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.20/samples/addons/jaeger.yaml
 
@@ -699,6 +734,7 @@ istioctl dashboard jaeger
 ```
 
 **Enable Tracing in Mesh:**
+
 ```yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -713,6 +749,7 @@ spec:
 ```
 
 **Application Instrumentation:**
+
 ```python
 # Python (Flask) example
 from opentelemetry import trace
@@ -743,11 +780,13 @@ def get_data():
 #### Prometheus & Grafana
 
 **Prometheus Installation:**
+
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.20/samples/addons/prometheus.yaml
 ```
 
 **Key Metrics:**
+
 ```promql
 # Request rate (QPS)
 rate(istio_requests_total{reporter="source"}[1m])
@@ -766,6 +805,7 @@ rate(envoy_cluster_upstream_rq_pending_overflow[1m])
 ```
 
 **Grafana Dashboards:**
+
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.20/samples/addons/grafana.yaml
 
@@ -773,6 +813,7 @@ istioctl dashboard grafana
 ```
 
 **Custom Dashboard (JSON):**
+
 ```json
 {
   "dashboard": {
@@ -804,6 +845,7 @@ istioctl dashboard grafana
 #### Mutual TLS (mTLS)
 
 **Enable Strict mTLS (Cluster-wide):**
+
 ```yaml
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
@@ -816,6 +858,7 @@ spec:
 ```
 
 **Per-Namespace mTLS:**
+
 ```yaml
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
@@ -837,6 +880,7 @@ spec:
 ```
 
 **Per-Port mTLS:**
+
 ```yaml
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
@@ -857,6 +901,7 @@ spec:
 #### Authorization Policies
 
 **Default Deny:**
+
 ```yaml
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -868,6 +913,7 @@ spec:
 ```
 
 **Allow Specific Services:**
+
 ```yaml
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -890,6 +936,7 @@ spec:
 ```
 
 **JWT Authentication:**
+
 ```yaml
 apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
@@ -922,6 +969,7 @@ spec:
 ```
 
 **RBAC with Custom Claims:**
+
 ```yaml
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -946,6 +994,7 @@ spec:
 #### Circuit Breaking
 
 **Configuration:**
+
 ```yaml
 apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
@@ -971,6 +1020,7 @@ spec:
 ```
 
 **Testing Circuit Breaker:**
+
 ```bash
 # Generate load to trigger circuit breaker
 kubectl run -it --rm load-generator --image=busybox --restart=Never -- /bin/sh -c \
@@ -984,6 +1034,7 @@ istioctl pc cluster <pod> --fqdn backend.default.svc.cluster.local -o json | \
 #### Retries and Timeouts
 
 **Retry Configuration:**
+
 ```yaml
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -1003,6 +1054,7 @@ spec:
 ```
 
 **Timeout Configuration:**
+
 ```yaml
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -1022,6 +1074,7 @@ spec:
 ```
 
 **Fault Injection (Chaos Testing):**
+
 ```yaml
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -1048,6 +1101,7 @@ spec:
 #### Rate Limiting
 
 **Local Rate Limiting (Envoy):**
+
 ```yaml
 apiVersion: networking.istio.io/v1beta1
 kind: EnvoyFilter
@@ -1090,6 +1144,7 @@ spec:
 #### Cluster Federation
 
 **Primary-Remote Model:**
+
 ```yaml
 # On primary cluster
 apiVersion: install.istio.io/v1alpha1
@@ -1118,6 +1173,7 @@ spec:
 ```
 
 **Cross-Cluster Service Discovery:**
+
 ```bash
 # Create remote secret on primary cluster
 istioctl x create-remote-secret \
@@ -1151,6 +1207,7 @@ EOF
 #### Resource Optimization
 
 **Sidecar Resource Limits:**
+
 ```yaml
 apiVersion: v1
 kind: ConfigMap
@@ -1172,6 +1229,7 @@ data:
 ```
 
 **Sidecar Scoping:**
+
 ```yaml
 apiVersion: networking.istio.io/v1beta1
 kind: Sidecar
@@ -1188,6 +1246,7 @@ spec:
 #### Telemetry Optimization
 
 **Reduce Metrics Cardinality:**
+
 ```yaml
 apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
@@ -1209,6 +1268,7 @@ spec:
 ```
 
 **Sampling Configuration:**
+
 ```yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -1225,38 +1285,45 @@ spec:
 ## Level 3: Deep Dive Resources
 
 ### Official Documentation
+
 - [Istio Documentation](https://istio.io/latest/docs/)
 - [Linkerd Documentation](https://linkerd.io/2/overview/)
 - [Envoy Proxy Documentation](https://www.envoyproxy.io/docs)
 - [CNCF Service Mesh Landscape](https://landscape.cncf.io/guide#orchestration-management--service-mesh)
 
 ### Books
+
 - **"Istio in Action" by Christian Posta and Rinor Maloku** - Comprehensive guide
 - **"Service Mesh Patterns" by Alex Soto Bueno** - Design patterns
 - **"Mastering Service Mesh" by Anjul Sahu** - Advanced concepts
 
 ### Online Courses
+
 - [Istio Fundamentals (Tetrate Academy)](https://academy.tetrate.io/)
 - [Service Mesh with Istio (Pluralsight)](https://www.pluralsight.com/)
 - [Linkerd Fundamentals (Linux Foundation)](https://training.linuxfoundation.org/)
 
 ### Hands-On Labs
+
 - [Istio Workshop](https://github.com/solo-io/istio-workshops)
 - [Service Mesh Patterns](https://servicemeshpatterns.github.io/servicemeshbook/)
 - [Envoy Proxy Sandbox](https://www.envoyproxy.io/docs/envoy/latest/start/sandboxes/)
 
 ### Community Resources
+
 - [IstioCon Talks](https://events.istio.io/)
 - [CNCF Webinars](https://www.cncf.io/webinars/)
 - [Service Mesh Summit](https://servicemeshsummit.io/)
 
 ### Tools & Extensions
+
 - **Kiali** - Service mesh observability
 - **Flagger** - Progressive delivery operator
 - **Meshery** - Multi-mesh management
 - **SMI (Service Mesh Interface)** - Standard specification
 
 ### Best Practices
+
 - [Istio Production Best Practices](https://istio.io/latest/docs/ops/best-practices/)
 - [Service Mesh Security Patterns](https://www.nist.gov/publications/zero-trust-architecture)
 - [Performance Tuning Guide](https://istio.io/latest/docs/ops/deployment/performance-and-scalability/)

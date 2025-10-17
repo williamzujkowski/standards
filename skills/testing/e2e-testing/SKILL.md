@@ -34,6 +34,7 @@ End-to-end testing validates complete user workflows across the entire applicati
 ### Framework Comparison
 
 **Playwright**
+
 - Multi-browser (Chromium, Firefox, WebKit)
 - Auto-waiting built-in
 - Network interception
@@ -41,6 +42,7 @@ End-to-end testing validates complete user workflows across the entire applicati
 - Best for: Complex scenarios, cross-browser testing
 
 **Cypress**
+
 - Chromium-based (Firefox experimental)
 - Time-travel debugging
 - Real-time reloads
@@ -72,30 +74,35 @@ test('user can login', async ({ page }) => {
 ### Essential Checklist
 
 **Selectors (Priority Order)**
+
 - [ ] Use `data-testid` attributes first
 - [ ] Use accessibility roles/labels second
 - [ ] Avoid CSS classes and IDs
 - [ ] Never use XPath unless absolutely necessary
 
 **Waits**
+
 - [ ] Rely on framework auto-waiting (Playwright/Cypress)
 - [ ] Use explicit waits for specific conditions
 - [ ] Avoid hard-coded `sleep()` or `wait(ms)`
 - [ ] Wait for network idle when needed
 
 **Assertions**
+
 - [ ] Assert on meaningful user-visible state
 - [ ] Check URL changes for navigation
 - [ ] Verify element visibility/presence
 - [ ] Validate text content, not structure
 
 **Test Data**
+
 - [ ] Use test-specific data (not production)
 - [ ] Clean up after tests (database, files)
 - [ ] Avoid dependencies between tests
 - [ ] Use API calls for setup when possible
 
 **Flakiness Prevention**
+
 - [ ] Never use fixed delays
 - [ ] Handle async operations properly
 - [ ] Mock external dependencies
@@ -110,12 +117,14 @@ test('user can login', async ({ page }) => {
 #### Playwright Setup
 
 **Installation**
+
 ```bash
 npm init playwright@latest
 # Select: TypeScript, tests folder, GitHub Actions
 ```
 
 **Project Structure**
+
 ```
 tests/
 ├── e2e/
@@ -134,6 +143,7 @@ tests/
 ```
 
 **Configuration** (see `config/playwright.config.ts`)
+
 ```typescript
 import { defineConfig, devices } from '@playwright/test';
 
@@ -168,12 +178,14 @@ export default defineConfig({
 #### Cypress Setup
 
 **Installation**
+
 ```bash
 npm install --save-dev cypress
 npx cypress open  # First-time setup wizard
 ```
 
 **Project Structure**
+
 ```
 cypress/
 ├── e2e/
@@ -194,6 +206,7 @@ cypress/
 ```
 
 **Configuration** (see `config/cypress.config.ts`)
+
 ```typescript
 import { defineConfig } from 'cypress';
 
@@ -298,6 +311,7 @@ export class LoginPage extends BasePage {
 #### Priority Order
 
 **1. Test IDs (Recommended)**
+
 ```typescript
 // HTML
 <button data-testid="submit-button">Submit</button>
@@ -310,6 +324,7 @@ cy.get('[data-testid="submit-button"]').click();
 ```
 
 **2. Accessibility Attributes**
+
 ```typescript
 // By role
 await page.getByRole('button', { name: 'Submit' }).click();
@@ -324,6 +339,7 @@ await page.getByPlaceholder('Enter your email').fill('user@example.com');
 ```
 
 **3. Text Content**
+
 ```typescript
 // Exact text
 await page.getByText('Welcome back').click();
@@ -335,6 +351,7 @@ cy.contains(/Welcome/i).click();
 ```
 
 **4. CSS Selectors (Last Resort)**
+
 ```typescript
 // Use only when above options aren't available
 await page.locator('.submit-btn.primary').click();
@@ -362,6 +379,7 @@ await page.locator('input[name="q"][type="text"]').fill('laptops');
 #### Auto-Waiting (Playwright/Cypress)
 
 Both frameworks automatically wait for elements to be:
+
 - Present in DOM
 - Visible
 - Enabled (for interactions)
@@ -376,6 +394,7 @@ cy.get('button').click();   // Waits for button to be clickable
 #### Explicit Waits
 
 **Wait for Element State**
+
 ```typescript
 // Playwright
 await page.waitForSelector('[data-testid="results"]', { state: 'visible' });
@@ -387,6 +406,7 @@ cy.get('[data-testid="loader"]').should('not.exist');
 ```
 
 **Wait for Network**
+
 ```typescript
 // Playwright - Wait for API response
 await page.waitForResponse(
@@ -399,6 +419,7 @@ cy.wait('@getUsers');
 ```
 
 **Wait for Navigation**
+
 ```typescript
 // Playwright
 await Promise.all([
@@ -412,6 +433,7 @@ cy.url().should('include', '/dashboard');
 ```
 
 **Custom Conditions**
+
 ```typescript
 // Playwright - Wait for custom condition
 await page.waitForFunction(() => {
@@ -465,6 +487,7 @@ test('component visual regression', async ({ page }) => {
 ```
 
 **Update Baselines**
+
 ```bash
 # Generate new baseline screenshots
 npx playwright test --update-snapshots
@@ -523,6 +546,7 @@ export default defineConfig({
 ```
 
 **Run Specific Browsers**
+
 ```bash
 # All browsers
 npx playwright test
@@ -751,6 +775,7 @@ test.afterEach(async () => {
 #### Common Causes and Solutions
 
 **1. Race Conditions**
+
 ```typescript
 // ❌ Flaky: Might click before element is ready
 await page.goto('/dashboard');
@@ -763,6 +788,7 @@ await page.getByTestId('menu-button').click(); // Auto-waits
 ```
 
 **2. Timing Issues**
+
 ```typescript
 // ❌ Flaky: Hardcoded wait
 await page.fill('[data-testid="search"]', 'query');
@@ -776,6 +802,7 @@ await page.click('[data-testid="first-result"]');
 ```
 
 **3. Test Interdependence**
+
 ```typescript
 // ❌ Flaky: Tests share state
 test('create item', async ({ page }) => {
@@ -800,6 +827,7 @@ test('create item', async ({ page }) => {
 ```
 
 **4. Animation Interference**
+
 ```typescript
 // ❌ Flaky: Click during animation
 await page.click('[data-testid="modal-button"]');
@@ -812,6 +840,7 @@ await page.getByTestId('modal-close').click(); // Playwright waits for stability
 ```
 
 **5. Network Instability**
+
 ```typescript
 // ❌ Flaky: Depends on real API
 test('loads user data', async ({ page }) => {
@@ -965,6 +994,7 @@ test('homepage should not have accessibility violations', async ({ page }) => {
 ## Bundled Resources
 
 See accompanying files:
+
 1. `config/playwright.config.ts` - Production-ready Playwright configuration
 2. `config/cypress.config.ts` - Production-ready Cypress configuration
 3. `templates/page-object.ts` - Complete Page Object Model template

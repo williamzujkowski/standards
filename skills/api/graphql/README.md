@@ -23,12 +23,14 @@ Total: 4,174 lines of production-ready GraphQL content
 ## Skill Content
 
 ### Level 1: Quick Reference (~800 tokens)
+
 - GraphQL vs REST comparison
 - Schema design principles
 - Essential checklist (types, resolvers, DataLoaders, authorization)
 - Quick wins for immediate optimization
 
 ### Level 2: Implementation Guide (~4,500 tokens)
+
 1. **GraphQL Schema Design** - Types, queries, mutations, subscriptions
 2. **Resolvers and DataLoaders** - Solving N+1 problems
 3. **Apollo Federation v2** - Subgraphs, gateway, managed federation
@@ -40,6 +42,7 @@ Total: 4,174 lines of production-ready GraphQL content
 9. **Production Deployment** - Health checks, monitoring
 
 ### Level 3: Deep Dive Resources
+
 - Official documentation links
 - Tools and libraries
 - Books and courses
@@ -48,7 +51,9 @@ Total: 4,174 lines of production-ready GraphQL content
 ## Bundled Resources
 
 ### 1. graphql-schema.graphql
+
 Complete GraphQL schema demonstrating:
+
 - Custom scalars (DateTime, Email, URL)
 - Type system (objects, interfaces, unions, enums)
 - Relay-spec pagination
@@ -56,7 +61,9 @@ Complete GraphQL schema demonstrating:
 - Authorization directives
 
 ### 2. resolver-patterns.ts
+
 TypeScript resolver implementations showing:
+
 - Query, mutation, and subscription resolvers
 - Field-level resolvers
 - Authorization guards
@@ -64,7 +71,9 @@ TypeScript resolver implementations showing:
 - DataLoader integration
 
 ### 3. federation-config.yaml
+
 Apollo Federation v2 setup including:
+
 - Gateway configuration
 - Subgraph definitions
 - Apollo Studio integration
@@ -72,7 +81,9 @@ Apollo Federation v2 setup including:
 - Security settings
 
 ### 4. dataloader-implementation.ts
+
 Comprehensive DataLoader patterns:
+
 - Basic entity loading
 - One-to-many relationships
 - Composite keys
@@ -80,7 +91,9 @@ Comprehensive DataLoader patterns:
 - Cache management
 
 ### 5. subscription-server.ts
+
 Real-time GraphQL subscriptions:
+
 - WebSocket server setup
 - Redis PubSub integration
 - Filtered subscriptions
@@ -88,7 +101,9 @@ Real-time GraphQL subscriptions:
 - Production considerations
 
 ### 6. apollo-studio.yaml
+
 Apollo Studio integration for:
+
 - Schema management
 - Usage reporting
 - Performance monitoring
@@ -153,6 +168,7 @@ cp skills/api/graphql/templates/dataloader-implementation.ts src/dataloaders/
 ## Support
 
 For issues or questions:
+
 1. Review Level 2 Implementation Guide in SKILL.md
 2. Check template comments for inline documentation
 3. Consult official Apollo/GraphQL documentation

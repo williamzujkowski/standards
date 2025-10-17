@@ -20,6 +20,7 @@ Comprehensive mapping of NIST 800-61 (Incident Response Guide) and NIST 800-53 I
 **Objective:** Establish incident response capability before incidents occur
 
 **Key Activities:**
+
 - Develop incident response policy and procedures
 - Establish incident response team (IRT) with defined roles
 - Deploy incident detection and analysis tools (SIEM, EDR, IDS)
@@ -28,6 +29,7 @@ Comprehensive mapping of NIST 800-61 (Incident Response Guide) and NIST 800-53 I
 - Perform tabletop exercises and simulations
 
 **SOC Implementation:**
+
 ```yaml
 preparation_checklist:
   policies:
@@ -62,6 +64,7 @@ preparation_checklist:
 **Objective:** Identify and validate security incidents, determine scope and impact
 
 **Key Activities:**
+
 - Monitor security alerts from SIEM, EDR, IDS/IPS
 - Analyze indicators of compromise (IOCs)
 - Correlate events across multiple data sources
@@ -71,6 +74,7 @@ preparation_checklist:
 **SOC Implementation:**
 
 **Detection Sources (Priority Order):**
+
 1. **High Fidelity (>90% accuracy):**
    - EDR behavioral alerts
    - Threat intelligence IOC matches
@@ -86,6 +90,7 @@ preparation_checklist:
    - Vulnerability scanner findings
 
 **Alert Triage Process:**
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │ Step 1: Initial Validation (5 min)                          │
@@ -117,24 +122,28 @@ preparation_checklist:
 **Containment Strategies:**
 
 **Short-Term Containment (Immediate - 15 minutes):**
+
 - Isolate infected host from network (EDR quarantine, VLAN switch)
 - Block malicious IPs/domains at firewall/proxy
 - Disable compromised user accounts
 - Preserve evidence (memory dump, disk image)
 
 **Long-Term Containment (1-4 hours):**
+
 - Implement network segmentation
 - Apply emergency patches
 - Enhanced monitoring on related systems
 - Communication blackout (deny attacker intel)
 
 **Eradication:**
+
 - Remove malware and persistence mechanisms
 - Patch vulnerabilities exploited by attacker
 - Strengthen access controls
 - Rotate credentials
 
 **Recovery:**
+
 - Restore systems from known-good backups
 - Rebuild compromised systems from gold images
 - Verify system integrity (file hashes, AIDE/Tripwire)
@@ -149,6 +158,7 @@ preparation_checklist:
 **Objective:** Learn from incidents, improve defenses, meet compliance obligations
 
 **Key Activities:**
+
 - Lessons learned meeting (within 2 weeks of incident closure)
 - Root cause analysis (RCA)
 - Document timeline, actions taken, evidence collected
@@ -157,6 +167,7 @@ preparation_checklist:
 - Evidence retention (1 year minimum, 7+ years for legal holds)
 
 **Lessons Learned Meeting Agenda:**
+
 ```markdown
 1. Incident Summary (5 min)
    - What happened? When? How detected?
@@ -195,11 +206,13 @@ preparation_checklist:
 Develop, document, and disseminate incident response policy and procedures
 
 **Implementation:**
+
 - **Policy:** Incident Response Policy (approved by CISO, reviewed annually)
 - **Procedures:** Incident response playbooks for common scenarios
 - **Distribution:** Accessible to all employees via intranet, mandatory training
 
 **Evidence:**
+
 - Incident Response Policy document (signed by CISO)
 - Playbooks (phishing, malware, data breach, DDoS, insider threat)
 - Training completion records
@@ -212,6 +225,7 @@ Develop, document, and disseminate incident response policy and procedures
 Provide incident response training to system users consistent with assigned roles
 
 **Implementation:**
+
 ```yaml
 training_program:
   general_users:
@@ -231,6 +245,7 @@ training_program:
 ```
 
 **Evidence:**
+
 - Training curriculum and materials
 - Attendance records and completion certificates
 - Exercise reports (tabletop, red team/purple team)
@@ -243,11 +258,13 @@ training_program:
 Test incident response capability using exercises and simulations
 
 **Implementation:**
+
 - **Tabletop Exercises:** Quarterly (discuss scenario, no hands-on)
 - **Functional Exercises:** Semi-annually (test specific procedures, limited scope)
 - **Full-Scale Exercises:** Annually (red team attack, full IR response)
 
 **Example Tabletop Scenario:**
+
 ```
 Scenario: Ransomware Outbreak
 
@@ -266,6 +283,7 @@ Outcome: Identify gaps in backup restore process, improve communication plan
 ```
 
 **Evidence:**
+
 - Exercise plans and scenarios
 - After-action reports with lessons learned
 - Action item tracking (corrective actions implemented)
@@ -278,26 +296,31 @@ Outcome: Identify gaps in backup restore process, improve communication plan
 Implement incident handling capability for security incidents
 
 **IR-4.a - Preparation:**
+
 - Incident response plan documented and approved
 - Tools deployed (SIEM, EDR, forensics, threat intel)
 - Jump bags prepared (USB with tools, live boot media)
 
 **IR-4.b - Detection and Analysis:**
+
 - SIEM correlation rules configured
 - Alert triage process documented
 - Threat intelligence feeds integrated
 
 **IR-4.c - Containment, Eradication, and Recovery:**
+
 - Containment strategies defined (network isolation, account disablement)
 - System rebuild procedures (gold images)
 - Backup verification and restore process
 
 **IR-4.d - Post-Incident Activity:**
+
 - Lessons learned meeting scheduled within 2 weeks
 - Root cause analysis performed
 - Corrective actions tracked
 
 **Implementation Metrics:**
+
 ```yaml
 ir_4_metrics:
   mttd_target: "<1 hour for critical incidents"
@@ -308,6 +331,7 @@ ir_4_metrics:
 ```
 
 **Evidence:**
+
 - Incident response plan
 - Incident tickets with full documentation
 - Lessons learned reports
@@ -321,6 +345,7 @@ ir_4_metrics:
 Track and document information system security incidents
 
 **Implementation:**
+
 - **Incident Tracking System:** ServiceNow, Jira Service Management, or custom
 - **Metrics Collected:**
   - Incident count by type, severity, affected systems
@@ -334,12 +359,14 @@ Track and document information system security incidents
 See bundled resource: `templates/security-metrics-dashboard.json`
 
 **Reporting:**
+
 - **Daily:** SOC metrics email (active incidents, alerts triaged)
 - **Weekly:** Trend analysis (incident types, targeted assets)
 - **Monthly:** Executive report (MTTD/MTTR trends, top risks)
 - **Quarterly:** Board of Directors briefing
 
 **Evidence:**
+
 - Incident tracking system screenshots
 - Monthly/quarterly security metrics reports
 - Executive briefing slides
@@ -352,6 +379,7 @@ See bundled resource: `templates/security-metrics-dashboard.json`
 Require personnel to report suspected security incidents
 
 **IR-6.a - Internal Reporting:**
+
 ```yaml
 internal_reporting:
   users:
@@ -369,6 +397,7 @@ internal_reporting:
 ```
 
 **IR-6.b - External Reporting:**
+
 ```yaml
 external_reporting:
   law_enforcement:
@@ -391,6 +420,7 @@ external_reporting:
 ```
 
 **Evidence:**
+
 - Incident reporting procedures document
 - Regulatory notification letters (GDPR, HIPAA, SEC)
 - Law enforcement case numbers
@@ -404,6 +434,7 @@ external_reporting:
 Provide incident response support resources
 
 **Implementation:**
+
 - **Internal Resources:**
   - SOC hotline: 1-800-SOC-HELP (24/7)
   - Email: security@company.com
@@ -417,6 +448,7 @@ Provide incident response support resources
   - FBI Cyber Division
 
 **Retainer Agreements:**
+
 ```yaml
 external_support:
   forensic_firm:
@@ -436,6 +468,7 @@ external_support:
 ```
 
 **Evidence:**
+
 - Retainer agreements with external consultants
 - Contact list with 24/7 hotlines
 - Incident response assistance guide
@@ -448,6 +481,7 @@ external_support:
 Develop and implement incident response plan
 
 **IR-8.a - Plan Development:**
+
 - Incident response policy and procedures
 - Roles and responsibilities (IRT structure)
 - Communication plan (internal and external)
@@ -456,20 +490,24 @@ Develop and implement incident response plan
 - Legal and regulatory obligations
 
 **IR-8.b - Plan Distribution:**
+
 - All employees receive IR policy summary (annual training)
 - IR team has full access to detailed playbooks
 - Legal, PR, HR receive relevant sections
 
 **IR-8.c - Plan Review:**
+
 - Annual review (or after major incidents)
 - Update based on lessons learned
 - Approval by CISO and legal counsel
 
 **IR-8.d - Plan Testing:**
+
 - Quarterly tabletop exercises
 - Annual full-scale exercise (red team)
 
 **Evidence:**
+
 - Incident Response Plan document (version control)
 - Distribution records (email, intranet access logs)
 - Annual review meeting notes

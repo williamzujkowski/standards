@@ -9,15 +9,16 @@ This template demonstrates pytest best practices including:
 - Custom assertions
 """
 
-import pytest
-from unittest.mock import Mock, patch, MagicMock, AsyncMock
-from typing import Generator
 import asyncio
+from typing import Generator
+from unittest.mock import AsyncMock, Mock, patch
 
+import pytest
 
 # ============================================================================
 # FIXTURES
 # ============================================================================
+
 
 @pytest.fixture
 def sample_user() -> dict:
@@ -26,12 +27,7 @@ def sample_user() -> dict:
     Returns:
         Dict with user properties
     """
-    return {
-        "id": 1,
-        "username": "testuser",
-        "email": "test@example.com",
-        "is_active": True
-    }
+    return {"id": 1, "username": "testuser", "email": "test@example.com", "is_active": True}
 
 
 @pytest.fixture
@@ -59,10 +55,7 @@ def mock_http_client() -> Generator[Mock, None, None]:
         Mock HTTP client
     """
     client = Mock()
-    client.get.return_value = Mock(
-        status_code=200,
-        json=lambda: {"data": "test"}
-    )
+    client.get.return_value = Mock(status_code=200, json=lambda: {"data": "test"})
 
     yield client
 
@@ -78,6 +71,7 @@ def event_loop():
 # ============================================================================
 # BASIC TESTS
 # ============================================================================
+
 
 def test_basic_assertion(sample_user):
     """Test basic assertions with fixture."""
@@ -110,24 +104,31 @@ def test_multiple_assertions(sample_user):
 # PARAMETRIZED TESTS
 # ============================================================================
 
-@pytest.mark.parametrize("input,expected", [
-    ("hello", "HELLO"),
-    ("World", "WORLD"),
-    ("123", "123"),
-    ("", ""),
-])
+
+@pytest.mark.parametrize(
+    "input,expected",
+    [
+        ("hello", "HELLO"),
+        ("World", "WORLD"),
+        ("123", "123"),
+        ("", ""),
+    ],
+)
 def test_string_upper(input: str, expected: str):
     """Test string upper conversion with multiple inputs."""
     result = input.upper()
     assert result == expected
 
 
-@pytest.mark.parametrize("username,email,is_valid", [
-    ("user1", "user1@example.com", True),
-    ("u", "invalid", False),  # Too short, invalid email
-    ("", "test@example.com", False),  # Empty username
-    ("validuser", "invalid-email", False),  # Invalid email
-])
+@pytest.mark.parametrize(
+    "username,email,is_valid",
+    [
+        ("user1", "user1@example.com", True),
+        ("u", "invalid", False),  # Too short, invalid email
+        ("", "test@example.com", False),  # Empty username
+        ("validuser", "invalid-email", False),  # Invalid email
+    ],
+)
 def test_user_validation(username: str, email: str, is_valid: bool):
     """Test user validation with various inputs."""
     # This would call your actual validation function
@@ -139,6 +140,7 @@ def test_user_validation(username: str, email: str, is_valid: bool):
 # ============================================================================
 # MOCKING
 # ============================================================================
+
 
 def test_mock_function_call():
     """Test function call with mock."""
@@ -159,7 +161,7 @@ def test_mock_side_effect():
     assert mock_func() == 3
 
 
-@patch('builtins.open', create=True)
+@patch("builtins.open", create=True)
 def test_file_operations(mock_open):
     """Test file operations with mocked open."""
     mock_open.return_value.__enter__.return_value.read.return_value = "test data"
@@ -189,9 +191,11 @@ def test_database_query(mock_database):
 # ASYNC TESTS
 # ============================================================================
 
+
 @pytest.mark.asyncio
 async def test_async_function():
     """Test async function."""
+
     async def async_add(a: int, b: int) -> int:
         await asyncio.sleep(0.1)
         return a + b
@@ -215,10 +219,12 @@ async def test_async_with_mock():
 # MARKERS
 # ============================================================================
 
+
 @pytest.mark.slow
 def test_slow_operation():
     """Test marked as slow (can be skipped with -m "not slow")."""
     import time
+
     time.sleep(0.5)
     assert True
 
@@ -246,6 +252,7 @@ def test_new_pytest_feature():
 # ============================================================================
 # FIXTURES WITH CLEANUP
 # ============================================================================
+
 
 @pytest.fixture
 def temp_file(tmp_path):
@@ -280,6 +287,7 @@ def test_temp_file_operations(temp_file):
 # CUSTOM ASSERTIONS
 # ============================================================================
 
+
 def assert_user_valid(user: dict):
     """Custom assertion for user validation.
 
@@ -304,6 +312,7 @@ def test_custom_assertion(sample_user):
 # ERROR HANDLING
 # ============================================================================
 
+
 def test_error_message_contains_text():
     """Test that error message contains expected text."""
     with pytest.raises(ValueError) as exc_info:
@@ -325,6 +334,7 @@ def test_no_exception_raised():
 # ============================================================================
 # SETUP/TEARDOWN
 # ============================================================================
+
 
 class TestUserService:
     """Test class with setup/teardown methods."""

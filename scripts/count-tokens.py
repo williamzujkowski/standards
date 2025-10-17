@@ -7,22 +7,22 @@ reports by level, and flags violations.
 """
 
 import argparse
+import json
+import logging
+import re
 import sys
 from pathlib import Path
 from typing import Dict, List, Optional
-import json
-import re
-import logging
-
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
 
 # Try to import tiktoken, fall back to estimation
 try:
     import tiktoken
+
     TIKTOKEN_AVAILABLE = True
     logger.debug("tiktoken library available")
 except ImportError:
@@ -101,15 +101,11 @@ class TokenCounter:
             results[level_name] = {
                 "tokens": tokens,
                 "chars": len(level_content),
-                "lines": level_content.count("\n") + 1
+                "lines": level_content.count("\n") + 1,
             }
             total_tokens += tokens
 
-        results["total"] = {
-            "tokens": total_tokens,
-            "chars": len(content),
-            "lines": content.count("\n") + 1
-        }
+        results["total"] = {"tokens": total_tokens, "chars": len(content), "lines": content.count("\n") + 1}
 
         return results
 
@@ -137,9 +133,9 @@ class TokenCounter:
     def format_report(self, results: Dict[str, Dict[str, int]], violations: List[str]) -> str:
         """Format human-readable report."""
         lines = []
-        lines.append("="*60)
+        lines.append("=" * 60)
         lines.append(f"TOKEN REPORT: {self.skill_file.name}")
-        lines.append("="*60)
+        lines.append("=" * 60)
         lines.append("")
 
         # Method used
@@ -157,16 +153,19 @@ class TokenCounter:
             if level_name in results:
                 data = results[level_name]
                 level_display = level_name.replace("level", "Level ")
-                lines.append(f"{level_display:15} {data['tokens']:6,} tokens  "
-                           f"{data['chars']:7,} chars  {data['lines']:5,} lines")
+                lines.append(
+                    f"{level_display:15} {data['tokens']:6,} tokens  "
+                    f"{data['chars']:7,} chars  {data['lines']:5,} lines"
+                )
 
         lines.append("-" * 60)
 
         # Total
         if "total" in results:
             data = results["total"]
-            lines.append(f"{'TOTAL':15} {data['tokens']:6,} tokens  "
-                        f"{data['chars']:7,} chars  {data['lines']:5,} lines")
+            lines.append(
+                f"{'TOTAL':15} {data['tokens']:6,} tokens  " f"{data['chars']:7,} chars  {data['lines']:5,} lines"
+            )
 
         lines.append("")
 
@@ -178,7 +177,7 @@ class TokenCounter:
         else:
             lines.append("✓ No violations detected")
 
-        lines.append("="*60)
+        lines.append("=" * 60)
 
         return "\n".join(lines)
 
@@ -201,10 +200,7 @@ def count_directory(directory: Path, output_json: Optional[Path] = None) -> Dict
         results = counter.count_all_levels()
         violations = counter.check_violations(results)
 
-        all_results[str(skill_file)] = {
-            "results": results,
-            "violations": violations
-        }
+        all_results[str(skill_file)] = {"results": results, "violations": violations}
 
         if violations:
             total_violations.extend([f"{skill_file.parent.name}: {v}" for v in violations])
@@ -214,9 +210,9 @@ def count_directory(directory: Path, output_json: Optional[Path] = None) -> Dict
         print()
 
     # Summary
-    print("="*60)
+    print("=" * 60)
     print(f"SUMMARY: {len(skill_files)} skills analyzed")
-    print("="*60)
+    print("=" * 60)
     print(f"Total violations: {len(total_violations)}")
 
     if total_violations:
@@ -255,39 +251,18 @@ Exit codes:
   0 - No violations
   1 - Violations detected
   2 - No skills found
-        """
+        """,
     )
 
-    parser.add_argument(
-        "skill_file",
-        nargs="?",
-        type=Path,
-        help="Path to SKILL.md file"
-    )
+    parser.add_argument("skill_file", nargs="?", type=Path, help="Path to SKILL.md file")
 
-    parser.add_argument(
-        "--directory",
-        type=Path,
-        help="Count tokens for all SKILL.md files in directory"
-    )
+    parser.add_argument("--directory", type=Path, help="Count tokens for all SKILL.md files in directory")
 
-    parser.add_argument(
-        "--output-json",
-        type=Path,
-        help="Export results to JSON file"
-    )
+    parser.add_argument("--output-json", type=Path, help="Export results to JSON file")
 
-    parser.add_argument(
-        "--check-tiktoken",
-        action="store_true",
-        help="Check if tiktoken library is available"
-    )
+    parser.add_argument("--check-tiktoken", action="store_true", help="Check if tiktoken library is available")
 
-    parser.add_argument(
-        "--verbose",
-        action="store_true",
-        help="Enable verbose logging"
-    )
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose logging")
 
     args = parser.parse_args()
 
@@ -313,12 +288,7 @@ Exit codes:
         print(counter.format_report(results, violations))
 
         if args.output_json:
-            output_data = {
-                str(args.skill_file): {
-                    "results": results,
-                    "violations": violations
-                }
-            }
+            output_data = {str(args.skill_file): {"results": results, "violations": violations}}
             args.output_json.write_text(json.dumps(output_data, indent=2))
             logger.info(f"Exported JSON report to: {args.output_json}")
 
@@ -332,10 +302,7 @@ Exit codes:
             sys.exit(2)
 
         # Count total violations
-        total_violations = sum(
-            len(data["violations"])
-            for data in all_results.values()
-        )
+        total_violations = sum(len(data["violations"]) for data in all_results.values())
 
         sys.exit(1 if total_violations > 0 else 0)
 

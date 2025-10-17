@@ -9,6 +9,7 @@ Automation scripts for threat modeling workflows.
 Generate comprehensive threat model reports from YAML threat definitions.
 
 **Features:**
+
 - STRIDE threat analysis
 - DREAD scoring and prioritization
 - Mitigation tracking
@@ -63,6 +64,7 @@ threats:
 ```
 
 **Output:**
+
 - Markdown report with executive summary
 - Threat breakdown by STRIDE category
 - Critical and high priority threats detailed

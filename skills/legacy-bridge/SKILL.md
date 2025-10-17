@@ -14,6 +14,7 @@ The legacy-bridge skill provides backward compatibility for existing `@load` pat
 ## When to Use This Skill
 
 Use this skill when:
+
 - You have existing code using `@load product:*` patterns
 - You need to maintain backward compatibility during migration
 - You want to gradually transition to the new Skills format
@@ -125,6 +126,7 @@ FE:* expands to:
 ### Auto-Inclusion Rules
 
 **NIST Baseline Auto-Loading**:
+
 - Any security standard (`SEC:*`) automatically includes `NIST-IG:base`
 - This ensures compliance requirements are never missed
 - Explicit override available with `--no-auto-nist` flag
@@ -222,6 +224,7 @@ When patterns conflict, explicit specifications win:
 ### Legacy Mapping Files
 
 All translation rules are defined in:
+
 - `resources/legacy-mappings.yaml` - Complete mapping definitions
 - `config/product-matrix.yaml` - Original product definitions
 
@@ -241,6 +244,7 @@ skill-loader.py migrate --path . --backup
 ### Examples
 
 See `examples/legacy-patterns/` for:
+
 - Common legacy pattern usage
 - Side-by-side comparisons
 - Migration examples

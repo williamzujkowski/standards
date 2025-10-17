@@ -5,7 +5,9 @@ Comprehensive test suite for validating the transformation from legacy standards
 ## Test Modules
 
 ### 1. `test_skill_validation.py`
+
 Validates SKILL.md format and structure:
+
 - ✓ YAML frontmatter correctness
 - ✓ Required fields (name, description)
 - ✓ Description length limits (1024 chars)
@@ -14,7 +16,9 @@ Validates SKILL.md format and structure:
 - ✓ Resource references
 
 ### 2. `test_token_optimization.py`
+
 Compares token usage between standards and skills:
+
 - ✓ Token counting methodology
 - ✓ Progressive loading analysis (Level 1, 2, 3)
 - ✓ Standard file analysis
@@ -23,7 +27,9 @@ Compares token usage between standards and skills:
 - ✓ Performance projections
 
 ### 3. `test_composability.py`
+
 Tests skill composition and interaction:
+
 - ✓ Loading multiple skills together
 - ✓ Dependency detection
 - ✓ Circular dependency detection
@@ -32,7 +38,9 @@ Tests skill composition and interaction:
 - ✓ Token aggregation for composed skills
 
 ### 4. `test_backward_compatibility.py`
+
 Ensures existing patterns continue to work:
+
 - ✓ @load directive parsing
 - ✓ Product matrix resolution
 - ✓ Wildcard expansion (SEC:*, TS:*)
@@ -41,7 +49,9 @@ Ensures existing patterns continue to work:
 - ✓ All product types coverage
 
 ### 5. `test_resource_bundling.py`
+
 Validates resource organization:
+
 - ✓ Resource directory detection
 - ✓ File accessibility
 - ✓ Resource references in SKILL.md
@@ -50,7 +60,9 @@ Validates resource organization:
 - ✓ Executable script validation
 
 ### 6. `test_skill_discovery.py`
+
 Tests skill discovery and loading:
+
 - ✓ Discover all available skills
 - ✓ Search by keyword
 - ✓ Filter by category
@@ -61,11 +73,13 @@ Tests skill discovery and loading:
 ## Running Tests
 
 ### All Tests
+
 ```bash
 pytest tests/skills/ -v
 ```
 
 ### Specific Test Module
+
 ```bash
 pytest tests/skills/test_skill_validation.py -v
 pytest tests/skills/test_token_optimization.py -v
@@ -76,11 +90,13 @@ pytest tests/skills/test_skill_discovery.py -v
 ```
 
 ### With Coverage
+
 ```bash
 pytest tests/skills/ -v --cov=docs/skills --cov-report=html
 ```
 
 ### Generate Reports
+
 ```bash
 # Token comparison
 python3 tests/skills/test_token_optimization.py
@@ -126,36 +142,42 @@ All reports are saved to `/reports/generated/`:
 ## Success Criteria
 
 ### Validation Tests
+
 - ✓ All SKILL.md files have valid frontmatter
 - ✓ Descriptions within 1024 char limit
 - ✓ Progressive disclosure structure present
 - ✓ No broken resource references
 
 ### Token Optimization Tests
+
 - ✓ 90%+ token reduction for discovery
 - ✓ 80%+ reduction for single skill usage
 - ✓ Progressive loading functional
 - ✓ Level 1 < 50 tokens per skill
 
 ### Composability Tests
+
 - ✓ Multiple skills load without conflicts
 - ✓ No circular dependencies
 - ✓ Dependencies properly resolved
 - ✓ Token aggregation accurate
 
 ### Compatibility Tests
+
 - ✓ All @load patterns parse correctly
 - ✓ Product types resolve to skills
 - ✓ Wildcards expand properly
 - ✓ Semantic equivalence maintained
 
 ### Resource Bundling Tests
+
 - ✓ Resources organized in standard directories
 - ✓ All referenced resources exist
 - ✓ No orphaned resources (or documented)
 - ✓ Scripts are executable
 
 ### Discovery Tests
+
 - ✓ All skills discoverable
 - ✓ Search returns relevant results
 - ✓ Categories properly mapped
@@ -164,12 +186,14 @@ All reports are saved to `/reports/generated/`:
 ## Continuous Integration
 
 ### Pre-commit Hooks
+
 ```bash
 # Run before committing
 pytest tests/skills/ -v --tb=short
 ```
 
 ### CI Pipeline
+
 ```yaml
 # .github/workflows/test-skills.yml
 - name: Run Skills Tests
@@ -182,6 +206,7 @@ pytest tests/skills/ -v --tb=short
 ## Development Workflow
 
 ### 1. Create New Skill
+
 ```bash
 # Create skill directory
 mkdir -p docs/skills/my-skill
@@ -192,6 +217,7 @@ mkdir -p docs/skills/my-skill
 ```
 
 ### 2. Validate Skill
+
 ```bash
 # Run validation tests
 pytest tests/skills/test_skill_validation.py -v
@@ -201,18 +227,21 @@ python3 tests/skills/test_skill_validation.py
 ```
 
 ### 3. Test Composability
+
 ```bash
 # Test with other skills
 pytest tests/skills/test_composability.py -v
 ```
 
 ### 4. Check Backward Compatibility
+
 ```bash
 # Ensure @load patterns still work
 pytest tests/skills/test_backward_compatibility.py -v
 ```
 
 ### 5. Verify Performance
+
 ```bash
 # Check token optimization
 python3 tests/skills/test_token_optimization.py
@@ -223,24 +252,28 @@ python3 tests/skills/test_token_optimization.py
 ### Test Failures
 
 **Missing frontmatter:**
+
 ```
 Error: No valid YAML frontmatter found
 Fix: Add --- ... --- block at top of SKILL.md
 ```
 
 **Description too long:**
+
 ```
 Error: Description exceeds 1024 characters
 Fix: Shorten description, move details to Level 2
 ```
 
 **Circular dependency:**
+
 ```
 Error: Circular dependency detected
 Fix: Remove circular skill references
 ```
 
 **Unreferenced resources:**
+
 ```
 Warning: Unreferenced resources detected
 Fix: Add references in SKILL.md or remove unused files
@@ -275,6 +308,7 @@ pyyaml>=6.0
 ```
 
 Install:
+
 ```bash
 pip install -r requirements-test.txt
 ```

@@ -28,12 +28,15 @@ Industry-standard shell scripting practices for writing reliable, maintainable, 
 ## Learning Path
 
 ### Level 1: Quick Reference (15 min)
+
 Essential patterns for immediate use - portable shebangs, error handling, quoting rules, and common idioms.
 
 ### Level 2: Implementation Guide (25 min)
+
 Complete development workflow covering structure, functions, argument parsing, testing, and security.
 
 ### Level 3: Deep Dive Resources (5 min)
+
 Advanced topics, style guides, and comprehensive security patterns.
 
 ---

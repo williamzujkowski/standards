@@ -136,6 +136,7 @@ version: 1.0.0
 ### Sample Standard
 
 Test standards include:
+
 - Metadata (version, code, date)
 - Multiple sections
 - Code examples

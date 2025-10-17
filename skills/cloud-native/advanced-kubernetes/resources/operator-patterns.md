@@ -3,14 +3,17 @@
 ## Design Patterns
 
 ### 1. State Machine Pattern
+
 Model complex workflows as finite state machines with explicit state transitions.
 
 **When to use:**
+
 - Multi-step provisioning workflows (e.g., database initialization)
 - Resources with distinct lifecycle phases
 - Operations requiring ordered steps
 
 **Example:**
+
 ```go
 type DatabasePhase string
 
@@ -39,41 +42,50 @@ func (r *DatabaseReconciler) reconcile(ctx context.Context, db *Database) error 
 ```
 
 ### 2. External Resource Controller Pattern
+
 Manage resources outside Kubernetes (cloud resources, databases, APIs).
 
 **When to use:**
+
 - Cloud resource management (S3 buckets, RDS instances)
 - Integration with external SaaS platforms
 - Managing on-premise infrastructure
 
 **Best practices:**
+
 - Use finalizers to prevent orphaned external resources
 - Implement robust cleanup logic with timeouts
 - Store external resource IDs in status
 - Handle API rate limits and retries
 
 ### 3. Sidecar Injection Pattern
+
 Automatically inject sidecar containers into pods.
 
 **When to use:**
+
 - Service mesh proxies (Istio, Linkerd)
 - Logging/monitoring agents
 - Security scanning containers
 
 **Implementation:**
+
 - Use mutating webhooks to modify pod specs
 - Add containers, volumes, and init containers
 - Respect existing pod configurations
 
 ### 4. Configuration Aggregation Pattern
+
 Aggregate multiple configuration sources into a single resource.
 
 **When to use:**
+
 - Managing complex application configurations
 - Merging environment-specific settings
 - Inheriting from base configurations
 
 **Example:**
+
 ```go
 type AppConfig struct {
     Base      string `json:"base,omitempty"`      // Base config reference
@@ -95,14 +107,17 @@ func (r *AppReconciler) aggregateConfig(ctx context.Context, app *App) (*Config,
 ```
 
 ### 5. Progressive Rollout Pattern
+
 Implement canary or blue-green deployments for custom resources.
 
 **When to use:**
+
 - High-risk configuration changes
 - Production database migrations
 - Critical infrastructure updates
 
 **Implementation:**
+
 - Maintain multiple versions of resources
 - Gradually shift traffic/load
 - Implement automatic rollback on failures
@@ -112,9 +127,11 @@ Implement canary or blue-green deployments for custom resources.
 ## Anti-Patterns
 
 ### ❌ 1. Blocking Reconciliation
+
 **Problem:** Long-running operations block the reconciliation loop.
 
 **Example (BAD):**
+
 ```go
 func (r *Reconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
     // BAD: Blocks for minutes
@@ -124,6 +141,7 @@ func (r *Reconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Resu
 ```
 
 **Solution:**
+
 ```go
 func (r *Reconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
     if !r.isMigrationComplete(ctx, obj) {
@@ -138,9 +156,11 @@ func (r *Reconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Resu
 ```
 
 ### ❌ 2. Infinite Reconciliation Loops
+
 **Problem:** Controller updates resource spec, triggering another reconciliation.
 
 **Example (BAD):**
+
 ```go
 func (r *Reconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
     obj.Spec.LastReconciled = time.Now() // BAD: Triggers another reconcile
@@ -150,6 +170,7 @@ func (r *Reconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Resu
 ```
 
 **Solution:**
+
 ```go
 func (r *Reconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
     obj.Status.LastReconciled = time.Now() // GOOD: Update status only
@@ -159,9 +180,11 @@ func (r *Reconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Resu
 ```
 
 ### ❌ 3. Missing Finalizers
+
 **Problem:** Deleting custom resource orphans external resources.
 
 **Example (BAD):**
+
 ```go
 func (r *Reconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
     createS3Bucket(obj.Name) // BAD: No cleanup on deletion
@@ -170,6 +193,7 @@ func (r *Reconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Resu
 ```
 
 **Solution:**
+
 ```go
 func (r *Reconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
     if !obj.DeletionTimestamp.IsZero() {
@@ -188,9 +212,11 @@ func (r *Reconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Resu
 ```
 
 ### ❌ 4. Hardcoded Configurations
+
 **Problem:** Operator behavior hardcoded instead of configurable.
 
 **Example (BAD):**
+
 ```go
 func (r *Reconciler) reconcileDeployment(ctx context.Context, obj *MyApp) error {
     deployment.Namespace = "default" // BAD: Hardcoded
@@ -199,6 +225,7 @@ func (r *Reconciler) reconcileDeployment(ctx context.Context, obj *MyApp) error 
 ```
 
 **Solution:**
+
 ```go
 func (r *Reconciler) reconcileDeployment(ctx context.Context, obj *MyApp) error {
     deployment.Namespace = obj.Namespace // GOOD: From resource
@@ -207,9 +234,11 @@ func (r *Reconciler) reconcileDeployment(ctx context.Context, obj *MyApp) error 
 ```
 
 ### ❌ 5. No Owner References
+
 **Problem:** Managed resources not garbage collected when parent is deleted.
 
 **Example (BAD):**
+
 ```go
 func (r *Reconciler) createDeployment(ctx context.Context, obj *MyApp) error {
     deployment := &appsv1.Deployment{...}
@@ -218,6 +247,7 @@ func (r *Reconciler) createDeployment(ctx context.Context, obj *MyApp) error {
 ```
 
 **Solution:**
+
 ```go
 func (r *Reconciler) createDeployment(ctx context.Context, obj *MyApp) error {
     deployment := &appsv1.Deployment{...}
@@ -227,9 +257,11 @@ func (r *Reconciler) createDeployment(ctx context.Context, obj *MyApp) error {
 ```
 
 ### ❌ 6. Ignoring Error Types
+
 **Problem:** Treating all errors the same, causing unnecessary retries.
 
 **Example (BAD):**
+
 ```go
 func (r *Reconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
     if err := r.reconcile(ctx, obj); err != nil {
@@ -239,6 +271,7 @@ func (r *Reconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Resu
 ```
 
 **Solution:**
+
 ```go
 func (r *Reconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
     if err := r.reconcile(ctx, obj); err != nil {
@@ -257,9 +290,11 @@ func (r *Reconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Resu
 ```
 
 ### ❌ 7. Missing Health Checks
+
 **Problem:** Kubernetes can't detect unhealthy controller.
 
 **Example (BAD):**
+
 ```go
 func main() {
     mgr, _ := ctrl.NewManager(...)
@@ -268,6 +303,7 @@ func main() {
 ```
 
 **Solution:**
+
 ```go
 func main() {
     mgr, _ := ctrl.NewManager(...)
@@ -278,15 +314,18 @@ func main() {
 ```
 
 ### ❌ 8. No RBAC Markers
+
 **Problem:** Manual RBAC management is error-prone.
 
 **Example (BAD):**
+
 ```go
 // controllers/myapp_controller.go
 // No RBAC markers - must manually maintain RBAC YAML
 ```
 
 **Solution:**
+
 ```go
 // controllers/myapp_controller.go
 // +kubebuilder:rbac:groups=apps.example.com,resources=myapps,verbs=get;list;watch;create;update;patch;delete
@@ -299,6 +338,7 @@ func (r *MyAppReconciler) Reconcile(...) {...}
 ## Performance Best Practices
 
 ### 1. Use Caching Effectively
+
 ```go
 // GOOD: Use cached client for reads
 obj := &MyApp{}
@@ -309,6 +349,7 @@ r.Update(ctx, obj) // Writes to API server
 ```
 
 ### 2. Batch Updates
+
 ```go
 // BAD: Multiple status updates
 r.Status().Update(ctx, obj) // Update 1
@@ -321,6 +362,7 @@ r.Status().Update(ctx, obj) // Single update
 ```
 
 ### 3. Use Predicates to Filter Events
+
 ```go
 func (r *MyAppReconciler) SetupWithManager(mgr ctrl.Manager) error {
     return ctrl.NewControllerManagedBy(mgr).
@@ -331,6 +373,7 @@ func (r *MyAppReconciler) SetupWithManager(mgr ctrl.Manager) error {
 ```
 
 ### 4. Implement Rate Limiting
+
 ```go
 func (r *MyAppReconciler) SetupWithManager(mgr ctrl.Manager) error {
     return ctrl.NewControllerManagedBy(mgr).
@@ -351,6 +394,7 @@ func (r *MyAppReconciler) SetupWithManager(mgr ctrl.Manager) error {
 ## Testing Patterns
 
 ### 1. Use Table-Driven Tests
+
 ```go
 func TestReconcile(t *testing.T) {
     tests := []struct {
@@ -379,6 +423,7 @@ func TestReconcile(t *testing.T) {
 ```
 
 ### 2. Mock External Dependencies
+
 ```go
 type MockCloudProvider struct {
     CreateBucketFunc func(name string) error
@@ -401,6 +446,7 @@ func TestReconcileWithMock(t *testing.T) {
 ## Summary
 
 **DO:**
+
 - ✅ Use finalizers for cleanup
 - ✅ Set owner references
 - ✅ Update status subresource only
@@ -410,6 +456,7 @@ func TestReconcileWithMock(t *testing.T) {
 - ✅ Test thoroughly
 
 **DON'T:**
+
 - ❌ Block reconciliation
 - ❌ Update spec in reconcile
 - ❌ Hardcode configurations

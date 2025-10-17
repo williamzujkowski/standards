@@ -28,6 +28,7 @@ version: "1.0.0"
 Zero-trust architecture operates on the principle: **"Never trust, always verify."** Unlike traditional perimeter-based security, zero-trust assumes breach and verifies every request regardless of origin.
 
 **Fundamental Tenets:**
+
 - No implicit trust based on network location
 - Verify explicitly (authentication + authorization)
 - Least privilege access (just-in-time, just-enough)
@@ -37,6 +38,7 @@ Zero-trust architecture operates on the principle: **"Never trust, always verify
 ### Common Zero-Trust Patterns
 
 #### 1. Mutual TLS (mTLS)
+
 ```yaml
 # Istio PeerAuthentication for strict mTLS
 apiVersion: security.istio.io/v1beta1
@@ -52,6 +54,7 @@ spec:
 **When to use:** Service-to-service authentication, encrypted communication between microservices.
 
 #### 2. Service Mesh
+
 - **Istio/Linkerd:** Transparent mTLS, traffic encryption, identity management
 - **Consul Connect:** Service identity and authorization
 - **AWS App Mesh:** Cloud-native service mesh
@@ -59,6 +62,7 @@ spec:
 **Key benefits:** Automatic encryption, fine-grained policies, observability.
 
 #### 3. BeyondCorp Model
+
 ```yaml
 # Identity-aware proxy configuration
 apiVersion: v1
@@ -80,30 +84,35 @@ spec:
 ### Essential Checklist
 
 **Identity & Authentication:**
+
 - [ ] Workload identities for all services (SPIFFE/SPIRE)
 - [ ] mTLS enabled for service-to-service communication
 - [ ] Strong authentication (MFA, certificates, tokens)
 - [ ] Identity lifecycle management (rotation, revocation)
 
 **Authorization:**
+
 - [ ] Fine-grained access policies (attribute-based)
 - [ ] Least privilege by default
 - [ ] Just-in-time access provisioning
 - [ ] Policy enforcement at every access point
 
 **Network Security:**
+
 - [ ] Microsegmentation (NetworkPolicies, security groups)
 - [ ] Encrypted communication (TLS 1.3+)
 - [ ] Traffic inspection and filtering
 - [ ] No trust based on network location
 
 **Monitoring & Verification:**
+
 - [ ] Continuous monitoring of authentication events
 - [ ] Anomaly detection on access patterns
 - [ ] Centralized logging (who, what, when, where)
 - [ ] Regular access reviews and audits
 
 **Architecture:**
+
 - [ ] Policy Decision Point (PDP) implemented
 - [ ] Policy Enforcement Point (PEP) at critical paths
 - [ ] Policy Administration Point (PAP) for management
@@ -171,6 +180,7 @@ Zero-trust architecture (ZTA) fundamentally reimagines security by eliminating i
    - Security telemetry and logs
 
 **NIST Controls:**
+
 - **AC-4:** Information Flow Enforcement - Control information flow between security domains
 - **SC-7:** Boundary Protection - Monitor and control communications at managed interfaces
 - **SC-8:** Transmission Confidentiality and Integrity - Protect information during transmission
@@ -1216,16 +1226,19 @@ NIST SP 800-207 provides a comprehensive framework for implementing zero-trust a
 #### Zero Trust Architecture Components
 
 **1. Policy Engine (PE):**
+
 - Grants or denies access to resources
 - Uses Policy Administrator to execute decisions
 - Considers user, device, resource, and contextual attributes
 
 **2. Policy Administrator (PA):**
+
 - Establishes/shuts down communication paths
 - Generates session-specific authentication tokens
 - Instructs Policy Enforcement Points
 
 **3. Policy Enforcement Point (PEP):**
+
 - Enables, monitors, and terminates connections
 - Forwards requests to Policy Engine
 - Can be gateway, agent, or access proxy
@@ -1646,18 +1659,22 @@ print(f"Session Duration: {decision['session_duration_seconds']} seconds")
 ### Official Documentation
 
 **NIST Standards:**
+
 - [NIST SP 800-207: Zero Trust Architecture](https://csrc.nist.gov/publications/detail/sp/800-207/final)
 - [NIST SP 800-53: Security and Privacy Controls](https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final)
 
 **SPIFFE/SPIRE:**
+
 - [SPIFFE Specification](https://github.com/spiffe/spiffe)
 - [SPIRE Documentation](https://spiffe.io/docs/latest/spire-about/)
 
 **Service Mesh:**
+
 - [Istio Security](https://istio.io/latest/docs/concepts/security/)
 - [Linkerd Security](https://linkerd.io/2/features/automatic-mtls/)
 
 **BeyondCorp:**
+
 - [BeyondCorp Research Papers](https://cloud.google.com/beyondcorp)
 - [Identity-Aware Proxy](https://cloud.google.com/iap/docs)
 
@@ -1670,12 +1687,14 @@ print(f"Session Duration: {decision['session_duration_seconds']} seconds")
 ### Tools & Projects
 
 **Zero-Trust Platforms:**
+
 - Palo Alto Prisma Access
 - Zscaler Private Access
 - Cloudflare Access
 - Google BeyondCorp
 
 **Open Source:**
+
 - Open Policy Agent (OPA)
 - Envoy Proxy
 - Istio Service Mesh
@@ -1690,6 +1709,7 @@ print(f"Session Duration: {decision['session_duration_seconds']} seconds")
 ### Related Skills
 
 Deepen your zero-trust expertise with these complementary skills:
+
 - **Secrets Management:** Vault, sealed secrets, external secrets operator
 - **Secure API Design:** OAuth2, OIDC, API gateways
 - **Security Monitoring:** SIEM, threat detection, incident response
@@ -1705,6 +1725,7 @@ Deepen your zero-trust expertise with these complementary skills:
 ## Bundled Resources
 
 See `templates/`, `resources/`, and `scripts/` directories for:
+
 - mTLS configuration examples
 - SPIFFE workload identity templates
 - NetworkPolicy examples

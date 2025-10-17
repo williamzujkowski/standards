@@ -7,13 +7,13 @@ including fixtures, parametrization, mocking, and async testing.
 @see https://docs.pytest.org/
 """
 
-import pytest
-from unittest.mock import Mock, patch, AsyncMock
-from typing import List
 import asyncio
+from unittest.mock import AsyncMock, Mock, patch
 
+import pytest
 
 # ===== Example Code Under Test =====
+
 
 class Calculator:
     """Simple calculator for demonstration purposes"""
@@ -76,6 +76,7 @@ class EmailService:
 
 # ===== Test Fixtures =====
 
+
 @pytest.fixture
 def calculator():
     """Fixture that provides a Calculator instance"""
@@ -86,12 +87,7 @@ def calculator():
 def mock_database():
     """Fixture that provides a mock database connection"""
     mock_db = Mock()
-    mock_db.query.return_value = {
-        'user_id': 1,
-        'name': 'Alice',
-        'email': 'alice@example.com',
-        'is_active': True
-    }
+    mock_db.query.return_value = {"user_id": 1, "name": "Alice", "email": "alice@example.com", "is_active": True}
     mock_db.execute.return_value = True
     return mock_db
 
@@ -125,6 +121,7 @@ def reset_state():
 
 # ===== Basic Unit Tests =====
 
+
 def test_calculator_add(calculator):
     """Test that calculator correctly adds two numbers"""
     result = calculator.add(2, 3)
@@ -157,25 +154,32 @@ def test_calculator_divide_by_zero(calculator):
 
 # ===== Parametrized Tests =====
 
-@pytest.mark.parametrize("a, b, expected", [
-    (2, 3, 5),
-    (0, 0, 0),
-    (-1, 1, 0),
-    (100, 200, 300),
-    (-5, -3, -8),
-])
+
+@pytest.mark.parametrize(
+    "a, b, expected",
+    [
+        (2, 3, 5),
+        (0, 0, 0),
+        (-1, 1, 0),
+        (100, 200, 300),
+        (-5, -3, -8),
+    ],
+)
 def test_calculator_add_parametrized(calculator, a, b, expected):
     """Parametrized test for addition with multiple test cases"""
     result = calculator.add(a, b)
     assert result == expected
 
 
-@pytest.mark.parametrize("a, b, expected", [
-    (10, 2, 5.0),
-    (100, 10, 10.0),
-    (7, 2, 3.5),
-    (-10, 2, -5.0),
-])
+@pytest.mark.parametrize(
+    "a, b, expected",
+    [
+        (10, 2, 5.0),
+        (100, 10, 10.0),
+        (7, 2, 3.5),
+        (-10, 2, -5.0),
+    ],
+)
 def test_calculator_divide_parametrized(calculator, a, b, expected):
     """Parametrized test for division with multiple test cases"""
     result = calculator.divide(a, b)
@@ -190,6 +194,7 @@ def test_calculator_divide_by_zero_parametrized(calculator, divisor):
 
 
 # ===== Mocking Tests =====
+
 
 def test_user_repository_get_user(user_repository, mock_database):
     """Test that user repository correctly retrieves a user from database"""
@@ -216,7 +221,7 @@ def test_user_repository_save_user(user_repository, mock_database, sample_user):
     assert result is True
 
 
-@patch('builtins.print')
+@patch("builtins.print")
 def test_user_display_name_with_patch(mock_print, sample_user):
     """Test using patch decorator to mock built-in functions"""
     display_name = sample_user.get_display_name()
@@ -226,14 +231,11 @@ def test_user_display_name_with_patch(mock_print, sample_user):
 
 # ===== Async Tests =====
 
+
 @pytest.mark.asyncio
 async def test_email_service_send_email(email_service):
     """Test that email service successfully sends an email"""
-    result = await email_service.send_email(
-        to="alice@example.com",
-        subject="Test Subject",
-        body="Test Body"
-    )
+    result = await email_service.send_email(to="alice@example.com", subject="Test Subject", body="Test Body")
 
     assert result is True
 
@@ -244,11 +246,7 @@ async def test_email_service_send_email_with_mock():
     mock_email_service = AsyncMock(spec=EmailService)
     mock_email_service.send_email.return_value = True
 
-    result = await mock_email_service.send_email(
-        to="test@example.com",
-        subject="Test",
-        body="Test"
-    )
+    result = await mock_email_service.send_email(to="test@example.com", subject="Test", body="Test")
 
     assert result is True
     mock_email_service.send_email.assert_awaited_once()
@@ -256,10 +254,12 @@ async def test_email_service_send_email_with_mock():
 
 # ===== Test Markers =====
 
+
 @pytest.mark.slow
 def test_slow_operation():
     """Test marked as slow (can be skipped with pytest -m "not slow")"""
     import time
+
     time.sleep(0.5)
     assert True
 
@@ -283,6 +283,7 @@ def test_known_bug():
 
 
 # ===== Test Classes (Grouping Related Tests) =====
+
 
 class TestUser:
     """Group of tests for User class"""
@@ -308,11 +309,14 @@ class TestUser:
 
         assert display_name == "Alice (alice@example.com)"
 
-    @pytest.mark.parametrize("user_id, name, email", [
-        (1, "Alice", "alice@example.com"),
-        (2, "Bob", "bob@example.com"),
-        (3, "Charlie", "charlie@example.com"),
-    ])
+    @pytest.mark.parametrize(
+        "user_id, name, email",
+        [
+            (1, "Alice", "alice@example.com"),
+            (2, "Bob", "bob@example.com"),
+            (3, "Charlie", "charlie@example.com"),
+        ],
+    )
     def test_user_creation_parametrized(self, user_id, name, email):
         """Parametrized test for user creation"""
         user = User(user_id=user_id, name=name, email=email)
@@ -323,6 +327,7 @@ class TestUser:
 
 
 # ===== Advanced: Context Managers and Cleanup =====
+
 
 @pytest.fixture
 def temp_file(tmp_path):

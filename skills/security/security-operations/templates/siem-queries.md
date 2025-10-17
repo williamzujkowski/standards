@@ -23,6 +23,7 @@ Production-ready queries for Splunk SPL, ELK KQL, and Azure Sentinel KQL, organi
 ### Phishing - Suspicious Email Attachments
 
 **Splunk SPL:**
+
 ```spl
 index=email sourcetype=exchange
 | eval attachment_ext=lower(mvindex(split(attachment_name, "."), -1))
@@ -32,12 +33,14 @@ index=email sourcetype=exchange
 ```
 
 **ELK KQL:**
+
 ```kql
 event.module: "o365" AND event.category: "email" AND
 file.extension: (exe OR scr OR bat OR cmd OR ps1 OR vbs OR js OR jar OR zip)
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 EmailAttachmentInfo
 | where FileType in ("exe", "scr", "bat", "cmd", "ps1", "vbs", "js")
@@ -48,6 +51,7 @@ EmailAttachmentInfo
 ### Brute Force - Failed Login Attempts
 
 **Splunk SPL:**
+
 ```spl
 index=security sourcetype=auth action=failure
 | stats count as failures, values(src_ip) as source_ips by user
@@ -61,6 +65,7 @@ index=security sourcetype=auth action=failure
 ```
 
 **ELK KQL:**
+
 ```kql
 event.category: "authentication" AND event.outcome: "failure"
 | count BY user.name, source.ip
@@ -68,6 +73,7 @@ event.category: "authentication" AND event.outcome: "failure"
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 SigninLogs
 | where ResultType != 0  // 0 = success
@@ -84,6 +90,7 @@ SigninLogs
 ### Exploit Public-Facing Application
 
 **Splunk SPL:**
+
 ```spl
 index=web sourcetype=access_combined
 | eval http_status=status
@@ -96,12 +103,14 @@ index=web sourcetype=access_combined
 ```
 
 **ELK KQL:**
+
 ```kql
 http.response.status_code >= 400 AND
 url.original: (*union* OR *select* OR *exec* OR *script* OR *alert*)
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 W3CIISLog
 | where scStatus >= 400
@@ -117,6 +126,7 @@ W3CIISLog
 ### PowerShell - Suspicious Command Execution
 
 **Splunk SPL:**
+
 ```spl
 index=edr sourcetype=sysmon EventCode=1
 | eval process_lower=lower(CommandLine)
@@ -126,12 +136,14 @@ index=edr sourcetype=sysmon EventCode=1
 ```
 
 **ELK KQL:**
+
 ```kql
 process.name: "powershell.exe" AND
 process.args: (*EncodedCommand* OR *Invoke-Expression* OR *DownloadString* OR *IEX* OR *WebClient* OR *-nop* OR *-ep bypass*)
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 DeviceProcessEvents
 | where FileName =~ "powershell.exe"
@@ -145,6 +157,7 @@ DeviceProcessEvents
 ### Scripting - Malicious Script Execution
 
 **Splunk SPL:**
+
 ```spl
 index=edr sourcetype=sysmon EventCode=1
 | eval script_ext=lower(mvindex(split(Image, "."), -1))
@@ -155,12 +168,14 @@ index=edr sourcetype=sysmon EventCode=1
 ```
 
 **ELK KQL:**
+
 ```kql
 process.parent.name: (*word.exe* OR *excel.exe* OR *outlook.exe* OR *acrord32.exe*) AND
 process.name: (*.vbs OR *.js OR *.bat OR *.cmd OR *.ps1)
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 DeviceProcessEvents
 | where InitiatingProcessFileName in~ ("winword.exe", "excel.exe", "outlook.exe", "acrord32.exe")
@@ -175,6 +190,7 @@ DeviceProcessEvents
 ### Registry Run Keys / Startup Folder
 
 **Splunk SPL:**
+
 ```spl
 index=edr sourcetype=sysmon EventCode=13
 | eval reg_path_lower=lower(TargetObject)
@@ -183,12 +199,14 @@ index=edr sourcetype=sysmon EventCode=13
 ```
 
 **ELK KQL:**
+
 ```kql
 event.code: "13" AND
 registry.path: (*\\CurrentVersion\\Run* OR *\\CurrentVersion\\RunOnce*)
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 DeviceRegistryEvents
 | where RegistryKey has_any (
@@ -201,6 +219,7 @@ DeviceRegistryEvents
 ### Scheduled Task Creation
 
 **Splunk SPL:**
+
 ```spl
 index=security sourcetype=wineventlog EventCode=4698
 | eval task_name=TaskName
@@ -209,11 +228,13 @@ index=security sourcetype=wineventlog EventCode=4698
 ```
 
 **ELK KQL:**
+
 ```kql
 event.code: "4698" AND event.action: "scheduled task created"
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 SecurityEvent
 | where EventID == 4698  // Scheduled task created
@@ -224,6 +245,7 @@ SecurityEvent
 ### Service Installation
 
 **Splunk SPL:**
+
 ```spl
 index=security sourcetype=wineventlog EventCode=7045
 | eval service_name=ServiceName
@@ -234,12 +256,14 @@ index=security sourcetype=wineventlog EventCode=7045
 ```
 
 **ELK KQL:**
+
 ```kql
 event.code: "7045" AND
 winlog.event_data.ImagePath: (*\\temp\\* OR *\\AppData\\* OR *\\ProgramData\\* OR *\\Users\\Public\\*)
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 SecurityEvent
 | where EventID == 7045  // New service installed
@@ -256,6 +280,7 @@ SecurityEvent
 ### Access Token Manipulation - Privilege Escalation
 
 **Splunk SPL:**
+
 ```spl
 index=security sourcetype=wineventlog EventCode=4672
 | eval privileges=PrivilegeList
@@ -266,6 +291,7 @@ index=security sourcetype=wineventlog EventCode=4672
 ```
 
 **ELK KQL:**
+
 ```kql
 event.code: "4672" AND
 winlog.event_data.PrivilegeList: (*SeDebugPrivilege* OR *SeImpersonatePrivilege* OR *SeAssignPrimaryTokenPrivilege*) AND
@@ -273,6 +299,7 @@ NOT user.name: (SYSTEM OR "LOCAL SERVICE" OR "NETWORK SERVICE")
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 SecurityEvent
 | where EventID == 4672  // Special privileges assigned
@@ -285,6 +312,7 @@ SecurityEvent
 ### Sudo/Su Usage (Linux)
 
 **Splunk SPL:**
+
 ```spl
 index=linux sourcetype=linux_secure
 | eval cmd=lower(_raw)
@@ -294,11 +322,13 @@ index=linux sourcetype=linux_secure
 ```
 
 **ELK KQL:**
+
 ```kql
 system.auth.sudo.command: * OR event.action: "executed" AND process.name: "sudo"
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 Syslog
 | where Facility == "auth" or Facility == "authpriv"
@@ -314,17 +344,20 @@ Syslog
 ### Clear Windows Event Logs
 
 **Splunk SPL:**
+
 ```spl
 index=security sourcetype=wineventlog EventCode=1102
 | table _time, host, user, EventCode, Message
 ```
 
 **ELK KQL:**
+
 ```kql
 event.code: "1102" AND event.action: "audit log cleared"
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 SecurityEvent
 | where EventID == 1102  // Audit log cleared
@@ -334,6 +367,7 @@ SecurityEvent
 ### Indicator Removal - File Deletion
 
 **Splunk SPL:**
+
 ```spl
 index=edr sourcetype=sysmon EventCode=23
 | eval file_lower=lower(TargetFilename)
@@ -342,11 +376,13 @@ index=edr sourcetype=sysmon EventCode=23
 ```
 
 **ELK KQL:**
+
 ```kql
 event.code: "23" AND file.path: (*.log OR *.evtx OR *.txt)
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 DeviceFileEvents
 | where ActionType == "FileDeleted"
@@ -357,6 +393,7 @@ DeviceFileEvents
 ### Timestomp - File Time Modification
 
 **Splunk SPL:**
+
 ```spl
 index=edr sourcetype=sysmon EventCode=2
 | eval creation_time=CreationUtcTime
@@ -366,11 +403,13 @@ index=edr sourcetype=sysmon EventCode=2
 ```
 
 **ELK KQL:**
+
 ```kql
 event.code: "2" AND file.ctime: * AND file.mtime: * AND file.ctime != file.mtime
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 DeviceFileEvents
 | where ActionType == "FileCreated" or ActionType == "FileModified"
@@ -385,6 +424,7 @@ DeviceFileEvents
 ### Credential Dumping - LSASS Access
 
 **Splunk SPL:**
+
 ```spl
 index=edr sourcetype=sysmon EventCode=10
 | eval target_image_lower=lower(TargetImage)
@@ -395,6 +435,7 @@ index=edr sourcetype=sysmon EventCode=10
 ```
 
 **ELK KQL:**
+
 ```kql
 event.code: "10" AND
 process.name: "lsass.exe" AND
@@ -402,6 +443,7 @@ NOT process.parent.name: (svchost.exe OR csrss.exe OR wininit.exe)
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 DeviceEvents
 | where ActionType == "ProcessAccess"
@@ -413,6 +455,7 @@ DeviceEvents
 ### Password Spraying
 
 **Splunk SPL:**
+
 ```spl
 index=security sourcetype=auth action=failure
 | stats dc(user) as unique_users, count by src_ip
@@ -421,6 +464,7 @@ index=security sourcetype=auth action=failure
 ```
 
 **ELK KQL:**
+
 ```kql
 event.category: "authentication" AND event.outcome: "failure"
 | cardinality BY user.name, source.ip
@@ -428,6 +472,7 @@ event.category: "authentication" AND event.outcome: "failure"
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 SigninLogs
 | where ResultType != 0  // Failed login
@@ -443,6 +488,7 @@ SigninLogs
 ### Network Service Scanning - Port Scanning
 
 **Splunk SPL:**
+
 ```spl
 index=network sourcetype=firewall action=deny
 | stats dc(dest_port) as unique_ports, count by src_ip, dest_ip
@@ -451,6 +497,7 @@ index=network sourcetype=firewall action=deny
 ```
 
 **ELK KQL:**
+
 ```kql
 event.action: "deny" AND destination.port: *
 | cardinality BY source.ip, destination.ip, destination.port
@@ -458,6 +505,7 @@ event.action: "deny" AND destination.port: *
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 AzureNetworkAnalytics_CL
 | where FlowStatus_s == "D"  // Denied
@@ -469,6 +517,7 @@ AzureNetworkAnalytics_CL
 ### System Information Discovery
 
 **Splunk SPL:**
+
 ```spl
 index=edr sourcetype=sysmon EventCode=1
 | eval cmd_lower=lower(CommandLine)
@@ -478,11 +527,13 @@ index=edr sourcetype=sysmon EventCode=1
 ```
 
 **ELK KQL:**
+
 ```kql
 process.name: (systeminfo.exe OR whoami.exe OR ipconfig.exe OR netstat.exe OR net.exe)
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 DeviceProcessEvents
 | where FileName in~ ("systeminfo.exe", "whoami.exe", "ipconfig.exe", "netstat.exe", "net.exe")
@@ -497,6 +548,7 @@ DeviceProcessEvents
 ### Remote Services - RDP
 
 **Splunk SPL:**
+
 ```spl
 index=security sourcetype=wineventlog EventCode=4624
 | where LogonType=10
@@ -505,11 +557,13 @@ index=security sourcetype=wineventlog EventCode=4624
 ```
 
 **ELK KQL:**
+
 ```kql
 event.code: "4624" AND winlog.event_data.LogonType: "10"
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 SecurityEvent
 | where EventID == 4624 and LogonType == 10  // RDP login
@@ -520,6 +574,7 @@ SecurityEvent
 ### Pass the Hash - NTLM Authentication
 
 **Splunk SPL:**
+
 ```spl
 index=security sourcetype=wineventlog EventCode=4624
 | where LogonType=3 AND AuthenticationPackageName="NTLM"
@@ -530,6 +585,7 @@ index=security sourcetype=wineventlog EventCode=4624
 ```
 
 **ELK KQL:**
+
 ```kql
 event.code: "4624" AND
 winlog.event_data.LogonType: "3" AND
@@ -537,6 +593,7 @@ winlog.event_data.AuthenticationPackageName: "NTLM"
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 SecurityEvent
 | where EventID == 4624
@@ -553,6 +610,7 @@ SecurityEvent
 ### Data Staged - Large File Creation
 
 **Splunk SPL:**
+
 ```spl
 index=edr sourcetype=sysmon EventCode=11
 | eval file_ext=lower(mvindex(split(TargetFilename, "."), -1))
@@ -563,6 +621,7 @@ index=edr sourcetype=sysmon EventCode=11
 ```
 
 **ELK KQL:**
+
 ```kql
 event.code: "11" AND
 file.extension: (zip OR rar OR 7z OR tar OR gz) AND
@@ -570,6 +629,7 @@ file.path: (*\\temp\\* OR *\\AppData\\* OR *\\ProgramData\\*)
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 DeviceFileEvents
 | where ActionType == "FileCreated"
@@ -581,6 +641,7 @@ DeviceFileEvents
 ### Screen Capture
 
 **Splunk SPL:**
+
 ```spl
 index=edr sourcetype=sysmon EventCode=1
 | eval cmd_lower=lower(CommandLine)
@@ -589,11 +650,13 @@ index=edr sourcetype=sysmon EventCode=1
 ```
 
 **ELK KQL:**
+
 ```kql
 process.command_line: (*screenshot* OR *screencapture* OR *snippingtool*)
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 DeviceProcessEvents
 | where ProcessCommandLine has_any ("screenshot", "screencapture", "SnippingTool")
@@ -607,6 +670,7 @@ DeviceProcessEvents
 ### Exfiltration Over Web Service - Cloud Storage Upload
 
 **Splunk SPL:**
+
 ```spl
 index=proxy sourcetype=proxy
 | eval url_lower=lower(url)
@@ -617,6 +681,7 @@ index=proxy sourcetype=proxy
 ```
 
 **ELK KQL:**
+
 ```kql
 http.request.method: (POST OR PUT) AND
 url.domain: (dropbox.com OR drive.google.com OR onedrive.live.com OR box.com OR mega.nz) AND
@@ -624,6 +689,7 @@ http.request.bytes > 100000000
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 CommonSecurityLog
 | where RequestMethod in ("POST", "PUT")
@@ -635,6 +701,7 @@ CommonSecurityLog
 ### Data Transfer Size Limits - Large Outbound Transfer
 
 **Splunk SPL:**
+
 ```spl
 index=network sourcetype=firewall action=allow
 | where dest_port IN (80, 443, 8080)
@@ -644,12 +711,14 @@ index=network sourcetype=firewall action=allow
 ```
 
 **ELK KQL:**
+
 ```kql
 destination.port: (80 OR 443 OR 8080) AND
 network.bytes > 1000000000
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 AzureNetworkAnalytics_CL
 | where DestPort_d in (80, 443, 8080)
@@ -665,6 +734,7 @@ AzureNetworkAnalytics_CL
 ### DNS Tunneling Detection
 
 **Splunk SPL:**
+
 ```spl
 index=dns sourcetype=dns
 | eval query_length=len(query)
@@ -675,11 +745,13 @@ index=dns sourcetype=dns
 ```
 
 **ELK KQL:**
+
 ```kql
 dns.question.name: * AND dns.question.name.length > 50
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 DnsEvents
 | extend QueryLength = strlen(Name)
@@ -692,6 +764,7 @@ DnsEvents
 ### Beaconing - Regular Outbound Connections
 
 **Splunk SPL:**
+
 ```spl
 index=network sourcetype=firewall action=allow
 | eval hour=strftime(_time, "%H")
@@ -703,12 +776,14 @@ index=network sourcetype=firewall action=allow
 ```
 
 **ELK KQL:**
+
 ```kql
 event.action: "allow" AND destination.ip: * AND destination.port: *
 | stats count by source.ip, destination.ip, destination.port, @timestamp.hour
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 AzureNetworkAnalytics_CL
 | extend Hour = hourofday(FlowStartTime_t)
@@ -722,6 +797,7 @@ AzureNetworkAnalytics_CL
 ### Non-Standard Port Usage
 
 **Splunk SPL:**
+
 ```spl
 index=network sourcetype=firewall action=allow
 | where dest_port NOT IN (80, 443, 22, 3389, 445, 53, 123, 389, 636, 3268, 3269)
@@ -731,12 +807,14 @@ index=network sourcetype=firewall action=allow
 ```
 
 **ELK KQL:**
+
 ```kql
 NOT destination.port: (80 OR 443 OR 22 OR 3389 OR 445 OR 53 OR 123 OR 389 OR 636) AND
 network.bytes > 10000000
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 AzureNetworkAnalytics_CL
 | where DestPort_d !in (80, 443, 22, 3389, 445, 53, 123, 389, 636, 3268, 3269)
@@ -752,6 +830,7 @@ AzureNetworkAnalytics_CL
 ### Rare Parent-Child Process Relationships
 
 **Splunk SPL:**
+
 ```spl
 index=edr sourcetype=sysmon EventCode=1
 | stats count by ParentImage, Image
@@ -760,6 +839,7 @@ index=edr sourcetype=sysmon EventCode=1
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 DeviceProcessEvents
 | summarize Count=count() by InitiatingProcessFileName, FileName
@@ -770,6 +850,7 @@ DeviceProcessEvents
 ### Anomalous User Behavior - Access Outside Business Hours
 
 **Splunk SPL:**
+
 ```spl
 index=security sourcetype=auth action=success
 | eval hour=strftime(_time, "%H")
@@ -780,6 +861,7 @@ index=security sourcetype=auth action=success
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 SigninLogs
 | extend Hour = hourofday(TimeGenerated)
@@ -791,6 +873,7 @@ SigninLogs
 ### New Process Execution (Threat Hunting)
 
 **Splunk SPL:**
+
 ```spl
 index=edr sourcetype=sysmon EventCode=1
 | stats earliest(_time) as first_seen by Image, hash
@@ -799,6 +882,7 @@ index=edr sourcetype=sysmon EventCode=1
 ```
 
 **Azure Sentinel KQL:**
+
 ```kql
 DeviceProcessEvents
 | summarize FirstSeen=min(Timestamp) by FileName, SHA256
@@ -813,6 +897,7 @@ DeviceProcessEvents
 ### Splunk Optimization
 
 1. **Use index and sourcetype filters first:**
+
    ```spl
    # Good
    index=security sourcetype=wineventlog EventCode=4624
@@ -822,11 +907,13 @@ DeviceProcessEvents
    ```
 
 2. **Limit time range:**
+
    ```spl
    earliest=-24h latest=now
    ```
 
 3. **Use tstats for acceleration:**
+
    ```spl
    | tstats count where index=security by _time, user span=1h
    ```
@@ -834,12 +921,14 @@ DeviceProcessEvents
 ### ELK Optimization
 
 1. **Use index patterns:**
+
    ```kql
    # Target specific indices
    _index: "filebeat-*" AND event.code: "4624"
    ```
 
 2. **Filter early:**
+
    ```kql
    # Apply filters before aggregations
    event.category: "authentication" AND event.outcome: "failure"
@@ -849,6 +938,7 @@ DeviceProcessEvents
 ### Azure Sentinel Optimization
 
 1. **Time filters first:**
+
    ```kql
    SigninLogs
    | where TimeGenerated > ago(1h)
@@ -856,6 +946,7 @@ DeviceProcessEvents
    ```
 
 2. **Limit columns projected:**
+
    ```kql
    | project TimeGenerated, UserPrincipalName, IPAddress
    # Instead of returning all columns

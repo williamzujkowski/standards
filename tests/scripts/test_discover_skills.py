@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """Comprehensive unit tests for discover-skills.py with >90% coverage."""
 
-import pytest
-from pathlib import Path
+import json
+import shutil
+import subprocess
 import sys
 import tempfile
-import shutil
-import json
+from pathlib import Path
+
+import pytest
 import yaml
-import subprocess
 
 # Add scripts directory to path
 SCRIPTS_DIR = Path(__file__).parent.parent.parent / "scripts"
@@ -16,6 +17,7 @@ sys.path.insert(0, str(SCRIPTS_DIR))
 
 # Import module under test
 import importlib.util
+
 spec = importlib.util.spec_from_file_location("discover_skills", SCRIPTS_DIR / "discover-skills.py")
 discover_skills = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(discover_skills)
@@ -35,7 +37,7 @@ def sample_skill_files():
             "description": "Security best practices for REST APIs",
             "category": "security",
             "tags": ["api", "security", "rest"],
-            "related": ["input-validation"]
+            "related": ["input-validation"],
         },
         {
             "slug": "input-validation",
@@ -43,7 +45,7 @@ def sample_skill_files():
             "description": "Validate user inputs securely",
             "category": "security",
             "tags": ["validation", "security"],
-            "related": []
+            "related": [],
         },
         {
             "slug": "unit-testing",
@@ -51,8 +53,8 @@ def sample_skill_files():
             "description": "Unit testing best practices",
             "category": "testing",
             "tags": ["testing", "unit"],
-            "related": []
-        }
+            "related": [],
+        },
     ]
 
     for skill_data in skills_data:
@@ -74,7 +76,7 @@ tags: {json.dumps(skill_data['tags'])}
 ## Related Skills
 
 """
-        for related in skill_data['related']:
+        for related in skill_data["related"]:
             content += f"- [{related}](../{related}/SKILL.md)\n"
 
         (skill_dir / "SKILL.md").write_text(content)
@@ -94,13 +96,13 @@ def sample_product_matrix():
             "api": {
                 "coding_standards": ["Python", "TypeScript"],
                 "testing_standards": ["Unit", "Integration"],
-                "security_standards": ["API Security", "Input Validation"]
+                "security_standards": ["API Security", "Input Validation"],
             },
             "web-service": {
                 "coding_standards": ["Python", "TypeScript", "React"],
                 "testing_standards": ["Unit", "E2E"],
-                "security_standards": ["Authentication", "CSRF"]
-            }
+                "security_standards": ["Authentication", "CSRF"],
+            },
         }
     }
 
@@ -429,11 +431,13 @@ class TestCommandLineInterface:
             [
                 "python3",
                 str(SCRIPTS_DIR / "discover-skills.py"),
-                "--skills-dir", str(sample_skill_files),
-                "--search", "security"
+                "--skills-dir",
+                str(sample_skill_files),
+                "--search",
+                "security",
             ],
             capture_output=True,
-            text=True
+            text=True,
         )
 
         assert result.returncode == 0
@@ -445,11 +449,13 @@ class TestCommandLineInterface:
             [
                 "python3",
                 str(SCRIPTS_DIR / "discover-skills.py"),
-                "--skills-dir", str(sample_skill_files),
-                "--category", "security"
+                "--skills-dir",
+                str(sample_skill_files),
+                "--category",
+                "security",
             ],
             capture_output=True,
-            text=True
+            text=True,
         )
 
         assert result.returncode == 0
@@ -458,14 +464,9 @@ class TestCommandLineInterface:
     def test_cli_list_all(self, sample_skill_files):
         """Test --list-all flag."""
         result = subprocess.run(
-            [
-                "python3",
-                str(SCRIPTS_DIR / "discover-skills.py"),
-                "--skills-dir", str(sample_skill_files),
-                "--list-all"
-            ],
+            ["python3", str(SCRIPTS_DIR / "discover-skills.py"), "--skills-dir", str(sample_skill_files), "--list-all"],
             capture_output=True,
-            text=True
+            text=True,
         )
 
         assert result.returncode == 0
@@ -477,12 +478,14 @@ class TestCommandLineInterface:
             [
                 "python3",
                 str(SCRIPTS_DIR / "discover-skills.py"),
-                "--skills-dir", str(sample_skill_files),
-                "--search", "security",
-                "--generate-command"
+                "--skills-dir",
+                str(sample_skill_files),
+                "--search",
+                "security",
+                "--generate-command",
             ],
             capture_output=True,
-            text=True
+            text=True,
         )
 
         assert result.returncode == 0
@@ -495,12 +498,15 @@ class TestCommandLineInterface:
             [
                 "python3",
                 str(SCRIPTS_DIR / "discover-skills.py"),
-                "--skills-dir", str(sample_skill_files),
-                "--search", "security",
-                "--output-json", str(output_json)
+                "--skills-dir",
+                str(sample_skill_files),
+                "--search",
+                "security",
+                "--output-json",
+                str(output_json),
             ],
             capture_output=True,
-            text=True
+            text=True,
         )
 
         assert result.returncode == 0
@@ -517,12 +523,14 @@ class TestCommandLineInterface:
             [
                 "python3",
                 str(SCRIPTS_DIR / "discover-skills.py"),
-                "--skills-dir", str(sample_skill_files),
-                "--search", "security",
-                "--verbose"
+                "--skills-dir",
+                str(sample_skill_files),
+                "--search",
+                "security",
+                "--verbose",
             ],
             capture_output=True,
-            text=True
+            text=True,
         )
 
         assert result.returncode == 0
@@ -533,11 +541,13 @@ class TestCommandLineInterface:
             [
                 "python3",
                 str(SCRIPTS_DIR / "discover-skills.py"),
-                "--skills-dir", str(sample_skill_files),
-                "--resolve-deps", "api-security"
+                "--skills-dir",
+                str(sample_skill_files),
+                "--resolve-deps",
+                "api-security",
             ],
             capture_output=True,
-            text=True
+            text=True,
         )
 
         assert result.returncode == 0
@@ -549,23 +559,22 @@ class TestCommandLineInterface:
             [
                 "python3",
                 str(SCRIPTS_DIR / "discover-skills.py"),
-                "--skills-dir", str(sample_skill_files),
-                "--product-matrix", str(sample_product_matrix),
-                "--product-type", "api"
+                "--skills-dir",
+                str(sample_skill_files),
+                "--product-matrix",
+                str(sample_product_matrix),
+                "--product-type",
+                "api",
             ],
             capture_output=True,
-            text=True
+            text=True,
         )
 
         assert result.returncode == 0
 
     def test_cli_no_arguments(self):
         """Test CLI with no arguments."""
-        result = subprocess.run(
-            ["python3", str(SCRIPTS_DIR / "discover-skills.py")],
-            capture_output=True,
-            text=True
-        )
+        result = subprocess.run(["python3", str(SCRIPTS_DIR / "discover-skills.py")], capture_output=True, text=True)
 
         assert result.returncode == 0
 

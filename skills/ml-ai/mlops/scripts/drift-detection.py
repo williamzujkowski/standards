@@ -2,13 +2,17 @@
 Comprehensive drift detection system for production ML models.
 Includes statistical tests, distribution comparisons, and alerting.
 """
+
+import warnings
+from typing import Dict
+
 import numpy as np
 import pandas as pd
 from scipy import stats
 from scipy.spatial.distance import jensenshannon
-from typing import Dict, List, Tuple, Optional
-import warnings
-warnings.filterwarnings('ignore')
+
+warnings.filterwarnings("ignore")
+
 
 class DriftDetector:
     """
@@ -28,7 +32,7 @@ class DriftDetector:
         feature_types: Dict[str, str],
         significance_level: float = 0.05,
         psi_threshold: float = 0.1,
-        js_threshold: float = 0.1
+        js_threshold: float = 0.1,
     ):
         """
         Initialize drift detector with reference data.
@@ -57,22 +61,22 @@ class DriftDetector:
             if feature not in self.reference_data.columns:
                 continue
 
-            if ftype == 'numerical':
+            if ftype == "numerical":
                 values = self.reference_data[feature].dropna()
                 stats_dict[feature] = {
-                    'type': 'numerical',
-                    'mean': values.mean(),
-                    'std': values.std(),
-                    'quantiles': np.percentile(values, [0, 25, 50, 75, 100]),
-                    'distribution': values.values
+                    "type": "numerical",
+                    "mean": values.mean(),
+                    "std": values.std(),
+                    "quantiles": np.percentile(values, [0, 25, 50, 75, 100]),
+                    "distribution": values.values,
                 }
-            elif ftype == 'categorical':
+            elif ftype == "categorical":
                 value_counts = self.reference_data[feature].value_counts(normalize=True)
                 stats_dict[feature] = {
-                    'type': 'categorical',
-                    'categories': value_counts.index.tolist(),
-                    'frequencies': value_counts.values,
-                    'value_counts': value_counts.to_dict()
+                    "type": "categorical",
+                    "categories": value_counts.index.tolist(),
+                    "frequencies": value_counts.values,
+                    "value_counts": value_counts.to_dict(),
                 }
 
         return stats_dict
@@ -87,46 +91,29 @@ class DriftDetector:
         Returns:
             Dictionary containing drift detection results per feature
         """
-        results = {
-            'overall_drift': False,
-            'features_with_drift': [],
-            'feature_results': {}
-        }
+        results = {"overall_drift": False, "features_with_drift": [], "feature_results": {}}
 
         for feature, ref_stats in self.reference_stats.items():
             if feature not in current_data.columns:
                 continue
 
-            if ref_stats['type'] == 'numerical':
-                feature_result = self._detect_numerical_drift(
-                    feature,
-                    current_data[feature].dropna().values,
-                    ref_stats
-                )
+            if ref_stats["type"] == "numerical":
+                feature_result = self._detect_numerical_drift(feature, current_data[feature].dropna().values, ref_stats)
             else:
-                feature_result = self._detect_categorical_drift(
-                    feature,
-                    current_data[feature],
-                    ref_stats
-                )
+                feature_result = self._detect_categorical_drift(feature, current_data[feature], ref_stats)
 
-            results['feature_results'][feature] = feature_result
+            results["feature_results"][feature] = feature_result
 
-            if feature_result['drift_detected']:
-                results['features_with_drift'].append(feature)
-                results['overall_drift'] = True
+            if feature_result["drift_detected"]:
+                results["features_with_drift"].append(feature)
+                results["overall_drift"] = True
 
         return results
 
-    def _detect_numerical_drift(
-        self,
-        feature: str,
-        current_values: np.ndarray,
-        ref_stats: Dict
-    ) -> Dict:
+    def _detect_numerical_drift(self, feature: str, current_values: np.ndarray, ref_stats: Dict) -> Dict:
         """Detect drift in numerical features using multiple methods."""
 
-        ref_values = ref_stats['distribution']
+        ref_values = ref_stats["distribution"]
 
         # 1. Kolmogorov-Smirnov Test
         ks_stat, ks_pvalue = stats.ks_2samp(ref_values, current_values)
@@ -143,56 +130,39 @@ class DriftDetector:
         # 4. Statistical summary comparison
         current_mean = np.mean(current_values)
         current_std = np.std(current_values)
-        mean_shift = abs(current_mean - ref_stats['mean']) / (ref_stats['std'] + 1e-6)
+        mean_shift = abs(current_mean - ref_stats["mean"]) / (ref_stats["std"] + 1e-6)
 
         # Overall drift decision (any method triggers)
         drift_detected = ks_drift or psi_drift or js_drift
 
         return {
-            'feature': feature,
-            'type': 'numerical',
-            'drift_detected': drift_detected,
-            'methods': {
-                'kolmogorov_smirnov': {
-                    'statistic': float(ks_stat),
-                    'p_value': float(ks_pvalue),
-                    'drift': ks_drift
-                },
-                'psi': {
-                    'value': float(psi),
-                    'threshold': self.psi_threshold,
-                    'drift': psi_drift
-                },
-                'jensen_shannon': {
-                    'value': float(js_div),
-                    'threshold': self.js_threshold,
-                    'drift': js_drift
-                }
+            "feature": feature,
+            "type": "numerical",
+            "drift_detected": drift_detected,
+            "methods": {
+                "kolmogorov_smirnov": {"statistic": float(ks_stat), "p_value": float(ks_pvalue), "drift": ks_drift},
+                "psi": {"value": float(psi), "threshold": self.psi_threshold, "drift": psi_drift},
+                "jensen_shannon": {"value": float(js_div), "threshold": self.js_threshold, "drift": js_drift},
             },
-            'statistics': {
-                'reference_mean': float(ref_stats['mean']),
-                'current_mean': float(current_mean),
-                'reference_std': float(ref_stats['std']),
-                'current_std': float(current_std),
-                'mean_shift_magnitude': float(mean_shift)
+            "statistics": {
+                "reference_mean": float(ref_stats["mean"]),
+                "current_mean": float(current_mean),
+                "reference_std": float(ref_stats["std"]),
+                "current_std": float(current_std),
+                "mean_shift_magnitude": float(mean_shift),
             },
-            'severity': self._compute_severity(max(ks_stat, psi, js_div))
+            "severity": self._compute_severity(max(ks_stat, psi, js_div)),
         }
 
-    def _detect_categorical_drift(
-        self,
-        feature: str,
-        current_series: pd.Series,
-        ref_stats: Dict
-    ) -> Dict:
+    def _detect_categorical_drift(self, feature: str, current_series: pd.Series, ref_stats: Dict) -> Dict:
         """Detect drift in categorical features."""
 
         # Current value counts
         current_value_counts = current_series.value_counts(normalize=True)
 
         # Align categories
-        all_categories = set(ref_stats['categories']) | set(current_value_counts.index)
-        ref_freq = [ref_stats['value_counts'].get(cat, 0) for cat in all_categories]
+        all_categories = set(ref_stats["categories"]) | set(current_value_counts.index)
+        ref_freq = [ref_stats["value_counts"].get(cat, 0) for cat in all_categories]
         curr_freq = [current_value_counts.get(cat, 0) for cat in all_categories]
 
         # 1. Chi-square test
@@ -208,39 +178,27 @@ class DriftDetector:
         tvd_drift = tvd > 0.1  # Typical threshold
 
         # 3. Category changes
-        new_categories = set(current_value_counts.index) - set(ref_stats['categories'])
-        missing_categories = set(ref_stats['categories']) - set(current_value_counts.index)
+        new_categories = set(current_value_counts.index) - set(ref_stats["categories"])
+        missing_categories = set(ref_stats["categories"]) - set(current_value_counts.index)
 
         drift_detected = chi2_drift or tvd_drift or len(new_categories) > 0
 
         return {
-            'feature': feature,
-            'type': 'categorical',
-            'drift_detected': drift_detected,
-            'methods': {
-                'chi_square': {
-                    'statistic': float(chi2_stat),
-                    'p_value': float(chi2_pvalue),
-                    'drift': chi2_drift
-                },
-                'total_variation_distance': {
-                    'value': float(tvd),
-                    'drift': tvd_drift
-                }
+            "feature": feature,
+            "type": "categorical",
+            "drift_detected": drift_detected,
+            "methods": {
+                "chi_square": {"statistic": float(chi2_stat), "p_value": float(chi2_pvalue), "drift": chi2_drift},
+                "total_variation_distance": {"value": float(tvd), "drift": tvd_drift},
             },
-            'category_changes': {
-                'new_categories': list(new_categories),
-                'missing_categories': list(missing_categories)
+            "category_changes": {
+                "new_categories": list(new_categories),
+                "missing_categories": list(missing_categories),
             },
-            'severity': self._compute_severity(tvd)
+            "severity": self._compute_severity(tvd),
         }
 
-    def _calculate_psi(
-        self,
-        reference: np.ndarray,
-        current: np.ndarray,
-        bins: int = 10
-    ) -> float:
+    def _calculate_psi(self, reference: np.ndarray, current: np.ndarray, bins: int = 10) -> float:
         """Calculate Population Stability Index."""
 
         # Create bins based on reference distribution
@@ -264,12 +222,7 @@ class DriftDetector:
 
         return psi
 
-    def _calculate_jensen_shannon(
-        self,
-        reference: np.ndarray,
-        current: np.ndarray,
-        bins: int = 50
-    ) -> float:
+    def _calculate_jensen_shannon(self, reference: np.ndarray, current: np.ndarray, bins: int = 50) -> float:
         """Calculate Jensen-Shannon divergence."""
 
         # Create common bins
@@ -307,7 +260,7 @@ class DriftDetector:
         report.append("DRIFT DETECTION REPORT")
         report.append("=" * 80)
 
-        if drift_results['overall_drift']:
+        if drift_results["overall_drift"]:
             report.append(f"\n⚠️  DRIFT DETECTED in {len(drift_results['features_with_drift'])} feature(s)")
             report.append(f"Features: {', '.join(drift_results['features_with_drift'])}")
         else:
@@ -317,21 +270,21 @@ class DriftDetector:
         report.append("FEATURE-LEVEL RESULTS")
         report.append("-" * 80)
 
-        for feature, result in drift_results['feature_results'].items():
+        for feature, result in drift_results["feature_results"].items():
             report.append(f"\nFeature: {feature}")
             report.append(f"  Type: {result['type']}")
             report.append(f"  Drift: {'YES' if result['drift_detected'] else 'NO'}")
 
-            if result['drift_detected']:
+            if result["drift_detected"]:
                 report.append(f"  Severity: {result['severity'].upper()}")
 
             report.append("  Methods:")
-            for method_name, method_result in result['methods'].items():
-                drift_status = "DRIFT" if method_result.get('drift', False) else "OK"
+            for method_name, method_result in result["methods"].items():
+                drift_status = "DRIFT" if method_result.get("drift", False) else "OK"
                 report.append(f"    - {method_name}: {drift_status}")
-                if 'value' in method_result:
+                if "value" in method_result:
                     report.append(f"      Value: {method_result['value']:.4f}")
-                if 'p_value' in method_result:
+                if "p_value" in method_result:
                     report.append(f"      P-value: {method_result['p_value']:.4f}")
 
         report.append("\n" + "=" * 80)
@@ -345,33 +298,29 @@ if __name__ == "__main__":
     np.random.seed(42)
 
     # Reference (training) data
-    ref_df = pd.DataFrame({
-        'numerical_1': np.random.normal(0, 1, 10000),
-        'numerical_2': np.random.exponential(2, 10000),
-        'categorical_1': np.random.choice(['A', 'B', 'C'], 10000, p=[0.5, 0.3, 0.2])
-    })
+    ref_df = pd.DataFrame(
+        {
+            "numerical_1": np.random.normal(0, 1, 10000),
+            "numerical_2": np.random.exponential(2, 10000),
+            "categorical_1": np.random.choice(["A", "B", "C"], 10000, p=[0.5, 0.3, 0.2]),
+        }
+    )
 
     # Current (production) data with drift
-    curr_df = pd.DataFrame({
-        'numerical_1': np.random.normal(0.5, 1.2, 1000),  # Shifted mean and variance
-        'numerical_2': np.random.exponential(2.5, 1000),  # Changed distribution
-        'categorical_1': np.random.choice(['A', 'B', 'C', 'D'], 1000, p=[0.4, 0.3, 0.2, 0.1])  # New category
-    })
+    curr_df = pd.DataFrame(
+        {
+            "numerical_1": np.random.normal(0.5, 1.2, 1000),  # Shifted mean and variance
+            "numerical_2": np.random.exponential(2.5, 1000),  # Changed distribution
+            "categorical_1": np.random.choice(["A", "B", "C", "D"], 1000, p=[0.4, 0.3, 0.2, 0.1]),  # New category
+        }
+    )
 
     # Define feature types
-    feature_types = {
-        'numerical_1': 'numerical',
-        'numerical_2': 'numerical',
-        'categorical_1': 'categorical'
-    }
+    feature_types = {"numerical_1": "numerical", "numerical_2": "numerical", "categorical_1": "categorical"}
 
     # Initialize detector
     detector = DriftDetector(
-        reference_data=ref_df,
-        feature_types=feature_types,
-        significance_level=0.05,
-        psi_threshold=0.1,
-        js_threshold=0.1
+        reference_data=ref_df, feature_types=feature_types, significance_level=0.05, psi_threshold=0.1, js_threshold=0.1
     )
 
     # Detect drift
@@ -382,7 +331,7 @@ if __name__ == "__main__":
     print(report)
 
     # Example: Integration with monitoring
-    if drift_results['overall_drift']:
+    if drift_results["overall_drift"]:
         print("\n🚨 Triggering retraining pipeline...")
         # send_alert_to_slack(drift_results)
         # trigger_retraining_job()

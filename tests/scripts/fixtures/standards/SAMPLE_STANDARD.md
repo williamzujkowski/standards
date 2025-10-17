@@ -87,5 +87,6 @@ Validate all inputs and sanitize outputs.
 ## References
 
 See also:
+
 - Internal coding guidelines
 - Team best practices

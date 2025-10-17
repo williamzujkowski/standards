@@ -34,6 +34,7 @@ You are an expert agent swarm tasked with modernizing the williamzujkowski/stand
 
 2. **Create Skills Hierarchy**
    ```
+
    skills/
    ├── coding-standards/
    │   ├── SKILL.md
@@ -53,6 +54,7 @@ You are an expert agent swarm tasked with modernizing the williamzujkowski/stand
    │   ├── integration-testing.md
    │   └── test-templates/
    └── [additional skills...]
+
    ```
 
 ### Phase 2: Skills Creation Strategy
@@ -89,13 +91,17 @@ description: [Clear description of what this skill does, when Claude should use 
 ### Phase 3: Specific Transformation Rules
 
 #### 1. **Unified Standards → Multiple Focused Skills**
+
 Split UNIFIED_STANDARDS.md into:
+
 - `core-practices/SKILL.md` - Fundamental principles
 - `code-quality/SKILL.md` - Code standards
 - `architecture/SKILL.md` - System design patterns
 
 #### 2. **CLAUDE.md → Meta-Skill Loader**
+
 Transform into `skill-loader/SKILL.md`:
+
 ```yaml
 ---
 name: skill-loader
@@ -104,13 +110,17 @@ description: Intelligent skill discovery and loading system that identifies whic
 ```
 
 #### 3. **NIST Compliance → Dedicated Skill**
+
 Create `nist-compliance/SKILL.md`:
+
 - Bundle all NIST templates, scripts, and VS Code extension
 - Include control mappings as loadable resources
 - Integrate SSP generation tools
 
 #### 4. **Language-Specific Standards → Composable Skills**
+
 Create individual skills:
+
 - `python-standards/SKILL.md`
 - `javascript-standards/SKILL.md`
 - `go-standards/SKILL.md`
@@ -118,16 +128,19 @@ Create individual skills:
 ### Phase 4: Enhancement Opportunities
 
 #### Progressive Disclosure Implementation
+
 1. **Level 1 (Metadata)**: Only name + description in frontmatter
 2. **Level 2 (Core Instructions)**: Main SKILL.md body (<5k tokens)
 3. **Level 3 (Resources)**: Additional files loaded on-demand
 
 #### Token Optimization
+
 - Preserve the existing @load pattern as a resource discovery mechanism
 - Create index files for quick reference
 - Use executable scripts for complex operations (no token cost)
 
 #### Backward Compatibility
+
 - Create a `legacy-bridge/SKILL.md` that maps old references to new skills
 - Maintain original file structure in an archive/ directory
 - Provide migration scripts for existing users
@@ -135,6 +148,7 @@ Create individual skills:
 ### Phase 5: Quality Assurance
 
 #### Validation Checklist
+
 - [ ] Each skill has proper YAML frontmatter
 - [ ] Descriptions clearly indicate when to use the skill
 - [ ] No skill exceeds 5k tokens in main body
@@ -144,6 +158,7 @@ Create individual skills:
 - [ ] Templates are validated
 
 #### Testing Strategy
+
 1. Create test scenarios for each skill
 2. Validate progressive loading behavior
 3. Test composability (multiple skills working together)
@@ -152,7 +167,9 @@ Create individual skills:
 ## Implementation Workflow
 
 ### Step 1: Skill Mapping
+
 Create a mapping document showing:
+
 ```
 Current File → Target Skill(s)
 UNIFIED_STANDARDS.md → core-practices/, code-quality/, architecture/
@@ -161,19 +178,25 @@ MODERN_SECURITY_STANDARDS.md → security-practices/, zero-trust/
 ```
 
 ### Step 2: Skill Templates
+
 For each identified skill, generate:
+
 1. SKILL.md with proper frontmatter
 2. Directory structure for resources
 3. Migration of relevant content
 4. Script/template organization
 
 ### Step 3: Cross-References
+
 Update all cross-references to use skill-based paths:
+
 - Old: `See CODING_STANDARDS.md#python`
 - New: `Load python-standards skill for details`
 
 ### Step 4: Documentation
+
 Create:
+
 - README explaining the new structure
 - Migration guide for existing users
 - Skill authoring guide for contributors
@@ -189,16 +212,19 @@ Create:
 ## Additional Considerations
 
 ### Security Skills
+
 - Create audit-friendly skill structures
 - Include security scanning scripts
 - Bundle NIST control validators
 
 ### Performance Optimization
+
 - Lazy loading of heavy resources
 - Caching mechanisms for frequently used skills
 - Efficient skill discovery algorithms
 
 ### Community Contribution
+
 - Template for community skills
 - Validation pipeline for submissions
 - Skill marketplace structure
@@ -226,6 +252,7 @@ Create:
    - CI/CD pipeline updates
 
 Start by analyzing the current repository structure and creating a detailed transformation plan. Focus on preserving all existing value while enhancing with Skills capabilities.
+
 ```
 
 ## **Key Transformation Highlights**

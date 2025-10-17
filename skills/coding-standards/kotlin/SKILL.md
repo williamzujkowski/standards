@@ -27,26 +27,31 @@ related_skills:
 ### Null Safety Cheat Sheet
 
 **Safe Call Operator (?.)** - Returns null if receiver is null:
+
 ```kotlin
 val length = user?.name?.length  // null if user or name is null
 ```
 
 **Elvis Operator (?:)** - Provides default value:
+
 ```kotlin
 val name = user?.name ?: "Unknown"
 ```
 
 **Not-Null Assertion (!!)** - Throws NPE if null (use sparingly):
+
 ```kotlin
 val length = user!!.name!!.length  // Throws if null
 ```
 
 **Safe Cast (as?)** - Returns null on cast failure:
+
 ```kotlin
 val employee = person as? Employee  // null if not Employee
 ```
 
 **Scope Functions**:
+
 - `let` - Execute lambda if not null, transform value
 - `apply` - Configure object, return receiver
 - `also` - Side effects, return receiver
@@ -67,6 +72,7 @@ val user = User().apply {
 ### Common Kotlin Patterns
 
 **Data Classes** - Auto-generate equals, hashCode, toString, copy:
+
 ```kotlin
 data class User(
     val id: String,
@@ -76,6 +82,7 @@ data class User(
 ```
 
 **Sealed Classes** - Restricted class hierarchies:
+
 ```kotlin
 sealed class Result<out T> {
     data class Success<T>(val data: T) : Result<T>()
@@ -91,6 +98,7 @@ when (result) {
 ```
 
 **Extension Functions** - Add methods to existing classes:
+
 ```kotlin
 fun String.isValidEmail(): Boolean {
     return android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
@@ -117,6 +125,7 @@ fun String.isValidEmail(): Boolean {
 ### 1. Null Safety and Smart Casts
 
 **Nullable Types Declaration**:
+
 ```kotlin
 // Explicit nullable types
 var name: String? = null
@@ -128,6 +137,7 @@ val count: Int = 0
 ```
 
 **Smart Casts** - Compiler tracks null checks:
+
 ```kotlin
 fun processUser(user: User?) {
     if (user != null) {
@@ -146,6 +156,7 @@ fun getUserName(user: User?): String {
 ```
 
 **lateinit for Late Initialization** (non-nullable):
+
 ```kotlin
 class MyActivity : Activity() {
     // Will be initialized in onCreate
@@ -164,6 +175,7 @@ class MyActivity : Activity() {
 ```
 
 **Lazy Initialization** (thread-safe by default):
+
 ```kotlin
 class DataRepository {
     // Initialized on first access
@@ -182,6 +194,7 @@ class DataRepository {
 ### 2. Coroutines for Asynchronous Programming
 
 **Suspend Functions** - Async operations without blocking:
+
 ```kotlin
 suspend fun fetchUser(id: String): User {
     return withContext(Dispatchers.IO) {
@@ -197,6 +210,7 @@ suspend fun saveUser(user: User) {
 ```
 
 **Coroutine Builders**:
+
 ```kotlin
 class UserRepository(
     private val apiService: ApiService,
@@ -226,6 +240,7 @@ class UserRepository(
 ```
 
 **Flow for Reactive Streams**:
+
 ```kotlin
 class UserRepository(private val database: UserDao) {
     // Cold flow - Emits on collection
@@ -253,6 +268,7 @@ class UserRepository(private val database: UserDao) {
 ```
 
 **StateFlow and SharedFlow** - Hot flows for state management:
+
 ```kotlin
 class UserViewModel : ViewModel() {
     // StateFlow - Always has value, replays last
@@ -280,6 +296,7 @@ class UserViewModel : ViewModel() {
 ```
 
 **Structured Concurrency** - Automatic cancellation:
+
 ```kotlin
 class UserService {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
@@ -308,6 +325,7 @@ class UserService {
 ### 3. Collections and Functional Programming
 
 **Sequences for Large Collections** (lazy evaluation):
+
 ```kotlin
 // List operations are eager (immediate)
 val result = users
@@ -324,6 +342,7 @@ val result = users.asSequence()
 ```
 
 **Common Collection Operations**:
+
 ```kotlin
 // Transformation
 val names = users.map { it.name }
@@ -349,6 +368,7 @@ val allActive = users.all { it.isActive }
 ```
 
 **Custom Collection Extensions**:
+
 ```kotlin
 // Extension for chunked processing
 fun <T> List<T>.chunkedProcess(
@@ -376,6 +396,7 @@ fun <T, R> List<T>.mapIndexedNotNull(
 ### 4. Delegation Patterns
 
 **Property Delegation** - Reusable property logic:
+
 ```kotlin
 // Lazy initialization
 class DataManager {
@@ -417,6 +438,7 @@ class StringPreference(
 ```
 
 **Class Delegation** - Composition over inheritance:
+
 ```kotlin
 interface Logger {
     fun log(message: String)
@@ -454,6 +476,7 @@ class CachedRepository(
 ### 5. Java Interoperability
 
 **Platform Types** - Avoid when possible:
+
 ```kotlin
 // Java method returns String (platform type String!)
 val name = javaObject.getName()  // Type is String!
@@ -464,6 +487,7 @@ val nullableName: String? = javaObject.getName()
 ```
 
 **Annotations for Java Compatibility**:
+
 ```kotlin
 // JvmStatic for static methods
 class StringUtils {
@@ -500,6 +524,7 @@ fun String.toSnakeCase(): String { /* ... */ }
 ```
 
 **Handling Java Exceptions**:
+
 ```kotlin
 // Checked exceptions require @Throws
 @Throws(IOException::class)
@@ -518,6 +543,7 @@ fun readFileSafe(path: String): Result<String> {
 ### 6. Testing with JUnit 5 and MockK
 
 **Basic Test Structure**:
+
 ```kotlin
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UserRepositoryTest {
@@ -555,6 +581,7 @@ class UserRepositoryTest {
 ```
 
 **Testing Coroutines**:
+
 ```kotlin
 @OptIn(ExperimentalCoroutinesApi::class)
 class UserViewModelTest {
@@ -595,6 +622,7 @@ class UserViewModelTest {
 ```
 
 **Testing Flows**:
+
 ```kotlin
 class UserRepositoryTest {
     @Test
@@ -632,6 +660,7 @@ class UserRepositoryTest {
 ```
 
 **Parameterized Tests**:
+
 ```kotlin
 class ValidationTest {
     @ParameterizedTest
@@ -670,6 +699,7 @@ class ValidationTest {
 ```
 
 **Mock Verification and Relaxed Mocks**:
+
 ```kotlin
 @Test
 fun `service calls repository with correct parameters`() {
@@ -699,12 +729,14 @@ fun `service calls repository with correct parameters`() {
 ### 7. Static Analysis and Code Quality
 
 **Detekt Configuration** - See `config/detekt.yml`:
+
 - Complexity limits (cyclomatic, cognitive)
 - Naming conventions (classes, functions, variables)
 - Code smells (long methods, large classes)
 - Kotlin-specific rules (extension functions, coroutines)
 
 **ktlint Integration**:
+
 ```kotlin
 // Apply formatting rules
 tasks.register("ktlintFormat", JavaExec::class) {
@@ -717,6 +749,7 @@ tasks.register("ktlintFormat", JavaExec::class) {
 ```
 
 **Custom Lint Rules**:
+
 ```kotlin
 // Example: Detect usage of !! operator
 class NotNullAssertionDetector : Detector(), SourceCodeScanner {
@@ -744,28 +777,33 @@ class NotNullAssertionDetector : Detector(), SourceCodeScanner {
 ## Level 3: Deep Dive Resources
 
 ### Official Documentation
+
 - [Kotlin Language Reference](https://kotlinlang.org/docs/reference/)
 - [Kotlin Coroutines Guide](https://kotlinlang.org/docs/coroutines-guide.html)
 - [Kotlin Style Guide](https://kotlinlang.org/docs/coding-conventions.html)
 - [Kotlin for Java Developers](https://kotlinlang.org/docs/java-to-kotlin-interop.html)
 
 ### Books
+
 - **"Kotlin in Action"** by Dmitry Jemerov & Svetlana Isakova
 - **"Effective Kotlin"** by Marcin Moskała
 - **"Kotlin Coroutines"** by Marcin Moskała
 
 ### Tools
+
 - [Detekt](https://detekt.dev/) - Static code analysis
 - [ktlint](https://ktlint.github.io/) - Code formatter
 - [MockK](https://mockk.io/) - Mocking library
 - [Turbine](https://github.com/cashapp/turbine) - Flow testing
 
 ### Community
+
 - [Kotlin Slack](https://kotlinlang.slack.com/)
 - [r/Kotlin](https://www.reddit.com/r/Kotlin/)
 - [Kotlin Blog](https://blog.jetbrains.com/kotlin/)
 
 ### Related Skills
+
 - `android-development` - Android app development
 - `java-coding-standards` - Java interop patterns
 - `testing-standards` - Comprehensive testing guide

@@ -743,6 +743,7 @@ See [NIST Implementation Guide](../../../docs/nist/NIST_IMPLEMENTATION_GUIDE.md)
 ## Validation
 
 This skill has been validated with:
+
 - ✅ Token count: Level 1 <2,000, Level 2 <5,000
 - ✅ Code examples: All tested and working
 - ✅ Links: All internal references valid

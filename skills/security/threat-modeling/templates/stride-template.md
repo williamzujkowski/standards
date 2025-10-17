@@ -13,9 +13,11 @@
 **Purpose:** _[What does this system do?]_
 
 **Key Assets:**
+
 - _[List critical data, services, infrastructure]_
 
 **Security Objectives:**
+
 - Confidentiality: _[What must remain secret?]_
 - Integrity: _[What must not be tampered with?]_
 - Availability: _[What must remain accessible?]_
@@ -108,11 +110,13 @@ Example:
 **Overall Risk Level:** _[Critical / High / Medium / Low]_
 
 **Key Findings:**
+
 1. _[Major threat finding]_
 2. _[Major threat finding]_
 3. _[Major threat finding]_
 
 **Risk Acceptance:**
+
 - _[Which risks are accepted and why]_
 
 ## Mitigation Roadmap
@@ -138,12 +142,15 @@ Example:
 ## Assumptions and Dependencies
 
 **Assumptions:**
+
 - _[What we assume is true]_
 
 **Dependencies:**
+
 - _[What must be in place for this threat model to be valid]_
 
 **Out of Scope:**
+
 - _[What this threat model does not cover]_
 
 ## Review and Approval

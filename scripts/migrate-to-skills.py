@@ -6,13 +6,10 @@ This script transforms traditional standards documents into the progressive
 disclosure SKILL.md format with Level 1, 2, and 3 sections.
 """
 
-import os
 import re
 import sys
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
-
-import yaml
+from typing import Dict, List, Tuple
 
 
 class SkillMigrator:
@@ -60,9 +57,7 @@ class SkillMigrator:
                 migration["description"],
             )
 
-    def migrate_standard(
-        self, source: Path, target: Path, name: str, description: str
-    ) -> None:
+    def migrate_standard(self, source: Path, target: Path, name: str, description: str) -> None:
         """
         Migrate a single standard to SKILL format.
 
@@ -77,7 +72,7 @@ class SkillMigrator:
             return
 
         # Read source content
-        with open(source, "r", encoding="utf-8") as f:
+        with open(source, encoding="utf-8") as f:
             content = f.read()
 
         # Extract metadata
@@ -90,9 +85,7 @@ class SkillMigrator:
         (target / "resources").mkdir(exist_ok=True)
 
         # Generate SKILL.md
-        skill_content = self.generate_skill_markdown(
-            name, description, content, metadata
-        )
+        skill_content = self.generate_skill_markdown(name, description, content, metadata)
 
         # Write SKILL.md
         with open(target / "SKILL.md", "w", encoding="utf-8") as f:

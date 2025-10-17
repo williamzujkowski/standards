@@ -28,6 +28,7 @@ This document provides actionable improvements for Phase 1 deliverables, priorit
 Only 5 reference skills have been created. The implementation plan calls for 50 skill directories with consistent structure.
 
 **Impact:**
+
 - Phase 2 content creation blocked
 - Cannot validate full directory structure
 - Timeline risk if not addressed immediately
@@ -35,6 +36,7 @@ Only 5 reference skills have been created. The implementation plan calls for 50 
 **Recommendation:**
 
 **Option 1: Automated Creation (Recommended)**
+
 ```bash
 # Create all 50 skill directories with automation
 python3 scripts/create-skill-structure.py --config config/skill-list.yaml
@@ -47,11 +49,13 @@ python3 scripts/create-skill-structure.py --config config/skill-list.yaml
 ```
 
 **Effort:** 4 hours
+
 - 2 hours: Write `create-skill-structure.py` script
 - 1 hour: Create `skill-list.yaml` configuration
 - 1 hour: Run and validate
 
 **Option 2: Manual Creation**
+
 ```bash
 # List of missing skills (45 total)
 SKILLS=(
@@ -77,6 +81,7 @@ done
 **Effort:** 6 hours (not recommended due to error risk)
 
 **Acceptance Criteria:**
+
 - [ ] 50 skill directories exist
 - [ ] Each has templates/, scripts/, resources/, examples/ subdirectories
 - [ ] Each has README.md file
@@ -84,6 +89,7 @@ done
 - [ ] Validated by `find skills/ -name "README.md" | wc -l` returns 50
 
 **Deliverable:**
+
 - `scripts/create-skill-structure.py` - Automation script
 - `config/skill-list.yaml` - Skill configuration
 - 45 new skill directories with structure
@@ -100,6 +106,7 @@ done
 The migration and validation scripts have 0% unit test coverage, despite the Phase 1 gate requiring >90% coverage.
 
 **Impact:**
+
 - Cannot verify script correctness automatically
 - Regressions will not be detected
 - Quality gate not met (92.5% skills + 0% scripts = 46.25% average)
@@ -402,6 +409,7 @@ Content.
 ```
 
 **Effort Breakdown:**
+
 - 4 hours: Write `test_migrate_to_skills.py` (15-20 tests)
 - 3 hours: Write `test_validate_skills.py` (15-20 tests)
 - 1 hour: Run tests, achieve >90% coverage
@@ -409,6 +417,7 @@ Content.
 **Total Effort:** 8 hours
 
 **Acceptance Criteria:**
+
 - [ ] `test_migrate_to_skills.py` covers >90% of migrate-to-skills.py
 - [ ] `test_validate_skills.py` covers >90% of validate-skills.py
 - [ ] All tests pass (`pytest tests/scripts/ -v`)
@@ -416,6 +425,7 @@ Content.
 - [ ] CI integration updated
 
 **Deliverable:**
+
 - `tests/scripts/test_migrate_to_skills.py` (15-20 tests)
 - `tests/scripts/test_validate_skills.py` (15-20 tests)
 - Updated `.github/workflows/` with script testing
@@ -433,6 +443,7 @@ Content.
 The legacy-bridge meta-skill does not exist. This skill is essential for backward compatibility with the existing `@load product:api` syntax.
 
 **Impact:**
+
 - Users cannot use familiar `@load product:*` commands
 - No migration path from old to new format
 - Backward compatibility promise not fulfilled
@@ -482,12 +493,14 @@ Use familiar `@load product:api` syntax while benefiting from the new skills for
 ```
 
 ### Essential Checklist
+
 - [ ] Understand product → skills mapping
 - [ ] Know how to mix old and new syntax
 - [ ] Aware of deprecation timeline
 - [ ] Familiar with migration commands
 
 ### Common Pitfalls
+
 - Assuming old syntax will work forever (deprecated in 6 months)
 - Not learning new skills syntax
 - Mixing conflicting product types
@@ -499,6 +512,7 @@ Use familiar `@load product:api` syntax while benefiting from the new skills for
 ### Product to Skills Mapping
 
 **API Products:**
+
 ```yaml
 product:api:
   maps_to:
@@ -518,6 +532,7 @@ product:web-service:
 ```
 
 **Standard Code Mappings:**
+
 ```yaml
 CS:python:
   maps_to: skill:python
@@ -535,6 +550,7 @@ TS:pytest:
 ### Migration Commands
 
 **Check Current Usage:**
+
 ```bash
 @legacy-bridge analyze
 # Shows: You're using 3 product types
@@ -542,6 +558,7 @@ TS:pytest:
 ```
 
 **Automatic Migration:**
+
 ```bash
 @legacy-bridge migrate --from "product:api" --to skills
 # Outputs: @load skill:api-development + skill:coding-standards + ...
@@ -570,6 +587,7 @@ See `./scripts/analyze-usage.py` for usage analysis tool.
 - `scripts/analyze-usage.py` - Analyze your current @load usage
 - `scripts/auto-migrate.py` - Automatically convert to skills syntax
 - `templates/migration-checklist.md` - Migration checklist template
+
 ```
 
 **Create Implementation Scripts:**
@@ -699,6 +717,7 @@ class TestLegacyBridge:
 ```
 
 **Effort Breakdown:**
+
 - 3 hours: Write SKILL.md content
 - 2 hours: Implement parsing scripts
 - 1 hour: Write tests
@@ -706,6 +725,7 @@ class TestLegacyBridge:
 **Total Effort:** 6 hours
 
 **Acceptance Criteria:**
+
 - [ ] `skills/legacy-bridge/SKILL.md` created
 - [ ] Parsing script functional
 - [ ] Tests pass with >90% coverage
@@ -713,6 +733,7 @@ class TestLegacyBridge:
 - [ ] Documentation complete
 
 **Deliverable:**
+
 - `skills/legacy-bridge/SKILL.md`
 - `skills/legacy-bridge/scripts/parse-legacy-directive.py`
 - `skills/legacy-bridge/resources/product-mapping.yaml`
@@ -728,6 +749,7 @@ class TestLegacyBridge:
 
 **Issue:**
 The skill-loader meta-skill is missing 3 required subsections:
+
 - "### Core Principles"
 - "### Quick Reference"
 - "### Essential Checklist"
@@ -735,6 +757,7 @@ The skill-loader meta-skill is missing 3 required subsections:
 Additionally, no functional CLI exists.
 
 **Impact:**
+
 - Inconsistent quality compared to reference skill
 - Users cannot actually load skills
 - Discovery mechanism not validated
@@ -773,10 +796,12 @@ Additionally, no functional CLI exists.
 ```
 
 ### Essential Checklist
+
 - [ ] Know how to load skills
 - [ ] Understand progressive levels
 - [ ] Can search and discover skills
 - [ ] Aware of caching behavior
+
 ```
 
 **Implement Basic CLI:**
@@ -867,18 +892,21 @@ if __name__ == '__main__':
 ```
 
 **Effort Breakdown:**
+
 - 2 hours: Add missing subsections to SKILL.md
 - 2 hours: Implement basic CLI
 
 **Total Effort:** 4 hours
 
 **Acceptance Criteria:**
+
 - [ ] skill-loader SKILL.md has all required subsections
 - [ ] CLI implements list, search, info commands
 - [ ] CLI tests pass
 - [ ] Validation passes with no warnings
 
 **Deliverable:**
+
 - Updated `skills/skill-loader/SKILL.md`
 - `skills/skill-loader/scripts/cli.py`
 - Tests for CLI functionality
@@ -894,6 +922,7 @@ if __name__ == '__main__':
 **Priority:** 🟡 HIGH (quality consistency)
 
 **Warnings:**
+
 1. `nist-compliance`: Missing "### Quick Reference"
 2. `security-practices`: Missing "### Quick Reference" and "### Essential Checklist"
 3. `testing`: Missing "### Quick Reference"
@@ -902,6 +931,7 @@ if __name__ == '__main__':
 **Effort:** 2 hours (30 minutes per skill)
 
 **Acceptance Criteria:**
+
 - [ ] All required subsections present in all skills
 - [ ] `python3 scripts/validate-skills.py` returns 0 warnings
 - [ ] Content quality matches reference skill
@@ -938,6 +968,7 @@ def migrate_standard(self, source, target, name, description, dry_run=False):
 **Effort:** 2 hours
 
 **Acceptance Criteria:**
+
 - [ ] `--dry-run` flag implemented
 - [ ] Shows what would be done without making changes
 - [ ] Tests verify dry-run doesn't modify filesystem
@@ -951,6 +982,7 @@ def migrate_standard(self, source, target, name, description, dry_run=False):
 **Priority:** 🟡 HIGH (usability)
 
 **Create:**
+
 - `docs/guides/SCRIPT_USAGE.md` - How to use automation scripts
 - `docs/guides/SKILLS_CLI.md` - How to use skills CLI
 - `docs/guides/MIGRATION_WORKFLOW.md` - End-to-end migration workflow
@@ -958,6 +990,7 @@ def migrate_standard(self, source, target, name, description, dry_run=False):
 **Effort:** 4 hours (writing + examples)
 
 **Acceptance Criteria:**
+
 - [ ] Usage guides written
 - [ ] Examples tested
 - [ ] Screenshots/asciicinema recordings included
@@ -996,6 +1029,7 @@ def estimate_tokens_accurate(text: str, model: str = "cl100k_base") -> int:
 **Priority:** 🟢 MEDIUM (optimization validation)
 
 **Create:**
+
 - `scripts/benchmark-scripts.py` - Time script execution
 - `tests/performance/` - Performance test suite
 
@@ -1010,6 +1044,7 @@ def estimate_tokens_accurate(text: str, model: str = "cl100k_base") -> int:
 **Priority:** 🟢 MEDIUM (onboarding)
 
 **Create:**
+
 - Migration workflow video (5 minutes)
 - Skills usage video (3 minutes)
 - CLI demonstration (2 minutes)
@@ -1023,18 +1058,22 @@ def estimate_tokens_accurate(text: str, model: str = "cl100k_base") -> int:
 ### Phase 2 Week 1 (Remediation Sprint)
 
 **Day 1-2 (12 hours):**
+
 - ✅ 1.1: Complete skill directory structure (4 hours)
 - ✅ 1.2: Add unit tests for scripts (8 hours)
 
 **Day 3 (10 hours):**
+
 - ✅ 1.3: Implement legacy-bridge meta-skill (6 hours)
 - ✅ 1.4: Fix skill-loader functional issues (4 hours)
 
 **Day 4 (4 hours):**
+
 - ✅ 2.1: Fix skill validation warnings (2 hours)
 - ✅ 2.2: Add --dry-run mode (2 hours)
 
 **Day 5 (2 hours):**
+
 - ✅ Re-run all validations
 - ✅ Generate updated quality report
 - ✅ Phase 2 kickoff preparation
@@ -1068,14 +1107,17 @@ def estimate_tokens_accurate(text: str, model: str = "cl100k_base") -> int:
 ## 6. Risk Mitigation
 
 ### Risk 1: Directory Creation Fails
+
 **Mitigation:** Test automation script thoroughly before bulk execution
 **Contingency:** Manual creation with verification script
 
 ### Risk 2: Script Tests Complex to Write
+
 **Mitigation:** Use tmp_path fixtures, focus on critical paths
 **Contingency:** Prioritize highest-risk code paths (90% threshold)
 
 ### Risk 3: Legacy Bridge Integration Issues
+
 **Mitigation:** Incremental development with continuous testing
 **Contingency:** Simplified mapping for MVP, iterate in Phase 2
 

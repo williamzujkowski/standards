@@ -88,12 +88,14 @@
 **Function:** First point of contact for all requests, performs initial identity and device verification.
 
 **Key Features:**
+
 - User authentication (MFA, SSO, certificates)
 - Device trust evaluation (managed, encrypted, compliant)
 - Context extraction (location, time, IP reputation)
 - Session management
 
 **Technologies:**
+
 - Google Cloud IAP
 - Cloudflare Access
 - Zscaler Private Access
@@ -104,6 +106,7 @@
 **Function:** Evaluates access requests against policies and context to make authorization decisions.
 
 **Inputs:**
+
 - User identity and attributes
 - Device health and compliance
 - Resource sensitivity and requirements
@@ -111,12 +114,14 @@
 - Behavioral analytics (anomalies, patterns)
 
 **Output:**
+
 - ALLOW/DENY decision
 - Session duration
 - Additional authentication requirements
 - Continuous verification interval
 
 **Technologies:**
+
 - Open Policy Agent (OPA)
 - HashiCorp Sentinel
 - AWS Verified Permissions
@@ -127,6 +132,7 @@
 **Function:** Enforces authorization decisions by controlling access to resources.
 
 **Responsibilities:**
+
 - Establish secure communication channels (mTLS)
 - Validate authentication tokens
 - Inspect and filter traffic
@@ -134,6 +140,7 @@
 - Collect telemetry
 
 **Technologies:**
+
 - Envoy Proxy
 - Istio/Linkerd service mesh
 - API Gateway (Kong, Tyk, AWS API Gateway)
@@ -144,12 +151,14 @@
 **Function:** Provides automatic, cryptographic identities for workloads.
 
 **Features:**
+
 - Automatic certificate issuance and rotation
 - Workload attestation (proof of identity)
 - Cross-platform identity framework
 - Short-lived credentials (default 1 hour)
 
 **Benefits:**
+
 - No secrets in config files
 - Strong authentication without passwords
 - Platform-agnostic identity
@@ -160,6 +169,7 @@
 **Function:** Handles service-to-service communication with built-in security.
 
 **Capabilities:**
+
 - Automatic mTLS between services
 - Traffic encryption in transit
 - Fine-grained authorization policies
@@ -167,6 +177,7 @@
 - Observability (metrics, logs, traces)
 
 **Implementations:**
+
 - Istio (feature-rich, complex)
 - Linkerd (lightweight, simple)
 - Consul Connect (HashiCorp ecosystem)
@@ -177,6 +188,7 @@
 **Function:** Continuous monitoring and anomaly detection.
 
 **Components:**
+
 - **Metrics:** Prometheus, Grafana
 - **Logging:** Fluentd, Elasticsearch, Loki
 - **Tracing:** Jaeger, Zipkin, Tempo
@@ -289,26 +301,31 @@
 Zero-trust architecture eliminates the concept of trusted networks but establishes trust boundaries at different levels:
 
 ### Level 1: Identity Trust
+
 - Strong authentication (certificates, MFA)
 - Identity lifecycle management
 - Attribute-based trust (roles, claims)
 
 ### Level 2: Device Trust
+
 - Device registration and attestation
 - Health and compliance checks
 - Encryption and security posture
 
 ### Level 3: Network Trust
+
 - No implicit trust
 - Encrypted communication (mTLS, TLS 1.3)
 - Microsegmentation with NetworkPolicies
 
 ### Level 4: Application Trust
+
 - Workload identity (SPIFFE)
 - Least privilege access
 - Runtime security monitoring
 
 ### Level 5: Data Trust
+
 - Data classification and labeling
 - Encryption at rest and in transit
 - Access logging and auditing
@@ -348,30 +365,35 @@ Zero-trust architecture eliminates the concept of trusted networks but establish
 ## Migration Strategy
 
 ### Phase 1: Visibility (Weeks 1-4)
+
 - Deploy service mesh in permissive mode
 - Enable comprehensive logging
 - Map all service dependencies
 - Identify high-value assets
 
 ### Phase 2: Identity (Weeks 5-8)
+
 - Deploy SPIFFE/SPIRE
 - Enable workload identities
 - Implement mTLS in permissive mode
 - Validate certificate issuance
 
 ### Phase 3: Segmentation (Weeks 9-12)
+
 - Deploy NetworkPolicies in audit mode
 - Create microsegmentation plan
 - Test connectivity with policies
 - Gradually enforce policies
 
 ### Phase 4: Authorization (Weeks 13-16)
+
 - Deploy OPA/policy engine
 - Define authorization policies
 - Implement PEP at ingress points
 - Enable policy enforcement
 
 ### Phase 5: Continuous Improvement (Ongoing)
+
 - Monitor and tune policies
 - Respond to anomalies
 - Update trust algorithms

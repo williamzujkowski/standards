@@ -7,26 +7,31 @@ SLIs are **quantitative measurements** of service behavior that matter to users.
 ### Common SLIs
 
 **Availability:**
+
 - Definition: Percentage of successful requests
 - Measurement: `successful_requests / total_requests`
 - Example: 99.9% of requests return 2xx or 3xx status codes
 
 **Latency:**
+
 - Definition: Time to complete a request
 - Measurement: Response time at specific percentiles (p50, p95, p99)
 - Example: 95% of requests complete in < 500ms
 
 **Throughput:**
+
 - Definition: Number of requests processed per unit time
 - Measurement: Requests per second (RPS)
 - Example: System processes 1000 RPS at peak load
 
 **Error Rate:**
+
 - Definition: Percentage of failed requests
 - Measurement: `failed_requests / total_requests`
 - Example: < 0.1% of requests result in 5xx errors
 
 **Durability:**
+
 - Definition: Data integrity and persistence
 - Measurement: Successful data writes / Total data writes
 - Example: 99.999% of writes are durably stored
@@ -47,6 +52,7 @@ SLOs are **target values or ranges** for SLIs over a specific time window.
 ### SLO Components
 
 **Target Value:**
+
 ```yaml
 slo:
   sli: latency_p95
@@ -56,6 +62,7 @@ slo:
 ```
 
 **Time Window:**
+
 ```yaml
 slo:
   sli: availability
@@ -65,6 +72,7 @@ slo:
 ```
 
 **Measurement Interval:**
+
 ```yaml
 slo:
   sli: error_rate
@@ -77,24 +85,28 @@ slo:
 ### SLO Examples by Service Type
 
 **API Service:**
+
 - Availability: 99.9% (43.2 min downtime/month)
 - Latency p95: < 500ms
 - Latency p99: < 1000ms
 - Error rate: < 0.1%
 
 **Web Application:**
+
 - Page load time p95: < 2s
 - Time to interactive p95: < 3s
 - Availability: 99.95%
 - Error rate: < 0.05%
 
 **Data Pipeline:**
+
 - Job completion rate: 99.5%
 - Processing latency p95: < 5 minutes
 - Data accuracy: 99.99%
 - Freshness: < 15 minutes lag
 
 **Machine Learning Service:**
+
 - Inference latency p95: < 100ms
 - Model accuracy: > 95%
 - Availability: 99.5%
@@ -117,6 +129,7 @@ SLAs are **contractual commitments** that define consequences when SLOs are not 
 ### SLA Components
 
 **Performance Guarantees:**
+
 ```yaml
 sla:
   tier: gold
@@ -127,6 +140,7 @@ sla:
 ```
 
 **Financial Remedies:**
+
 ```yaml
 sla:
   credits:
@@ -141,6 +155,7 @@ sla:
 ```
 
 **Service Tiers:**
+
 ```yaml
 service_tiers:
   - name: Enterprise
@@ -208,11 +223,13 @@ Error budget is the **allowed amount of unreliability** derived from SLOs.
 ### Error Budget Calculation
 
 **Formula:**
+
 ```
 Error Budget = (1 - SLO) * Total Requests
 ```
 
 **Example:**
+
 ```
 SLO: 99.9% availability
 Total requests per month: 100,000,000
@@ -225,6 +242,7 @@ Per hour: 3,333 / 24 = 139 failed requests
 ### Error Budget Usage
 
 **Burn Rate:**
+
 ```
 Burn Rate = Actual Error Rate / SLO Error Rate
 
@@ -238,6 +256,7 @@ At 5x burn rate, error budget will be exhausted in:
 ```
 
 **Alerting Thresholds:**
+
 ```yaml
 error_budget_alerts:
   - burn_rate: 10x
@@ -257,6 +276,7 @@ error_budget_alerts:
 ```
 
 **Error Budget Policy:**
+
 ```yaml
 error_budget_policy:
   - budget_remaining: "> 50%"
@@ -291,6 +311,7 @@ error_budget_policy:
 ### SLI/SLO Monitoring Dashboard
 
 **Key Metrics:**
+
 - Current SLI values (real-time)
 - SLO compliance status (% of time within SLO)
 - Error budget remaining (% and absolute)
@@ -298,6 +319,7 @@ error_budget_policy:
 - Historical trends (7d, 30d, 90d)
 
 **Alert Rules:**
+
 ```yaml
 alerts:
   - name: SLO Violation
@@ -321,6 +343,7 @@ alerts:
 ### Reporting
 
 **Weekly SLO Report:**
+
 ```markdown
 ## SLO Compliance Report - Week of 2025-10-17
 
@@ -354,6 +377,7 @@ alerts:
 ## Implementation Checklist
 
 ### Phase 1: Define (Week 1)
+
 - [ ] Identify critical user journeys
 - [ ] Select relevant SLIs
 - [ ] Set realistic SLO targets
@@ -361,6 +385,7 @@ alerts:
 - [ ] Document SLA commitments
 
 ### Phase 2: Instrument (Week 2)
+
 - [ ] Add metrics collection
 - [ ] Implement SLI calculations
 - [ ] Set up monitoring dashboards
@@ -368,6 +393,7 @@ alerts:
 - [ ] Test metric pipelines
 
 ### Phase 3: Operationalize (Week 3)
+
 - [ ] Train team on SLO practices
 - [ ] Establish incident response
 - [ ] Create error budget policy
@@ -375,6 +401,7 @@ alerts:
 - [ ] Define escalation paths
 
 ### Phase 4: Iterate (Ongoing)
+
 - [ ] Review SLOs quarterly
 - [ ] Analyze SLO violations
 - [ ] Adjust targets as needed

@@ -80,6 +80,7 @@ def get_document(doc_id):
 ### Common Patterns
 
 **Role Hierarchy:**
+
 ```
 superadmin
   └── admin
@@ -89,10 +90,12 @@ superadmin
 ```
 
 **Permission Naming:**
+
 - `resource:action` (e.g., `documents:read`, `users:write`)
 - `service:resource:action` (e.g., `api:documents:delete`)
 
 **Scope Patterns:**
+
 - `read:profile` - Read own profile
 - `read:all_profiles` - Read all profiles (admin)
 - `write:documents` - Create/update documents
@@ -813,6 +816,7 @@ async function deleteDocument(req, res) {
 #### Scope Design
 
 **Best Practices:**
+
 - Use `resource:action` format (e.g., `documents:read`, `users:write`)
 - Separate read/write/admin scopes
 - Use `*` sparingly (e.g., `admin:*` for full access)
@@ -1216,6 +1220,7 @@ def test_department_access_policy():
 **Control**: The information system enforces approved authorizations for logical access to information and system resources.
 
 **Implementation:**
+
 - ✅ PEP at API gateway and service layer
 - ✅ PDP evaluates policies before granting access
 - ✅ Deny by default (fail secure)
@@ -1234,6 +1239,7 @@ def get_document(doc_id):
 **Control**: The information system enforces approved authorizations for controlling the flow of information within the system and between interconnected systems.
 
 **Implementation:**
+
 - ✅ ABAC policies control data flow based on classification
 - ✅ Network-based restrictions (IP allowlisting)
 - ✅ Cross-department access controls
@@ -1250,6 +1256,7 @@ def get_document(doc_id):
 **Control**: The organization employs the principle of least privilege, allowing only authorized accesses for users necessary to accomplish assigned tasks.
 
 **Implementation:**
+
 - ✅ Users granted minimum required permissions
 - ✅ Role hierarchy (users don't automatically get admin)
 - ✅ Temporary permissions with expiration
@@ -1266,6 +1273,7 @@ user.roles = ['documents:read', 'documents:write']  # NOT 'admin:*'
 **Control**: The organization manages information system accounts including creation, enabling, modification, review, disabling, and removal.
 
 **Implementation:**
+
 - ✅ Role assignment audit trail (granted_by, granted_at)
 - ✅ Temporary role expiration (expires_at)
 - ✅ Account review process
@@ -1284,6 +1292,7 @@ CREATE TABLE user_roles (
 **Control**: The organization separates duties of individuals to reduce the risk of malevolent activity without collusion.
 
 **Implementation:**
+
 - ✅ Multi-approval workflows for critical operations
 - ✅ No single user has complete control
 - ✅ Admin operations require dual authorization
@@ -1301,6 +1310,7 @@ def delete_all_documents():
 **Control**: The information system associates and maintains security attributes with information.
 
 **Implementation:**
+
 - ✅ Resource attributes (classification, department, owner)
 - ✅ User attributes (clearance_level, department, role)
 - ✅ ABAC policies use attributes for decisions

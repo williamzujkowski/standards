@@ -28,6 +28,7 @@ Comprehensive token usage analysis demonstrating **91-99.6% token reduction** ac
 ### 1.1 Current Repository Token Distribution
 
 **Total Repository:**
+
 - Files: 25 standards
 - Total words: 95,730
 - Total tokens: ~127,640 (using 1 token ≈ 0.75 words)
@@ -93,6 +94,7 @@ Comprehensive token usage analysis demonstrating **91-99.6% token reduction** ac
 | **Total Level 3** | **Variable** | **155 resources** | **~109,500 tokens** |
 
 **Total Repository (Skills Format):**
+
 - Level 1 (always loaded): 500 tokens
 - Level 2 (on-demand): ~23,350 tokens
 - Level 3 (explicit reference): ~109,500 tokens
@@ -155,6 +157,7 @@ Comprehensive token usage analysis demonstrating **91-99.6% token reduction** ac
 | **Reduction** | **44.8%** | **1.7x faster** |
 
 **Weighted Average Token Cost:**
+
 ```
 (0.60 × 0) + (0.25 × 820) + (0.10 × 2,460) + (0.03 × 1,270) + (0.02 × 4,200)
 = 0 + 205 + 246 + 38 + 84
@@ -283,6 +286,7 @@ Reduction: 8,933 → 573 = 93.6%
 | **Total available for user work** | **~196,400** | **98.2%** |
 
 **Efficiency Gain:**
+
 - **Available context:** 72,360 → 196,400 = **+171% more space**
 - **Conversation depth:** 30K → 50K = **67% longer conversations**
 - **Code context:** 25K → 80K = **220% more code can be analyzed**
@@ -355,16 +359,19 @@ cache_key = hash('python-coding/SKILL.md')
 | Cache efficiency score | 0.22 | 0.80 | 3.6x better |
 
 **Cache Efficiency Score Formula:**
+
 ```
 Efficiency = (hit_rate × avg_tokens_saved) / avg_tokens_per_load
 ```
 
 **Legacy:**
+
 ```
 (0.22 × 2,500) / 5,000 = 0.11
 ```
 
 **Skills:**
+
 ```
 (0.80 × 800) / 820 = 0.78
 ```
@@ -410,6 +417,7 @@ Efficiency = (hit_rate × avg_tokens_saved) / avg_tokens_per_load
 **Total:** 3,110 tokens, 70% average cache efficiency
 
 **Session Comparison:**
+
 - **Tokens:** 45,861 → 3,110 = **93.2% reduction**
 - **Cache efficiency:** 25% → 70% = **2.8x improvement**
 
@@ -472,24 +480,28 @@ Efficiency = (hit_rate × avg_tokens_saved) / avg_tokens_per_load
 ### 7.1 Already Identified in Performance Analysis
 
 **Optimization 1: Level 2 Token Budget**
+
 - Current target: <1,000 tokens per skill
 - Observed range: 600-1,500 tokens
 - Optimization: Standardize at 800 tokens ±100
 - **Potential savings:** 15-20% on Level 2 loads
 
 **Optimization 2: Resource Externalization**
+
 - Move code examples to Level 3
 - Convert inline diagrams to referenced images
 - Extract detailed tables to separate files
 - **Potential savings:** 25-30% on Level 2 tokens
 
 **Optimization 3: Script Execution**
+
 - Convert inline code demonstrations to executable scripts
 - Scripts consume 0 tokens when executed
 - Output captured and processed programmatically
 - **Potential savings:** 100% on code demonstration tokens
 
 **Optimization 4: Compression for Level 3**
+
 - Compress large reference documents
 - Transparent decompression on access
 - Estimated 30-40% reduction in Level 3 token costs
@@ -499,12 +511,14 @@ Efficiency = (hit_rate × avg_tokens_saved) / avg_tokens_per_load
 **Strategy 1: Skill Bundling**
 
 Common skill combinations pre-packaged:
+
 - `web-api-bundle`: python-coding + api-design + testing-unit
 - Token cost: 2,320 (individual) → 1,950 (bundled) = **16% savings**
 
 **Strategy 2: Differential Loading**
 
 Load only changed sections on updates:
+
 - Full skill: 820 tokens
 - Differential: ~150 tokens (average change)
 - **Savings:** 82% on update loads
@@ -512,6 +526,7 @@ Load only changed sections on updates:
 **Strategy 3: Intelligent Pre-Loading**
 
 Predict likely skills based on context:
+
 - Pre-load into cache before needed
 - Perceived load time: 0.15s → 0.01s
 - Token cost: Same, but better UX
@@ -559,6 +574,7 @@ Payback time: 17 / 50 = 0.34 days (8 hours)
 ### 8.2 Ongoing Token Savings
 
 **Monthly Usage Estimate:**
+
 - Active users: 10
 - Queries per user per day: 50
 - Working days per month: 22
@@ -575,10 +591,12 @@ Payback time: 17 / 50 = 0.34 days (8 hours)
 **Cost Implications (if API-based):**
 
 Assuming Claude API pricing:
+
 - Input tokens: $3 per million tokens
 - Output tokens: $15 per million tokens
 
 **Monthly input token cost:**
+
 - Legacy: 98.3M tokens × $3 = **$294.79**
 - Skills: 6.3M tokens × $3 = **$18.91**
 - **Monthly savings: $275.88**
@@ -642,6 +660,7 @@ Assuming Claude API pricing:
 ### 10.2 Monitoring & Validation
 
 **Track These Metrics:**
+
 1. **Per-Query Token Cost** (target: <1,000)
 2. **Cache Hit Rate** (target: >70%)
 3. **Context Usage** (target: <5%)
@@ -649,6 +668,7 @@ Assuming Claude API pricing:
 5. **Load Time** (target: <0.2s per skill)
 
 **Weekly Review:**
+
 - Analyze query patterns
 - Identify high-token skills
 - Adjust Level 2/3 boundaries
@@ -657,21 +677,25 @@ Assuming Claude API pricing:
 ### 10.3 Long-Term Optimization
 
 **Phase 1 (Months 1-2): Foundation**
+
 - Achieve 91% average token reduction
 - Establish monitoring dashboard
 - Validate all skills <1,000 tokens Level 2
 
 **Phase 2 (Months 3-4): Refinement**
+
 - Implement skill bundling for common patterns
 - Add differential loading
 - Optimize Level 3 with compression
 
 **Phase 3 (Months 5-6): Intelligence**
+
 - ML-based skill prediction
 - Intelligent pre-loading
 - Usage pattern optimization
 
 **Expected Final State:**
+
 - 95%+ average token reduction
 - <0.5% context usage typical
 - 85%+ cache hit rate

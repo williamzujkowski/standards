@@ -1,4 +1,5 @@
 # Gitleaks Secret Scanning Analysis Report
+
 ## PR #16 - audit-gates-final/20251017
 
 **Workflow Run:** 18598728408
@@ -35,9 +36,11 @@ All 37 detected "secrets" are **FALSE POSITIVES**. They consist of:
 ## Detailed Analysis by File
 
 ### 1. Template/Example Files (Intentional Examples)
+
 **Status:** ✅ Safe - These are example files meant to show format
 
 #### `.env.example` and `.env.template` files
+
 ```
 skills/security/secrets-management/templates/.env.example:62
 skills/security/secrets-management/templates/.env.example:63
@@ -50,6 +53,7 @@ skills/security/secrets-management/templates/.env.template:98
 
 **Detection Type:** AWS keys, connection strings
 **False Positive Reason:** These contain official AWS example credentials:
+
 - `AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE`
 - `AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY`
 
@@ -58,9 +62,11 @@ These are the **official AWS documentation example credentials** used universall
 ---
 
 ### 2. Documentation Files (Educational Content)
+
 **Status:** ✅ Safe - Educational examples showing proper patterns
 
 #### SKILL.md documentation files
+
 ```
 skills/cloud-native/kubernetes/SKILL.md:515
 skills/cloud-native/aws-advanced/SKILL.md:1565
@@ -80,6 +86,7 @@ skills/testing/integration-testing/SKILL.md:313
 
 **Detection Type:** Connection strings, AWS documentation links, generic text
 **False Positive Reason:**
+
 - Lines 1565-1571 in aws-advanced are **AWS documentation URLs** (not secrets!)
 - Connection strings use placeholder format: `postgresql://user:pass@host/db`
 - Educational examples demonstrating proper configuration patterns
@@ -87,9 +94,11 @@ skills/testing/integration-testing/SKILL.md:313
 ---
 
 ### 3. Test Files (Test Fixtures)
+
 **Status:** ✅ Safe - Test code and mock data
 
 #### React component tests
+
 ```
 skills/frontend/react/templates/component.test.tsx:90
 skills/frontend/react/templates/component.test.tsx:94
@@ -104,11 +113,13 @@ skills/frontend/react/templates/component.test.tsx:194
 
 **Detection Type:** `generic-secret`
 **False Positive Reason:** These are accessibility test assertions:
+
 - `expect(screen.getByLabelText(/password/i)).toBeInTheDocument()`
 - The word "password" in test assertions triggers false positives
 - No actual credentials present
 
 #### Other test files
+
 ```
 skills/frontend/mobile-react-native/templates/navigation-setup.tsx:71
 ```
@@ -116,6 +127,7 @@ skills/frontend/mobile-react-native/templates/navigation-setup.tsx:71
 ---
 
 ### 4. Configuration Templates
+
 **Status:** ✅ Safe - Example configurations
 
 ```
@@ -211,6 +223,7 @@ Add `gitleaks:allow` comments - **not practical** for 37 locations.
 ## Implementation Plan
 
 ### Step 1: Create .gitleaksignore
+
 ```bash
 cd /home/william/git/standards
 cat > .gitleaksignore << 'EOF'
@@ -246,6 +259,7 @@ EOF
 ```
 
 ### Step 2: Commit and Push
+
 ```bash
 git add .gitleaksignore reports/generated/gitleaks-secret-scanning-analysis.md
 git commit -m "fix: add .gitleaksignore for template and documentation false positives
@@ -262,6 +276,7 @@ Refs: PR #16, Workflow run 18598728408"
 ```
 
 ### Step 3: Verify
+
 ```bash
 # Re-run gitleaks locally to verify
 docker run --rm -v $(pwd):/path zricethezav/gitleaks:latest detect \
@@ -275,6 +290,7 @@ docker run --rm -v $(pwd):/path zricethezav/gitleaks:latest detect \
 ### Real Secrets Check ✅
 
 **Verified:** No actual secrets present
+
 - All AWS keys match AWS official documentation examples
 - All connection strings use placeholder credentials
 - No real API keys, tokens, or passwords detected
@@ -303,6 +319,7 @@ All detected items are legitimate educational/template content essential for the
 ## Appendix: Complete Detection List
 
 ### By File (37 total)
+
 ```
 skills/cloud-native/kubernetes/SKILL.md:515
 skills/cloud-native/aws-advanced/SKILL.md:1565
@@ -344,6 +361,7 @@ skills/testing/integration-testing/SKILL.md:313
 ```
 
 ### By Rule Type
+
 - `generic-secret`: 15 detections
 - `database-connection-string`: 13 detections
 - `aws-secret-key`: 6 detections

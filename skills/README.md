@@ -66,54 +66,70 @@ skills/
 ## Skill Categories
 
 ### Meta Skills (2)
+
 - **skill-loader**: Skill discovery and loading coordination
 - **legacy-bridge**: Backward compatibility with old patterns
 
 ### Domain Skills (48)
 
 #### Coding Standards (5)
+
 - python, javascript, typescript, go, rust
 
 #### Security (5)
+
 - authentication, secrets-management, zero-trust, threat-modeling, input-validation
 
 #### Testing (4)
+
 - unit-testing, integration-testing, e2e-testing, performance-testing
 
 #### DevOps (3)
+
 - ci-cd, infrastructure, monitoring
 
 #### Cloud-Native (3)
+
 - kubernetes, containers, serverless
 
 #### Frontend (4)
+
 - react, vue, mobile-ios, mobile-android
 
 #### Data Engineering (2)
+
 - orchestration, data-quality
 
 #### ML/AI (2)
+
 - model-development, model-deployment
 
 #### Observability (2)
+
 - logging, metrics
 
 #### Microservices (1)
+
 - patterns
 
 #### Database (2)
+
 - sql, nosql
 
 #### Architecture (1)
+
 - patterns
 
 #### Compliance (2)
+
 - nist, gdpr
 
 #### Design (1)
+
 - ux
 
 #### Content (1)
+
 - documentation
 
 ## Skill Structure

@@ -15,6 +15,7 @@
 > On January 17, 2025, our security team detected and responded to a ransomware attack that encrypted 500 files on a single workstation. The incident was contained within 90 minutes, with full recovery completed in 18 hours. No customer data was compromised, and business operations were not materially affected.
 
 **Key Metrics:**
+
 - **Detection Time (MTTD):** [X hours/minutes]
 - **Response Time (MTTR):** [X hours]
 - **Total Duration:** [Detection to full recovery]
@@ -43,6 +44,7 @@
 [Describe how the incident was discovered]
 
 **Options:**
+
 - SIEM alert (specify rule/correlation)
 - EDR behavioral detection
 - User report
@@ -55,12 +57,14 @@
 ### 1.3 Systems and Data Affected
 
 **Systems:**
+
 - Workstation: WS-FIN-042 (Windows 10, Finance Department)
 - File Server: [If applicable]
 - Databases: [If applicable]
 - Cloud Services: [If applicable]
 
 **Data:**
+
 - Files Encrypted: 500 files (finance spreadsheets, invoices)
 - Data Classification: Internal - Confidential
 - Customer Data: None
@@ -68,6 +72,7 @@
 - Financial Data: Yes (internal financial records, non-customer facing)
 
 **User Accounts:**
+
 - Primary: john.doe@company.com
 - Compromised: [List if credentials stolen]
 
@@ -164,16 +169,19 @@
 ### 5.1 Business Impact
 
 **Operational Impact:**
+
 - **Downtime:** 1 workstation offline for 16 hours
 - **Productivity Loss:** 1 employee unable to work for 16 hours (estimated $500 labor cost)
 - **No customer-facing service disruption**
 
 **Financial Impact:**
+
 - Incident response labor: 40 hours (4 analysts × 10 hours) = $8,000
 - Forensic analysis: $5,000 (external consultant)
 - Total estimated cost: **$13,500**
 
 **Data Impact:**
+
 - **Confidentiality:** No data exfiltration detected (network logs reviewed)
 - **Integrity:** 500 files encrypted, 450 restored from backup, 50 recreated by finance team
 - **Availability:** 16 hours downtime for affected workstation
@@ -229,18 +237,21 @@
 ### 6.3 Preventative Measures
 
 **Short-Term (1-3 months):**
+
 - Enhanced email filtering (Proofpoint TAP, URL rewriting, sandbox analysis)
 - Monthly phishing simulations with targeted training for clickers
 - Disable Office macros by default, whitelist approved macros via GPO
 - Add SIEM correlation rules for Office suspicious behavior
 
 **Medium-Term (3-6 months):**
+
 - Application whitelisting (AppLocker/AppArmor) on all endpoints
 - Optimize backup/restore infrastructure (incremental backups, faster restore)
 - Network segmentation review (limit lateral movement)
 - EDR deployment to 100% of endpoints (currently 95%)
 
 **Long-Term (6-12 months):**
+
 - Zero Trust architecture (least privilege, MFA everywhere)
 - Automated incident response (SOAR platform for common playbooks)
 - Threat hunting program (proactive IOC searches)
@@ -265,19 +276,23 @@
 ### 7.2 Indicators of Compromise (IOCs)
 
 **File Hashes (SHA256):**
+
 - TrickBot downloader: `a5c2e5e7f8a9b1c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7`
 - Ryuk ransomware: `d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2`
 
 **Network IOCs:**
+
 - C2 Domain: `malware-c2.evil.com`
 - C2 IP: `192.0.2.100`
 - Bitcoin Wallet (ransom payment): `1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa` (not paid)
 
 **Registry Keys:**
+
 - `HKCU\Software\Microsoft\Windows\CurrentVersion\Run\TrickBot`
 - `HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce\Ryuk`
 
 **Action Taken:**
+
 - IOCs added to threat intelligence platform (MISP)
 - Firewall rules updated to block C2 IPs/domains
 - EDR signatures updated to detect file hashes
@@ -395,6 +410,7 @@
 ## 12. Distribution List
 
 **Internal:**
+
 - Chief Information Security Officer (CISO)
 - Chief Information Officer (CIO)
 - SOC Manager
@@ -404,6 +420,7 @@
 - Risk Management
 
 **External:**
+
 - Cyber Insurance Provider
 - External Forensic Consultant (if engaged)
 - [Board of Directors - if critical incident]

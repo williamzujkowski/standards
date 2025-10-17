@@ -21,6 +21,7 @@ Skills are **modular, bite-sized standards** that load progressively. Instead of
 ```
 
 **What you get**:
+
 - ✅ Core principles
 - ✅ Quick reference
 - ✅ Essential checklist
@@ -91,6 +92,7 @@ npm run skill-loader -- recommend ./
 ```
 
 **Perfect for**:
+
 - Quick reference
 - Onboarding
 - Code review checklists
@@ -102,6 +104,7 @@ npm run skill-loader -- recommend ./
 ```
 
 **Perfect for**:
+
 - Implementing features
 - Deep problem-solving
 - System design
@@ -113,6 +116,7 @@ npm run skill-loader -- recommend ./
 ```
 
 **Perfect for**:
+
 - Advanced topics
 - Tool selection
 - Architecture decisions

@@ -11,9 +11,8 @@ Tests cover:
 """
 
 import sys
-import tempfile
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 import pytest
 import yaml
@@ -23,9 +22,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "scripts"))
 
 # Import the script (handle hyphenated names)
 import importlib.util
+
 spec = importlib.util.spec_from_file_location(
-    "migrate_to_skills",
-    Path(__file__).parent.parent.parent / "scripts" / "migrate-to-skills.py"
+    "migrate_to_skills", Path(__file__).parent.parent.parent / "scripts" / "migrate-to-skills.py"
 )
 migrate_to_skills = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(migrate_to_skills)
@@ -50,10 +49,7 @@ class TestSkillMigrator:
     @pytest.fixture
     def migrator(self, fixtures_dir, tmp_skills_dir):
         """Create a migrator instance."""
-        return SkillMigrator(
-            standards_dir=str(fixtures_dir / "standards"),
-            skills_dir=str(tmp_skills_dir)
-        )
+        return SkillMigrator(standards_dir=str(fixtures_dir / "standards"), skills_dir=str(tmp_skills_dir))
 
     @pytest.fixture
     def sample_standard_content(self):
@@ -139,10 +135,7 @@ Advanced content.
 
     def test_extract_overview(self, migrator):
         """Test overview extraction."""
-        sections = [
-            ("Overview", "This is the overview text.\n\nSecond paragraph."),
-            ("Other", "Other content")
-        ]
+        sections = [("Overview", "This is the overview text.\n\nSecond paragraph."), ("Other", "Other content")]
         overview = migrator.extract_overview(sections)
 
         assert "overview text" in overview
@@ -158,12 +151,15 @@ Advanced content.
     def test_extract_principles(self, migrator):
         """Test principles extraction from bullet lists."""
         sections = [
-            ("Core Principles", """
+            (
+                "Core Principles",
+                """
 - First principle
 - Second principle
 - Third principle
 - Fourth principle
-            """),
+            """,
+            ),
         ]
         principles = migrator.extract_principles(sections)
 
@@ -209,9 +205,7 @@ Advanced content.
 
     def test_extract_resources(self, migrator):
         """Test resource link extraction."""
-        sections = [
-            ("Resources", "[Example Link](https://example.com)\n[Another](https://test.com)")
-        ]
+        sections = [("Resources", "[Example Link](https://example.com)\n[Another](https://test.com)")]
         resources = migrator.extract_resources(sections)
 
         assert "Example Link" in resources
@@ -268,12 +262,7 @@ Advanced content.
         source = fixtures_dir / "standards" / "SAMPLE_STANDARD.md"
         target = tmp_skills_dir / "test-skill"
 
-        migrator.migrate_standard(
-            source=source,
-            target=target,
-            name="test-skill",
-            description="Test skill description"
-        )
+        migrator.migrate_standard(source=source, target=target, name="test-skill", description="Test skill description")
 
         # Check SKILL.md was created
         skill_file = target / "SKILL.md"
@@ -302,12 +291,7 @@ Advanced content.
         source = tmp_path / "nonexistent.md"
         target = tmp_skills_dir / "test-skill"
 
-        migrator.migrate_standard(
-            source=source,
-            target=target,
-            name="test",
-            description="Test"
-        )
+        migrator.migrate_standard(source=source, target=target, name="test", description="Test")
 
         captured = capsys.readouterr()
         assert "not found" in captured.out.lower()
@@ -318,10 +302,7 @@ Advanced content.
         metadata = {"version": "1.0.0", "standard_code": "CS-001"}
 
         skill_content = migrator.generate_skill_markdown(
-            name="test-skill",
-            description="Test description",
-            source_content=sample_standard_content,
-            metadata=metadata
+            name="test-skill", description="Test description", source_content=sample_standard_content, metadata=metadata
         )
 
         # Validate YAML frontmatter
@@ -373,12 +354,7 @@ Advanced content.
         original_content = source.read_text()
         original_code_blocks = original_content.count("```")
 
-        migrator.migrate_standard(
-            source=source,
-            target=target,
-            name="test-skill",
-            description="Test"
-        )
+        migrator.migrate_standard(source=source, target=target, name="test-skill", description="Test")
 
         # Read migrated content
         migrated_content = (target / "SKILL.md").read_text()
@@ -395,7 +371,8 @@ Advanced content.
         """Test that special characters are preserved during migration."""
         # Create source with special chars
         source = tmp_path / "source.md"
-        source.write_text("""# Standard
+        source.write_text(
+            """# Standard
 
 ## Overview
 
@@ -405,7 +382,8 @@ Special characters: émojis 🎉, quotes "test", apostrophe's, < > & symbols.
 # Code with special chars
 text = "Hello, 'world' – testing"
 ```
-""")
+"""
+        )
 
         target = tmp_skills_dir / "special-chars"
         migrator.migrate_standard(source, target, "special-chars", "Test")
@@ -418,13 +396,15 @@ text = "Hello, 'world' – testing"
     def test_link_preservation(self, migrator, tmp_skills_dir, tmp_path):
         """Test that markdown links are preserved."""
         source = tmp_path / "source.md"
-        source.write_text("""# Standard
+        source.write_text(
+            """# Standard
 
 ## Resources
 
 - [External Link](https://example.com)
 - [Internal Link](./other.md)
-""")
+"""
+        )
 
         target = tmp_skills_dir / "links"
         migrator.migrate_standard(source, target, "links", "Test")

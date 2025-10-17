@@ -32,34 +32,42 @@ Actionable optimization recommendations to maximize performance gains during and
 **Objective:** Capture current state for comparison
 
 **Actions:**
+
 1. **Token Usage Baseline**
+
    ```bash
    # Capture 100 representative queries
    python3 scripts/capture-baseline-metrics.py --queries 100 --output baseline.json
    ```
+
    - Metrics: tokens per query, cache hit rate, load time
    - Distribution: by query type, standard accessed, user pattern
    - Save to: `reports/baseline/token-metrics-legacy.json`
 
 2. **Performance Benchmarks**
+
    ```bash
    # Run performance test suite
    python3 scripts/benchmark-legacy-performance.py --iterations 50
    ```
+
    - Measure: load time, discovery speed, multi-standard queries
    - Record: P50, P95, P99 latencies
    - Save to: `reports/baseline/performance-legacy.json`
 
 3. **Usage Pattern Analysis**
+
    ```bash
    # Analyze historical query logs
    python3 scripts/analyze-usage-patterns.py --logs logs/ --period 30d
    ```
+
    - Identify: most accessed standards, common compositions, query types
    - Output: usage heatmap, frequency distribution
    - Save to: `reports/baseline/usage-patterns.json`
 
 **Deliverables:**
+
 - Baseline metrics report
 - Top-10 most accessed standards list
 - Query pattern frequency distribution
@@ -78,6 +86,7 @@ Actionable optimization recommendations to maximize performance gains during and
 **Strategy:**
 
 **Token Budget Rules:**
+
 ```yaml
 # config/skill-token-budgets.yaml
 skill_categories:
@@ -99,6 +108,7 @@ skill_categories:
 ```
 
 **Enforcement:**
+
 ```python
 # scripts/validate-skill-tokens.py
 def validate_skill(skill_path):
@@ -114,12 +124,14 @@ def validate_skill(skill_path):
 ```
 
 **Actions:**
+
 1. **Audit Current Standards**
    - Identify sections >1,000 tokens
    - Plan Level 2/3 split strategy
    - Document externalization targets
 
 2. **Create Refactoring Guidelines**
+
    ```markdown
    ## Level 2 Content (Core Instructions)
    - Conceptual framework
@@ -135,6 +147,7 @@ def validate_skill(skill_path):
    ```
 
 3. **Implement Automated Validation**
+
    ```bash
    # Pre-commit hook
    #!/bin/bash
@@ -142,6 +155,7 @@ def validate_skill(skill_path):
    ```
 
 **Expected Impact:**
+
 - 15-20% token reduction on Level 2 loads
 - Consistent, predictable performance
 - Easier maintenance and updates
@@ -207,18 +221,21 @@ def validate_skill(skill_path):
 **Conversion Strategy:**
 
 **Week 1: Pilot (Standards 1-3)**
+
 - Convert top 3 for validation
 - Test token budgets and Level 2/3 split
 - Measure actual vs. expected performance
 - Refine conversion template
 
 **Week 2: Scale (Standards 4-10)**
+
 - Apply learnings from pilot
 - Parallel conversion (can split work)
 - Continuous validation
 - Integration testing
 
 **Expected Impact:**
+
 - **52,757 tokens → 26,500 tokens** for top 10 (49.8% reduction)
 - **Covers 80% of typical queries** (based on usage analysis)
 - **Immediate user-visible improvement**
@@ -242,6 +259,7 @@ def validate_skill(skill_path):
 **Example Transformation:**
 
 **Before (Level 2):**
+
 ```markdown
 ## JWT Authentication Implementation
 
@@ -251,6 +269,7 @@ Complete implementation:
 ```
 
 Use this pattern for secure authentication...
+
 ```
 
 **After (Level 2):**
@@ -271,28 +290,34 @@ For security considerations, see `./resources/jwt-security.md`
 ```
 
 **Token Savings:**
+
 - Before: ~1,000 tokens (code + explanation)
 - After: ~150 tokens (references + key points)
 - **Reduction: 85%**
 
 **Actions:**
+
 1. **Identify Externalization Candidates**
+
    ```bash
    python3 scripts/find-heavy-content.py --standard docs/standards/*.md
    ```
 
 2. **Create Resource Directory Structure**
+
    ```bash
    # For each skill
    mkdir -p skills/{skill-name}/{resources,templates,examples,scripts}
    ```
 
 3. **Apply Externalization**
+
    ```bash
    python3 scripts/externalize-resources.py --skill skills/python-coding/
    ```
 
 **Expected Impact:**
+
 - 25-30% token reduction on Level 2
 - Better organization and maintainability
 - On-demand loading only when needed
@@ -310,6 +335,7 @@ For security considerations, see `./resources/jwt-security.md`
 **Pattern:**
 
 **Before (Inline Code):**
+
 ```markdown
 ## Code Formatting
 
@@ -320,7 +346,9 @@ result = subprocess.run(['black', '--check', 'file.py'], capture_output=True)
 if result.returncode != 0:
     print("Formatting issues found")
 ```
+
 (~150 tokens for code demonstration)
+
 ```
 
 **After (Executable Script):**
@@ -333,6 +361,7 @@ Check Python code formatting:
 ```
 
 Script handles: Black, isort, mypy validation
+
 ```
 
 ```bash
@@ -342,6 +371,7 @@ black --check "$1" && isort --check "$1" && mypy "$1"
 ```
 
 **Token Cost:**
+
 - Before: 150 tokens (code in SKILL.md)
 - After: 30 tokens (reference + description)
 - Script execution: **0 tokens** (uses Bash tool)
@@ -364,12 +394,15 @@ black --check "$1" && isort --check "$1" && mypy "$1"
 **Total Potential Savings: ~1,800 tokens across common operations**
 
 **Actions:**
+
 1. **Identify Code Demonstration Candidates**
+
    ```bash
    grep -r "```python" docs/standards/ | wc -l  # Find all code blocks
    ```
 
 2. **Create Script Library**
+
    ```bash
    # Template for executable script
    cat > template-script.sh << 'EOF'
@@ -382,19 +415,23 @@ black --check "$1" && isort --check "$1" && mypy "$1"
    ```
 
 3. **Update Skills to Reference Scripts**
+
    ```markdown
    To generate project structure:
    ```bash
    ./scripts/generate-project.py --name my-api --framework fastapi
    ```
+
    ```
 
 4. **Test All Scripts**
+
    ```bash
    python3 scripts/test-skill-scripts.py --all
    ```
 
 **Expected Impact:**
+
 - 100% token elimination on code demonstrations
 - Reusable automation (DRY principle)
 - Improved user experience (copy-paste ready)
@@ -408,6 +445,7 @@ black --check "$1" && isort --check "$1" && mypy "$1"
 **Common Patterns Identified:**
 
 **Pattern 1: Python Web API Development (35% of queries)**
+
 ```yaml
 # skills/bundles/python-web-api.yaml
 name: python-web-api-bundle
@@ -423,6 +461,7 @@ includes:
 ```
 
 **Pattern 2: React Frontend Development (20% of queries)**
+
 ```yaml
 name: react-frontend-bundle
 includes:
@@ -435,6 +474,7 @@ includes:
 ```
 
 **Pattern 3: Kubernetes Deployment (15% of queries)**
+
 ```yaml
 name: kubernetes-deploy-bundle
 includes:
@@ -447,6 +487,7 @@ includes:
 ```
 
 **Implementation:**
+
 ```python
 # skills/bundles/loader.py
 class SkillBundle:
@@ -462,7 +503,9 @@ class SkillBundle:
 ```
 
 **Actions:**
+
 1. **Analyze Query Patterns**
+
    ```bash
    python3 scripts/identify-skill-patterns.py --logs logs/ --min-frequency 10
    ```
@@ -475,16 +518,19 @@ class SkillBundle:
    - Data engineering pipeline
 
 3. **Implement Bundle Loader**
+
    ```bash
    python3 scripts/create-bundle.py --name python-web-api --skills "python-coding,api-design,security-auth,testing-unit"
    ```
 
 4. **Test Bundle Performance**
+
    ```bash
    python3 scripts/benchmark-bundles.py --compare individual vs bundled
    ```
 
 **Expected Impact:**
+
 - 10-15% token reduction on multi-skill queries
 - Faster load time (single operation vs. multiple)
 - Better UX for common workflows
@@ -561,7 +607,9 @@ def warm_cache():
 ```
 
 **Actions:**
+
 1. **Implement Three-Level Cache**
+
    ```bash
    python3 scripts/setup-skill-cache.py
    ```
@@ -572,6 +620,7 @@ def warm_cache():
    - Low frequency (<20%): 10 min TTL
 
 3. **Monitor Cache Performance**
+
    ```bash
    python3 scripts/monitor-cache-metrics.py --interval 1h
    ```
@@ -582,6 +631,7 @@ def warm_cache():
    - Implement predictive pre-loading
 
 **Expected Impact:**
+
 - Cache hit rate: 25% → 85% (3.4x improvement)
 - 60% reduction in load operations
 - Perceived performance: near-instant for cached skills
@@ -646,12 +696,15 @@ diff = compute_diff(previous_hash, current_hash)
 ```
 
 **Actions:**
+
 1. **Implement Content Hashing**
+
    ```bash
    python3 scripts/generate-skill-hashes.py --all
    ```
 
 2. **Create Diff Engine**
+
    ```python
    # scripts/skill-diff.py
    def compute_section_diff(old_version, new_version):
@@ -661,12 +714,14 @@ diff = compute_diff(previous_hash, current_hash)
    ```
 
 3. **Test Differential Loading**
+
    ```bash
    # Modify one section, measure load time and tokens
    python3 scripts/test-differential-load.py
    ```
 
 **Expected Impact:**
+
 - 60-90% reduction on update loads (depends on change size)
 - Faster skill updates
 - Less context window pressure during updates
@@ -723,28 +778,34 @@ patterns:
 ```
 
 **Actions:**
+
 1. **Collect Training Data**
+
    ```bash
    python3 scripts/collect-skill-sequences.py --logs logs/ --output training-data.json
    ```
 
 2. **Train Prediction Model**
+
    ```bash
    python3 scripts/train-skill-predictor.py --data training-data.json
    ```
 
 3. **Implement Pre-Loading**
+
    ```python
    # Async pre-load (non-blocking)
    asyncio.create_task(SkillCache.load_to_L2(predicted_skill))
    ```
 
 4. **Monitor Accuracy**
+
    ```bash
    python3 scripts/measure-prediction-accuracy.py
    ```
 
 **Expected Impact:**
+
 - Perceived load time: 0.15s → 0.01s (15x improvement)
 - Token cost: Same (pre-loading vs. on-demand)
 - UX: Feels instant for predicted skills
@@ -783,6 +844,7 @@ class CompressedResource:
 ```
 
 **Target Resources:**
+
 - Detailed guides >2,000 tokens
 - Large tables/matrices
 - Comprehensive examples
@@ -803,17 +865,21 @@ decompressed = load_compressed_resource('nist-controls-detailed.md.gz')
 ```
 
 **Actions:**
+
 1. **Identify Large Resources**
+
    ```bash
    find skills/ -name "*.md" -size +10k -exec wc -w {} + | sort -n
    ```
 
 2. **Compress Candidates**
+
    ```bash
    python3 scripts/compress-resources.py --threshold 2000 --all
    ```
 
 3. **Implement Transparent Decompression**
+
    ```python
    # Automatic decompression on Read tool usage
    if file.endswith('.gz'):
@@ -821,6 +887,7 @@ decompressed = load_compressed_resource('nist-controls-detailed.md.gz')
    ```
 
 **Expected Impact:**
+
 - 30-40% reduction in Level 3 token costs
 - No user-visible change (transparent)
 - Reduced storage and transfer
@@ -884,6 +951,7 @@ metrics:
    - Prediction accuracy
 
 **Implementation:**
+
 ```bash
 # Start monitoring
 python3 scripts/start-performance-monitor.py --dashboard-port 8080
@@ -922,6 +990,7 @@ class AutoOptimizer:
 ```
 
 **Automated Actions:**
+
 1. **Cache TTL Adjustment**
    - High usage skill: increase TTL
    - Low usage skill: decrease TTL
@@ -944,6 +1013,7 @@ class AutoOptimizer:
 **Test Scenarios:**
 
 **Test 1: Bundle vs. Individual Loading**
+
 ```python
 # A: Individual skill loading
 group_a = load_skills(['python-coding', 'api-design', 'testing-unit'])
@@ -956,6 +1026,7 @@ compare_performance(group_a, group_b)
 ```
 
 **Test 2: Aggressive vs. Conservative Caching**
+
 ```python
 # A: Conservative (30-min TTL)
 group_a_cache = SkillCache(ttl_minutes=30)
@@ -967,6 +1038,7 @@ group_b_cache = SkillCache(ttl_minutes=120)
 ```
 
 **Test 3: Pre-Loading Strategies**
+
 ```python
 # A: No pre-loading
 group_a_load = on_demand_loading()
@@ -978,6 +1050,7 @@ group_b_load = intelligent_preloading(confidence_threshold=0.7)
 ```
 
 **Framework:**
+
 ```bash
 # Define test
 python3 scripts/create-ab-test.py \
@@ -1036,21 +1109,25 @@ python3 scripts/analyze-ab-test.py --name bundle-vs-individual --confidence 95
 ### 7.1 Optimization Risks
 
 **Risk 1: Over-Optimization**
+
 - **Issue:** Optimizing prematurely without data
 - **Mitigation:** A/B test all major changes, collect baseline first
 - **Rollback:** Keep previous version for 30 days
 
 **Risk 2: Broken User Workflows**
+
 - **Issue:** Optimization breaks existing patterns
 - **Mitigation:** Extensive testing, gradual rollout, user feedback
 - **Rollback:** Feature flags for instant disable
 
 **Risk 3: Performance Regression**
+
 - **Issue:** Optimization makes things worse
 - **Mitigation:** Continuous monitoring, automated alerts
 - **Rollback:** Automated rollback if metrics degrade >10%
 
 **Risk 4: Cache Staleness**
+
 - **Issue:** Users get outdated skill content
 - **Mitigation:** Conservative TTLs initially, version checking
 - **Detection:** Cache validation on skill load
@@ -1121,16 +1198,19 @@ python3 scripts/clear-cache.py --level L2 L3 --force-reload
 ### 8.4 ROI Analysis
 
 **Phase 1 (Weeks 1-2):**
+
 - Investment: ~80 hours
 - Token reduction: 85-90%
 - ROI: **Excellent** (massive impact, low effort)
 
 **Phase 2 (Weeks 3-4):**
+
 - Investment: ~60 hours
 - Additional reduction: 3-5%
 - ROI: **Good** (incremental gains, reasonable effort)
 
 **Phase 3 (Weeks 5-8):**
+
 - Investment: ~100 hours
 - Additional reduction: 1-2%
 - ROI: **Fair** (marginal gains, focus on UX and scalability)
@@ -1146,6 +1226,7 @@ Prioritized optimization recommendations deliver **95%+ token reduction** throug
 - **Weeks 5-8 (P2-P3):** Intelligence and scaling features reach 95%+ reduction
 
 **Critical Success Factors:**
+
 1. Strict Level 2 token budgets (<1,000 tokens)
 2. Top-10 standards converted first (80% of impact)
 3. Continuous monitoring and data-driven optimization
@@ -1153,12 +1234,14 @@ Prioritized optimization recommendations deliver **95%+ token reduction** throug
 5. Automated validation and rollback procedures
 
 **Recommended Approach:**
+
 - **Focus on P0 and P1 optimizations first** (Weeks 1-4)
 - **Achieve 91%+ token reduction** before moving to P2-P3
 - **Validate with real usage data** before investing in advanced intelligence features
 - **Maintain backward compatibility** throughout
 
 **Expected Final State:**
+
 - 95%+ average token reduction
 - <0.5% context usage
 - 85%+ cache hit rate

@@ -41,12 +41,14 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 **Script**: `scripts/validate-directory-structure.sh`
 
 **Checks**:
+
 - [ ] All 50 skill directories exist
 - [ ] Each skill has resources/, templates/, scripts/, examples/ subdirectories
 - [ ] Directory names follow naming convention (lowercase-with-hyphens)
 - [ ] No extra directories outside planned structure
 
 **Acceptance Criteria**:
+
 - ✅ 100% of expected directories present
 - ✅ Zero unexpected directories
 - ✅ Naming conventions followed
@@ -60,6 +62,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 ### 1.2 Automation Scripts Validation
 
 **Scripts to Validate**:
+
 1. `scripts/extract-standard-content.py`
 2. `scripts/generate-skill-md.py`
 3. `scripts/bundle-resources.py`
@@ -67,6 +70,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 5. `scripts/generate-skills-catalog.py`
 
 **Checks Per Script**:
+
 - [ ] Script executes without errors
 - [ ] Handles valid inputs correctly
 - [ ] Handles invalid inputs gracefully (error messages)
@@ -76,6 +80,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 - [ ] Logging implemented
 
 **Acceptance Criteria**:
+
 - ✅ All 5 scripts operational
 - ✅ Test suite for scripts passing (>90% coverage)
 - ✅ Documentation complete
@@ -140,6 +145,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 - [ ] Examples documented
 
 **Acceptance Criteria**:
+
 - ✅ All checks pass (100%)
 - ✅ Token count <4,500 (buffer below limit)
 - ✅ Loads successfully in Claude API
@@ -159,6 +165,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 **Target**: `skills/skill-loader/SKILL.md`
 
 **Functional Checks**:
+
 - [ ] Parses @load product:api correctly
 - [ ] Parses @load security:* correctly
 - [ ] Parses @load python + testing correctly
@@ -168,12 +175,14 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 - [ ] Handles invalid input gracefully
 
 **Integration Checks**:
+
 - [ ] Reads config/product-matrix.yaml
 - [ ] Reads config/skills-catalog.yaml
 - [ ] Outputs list of skills to load
 - [ ] Works with Claude API
 
 **Acceptance Criteria**:
+
 - ✅ All @load patterns work
 - ✅ Product type mappings accurate
 - ✅ Wildcard expansion correct
@@ -184,6 +193,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 **Target**: `skills/legacy-bridge/SKILL.md`
 
 **Mapping Checks**:
+
 - [ ] Maps CODING_STANDARDS.md → language skills
 - [ ] Maps MODERN_SECURITY_STANDARDS.md → security skills
 - [ ] Maps TESTING_STANDARDS.md → testing skills
@@ -192,6 +202,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 - [ ] Provides migration guidance
 
 **Acceptance Criteria**:
+
 - ✅ 100% of legacy patterns mapped
 - ✅ Warnings clear and actionable
 - ✅ Migration paths documented
@@ -232,6 +243,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 ### 2.1 Per-Skill Validation (All 10 New Skills)
 
 **Skills to Validate**:
+
 1. javascript
 2. typescript
 3. go
@@ -273,6 +285,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 - [ ] No errors or warnings
 
 **Acceptance Criteria** (Per Skill):
+
 - ✅ All automated checks pass
 - ✅ Peer review approved
 - ✅ Integration test passed
@@ -314,6 +327,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 - [ ] Examples work end-to-end
 
 **Acceptance Criteria**:
+
 - ✅ Token count <5,000 (hard limit)
 - ✅ All existing NIST automation preserved
 - ✅ No functionality lost
@@ -342,6 +356,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 - [ ] Load time estimates reasonable
 
 **Acceptance Criteria**:
+
 - ✅ Catalog complete and accurate
 - ✅ Schema valid
 - ✅ Searchable and usable
@@ -366,12 +381,14 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 - [ ] Clear differentiation between similar skills
 
 **Metrics**:
+
 - Average token count: ___ (target: <4,500)
 - Token count standard deviation: ___ (target: <500)
 - Validation pass rate: ___ (target: 100%)
 - Average review time: ___ (target: <30 min/skill)
 
 **Acceptance Criteria**:
+
 - ✅ Consistency score >90%
 - ✅ No outliers requiring rework
 - ✅ Quality uniform across all skills
@@ -411,6 +428,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 ### 3.1 Extended Skills Validation (16 New Skills)
 
 **Skills to Validate** (Week 4-5):
+
 - rust, security-zero-trust, security-threat-modeling, performance-testing
 - monitoring, serverless, vue, mobile-ios, mobile-android
 - tracing, microservices-patterns, nosql-databases
@@ -419,6 +437,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 **Validation Process**: Same as Phase 2 (per-skill checklist)
 
 **Acceptance Criteria**:
+
 - ✅ All 16 skills pass validation
 - ✅ 37 total skills operational
 - ✅ Quality maintained
@@ -433,6 +452,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 #### Automated Skill Testing (tests/test_skills.py)
 
 **Checks**:
+
 - [ ] Tests all 37 skills
 - [ ] Validates YAML frontmatter
 - [ ] Checks token counts
@@ -441,6 +461,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 - [ ] Coverage >90%
 
 **Acceptance Criteria**:
+
 - ✅ Test suite operational
 - ✅ All tests passing
 - ✅ Coverage ≥90%
@@ -449,6 +470,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 #### Integration Testing (tests/test_integration.py)
 
 **Checks**:
+
 - [ ] Skills load in Claude API
 - [ ] Progressive disclosure working
 - [ ] Multi-skill composition working
@@ -457,6 +479,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 - [ ] legacy-bridge functional
 
 **Acceptance Criteria**:
+
 - ✅ All integration tests passing
 - ✅ No API errors
 - ✅ Composition scenarios working
@@ -464,6 +487,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 #### Performance Benchmarking (tests/test_performance.py)
 
 **Checks**:
+
 - [ ] Skill load times measured
 - [ ] Token counts verified
 - [ ] Discovery accuracy tested
@@ -471,6 +495,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 - [ ] Baseline comparisons
 
 **Acceptance Criteria**:
+
 - ✅ Benchmarks running
 - ✅ Results logged
 - ✅ Comparison data available
@@ -513,6 +538,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 - [ ] Up-to-date
 
 **Acceptance Criteria**:
+
 - ✅ All docs complete
 - ✅ Technical accuracy verified
 - ✅ Usability tested
@@ -552,6 +578,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 **Target**: `config/product-matrix.yaml`
 
 **Checks**:
+
 - [ ] All product types updated
 - [ ] Skill references correct
 - [ ] Required vs. recommended skills defined
@@ -571,6 +598,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 | product:ml-service | @load product:ml-service | python, ml-model-development, ml-model-deployment, unit-testing | ⏳ |
 
 **Acceptance Criteria**:
+
 - ✅ All product types tested
 - ✅ Correct skills loaded for each
 - ✅ No errors or warnings
@@ -587,6 +615,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 **Target**: `CLAUDE.md`
 
 **Checks**:
+
 - [ ] Skills syntax documented
 - [ ] @load examples correct
 - [ ] Backward compatibility mentioned
@@ -605,6 +634,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 | @load CODING_STANDARDS.md#python | Redirects to python skill via legacy-bridge | ⏳ |
 
 **Acceptance Criteria**:
+
 - ✅ All patterns work
 - ✅ Documentation clear
 - ✅ Examples tested
@@ -631,6 +661,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 | @load product:api (old format) | Load API skill set | No (supported) | ⏳ |
 
 **Additional Tests**:
+
 - [ ] No existing workflows break
 - [ ] All documented patterns work
 - [ ] Deprecation warnings clear
@@ -638,6 +669,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 - [ ] Both systems work in parallel
 
 **Acceptance Criteria**:
+
 - ✅ 100% of legacy patterns functional
 - ✅ Zero breaking changes
 - ✅ Warnings appropriate
@@ -654,6 +686,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 **Target**: `scripts/migrate-user-config.py`
 
 **Functional Checks**:
+
 - [ ] Scans codebase correctly
 - [ ] Identifies old patterns
 - [ ] Suggests correct replacements
@@ -671,6 +704,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 | @load product:api | No change needed | N/A | ⏳ |
 
 **Acceptance Criteria**:
+
 - ✅ Scans accurately
 - ✅ Suggestions correct
 - ✅ Auto-fix safe (with backups)
@@ -744,6 +778,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 | Skill conflicts | <5% | ___ | ⏳ |
 
 **Acceptance Criteria**:
+
 - ✅ Token reduction ≥95%
 - ✅ Load time <500ms average
 - ✅ Discovery accuracy ≥90%
@@ -785,6 +820,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 | Positive sentiment | >80% | ___ | ⏳ |
 
 **Acceptance Criteria**:
+
 - ✅ User satisfaction ≥4.5/5
 - ✅ Adoption rate >80% within 30 days
 - ✅ Support burden manageable
@@ -816,6 +852,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 | Contribution velocity | >5 skills/quarter | ___ | ⏳ |
 
 **Acceptance Criteria**:
+
 - ✅ Process operational
 - ✅ Team prepared
 - ✅ Metrics tracked
@@ -854,6 +891,7 @@ This validation plan defines comprehensive quality gates, acceptance criteria, a
 #### scripts/validate-skill.py
 
 **Usage**:
+
 ```bash
 python scripts/validate-skill.py --skill-dir skills/coding-standards/python --verbose
 ```
@@ -863,6 +901,7 @@ python scripts/validate-skill.py --skill-dir skills/coding-standards/python --ve
 #### scripts/validate-all-skills.py
 
 **Usage**:
+
 ```bash
 python scripts/validate-all-skills.py --skills-dir skills/ --report validation-report.json
 ```
@@ -872,6 +911,7 @@ python scripts/validate-all-skills.py --skills-dir skills/ --report validation-r
 #### scripts/benchmark-performance.py
 
 **Usage**:
+
 ```bash
 python scripts/benchmark-performance.py --skills-dir skills/ --output benchmarks.json
 ```
@@ -908,6 +948,7 @@ python scripts/benchmark-performance.py --skills-dir skills/ --output benchmarks
 ### Daily Validation Report (During Active Migration)
 
 **Contents**:
+
 - Skills validated today
 - Validation pass rate
 - Issues discovered
@@ -919,6 +960,7 @@ python scripts/benchmark-performance.py --skills-dir skills/ --output benchmarks
 ### Weekly Validation Report
 
 **Contents**:
+
 - Skills validated this week
 - Cumulative validation stats
 - Quality metrics
@@ -931,6 +973,7 @@ python scripts/benchmark-performance.py --skills-dir skills/ --output benchmarks
 ### Phase Gate Report
 
 **Contents**:
+
 - Phase objectives vs. completion
 - All gate criteria with actual results
 - Quality assessment
@@ -943,6 +986,7 @@ python scripts/benchmark-performance.py --skills-dir skills/ --output benchmarks
 ### Final Validation Report (Phase 5)
 
 **Contents**:
+
 - Executive summary
 - All success metrics vs. targets
 - Performance benchmarks
@@ -1015,6 +1059,7 @@ python scripts/benchmark-performance.py --skills-dir skills/ --output benchmarks
 ### Project-Level Success Criteria
 
 **Functional**:
+
 - ✅ All 37 skills operational
 - ✅ 100% pass validation
 - ✅ Skill discovery >90% accuracy
@@ -1022,18 +1067,21 @@ python scripts/benchmark-performance.py --skills-dir skills/ --output benchmarks
 - ✅ Backward compatibility 100%
 
 **Performance**:
+
 - ✅ Token reduction ≥95%
 - ✅ Load time <500ms average
 - ✅ Discovery accurate
 - ✅ Composition reliable
 
 **Quality**:
+
 - ✅ Test coverage >90%
 - ✅ Documentation complete
 - ✅ Consistent across skills
 - ✅ User satisfaction ≥4.5/5
 
 **Adoption**:
+
 - ✅ >80% users with skills (30 days)
 - ✅ Migration tooling used
 - ✅ Positive feedback
@@ -1045,6 +1093,7 @@ python scripts/benchmark-performance.py --skills-dir skills/ --output benchmarks
 This validation plan provides comprehensive quality assurance throughout the skills migration project. Each phase has clear validation criteria, and all must pass before proceeding. The multi-layer validation approach (automated, manual, integration, performance, user acceptance) ensures high quality and successful migration.
 
 **Key Success Factors**:
+
 - ✅ Automated validation for consistency
 - ✅ Clear acceptance criteria
 - ✅ Phase gates enforce quality
@@ -1052,6 +1101,7 @@ This validation plan provides comprehensive quality assurance throughout the ski
 - ✅ User feedback integration
 
 **Next Actions**:
+
 1. Set up validation scripts (Phase 1 Day 1)
 2. Configure CI/CD integration (Phase 1 Day 2)
 3. Create validation dashboard (Phase 1 Day 3)

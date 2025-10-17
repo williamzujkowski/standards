@@ -9,35 +9,42 @@ Additional learning materials and real-world examples.
 Comprehensive collection of real-world STRIDE threat examples including:
 
 **Spoofing Examples:**
+
 - Session hijacking via XSS
 - DNS spoofing attacks
 - Email spoofing for BEC
 
 **Tampering Examples:**
+
 - E-commerce price manipulation
 - Git repository tampering
 - Client-side data modification
 
 **Repudiation Examples:**
+
 - Missing audit logs enabling insider threats
 - Email spoofing without authentication
 
 **Information Disclosure Examples:**
+
 - API IDOR vulnerabilities
 - S3 bucket misconfigurations
 - Capital One breach case study
 
 **Denial of Service Examples:**
+
 - Slowloris attacks
 - Database resource exhaustion
 - Application-layer DDoS
 
 **Elevation of Privilege Examples:**
+
 - SQL injection to admin access
 - Container escape attacks
 - Privilege escalation chains
 
 **Additional Content:**
+
 - Combined attack chains
 - Industry-specific examples (healthcare, financial)
 - Detection patterns and log analysis
@@ -49,6 +56,7 @@ Comprehensive collection of real-world STRIDE threat examples including:
 ### Learning
 
 Review examples relevant to your technology stack:
+
 - Web applications
 - APIs and microservices
 - Mobile applications
@@ -58,6 +66,7 @@ Review examples relevant to your technology stack:
 ### Threat Modeling
 
 Reference examples when:
+
 1. Identifying threats in your system
 2. Explaining threats to stakeholders
 3. Estimating DREAD scores
@@ -67,6 +76,7 @@ Reference examples when:
 ### Security Testing
 
 Use examples to:
+
 - Create test cases
 - Guide penetration testing
 - Validate security controls
@@ -77,6 +87,7 @@ Use examples to:
 **Scenario:** You're threat modeling a web API
 
 **Steps:**
+
 1. Review "API IDOR" example in Information Disclosure
 2. Check if your API has similar patterns
 3. Apply DREAD scoring methodology from example
@@ -87,6 +98,7 @@ Use examples to:
 ## Real-World Incident References
 
 Examples include references to:
+
 - CVE vulnerabilities
 - Public breach disclosures
 - Security research publications
@@ -95,6 +107,7 @@ Examples include references to:
 ## Contributing
 
 To add new examples:
+
 1. Document real-world incident or common vulnerability
 2. Include complete attack scenario
 3. Provide DREAD scoring

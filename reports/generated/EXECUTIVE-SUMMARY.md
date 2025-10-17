@@ -122,6 +122,7 @@ All 6 completed skills reference templates, configs, and scripts that don't exis
 ### Usage Scenarios
 
 Users can immediately:
+
 - ✅ Implement TypeScript projects with type safety
 - ✅ Build CI/CD pipelines (GitHub Actions, GitLab CI)
 - ✅ Secure secrets with Vault/AWS Secrets Manager
@@ -132,6 +133,7 @@ Users can immediately:
 ### Known Limitations
 
 Users cannot:
+
 - ⚠️ Copy/paste bundled templates (files don't exist yet)
 - ⚠️ Implement OAuth/JWT authentication (skill incomplete)
 - ⚠️ Build React applications (skill incomplete)

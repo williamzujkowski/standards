@@ -7,6 +7,7 @@ Comprehensive guide for optimizing React application performance.
 ### Component Memoization
 
 - [ ] **Wrap expensive components in React.memo()**
+
   ```tsx
   const ExpensiveList = React.memo(({ items }) => {
     return items.map(item => <ListItem key={item.id} {...item} />);
@@ -14,6 +15,7 @@ Comprehensive guide for optimizing React application performance.
   ```
 
 - [ ] **Use custom comparison for complex props**
+
   ```tsx
   const MyComponent = React.memo(
     Component,
@@ -24,6 +26,7 @@ Comprehensive guide for optimizing React application performance.
 ### Hook Optimization
 
 - [ ] **Use useMemo for expensive calculations**
+
   ```tsx
   const sortedItems = useMemo(
     () => items.sort((a, b) => b.price - a.price),
@@ -32,6 +35,7 @@ Comprehensive guide for optimizing React application performance.
   ```
 
 - [ ] **Use useCallback for functions passed to children**
+
   ```tsx
   const handleClick = useCallback(() => {
     doSomething(id);
@@ -39,6 +43,7 @@ Comprehensive guide for optimizing React application performance.
   ```
 
 - [ ] **Avoid creating objects/arrays in render**
+
   ```tsx
   // Bad
   <Child config={{ option: true }} />
@@ -51,6 +56,7 @@ Comprehensive guide for optimizing React application performance.
 ### Virtual DOM Optimization
 
 - [ ] **Provide stable keys for lists**
+
   ```tsx
   // Bad: index as key
   {items.map((item, i) => <Item key={i} {...item} />)}
@@ -60,6 +66,7 @@ Comprehensive guide for optimizing React application performance.
   ```
 
 - [ ] **Avoid inline styles (creates new object every render)**
+
   ```tsx
   // Bad
   <div style={{ margin: 10 }} />
@@ -73,6 +80,7 @@ Comprehensive guide for optimizing React application performance.
 ### Route-Based Splitting
 
 - [ ] **Split routes with React.lazy()**
+
   ```tsx
   const Home = lazy(() => import('./pages/Home'));
   const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -88,6 +96,7 @@ Comprehensive guide for optimizing React application performance.
 ### Component-Based Splitting
 
 - [ ] **Lazy load heavy components**
+
   ```tsx
   const HeavyChart = lazy(() => import('./HeavyChart'));
 
@@ -101,6 +110,7 @@ Comprehensive guide for optimizing React application performance.
 ### Dynamic Imports
 
 - [ ] **Load modules on demand**
+
   ```tsx
   const loadEditor = async () => {
     const { Editor } = await import('./Editor');
@@ -113,11 +123,13 @@ Comprehensive guide for optimizing React application performance.
 ### Analyze Bundle Size
 
 - [ ] **Install webpack-bundle-analyzer**
+
   ```bash
   npm install --save-dev webpack-bundle-analyzer
   ```
 
 - [ ] **Run analysis after build**
+
   ```bash
   npx webpack-bundle-analyzer build/bundle-stats.json
   ```
@@ -125,6 +137,7 @@ Comprehensive guide for optimizing React application performance.
 ### Tree Shaking
 
 - [ ] **Use ES6 imports (not CommonJS)**
+
   ```tsx
   // Good (tree-shakeable)
   import { Button } from './components';
@@ -134,6 +147,7 @@ Comprehensive guide for optimizing React application performance.
   ```
 
 - [ ] **Import only what you need from libraries**
+
   ```tsx
   // Bad
   import _ from 'lodash';
@@ -145,17 +159,20 @@ Comprehensive guide for optimizing React application performance.
 ### Production Build
 
 - [ ] **Always deploy production builds**
+
   ```bash
   npm run build  # Not npm start!
   ```
 
 - [ ] **Enable compression (gzip/brotli)**
+
   ```javascript
   // In server config or CDN
   compress: true
   ```
 
 - [ ] **Set NODE_ENV=production**
+
   ```bash
   NODE_ENV=production npm run build
   ```
@@ -165,11 +182,13 @@ Comprehensive guide for optimizing React application performance.
 ### Loading Strategies
 
 - [ ] **Use lazy loading for images**
+
   ```tsx
   <img src="image.jpg" loading="lazy" alt="Description" />
   ```
 
 - [ ] **Implement progressive image loading**
+
   ```tsx
   <img
     src="low-res.jpg"
@@ -181,6 +200,7 @@ Comprehensive guide for optimizing React application performance.
 ### Format Optimization
 
 - [ ] **Use modern formats (WebP, AVIF)**
+
   ```tsx
   <picture>
     <source srcset="image.avif" type="image/avif" />
@@ -190,6 +210,7 @@ Comprehensive guide for optimizing React application performance.
   ```
 
 - [ ] **Serve responsive images**
+
   ```tsx
   <img
     srcset="small.jpg 480w, medium.jpg 800w, large.jpg 1200w"
@@ -204,6 +225,7 @@ Comprehensive guide for optimizing React application performance.
 ### Virtual Scrolling
 
 - [ ] **Use react-window for long lists**
+
   ```tsx
   import { FixedSizeList } from 'react-window';
 
@@ -220,6 +242,7 @@ Comprehensive guide for optimizing React application performance.
 ### Pagination
 
 - [ ] **Implement pagination or infinite scroll**
+
   ```tsx
   const [page, setPage] = useState(1);
   const { data } = useQuery(['items', page], () => fetchItems(page));
@@ -230,6 +253,7 @@ Comprehensive guide for optimizing React application performance.
 ### Context Optimization
 
 - [ ] **Split contexts to avoid unnecessary re-renders**
+
   ```tsx
   // Bad: one large context
   <AppContext.Provider value={{ user, theme, locale, notifications }}>
@@ -245,12 +269,14 @@ Comprehensive guide for optimizing React application performance.
 ### Server State vs Client State
 
 - [ ] **Use React Query for server data**
+
   ```tsx
   // Handles caching, refetching, loading states
   const { data } = useQuery(['users'], fetchUsers);
   ```
 
 - [ ] **Keep client state local when possible**
+
   ```tsx
   // Don't lift state unnecessarily
   const [filter, setFilter] = useState('');  // Keep local to component
@@ -261,12 +287,14 @@ Comprehensive guide for optimizing React application performance.
 ### API Calls
 
 - [ ] **Debounce search inputs**
+
   ```tsx
   const debouncedSearch = useDebounce(searchTerm, 300);
   useEffect(() => { api.search(debouncedSearch) }, [debouncedSearch]);
   ```
 
 - [ ] **Cancel requests on unmount**
+
   ```tsx
   useEffect(() => {
     const controller = new AbortController();
@@ -276,6 +304,7 @@ Comprehensive guide for optimizing React application performance.
   ```
 
 - [ ] **Batch API requests**
+
   ```tsx
   const results = await Promise.all([
     fetch('/api/users'),
@@ -287,6 +316,7 @@ Comprehensive guide for optimizing React application performance.
 ### Caching
 
 - [ ] **Enable HTTP caching headers**
+
   ```
   Cache-Control: public, max-age=31536000, immutable
   ```
@@ -298,6 +328,7 @@ Comprehensive guide for optimizing React application performance.
 ### Audit Dependencies
 
 - [ ] **Check bundle impact before adding libraries**
+
   ```bash
   npm install --save-dev bundle-analyzer
   ```
@@ -309,6 +340,7 @@ Comprehensive guide for optimizing React application performance.
 ### Dynamic Loading
 
 - [ ] **Load third-party scripts asynchronously**
+
   ```tsx
   useEffect(() => {
     const script = document.createElement('script');
@@ -342,6 +374,7 @@ Comprehensive guide for optimizing React application performance.
   - CLS (Cumulative Layout Shift) < 0.1
 
 - [ ] **Use performance monitoring (Lighthouse, WebPageTest)**
+
   ```bash
   npm install -g lighthouse
   lighthouse https://yoursite.com

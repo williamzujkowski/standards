@@ -51,11 +51,13 @@ npm run skill-loader -- <command> [options]
 Load one or more skills.
 
 **Syntax:**
+
 ```bash
 npm run skill-loader -- load <skill-spec> [options]
 ```
 
 **Parameters:**
+
 - `<skill-spec>`: Skill specifier (see [Load Syntax](#load-syntax))
 - `--level <1|2|3>`: Load specific level (default: 1)
 - `--output <file>`: Save output to file
@@ -63,6 +65,7 @@ npm run skill-loader -- load <skill-spec> [options]
 - `--with-resources`: Include bundled resources
 
 **Examples:**
+
 ```bash
 # Load single skill
 npm run skill-loader -- load skill:coding-standards
@@ -82,16 +85,19 @@ npm run skill-loader -- load product:api --output .claude/skills.md
 Analyze project and recommend skills.
 
 **Syntax:**
+
 ```bash
 npm run skill-loader -- recommend <project-path> [options]
 ```
 
 **Parameters:**
+
 - `<project-path>`: Path to project directory
 - `--format <text|json>`: Output format (default: text)
 - `--min-priority <low|medium|high|critical>`: Minimum priority filter
 
 **Example:**
+
 ```bash
 npm run skill-loader -- recommend ./my-project
 
@@ -111,11 +117,13 @@ npm run skill-loader -- recommend ./my-project
 Compose multiple skills into a bundle.
 
 **Syntax:**
+
 ```bash
 npm run skill-loader -- compose <skill1> <skill2> ... [options]
 ```
 
 **Parameters:**
+
 - `<skillN>`: Skill identifiers
 - `--level <1|2|3>`: Level for all skills (default: 1)
 - `--output <file>`: Output file (required)
@@ -123,6 +131,7 @@ npm run skill-loader -- compose <skill1> <skill2> ... [options]
 - `--name <name>`: Bundle name
 
 **Example:**
+
 ```bash
 npm run skill-loader -- compose \
   skill:coding-standards \
@@ -138,15 +147,18 @@ npm run skill-loader -- compose \
 List all available skills.
 
 **Syntax:**
+
 ```bash
 npm run skill-loader -- list [options]
 ```
 
 **Parameters:**
+
 - `--format <table|json|yaml>`: Output format (default: table)
 - `--verbose`: Show detailed information
 
 **Example:**
+
 ```bash
 npm run skill-loader -- list --format table
 
@@ -165,11 +177,13 @@ npm run skill-loader -- list --format table
 Validate skill structure and content.
 
 **Syntax:**
+
 ```bash
 npm run skill-loader -- validate <skill-path> [options]
 ```
 
 **Parameters:**
+
 - `<skill-path>`: Path to skill directory or SKILL.md
 - `--check-tokens`: Validate token counts
 - `--check-refs`: Validate cross-references
@@ -177,6 +191,7 @@ npm run skill-loader -- validate <skill-path> [options]
 - `--verbose`: Show detailed output
 
 **Example:**
+
 ```bash
 npm run skill-loader -- validate skills/coding-standards/ --check-tokens --check-refs
 
@@ -194,17 +209,20 @@ npm run skill-loader -- validate skills/coding-standards/ --check-tokens --check
 Auto-detect and load recommended skills.
 
 **Syntax:**
+
 ```bash
 npm run skill-loader -- auto-load <project-path> [options]
 ```
 
 **Parameters:**
+
 - `<project-path>`: Path to project
 - `--level <1|2|3>`: Level to load (default: 1)
 - `--yes`: Skip confirmation prompt
 - `--output <file>`: Save loaded skills
 
 **Example:**
+
 ```bash
 npm run skill-loader -- auto-load ./ --level 1 --output .claude/skills.md
 
@@ -868,6 +886,7 @@ interface ProjectAnalysis {
 ## Changelog
 
 ### v1.0.0 (2025-10-16)
+
 - Initial release
 - CLI API with load, recommend, compose, list, validate commands
 - Load syntax (@load directives)

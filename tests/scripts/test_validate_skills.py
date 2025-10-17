@@ -11,9 +11,8 @@ Tests cover:
 
 import json
 import sys
-import tempfile
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 import pytest
 
@@ -22,9 +21,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "scripts"))
 
 # Import the script (handle hyphenated names)
 import importlib.util
+
 spec = importlib.util.spec_from_file_location(
-    "validate_skills",
-    Path(__file__).parent.parent.parent / "scripts" / "validate-skills.py"
+    "validate_skills", Path(__file__).parent.parent.parent / "scripts" / "validate-skills.py"
 )
 validate_skills = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(validate_skills)
@@ -454,12 +453,7 @@ class TestFixtures:
     def test_invalid_fixtures_exist(self):
         """Test that invalid skill fixtures exist."""
         fixtures_dir = Path(__file__).parent / "fixtures" / "skills"
-        invalid_skills = [
-            "invalid-frontmatter",
-            "missing-level1",
-            "too-long-level1",
-            "broken-reference"
-        ]
+        invalid_skills = ["invalid-frontmatter", "missing-level1", "too-long-level1", "broken-reference"]
 
         for skill in invalid_skills:
             assert (fixtures_dir / skill / "SKILL.md").exists()

@@ -38,24 +38,28 @@ Integration tests validate that completed skills can be properly discovered, loa
 **File:** `skills/coding-standards/typescript/SKILL.md`
 
 **Discovery Test:** ✅ PASS
+
 ```bash
 $ find skills -name "SKILL.md" | grep typescript
 skills/coding-standards/typescript/SKILL.md
 ```
 
 **Token Validation:** ⚠️ PARTIAL PASS (Level 1 overflow)
+
 - Level 1: 1,175 tokens (❌ exceeds 1,000 guideline by 175 tokens)
 - Level 2: 3,189 tokens (✅ within 5,000 limit)
 - Level 3: 780 tokens (✅ acceptable)
 - Total: 5,193 tokens
 
 **Structure Validation:** ✅ PASS
+
 - Progressive disclosure L1/L2/L3 present
 - YAML frontmatter valid
 - All required sections present
 
 **Cross-Reference Test:** ❌ FAIL
 Referenced but missing files:
+
 - `resources/configs/tsconfig.json`
 - `resources/configs/.eslintrc.typescript.json`
 - `resources/configs/jest.config.ts`
@@ -72,24 +76,28 @@ Referenced but missing files:
 **File:** `skills/devops/ci-cd/SKILL.md`
 
 **Discovery Test:** ✅ PASS
+
 ```bash
 $ find skills -name "SKILL.md" | grep ci-cd
 skills/devops/ci-cd/SKILL.md
 ```
 
 **Token Validation:** ✅ PASS
+
 - Level 1: 789 tokens (✅ within 1,000 guideline)
 - Level 2: 3,484 tokens (✅ within 5,000 limit)
 - Level 3: 835 tokens (✅ acceptable)
 - Total: 5,152 tokens
 
 **Structure Validation:** ✅ PASS
+
 - Perfect progressive disclosure
 - YAML frontmatter valid and descriptive
 - All sections present and well-organized
 
 **Cross-Reference Test:** ❌ FAIL
 Referenced but missing files:
+
 - `templates/.github/workflows/ci.yml`
 - `templates/.github/workflows/cd.yml`
 - `templates/.gitlab-ci.yml`
@@ -105,24 +113,28 @@ Referenced but missing files:
 **File:** `skills/security/secrets-management/SKILL.md`
 
 **Discovery Test:** ✅ PASS
+
 ```bash
 $ find skills -name "SKILL.md" | grep secrets-management
 skills/security/secrets-management/SKILL.md
 ```
 
 **Token Validation:** ✅ PASS
+
 - Level 1: 609 tokens (✅ within 1,000 guideline)
 - Level 2: 1,580 tokens (✅ within 5,000 limit)
 - Level 3: 492 tokens (✅ acceptable)
 - Total: 2,733 tokens (excellent, lean content)
 
 **Structure Validation:** ✅ PASS
+
 - Progressive disclosure present
 - YAML frontmatter with NIST references
 - All core sections present
 
 **Cross-Reference Test:** ❌ FAIL
 Referenced but missing files:
+
 - `templates/.env.template`
 - `templates/vault-config.hcl`
 - `resources/configs/.pre-commit-secrets.yaml`
@@ -140,24 +152,28 @@ Referenced but missing files:
 **File:** `skills/cloud-native/kubernetes/SKILL.md`
 
 **Discovery Test:** ✅ PASS
+
 ```bash
 $ find skills -name "SKILL.md" | grep kubernetes
 skills/cloud-native/kubernetes/SKILL.md
 ```
 
 **Token Validation:** ✅ PASS
+
 - Level 1: 728 tokens (✅ within 1,000 guideline)
 - Level 2: 3,711 tokens (✅ within 5,000 limit)
 - Level 3: 1,272 tokens (✅ acceptable, reference-heavy)
 - Total: 5,756 tokens
 
 **Structure Validation:** ✅ PASS
+
 - Progressive disclosure well-structured
 - YAML frontmatter valid
 - Comprehensive Kubernetes resource coverage
 
 **Cross-Reference Test:** ❌ FAIL
 Referenced but missing files:
+
 - `templates/deployment.yaml`
 - `templates/service.yaml`
 - `templates/ingress.yaml`
@@ -214,11 +230,13 @@ $ find skills -path "*/kubernetes/SKILL.md"
 ### Token Validation Tests ⚠️ 75% PASS (3/4)
 
 **Passing:**
+
 - CI/CD: All levels within limits ✅
 - Secrets Management: All levels within limits ✅
 - Kubernetes: All levels within limits ✅
 
 **Failing:**
+
 - TypeScript: Level 1 overflow by 175 tokens ❌
 
 **Optimization Needed:** TypeScript Level 1 requires reduction from 1,175 to ~950 tokens.
@@ -259,6 +277,7 @@ $ python3 scripts/validate-skills.py skills/cloud-native/kubernetes
 **Issue:** All skills reference bundled resources that don't exist yet.
 
 **TypeScript (6 missing files):**
+
 ```
 skills/coding-standards/typescript/
 ├── SKILL.md (✅ exists)
@@ -275,6 +294,7 @@ skills/coding-standards/typescript/
 ```
 
 **CI/CD (5 missing files):**
+
 ```
 skills/devops/ci-cd/
 ├── SKILL.md (✅ exists)
@@ -290,6 +310,7 @@ skills/devops/ci-cd/
 ```
 
 **Secrets Management (7 missing files):**
+
 ```
 skills/security/secrets-management/
 ├── SKILL.md (✅ exists)
@@ -307,6 +328,7 @@ skills/security/secrets-management/
 ```
 
 **Kubernetes (7 missing files):**
+
 ```
 skills/cloud-native/kubernetes/
 ├── SKILL.md (✅ exists)

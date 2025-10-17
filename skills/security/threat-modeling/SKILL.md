@@ -72,12 +72,14 @@ threats:
 ### Essential Checklist
 
 **Planning Phase:**
+
 - [ ] Identify system scope and boundaries
 - [ ] Document assets and data flows
 - [ ] Define security objectives
 - [ ] Assemble threat modeling team
 
 **Analysis Phase:**
+
 - [ ] Create data flow diagrams (DFD)
 - [ ] Mark trust boundaries
 - [ ] Apply STRIDE to each element
@@ -85,17 +87,20 @@ threats:
 - [ ] Build attack trees
 
 **Prioritization:**
+
 - [ ] Score threats using DREAD
 - [ ] Classify by impact and likelihood
 - [ ] Map to security controls (NIST RA-3)
 
 **Mitigation:**
+
 - [ ] Design countermeasures
 - [ ] Assign ownership and timeline
 - [ ] Track implementation status
 - [ ] Verify effectiveness (NIST RA-5)
 
 **Documentation:**
+
 - [ ] Maintain threat model repository
 - [ ] Update for architecture changes
 - [ ] Share findings with stakeholders
@@ -1040,6 +1045,7 @@ data_flows:
 ---
 
 **Next Steps:**
+
 1. Review bundled templates in `templates/`
 2. Use `stride-template.md` for your first threat model
 3. Generate DFDs with `data-flow-diagram.md`

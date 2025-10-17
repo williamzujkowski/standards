@@ -352,6 +352,7 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
 ## NIST Controls Coverage
 
 **Primary Controls:**
+
 - **SC-12**: Cryptographic Key Establishment and Management
 - **SC-13**: Cryptographic Protection
 - **SC-8**: Transmission Confidentiality and Integrity

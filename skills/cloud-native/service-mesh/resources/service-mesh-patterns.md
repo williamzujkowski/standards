@@ -7,17 +7,20 @@
 **Pattern**: Gradually shift traffic to new versions using weighted routing.
 
 **Implementation**:
+
 - Start with 5-10% traffic to new version
 - Monitor error rates, latency, and business metrics
 - Double traffic every 15-30 minutes if metrics are healthy
 - Roll back instantly if issues detected
 
 **Benefits**:
+
 - Reduced blast radius of bugs
 - Confidence in production deployments
 - Easy rollback mechanism
 
 **Code Example**:
+
 ```bash
 # Shift traffic: 10% → 25% → 50% → 100%
 for weight in 10 25 50 100; do
@@ -34,17 +37,20 @@ done
 **Pattern**: Detect failing services and fail fast to prevent cascade failures.
 
 **Implementation**:
+
 - Set conservative error thresholds (5 consecutive errors)
 - Define ejection time (30s minimum)
 - Limit max ejection to 50% of instances
 - Implement fallback logic in application
 
 **Benefits**:
+
 - Prevents resource exhaustion
 - Improves system resilience
 - Faster error detection
 
 **Configuration**:
+
 ```yaml
 outlierDetection:
   consecutiveErrors: 5
@@ -60,6 +66,7 @@ outlierDetection:
 **Pattern**: Deny all traffic by default, explicitly allow required communication.
 
 **Implementation**:
+
 1. Apply default deny-all policy
 2. Enable strict mTLS cluster-wide
 3. Create allow policies per service
@@ -67,11 +74,13 @@ outlierDetection:
 5. Audit regularly with Kiali
 
 **Benefits**:
+
 - Defense in depth
 - Compliance with security standards
 - Clear communication boundaries
 
 **Policy Structure**:
+
 ```yaml
 # Step 1: Deny all
 spec: {}
@@ -95,17 +104,20 @@ spec:
 **Pattern**: Mirror production traffic to new version without impacting users.
 
 **Implementation**:
+
 - Mirror 10-100% of traffic to new version
 - Compare response times and error rates
 - Discard mirrored responses (users don't see them)
 - Validate new version handles production load
 
 **Benefits**:
+
 - Real production testing without risk
 - Validate performance under load
 - Detect edge cases early
 
 **Configuration**:
+
 ```yaml
 mirror:
   host: api
@@ -121,17 +133,20 @@ mirrorPercentage:
 **Pattern**: Route traffic to nearby instances, failover to remote on failure.
 
 **Implementation**:
+
 - Define locality (region/zone) for each instance
 - Configure distribution percentages
 - Set failover targets
 - Enable failoverPriority for multi-cluster
 
 **Benefits**:
+
 - Reduced latency
 - Lower cross-AZ costs
 - Better user experience
 
 **Configuration**:
+
 ```yaml
 localityLbSetting:
   enabled: true
@@ -152,12 +167,14 @@ localityLbSetting:
 **Pattern**: Validate JWT tokens at mesh level before reaching application.
 
 **Implementation**:
+
 - Configure RequestAuthentication with JWKS URI
 - Validate issuer, audience, expiration
 - Extract claims for authorization
 - Forward validated token to application
 
 **Benefits**:
+
 - Centralized authentication
 - No code changes required
 - Consistent security across services
@@ -169,12 +186,14 @@ localityLbSetting:
 **Pattern**: Limit retries to prevent retry storms.
 
 **Implementation**:
+
 - Set maximum retry attempts (2-3)
 - Define per-try timeout (shorter than total)
 - Only retry on specific errors (5xx, connection failure)
 - Use exponential backoff (implicit in Istio)
 
 **Configuration**:
+
 ```yaml
 retries:
   attempts: 3
@@ -189,12 +208,14 @@ retries:
 **Pattern**: Combine metrics, logs, and traces for full visibility.
 
 **Implementation**:
+
 - Metrics: Prometheus for quantitative data
 - Logs: Envoy access logs with request IDs
 - Traces: Jaeger for distributed tracing
 - Dashboards: Grafana for visualization
 
 **Benefits**:
+
 - Complete system visibility
 - Faster troubleshooting
 - Data-driven decisions
@@ -208,12 +229,14 @@ retries:
 **Problem**: Adding service mesh to all services immediately.
 
 **Why It Fails**:
+
 - Increased complexity overnight
 - Resource overhead (100-200MB per pod)
 - Learning curve for entire team
 - Difficult rollback if issues occur
 
 **Instead**:
+
 - Start with critical services
 - Gradual adoption (10-20% per month)
 - Train team incrementally
@@ -226,12 +249,14 @@ retries:
 **Problem**: Not setting CPU/memory limits on Envoy proxies.
 
 **Why It Fails**:
+
 - Proxies can consume unlimited resources
 - Node resource exhaustion
 - OOMKilled pods
 - Performance degradation
 
 **Instead**:
+
 ```yaml
 proxy:
   resources:
@@ -250,12 +275,14 @@ proxy:
 **Problem**: Setting thresholds too low (e.g., 1 error = circuit open).
 
 **Why It Fails**:
+
 - False positives from transient errors
 - Unnecessary service degradation
 - Poor user experience
 - Hiding real issues
 
 **Instead**:
+
 - Start conservative (5-10 consecutive errors)
 - Monitor false positive rate
 - Adjust based on service SLO
@@ -268,12 +295,14 @@ proxy:
 **Problem**: Using PERMISSIVE mode indefinitely.
 
 **Why It Fails**:
+
 - Allows unencrypted traffic
 - Defeats security purpose
 - Compliance violations
 - False sense of security
 
 **Instead**:
+
 - Use PERMISSIVE only during migration
 - Set timeline for STRICT mode (2-4 weeks)
 - Monitor mTLS adoption metrics
@@ -286,12 +315,14 @@ proxy:
 **Problem**: Enabling mTLS without AuthorizationPolicy.
 
 **Why It Fails**:
+
 - mTLS only encrypts, doesn't authorize
 - Any pod can call any service
 - No defense against compromised pods
 - Lateral movement possible
 
 **Instead**:
+
 - Start with deny-all policy
 - Explicitly allow required traffic
 - Use principle of least privilege
@@ -304,15 +335,18 @@ proxy:
 **Problem**: Collecting traces for every request.
 
 **Why It Fails**:
+
 - Massive storage costs
 - Performance overhead
 - Trace backend overload
 - Diminishing returns
 
 **Instead**:
+
 ```yaml
 traceSampling: 1.0  # 1% for production
 ```
+
 - Use adaptive sampling for specific services
 - Increase sampling for problem investigations
 - Set retention policies (7-30 days)
@@ -324,12 +358,14 @@ traceSampling: 1.0  # 1% for production
 **Problem**: Every sidecar has full mesh configuration.
 
 **Why It Fails**:
+
 - Increased memory usage per pod
 - Longer configuration push times
 - Unnecessary network rules
 - Scale limitations
 
 **Instead**:
+
 ```yaml
 apiVersion: networking.istio.io/v1beta1
 kind: Sidecar
@@ -347,12 +383,14 @@ spec:
 **Problem**: Setting mesh timeouts > application timeouts.
 
 **Why It Fails**:
+
 - Application gives up before mesh
 - Mesh holds connections open
 - Resource leaks
 - Confusing timeout errors
 
 **Instead**:
+
 - Mesh timeout = 80% of client timeout
 - Example: Client 10s → Mesh 8s
 - Set per-try timeout < total timeout
@@ -365,12 +403,14 @@ spec:
 **Problem**: Treating mesh as "set and forget" infrastructure.
 
 **Why It Fails**:
+
 - Security vulnerabilities accumulate
 - Miss new features and improvements
 - Breaking changes become overwhelming
 - No tested upgrade procedure
 
 **Instead**:
+
 - Quarterly upgrade schedule
 - Test in dev/staging first
 - Use canary upgrades with revisions
@@ -383,12 +423,14 @@ spec:
 **Problem**: No procedure for mesh failure or removal.
 
 **Why It Fails**:
+
 - Control plane outage = application downtime
 - Broken configuration = cascading failures
 - No rollback plan for bad updates
 - Panic during incidents
 
 **Instead**:
+
 - Document mesh removal procedure
 - Test control plane failure scenarios
 - Backup critical configurations
@@ -442,6 +484,7 @@ kubectl rollout restart deployment -n default
 ## Summary
 
 **Do**:
+
 - Start small, scale gradually
 - Set resource limits on proxies
 - Use default-deny security model
@@ -449,6 +492,7 @@ kubectl rollout restart deployment -n default
 - Monitor golden signals (latency, errors, saturation)
 
 **Don't**:
+
 - Mesh everything at once
 - Ignore resource constraints
 - Rely on mTLS alone for security

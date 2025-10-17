@@ -1,29 +1,38 @@
 """
 MLflow training script with comprehensive tracking and model registry integration.
 """
+
 import argparse
 import os
-import pandas as pd
-import numpy as np
+
+import matplotlib.pyplot as plt
 import mlflow
 import mlflow.sklearn
 import mlflow.xgboost
-from sklearn.model_selection import train_test_split, cross_val_score
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import (
-    accuracy_score, precision_score, recall_score, f1_score,
-    roc_auc_score, confusion_matrix, classification_report
-)
-from xgboost import XGBClassifier
-import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 import seaborn as sns
 import shap
 from mlflow.models.signature import infer_signature
+from sklearn.metrics import (
+    accuracy_score,
+    classification_report,
+    confusion_matrix,
+    f1_score,
+    precision_score,
+    recall_score,
+    roc_auc_score,
+)
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from xgboost import XGBClassifier
+
 
 def set_seed(seed=42):
     """Set random seed for reproducibility."""
     np.random.seed(seed)
-    os.environ['PYTHONHASHSEED'] = str(seed)
+    os.environ["PYTHONHASHSEED"] = str(seed)
+
 
 def load_and_preprocess_data(data_path, test_size=0.2, random_state=42):
     """Load and preprocess data."""
@@ -31,8 +40,8 @@ def load_and_preprocess_data(data_path, test_size=0.2, random_state=42):
     df = pd.read_csv(data_path)
 
     # Separate features and target
-    X = df.drop('target', axis=1)
-    y = df['target']
+    X = df.drop("target", axis=1)
+    y = df["target"]
 
     # Train-test split
     X_train, X_test, y_train, y_test = train_test_split(
@@ -51,6 +60,7 @@ def load_and_preprocess_data(data_path, test_size=0.2, random_state=42):
 
     return X_train_scaled, X_test_scaled, y_train, y_test, scaler, X.columns
 
+
 def train_model(X_train, y_train, learning_rate, n_estimators, max_depth, random_state):
     """Train XGBoost model."""
     print("Training XGBoost model...")
@@ -60,25 +70,24 @@ def train_model(X_train, y_train, learning_rate, n_estimators, max_depth, random
         n_estimators=n_estimators,
         max_depth=max_depth,
         random_state=random_state,
-        eval_metric='logloss'
+        eval_metric="logloss",
     )
 
     # Log hyperparameters
-    mlflow.log_params({
-        "learning_rate": learning_rate,
-        "n_estimators": n_estimators,
-        "max_depth": max_depth,
-        "random_state": random_state
-    })
-
-    # Train with early stopping
-    model.fit(
-        X_train, y_train,
-        eval_set=[(X_train, y_train)],
-        verbose=False
+    mlflow.log_params(
+        {
+            "learning_rate": learning_rate,
+            "n_estimators": n_estimators,
+            "max_depth": max_depth,
+            "random_state": random_state,
+        }
     )
 
+    # Train with early stopping
+    model.fit(X_train, y_train, eval_set=[(X_train, y_train)], verbose=False)
+
     return model
+
 
 def evaluate_model(model, X_test, y_test):
     """Evaluate model and log metrics."""
@@ -94,7 +103,7 @@ def evaluate_model(model, X_test, y_test):
         "precision": precision_score(y_test, y_pred),
         "recall": recall_score(y_test, y_pred),
         "f1_score": f1_score(y_test, y_pred),
-        "roc_auc": roc_auc_score(y_test, y_pred_proba)
+        "roc_auc": roc_auc_score(y_test, y_pred_proba),
     }
 
     # Log metrics
@@ -115,19 +124,21 @@ def evaluate_model(model, X_test, y_test):
 
     return metrics, y_pred, y_pred_proba
 
+
 def create_visualizations(model, X_test, y_test, y_pred, y_pred_proba, feature_names):
     """Create and log visualizations."""
     print("Creating visualizations...")
 
     # Feature importance
     fig, ax = plt.subplots(figsize=(10, 6))
-    feature_importance = pd.DataFrame({
-        'feature': feature_names,
-        'importance': model.feature_importances_
-    }).sort_values('importance', ascending=False).head(20)
+    feature_importance = (
+        pd.DataFrame({"feature": feature_names, "importance": model.feature_importances_})
+        .sort_values("importance", ascending=False)
+        .head(20)
+    )
 
-    sns.barplot(data=feature_importance, x='importance', y='feature', ax=ax)
-    ax.set_title('Top 20 Feature Importances')
+    sns.barplot(data=feature_importance, x="importance", y="feature", ax=ax)
+    ax.set_title("Top 20 Feature Importances")
     plt.tight_layout()
     mlflow.log_figure(fig, "feature_importance.png")
     plt.close()
@@ -135,10 +146,10 @@ def create_visualizations(model, X_test, y_test, y_pred, y_pred_proba, feature_n
     # Confusion matrix heatmap
     fig, ax = plt.subplots(figsize=(8, 6))
     cm = confusion_matrix(y_test, y_pred)
-    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', ax=ax)
-    ax.set_xlabel('Predicted')
-    ax.set_ylabel('Actual')
-    ax.set_title('Confusion Matrix')
+    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", ax=ax)
+    ax.set_xlabel("Predicted")
+    ax.set_ylabel("Actual")
+    ax.set_title("Confusion Matrix")
     plt.tight_layout()
     mlflow.log_figure(fig, "confusion_matrix.png")
     plt.close()
@@ -153,6 +164,7 @@ def create_visualizations(model, X_test, y_test, y_pred, y_pred_proba, feature_n
     plt.tight_layout()
     mlflow.log_figure(fig, "shap_summary.png")
     plt.close()
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -178,10 +190,7 @@ def main():
         )
 
         # Train model
-        model = train_model(
-            X_train, y_train,
-            args.learning_rate, args.n_estimators, args.max_depth, args.random_state
-        )
+        model = train_model(X_train, y_train, args.learning_rate, args.n_estimators, args.max_depth, args.random_state)
 
         # Evaluate model
         metrics, y_pred, y_pred_proba = evaluate_model(model, X_test, y_test)
@@ -193,15 +202,11 @@ def main():
         signature = infer_signature(X_train, model.predict(X_train))
 
         # Log model
-        mlflow.xgboost.log_model(
-            model,
-            "model",
-            signature=signature,
-            registered_model_name="fraud_detection_model"
-        )
+        mlflow.xgboost.log_model(model, "model", signature=signature, registered_model_name="fraud_detection_model")
 
         # Log scaler as artifact
         import joblib
+
         joblib.dump(scaler, "scaler.pkl")
         mlflow.log_artifact("scaler.pkl")
 
@@ -209,10 +214,11 @@ def main():
         print(f"Model URI: runs:/{mlflow.active_run().info.run_id}/model")
 
         # Check if model meets production threshold
-        if metrics['roc_auc'] >= 0.85:
+        if metrics["roc_auc"] >= 0.85:
             print(f"\n✓ Model meets production threshold (AUC: {metrics['roc_auc']:.4f})")
         else:
             print(f"\n✗ Model below production threshold (AUC: {metrics['roc_auc']:.4f})")
+
 
 if __name__ == "__main__":
     main()

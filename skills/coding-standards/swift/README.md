@@ -12,11 +12,13 @@ This skill teaches comprehensive Swift coding standards following Apple's guidel
 ## Skill Levels
 
 ### Level 1: Quick Reference (~600-800 tokens)
+
 - Optionals cheat sheet (?, !, guard, if let, nil coalescing)
 - Common patterns (protocols, extensions, closures, property wrappers)
 - Essential checklist (SwiftLint, naming conventions, access control)
 
 ### Level 2: Implementation Guide (~2,500-3,500 tokens)
+
 1. Optionals and Safety - Optional fundamentals, unwrapping patterns
 2. Protocols and Protocol-Oriented Design - Composition over inheritance
 3. Value Types vs Reference Types - Struct, class, enum usage
@@ -26,6 +28,7 @@ This skill teaches comprehensive Swift coding standards following Apple's guidel
 7. Testing with XCTest - Unit tests, mocks, async testing, UI tests
 
 ### Level 3: Deep Dive Resources (~500-800 tokens)
+
 - Advanced topics (generics, property wrappers, result builders)
 - SwiftUI architecture patterns
 - Performance optimization techniques
@@ -36,14 +39,18 @@ This skill teaches comprehensive Swift coding standards following Apple's guidel
 ## Bundled Resources
 
 ### 1. config/.swiftlint.yml (158 lines)
+
 Comprehensive SwiftLint configuration with:
+
 - 30+ opt-in rules enabled
 - Reasonable limits (line: 120, function: 50, file: 500)
 - Custom rules for weak self, force unwrapping
 - Proper exclusions for build artifacts
 
 ### 2. templates/ViewModel.swift (124 lines)
+
 MVVM ViewModel template featuring:
+
 - @MainActor for UI safety
 - @Published properties with Combine
 - Async/await patterns
@@ -52,7 +59,9 @@ MVVM ViewModel template featuring:
 - Repository pattern
 
 ### 3. templates/Protocol.swift (229 lines)
+
 10 protocol-oriented design examples:
+
 - Basic protocols with extensions
 - Protocol composition
 - Associated types
@@ -63,7 +72,9 @@ MVVM ViewModel template featuring:
 - Event handling
 
 ### 4. templates/NetworkService.swift (289 lines)
+
 Modern network layer with:
+
 - Protocol-based design
 - Async/await throughout
 - Custom Endpoint type
@@ -73,7 +84,9 @@ Modern network layer with:
 - Request/response modeling
 
 ### 5. templates/TestCase.swift (268 lines)
+
 XCTest template with:
+
 - Proper setUp/tearDown
 - Mock objects for dependencies
 - Async test patterns
@@ -83,7 +96,9 @@ XCTest template with:
 - Supporting protocols
 
 ### 6. scripts/setup-swift-project.sh (216 lines)
+
 Project setup script that:
+
 - Creates Swift package structure
 - Copies SwiftLint configuration
 - Sets up directory organization

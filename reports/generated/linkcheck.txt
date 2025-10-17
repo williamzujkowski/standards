@@ -87,6 +87,6 @@ Generated: 2025-10-17
 
 ## Summary
 
-- Files checked: 298
+- Files checked: 299
 - Broken links: 0
 - External links: 61

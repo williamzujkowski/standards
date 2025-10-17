@@ -35,18 +35,21 @@ tags: [soc, incident-response, siem, threat-hunting, forensics, nist-800-61]
 ### SOC Processes Overview
 
 **Tier 1 - Alert Triage:**
+
 - Monitor SIEM dashboards
 - Initial alert validation
 - Basic incident categorization
 - Escalate to Tier 2/3
 
 **Tier 2 - Incident Response:**
+
 - Deep dive investigation
 - Threat analysis and correlation
 - Containment actions
 - Forensic evidence collection
 
 **Tier 3 - Threat Hunting:**
+
 - Proactive threat hunting
 - Advanced malware analysis
 - Complex incident coordination
@@ -55,23 +58,27 @@ tags: [soc, incident-response, siem, threat-hunting, forensics, nist-800-61]
 ### Essential Security Operations Checklist
 
 **SIEM Configuration:**
+
 - [ ] Log sources configured (firewalls, endpoints, servers, cloud)
 - [ ] Correlation rules active (failed logins, data exfiltration, privilege escalation)
 - [ ] Alert thresholds tuned (reduce false positives)
 - [ ] Retention policy implemented (90-day hot, 1-year archive)
 
 **Incident Response Readiness:**
+
 - [ ] IR playbooks documented (phishing, malware, DDoS, breach)
 - [ ] Communication plan established (internal, legal, PR, customers)
 - [ ] Evidence collection tools ready (FTK Imager, dd, volatility)
 - [ ] Backup verification (test restore monthly)
 
 **Threat Intelligence:**
+
 - [ ] Threat feeds integrated (MISP, AlienVault OTX, VirusTotal)
 - [ ] IOC watchlists maintained (IPs, domains, file hashes)
 - [ ] Vulnerability scanning scheduled (weekly internal, monthly external)
 
 **Security Metrics (NIST IR-4):**
+
 - [ ] MTTD - Mean Time To Detect (target: <1 hour for critical)
 - [ ] MTTR - Mean Time To Respond (target: <4 hours for critical)
 - [ ] Incident trends (weekly review)
@@ -80,6 +87,7 @@ tags: [soc, incident-response, siem, threat-hunting, forensics, nist-800-61]
 ### Quick SIEM Queries
 
 **Failed Login Attempts (Splunk SPL):**
+
 ```spl
 index=security sourcetype=auth action=failure
 | stats count by user, src_ip
@@ -87,11 +95,13 @@ index=security sourcetype=auth action=failure
 ```
 
 **Suspicious Outbound Traffic (ELK KQL):**
+
 ```kql
 destination.port:(4444 OR 8080 OR 1337) AND NOT destination.ip:(10.0.0.0/8 OR 172.16.0.0/12 OR 192.168.0.0/16)
 ```
 
 **Privilege Escalation (Azure Sentinel KQL):**
+
 ```kql
 SecurityEvent
 | where EventID == 4672
@@ -118,12 +128,14 @@ SecurityEvent
 #### SOC Team Roles & Responsibilities
 
 **SOC Manager:**
+
 - Strategic planning and resource allocation
 - Metrics reporting to executive leadership
 - Policy and procedure development
 - Vendor and tool management
 
 **Security Analyst Tier 1 (Alert Triage):**
+
 - 24/7 monitoring of SIEM alerts
 - Initial alert validation and categorization
 - Basic log analysis and correlation
@@ -131,6 +143,7 @@ SecurityEvent
 - **NIST Controls:** SI-4 (Information System Monitoring)
 
 **Security Analyst Tier 2 (Incident Response):**
+
 - Deep-dive incident investigation
 - Malware analysis and reverse engineering
 - Forensic evidence collection
@@ -138,6 +151,7 @@ SecurityEvent
 - **NIST Controls:** IR-4 (Incident Handling), IR-6 (Incident Reporting)
 
 **Security Analyst Tier 3 (Threat Hunter):**
+
 - Proactive threat hunting campaigns
 - Advanced persistent threat (APT) detection
 - Threat intelligence analysis and dissemination
@@ -145,6 +159,7 @@ SecurityEvent
 - **NIST Controls:** IR-5 (Incident Monitoring), AU-6 (Audit Review)
 
 **Incident Commander:**
+
 - Major incident coordination
 - Stakeholder communication (legal, PR, management)
 - Post-incident review facilitation
@@ -152,22 +167,26 @@ SecurityEvent
 #### SOC Tools & Technologies
 
 **SIEM Platforms:**
+
 - **Splunk Enterprise Security:** Market leader, powerful SPL query language
 - **Elastic Stack (ELK):** Open-source, KQL query language, cost-effective
 - **Azure Sentinel:** Cloud-native, integrated with Microsoft ecosystem
 - **IBM QRadar:** Enterprise-grade, strong compliance features
 
 **Endpoint Detection & Response (EDR):**
+
 - CrowdStrike Falcon, Microsoft Defender for Endpoint, Carbon Black
 - Real-time process monitoring and behavioral analysis
 - Automated threat remediation
 
 **Threat Intelligence Platforms:**
+
 - MISP (Malware Information Sharing Platform)
 - ThreatConnect, Anomali, Recorded Future
 - STIX/TAXII feeds integration
 
 **Forensic Tools:**
+
 - **Memory Analysis:** Volatility, Rekall
 - **Disk Forensics:** Autopsy, FTK Imager, EnCase
 - **Network Forensics:** Wireshark, NetworkMiner, Zeek
@@ -201,12 +220,14 @@ communication_channels:
 ```
 
 **Tool Preparation:**
+
 - SIEM with 90+ days of log retention
 - Jump bag (USB drives with forensic tools, live Linux distros)
 - Evidence storage (encrypted, chain-of-custody documented)
 - Isolated malware analysis sandbox (Cuckoo, ANY.RUN)
 
 **Training & Tabletop Exercises:**
+
 - Quarterly incident response drills
 - Annual red team/purple team exercises
 - Phishing simulations monthly
@@ -289,6 +310,7 @@ curl -s "https://www.virustotal.com/api/v3/files/$HASH" \
 **Containment Strategies:**
 
 **Short-Term Containment (Immediate - 15 minutes):**
+
 - Isolate infected host from network (EDR quarantine, VLAN switch)
 - Block malicious IPs/domains at firewall/proxy
 - Disable compromised user accounts
@@ -305,6 +327,7 @@ Disable-NetAdapter -Name "Ethernet" -Confirm:$false
 ```
 
 **Long-Term Containment (1-4 hours):**
+
 - Implement network segmentation
 - Apply emergency patches
 - Enhanced monitoring on related systems
@@ -381,6 +404,7 @@ Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run" 
 ```
 
 **Evidence Retention (IR-6):**
+
 - Preserve all forensic images for 1 year minimum (legal hold: 7+ years)
 - Document chain of custody
 - Store in encrypted, access-controlled repository
@@ -677,6 +701,7 @@ print(f"False Positive Rate: {fp_rate:.1f}%")
 See bundled resource: `templates/security-metrics-dashboard.json`
 
 **Key Panels:**
+
 - MTTD/MTTR trend line graph
 - Incident severity distribution (pie chart)
 - Top 10 alert sources (bar chart)
@@ -959,17 +984,20 @@ This skill includes 6 ready-to-use templates and scripts:
 ### Advanced Training Paths
 
 **Incident Response Certifications:**
+
 - **GCIH (GIAC Certified Incident Handler):** Industry-standard IR certification
 - **GCFA (GIAC Certified Forensic Analyst):** Advanced forensics
 - **GCIA (GIAC Certified Intrusion Analyst):** Network traffic analysis
 - **OSCP (Offensive Security Certified Professional):** Penetration testing (know the attacker mindset)
 
 **Hands-On Labs:**
+
 - **TryHackMe:** "SOC Level 1" and "Cyber Defense" paths
 - **CyberDefenders:** Blue team challenges with real incident data
 - **SANS NetWars:** Capture-the-flag style incident response
 
 **Recommended Reading:**
+
 - *Incident Response & Computer Forensics* by Jason Luttgens (McGraw-Hill)
 - *The Art of Memory Forensics* by Michael Hale Ligh (Wiley)
 - *Blue Team Handbook: SOC, SIEM, and Threat Hunting* by Don Murdoch (CreateSpace)
@@ -986,21 +1014,25 @@ This skill includes 6 ready-to-use templates and scripts:
 ### Tools & Resources
 
 **Open-Source SIEM:**
+
 - Wazuh: <https://wazuh.com>
 - Elastic Security: <https://www.elastic.co/security>
 - Graylog: <https://www.graylog.org>
 
 **Threat Intelligence Platforms:**
+
 - MISP (Open Source): <https://www.misp-project.org>
 - AlienVault OTX: <https://otx.alienvault.com>
 - STIX/TAXII: <https://oasis-open.github.io/cti-documentation/>
 
 **Forensic Tools:**
+
 - Volatility (Memory Analysis): <https://www.volatilityfoundation.org>
 - Autopsy (Disk Forensics): <https://www.autopsy.com>
 - Wireshark (Network Analysis): <https://www.wireshark.org>
 
 **Incident Response Frameworks:**
+
 - MITRE ATT&CK: <https://attack.mitre.org>
 - NIST Cybersecurity Framework: <https://www.nist.gov/cyberframework>
 - SANS Incident Response Process: <https://www.sans.org/blog/the-importance-of-incident-response-planning/>
@@ -1008,18 +1040,21 @@ This skill includes 6 ready-to-use templates and scripts:
 ### Community & Collaboration
 
 **ISACs (Information Sharing and Analysis Centers):**
+
 - FS-ISAC (Financial Services)
 - H-ISAC (Healthcare)
 - MS-ISAC (Multi-State, government)
 - ICS-ISAC (Industrial Control Systems)
 
 **Conferences:**
+
 - DEF CON (Las Vegas, August)
 - Black Hat (multiple locations)
 - RSA Conference (San Francisco, April)
 - BSides (local chapters worldwide)
 
 **Online Communities:**
+
 - Reddit: r/AskNetsec, r/blueteamsec
 - Discord: SANS Cyber Defense Initiative, TryHackMe
 - Twitter: #infosec, #threatintel, #dfir
@@ -1029,6 +1064,7 @@ This skill includes 6 ready-to-use templates and scripts:
 ## Summary & Next Steps
 
 You've learned:
+
 - Security Operations Center structure and processes
 - Incident response lifecycle (NIST 800-61 Rev 2)
 - SIEM integration and log analysis
@@ -1040,6 +1076,7 @@ You've learned:
 **Validation Exercise:**
 
 Set up a mini SOC lab:
+
 1. Deploy Wazuh SIEM (Docker or VM)
 2. Forward logs from 3 systems (Linux, Windows, network device)
 3. Create 5 custom correlation rules
@@ -1050,12 +1087,14 @@ Set up a mini SOC lab:
 **Time estimate:** 8-12 hours
 
 **Related Skills:**
+
 - [Security Fundamentals](../security-fundamentals/SKILL.md)
 - [Network Security](../network-security/SKILL.md)
 - [Linux Security](../linux-security/SKILL.md)
 - [Cloud Security](../cloud-security/SKILL.md)
 
 **Compliance Mapping:**
+
 - NIST IR-4, IR-5, IR-6, SI-4, AU-6
 - ISO 27001: A.16.1 (Incident Management)
 - PCI-DSS: Requirement 12.10 (Incident Response Plan)

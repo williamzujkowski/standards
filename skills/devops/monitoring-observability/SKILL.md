@@ -15,17 +15,20 @@ estimated_time: 8-10 hours
 ### Three Pillars of Observability
 
 **Metrics** - Numerical measurements over time
+
 - Counter (only increases): request_total, errors_total
 - Gauge (can go up/down): cpu_usage, memory_bytes
 - Histogram (distribution): request_duration_seconds
 - Summary (quantiles): response_time_summary
 
 **Logs** - Timestamped event records
+
 - Structured (JSON): `{"level":"error","msg":"connection failed","user_id":123}`
 - Unstructured (text): `2025-01-15 ERROR: Connection timeout`
 - Log levels: DEBUG, INFO, WARN, ERROR, FATAL
 
 **Traces** - Request flow through distributed systems
+
 - Span: Single operation (HTTP request, DB query)
 - Trace: Collection of spans showing full request path
 - Context propagation: Trace ID passed between services
@@ -150,6 +153,7 @@ scrape_configs:
 #### Instrumenting Applications
 
 **Go Example**:
+
 ```go
 package main
 
@@ -198,6 +202,7 @@ func main() {
 ```
 
 **Python Example**:
+
 ```python
 from prometheus_client import Counter, Histogram, start_http_server
 import time
@@ -280,6 +285,7 @@ groups:
 #### Structured Logging Best Practices
 
 **Good - Structured JSON**:
+
 ```json
 {
   "timestamp": "2025-01-15T10:30:45Z",
@@ -295,6 +301,7 @@ groups:
 ```
 
 **Bad - Unstructured**:
+
 ```
 [ERROR] 2025-01-15 10:30:45 - User 12345 got error: Database connection failed (timeout 5s) from db-primary.internal, retried 3 times
 ```
@@ -431,6 +438,7 @@ sum(count_over_time({service="api-service"} | json | __error__="" [5m])) by (sta
 #### Instrumenting with OpenTelemetry
 
 **Go Example**:
+
 ```go
 package main
 
@@ -495,6 +503,7 @@ func callDatabase(ctx context.Context) {
 ```
 
 **Python Example**:
+
 ```python
 from opentelemetry import trace
 from opentelemetry.sdk.trace import TracerProvider
@@ -720,6 +729,7 @@ inhibit_rules:
 #### Alert Fatigue Prevention
 
 **Best Practices**:
+
 1. **Actionable alerts only**: Every alert should require human action
 2. **Meaningful thresholds**: Based on actual user impact, not arbitrary numbers
 3. **Proper severity levels**: Critical = wake someone up, Warning = investigate during business hours
@@ -790,6 +800,7 @@ Budget consumption = 30 / 43.2 = 69.4%
 ```
 
 **Error Budget Policy**:
+
 ```
 Budget remaining > 50%: Deploy freely
 Budget remaining 20-50%: Require approval for risky changes
@@ -829,6 +840,7 @@ Budget exhausted: Incident declared, all hands on deck
    - External APIs: http://grafana/d/external
 
 3. **Check recent changes**
+
    ```bash
    git log --since="1 hour ago" --pretty=format:"%h %an %s"
    ```
@@ -836,16 +848,19 @@ Budget exhausted: Incident declared, all hands on deck
 ## Resolution Steps
 
 ### If database is down:
+
 1. Check DB master health: `kubectl get pods -n database`
 2. Failover to replica if needed: `./scripts/db-failover.sh`
 3. Verify connection restored: `curl http://api/health/db`
 
 ### If recent deployment caused issue:
+
 1. Rollback: `kubectl rollout undo deployment/api-service`
 2. Verify: `kubectl rollout status deployment/api-service`
 3. Monitor error rate: http://grafana/d/api-overview
 
 ### If external API is down:
+
 1. Enable circuit breaker: `kubectl patch configmap api-config --patch '{"data":{"circuit_breaker":"true"}}'`
 2. Restart pods: `kubectl rollout restart deployment/api-service`
 
@@ -860,6 +875,7 @@ Budget exhausted: Incident declared, all hands on deck
 - [ ] Write postmortem within 48 hours
 - [ ] Add action items to backlog
 - [ ] Update runbook with learnings
+
 ```
 
 ### 8. Cost Optimization
@@ -878,6 +894,7 @@ http_requests_total{service="api", endpoint="/api/users"}
 ```
 
 **Cardinality analysis**:
+
 ```promql
 # Find metrics with highest cardinality
 topk(10, count by (__name__)({__name__=~".+"}))
@@ -930,6 +947,7 @@ data:
 ## Level 3: Deep Dive Resources
 
 ### Official Documentation
+
 - [Prometheus Docs](https://prometheus.io/docs/)
 - [Grafana Docs](https://grafana.com/docs/)
 - [OpenTelemetry](https://opentelemetry.io/docs/)
@@ -937,12 +955,14 @@ data:
 - [Loki](https://grafana.com/docs/loki/latest/)
 
 ### Books
+
 - **"Site Reliability Engineering"** - Google SRE team
 - **"The Site Reliability Workbook"** - Practical SRE examples
 - **"Distributed Tracing in Practice"** - Austin Parker et al.
 - **"Observability Engineering"** - Charity Majors, Liz Fong-Jones
 
 ### Advanced Topics
+
 - Multi-cluster monitoring with Thanos
 - Long-term metrics storage
 - Custom Prometheus exporters
@@ -953,6 +973,7 @@ data:
 - AIOps and anomaly detection
 
 ### Community
+
 - [CNCF Observability SIG](https://github.com/cncf/sig-observability)
 - [Prometheus Community](https://prometheus.io/community/)
 - [#observability on CNCF Slack](https://slack.cncf.io)

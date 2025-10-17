@@ -29,6 +29,7 @@ healthtech/
 ## Skill Levels
 
 ### Level 1: Quick Reference (~1,000 tokens)
+
 - HIPAA Privacy Rule vs Security Rule
 - PHI identification (18 HIPAA identifiers)
 - BAA requirements
@@ -36,6 +37,7 @@ healthtech/
 - Penalty tiers
 
 ### Level 2: Implementation Guide (~5,200 tokens)
+
 - **Privacy Rule**: Individual rights, minimum necessary, permitted uses/disclosures
 - **Security Rule**: 18 implementation specifications
   - 9 Administrative safeguards
@@ -49,6 +51,7 @@ healthtech/
 - **Compliance audit preparation**: OCR audit protocol, essential documentation
 
 ### Level 3: Deep Dive Resources
+
 - Official HHS/OCR resources
 - NIST SP 800-66 Rev. 2
 - HL7 International and FHIR specifications
@@ -58,9 +61,11 @@ healthtech/
 ## Bundled Resources
 
 ### 1. HIPAA Compliance Checklist
+
 **File**: `resources/hipaa-compliance-checklist.md`
 
 Comprehensive checklist covering:
+
 - Administrative safeguards (9 standards)
 - Physical safeguards (4 standards)
 - Technical safeguards (5 standards)
@@ -71,9 +76,11 @@ Comprehensive checklist covering:
 **Usage**: Print and use for internal compliance audits, gap analysis, and audit preparation.
 
 ### 2. Business Associate Agreement Template
+
 **File**: `templates/baa-template.md`
 
 Legally-structured BAA template with:
+
 - All required HIPAA provisions (45 CFR 164.314(a)(2))
 - Permitted uses and disclosures
 - Safeguard requirements
@@ -85,9 +92,11 @@ Legally-structured BAA template with:
 **Usage**: Customize with legal counsel before execution. Review all bracketed placeholders.
 
 ### 3. FHIR R4 Resource Examples
+
 **File**: `templates/fhir-resources.json`
 
 Production-ready FHIR R4 resources:
+
 - **Patient**: Demographics, identifiers, contact information
 - **Observation**: Lab results (glucose) with LOINC codes
 - **Encounter**: Outpatient visit with participants and location
@@ -97,9 +106,11 @@ Production-ready FHIR R4 resources:
 **Usage**: Reference for FHIR API implementation, testing, and PHI security requirements.
 
 ### 4. PHI Encryption Implementation
+
 **File**: `templates/phi-encryption.py`
 
 Python implementation of HIPAA-compliant PHI encryption:
+
 - **AES-256-GCM** authenticated encryption
 - Unique IV per encryption
 - PBKDF2 key derivation (600,000 iterations)
@@ -110,20 +121,24 @@ Python implementation of HIPAA-compliant PHI encryption:
 **Requirements**: `pip install cryptography`
 
 **Usage**:
+
 ```bash
 python3 templates/phi-encryption.py  # Run examples
 ```
 
 **Security Notes**:
+
 - Store keys in HSM or KMS (never hardcode)
 - Rotate keys annually
 - Audit all encryption/decryption operations
 - Implement key versioning for rotation
 
 ### 5. Audit Log Analyzer
+
 **File**: `scripts/audit-log-analyzer.py`
 
 Automated HIPAA compliance analysis:
+
 - **Detection Rules**:
   - After-hours access by non-emergency personnel
   - Bulk record access (>50 records/hour)
@@ -137,6 +152,7 @@ Automated HIPAA compliance analysis:
 - **Violation Severity**: Critical, High, Medium, Low
 
 **Usage**:
+
 ```bash
 # Generate sample audit log and analyze
 python3 scripts/audit-log-analyzer.py
@@ -148,13 +164,16 @@ python3 scripts/audit-log-analyzer.py
 ```
 
 **Output**:
+
 - `compliance_report.json`: Detailed violation data
 - Console summary: Executive-level compliance report
 
 ### 6. Breach Response Playbook
+
 **File**: `resources/breach-response-playbook.md`
 
 Complete breach notification procedures:
+
 - **Breach definition** and three exceptions
 - **Immediate response** actions (1-hour timeline)
 - **Four-factor risk assessment** framework with documentation template
@@ -175,6 +194,7 @@ Complete breach notification procedures:
 ## Quick Start
 
 ### 1. Initial Compliance Assessment
+
 ```bash
 # Print the compliance checklist
 cd skills/compliance/healthtech/resources
@@ -184,6 +204,7 @@ cat hipaa-compliance-checklist.md
 Review all sections and identify gaps in your current compliance posture.
 
 ### 2. Execute Business Associate Agreements
+
 ```bash
 cd skills/compliance/healthtech/templates
 cat baa-template.md
@@ -192,6 +213,7 @@ cat baa-template.md
 Customize BAA template with legal counsel and execute with all business associates.
 
 ### 3. Implement PHI Encryption
+
 ```bash
 cd skills/compliance/healthtech/templates
 python3 phi-encryption.py  # Review examples
@@ -200,13 +222,16 @@ python3 phi-encryption.py  # Review examples
 Integrate PHI encryption into your application using the provided implementation patterns.
 
 ### 4. Enable Audit Logging
+
 Review audit logging requirements in Level 2 of SKILL.md. Configure your systems to log:
+
 - Authentication events (login/logout/failures)
 - PHI access (views/searches/exports)
 - Modifications (creates/updates/deletes)
 - Administrative actions (user changes, config changes)
 
 ### 5. Analyze Audit Logs
+
 ```bash
 cd skills/compliance/healthtech/scripts
 python3 audit-log-analyzer.py  # Run demo with sample data
@@ -215,6 +240,7 @@ python3 audit-log-analyzer.py  # Run demo with sample data
 Schedule regular audit log analysis (weekly for high-risk systems, monthly for others).
 
 ### 6. Prepare for Breaches
+
 ```bash
 cd skills/compliance/healthtech/resources
 cat breach-response-playbook.md
@@ -250,6 +276,7 @@ All templates, checklists, and tools provided are reference implementations and 
 **Last Updated**: 2025-10-17
 
 **Regulatory Monitoring**: HIPAA regulations are subject to updates and guidance changes. Monitor:
+
 - HHS OCR website: <https://www.hhs.gov/ocr/privacy/>
 - Federal Register for proposed rule changes
 - OCR Cybersecurity Newsletter (monthly): <https://www.hhs.gov/about/agencies/asa/ocio/cybersecurity/newsletter/>

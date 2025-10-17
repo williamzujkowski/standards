@@ -9,6 +9,7 @@ This directory contains utility scripts for managing the standards repository.
 The skill-loader CLI provides comprehensive skill discovery, loading, and management capabilities.
 
 **Installation:**
+
 ```bash
 # Make executable
 chmod +x scripts/skill-loader.py
@@ -130,6 +131,7 @@ Common dependencies used across scripts:
 - Standard library modules: `argparse`, `json`, `re`, `sys`
 
 Install all dependencies:
+
 ```bash
 pip install pyyaml pytest pytest-cov
 ```
@@ -148,11 +150,13 @@ See workflow files for configuration details.
 ### Common Issues
 
 **Script not executable:**
+
 ```bash
 chmod +x scripts/skill-loader.py
 ```
 
 **Import errors:**
+
 ```bash
 # Install dependencies
 pip install pyyaml
@@ -164,6 +168,7 @@ pip install -r requirements.txt
 ```
 
 **Tests failing:**
+
 ```bash
 # Run tests with verbose output
 pytest tests/scripts/ -v --tb=short

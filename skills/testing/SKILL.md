@@ -8,9 +8,11 @@ description: Comprehensive testing standards including unit, integration, securi
 ## Level 1: Quick Start (5 minutes)
 
 ### What You'll Learn
+
 Implement effective testing strategies to ensure code quality, catch bugs early, and maintain confidence in changes.
 
 ### Core Principles
+
 - **Test First**: Write tests before implementation (TDD)
 - **Coverage**: Aim for >80% code coverage
 - **Isolation**: Tests should be independent and repeatable
@@ -66,6 +68,7 @@ function calculateDiscount(
 ```
 
 ### Essential Checklist
+
 - [ ] Unit tests for all business logic
 - [ ] Integration tests for critical paths
 - [ ] Tests run in CI/CD pipeline
@@ -73,6 +76,7 @@ function calculateDiscount(
 - [ ] Tests are maintainable and readable
 
 ### Common Pitfalls
+
 - Testing implementation details instead of behavior
 - Slow tests that discourage running them
 - Flaky tests that fail intermittently
@@ -152,6 +156,7 @@ class UserService {
 ```
 
 **NIST Mapping:**
+
 - @nist-controls: [si-10, si-11, au-2, au-3]
 
 #### 2. Property-Based Testing
@@ -431,6 +436,7 @@ describe("OrderService", () => {
 ```
 
 ### Integration Points
+
 - Links to [Coding Standards](../coding-standards/SKILL.md) for testable code design
 - Links to [Security Practices](../security-practices/SKILL.md) for security testing
 - Links to [NIST Compliance](../nist-compliance/SKILL.md) for SI-10, SI-11 controls
@@ -544,11 +550,13 @@ test("button hover state", async ({ page }) => {
 ### Resources
 
 #### Essential Reading
+
 - [Test Driven Development by Kent Beck](https://www.oreilly.com/library/view/test-driven-development/0321146530/)
 - [Growing Object-Oriented Software, Guided by Tests](http://www.growing-object-oriented-software.com/)
 - [Unit Testing Principles, Practices, and Patterns by Vladimir Khorikov](https://www.manning.com/books/unit-testing)
 
 #### Testing Frameworks
+
 - **Unit Testing**: Jest, Vitest, pytest, JUnit
 - **Integration Testing**: Supertest, TestContainers
 - **E2E Testing**: Playwright, Cypress, Selenium
@@ -556,6 +564,7 @@ test("button hover state", async ({ page }) => {
 - **Mutation Testing**: Stryker, PIT, mutmut
 
 #### Tools and Services
+
 - **CI/CD**: GitHub Actions, GitLab CI, CircleCI
 - **Coverage**: Istanbul, Coverage.py, JaCoCo
 - **Load Testing**: k6, Artillery, Gatling
@@ -564,6 +573,7 @@ test("button hover state", async ({ page }) => {
 ### Templates
 
 #### Test Suite Template
+
 ```typescript
 describe("FeatureName", () => {
   // Setup and teardown
@@ -609,6 +619,7 @@ describe("FeatureName", () => {
 ### Scripts
 
 See `./scripts/` for:
+
 - Test coverage reporters
 - Mutation testing runners
 - Performance benchmark tools

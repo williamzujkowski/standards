@@ -11,16 +11,16 @@ Requirements:
     pip install cryptography
 """
 
-import os
 import base64
 import json
-from typing import Dict, Any, Optional
+import os
 from datetime import datetime
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from typing import Any, Dict, Optional
+
 from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2
-from cryptography.hazmat.primitives.asymmetric import rsa, padding
 
 
 class PHIEncryption:
@@ -73,17 +73,13 @@ class PHIEncryption:
             length=32,
             salt=salt,
             iterations=600000,  # OWASP recommended minimum (2023)
-            backend=default_backend()
+            backend=default_backend(),
         )
         key = kdf.derive(password.encode())
 
         return key, salt
 
-    def encrypt_phi(
-        self,
-        phi_data: Dict[str, Any],
-        metadata: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, str]:
+    def encrypt_phi(self, phi_data: Dict[str, Any], metadata: Optional[Dict[str, Any]] = None) -> Dict[str, str]:
         """
         Encrypt PHI data with AES-256-GCM
 
@@ -96,17 +92,13 @@ class PHIEncryption:
         """
         # Serialize PHI data to JSON
         phi_json = json.dumps(phi_data, sort_keys=True)
-        phi_bytes = phi_json.encode('utf-8')
+        phi_bytes = phi_json.encode("utf-8")
 
         # Generate unique IV (12 bytes for GCM)
         iv = os.urandom(12)
 
         # Create AES-GCM cipher
-        cipher = Cipher(
-            algorithms.AES(self.key),
-            modes.GCM(iv),
-            backend=default_backend()
-        )
+        cipher = Cipher(algorithms.AES(self.key), modes.GCM(iv), backend=default_backend())
         encryptor = cipher.encryptor()
 
         # Encrypt PHI
@@ -117,12 +109,12 @@ class PHIEncryption:
 
         # Prepare encrypted package
         encrypted_package = {
-            'ciphertext': base64.b64encode(ciphertext).decode('utf-8'),
-            'iv': base64.b64encode(iv).decode('utf-8'),
-            'tag': base64.b64encode(tag).decode('utf-8'),
-            'algorithm': 'AES-256-GCM',
-            'encrypted_at': datetime.utcnow().isoformat() + 'Z',
-            'metadata': metadata or {}
+            "ciphertext": base64.b64encode(ciphertext).decode("utf-8"),
+            "iv": base64.b64encode(iv).decode("utf-8"),
+            "tag": base64.b64encode(tag).decode("utf-8"),
+            "algorithm": "AES-256-GCM",
+            "encrypted_at": datetime.utcnow().isoformat() + "Z",
+            "metadata": metadata or {},
         }
 
         return encrypted_package
@@ -141,26 +133,22 @@ class PHIEncryption:
             ValueError: If decryption or authentication fails
         """
         # Extract components
-        ciphertext = base64.b64decode(encrypted_package['ciphertext'])
-        iv = base64.b64decode(encrypted_package['iv'])
-        tag = base64.b64decode(encrypted_package['tag'])
+        ciphertext = base64.b64decode(encrypted_package["ciphertext"])
+        iv = base64.b64decode(encrypted_package["iv"])
+        tag = base64.b64decode(encrypted_package["tag"])
 
         # Verify algorithm
-        if encrypted_package.get('algorithm') != 'AES-256-GCM':
+        if encrypted_package.get("algorithm") != "AES-256-GCM":
             raise ValueError(f"Unsupported algorithm: {encrypted_package.get('algorithm')}")
 
         # Create AES-GCM cipher
-        cipher = Cipher(
-            algorithms.AES(self.key),
-            modes.GCM(iv, tag),
-            backend=default_backend()
-        )
+        cipher = Cipher(algorithms.AES(self.key), modes.GCM(iv, tag), backend=default_backend())
         decryptor = cipher.decryptor()
 
         try:
             # Decrypt and verify authentication tag
             plaintext_bytes = decryptor.update(ciphertext) + decryptor.finalize()
-            plaintext = plaintext_bytes.decode('utf-8')
+            plaintext = plaintext_bytes.decode("utf-8")
 
             # Parse JSON
             phi_data = json.loads(plaintext)
@@ -172,10 +160,10 @@ class PHIEncryption:
 
     def export_key(self) -> str:
         """Export encryption key as base64-encoded string"""
-        return base64.b64encode(self.key).decode('utf-8')
+        return base64.b64encode(self.key).decode("utf-8")
 
     @classmethod
-    def import_key(cls, key_b64: str) -> 'PHIEncryption':
+    def import_key(cls, key_b64: str) -> "PHIEncryption":
         """Import encryption key from base64-encoded string"""
         key = base64.b64decode(key_b64)
         return cls(key=key)
@@ -196,11 +184,7 @@ class PHIFieldEncryption:
         """
         self.encryption = encryption
 
-    def encrypt_fields(
-        self,
-        data: Dict[str, Any],
-        fields_to_encrypt: list
-    ) -> Dict[str, Any]:
+    def encrypt_fields(self, data: Dict[str, Any], fields_to_encrypt: list) -> Dict[str, Any]:
         """
         Encrypt specified fields in data dictionary
 
@@ -219,16 +203,10 @@ class PHIFieldEncryption:
                 field_value = {field: encrypted_data[field]}
 
                 # Encrypt field
-                encrypted_field = self.encryption.encrypt_phi(
-                    phi_data=field_value,
-                    metadata={'field_name': field}
-                )
+                encrypted_field = self.encryption.encrypt_phi(phi_data=field_value, metadata={"field_name": field})
 
                 # Replace field value with encrypted package
-                encrypted_data[field] = {
-                    '_encrypted': True,
-                    '_data': encrypted_field
-                }
+                encrypted_data[field] = {"_encrypted": True, "_data": encrypted_field}
 
         return encrypted_data
 
@@ -245,13 +223,13 @@ class PHIFieldEncryption:
         decrypted_data = data.copy()
 
         for field, value in data.items():
-            if isinstance(value, dict) and value.get('_encrypted'):
+            if isinstance(value, dict) and value.get("_encrypted"):
                 # Decrypt field
-                encrypted_package = value['_data']
+                encrypted_package = value["_data"]
                 decrypted_field = self.encryption.decrypt_phi(encrypted_package)
 
                 # Restore original field value
-                field_name = encrypted_package['metadata']['field_name']
+                field_name = encrypted_package["metadata"]["field_name"]
                 decrypted_data[field] = decrypted_field[field_name]
 
         return decrypted_data
@@ -273,15 +251,15 @@ if __name__ == "__main__":
 
     # Sample PHI data
     patient_phi = {
-        'mrn': '123456789',
-        'name': 'John Michael Smith',
-        'dob': '1970-03-15',
-        'ssn': '123-45-6789',
-        'address': '123 Main Street, Apt 4B, Springfield, IL 62701',
-        'phone': '(555) 123-4567',
-        'email': 'john.smith@example.com',
-        'diagnosis': 'Essential Hypertension (I10)',
-        'medication': 'Lisinopril 10mg daily'
+        "mrn": "123456789",
+        "name": "John Michael Smith",
+        "dob": "1970-03-15",
+        "ssn": "123-45-6789",
+        "address": "123 Main Street, Apt 4B, Springfield, IL 62701",
+        "phone": "(555) 123-4567",
+        "email": "john.smith@example.com",
+        "diagnosis": "Essential Hypertension (I10)",
+        "medication": "Lisinopril 10mg daily",
     }
 
     print(f"Original PHI Data: {json.dumps(patient_phi, indent=2)}")
@@ -289,15 +267,10 @@ if __name__ == "__main__":
 
     # Encrypt PHI
     encrypted_phi = phi_enc.encrypt_phi(
-        phi_data=patient_phi,
-        metadata={
-            'patient_id': 'P123456',
-            'encrypted_by': 'system',
-            'purpose': 'storage'
-        }
+        phi_data=patient_phi, metadata={"patient_id": "P123456", "encrypted_by": "system", "purpose": "storage"}
     )
 
-    print(f"Encrypted PHI Package:")
+    print("Encrypted PHI Package:")
     print(f"  Algorithm: {encrypted_phi['algorithm']}")
     print(f"  Encrypted At: {encrypted_phi['encrypted_at']}")
     print(f"  Ciphertext: {encrypted_phi['ciphertext'][:50]}... (truncated)")
@@ -325,31 +298,28 @@ if __name__ == "__main__":
 
     # Sample patient record with mixed PHI and non-PHI data
     patient_record = {
-        'patient_id': 'P123456',  # Non-PHI identifier
-        'visit_date': '2025-10-17',  # Non-PHI
-        'mrn': '123456789',  # PHI
-        'name': 'John Michael Smith',  # PHI
-        'dob': '1970-03-15',  # PHI
-        'ssn': '123-45-6789',  # PHI
-        'vital_signs': {  # Non-PHI aggregate data
-            'bp_systolic': 120,
-            'bp_diastolic': 80
-        }
+        "patient_id": "P123456",  # Non-PHI identifier
+        "visit_date": "2025-10-17",  # Non-PHI
+        "mrn": "123456789",  # PHI
+        "name": "John Michael Smith",  # PHI
+        "dob": "1970-03-15",  # PHI
+        "ssn": "123-45-6789",  # PHI
+        "vital_signs": {"bp_systolic": 120, "bp_diastolic": 80},  # Non-PHI aggregate data
     }
 
     # Encrypt only PHI fields
-    phi_fields = ['mrn', 'name', 'dob', 'ssn']
+    phi_fields = ["mrn", "name", "dob", "ssn"]
     encrypted_record = field_enc.encrypt_fields(patient_record, phi_fields)
 
     print(f"Original Record: {json.dumps(patient_record, indent=2)}")
     print()
-    print(f"Record with Encrypted PHI Fields:")
+    print("Record with Encrypted PHI Fields:")
     print(f"  patient_id: {encrypted_record['patient_id']}")
     print(f"  visit_date: {encrypted_record['visit_date']}")
-    print(f"  mrn: [ENCRYPTED]")
-    print(f"  name: [ENCRYPTED]")
-    print(f"  dob: [ENCRYPTED]")
-    print(f"  ssn: [ENCRYPTED]")
+    print("  mrn: [ENCRYPTED]")
+    print("  name: [ENCRYPTED]")
+    print("  dob: [ENCRYPTED]")
+    print("  ssn: [ENCRYPTED]")
     print(f"  vital_signs: {encrypted_record['vital_signs']}")
     print()
 
@@ -382,7 +352,7 @@ if __name__ == "__main__":
 
     # Encrypt PHI
     encrypted_phi_password = phi_enc_password.encrypt_phi(patient_phi)
-    print(f"PHI encrypted with password-derived key")
+    print("PHI encrypted with password-derived key")
     print()
 
     # Re-derive key and decrypt

@@ -10,6 +10,7 @@
 ## Overview
 
 This checklist ensures every skill meets quality standards before proceeding to the next phase. Use this for:
+
 - **Per-Skill Validation**: Check each skill individually
 - **Daily Gates**: End-of-day quality checks
 - **Weekly Gates**: End-of-week comprehensive validation
@@ -58,6 +59,7 @@ Complete this checklist for EVERY skill before marking it as "complete".
   - Clear and actionable
 
 **Frontmatter Sample**:
+
 ```yaml
 ---
 name: skill-name-here
@@ -102,6 +104,7 @@ description: Clear description of what this skill does, when Claude should use i
 **Token Count**: _______ tokens (Target: <5,000)
 
 **Optimization Notes** (if >4,500 tokens):
+
 - _______________
 - _______________
 
@@ -122,6 +125,7 @@ description: Clear description of what this skill does, when Claude should use i
   - Ready for use
 
 **Resource Files**:
+
 - [ ] `resources/_______________`
 - [ ] `resources/_______________`
 - [ ] `resources/_______________`
@@ -143,6 +147,7 @@ description: Clear description of what this skill does, when Claude should use i
   - Cover common scenarios
 
 **Template Files**:
+
 - [ ] `templates/_______________`
 - [ ] `templates/_______________`
 - [ ] `templates/_______________`
@@ -166,6 +171,7 @@ description: Clear description of what this skill does, when Claude should use i
   - Usage instructions
 
 **Script Files**:
+
 - [ ] `scripts/_______________` (Executable: YES / NO)
 - [ ] `scripts/_______________` (Executable: YES / NO)
 - [ ] `scripts/_______________` (Executable: YES / NO)
@@ -257,6 +263,7 @@ description: Clear description of what this skill does, when Claude should use i
   - All scripts run successfully
 
 **Validation Output**:
+
 ```
 _______________
 _______________
@@ -272,6 +279,7 @@ _______________
 **Overall Quality Score**: _____ / 12 categories passing
 
 **Status**:
+
 - [ ] ✅ **PASS** - Ready for use (≥11/12 passing)
 - [ ] ⚠️ **CONDITIONAL PASS** - Minor issues to fix (10/12 passing)
 - [ ] ❌ **FAIL** - Major issues, needs rework (<10/12 passing)
@@ -282,6 +290,7 @@ _______________
 **Date**: _______________
 
 **Action Items** (if CONDITIONAL PASS or FAIL):
+
 1. _______________
 2. _______________
 3. _______________
@@ -314,10 +323,12 @@ Complete this checklist at the end of each day during Phase 2.
 **Daily Pass Rate**: _____% (Target: 100%)
 
 **Issues Identified**:
+
 - _______________
 - _______________
 
 **Action Plan for Tomorrow**:
+
 1. _______________
 2. _______________
 3. _______________
@@ -357,6 +368,7 @@ Complete this checklist at the end of Week 2 (Day 10) and Week 3 (Day 15).
 - [ ] **React skill started** (optional)
 
 **Additional Checks**:
+
 - [ ] **Meta-skills operational** (skill-loader, legacy-bridge)
 - [ ] **Phase 1 remediation 100% complete**
 - [ ] **Automation scripts tested**
@@ -389,6 +401,7 @@ Complete this checklist at the end of Week 2 (Day 10) and Week 3 (Day 15).
 - [ ] **Serverless skill validated**
 
 **Additional Checks**:
+
 - [ ] **All 21 skills validated**
 - [ ] **skills-catalog.yaml generated**
 - [ ] **product-matrix.yaml updated**
@@ -556,6 +569,7 @@ Complete this checklist at the end of Phase 2 (Day 15) for final sign-off.
 **Total Criteria Met**: _____ / 10 (Target: ≥9/10 for PASS)
 
 **Decision**:
+
 - [ ] ✅ **PASS** - Phase 2 complete, proceed to Phase 3
 - [ ] ⚠️ **CONDITIONAL PASS** - Minor items to complete, proceed with tracking
 - [ ] ❌ **FAIL** - Major issues, Phase 2 extension required
@@ -595,6 +609,7 @@ Complete this checklist at the end of Phase 2 (Day 15) for final sign-off.
 **Symptoms**: Skill SKILL.md exceeds token budget
 
 **Solutions**:
+
 1. Move detailed content to `resources/` files
 2. Create summary/overview in SKILL.md
 3. Reference detailed content via links
@@ -608,6 +623,7 @@ Complete this checklist at the end of Phase 2 (Day 15) for final sign-off.
 **Symptoms**: Scripts fail to run
 
 **Solutions**:
+
 1. Add shebang line: `#!/usr/bin/env bash` or `#!/usr/bin/env python3`
 2. Run: `chmod +x scripts/*.sh`
 3. Test execution: `./scripts/script-name.sh`
@@ -620,6 +636,7 @@ Complete this checklist at the end of Phase 2 (Day 15) for final sign-off.
 **Symptoms**: References to non-existent files
 
 **Solutions**:
+
 1. Create missing files
 2. Fix file paths
 3. Remove invalid references
@@ -633,6 +650,7 @@ Complete this checklist at the end of Phase 2 (Day 15) for final sign-off.
 **Symptoms**: Skills look different from each other
 
 **Solutions**:
+
 1. Follow SKILL.md.template exactly
 2. Use consistent section headers
 3. Match tone and voice of other skills
@@ -646,6 +664,7 @@ Complete this checklist at the end of Phase 2 (Day 15) for final sign-off.
 **Symptoms**: Description doesn't explain triggers
 
 **Solutions**:
+
 1. Add specific scenarios: "Use when building Python APIs"
 2. Include tech stack triggers: "Use with FastAPI, Django"
 3. Add anti-patterns: "Don't use for shell scripts"

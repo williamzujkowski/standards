@@ -7,17 +7,17 @@ and resolve dependencies.
 """
 
 import argparse
+import json
+import logging
+import re
 import sys
 from pathlib import Path
-from typing import Dict, List, Set, Optional
-import yaml
-import json
-import re
-import logging
+from typing import Dict, List, Optional, Set
 
+import yaml
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -72,7 +72,7 @@ class SkillDiscovery:
             "category": frontmatter.get("category", "general"),
             "tags": frontmatter.get("tags", []),
             "path": skill_file,
-            "slug": skill_file.parent.name
+            "slug": skill_file.parent.name,
         }
 
         # Extract related skills
@@ -86,7 +86,7 @@ class SkillDiscovery:
         related = []
 
         # Look for links to other SKILL.md files
-        pattern = r'\[([^\]]+)\]\(\.\./([^/]+)/SKILL\.md\)'
+        pattern = r"\[([^\]]+)\]\(\.\./([^/]+)/SKILL\.md\)"
         matches = re.findall(pattern, content)
 
         for _, skill_slug in matches:
@@ -113,9 +113,7 @@ class SkillDiscovery:
             description = skill_data["description"].lower()
             tags = [t.lower() for t in skill_data.get("tags", [])]
 
-            if (keyword_lower in name or
-                keyword_lower in description or
-                keyword_lower in tags):
+            if keyword_lower in name or keyword_lower in description or keyword_lower in tags:
                 results.append(skill_data)
 
         return results
@@ -236,65 +234,30 @@ Examples:
 
   # List all skills
   python3 discover-skills.py --list-all
-        """
+        """,
     )
 
     parser.add_argument(
-        "--skills-dir",
-        type=Path,
-        default=Path("skills"),
-        help="Directory containing skills (default: ./skills)"
+        "--skills-dir", type=Path, default=Path("skills"), help="Directory containing skills (default: ./skills)"
     )
 
-    parser.add_argument(
-        "--product-matrix",
-        type=Path,
-        help="Path to product-matrix.yaml"
-    )
+    parser.add_argument("--product-matrix", type=Path, help="Path to product-matrix.yaml")
 
-    parser.add_argument(
-        "--search",
-        help="Search skills by keyword"
-    )
+    parser.add_argument("--search", help="Search skills by keyword")
 
-    parser.add_argument(
-        "--category",
-        help="Filter skills by category"
-    )
+    parser.add_argument("--category", help="Filter skills by category")
 
-    parser.add_argument(
-        "--product-type",
-        help="Recommend skills for product type"
-    )
+    parser.add_argument("--product-type", help="Recommend skills for product type")
 
-    parser.add_argument(
-        "--resolve-deps",
-        help="Resolve dependencies for skill slug"
-    )
+    parser.add_argument("--resolve-deps", help="Resolve dependencies for skill slug")
 
-    parser.add_argument(
-        "--list-all",
-        action="store_true",
-        help="List all available skills"
-    )
+    parser.add_argument("--list-all", action="store_true", help="List all available skills")
 
-    parser.add_argument(
-        "--generate-command",
-        action="store_true",
-        help="Generate @load command for results"
-    )
+    parser.add_argument("--generate-command", action="store_true", help="Generate @load command for results")
 
-    parser.add_argument(
-        "--output-json",
-        type=Path,
-        help="Export results to JSON file"
-    )
+    parser.add_argument("--output-json", type=Path, help="Export results to JSON file")
 
-    parser.add_argument(
-        "--verbose",
-        action="store_true",
-        help="Enable verbose output"
-    )
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
 
     args = parser.parse_args()
 
@@ -354,10 +317,7 @@ Examples:
 
     # Export JSON
     if args.output_json:
-        output_data = {
-            "count": len(results),
-            "skills": results
-        }
+        output_data = {"count": len(results), "skills": results}
         args.output_json.write_text(json.dumps(output_data, indent=2, default=str))
         logger.info(f"Exported results to: {args.output_json}")
 

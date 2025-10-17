@@ -393,9 +393,10 @@ All items must be **PASS** to proceed to Phase 2.
 
 **Date**: _______________
 **Reviewers**: _______________
-**Overall Score**: ___% (___/37 PASS)
+**Overall Score**: ***% (***/37 PASS)
 
 **Decision**:
+
 - [ ] **GO** - Proceed to Phase 2
 - [ ] **CONDITIONAL-GO** - Proceed with conditions: _______________
 - [ ] **NO-GO** - Extend Phase 1
@@ -403,6 +404,7 @@ All items must be **PASS** to proceed to Phase 2.
 **Rationale**: _______________
 
 **Action Items** (if CONDITIONAL-GO or NO-GO):
+
 1. _______________
 2. _______________
 3. _______________
@@ -410,6 +412,7 @@ All items must be **PASS** to proceed to Phase 2.
 **Re-Gate Date** (if NO-GO): _______________
 
 **Approvals**:
+
 - [ ] Project Lead: _______________ (Date: ___)
 - [ ] QA Lead: _______________ (Date: ___)
 - [ ] Technical Lead: _______________ (Date: ___)

@@ -4,10 +4,11 @@ Test Suite: Backward Compatibility
 Ensures existing @load patterns continue to work with new skill system.
 """
 
-import pytest
-from pathlib import Path
-from typing import Dict, List
 import re
+from pathlib import Path
+from typing import Dict
+
+import pytest
 import yaml
 
 
@@ -35,24 +36,19 @@ class BackwardCompatibilityTester:
         # @load [product:api + CS:python + TS:pytest]
         # @load CS:python
 
-        result = {
-            'directive': directive,
-            'product': None,
-            'standards': [],
-            'valid': False
-        }
+        result = {"directive": directive, "product": None, "standards": [], "valid": False}
 
         # Extract product type
-        product_match = re.search(r'product:([a-z0-9-]+)', directive)
+        product_match = re.search(r"product:([a-z0-9-]+)", directive)
         if product_match:
-            result['product'] = product_match.group(1)
+            result["product"] = product_match.group(1)
 
         # Extract standard codes
-        standard_matches = re.findall(r'([A-Z]+):([a-z0-9-*]+)', directive)
+        standard_matches = re.findall(r"([A-Z]+):([a-z0-9-*]+)", directive)
         for code, value in standard_matches:
-            result['standards'].append(f"{code}:{value}")
+            result["standards"].append(f"{code}:{value}")
 
-        result['valid'] = result['product'] is not None or len(result['standards']) > 0
+        result["valid"] = result["product"] is not None or len(result["standards"]) > 0
 
         return result
 
@@ -61,29 +57,24 @@ class BackwardCompatibilityTester:
         parsed = self.parse_load_directive(directive)
         matrix = self.load_product_matrix()
 
-        result = {
-            'directive': directive,
-            'resolved_standards': [],
-            'resolved_files': [],
-            'method': 'legacy'
-        }
+        result = {"directive": directive, "resolved_standards": [], "resolved_files": [], "method": "legacy"}
 
         # Resolve product type from matrix
-        if parsed['product'] and 'products' in matrix:
-            product_config = matrix['products'].get(parsed['product'], {})
-            if 'standards' in product_config:
-                result['resolved_standards'].extend(product_config['standards'])
+        if parsed["product"] and "products" in matrix:
+            product_config = matrix["products"].get(parsed["product"], {})
+            if "standards" in product_config:
+                result["resolved_standards"].extend(product_config["standards"])
 
         # Add explicit standards
-        result['resolved_standards'].extend(parsed['standards'])
+        result["resolved_standards"].extend(parsed["standards"])
 
         # Map to actual files
-        for standard in result['resolved_standards']:
+        for standard in result["resolved_standards"]:
             # Convert standard code to potential file names
             # Example: CS:python -> CODING_STANDARDS.md (section: python)
-            if ':' in standard:
-                code, value = standard.split(':', 1)
-                result['resolved_files'].append(self._map_standard_to_file(code, value))
+            if ":" in standard:
+                code, value = standard.split(":", 1)
+                result["resolved_files"].append(self._map_standard_to_file(code, value))
 
         return result
 
@@ -91,67 +82,62 @@ class BackwardCompatibilityTester:
         """Resolve @load directive using new skill system."""
         parsed = self.parse_load_directive(directive)
 
-        result = {
-            'directive': directive,
-            'resolved_skills': [],
-            'resolved_files': [],
-            'method': 'skills'
-        }
+        result = {"directive": directive, "resolved_skills": [], "resolved_files": [], "method": "skills"}
 
         # Map to skills
-        if parsed['product']:
+        if parsed["product"]:
             # Product should map to skill bundle
-            result['resolved_skills'].append(f"product-{parsed['product']}")
+            result["resolved_skills"].append(f"product-{parsed['product']}")
 
-        for standard in parsed['standards']:
+        for standard in parsed["standards"]:
             # Convert standard code to skill name
             skill_name = self._map_standard_to_skill(standard)
             if skill_name:
-                result['resolved_skills'].append(skill_name)
+                result["resolved_skills"].append(skill_name)
 
         # Map to actual skill files
-        for skill in result['resolved_skills']:
+        for skill in result["resolved_skills"]:
             skill_path = self.skills_dir / skill / "SKILL.md"
-            result['resolved_files'].append(str(skill_path))
+            result["resolved_files"].append(str(skill_path))
 
         return result
 
     def _map_standard_to_file(self, code: str, value: str) -> str:
         """Map standard code to legacy file."""
         code_to_file = {
-            'CS': 'CODING_STANDARDS.md',
-            'TS': 'TESTING_STANDARDS.md',
-            'SEC': 'MODERN_SECURITY_STANDARDS.md',
-            'FE': 'FRONTEND_MOBILE_STANDARDS.md',
-            'DOP': 'DEVOPS_PLATFORM_STANDARDS.md',
-            'OBS': 'OBSERVABILITY_STANDARDS.md',
-            'LEG': 'LEGAL_COMPLIANCE_STANDARDS.md',
-            'NIST-IG': 'COMPLIANCE_STANDARDS.md',
+            "CS": "CODING_STANDARDS.md",
+            "TS": "TESTING_STANDARDS.md",
+            "SEC": "MODERN_SECURITY_STANDARDS.md",
+            "FE": "FRONTEND_MOBILE_STANDARDS.md",
+            "DOP": "DEVOPS_PLATFORM_STANDARDS.md",
+            "OBS": "OBSERVABILITY_STANDARDS.md",
+            "LEG": "LEGAL_COMPLIANCE_STANDARDS.md",
+            "NIST-IG": "COMPLIANCE_STANDARDS.md",
         }
 
-        base_file = code_to_file.get(code, 'UNIFIED_STANDARDS.md')
+        base_file = code_to_file.get(code, "UNIFIED_STANDARDS.md")
         return str(self.standards_dir / base_file)
 
     def _map_standard_to_skill(self, standard: str) -> str:
         """Map standard code to skill name."""
-        if ':' not in standard:
+        if ":" not in standard:
             return None
 
-        code, value = standard.split(':', 1)
+        code, value = standard.split(":", 1)
 
         # Map code to skill prefix
         code_to_skill = {
-            'CS': 'coding',
-            'TS': 'testing',
-            'SEC': 'security',
-            'FE': 'frontend',
-            'DOP': 'devops',
-            'OBS': 'observability',
-            'LEG': 'legal',
-            'NIST-IG': 'nist-compliance',
+            "CS": "coding",
+            "TS": "testing",
+            "SEC": "security",
+            "FE": "frontend",
+            "DOP": "devops",
+            "OBS": "observability",
+            "LEG": "legal",
+            "NIST-IG": "nist-compliance",
         }
 
-        prefix = code_to_skill.get(code, 'general')
+        prefix = code_to_skill.get(code, "general")
         return f"{prefix}-{value}"
 
     def compare_resolutions(self, directive: str) -> Dict:
@@ -160,37 +146,32 @@ class BackwardCompatibilityTester:
         skills = self.resolve_load_directive_skills(directive)
 
         return {
-            'directive': directive,
-            'legacy': legacy,
-            'skills': skills,
-            'compatible': len(legacy['resolved_files']) > 0 and len(skills['resolved_skills']) > 0
+            "directive": directive,
+            "legacy": legacy,
+            "skills": skills,
+            "compatible": len(legacy["resolved_files"]) > 0 and len(skills["resolved_skills"]) > 0,
         }
 
     def test_all_product_types(self) -> Dict:
         """Test all product types from matrix."""
         matrix = self.load_product_matrix()
 
-        results = {
-            'total_products': 0,
-            'compatible': 0,
-            'incompatible': 0,
-            'details': []
-        }
+        results = {"total_products": 0, "compatible": 0, "incompatible": 0, "details": []}
 
-        if 'products' not in matrix:
+        if "products" not in matrix:
             return results
 
-        for product_type in matrix['products'].keys():
+        for product_type in matrix["products"].keys():
             directive = f"@load product:{product_type}"
             comparison = self.compare_resolutions(directive)
 
-            results['total_products'] += 1
-            if comparison['compatible']:
-                results['compatible'] += 1
+            results["total_products"] += 1
+            if comparison["compatible"]:
+                results["compatible"] += 1
             else:
-                results['incompatible'] += 1
+                results["incompatible"] += 1
 
-            results['details'].append(comparison)
+            results["details"].append(comparison)
 
         return results
 
@@ -209,67 +190,67 @@ class TestBackwardCompatibility:
         """Test parsing simple product directive."""
         result = tester.parse_load_directive("@load product:api")
 
-        assert result['valid'] == True
-        assert result['product'] == 'api'
-        assert len(result['standards']) == 0
+        assert result["valid"] == True
+        assert result["product"] == "api"
+        assert len(result["standards"]) == 0
 
     def test_parse_complex_directive(self, tester):
         """Test parsing complex directive with multiple components."""
         result = tester.parse_load_directive("@load [product:api + CS:python + TS:pytest]")
 
-        assert result['valid'] == True
-        assert result['product'] == 'api'
-        assert 'CS:python' in result['standards']
-        assert 'TS:pytest' in result['standards']
+        assert result["valid"] == True
+        assert result["product"] == "api"
+        assert "CS:python" in result["standards"]
+        assert "TS:pytest" in result["standards"]
 
     def test_parse_standards_only(self, tester):
         """Test parsing directive with only standards."""
         result = tester.parse_load_directive("@load [CS:python + TS:* + SEC:*]")
 
-        assert result['valid'] == True
-        assert result['product'] is None
-        assert 'CS:python' in result['standards']
-        assert 'TS:*' in result['standards']
-        assert 'SEC:*' in result['standards']
+        assert result["valid"] == True
+        assert result["product"] is None
+        assert "CS:python" in result["standards"]
+        assert "TS:*" in result["standards"]
+        assert "SEC:*" in result["standards"]
 
     def test_legacy_resolution(self, tester):
         """Test legacy resolution produces file paths."""
         result = tester.resolve_load_directive_legacy("@load product:api")
 
-        assert result['method'] == 'legacy'
-        assert len(result['resolved_standards']) > 0
+        assert result["method"] == "legacy"
+        assert len(result["resolved_standards"]) > 0
 
     def test_skill_resolution(self, tester):
         """Test skill resolution produces skill names."""
         result = tester.resolve_load_directive_skills("@load product:api")
 
-        assert result['method'] == 'skills'
-        assert 'product-api' in result['resolved_skills']
+        assert result["method"] == "skills"
+        assert "product-api" in result["resolved_skills"]
 
     def test_compatibility_comparison(self, tester):
         """Test that legacy and skill resolutions are compatible."""
         result = tester.compare_resolutions("@load product:api")
 
         # Should resolve in both systems
-        assert len(result['legacy']['resolved_files']) > 0 or len(result['skills']['resolved_skills']) > 0
+        assert len(result["legacy"]["resolved_files"]) > 0 or len(result["skills"]["resolved_skills"]) > 0
 
     def test_wildcard_handling(self, tester):
         """Test that wildcards are handled correctly."""
         result = tester.parse_load_directive("@load SEC:*")
 
-        assert result['valid'] == True
-        assert 'SEC:*' in result['standards']
+        assert result["valid"] == True
+        assert "SEC:*" in result["standards"]
 
     def test_all_product_types_exist(self, tester):
         """Test that all product types from matrix can be resolved."""
         results = tester.test_all_product_types()
 
-        assert results['total_products'] > 0
+        assert results["total_products"] > 0
         # At least some should be compatible (even if skills don't exist yet)
         # This is informational rather than strict requirement
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Run compatibility analysis
     repo_root = Path(__file__).parent.parent.parent
     tester = BackwardCompatibilityTester(repo_root)
@@ -292,17 +273,17 @@ if __name__ == '__main__':
     for directive in test_directives:
         result = tester.compare_resolutions(directive)
 
-        status = "✓" if result['compatible'] else "✗"
+        status = "✓" if result["compatible"] else "✗"
         print(f"{status} {directive}")
         print(f"  Legacy: {len(result['legacy']['resolved_files'])} files")
         print(f"  Skills: {len(result['skills']['resolved_skills'])} skills")
 
-        if result['compatible']:
+        if result["compatible"]:
             compatible_count += 1
 
         print()
 
-    compatibility_pct = (compatible_count / len(test_directives) * 100)
+    compatibility_pct = compatible_count / len(test_directives) * 100
     print(f"Compatibility: {compatible_count}/{len(test_directives)} ({compatibility_pct:.0f}%)")
 
     # Test all product types

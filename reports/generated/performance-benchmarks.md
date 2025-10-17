@@ -74,6 +74,7 @@ Load all skill metadata:
 #### Legacy Approach
 
 **Process:**
+
 1. Load UNIFIED_STANDARDS.md (~10,000 tokens)
 2. Load SECURITY_STANDARDS.md (~8,000 tokens)
 3. Parse and search all sections
@@ -86,6 +87,7 @@ Load all skill metadata:
 #### Skills Approach
 
 **Process:**
+
 1. Load all skill metadata (~480 tokens)
 2. Filter by keywords: "api", "security"
 3. Return matching skills with descriptions
@@ -109,6 +111,7 @@ Load all skill metadata:
 #### Legacy Approach
 
 **Process:**
+
 1. Load CODING_STANDARDS.md (~5,000 tokens)
 2. Navigate to Python section
 3. Apply all guidelines
@@ -120,6 +123,7 @@ Load all skill metadata:
 #### Skills Approach (Level 1 + 2)
 
 **Process:**
+
 1. Load python-coding metadata (20 tokens)
 2. Activate skill → Load Level 2 core (600 tokens)
 3. Apply guidelines
@@ -143,6 +147,7 @@ Load all skill metadata:
 #### Legacy Approach
 
 **Load Required Standards:**
+
 - CODING_STANDARDS.md (5,000 tokens)
 - SECURITY_STANDARDS.md (8,000 tokens)
 - TESTING_STANDARDS.md (4,500 tokens)
@@ -155,6 +160,7 @@ Load all skill metadata:
 #### Skills Approach (Level 1 + 2)
 
 **Load Required Skills:**
+
 - coding-python (20 + 600 = 620 tokens)
 - api-design (20 + 580 = 600 tokens)
 - security-auth (22 + 650 = 672 tokens)
@@ -181,6 +187,7 @@ Load all skill metadata:
 #### Legacy Approach
 
 **Process:**
+
 1. Load COMPLIANCE_STANDARDS.md (~6,000 tokens)
 2. Load NIST documentation (~12,000 tokens)
 3. External file references for templates
@@ -193,6 +200,7 @@ Load all skill metadata:
 #### Skills Approach (Level 1 + 2 + 3)
 
 **Process:**
+
 1. Load nist-compliance metadata (23 tokens)
 2. Activate skill → Load core (800 tokens)
 3. Reference specific control: `./resources/AC-2.md` (450 tokens)
@@ -218,6 +226,7 @@ Load all skill metadata:
 #### Legacy Approach
 
 **Query Sequence:**
+
 1. "Apply Python coding standards" → Load CODING_STANDARDS.md (5,000 tokens)
 2. "Add unit tests" → Load TESTING_STANDARDS.md (4,500 tokens)
 3. "Secure the API" → Load SECURITY_STANDARDS.md (8,000 tokens)
@@ -229,6 +238,7 @@ Load all skill metadata:
 #### Skills Approach
 
 **Query Sequence:**
+
 1. "Apply Python coding standards" → Load coding-python (620 tokens)
 2. "Add unit tests" → Load testing-unit (618 tokens, coding-python cached)
 3. "Secure the API" → Load security-api (652 tokens, others cached)
@@ -252,6 +262,7 @@ Load all skill metadata:
 #### Legacy Approach
 
 **Process:**
+
 1. Load all standards (~91,200 tokens)
 2. Full-text search across all files
 3. Parse and extract matches
@@ -264,6 +275,7 @@ Load all skill metadata:
 #### Skills Approach
 
 **Process:**
+
 1. Load all skill metadata (~480 tokens)
 2. Filter by "security" keyword in name/description
 3. Return matched skills
@@ -288,6 +300,7 @@ Load all skill metadata:
 #### Legacy Approach
 
 **Process:**
+
 1. Open CODING_STANDARDS.md (entire file)
 2. Find Python section (~800 tokens in 5,000 token file)
 3. Make changes
@@ -301,6 +314,7 @@ Load all skill metadata:
 #### Skills Approach
 
 **Process:**
+
 1. Open coding-python/SKILL.md
 2. Update Level 2 content (~600 tokens)
 3. Invalidate only this skill
@@ -365,11 +379,13 @@ Load all skill metadata:
 #### Legacy Scaling
 
 **Current (24 standards):**
+
 - Total tokens: ~91,200
 - Initial load: ~2-3 seconds
 - Context pressure: 45.6%
 
 **Projected (100 standards):**
+
 - Total tokens: ~380,000 (exceeds context window!)
 - Initial load: ~8-12 seconds
 - Context pressure: 190% (impossible)
@@ -379,11 +395,13 @@ Load all skill metadata:
 #### Skills Scaling
 
 **Current (24 skills):**
+
 - Level 1 tokens: ~480
 - Initial load: ~0.01-0.02 seconds
 - Context pressure: 0.24%
 
 **Projected (100 skills):**
+
 - Level 1 tokens: ~2,000
 - Initial load: ~0.05-0.08 seconds
 - Context pressure: 1%
@@ -403,6 +421,7 @@ Load all skill metadata:
 ### 1. Prioritize High-Traffic Skills
 
 Convert most-used standards first:
+
 - **coding-python** (highest usage)
 - **security-auth** (high impact)
 - **testing-unit** (frequent)
@@ -412,6 +431,7 @@ Convert most-used standards first:
 ### 2. Optimize Level 2 Content
 
 Keep Level 2 under 1000 tokens:
+
 - Core instructions only
 - Move examples to Level 3
 - Reference external resources
@@ -421,6 +441,7 @@ Keep Level 2 under 1000 tokens:
 ### 3. Implement Smart Caching
 
 Cache strategies:
+
 - **L1 Cache:** All skill metadata (permanent)
 - **L2 Cache:** Recently used Level 2 content (TTL: 1 hour)
 - **L3 Cache:** On-demand resources (TTL: 10 minutes)
@@ -430,12 +451,14 @@ Cache strategies:
 ### 4. Monitor Performance Metrics
 
 Track:
+
 - Token consumption per query
 - Cache hit rates
 - Average response times
 - Context window utilization
 
 **Tools:**
+
 - `tests/skills/test_token_optimization.py`
 - Performance logging in skill loader
 - Metrics dashboard
@@ -463,21 +486,25 @@ Track:
 The Skills system provides **dramatic performance improvements** across all measured dimensions:
 
 ### Token Efficiency
+
 - **90-99% reduction** depending on usage pattern
 - **~10x better** context window utilization
 - **~85% cache hit rate** vs. 15% legacy
 
 ### Speed Improvements
+
 - **189x faster** initial loading
 - **5-50x faster** individual operations
 - **~5-6x faster** overall session performance
 
 ### Scalability
+
 - **Linear scaling** vs. exponential degradation
 - **Unlimited growth capacity** vs. ~50 standard limit
 - **No context window pressure** even at 100+ skills
 
 ### User Experience
+
 - **Near-instant** skill discovery
 - **Focused, relevant** content only
 - **Better organization** through modular structure
@@ -487,6 +514,7 @@ The Skills system provides **dramatic performance improvements** across all meas
 ---
 
 **Test Execution:**
+
 ```bash
 cd /home/william/git/standards
 

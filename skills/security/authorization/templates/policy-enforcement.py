@@ -5,11 +5,13 @@ Python Policy Enforcement - RBAC and ABAC implementation
 Supports Flask/Django applications with SQLAlchemy
 """
 
-from functools import wraps
 from datetime import datetime
-from typing import Optional, List, Tuple
+from functools import wraps
+from typing import List, Optional, Tuple
+
 from flask import abort, g, request
 from sqlalchemy import or_
+
 
 class RBACManager:
     """Role-Based Access Control manager with hierarchy support."""
@@ -33,25 +35,30 @@ class RBACManager:
         user_roles = self._get_user_roles_with_hierarchy(user_id)
 
         # Check if any role has the permission
-        result = self.db.session.query(Permission).join(
-            RolePermission
-        ).filter(
-            RolePermission.role_id.in_(user_roles),
-            Permission.resource == resource,
-            Permission.action == action
-        ).first() is not None
+        result = (
+            self.db.session.query(Permission)
+            .join(RolePermission)
+            .filter(
+                RolePermission.role_id.in_(user_roles), Permission.resource == resource, Permission.action == action
+            )
+            .first()
+            is not None
+        )
 
         self._permission_cache[cache_key] = result
         return result
 
     def _get_user_roles_with_hierarchy(self, user_id: int) -> List[int]:
         """Get all roles including parent roles."""
-        from models import UserRole, Role
+        from models import UserRole
 
-        direct_roles = self.db.session.query(UserRole.role_id).filter(
-            UserRole.user_id == user_id,
-            or_(UserRole.expires_at.is_(None), UserRole.expires_at > datetime.utcnow())
-        ).all()
+        direct_roles = (
+            self.db.session.query(UserRole.role_id)
+            .filter(
+                UserRole.user_id == user_id, or_(UserRole.expires_at.is_(None), UserRole.expires_at > datetime.utcnow())
+            )
+            .all()
+        )
 
         all_roles = set(role[0] for role in direct_roles)
 
@@ -75,8 +82,9 @@ class RBACManager:
 
         return parents
 
-    def audit_authorization(self, user_id: int, resource: str, action: str,
-                          allowed: bool, reason: Optional[str] = None):
+    def audit_authorization(
+        self, user_id: int, resource: str, action: str, allowed: bool, reason: Optional[str] = None
+    ):
         """
         Log authorization decision for compliance.
 
@@ -92,7 +100,7 @@ class RBACManager:
             allowed=allowed,
             reason=reason,
             ip_address=request.remote_addr,
-            timestamp=datetime.utcnow()
+            timestamp=datetime.utcnow(),
         )
         self.db.session.add(audit)
         self.db.session.commit()
@@ -115,22 +123,21 @@ def require_permission(resource: str, action: str):
         def delete_document(doc_id):
             ...
     """
+
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
             if not g.rbac_manager.has_permission(g.current_user.id, resource, action):
                 g.rbac_manager.audit_authorization(
-                    g.current_user.id, resource, action,
-                    allowed=False, reason="Insufficient permissions"
+                    g.current_user.id, resource, action, allowed=False, reason="Insufficient permissions"
                 )
                 abort(403, f"Permission denied: {resource}:{action}")
 
-            g.rbac_manager.audit_authorization(
-                g.current_user.id, resource, action,
-                allowed=True
-            )
+            g.rbac_manager.audit_authorization(g.current_user.id, resource, action, allowed=True)
             return f(*args, **kwargs)
+
         return decorated_function
+
     return decorator
 
 
@@ -148,13 +155,16 @@ def require_role(*allowed_roles):
         def list_users():
             ...
     """
+
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
             if g.current_user.role not in allowed_roles:
                 abort(403, f"Required role: {' or '.join(allowed_roles)}")
             return f(*args, **kwargs)
+
         return decorated_function
+
     return decorator
 
 
@@ -171,6 +181,7 @@ def require_ownership(resource_getter):
         def get_document(doc_id):
             ...
     """
+
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
@@ -180,11 +191,13 @@ def require_ownership(resource_getter):
                 abort(404, "Resource not found")
 
             # Check ownership or admin override
-            if resource.owner_id != g.current_user.id and g.current_user.role != 'admin':
+            if resource.owner_id != g.current_user.id and g.current_user.role != "admin":
                 abort(403, "You do not own this resource")
 
             return f(*args, **kwargs)
+
         return decorated_function
+
     return decorator
 
 
@@ -198,98 +211,91 @@ class ABACEngine:
 
     def __init__(self, policy_file: str):
         import json
-        with open(policy_file) as f:
-            self.policies = json.load(f)['policies']
 
-    def evaluate(self, subject: dict, resource: dict, action: str,
-                 environment: dict) -> Tuple[bool, str]:
+        with open(policy_file) as f:
+            self.policies = json.load(f)["policies"]
+
+    def evaluate(self, subject: dict, resource: dict, action: str, environment: dict) -> Tuple[bool, str]:
         """
         Evaluate ABAC policy.
 
         Returns: (allowed: bool, reason: str)
         """
         for policy in self.policies:
-            if not self._matches_target(policy.get('target', {}), subject, resource, action):
+            if not self._matches_target(policy.get("target", {}), subject, resource, action):
                 continue
 
             # Evaluate conditions
-            if self._evaluate_conditions(policy.get('conditions', []), subject, resource, environment):
-                effect = policy.get('effect', 'deny')
-                reason = policy.get('description', f"Matched policy {policy.get('id')}")
-                return (effect == 'permit', reason)
+            if self._evaluate_conditions(policy.get("conditions", []), subject, resource, environment):
+                effect = policy.get("effect", "deny")
+                reason = policy.get("description", f"Matched policy {policy.get('id')}")
+                return (effect == "permit", reason)
 
         # Default deny
         return (False, "No matching policy found (default deny)")
 
     def _matches_target(self, target: dict, subject: dict, resource: dict, action: str) -> bool:
         """Check if request matches policy target."""
-        if 'resource_type' in target and resource.get('type') != target['resource_type']:
+        if "resource_type" in target and resource.get("type") != target["resource_type"]:
             return False
-        if 'action' in target and action != target['action']:
+        if "action" in target and action != target["action"]:
             return False
-        if 'subject_role' in target and subject.get('role') != target['subject_role']:
+        if "subject_role" in target and subject.get("role") != target["subject_role"]:
             return False
         return True
 
-    def _evaluate_conditions(self, conditions: list, subject: dict,
-                            resource: dict, environment: dict) -> bool:
+    def _evaluate_conditions(self, conditions: list, subject: dict, resource: dict, environment: dict) -> bool:
         """Evaluate all conditions (AND logic)."""
         for condition in conditions:
             if not self._evaluate_condition(condition, subject, resource, environment):
                 return False
         return True
 
-    def _evaluate_condition(self, condition: dict, subject: dict,
-                           resource: dict, environment: dict) -> bool:
+    def _evaluate_condition(self, condition: dict, subject: dict, resource: dict, environment: dict) -> bool:
         """Evaluate individual condition."""
-        operator = condition['operator']
+        operator = condition["operator"]
 
-        if operator == 'equals':
-            left = self._get_attribute(condition['left'], subject, resource, environment)
-            return left == condition['right']
+        if operator == "equals":
+            left = self._get_attribute(condition["left"], subject, resource, environment)
+            return left == condition["right"]
 
-        elif operator == 'in':
-            left = self._get_attribute(condition['left'], subject, resource, environment)
-            return left in condition['right']
+        elif operator == "in":
+            left = self._get_attribute(condition["left"], subject, resource, environment)
+            return left in condition["right"]
 
-        elif operator == 'time_between':
-            current_time = datetime.fromisoformat(environment['current_time']).time()
-            start = datetime.strptime(condition['start'], '%H:%M:%S').time()
-            end = datetime.strptime(condition['end'], '%H:%M:%S').time()
+        elif operator == "time_between":
+            current_time = datetime.fromisoformat(environment["current_time"]).time()
+            start = datetime.strptime(condition["start"], "%H:%M:%S").time()
+            end = datetime.strptime(condition["end"], "%H:%M:%S").time()
             return start <= current_time <= end
 
-        elif operator == 'ip_in_network':
+        elif operator == "ip_in_network":
             from ipaddress import ip_address, ip_network
-            client_ip = ip_address(environment['ip_address'])
-            network = ip_network(condition['network'])
+
+            client_ip = ip_address(environment["ip_address"])
+            network = ip_network(condition["network"])
             return client_ip in network
 
-        elif operator == 'and':
-            return all(
-                self._evaluate_condition(c, subject, resource, environment)
-                for c in condition['conditions']
-            )
+        elif operator == "and":
+            return all(self._evaluate_condition(c, subject, resource, environment) for c in condition["conditions"])
 
-        elif operator == 'or':
-            return any(
-                self._evaluate_condition(c, subject, resource, environment)
-                for c in condition['conditions']
-            )
+        elif operator == "or":
+            return any(self._evaluate_condition(c, subject, resource, environment) for c in condition["conditions"])
 
-        elif operator == 'not':
-            return not self._evaluate_condition(condition['condition'], subject, resource, environment)
+        elif operator == "not":
+            return not self._evaluate_condition(condition["condition"], subject, resource, environment)
 
         return False
 
     def _get_attribute(self, path: str, subject: dict, resource: dict, environment: dict):
         """Get attribute value from subject/resource/environment."""
-        namespace, key = path.split('.', 1)
+        namespace, key = path.split(".", 1)
 
-        if namespace == 'subject':
+        if namespace == "subject":
             return subject.get(key)
-        elif namespace == 'resource':
+        elif namespace == "resource":
             return resource.get(key)
-        elif namespace == 'environment':
+        elif namespace == "environment":
             return environment.get(key)
 
         return None

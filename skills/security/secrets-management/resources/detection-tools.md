@@ -16,6 +16,7 @@ This guide compares popular secrets detection tools and provides usage instructi
 ## TruffleHog
 
 **Installation:**
+
 ```bash
 brew install trufflehog  # macOS
 # or
@@ -23,6 +24,7 @@ go install github.com/trufflesecurity/trufflehog/v3@latest
 ```
 
 **Usage:**
+
 ```bash
 # Scan filesystem
 trufflehog filesystem . --json
@@ -37,6 +39,7 @@ trufflehog git https://github.com/user/repo --only-verified
 ## Gitleaks
 
 **Installation:**
+
 ```bash
 brew install gitleaks  # macOS
 # or
@@ -44,6 +47,7 @@ docker pull zricethezav/gitleaks:latest
 ```
 
 **Usage:**
+
 ```bash
 # Detect secrets
 gitleaks detect --source . --report-format json
@@ -56,6 +60,7 @@ gitleaks detect --config .gitleaks.toml
 ```
 
 **Configuration (.gitleaks.toml):**
+
 ```toml
 [allowlist]
 description = "Allowlist for false positives"
@@ -76,11 +81,13 @@ regex = '''api[_-]?key['"]?\s*[:=]\s*['"]([a-zA-Z0-9]{32,})['"]'''
 ## detect-secrets
 
 **Installation:**
+
 ```bash
 pip install detect-secrets
 ```
 
 **Usage:**
+
 ```bash
 # Create baseline
 detect-secrets scan > .secrets.baseline
@@ -95,6 +102,7 @@ detect-secrets scan --baseline .secrets.baseline
 ## git-secrets
 
 **Installation:**
+
 ```bash
 brew install git-secrets  # macOS
 # or
@@ -103,6 +111,7 @@ cd git-secrets && make install
 ```
 
 **Usage:**
+
 ```bash
 # Install hooks
 cd /path/to/repo
@@ -119,6 +128,7 @@ git secrets --scan-history
 ## CI/CD Integration
 
 ### GitHub Actions
+
 ```yaml
 - name: Run Gitleaks
   uses: gitleaks/gitleaks-action@v2
@@ -134,6 +144,7 @@ git secrets --scan-history
 ```
 
 ### GitLab CI
+
 ```yaml
 gitleaks:
   image: zricethezav/gitleaks:latest

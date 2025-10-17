@@ -15,6 +15,7 @@ This guide shows how to integrate the Skills system with Claude API (programmati
 ## Quick Benefits
 
 ### Before Skills
+
 ```python
 # Load entire standards (250,000+ tokens)
 with open('docs/standards/UNIFIED_STANDARDS.md') as f:
@@ -33,6 +34,7 @@ response = client.messages.create(
 ```
 
 ### After Skills
+
 ```python
 # Load only what's needed (1,755 tokens for Level 1)
 skills = load_skills(['coding-standards', 'security-practices', 'testing', 'nist-compliance'], level=1)
@@ -111,6 +113,7 @@ python scripts/validate-nist-tags.py
 - **Framework**: FastAPI
 - **Database**: PostgreSQL
 - **Standards**: NIST 800-53r5 (AC, IA, AU families)
+
 ```
 
 #### 2. Add .claudeignore
@@ -118,22 +121,27 @@ python scripts/validate-nist-tags.py
 Create `/path/to/project/.claudeignore`:
 
 ```
+
 # Ignore large files
+
 *.log
 *.db
 *.sqlite
 
 # Ignore generated files
+
 .claude/cache/
 reports/generated/
 node_modules/
-__pycache__/
+**pycache**/
 
 # Ignore sensitive files
+
 .env
 .env.*
 secrets/
 credentials/
+
 ```
 
 #### 3. Add Skills Loader Script
@@ -760,6 +768,7 @@ Provide specific, actionable feedback.""",
 ```
 
 Check for:
+
 1. Standards compliance
 2. Security issues
 3. Missing NIST control tags
@@ -769,6 +778,7 @@ Check for:
 )
 
 print(response.content[0].text)
+
 ```
 
 ---

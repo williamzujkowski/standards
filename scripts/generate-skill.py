@@ -7,15 +7,14 @@ progressive disclosure pattern (Level 1/2/3) with YAML frontmatter.
 """
 
 import argparse
+import logging
 import sys
 from pathlib import Path
-from typing import Optional
-import yaml
-import logging
 
+import yaml
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -132,12 +131,7 @@ def create_skill_directories(base_path: Path, skill_slug: str) -> Path:
     """Create skill directory structure."""
     skill_dir = base_path / skill_slug
 
-    directories = [
-        skill_dir,
-        skill_dir / "templates",
-        skill_dir / "scripts",
-        skill_dir / "resources"
-    ]
+    directories = [skill_dir, skill_dir / "templates", skill_dir / "scripts", skill_dir / "resources"]
 
     for directory in directories:
         directory.mkdir(parents=True, exist_ok=True)
@@ -151,19 +145,11 @@ def generate_skill_slug(name: str) -> str:
     return name.lower().replace(" ", "-").replace("_", "-")
 
 
-def create_skill_file(
-    skill_dir: Path,
-    name: str,
-    description: str,
-    dry_run: bool = False
-) -> Path:
+def create_skill_file(skill_dir: Path, name: str, description: str, dry_run: bool = False) -> Path:
     """Create SKILL.md file with content."""
     skill_file = skill_dir / "SKILL.md"
 
-    content = SKILL_TEMPLATE.format(
-        name=name,
-        description=description
-    )
+    content = SKILL_TEMPLATE.format(name=name, description=description)
 
     if dry_run:
         logger.info(f"[DRY RUN] Would create: {skill_file}")
@@ -189,7 +175,7 @@ def validate_skill_structure(skill_file: Path) -> bool:
     required_sections = [
         "## Level 1: Quick Start",
         "## Level 2: Implementation Details",
-        "## Level 3: Advanced Topics & Resources"
+        "## Level 3: Advanced Topics & Resources",
     ]
 
     for section in required_sections:
@@ -267,50 +253,24 @@ Examples:
   python3 generate-skill.py --name "My Skill" \\
     --description "Description" \\
     --output-dir /path/to/skills
-        """
+        """,
     )
 
-    parser.add_argument(
-        "--name",
-        required=True,
-        help="Skill name (e.g., 'API Security')"
-    )
+    parser.add_argument("--name", required=True, help="Skill name (e.g., 'API Security')")
+
+    parser.add_argument("--description", required=True, help="Skill description (≤1024 characters)")
+
+    parser.add_argument("--category", help="Skill category (e.g., security, testing, development)")
 
     parser.add_argument(
-        "--description",
-        required=True,
-        help="Skill description (≤1024 characters)"
+        "--output-dir", type=Path, default=Path("skills"), help="Output directory for skills (default: ./skills)"
     )
 
-    parser.add_argument(
-        "--category",
-        help="Skill category (e.g., security, testing, development)"
-    )
+    parser.add_argument("--dry-run", action="store_true", help="Preview without creating files")
 
-    parser.add_argument(
-        "--output-dir",
-        type=Path,
-        default=Path("skills"),
-        help="Output directory for skills (default: ./skills)"
-    )
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose logging")
 
-    parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Preview without creating files"
-    )
-
-    parser.add_argument(
-        "--verbose",
-        action="store_true",
-        help="Enable verbose logging"
-    )
-
-    parser.add_argument(
-        "--validate",
-        action="store_true",
-        help="Validate generated skill structure"
-    )
+    parser.add_argument("--validate", action="store_true", help="Validate generated skill structure")
 
     args = parser.parse_args()
 
@@ -335,12 +295,7 @@ Examples:
 
     # Create skill file
     try:
-        skill_file = create_skill_file(
-            skill_dir,
-            args.name,
-            args.description,
-            dry_run=args.dry_run
-        )
+        skill_file = create_skill_file(skill_dir, args.name, args.description, dry_run=args.dry_run)
     except Exception as e:
         logger.error(f"Failed to create skill file: {e}")
         sys.exit(1)

@@ -32,6 +32,7 @@ Skills are **modular, self-contained standards** that use **progressive disclosu
 ### Why Skills?
 
 **Traditional Standards:**
+
 ```bash
 UNIFIED_STANDARDS.md → 50,000+ tokens
 Load everything or nothing
@@ -40,6 +41,7 @@ Static content
 ```
 
 **Skills Format:**
+
 ```bash
 @load skill:coding-standards → 336 tokens (Level 1)
 Progressive disclosure (3 levels)
@@ -78,6 +80,7 @@ Dynamic composition
 ### Try It Now
 
 **Python API Developer:**
+
 ```bash
 @load product:api --language python
 # Auto-loads: coding-standards, security-practices, testing, nist-compliance
@@ -85,6 +88,7 @@ Dynamic composition
 ```
 
 **React Frontend Developer:**
+
 ```bash
 @load product:frontend-web --framework react
 # Auto-loads: coding-standards, security-practices, testing
@@ -149,6 +153,7 @@ description: Comprehensive coding standards and best practices for maintainable,
 ```
 
 **Metadata powers:**
+
 - Auto-discovery
 - Context-aware recommendations
 - Cross-skill references
@@ -231,12 +236,14 @@ Skills include bundled resources that load on-demand:
 ### Level 1: Quick Start (5 minutes)
 
 **When to use:**
+
 - Starting a new task
 - Quick reference during development
 - Onboarding new team members
 - Code review checklists
 
 **What you get:**
+
 - Core principles
 - Quick reference guide
 - Essential checklist
@@ -260,12 +267,14 @@ Skills include bundled resources that load on-demand:
 ### Level 2: Implementation (30 minutes)
 
 **When to use:**
+
 - Implementing a new feature
 - Designing system architecture
 - Setting up project infrastructure
 - Deep problem-solving
 
 **What you get:**
+
 - Detailed implementation patterns
 - Complete code examples
 - Integration points with other skills
@@ -291,12 +300,14 @@ Skills include bundled resources that load on-demand:
 ### Level 3: Mastery (Extended)
 
 **When to use:**
+
 - Mastering a technology
 - Architectural decisions
 - Advanced optimizations
 - Building internal tools
 
 **What you get:**
+
 - Advanced topics and patterns
 - Comprehensive resources
 - External references

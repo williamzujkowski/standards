@@ -18,11 +18,13 @@ This guide covers deployment strategies for minimizing risk and downtime during 
 Gradually replaces old instances with new ones.
 
 **Pros:**
+
 - No downtime
 - Resource efficient
 - Simple to implement
 
 **Cons:**
+
 - Both versions run simultaneously
 - Gradual rollout may delay issue detection
 
@@ -33,11 +35,13 @@ Gradually replaces old instances with new ones.
 Maintains two identical environments (blue=production, green=staging).
 
 **Pros:**
+
 - Instant rollback
 - Full testing before switch
 - Zero downtime
 
 **Cons:**
+
 - Double resource requirements
 - Database migrations complexity
 - Higher cost
@@ -49,11 +53,13 @@ Maintains two identical environments (blue=production, green=staging).
 Routes small percentage of traffic to new version.
 
 **Pros:**
+
 - Minimal user impact
 - Real-world testing
 - Gradual confidence building
 
 **Cons:**
+
 - Complex traffic management
 - Requires monitoring
 - Longer deployment time
@@ -65,11 +71,13 @@ Routes small percentage of traffic to new version.
 Stops old version, then starts new version.
 
 **Pros:**
+
 - Simple
 - No version conflicts
 - Clean state
 
 **Cons:**
+
 - Downtime
 - User disruption
 

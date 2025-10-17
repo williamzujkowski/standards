@@ -6,18 +6,22 @@
 **Description**: APIs fail to validate that authenticated users have permission to access specific objects.
 
 ### Attack Example
+
 ```http
 GET /api/users/123/profile
 Authorization: Bearer user456_token
 ```
+
 User 456's token is used to access user 123's profile without authorization check.
 
 ### Prevention
+
 - Implement object-level authorization on every endpoint
 - Use user-derived data (from token) not client-provided IDs
 - Write tests for authorization logic
 
 ### Detection
+
 - Review access control logic in code
 - Test with different user roles
 - Monitor for unusual data access patterns
@@ -30,12 +34,14 @@ User 456's token is used to access user 123's profile without authorization chec
 **Description**: Weak authentication mechanisms allow attackers to assume identities.
 
 ### Common Issues
+
 - Weak password requirements
 - No rate limiting on auth endpoints
 - Credential stuffing vulnerabilities
 - Missing MFA for sensitive operations
 
 ### Prevention
+
 - Implement strong password policies (12+ chars, complexity)
 - Add rate limiting to login endpoints (5 attempts per 15 min)
 - Use OAuth 2.0 with PKCE for public clients
@@ -50,6 +56,7 @@ User 456's token is used to access user 123's profile without authorization chec
 **Description**: Missing field-level authorization allows reading/writing sensitive fields.
 
 ### Attack Example
+
 ```json
 PATCH /api/users/123
 {
@@ -59,6 +66,7 @@ PATCH /api/users/123
 ```
 
 ### Prevention
+
 - Implement field-level authorization
 - Use separate DTOs for input/output
 - Never expose internal fields (is_admin, created_by)
@@ -72,12 +80,14 @@ PATCH /api/users/123
 **Description**: No limits on resource usage leads to DoS attacks.
 
 ### Issues
+
 - No rate limiting
 - Unlimited page size in pagination
 - No timeout on expensive operations
 - No request size limits
 
 ### Prevention
+
 - Implement multi-tier rate limiting
 - Enforce pagination (max 100 items per page)
 - Set request timeouts (30s for normal, 5m for batch)
@@ -92,12 +102,14 @@ PATCH /api/users/123
 **Description**: Missing authorization checks on administrative functions.
 
 ### Attack Example
+
 ```http
 DELETE /api/users/456
 Authorization: Bearer regular_user_token
 ```
 
 ### Prevention
+
 - Implement role-based access control (RBAC)
 - Deny by default, allow explicitly
 - Check permissions on every endpoint
@@ -112,12 +124,14 @@ Authorization: Bearer regular_user_token
 **Description**: Automated abuse of legitimate workflows (ticket buying, voting, etc).
 
 ### Examples
+
 - Bot buying limited inventory
 - Automated voting manipulation
 - Mass account creation
 - Scraping personal data
 
 ### Prevention
+
 - Implement CAPTCHA for sensitive flows
 - Add rate limiting per business flow
 - Detect suspicious patterns (timing, IP clustering)
@@ -132,6 +146,7 @@ Authorization: Bearer regular_user_token
 **Description**: API accepts URLs without validation, allowing internal network access.
 
 ### Attack Example
+
 ```json
 POST /api/fetch-image
 {
@@ -140,6 +155,7 @@ POST /api/fetch-image
 ```
 
 ### Prevention
+
 - Never accept raw URLs from users
 - Use allowlist of permitted domains
 - Disable redirects in HTTP clients
@@ -154,6 +170,7 @@ POST /api/fetch-image
 **Description**: Insecure default configurations expose vulnerabilities.
 
 ### Common Issues
+
 - Verbose error messages exposing stack traces
 - Missing security headers
 - CORS misconfiguration (wildcard origins)
@@ -161,6 +178,7 @@ POST /api/fetch-image
 - Outdated dependencies
 
 ### Prevention
+
 - Use secure defaults
 - Harden production configurations
 - Add security headers (HSTS, CSP, X-Frame-Options)
@@ -176,12 +194,14 @@ POST /api/fetch-image
 **Description**: Undocumented or deprecated APIs running in production.
 
 ### Issues
+
 - Old API versions exposed
 - Debug endpoints in production
 - Undocumented admin APIs
 - Shadow APIs (forgotten endpoints)
 
 ### Prevention
+
 - Maintain API inventory (OpenAPI specs)
 - Version APIs explicitly
 - Sunset old versions with proper notice
@@ -196,12 +216,14 @@ POST /api/fetch-image
 **Description**: Trusting third-party API data without validation.
 
 ### Issues
+
 - No input validation on third-party data
 - Blindly trusting external API responses
 - No timeout on external calls
 - No error handling for API failures
 
 ### Prevention
+
 - Validate all external API responses
 - Set timeouts on external calls (5-10s)
 - Implement circuit breakers
@@ -214,12 +236,14 @@ POST /api/fetch-image
 ## Testing for OWASP API Top 10
 
 ### Automated Tools
+
 - OWASP ZAP API scan
 - Burp Suite Pro
 - Postman/Newman security tests
 - API Fuzzing tools
 
 ### Manual Testing Checklist
+
 1. Test authorization with different user roles
 2. Attempt to access other users' resources
 3. Modify request to access hidden fields

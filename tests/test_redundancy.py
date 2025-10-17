@@ -109,8 +109,12 @@ class RedundancyChecker:
                         if clean_url:  # Skip pure anchors like #section
                             # Skip placeholder examples and patterns in documentation
                             placeholder_patterns = [
-                                'skill-path', 'replacement-skill', 'standard-name',
-                                'FOO.md', 'file.md', 'referenced/SKILL.md'
+                                "skill-path",
+                                "replacement-skill",
+                                "standard-name",
+                                "FOO.md",
+                                "file.md",
+                                "referenced/SKILL.md",
                             ]
                             if any(placeholder in clean_url for placeholder in placeholder_patterns):
                                 continue

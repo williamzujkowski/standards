@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """Comprehensive unit tests for count-tokens.py with >90% coverage."""
 
-import pytest
-from pathlib import Path
+import json
+import shutil
+import subprocess
 import sys
 import tempfile
-import shutil
-import json
-import subprocess
+from pathlib import Path
+
+import pytest
 
 # Add scripts directory to path
 SCRIPTS_DIR = Path(__file__).parent.parent.parent / "scripts"
@@ -15,6 +16,7 @@ sys.path.insert(0, str(SCRIPTS_DIR))
 
 # Import module under test
 import importlib.util
+
 spec = importlib.util.spec_from_file_location("count_tokens", SCRIPTS_DIR / "count-tokens.py")
 count_tokens = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(count_tokens)
@@ -190,7 +192,7 @@ class TestTokenCounter:
             "level1": {"tokens": 1500, "chars": 6000, "lines": 100},
             "level2": {"tokens": 5500, "chars": 22000, "lines": 300},
             "level3": {"tokens": 3000, "chars": 12000, "lines": 150},
-            "total": {"tokens": 10000, "chars": 40000, "lines": 550}
+            "total": {"tokens": 10000, "chars": 40000, "lines": 550},
         }
 
         violations = counter.check_violations(results)
@@ -223,7 +225,7 @@ class TestTokenCounter:
             "level1": {"tokens": 1500, "chars": 6000, "lines": 100},
             "level2": {"tokens": 5500, "chars": 22000, "lines": 300},
             "level3": {"tokens": 3000, "chars": 12000, "lines": 150},
-            "total": {"tokens": 10000, "chars": 40000, "lines": 550}
+            "total": {"tokens": 10000, "chars": 40000, "lines": 550},
         }
         violations = counter.check_violations(results)
 
@@ -272,9 +274,7 @@ class TestCommandLineInterface:
     def test_cli_single_file(self, temp_skill_file):
         """Test CLI with single file."""
         result = subprocess.run(
-            ["python3", str(SCRIPTS_DIR / "count-tokens.py"), str(temp_skill_file)],
-            capture_output=True,
-            text=True
+            ["python3", str(SCRIPTS_DIR / "count-tokens.py"), str(temp_skill_file)], capture_output=True, text=True
         )
 
         assert result.returncode in [0, 1]  # 0 = no violations, 1 = violations
@@ -284,13 +284,9 @@ class TestCommandLineInterface:
     def test_cli_directory_mode(self, temp_skills_dir):
         """Test CLI with directory mode."""
         result = subprocess.run(
-            [
-                "python3",
-                str(SCRIPTS_DIR / "count-tokens.py"),
-                "--directory", str(temp_skills_dir)
-            ],
+            ["python3", str(SCRIPTS_DIR / "count-tokens.py"), "--directory", str(temp_skills_dir)],
             capture_output=True,
-            text=True
+            text=True,
         )
 
         assert result.returncode in [0, 1]  # 0 = no violations, 1 = violations
@@ -303,11 +299,13 @@ class TestCommandLineInterface:
             [
                 "python3",
                 str(SCRIPTS_DIR / "count-tokens.py"),
-                "--directory", str(temp_skills_dir),
-                "--output-json", str(output_json)
+                "--directory",
+                str(temp_skills_dir),
+                "--output-json",
+                str(output_json),
             ],
             capture_output=True,
-            text=True
+            text=True,
         )
 
         assert result.returncode in [0, 1, 2]
@@ -316,9 +314,7 @@ class TestCommandLineInterface:
     def test_cli_check_tiktoken(self):
         """Test --check-tiktoken flag."""
         result = subprocess.run(
-            ["python3", str(SCRIPTS_DIR / "count-tokens.py"), "--check-tiktoken"],
-            capture_output=True,
-            text=True
+            ["python3", str(SCRIPTS_DIR / "count-tokens.py"), "--check-tiktoken"], capture_output=True, text=True
         )
 
         assert result.returncode == 0
@@ -327,14 +323,9 @@ class TestCommandLineInterface:
     def test_cli_verbose_mode(self, temp_skill_file):
         """Test --verbose flag."""
         result = subprocess.run(
-            [
-                "python3",
-                str(SCRIPTS_DIR / "count-tokens.py"),
-                str(temp_skill_file),
-                "--verbose"
-            ],
+            ["python3", str(SCRIPTS_DIR / "count-tokens.py"), str(temp_skill_file), "--verbose"],
             capture_output=True,
-            text=True
+            text=True,
         )
 
         assert result.returncode in [0, 1]
@@ -343,11 +334,7 @@ class TestCommandLineInterface:
 
     def test_cli_no_arguments(self):
         """Test CLI with no arguments."""
-        result = subprocess.run(
-            ["python3", str(SCRIPTS_DIR / "count-tokens.py")],
-            capture_output=True,
-            text=True
-        )
+        result = subprocess.run(["python3", str(SCRIPTS_DIR / "count-tokens.py")], capture_output=True, text=True)
 
         # Should show help and exit with code 2
         assert result.returncode == 2
@@ -360,8 +347,7 @@ class TestExitCodes:
     def test_exit_code_no_violations(self, temp_skill_file):
         """Test exit code 0 for no violations."""
         result = subprocess.run(
-            ["python3", str(SCRIPTS_DIR / "count-tokens.py"), str(temp_skill_file)],
-            capture_output=True
+            ["python3", str(SCRIPTS_DIR / "count-tokens.py"), str(temp_skill_file)], capture_output=True
         )
 
         # Should be 0 or 1 depending on content
@@ -371,12 +357,7 @@ class TestExitCodes:
         """Test exit code 2 for no skills found."""
         temp_dir = tempfile.mkdtemp()
         result = subprocess.run(
-            [
-                "python3",
-                str(SCRIPTS_DIR / "count-tokens.py"),
-                "--directory", temp_dir
-            ],
-            capture_output=True
+            ["python3", str(SCRIPTS_DIR / "count-tokens.py"), "--directory", temp_dir], capture_output=True
         )
 
         assert result.returncode == 2
@@ -421,7 +402,8 @@ class TestEdgeCases:
         skill_file = Path(temp_dir) / "SKILL.md"
 
         # Create large content
-        large_content = """---
+        large_content = (
+            """---
 name: "Large Skill"
 description: "Test"
 ---
@@ -430,15 +412,21 @@ description: "Test"
 
 ## Level 1: Quick Start (≤1000 tokens)
 
-""" + ("A" * 10000) + """
+"""
+            + ("A" * 10000)
+            + """
 
 ## Level 2: Implementation Details (≤5000 tokens)
 
-""" + ("B" * 50000) + """
+"""
+            + ("B" * 50000)
+            + """
 
 ## Level 3: Advanced Topics & Resources (no limit)
 
-""" + ("C" * 100000)
+"""
+            + ("C" * 100000)
+        )
 
         skill_file.write_text(large_content)
 

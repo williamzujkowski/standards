@@ -8,15 +8,18 @@ description: Modern security standards including Zero Trust Architecture, supply
 ## Level 1: Quick Start (5 minutes)
 
 ### What You'll Learn
+
 Implement essential security practices to protect applications from common vulnerabilities and attacks.
 
 ### Core Principles
+
 - **Zero Trust**: Never trust, always verify
 - **Defense in Depth**: Multiple layers of security controls
 - **Shift Left**: Integrate security early in development
 - **Least Privilege**: Grant minimum necessary permissions
 
 ### Quick Security Checklist
+
 - [ ] Enable MFA for all user accounts
 - [ ] Use HTTPS/TLS 1.3 for all connections
 - [ ] Validate and sanitize all inputs
@@ -54,6 +57,7 @@ if (
 ```
 
 ### Critical Security Tools
+
 - **Secrets Management**: HashiCorp Vault, AWS Secrets Manager
 - **Dependency Scanning**: Snyk, Dependabot, npm audit
 - **SAST**: SonarQube, Semgrep, CodeQL
@@ -113,6 +117,7 @@ class PolicyEngine {
 ```
 
 **NIST Mapping:**
+
 - @nist-controls: [ac-2, ac-3, ac-6, ia-2, ia-5, au-2, sc-8]
 
 #### 2. Supply Chain Security
@@ -184,6 +189,7 @@ async function generateSBOM(): Promise<SBOM> {
 ```
 
 **NIST Mapping:**
+
 - @nist-controls: [sa-10, sr-3, sr-4, sr-6, sr-11]
 
 #### 3. Container Security
@@ -257,6 +263,7 @@ spec:
 ```
 
 **NIST Mapping:**
+
 - @nist-controls: [cm-2, cm-3, cm-7, si-7]
 
 #### 4. API Security
@@ -335,6 +342,7 @@ const corsOptions = {
 ```
 
 **NIST Mapping:**
+
 - @nist-controls: [ac-2, ac-3, ia-2, sc-8, si-10]
 
 #### 5. DevSecOps Integration
@@ -406,6 +414,7 @@ jobs:
 ```
 
 ### Integration Points
+
 - Links to [Coding Standards](../coding-standards/SKILL.md) for secure code patterns
 - Links to [Testing Standards](../testing/SKILL.md) for security testing
 - Links to [NIST Compliance](../nist-compliance/SKILL.md) for control implementation
@@ -564,12 +573,14 @@ class SecurityMonitor {
 ### Resources
 
 #### Essential Reading
+
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/)
 - [CWE Top 25](https://cwe.mitre.org/top25/)
 - [NIST Cybersecurity Framework](https://www.nist.gov/cyberframework)
 - [Zero Trust Architecture (NIST SP 800-207)](https://csrc.nist.gov/publications/detail/sp/800-207/final)
 
 #### Security Tools
+
 - **SAST**: Semgrep, CodeQL, SonarQube
 - **DAST**: OWASP ZAP, Burp Suite
 - **Secrets Detection**: TruffleHog, GitLeaks, detect-secrets
@@ -577,6 +588,7 @@ class SecurityMonitor {
 - **Dependency Scanning**: Snyk, Dependabot, WhiteSource
 
 #### Compliance Frameworks
+
 - NIST 800-53r5
 - ISO 27001
 - SOC 2
@@ -586,6 +598,7 @@ class SecurityMonitor {
 ### Templates
 
 #### Security Review Checklist
+
 ```markdown
 ## Security Review Checklist
 
@@ -617,6 +630,7 @@ class SecurityMonitor {
 ### Scripts
 
 See `./scripts/` for:
+
 - Vulnerability scanning automation
 - Secret detection pre-commit hooks
 - SBOM generation scripts

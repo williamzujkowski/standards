@@ -975,6 +975,7 @@ func (r *ApplicationReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 ### Disaster Recovery
 
 **Backup Strategy**:
+
 ```bash
 # Velero backup
 velero backup create production-backup \

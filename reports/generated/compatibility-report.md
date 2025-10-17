@@ -21,6 +21,7 @@ This report validates that the new Skills system maintains backward compatibilit
 Location: `/config/product-matrix.yaml`
 
 **Product Types Defined:**
+
 1. `web-service` - Full-stack web application
 2. `api` - RESTful or GraphQL API service
 3. `cli` - Command-line tool
@@ -34,27 +35,35 @@ Location: `/config/product-matrix.yaml`
 ### Load Directive Patterns
 
 **Pattern 1: Product Type**
+
 ```
 @load product:api
 ```
+
 → Resolves to predefined standard bundle
 
 **Pattern 2: Combined**
+
 ```
 @load [product:api + CS:python + TS:pytest]
 ```
+
 → Product bundle + explicit standards
 
 **Pattern 3: Standards Only**
+
 ```
 @load [CS:python + TS:* + SEC:*]
 ```
+
 → Direct standard codes with wildcards
 
 **Pattern 4: Full Stack**
+
 ```
 @load [CS:python + TS:* + SEC:* + NIST-IG:full]
 ```
+
 → Comprehensive compliance stack
 
 ## Compatibility Testing
@@ -66,6 +75,7 @@ Location: `/config/product-matrix.yaml`
 #### Legacy Resolution (Standards)
 
 **Resolved Standards:**
+
 - CS:language (language-specific coding)
 - TS:framework (testing framework)
 - SEC:auth (authentication)
@@ -76,6 +86,7 @@ Location: `/config/product-matrix.yaml`
 - NIST-IG:base (NIST baseline)
 
 **Files Loaded:**
+
 - docs/standards/CODING_STANDARDS.md
 - docs/standards/TESTING_STANDARDS.md
 - docs/standards/MODERN_SECURITY_STANDARDS.md
@@ -89,6 +100,7 @@ Location: `/config/product-matrix.yaml`
 #### Skills Resolution (New)
 
 **Resolved Skills:**
+
 - product-api (Level 1: 25 tokens)
 - coding-language (Level 1: 20 tokens)
 - testing-framework (Level 1: 18 tokens)
@@ -130,6 +142,7 @@ Location: `/config/product-matrix.yaml`
 #### Wildcard Resolution
 
 **TS:* expands to:**
+
 - TS:unit → testing-unit
 - TS:integration → testing-integration
 - TS:e2e → testing-e2e
@@ -137,6 +150,7 @@ Location: `/config/product-matrix.yaml`
 - TS:security → testing-security
 
 **SEC:* expands to:**
+
 - SEC:auth → security-auth
 - SEC:secrets → security-secrets
 - SEC:input-validation → security-input-validation
@@ -157,12 +171,14 @@ Location: `/config/product-matrix.yaml`
 #### Compliance Loading
 
 **Legacy Approach:**
+
 - All standards loaded upfront
 - NIST controls embedded in documents
 - Manual cross-referencing required
 - **Token cost:** ~35,000-40,000 tokens
 
 **Skills Approach:**
+
 - Level 1: All skill metadata (~300 tokens)
 - Level 2: Load on activation (~5,000 tokens for full suite)
 - Level 3: NIST controls, templates, scripts (~8,000 tokens on-demand)
@@ -179,9 +195,11 @@ Location: `/config/product-matrix.yaml`
 **Directive:** `@load product:web-service`
 
 **Legacy Standards:**
+
 - CS:language, TS:framework, SEC:auth, SEC:secrets, FE:api, WD:api-standards, DOP:ci-cd, OBS:monitoring, LEG:privacy, NIST-IG:base
 
 **Skills Equivalent:**
+
 - product-web-service + skill bundle (10 skills)
 
 **Status:** ✓ Compatible
@@ -201,9 +219,11 @@ Location: `/config/product-matrix.yaml`
 **Directive:** `@load product:cli`
 
 **Legacy Standards:**
+
 - CS:language, TS:unit, SEC:secrets, DOP:packaging, TOOL:cli
 
 **Skills Equivalent:**
+
 - product-cli + skill bundle (5 skills)
 
 **Status:** ✓ Compatible
@@ -215,9 +235,11 @@ Location: `/config/product-matrix.yaml`
 **Directive:** `@load product:frontend-web`
 
 **Legacy Standards:**
+
 - FE:design-system, FE:accessibility, CS:typescript, TS:vitest, SEC:auth-ui, DOP:ci-cd, OBS:web-vitals
 
 **Skills Equivalent:**
+
 - product-frontend-web + skill bundle (7 skills)
 
 **Status:** ✓ Compatible
@@ -229,9 +251,11 @@ Location: `/config/product-matrix.yaml`
 **Directive:** `@load product:mobile`
 
 **Legacy Standards:**
+
 - FE:mobile, CS:language, TS:mobile, SEC:mobile-auth, SEC:secure-storage, DOP:mobile-ci, OBS:crash-reporting
 
 **Skills Equivalent:**
+
 - product-mobile + skill bundle (7 skills)
 
 **Status:** ✓ Compatible
@@ -243,9 +267,11 @@ Location: `/config/product-matrix.yaml`
 **Directive:** `@load product:data-pipeline`
 
 **Legacy Standards:**
+
 - DE:orchestration, DE:data-quality, SEC:secrets, SEC:data-classification, DOP:ci-cd, OBS:logging, LEG:data-retention, NIST-IG:base
 
 **Skills Equivalent:**
+
 - product-data-pipeline + skill bundle (8 skills)
 
 **Status:** ✓ Compatible
@@ -257,9 +283,11 @@ Location: `/config/product-matrix.yaml`
 **Directive:** `@load product:ml-service`
 
 **Legacy Standards:**
+
 - MLAI:model-development, DE:feature-store, TS:model-tests, SEC:model-risk, SEC:secrets, DOP:ci-cd, OBS:monitoring, LEG:privacy, NIST-IG:base
 
 **Skills Equivalent:**
+
 - product-ml-service + skill bundle (9 skills)
 
 **Status:** ✓ Compatible
@@ -271,9 +299,11 @@ Location: `/config/product-matrix.yaml`
 **Directive:** `@load product:infra-module`
 
 **Legacy Standards:**
+
 - CN:container, DOP:iac, SEC:secrets, SEC:sbom, TS:integration, OBS:telemetry, NIST-IG:base
 
 **Skills Equivalent:**
+
 - product-infra-module + skill bundle (7 skills)
 
 **Status:** ✓ Compatible
@@ -285,9 +315,11 @@ Location: `/config/product-matrix.yaml`
 **Directive:** `@load product:documentation-site`
 
 **Legacy Standards:**
+
 - KM:info-arch, FE:accessibility, WD:accessibility, DOP:ci-cd, OBS:links
 
 **Skills Equivalent:**
+
 - product-documentation-site + skill bundle (5 skills)
 
 **Status:** ✓ Compatible
@@ -301,12 +333,14 @@ Location: `/config/product-matrix.yaml`
 **Directive:** `@load stack:mern`
 
 **Resolves to:**
+
 - web-service base
 - FE:react
 - DB:mongodb
 - CS:javascript
 
 **Skills Mapping:**
+
 - product-web-service
 - frontend-react
 - database-mongodb
@@ -361,16 +395,19 @@ Location: `/config/product-matrix.yaml`
 ### Phase 1: Dual Operation (Recommended)
 
 **Legacy System:**
+
 - Keep existing `@load` parsing
 - Continue resolving to standards files
 - No breaking changes
 
 **Skills System:**
+
 - Add parallel skills resolution
 - Use skills when available
 - Fallback to standards if skill missing
 
 **Implementation:**
+
 ```python
 def resolve_load_directive(directive):
     # Try skills first
@@ -531,6 +568,7 @@ The Skills system is **fully backward compatible** with existing load patterns a
 ---
 
 **Test Execution:**
+
 ```bash
 cd /home/william/git/standards
 pytest tests/skills/test_backward_compatibility.py -v --tb=short

@@ -19,6 +19,7 @@ related_skills:
 ### Core Concepts
 
 **Composition API vs Options API**
+
 ```typescript
 // Composition API (recommended for new projects)
 import { ref, computed } from 'vue';
@@ -34,6 +35,7 @@ export default {
 ```
 
 **Reactivity Fundamentals**
+
 ```typescript
 // ref - for primitives and single values
 const count = ref(0);
@@ -53,6 +55,7 @@ watch(count, (newVal, oldVal) => {
 ```
 
 **Component Communication**
+
 ```typescript
 // Props (parent → child)
 defineProps<{ message: string }>();
@@ -71,6 +74,7 @@ const theme = inject<Ref<string>>('theme');
 ### Essential Checklist
 
 **Setup & Configuration**
+
 - [ ] Vue 3 with Vite or Vue CLI
 - [ ] TypeScript integration
 - [ ] ESLint + Prettier configured
@@ -79,6 +83,7 @@ const theme = inject<Ref<string>>('theme');
 - [ ] Vitest + Vue Test Utils for testing
 
 **Component Development**
+
 - [ ] Use Composition API with `<script setup>`
 - [ ] Define props with TypeScript types
 - [ ] Emit typed events
@@ -86,18 +91,21 @@ const theme = inject<Ref<string>>('theme');
 - [ ] Use composables for reusable logic
 
 **Routing & Navigation**
+
 - [ ] Define routes with lazy loading
 - [ ] Implement route guards (auth, permissions)
 - [ ] Handle 404 and error pages
 - [ ] Use typed router with generics
 
 **State Management**
+
 - [ ] Define Pinia stores with TypeScript
 - [ ] Use composition stores for complex logic
 - [ ] Implement persistence for user preferences
 - [ ] Handle async actions properly
 
 **Performance**
+
 - [ ] Use `v-once` for static content
 - [ ] Implement virtual scrolling for large lists
 - [ ] Lazy load routes and components
@@ -105,6 +113,7 @@ const theme = inject<Ref<string>>('theme');
 - [ ] Configure proper build optimization
 
 **Accessibility (WCAG 2.1 AA)**
+
 - [ ] Semantic HTML elements
 - [ ] ARIA labels and roles
 - [ ] Keyboard navigation support
@@ -112,6 +121,7 @@ const theme = inject<Ref<string>>('theme');
 - [ ] Screen reader testing
 
 **Security**
+
 - [ ] Sanitize user input (DOMPurify)
 - [ ] Configure CSP headers
 - [ ] Avoid `v-html` with untrusted content
@@ -167,6 +177,7 @@ function increment() {
 #### Reactive Primitives
 
 **ref vs reactive**:
+
 - `ref`: Primitives, single values, needs `.value` in script
 - `reactive`: Objects, arrays, no `.value` needed
 
@@ -1224,6 +1235,7 @@ export function useForm() {
 ## Level 3: Deep Dive Resources
 
 ### Official Documentation
+
 - [Vue 3 Documentation](https://vuejs.org/guide/introduction.html) - Official Vue 3 guide
 - [Vue Router Documentation](https://router.vuejs.org/) - Official routing library
 - [Pinia Documentation](https://pinia.vuejs.org/) - Official state management
@@ -1231,6 +1243,7 @@ export function useForm() {
 - [Vue Test Utils](https://test-utils.vuejs.org/) - Component testing utilities
 
 ### Advanced Topics
+
 - [Vue 3 Composition API RFC](https://github.com/vuejs/rfcs/blob/master/active-rfcs/0013-composition-api.md) - Design rationale
 - [VueUse](https://vueuse.org/) - Collection of composition utilities
 - [Vue Macros](https://vue-macros.sxzz.moe/) - Experimental features
@@ -1238,21 +1251,25 @@ export function useForm() {
 - [Vite](https://vitejs.dev/) - Next-generation build tool
 
 ### Performance & Optimization
+
 - [Vue Performance Guide](https://vuejs.org/guide/best-practices/performance.html) - Official performance tips
 - [Virtual Scrolling](https://github.com/tangbc/vue-virtual-scroll-list) - Large list optimization
 - [Vue DevTools](https://devtools.vuejs.org/) - Performance profiling
 
 ### Accessibility
+
 - [Vue A11y](https://vue-a11y.com/) - Vue accessibility resources
 - [ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/) - W3C patterns
 - [axe DevTools](https://www.deque.com/axe/devtools/) - Accessibility testing
 
 ### Security
+
 - [OWASP Vue Security Cheatsheet](https://cheatsheetseries.owasp.org/cheatsheets/Vue_Security_Cheat_Sheet.html)
 - [DOMPurify](https://github.com/cure53/DOMPurify) - XSS sanitization
 - [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) - MDN guide
 
 ### Bundled Resources
+
 - See `templates/composition-component.vue` - Complete component template
 - See `templates/pinia-store.ts` - Pinia store template
 - See `templates/component.test.ts` - Vitest test template

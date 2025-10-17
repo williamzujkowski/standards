@@ -14,7 +14,7 @@ import json
 import re
 import sys
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import List
 
 import yaml
 
@@ -59,11 +59,11 @@ class SkillValidator:
         # Check SKILL.md exists
         if not skill_file.exists():
             self.errors.append(f"{skill_name}: Missing SKILL.md")
-            print(f"  ❌ Missing SKILL.md")
+            print("  ❌ Missing SKILL.md")
             return False
 
         # Read content
-        with open(skill_file, "r", encoding="utf-8") as f:
+        with open(skill_file, encoding="utf-8") as f:
             content = f.read()
 
         # Validate frontmatter
@@ -81,18 +81,12 @@ class SkillValidator:
         # Validate cross-references
         refs_valid = self.validate_cross_references(skill_name, content)
 
-        is_valid = (
-            frontmatter_valid
-            and structure_valid
-            and token_valid
-            and dirs_valid
-            and refs_valid
-        )
+        is_valid = frontmatter_valid and structure_valid and token_valid and dirs_valid and refs_valid
 
         if is_valid:
-            print(f"  ✅ Valid\n")
+            print("  ✅ Valid\n")
         else:
-            print(f"  ❌ Invalid\n")
+            print("  ❌ Invalid\n")
 
         self.skills_validated += 1
         return is_valid
@@ -122,22 +116,16 @@ class SkillValidator:
             valid = False
         elif frontmatter["name"] != skill_name:
             self.warnings.append(
-                f"{skill_name}: Name mismatch (dir: {skill_name}, "
-                f"frontmatter: {frontmatter['name']})"
+                f"{skill_name}: Name mismatch (dir: {skill_name}, " f"frontmatter: {frontmatter['name']})"
             )
-            print(
-                f"  ⚠️  Name mismatch: {skill_name} != {frontmatter['name']}"
-            )
+            print(f"  ⚠️  Name mismatch: {skill_name} != {frontmatter['name']}")
 
         if "description" not in frontmatter:
             self.errors.append(f"{skill_name}: Missing 'description' in frontmatter")
             print("  ❌ Missing 'description' field")
             valid = False
         elif len(frontmatter["description"]) < 20:
-            self.warnings.append(
-                f"{skill_name}: Description too short "
-                f"({len(frontmatter['description'])} chars)"
-            )
+            self.warnings.append(f"{skill_name}: Description too short " f"({len(frontmatter['description'])} chars)")
             print("  ⚠️  Description too short")
 
         if valid:
@@ -175,9 +163,7 @@ class SkillValidator:
 
         for subsection in level1_required:
             if subsection not in content:
-                self.warnings.append(
-                    f"{skill_name}: Missing recommended subsection: {subsection}"
-                )
+                self.warnings.append(f"{skill_name}: Missing recommended subsection: {subsection}")
                 print(f"  ⚠️  Missing {subsection}")
 
         if valid:
@@ -201,25 +187,16 @@ class SkillValidator:
 
         # Level 1 should be quick (< 2000 tokens for 5 min read)
         if level1_tokens > 2000:
-            self.warnings.append(
-                f"{skill_name}: Level 1 too long ({level1_tokens} tokens, "
-                "recommended < 2000)"
-            )
+            self.warnings.append(f"{skill_name}: Level 1 too long ({level1_tokens} tokens, " "recommended < 2000)")
             print(f"  ⚠️  Level 1 too long: {level1_tokens} tokens")
             valid = False
 
         # Level 2 should be comprehensive but not overwhelming (< 5000 tokens)
         if level2_tokens > 5000:
-            self.warnings.append(
-                f"{skill_name}: Level 2 too long ({level2_tokens} tokens, "
-                "recommended < 5000)"
-            )
+            self.warnings.append(f"{skill_name}: Level 2 too long ({level2_tokens} tokens, " "recommended < 5000)")
             print(f"  ⚠️  Level 2 too long: {level2_tokens} tokens")
 
-        print(
-            f"  ℹ️  Token estimates: L1={level1_tokens}, L2={level2_tokens}, "
-            f"L3={level3_tokens}"
-        )
+        print(f"  ℹ️  Token estimates: L1={level1_tokens}, L2={level2_tokens}, " f"L3={level3_tokens}")
 
         return valid
 
@@ -237,9 +214,7 @@ class SkillValidator:
         for dir_name in required_dirs:
             dir_path = skill_dir / dir_name
             if not dir_path.exists():
-                self.warnings.append(
-                    f"{skill_dir.name}: Missing '{dir_name}/' directory"
-                )
+                self.warnings.append(f"{skill_dir.name}: Missing '{dir_name}/' directory")
                 print(f"  ⚠️  Missing {dir_name}/ directory")
 
         return valid
@@ -254,9 +229,7 @@ class SkillValidator:
         for ref in refs:
             ref_path = self.skills_dir / ref / "SKILL.md"
             if not ref_path.exists():
-                self.errors.append(
-                    f"{skill_name}: Invalid reference to skill '{ref}'"
-                )
+                self.errors.append(f"{skill_name}: Invalid reference to skill '{ref}'")
                 print(f"  ❌ Invalid reference: {ref}")
                 valid = False
 

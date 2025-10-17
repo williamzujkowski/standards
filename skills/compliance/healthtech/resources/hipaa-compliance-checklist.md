@@ -508,10 +508,12 @@
 ## Notes
 
 **Addressable vs. Required Implementation Specifications:**
+
 - **Required**: Must be implemented
 - **Addressable**: Must implement if reasonable and appropriate, OR document alternative measure, OR document why not applicable
 
 **Checklist Usage:**
+
 - Review annually minimum
 - Update after significant system changes
 - Use for audit preparation

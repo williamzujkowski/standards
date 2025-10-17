@@ -4,11 +4,10 @@ Test Suite: Token Optimization
 Compares token usage between original standards and skill-based approach.
 """
 
-import os
+import json
 import re
 from pathlib import Path
-from typing import Dict, List, Tuple
-import json
+from typing import Dict
 
 
 class TokenAnalyzer:
@@ -25,39 +24,39 @@ class TokenAnalyzer:
     def count_tokens(self, text: str) -> int:
         """Estimate token count from text."""
         # Remove excessive whitespace
-        text = re.sub(r'\s+', ' ', text)
+        text = re.sub(r"\s+", " ", text)
         return len(text) // self.CHARS_PER_TOKEN
 
     def analyze_standard_file(self, file_path: Path) -> Dict:
         """Analyze token usage in a standard file."""
-        content = file_path.read_text(encoding='utf-8')
+        content = file_path.read_text(encoding="utf-8")
 
         return {
-            'path': str(file_path.relative_to(self.repo_root)),
-            'total_tokens': self.count_tokens(content),
-            'char_count': len(content),
-            'line_count': len(content.splitlines())
+            "path": str(file_path.relative_to(self.repo_root)),
+            "total_tokens": self.count_tokens(content),
+            "char_count": len(content),
+            "line_count": len(content.splitlines()),
         }
 
     def analyze_skill_progressive_loading(self, skill_path: Path) -> Dict:
         """Analyze token usage with progressive disclosure."""
         # Level 1: Frontmatter only
-        content = skill_path.read_text(encoding='utf-8')
+        content = skill_path.read_text(encoding="utf-8")
 
         # Extract frontmatter
-        frontmatter_match = re.match(r'^---\s*\n(.*?\n)---\s*\n', content, re.DOTALL)
+        frontmatter_match = re.match(r"^---\s*\n(.*?\n)---\s*\n", content, re.DOTALL)
         if not frontmatter_match:
             return {
-                'path': str(skill_path.relative_to(self.repo_root)),
-                'level1_tokens': 0,
-                'level2_tokens': 0,
-                'level3_tokens': 0,
-                'total_tokens': 0,
-                'error': 'No frontmatter found'
+                "path": str(skill_path.relative_to(self.repo_root)),
+                "level1_tokens": 0,
+                "level2_tokens": 0,
+                "level3_tokens": 0,
+                "total_tokens": 0,
+                "error": "No frontmatter found",
             }
 
         frontmatter = frontmatter_match.group(0)
-        main_content = content[len(frontmatter):]
+        main_content = content[len(frontmatter) :]
 
         # Level 1: Frontmatter (metadata only)
         level1_tokens = self.count_tokens(frontmatter)
@@ -68,53 +67,55 @@ class TokenAnalyzer:
         # Level 3: Additional resources (if they exist)
         level3_tokens = 0
         skill_dir = skill_path.parent
-        resource_dirs = ['resources', 'templates', 'scripts', 'examples']
+        resource_dirs = ["resources", "templates", "scripts", "examples"]
 
         for resource_dir in resource_dirs:
             resource_path = skill_dir / resource_dir
             if resource_path.exists():
-                for resource_file in resource_path.rglob('*'):
-                    if resource_file.is_file() and resource_file.suffix in ['.md', '.txt', '.yaml', '.json']:
-                        resource_content = resource_file.read_text(encoding='utf-8')
+                for resource_file in resource_path.rglob("*"):
+                    if resource_file.is_file() and resource_file.suffix in [".md", ".txt", ".yaml", ".json"]:
+                        resource_content = resource_file.read_text(encoding="utf-8")
                         level3_tokens += self.count_tokens(resource_content)
 
         return {
-            'path': str(skill_path.relative_to(self.repo_root)),
-            'level1_tokens': level1_tokens,  # Always loaded
-            'level2_tokens': level2_tokens,  # Loaded on skill activation
-            'level3_tokens': level3_tokens,  # Loaded on-demand
-            'total_tokens': level1_tokens + level2_tokens + level3_tokens,
-            'progressive_saving': level2_tokens + level3_tokens  # Tokens saved if not loaded
+            "path": str(skill_path.relative_to(self.repo_root)),
+            "level1_tokens": level1_tokens,  # Always loaded
+            "level2_tokens": level2_tokens,  # Loaded on skill activation
+            "level3_tokens": level3_tokens,  # Loaded on-demand
+            "total_tokens": level1_tokens + level2_tokens + level3_tokens,
+            "progressive_saving": level2_tokens + level3_tokens,  # Tokens saved if not loaded
         }
 
     def compare_standard_to_skill(self, standard_name: str) -> Dict:
         """Compare a standard file to its skill equivalent."""
         standard_path = self.standards_dir / f"{standard_name}.md"
-        skill_path = self.skills_dir / standard_name.lower().replace('_', '-') / "SKILL.md"
+        skill_path = self.skills_dir / standard_name.lower().replace("_", "-") / "SKILL.md"
 
         results = {
-            'standard_name': standard_name,
-            'has_standard': standard_path.exists(),
-            'has_skill': skill_path.exists(),
+            "standard_name": standard_name,
+            "has_standard": standard_path.exists(),
+            "has_skill": skill_path.exists(),
         }
 
         if standard_path.exists():
-            results['standard_analysis'] = self.analyze_standard_file(standard_path)
+            results["standard_analysis"] = self.analyze_standard_file(standard_path)
 
         if skill_path.exists():
-            results['skill_analysis'] = self.analyze_skill_progressive_loading(skill_path)
+            results["skill_analysis"] = self.analyze_skill_progressive_loading(skill_path)
 
             # Calculate optimization metrics
             if standard_path.exists():
-                standard_tokens = results['standard_analysis']['total_tokens']
-                skill_level1 = results['skill_analysis']['level1_tokens']
-                skill_total = results['skill_analysis']['total_tokens']
+                standard_tokens = results["standard_analysis"]["total_tokens"]
+                skill_level1 = results["skill_analysis"]["level1_tokens"]
+                skill_total = results["skill_analysis"]["total_tokens"]
 
-                results['optimization'] = {
-                    'level1_reduction_pct': ((standard_tokens - skill_level1) / standard_tokens * 100) if standard_tokens > 0 else 0,
-                    'tokens_saved_level1': standard_tokens - skill_level1,
-                    'total_token_change': skill_total - standard_tokens,
-                    'progressive_advantage': results['skill_analysis']['progressive_saving']
+                results["optimization"] = {
+                    "level1_reduction_pct": (
+                        ((standard_tokens - skill_level1) / standard_tokens * 100) if standard_tokens > 0 else 0
+                    ),
+                    "tokens_saved_level1": standard_tokens - skill_level1,
+                    "total_token_change": skill_total - standard_tokens,
+                    "progressive_advantage": results["skill_analysis"]["progressive_saving"],
                 }
 
         return results
@@ -123,35 +124,35 @@ class TokenAnalyzer:
         """Compare all standards to skills."""
         # Find all standards
         if not self.standards_dir.exists():
-            return {'error': 'Standards directory not found'}
+            return {"error": "Standards directory not found"}
 
-        standards = [f.stem for f in self.standards_dir.glob('*.md') if f.stem not in ['README', 'UNIFIED_STANDARDS']]
+        standards = [f.stem for f in self.standards_dir.glob("*.md") if f.stem not in ["README", "UNIFIED_STANDARDS"]]
 
         results = {
-            'total_standards': len(standards),
-            'comparisons': [],
-            'summary': {
-                'total_standard_tokens': 0,
-                'total_skill_level1_tokens': 0,
-                'total_skill_all_tokens': 0,
-                'average_reduction_pct': 0,
-            }
+            "total_standards": len(standards),
+            "comparisons": [],
+            "summary": {
+                "total_standard_tokens": 0,
+                "total_skill_level1_tokens": 0,
+                "total_skill_all_tokens": 0,
+                "average_reduction_pct": 0,
+            },
         }
 
         reductions = []
 
         for standard in standards:
             comparison = self.compare_standard_to_skill(standard)
-            results['comparisons'].append(comparison)
+            results["comparisons"].append(comparison)
 
-            if 'optimization' in comparison:
-                results['summary']['total_standard_tokens'] += comparison['standard_analysis']['total_tokens']
-                results['summary']['total_skill_level1_tokens'] += comparison['skill_analysis']['level1_tokens']
-                results['summary']['total_skill_all_tokens'] += comparison['skill_analysis']['total_tokens']
-                reductions.append(comparison['optimization']['level1_reduction_pct'])
+            if "optimization" in comparison:
+                results["summary"]["total_standard_tokens"] += comparison["standard_analysis"]["total_tokens"]
+                results["summary"]["total_skill_level1_tokens"] += comparison["skill_analysis"]["level1_tokens"]
+                results["summary"]["total_skill_all_tokens"] += comparison["skill_analysis"]["total_tokens"]
+                reductions.append(comparison["optimization"]["level1_reduction_pct"])
 
         if reductions:
-            results['summary']['average_reduction_pct'] = sum(reductions) / len(reductions)
+            results["summary"]["average_reduction_pct"] = sum(reductions) / len(reductions)
 
         return results
 
@@ -208,17 +209,17 @@ Follow these steps.
         analyzer = TokenAnalyzer(tmp_path)
         result = analyzer.analyze_skill_progressive_loading(skills_dir / "SKILL.md")
 
-        assert result['level1_tokens'] > 0  # Has frontmatter
-        assert result['level2_tokens'] > 0  # Has main content
-        assert result['level3_tokens'] > 0  # Has resources
-        assert result['total_tokens'] == result['level1_tokens'] + result['level2_tokens'] + result['level3_tokens']
+        assert result["level1_tokens"] > 0  # Has frontmatter
+        assert result["level2_tokens"] > 0  # Has main content
+        assert result["level3_tokens"] > 0  # Has resources
+        assert result["total_tokens"] == result["level1_tokens"] + result["level2_tokens"] + result["level3_tokens"]
 
     def test_token_reduction_calculation(self):
         """Test token reduction calculations."""
         standard_tokens = 10000
         skill_level1_tokens = 100
 
-        reduction_pct = ((standard_tokens - skill_level1_tokens) / standard_tokens * 100)
+        reduction_pct = (standard_tokens - skill_level1_tokens) / standard_tokens * 100
 
         assert reduction_pct == 99.0  # 99% reduction
 
@@ -227,15 +228,15 @@ Follow these steps.
         # This test will pass even if no skills exist yet
         results = analyzer.full_repository_comparison()
 
-        assert 'total_standards' in results
-        assert 'comparisons' in results
-        assert 'summary' in results
+        assert "total_standards" in results
+        assert "comparisons" in results
+        assert "summary" in results
 
-        if results['total_standards'] > 0:
-            assert isinstance(results['comparisons'], list)
+        if results["total_standards"] > 0:
+            assert isinstance(results["comparisons"], list)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Generate token comparison report
     repo_root = Path(__file__).parent.parent.parent
     analyzer = TokenAnalyzer(repo_root)
@@ -244,11 +245,11 @@ if __name__ == '__main__':
 
     results = analyzer.full_repository_comparison()
 
-    if 'error' in results:
+    if "error" in results:
         print(f"Error: {results['error']}")
     else:
         print(f"Total standards analyzed: {results['total_standards']}")
-        print(f"\nSummary:")
+        print("\nSummary:")
         print(f"  Total standard tokens: {results['summary']['total_standard_tokens']:,}")
         print(f"  Total skill Level 1 tokens: {results['summary']['total_skill_level1_tokens']:,}")
         print(f"  Average reduction: {results['summary']['average_reduction_pct']:.1f}%")
@@ -257,7 +258,7 @@ if __name__ == '__main__':
         report_path = repo_root / "reports" / "generated" / "token-comparison.json"
         report_path.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(report_path, 'w') as f:
+        with open(report_path, "w") as f:
             json.dump(results, f, indent=2)
 
         print(f"\nDetailed report saved to: {report_path}")

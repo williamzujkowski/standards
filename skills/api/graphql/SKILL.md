@@ -14,6 +14,7 @@ version: 1.0.0
 ### GraphQL vs REST: When to Use GraphQL
 
 **Use GraphQL When:**
+
 - Clients need flexible data fetching (avoid over/under-fetching)
 - Multiple client types with different data requirements (mobile, web, IoT)
 - Real-time data updates via subscriptions
@@ -21,6 +22,7 @@ version: 1.0.0
 - Rapid frontend iteration without backend changes
 
 **Use REST When:**
+
 - Simple CRUD operations with predictable access patterns
 - File uploads/downloads (though GraphQL can handle with multipart)
 - HTTP caching is critical (GET requests)
@@ -29,6 +31,7 @@ version: 1.0.0
 ### Schema Design Principles
 
 **Core Concepts:**
+
 1. **Type System**: Strongly typed schema defines API contract
 2. **Query**: Read operations (like GET)
 3. **Mutation**: Write operations (like POST/PUT/DELETE)
@@ -36,6 +39,7 @@ version: 1.0.0
 5. **Resolver**: Function that returns data for a field
 
 **Design Rules:**
+
 - Use nouns for types, verbs for mutations
 - Prefer pagination over large lists
 - Design for client use cases, not database structure
@@ -45,6 +49,7 @@ version: 1.0.0
 ### Essential Checklist
 
 #### Schema Design
+
 - [ ] Define clear type hierarchy (Query, Mutation, Subscription roots)
 - [ ] Use descriptive field names and types
 - [ ] Add field-level descriptions for documentation
@@ -52,6 +57,7 @@ version: 1.0.0
 - [ ] Design pagination with cursor-based approach
 
 #### Resolvers & Performance
+
 - [ ] Implement DataLoader for N+1 query prevention
 - [ ] Batch database queries within request context
 - [ ] Add resolver-level caching strategy
@@ -59,6 +65,7 @@ version: 1.0.0
 - [ ] Implement query complexity analysis
 
 #### Authorization & Security
+
 - [ ] Context-based authentication (verify tokens)
 - [ ] Field-level authorization with directives
 - [ ] Query depth limiting (prevent deeply nested attacks)
@@ -66,6 +73,7 @@ version: 1.0.0
 - [ ] Rate limiting per client/operation
 
 #### Federation (Microservices)
+
 - [ ] Define subgraph schemas with `@key` directives
 - [ ] Implement reference resolvers for entity resolution
 - [ ] Configure Apollo Gateway for schema composition
@@ -73,6 +81,7 @@ version: 1.0.0
 - [ ] Monitor federated trace data
 
 #### Error Handling
+
 - [ ] Return structured errors with codes and extensions
 - [ ] Distinguish user errors from system errors
 - [ ] Implement partial error responses
@@ -80,6 +89,7 @@ version: 1.0.0
 - [ ] Mask sensitive data in error messages
 
 #### Testing
+
 - [ ] Unit test resolvers with mocked data sources
 - [ ] Integration test with test database
 - [ ] Schema validation with apollo CLI
@@ -89,7 +99,9 @@ version: 1.0.0
 ### Quick Wins
 
 **Immediate Optimizations:**
+
 1. **DataLoader**: Reduce N+1 queries by 90%+
+
    ```typescript
    const userLoader = new DataLoader(async (userIds) => {
      const users = await db.users.findMany({ where: { id: { in: userIds } } });
@@ -98,6 +110,7 @@ version: 1.0.0
    ```
 
 2. **Query Complexity**: Prevent expensive queries
+
    ```typescript
    const server = new ApolloServer({
      schema,
@@ -106,12 +119,14 @@ version: 1.0.0
    ```
 
 3. **Response Caching**: Cache at resolver or HTTP level
+
    ```typescript
    @cacheControl(maxAge: 3600)
    type User { id: ID! name: String! }
    ```
 
 4. **Subscription Filtering**: Reduce unnecessary events
+
    ```typescript
    subscribe: {
      messageAdded: {
@@ -132,6 +147,7 @@ version: 1.0.0
 #### Type System Fundamentals
 
 **Object Types**: Primary building blocks
+
 ```graphql
 type User {
   id: ID!
@@ -158,6 +174,7 @@ type Post {
 ```
 
 **Input Types**: For mutations and complex arguments
+
 ```graphql
 input CreateUserInput {
   email: String!
@@ -178,6 +195,7 @@ input UpdatePostInput {
 ```
 
 **Enums**: For fixed sets of values
+
 ```graphql
 enum PostStatus {
   DRAFT
@@ -193,6 +211,7 @@ enum UserRole {
 ```
 
 **Interfaces**: For polymorphic types
+
 ```graphql
 interface Node {
   id: ID!
@@ -212,6 +231,7 @@ type User implements Node & Timestamped {
 ```
 
 **Unions**: For heterogeneous result types
+
 ```graphql
 union SearchResult = User | Post | Comment
 
@@ -221,6 +241,7 @@ type Query {
 ```
 
 **Custom Scalars**: For domain-specific types
+
 ```graphql
 scalar DateTime
 scalar Email
@@ -232,6 +253,7 @@ scalar PositiveInt
 #### Query Design Patterns
 
 **Root Query Type**
+
 ```graphql
 type Query {
   # Single entity
@@ -256,6 +278,7 @@ type Query {
 ```
 
 **Cursor-Based Pagination** (Relay spec)
+
 ```graphql
 type UserConnection {
   edges: [UserEdge!]!
@@ -279,6 +302,7 @@ type PageInfo {
 #### Mutation Design Patterns
 
 **Input/Payload Pattern**: Consistent structure
+
 ```graphql
 type Mutation {
   createUser(input: CreateUserInput!): CreateUserPayload!
@@ -300,6 +324,7 @@ type UserError {
 ```
 
 **Optimistic Response Support**
+
 ```graphql
 type UpdatePostPayload {
   post: Post
@@ -311,6 +336,7 @@ type UpdatePostPayload {
 #### Subscription Design
 
 **Real-Time Events**
+
 ```graphql
 type Subscription {
   # Entity-specific
@@ -337,6 +363,7 @@ type Message {
 #### Resolver Structure
 
 **Basic Resolvers**
+
 ```typescript
 // resolvers/userResolvers.ts
 import { GraphQLContext } from '../types';
@@ -385,6 +412,7 @@ export const userResolvers = {
 ```
 
 **Resolver Best Practices**
+
 1. Keep resolvers thin - delegate to data sources
 2. Use TypeScript for type safety
 3. Handle errors gracefully
@@ -396,6 +424,7 @@ export const userResolvers = {
 **Solving the N+1 Problem**
 
 Without DataLoader (N+1 queries):
+
 ```typescript
 // For 10 posts, this executes 11 queries!
 query {
@@ -410,6 +439,7 @@ query {
 ```
 
 With DataLoader (2 queries):
+
 ```typescript
 // batches-and-caches.ts
 import DataLoader from 'dataloader';
@@ -432,6 +462,7 @@ export const createUserLoader = () => new DataLoader(batchUsers, {
 ```
 
 **DataLoader in Context**
+
 ```typescript
 // server.ts
 const server = new ApolloServer({
@@ -449,6 +480,7 @@ const server = new ApolloServer({
 ```
 
 **Using DataLoader in Resolvers**
+
 ```typescript
 const postResolvers = {
   Post: {
@@ -460,6 +492,7 @@ const postResolvers = {
 ```
 
 **Advanced DataLoader Patterns**
+
 ```typescript
 // Batch by composite keys
 const batchPostsByAuthor = async (authorIds: readonly string[]) => {
@@ -488,6 +521,7 @@ async createPost(parent, { input }, context) {
 #### Subgraph Design
 
 **Users Subgraph**
+
 ```graphql
 # users-subgraph/schema.graphql
 extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@shareable"])
@@ -505,6 +539,7 @@ type Query {
 ```
 
 **Posts Subgraph**
+
 ```graphql
 # posts-subgraph/schema.graphql
 extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@external"])
@@ -529,6 +564,7 @@ type Query {
 ```
 
 **Reference Resolvers**
+
 ```typescript
 // posts-subgraph/resolvers.ts
 export const resolvers = {
@@ -553,6 +589,7 @@ export const resolvers = {
 #### Gateway Configuration
 
 **Apollo Gateway Setup**
+
 ```typescript
 // gateway/server.ts
 import { ApolloGateway, IntrospectAndCompose } from '@apollo/gateway';
@@ -580,6 +617,7 @@ console.log(`🚀 Gateway ready at ${url}`);
 ```
 
 **Managed Federation** (Apollo Studio)
+
 ```typescript
 const gateway = new ApolloGateway({
   // Use managed federation for production
@@ -595,6 +633,7 @@ const gateway = new ApolloGateway({
 #### Context-Based Authentication
 
 **JWT Token Verification**
+
 ```typescript
 // auth/context.ts
 import jwt from 'jsonwebtoken';
@@ -624,6 +663,7 @@ export async function createContext({ req }): Promise<AuthContext> {
 ```
 
 **Resolver-Level Authorization**
+
 ```typescript
 // auth/guards.ts
 export function requireAuth(next: GraphQLFieldResolver<any, any, any>) {
@@ -668,6 +708,7 @@ const resolvers = {
 #### Directive-Based Authorization
 
 **Schema Directives**
+
 ```graphql
 directive @auth on FIELD_DEFINITION | OBJECT
 directive @requireRole(role: String!) on FIELD_DEFINITION
@@ -684,6 +725,7 @@ type Mutation {
 ```
 
 **Directive Implementation**
+
 ```typescript
 // auth/directives.ts
 import { mapSchema, getDirective, MapperKind } from '@graphql-tools/utils';
@@ -716,6 +758,7 @@ export function authDirective(schema: GraphQLSchema) {
 #### WebSocket Transport
 
 **Apollo Server Subscriptions**
+
 ```typescript
 // server.ts
 import { ApolloServer } from '@apollo/server';
@@ -766,6 +809,7 @@ httpServer.listen(4000, () => {
 ```
 
 **PubSub Implementation**
+
 ```typescript
 // pubsub/index.ts
 import { RedisPubSub } from 'graphql-redis-subscriptions';
@@ -791,6 +835,7 @@ export const EVENTS = {
 ```
 
 **Subscription Resolvers**
+
 ```typescript
 // resolvers/subscriptions.ts
 import { withFilter } from 'graphql-subscriptions';
@@ -837,6 +882,7 @@ export const subscriptionResolvers = {
 #### Caching Strategies
 
 **Apollo Cache Control**
+
 ```graphql
 type Query {
   user(id: ID!): User @cacheControl(maxAge: 3600)
@@ -857,6 +903,7 @@ const server = new ApolloServer({
 ```
 
 **Redis Response Caching**
+
 ```typescript
 // cache/redis.ts
 import { createClient } from 'redis';
@@ -894,6 +941,7 @@ async user(parent, { id }, context) {
 #### Query Complexity Analysis
 
 **Cost-Based Limiting**
+
 ```typescript
 // plugins/complexity.ts
 import { ApolloServerPlugin } from '@apollo/server';
@@ -926,6 +974,7 @@ export function complexityPlugin(maxComplexity: number): ApolloServerPlugin {
 #### Pagination Best Practices
 
 **Cursor-Based Pagination**
+
 ```typescript
 // pagination/cursor.ts
 export function encodeCursor(value: string): string {
@@ -969,6 +1018,7 @@ export async function paginate<T>(
 #### Structured Error Responses
 
 **Custom Error Classes**
+
 ```typescript
 // errors/index.ts
 import { GraphQLError } from 'graphql';
@@ -1009,6 +1059,7 @@ export class ForbiddenError extends GraphQLError {
 ```
 
 **Error Formatting**
+
 ```typescript
 // server.ts
 const server = new ApolloServer({
@@ -1037,6 +1088,7 @@ const server = new ApolloServer({
 #### Unit Testing Resolvers
 
 **Resolver Tests**
+
 ```typescript
 // resolvers/user.test.ts
 import { userResolvers } from './userResolvers';
@@ -1101,6 +1153,7 @@ describe('User Resolvers', () => {
 #### Integration Testing
 
 **GraphQL Server Tests**
+
 ```typescript
 // server.test.ts
 import { ApolloServer } from '@apollo/server';
@@ -1145,6 +1198,7 @@ describe('GraphQL Server', () => {
 #### Health Checks
 
 **Readiness and Liveness**
+
 ```typescript
 // health/checks.ts
 export async function healthCheck() {
@@ -1172,6 +1226,7 @@ app.get('/health', async (req, res) => {
 #### Monitoring and Observability
 
 **Apollo Studio Integration**
+
 ```typescript
 import { ApolloServerPluginUsageReporting } from '@apollo/server/plugin/usageReporting';
 
@@ -1187,6 +1242,7 @@ const server = new ApolloServer({
 ```
 
 **Custom Metrics**
+
 ```typescript
 // metrics/prometheus.ts
 import { register, Counter, Histogram } from 'prom-client';
@@ -1214,24 +1270,29 @@ app.get('/metrics', (req, res) => {
 ## Level 3: Deep Dive Resources
 
 ### Official Documentation
+
 - **Apollo Server**: https://www.apollographql.com/docs/apollo-server/
 - **GraphQL.org**: https://graphql.org/learn/
 - **GraphQL Yoga**: https://the-guild.dev/graphql/yoga-server
 - **Apollo Federation**: https://www.apollographql.com/docs/federation/
 
 ### Tools & Libraries
+
 - **DataLoader**: https://github.com/graphql/dataloader
 - **GraphQL Code Generator**: https://the-guild.dev/graphql/codegen
 - **GraphQL ESLint**: https://the-guild.dev/graphql/eslint
 - **Apollo Studio**: https://studio.apollographql.com/
 
 ### Books & Courses
+
 - "Production Ready GraphQL" by Marc-André Giroux
 - "Learning GraphQL" by Eve Porcello & Alex Banks
 - Apollo Odyssey (free courses): https://www.apollographql.com/tutorials/
 
 ### Bundled Resources
+
 See `templates/` and `config/` directories for production-ready implementations:
+
 - `graphql-schema.graphql` - Complete schema example
 - `resolver-patterns.ts` - Resolver implementation patterns
 - `federation-config.yaml` - Apollo Federation setup

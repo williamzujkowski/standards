@@ -8,9 +8,11 @@ description: Comprehensive coding standards and best practices for maintainable,
 ## Level 1: Quick Start (5 minutes)
 
 ### What You'll Learn
+
 Apply essential coding standards for clean, maintainable code that follows industry best practices.
 
 ### Core Principles
+
 - **Consistency**: Follow established style guides (PEP 8, Airbnb, Google)
 - **Readability**: Write self-documenting code with clear naming
 - **Maintainability**: Keep functions small (<50 lines), files focused (<500 lines)
@@ -34,6 +36,7 @@ def calc(u, o):
 ```
 
 ### Essential Checklist
+
 - [ ] Follow language-specific style guide
 - [ ] Use meaningful, descriptive names
 - [ ] Limit function complexity (cyclomatic < 10)
@@ -41,6 +44,7 @@ def calc(u, o):
 - [ ] Add pre-commit hooks
 
 ### Common Pitfalls
+
 - Inconsistent naming conventions within a project
 - Functions that do too many things
 - Missing or outdated documentation
@@ -71,6 +75,7 @@ API_ENDPOINT = "..."           # UPPER_SNAKE_CASE for constants
 ```
 
 **File Organization:**
+
 ```
 src/
 ├── models/           # Data models and types
@@ -238,6 +243,7 @@ function calculateEmployeeSalary(employee: Employee): number {
 ```
 
 ### Integration Points
+
 - Links to [Security Standards](../security-practices/SKILL.md) for secure coding
 - Links to [Testing Standards](../testing/SKILL.md) for testable code design
 - Links to [NIST Compliance](../nist-compliance/SKILL.md) for SI-10, SI-11 controls
@@ -251,6 +257,7 @@ function calculateEmployeeSalary(employee: Employee): number {
 #### 1. Performance Optimization Patterns
 
 **Memoization:**
+
 ```typescript
 function memoize<T extends (...args: any[]) => any>(fn: T): T {
   const cache = new Map<string, ReturnType<T>>();
@@ -340,6 +347,7 @@ interface PaginatedResponse<T> extends ApiResponse<T[]> {
 #### 4. Refactoring Strategies
 
 **Extract Method:**
+
 ```typescript
 // Before
 function generateReport(data: Data[]): Report {
@@ -362,17 +370,20 @@ function generateReport(data: Data[]): Report {
 ### Resources
 
 #### Essential Reading
+
 - [Clean Code by Robert C. Martin](https://www.oreilly.com/library/view/clean-code-a/9780136083238/)
 - [Refactoring by Martin Fowler](https://refactoring.com/)
 - [Design Patterns: Elements of Reusable Object-Oriented Software](https://en.wikipedia.org/wiki/Design_Patterns)
 
 #### Tools and Frameworks
+
 - **Linters**: ESLint, Pylint, RuboCop, Checkstyle
 - **Formatters**: Prettier, Black, gofmt
 - **Static Analysis**: SonarQube, CodeClimate, DeepSource
 - **Documentation**: JSDoc, Sphinx, Doxygen
 
 #### Language-Specific Style Guides
+
 - [Python PEP 8](https://peps.python.org/pep-0008/)
 - [Google JavaScript Style Guide](https://google.github.io/styleguide/jsguide.html)
 - [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
@@ -382,6 +393,7 @@ function generateReport(data: Data[]): Report {
 ### Templates
 
 #### Code Review Checklist
+
 ```markdown
 ## Code Review Checklist
 
@@ -415,6 +427,7 @@ function generateReport(data: Data[]): Report {
 ### Scripts
 
 #### Complexity Checker
+
 ```python
 #!/usr/bin/env python3
 """Check cyclomatic complexity of Python files."""

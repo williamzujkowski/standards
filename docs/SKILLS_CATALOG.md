@@ -48,6 +48,7 @@ Priority: High
 ```
 
 **Token Estimates:**
+
 - Level 1: 336 tokens (5 min)
 - Level 2: 1,245 tokens (30 min)
 - Level 3: 1,342 tokens (extended)
@@ -56,12 +57,14 @@ Priority: High
 **What You Get:**
 
 **Level 1 (Quick Start)**
+
 - Core principles (Consistency, Readability, Maintainability, Quality)
 - Quick reference with good vs bad examples
 - Essential checklist (style guide, naming, complexity, linting)
 - Common pitfalls (inconsistent naming, complex functions, missing docs)
 
 **Level 2 (Implementation)**
+
 - Code style and formatting by language
 - Documentation standards (JSDoc, docstrings)
 - Architecture patterns (SOLID principles, DRY)
@@ -69,6 +72,7 @@ Priority: High
 - Automation tools (linters, formatters, pre-commit hooks)
 
 **Level 3 (Mastery)**
+
 - Performance optimization patterns (memoization, caching)
 - Concurrency patterns
 - API design best practices
@@ -77,17 +81,20 @@ Priority: High
 - Tools and frameworks
 
 **When to Load:**
+
 - Starting any new project
 - Code review preparation
 - Team onboarding
 - Establishing coding conventions
 
 **Integration Points:**
+
 - Links to [Security Practices](#2-security-practices) for secure coding
 - Links to [Testing](#3-testing-standards) for testable code design
 - Links to [NIST Compliance](#4-nist-compliance) for SI-10, SI-11 controls
 
 **Load Command:**
+
 ```bash
 # Quick Start
 @load skill:coding-standards
@@ -100,6 +107,7 @@ Priority: High
 ```
 
 **Product Types:**
+
 - `product:api`
 - `product:frontend-web`
 - `product:mobile`
@@ -108,6 +116,7 @@ Priority: High
 - `product:ml-service`
 
 **Languages Supported:**
+
 - Python
 - JavaScript/TypeScript
 - Go
@@ -126,6 +135,7 @@ Priority: Critical (for APIs/web services)
 ```
 
 **Token Estimates:**
+
 - Level 1: 409 tokens (5 min)
 - Level 2: 2,082 tokens (30 min)
 - Level 3: 1,451 tokens (extended)
@@ -134,12 +144,14 @@ Priority: Critical (for APIs/web services)
 **What You Get:**
 
 **Level 1 (Quick Start)**
+
 - Essential security checklist (auth, secrets, input validation, encryption)
 - Common vulnerabilities (SQLi, XSS, CSRF, auth bypass)
 - Quick reference for secure code patterns
 - Immediate action items
 
 **Level 2 (Implementation)**
+
 - Zero Trust Architecture implementation
 - Supply chain security (SBOM, dependency scanning)
 - Container security (image scanning, runtime protection)
@@ -148,6 +160,7 @@ Priority: Critical (for APIs/web services)
 - Security testing integration
 
 **Level 3 (Mastery)**
+
 - Incident response planning
 - Cryptography best practices
 - Security monitoring and alerting
@@ -155,6 +168,7 @@ Priority: Critical (for APIs/web services)
 - Compliance integration
 
 **When to Load:**
+
 - Building APIs or web services (Critical)
 - Handling sensitive data (Critical)
 - Deploying to production (High)
@@ -162,11 +176,13 @@ Priority: Critical (for APIs/web services)
 - Compliance requirements (High)
 
 **Integration Points:**
+
 - Links to [NIST Compliance](#4-nist-compliance) for control implementation
 - Links to [Coding Standards](#1-coding-standards) for secure coding patterns
 - Links to [Testing](#3-testing-standards) for security testing
 
 **Load Command:**
+
 ```bash
 # Quick Start
 @load skill:security-practices
@@ -179,6 +195,7 @@ Priority: Critical (for APIs/web services)
 ```
 
 **Product Types:**
+
 - `product:api` (Critical)
 - `product:web-service` (Critical)
 - `product:frontend-web` (High)
@@ -187,6 +204,7 @@ Priority: Critical (for APIs/web services)
 - `product:ml-service` (High)
 
 **NIST Controls Covered:**
+
 - AC (Access Control): AC-2, AC-3, AC-6
 - IA (Identification & Authentication): IA-2, IA-5
 - SC (System & Communications Protection): SC-8, SC-13
@@ -204,6 +222,7 @@ Priority: High
 ```
 
 **Token Estimates:**
+
 - Level 1: 430 tokens (5 min)
 - Level 2: 2,225 tokens (30 min)
 - Level 3: 1,106 tokens (extended)
@@ -212,12 +231,14 @@ Priority: High
 **What You Get:**
 
 **Level 1 (Quick Start)**
+
 - Testing pyramid (Unit → Integration → E2E)
 - TDD Red-Green-Refactor cycle
 - Essential checklist (unit tests, integration tests, >80% coverage)
 - Common pitfalls (testing implementation details, slow tests, flaky tests)
 
 **Level 2 (Implementation)**
+
 - Test-Driven Development walkthrough
 - Property-based testing with fast-check
 - Integration testing patterns (API tests, database tests)
@@ -226,6 +247,7 @@ Priority: High
 - Test organization (AAA pattern, fixtures)
 
 **Level 3 (Mastery)**
+
 - Contract testing with Pact
 - Chaos engineering
 - Visual regression testing
@@ -234,6 +256,7 @@ Priority: High
 - Template test suites
 
 **When to Load:**
+
 - Starting new projects (High)
 - Implementing TDD (High)
 - Code review for tests (High)
@@ -241,11 +264,13 @@ Priority: High
 - Improving test coverage (Medium)
 
 **Integration Points:**
+
 - Links to [Coding Standards](#1-coding-standards) for testable code design
 - Links to [Security Practices](#2-security-practices) for security testing
 - Links to [NIST Compliance](#4-nist-compliance) for SI-10, SI-11 controls
 
 **Load Command:**
+
 ```bash
 # Quick Start
 @load skill:testing
@@ -258,6 +283,7 @@ Priority: High
 ```
 
 **Product Types:**
+
 - `product:api` (High)
 - `product:frontend-web` (High)
 - `product:mobile` (High)
@@ -266,6 +292,7 @@ Priority: High
 - `product:ml-service` (Critical - model testing)
 
 **Frameworks Covered:**
+
 - **Unit Testing**: Jest, Vitest, pytest, JUnit
 - **Integration Testing**: Supertest, TestContainers
 - **E2E Testing**: Playwright, Cypress, Selenium
@@ -283,6 +310,7 @@ Priority: Medium (when compliance required)
 ```
 
 **Token Estimates:**
+
 - Level 1: 580 tokens (5 min)
 - Level 2: 2,734 tokens (30 min)
 - Level 3: 731 tokens (extended)
@@ -291,12 +319,14 @@ Priority: Medium (when compliance required)
 **What You Get:**
 
 **Level 1 (Quick Start)**
+
 - Control tagging reference (@nist-controls syntax)
 - Common control families (AC, IA, AU, SC, SI)
 - Quick Start tagging examples
 - Essential checklist (tag functions, validate coverage, collect evidence)
 
 **Level 2 (Implementation)**
+
 - AC (Access Control) family implementation
 - IA (Identification & Authentication) patterns
 - AU (Audit & Accountability) logging
@@ -306,6 +336,7 @@ Priority: Medium (when compliance required)
 - SSP generation tools
 
 **Level 3 (Mastery)**
+
 - Continuous compliance monitoring
 - Automated control testing
 - Audit preparation
@@ -313,6 +344,7 @@ Priority: Medium (when compliance required)
 - VS Code extension integration
 
 **When to Load:**
+
 - Government/regulated industries (Critical)
 - Security audits (Critical)
 - Compliance certifications (Critical)
@@ -320,11 +352,13 @@ Priority: Medium (when compliance required)
 - API services with auth (Medium)
 
 **Integration Points:**
+
 - Links to [Security Practices](#2-security-practices) for security implementation
 - Links to [Coding Standards](#1-coding-standards) for SI-10, SI-11
 - Links to [Testing](#3-testing-standards) for control validation
 
 **Load Command:**
+
 ```bash
 # Quick Start
 @load skill:nist-compliance
@@ -337,6 +371,7 @@ Priority: Medium (when compliance required)
 ```
 
 **Product Types:**
+
 - `product:api` (Auto-included when security present)
 - `product:web-service` (Auto-included)
 - `product:data-pipeline` (High for sensitive data)
@@ -344,6 +379,7 @@ Priority: Medium (when compliance required)
 - `product:compliance-artifacts` (Critical)
 
 **Control Families Covered:**
+
 - **AC**: Access Control (AC-2, AC-3, AC-6)
 - **IA**: Identification & Authentication (IA-2, IA-5)
 - **AU**: Audit & Accountability (AU-2, AU-3, AU-12)
@@ -353,6 +389,7 @@ Priority: Medium (when compliance required)
 - **CP**: Contingency Planning (CP-9, CP-10)
 
 **Tools Included:**
+
 - VS Code extension for auto-tagging
 - Validation scripts
 - Evidence collection automation
@@ -370,6 +407,7 @@ Priority: Low (infrastructure)
 ```
 
 **Token Estimates:**
+
 - Level 1: 328 tokens (5 min)
 - Level 2: 1,177 tokens (30 min)
 - Level 3: 15 tokens (extended)
@@ -378,12 +416,14 @@ Priority: Low (infrastructure)
 **What You Get:**
 
 **Level 1 (Quick Start)**
+
 - Quick load commands (@load syntax)
 - Skill catalog overview
 - Product type mappings
 - Token cost reference
 
 **Level 2 (Implementation)**
+
 - Skill resolution engine (TypeScript implementation)
 - Progressive disclosure loader
 - Context-aware recommendations (project analysis)
@@ -391,21 +431,25 @@ Priority: Low (infrastructure)
 - CLI usage examples
 
 **Level 3 (Mastery)**
+
 - Custom skill creation
 - Skill validation tools
 - Advanced composition strategies
 
 **When to Load:**
+
 - Understanding the skills system (Informational)
 - Building custom loaders (Advanced)
 - Contributing new skills (Authoring)
 
 **Integration Points:**
+
 - References all other skills (meta-skill)
 - Links to product-matrix.yaml
 - Links to validation tools
 
 **Load Command:**
+
 ```bash
 # Learn about the loader
 @load skill:skill-loader
@@ -423,12 +467,14 @@ Priority: Low (infrastructure)
 ### Starting a New Project
 
 **Minimal Bundle:**
+
 ```bash
 @load [skill:coding-standards + skill:testing]
 # Token cost: ~766 tokens (Level 1)
 ```
 
 **Comprehensive Bundle:**
+
 ```bash
 @load product:api
 # Auto-loads: coding-standards, security-practices, testing, nist-compliance
@@ -554,17 +600,20 @@ Priority: Low (infrastructure)
 ### Planned Skills (Coming Soon)
 
 #### Development
+
 - [ ] `api-design-patterns` - RESTful/GraphQL API design
 - [ ] `microservices` - Microservice architecture patterns
 - [ ] `data-engineering` - ETL/ELT best practices
 - [ ] `ml-ai` - ML model development and deployment
 
 #### Operations
+
 - [ ] `cloud-native` - Cloud-native architecture (K8s, containers)
 - [ ] `devops` - CI/CD, IaC, automation
 - [ ] `observability` - Logging, monitoring, tracing
 
 #### Specialized
+
 - [ ] `web-design` - Frontend design systems
 - [ ] `mobile-development` - iOS/Android best practices
 - [ ] `cost-optimization` - Cloud cost management
@@ -611,17 +660,20 @@ Help us improve skills:
 ## Additional Resources
 
 ### Documentation
+
 - **User Guide**: [SKILLS_USER_GUIDE.md](./guides/SKILLS_USER_GUIDE.md)
 - **Migration Guide**: [MIGRATION_GUIDE.md](./migration/MIGRATION_GUIDE.md)
 - **Authoring Guide**: [SKILL_AUTHORING_GUIDE.md](./guides/SKILL_AUTHORING_GUIDE.md)
 - **API Docs**: [SKILLS_API.md](./api/SKILLS_API.md)
 
 ### Tools
+
 - **Skill Loader**: `npm run skill-loader`
 - **Validator**: `python scripts/validate-skills.py`
 - **Generator**: `python scripts/generate-skill.py`
 
 ### Support
+
 - **GitHub**: [williamzujkowski/standards](https://github.com/williamzujkowski/standards)
 - **Issues**: [Report bugs](https://github.com/williamzujkowski/standards/issues)
 - **Discussions**: [Community support](https://github.com/williamzujkowski/standards/discussions)

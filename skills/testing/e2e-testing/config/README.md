@@ -41,6 +41,7 @@ npx cypress run
 ## Customization
 
 Both configurations support environment variables:
+
 - `BASE_URL` - Application URL to test
 - `CI` - Enables CI-specific settings
 - `BROWSER` - Browser to use for tests

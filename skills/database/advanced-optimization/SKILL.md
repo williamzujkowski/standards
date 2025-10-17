@@ -33,6 +33,7 @@ last_updated: 2025-01-17
 ### Database Selection Guide
 
 **Use SQL (PostgreSQL) when:**
+
 - ACID compliance is critical
 - Complex joins and transactions required
 - Data has clear relational structure
@@ -40,6 +41,7 @@ last_updated: 2025-01-17
 - Rich query capabilities required
 
 **Use NoSQL (MongoDB) when:**
+
 - Flexible schema needed
 - Horizontal scaling is priority
 - Document-oriented data model fits
@@ -47,6 +49,7 @@ last_updated: 2025-01-17
 - Eventual consistency acceptable
 
 **Use In-Memory (Redis) when:**
+
 - Sub-millisecond latency required
 - Caching layer needed
 - Real-time features (pub/sub, streams)
@@ -93,6 +96,7 @@ def get_user(user_id):
 ### Essential Optimization Checklist
 
 #### PostgreSQL
+
 - [ ] Create appropriate indexes (B-tree, GIN, GiST)
 - [ ] Analyze query plans with EXPLAIN ANALYZE
 - [ ] Configure autovacuum appropriately
@@ -102,6 +106,7 @@ def get_user(user_id):
 - [ ] Configure appropriate WAL settings
 
 #### MongoDB
+
 - [ ] Design effective shard keys
 - [ ] Create compound indexes for common queries
 - [ ] Enable profiler for slow queries
@@ -111,6 +116,7 @@ def get_user(user_id):
 - [ ] Monitor with MongoDB Compass/Atlas
 
 #### Redis
+
 - [ ] Implement appropriate caching strategy
 - [ ] Configure maxmemory and eviction policies
 - [ ] Use pipelining for bulk operations
@@ -122,6 +128,7 @@ def get_user(user_id):
 ### Quick Wins
 
 **Immediate Impact:**
+
 1. Add indexes for frequently queried columns
 2. Enable query result caching
 3. Implement connection pooling
@@ -129,6 +136,7 @@ def get_user(user_id):
 5. Optimize N+1 queries with batch loading
 
 **Performance Monitoring:**
+
 ```bash
 # PostgreSQL query stats
 SELECT query, calls, total_time, mean_time
@@ -154,6 +162,7 @@ redis-cli INFO stats | grep -E 'keyspace_hits|keyspace_misses'
 PostgreSQL supports multiple index types, each optimized for specific use cases:
 
 **B-tree Indexes (Default)**
+
 ```sql
 -- Standard B-tree index for equality and range queries
 CREATE INDEX idx_users_email ON users(email);
@@ -172,6 +181,7 @@ INCLUDE (status, total_amount, items_count);
 ```
 
 **GIN Indexes (Full-text and Array Search)**
+
 ```sql
 -- Full-text search
 CREATE INDEX idx_products_search ON products
@@ -193,6 +203,7 @@ SELECT * FROM users WHERE metadata @> '{"plan": "premium"}';
 ```
 
 **GiST Indexes (Geometric and Range Data)**
+
 ```sql
 -- Range types
 CREATE INDEX idx_bookings_dates ON bookings USING GiST(date_range);
@@ -232,6 +243,7 @@ LIMIT 100;
 ```
 
 **Understanding EXPLAIN Output:**
+
 ```
                                                     QUERY PLAN
 -------------------------------------------------------------------------------------------------------------------
@@ -250,6 +262,7 @@ LIMIT 100;
 ```
 
 **Optimization Decisions:**
+
 - Index Scan = Good (using indexes)
 - Buffers shared hit = Good (data in cache)
 - Nested Loop = Appropriate for small result sets
@@ -335,6 +348,7 @@ log_pooler_errors = 1
 ```
 
 **Connection Pooling Best Practices:**
+
 - Use `transaction` mode for most applications
 - Set `default_pool_size` = (CPU cores × 2) + effective_spindle_count
 - Monitor pool usage: `SHOW POOLS;` in PgBouncer console
@@ -373,6 +387,7 @@ pg_stat_statements.max = 10000
 #### Sharding Strategies
 
 **Shard Key Selection:**
+
 ```javascript
 // Good shard key: high cardinality, even distribution
 // Example: user_id for multi-tenant application
@@ -389,6 +404,7 @@ sh.shardCollection("myapp.logs", { "_id": "hashed" })
 **Shard Key Patterns:**
 
 1. **Range-based Sharding** (ordered data):
+
 ```javascript
 // Good for time-series data
 sh.shardCollection("analytics.events", { "date": 1, "userId": 1 })
@@ -398,6 +414,7 @@ db.events.find({ date: ISODate("2025-01-17"), userId: 123 })
 ```
 
 2. **Hash-based Sharding** (random distribution):
+
 ```javascript
 // Good for even distribution, poor for range queries
 sh.shardCollection("users.profiles", { "_id": "hashed" })
@@ -407,6 +424,7 @@ db.profiles.find({ _id: { $gt: 1000, $lt: 2000 } })
 ```
 
 3. **Zone Sharding** (geographic distribution):
+
 ```javascript
 // Configure zones for data locality
 sh.addShardTag("shard0000", "US-EAST")
@@ -458,6 +476,7 @@ db.orders.createIndex(
 ```
 
 **Index Analysis:**
+
 ```javascript
 // Explain query execution
 db.orders.find({ userId: 123 }).sort({ createdAt: -1 }).explain("executionStats")
@@ -570,6 +589,7 @@ db.orders.find({ userId: 123 })
 #### Caching Strategies
 
 **1. Cache-Aside (Lazy Loading)**
+
 ```python
 import redis
 import json
@@ -601,6 +621,7 @@ def update_user(user_id: int, data: dict):
 ```
 
 **2. Write-Through Caching**
+
 ```python
 def save_user(user_id: int, data: dict):
     """Write to cache and database simultaneously"""
@@ -614,6 +635,7 @@ def save_user(user_id: int, data: dict):
 ```
 
 **3. Write-Behind (Write-Back) Caching**
+
 ```python
 def save_user_async(user_id: int, data: dict):
     """Write to cache immediately, database asynchronously"""
@@ -639,6 +661,7 @@ def process_write_queue():
 ```
 
 **4. Read-Through Caching**
+
 ```python
 class CacheProxy:
     """Transparent caching layer"""
@@ -700,6 +723,7 @@ redis_client.pfcount("unique:visitors:2025-01-17")
 #### Pub/Sub and Streams
 
 **Pub/Sub Pattern:**
+
 ```python
 import redis
 
@@ -722,6 +746,7 @@ for message in pubsub.listen():
 ```
 
 **Redis Streams (Preferred for Reliable Messaging):**
+
 ```python
 # Producer
 stream_key = "events:orders"
@@ -774,6 +799,7 @@ cluster.set("{user:1000}:settings", settings_data)
 ```
 
 **Redis Configuration (redis.conf):**
+
 ```ini
 # Memory management
 maxmemory 2gb
@@ -798,6 +824,7 @@ tcp-keepalive 60
 #### Solving the N+1 Problem
 
 **Bad: N+1 Queries**
+
 ```python
 # 1 query to get orders
 orders = db.query("SELECT * FROM orders WHERE user_id = ?", user_id)
@@ -809,6 +836,7 @@ for order in orders:
 ```
 
 **Good: Join or Batch Loading**
+
 ```python
 # Single query with join
 orders = db.query("""
@@ -831,6 +859,7 @@ for order in orders:
 #### Database Scaling Strategies
 
 **1. Vertical Scaling (Scale Up)**
+
 - Increase CPU, RAM, storage
 - Simple but has limits
 - Good for initial growth
@@ -838,6 +867,7 @@ for order in orders:
 **2. Horizontal Scaling (Scale Out)**
 
 **Read Replicas:**
+
 ```python
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -869,6 +899,7 @@ write_session.commit()
 ```
 
 **Sharding:**
+
 ```python
 def get_shard(user_id: int) -> int:
     """Distribute users across 4 shards"""
@@ -891,6 +922,7 @@ for conn in shard_connections:
 #### Connection Pooling Best Practices
 
 **HikariCP (Java):**
+
 ```java
 HikariConfig config = new HikariConfig();
 config.setJdbcUrl("jdbc:postgresql://localhost:5432/myapp");
@@ -906,6 +938,7 @@ HikariDataSource ds = new HikariDataSource(config);
 ```
 
 **Python (SQLAlchemy):**
+
 ```python
 from sqlalchemy import create_engine
 
@@ -920,6 +953,7 @@ engine = create_engine(
 ```
 
 **Node.js (pg-pool):**
+
 ```javascript
 const { Pool } = require('pg');
 
@@ -941,6 +975,7 @@ const pool = new Pool({
 #### PostgreSQL Monitoring
 
 **pg_stat_statements Extension:**
+
 ```sql
 -- Enable extension
 CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
@@ -982,6 +1017,7 @@ SELECT pg_stat_statements_reset();
 ```
 
 **Key Metrics to Monitor:**
+
 ```sql
 -- Connection statistics
 SELECT count(*), state
@@ -1038,6 +1074,7 @@ WHERE NOT blocked_locks.granted;
 #### MongoDB Profiling
 
 **Enable Profiler:**
+
 ```javascript
 // Enable profiler for slow queries (>100ms)
 db.setProfilingLevel(1, { slowms: 100 })
@@ -1053,6 +1090,7 @@ db.getProfilingStatus()
 ```
 
 **Analyze Slow Queries:**
+
 ```javascript
 // Recent slow queries
 db.system.profile.find({
@@ -1078,6 +1116,7 @@ db.system.profile.find({
 ```
 
 **Server Status Metrics:**
+
 ```javascript
 // Overall server status
 db.serverStatus()
@@ -1104,6 +1143,7 @@ db.stats()
 #### Redis Monitoring
 
 **INFO Command:**
+
 ```bash
 # All stats
 redis-cli INFO
@@ -1121,6 +1161,7 @@ redis-cli INFO memory | grep -E 'used_memory_human|maxmemory_human'
 ```
 
 **Key Metrics:**
+
 ```python
 import redis
 
@@ -1154,6 +1195,7 @@ print(f"Evicted keys: {evicted_keys}")
 ```
 
 **Slow Log:**
+
 ```bash
 # Configure slow log (microseconds)
 redis-cli CONFIG SET slowlog-log-slower-than 10000
@@ -1171,6 +1213,7 @@ redis-cli SLOWLOG RESET
 #### PostgreSQL Backup
 
 **Physical Backup (pg_basebackup):**
+
 ```bash
 # Full backup
 pg_basebackup -h localhost -U postgres -D /backup/pg_data -Fp -Xs -P
@@ -1180,6 +1223,7 @@ pg_basebackup -h localhost -U postgres -D /backup/pg_data -Ft -z -P
 ```
 
 **Logical Backup (pg_dump):**
+
 ```bash
 # Single database
 pg_dump -h localhost -U postgres -d myapp -F c -f /backup/myapp.dump
@@ -1198,6 +1242,7 @@ pg_dump -h localhost -U postgres -d myapp -t users -t orders -F c -f /backup/tab
 ```
 
 **Restore:**
+
 ```bash
 # Restore custom format dump
 pg_restore -h localhost -U postgres -d myapp -v /backup/myapp.dump
@@ -1210,6 +1255,7 @@ pg_restore -h localhost -U postgres -d myapp -j 4 -v /backup/myapp.dump
 ```
 
 **Point-in-Time Recovery (PITR):**
+
 ```bash
 # Enable WAL archiving (postgresql.conf)
 wal_level = replica
@@ -1231,6 +1277,7 @@ recovery_target_time = '2025-01-17 10:30:00'
 #### MongoDB Backup
 
 **mongodump:**
+
 ```bash
 # Full backup
 mongodump --host localhost --port 27017 --out /backup/mongo
@@ -1249,6 +1296,7 @@ mongodump --host "rs0/mongo1:27017,mongo2:27017,mongo3:27017" --out /backup/mong
 ```
 
 **mongorestore:**
+
 ```bash
 # Restore full backup
 mongorestore --host localhost --port 27017 /backup/mongo
@@ -1264,6 +1312,7 @@ mongorestore --host localhost --gzip /backup/mongo
 ```
 
 **Filesystem Snapshots (Replica Set):**
+
 ```javascript
 // 1. Stop balancer (if sharded)
 sh.stopBalancer()
@@ -1283,6 +1332,7 @@ sh.startBalancer()
 #### Redis Backup
 
 **RDB (Snapshot):**
+
 ```bash
 # Manual snapshot
 redis-cli BGSAVE
@@ -1297,6 +1347,7 @@ cp /var/lib/redis/dump.rdb /backup/dump-$(date +%Y%m%d).rdb
 ```
 
 **AOF (Append-Only File):**
+
 ```bash
 # Enable AOF (redis.conf)
 appendonly yes
@@ -1310,6 +1361,7 @@ cp /var/lib/redis/appendonly.aof /backup/appendonly-$(date +%Y%m%d).aof
 ```
 
 **Restore:**
+
 ```bash
 # Stop Redis
 systemctl stop redis
@@ -1330,18 +1382,21 @@ systemctl start redis
 ### Official Documentation
 
 **PostgreSQL:**
+
 - [PostgreSQL Performance Tips](https://www.postgresql.org/docs/current/performance-tips.html)
 - [pg_stat_statements](https://www.postgresql.org/docs/current/pgstatstatements.html)
 - [EXPLAIN Documentation](https://www.postgresql.org/docs/current/sql-explain.html)
 - [PgBouncer Documentation](https://www.pgbouncer.org/usage.html)
 
 **MongoDB:**
+
 - [MongoDB Performance Best Practices](https://www.mongodb.com/docs/manual/administration/analyzing-mongodb-performance/)
 - [Sharding Guide](https://www.mongodb.com/docs/manual/sharding/)
 - [Index Strategies](https://www.mongodb.com/docs/manual/applications/indexes/)
 - [Aggregation Pipeline Optimization](https://www.mongodb.com/docs/manual/core/aggregation-pipeline-optimization/)
 
 **Redis:**
+
 - [Redis Documentation](https://redis.io/documentation)
 - [Redis Cluster Tutorial](https://redis.io/docs/manual/scaling/)
 - [Redis Persistence](https://redis.io/docs/manual/persistence/)
@@ -1358,18 +1413,21 @@ systemctl start redis
 ### Tools and Utilities
 
 **PostgreSQL:**
+
 - pgAdmin 4 - Database management
 - pg_top - Real-time monitoring
 - pgBadger - Log analyzer
 - pgtune - Configuration generator
 
 **MongoDB:**
+
 - MongoDB Compass - GUI client
 - MongoDB Atlas - Managed service
 - mongostat/mongotop - Command-line monitoring
 - Studio 3T - Advanced GUI
 
 **Redis:**
+
 - RedisInsight - GUI client
 - redis-cli - Command-line interface
 - redis-stat - Real-time monitoring

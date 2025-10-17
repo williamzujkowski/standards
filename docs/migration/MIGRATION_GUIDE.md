@@ -49,12 +49,14 @@ TESTING_STANDARDS.md (15,000+ tokens)
 #### 1. Quick Start (5 minutes)
 
 **Old Way:**
+
 ```bash
 # Reference entire UNIFIED_STANDARDS.md
 # Manually find relevant sections
 ```
 
 **New Way:**
+
 ```bash
 # Load just what you need
 @load skill:coding-standards
@@ -62,6 +64,7 @@ TESTING_STANDARDS.md (15,000+ tokens)
 ```
 
 **Benefits:**
+
 - ✅ **5-10x faster** context loading
 - ✅ **Automatic recommendations** based on your project
 - ✅ **Progressive learning** path (Level 1 → 2 → 3)
@@ -147,6 +150,7 @@ docs/standards/CODING_STANDARDS.md
 ```
 
 **Migration is non-breaking:**
+
 - Original files preserved in `docs/standards/`
 - Skills reference originals via bundled resources
 - No code changes required
@@ -158,6 +162,7 @@ docs/standards/CODING_STANDARDS.md
 #### 1. NIST Controls Mapping (15 minutes)
 
 **Old Way:**
+
 ```bash
 # Manually tag controls
 @nist-controls: [ac-2, ac-3, au-2]
@@ -165,6 +170,7 @@ docs/standards/CODING_STANDARDS.md
 ```
 
 **New Way:**
+
 ```bash
 # Load NIST compliance skill
 @load skill:nist-compliance --level 1
@@ -177,6 +183,7 @@ docs/standards/CODING_STANDARDS.md
 ```
 
 **Benefits:**
+
 - ✅ **Auto-tagging** with VS Code extension
 - ✅ **Validation scripts** for control coverage
 - ✅ **Evidence collection** automation
@@ -259,6 +266,7 @@ python scripts/validate-skills.py skills/coding-standards/
 #### 4.1 Update CLAUDE.md (if customized)
 
 **Old:**
+
 ```markdown
 ## Quick Load Commands
 @load standards:coding
@@ -266,6 +274,7 @@ python scripts/validate-skills.py skills/coding-standards/
 ```
 
 **New:**
+
 ```markdown
 ## Quick Load Commands
 @load skill:coding-standards
@@ -276,6 +285,7 @@ python scripts/validate-skills.py skills/coding-standards/
 #### 4.2 Update CI/CD Pipelines
 
 **Before:**
+
 ```yaml
 # .github/workflows/validate.yml
 - name: Validate standards
@@ -283,6 +293,7 @@ python scripts/validate-skills.py skills/coding-standards/
 ```
 
 **After:**
+
 ```yaml
 # .github/workflows/validate.yml
 - name: Validate skills
@@ -296,6 +307,7 @@ python scripts/validate-skills.py skills/coding-standards/
 #### 5.1 Communication Plan
 
 **Week 1: Announcement**
+
 ```markdown
 📢 **New Skills Format Available**
 
@@ -310,11 +322,13 @@ Support: #skills-migration Slack channel
 ```
 
 **Week 2-3: Training**
+
 - Share `docs/guides/SKILLS_USER_GUIDE.md`
 - Host lunch & learn session
 - Provide migration examples
 
 **Week 4: Full Adoption**
+
 - Update team documentation
 - Switch CI/CD to skills validation
 - Archive old references
@@ -326,6 +340,7 @@ Support: #skills-migration Slack channel
 ### Scenario 1: Python API Project
 
 **Before:**
+
 ```bash
 # Manual standard selection
 CODING_STANDARDS.md (Python section)
@@ -335,6 +350,7 @@ NIST_IMPLEMENTATION_GUIDE.md (AC, IA controls)
 ```
 
 **After:**
+
 ```bash
 # Single command
 @load product:api --language python
@@ -352,6 +368,7 @@ NIST_IMPLEMENTATION_GUIDE.md (AC, IA controls)
 ### Scenario 2: React Frontend
 
 **Before:**
+
 ```bash
 FRONTEND_STANDARDS.md
 CODING_STANDARDS.md (TypeScript)
@@ -360,6 +377,7 @@ MODERN_SECURITY_STANDARDS.md (XSS, CSRF)
 ```
 
 **After:**
+
 ```bash
 @load product:frontend-web --framework react
 
@@ -372,12 +390,14 @@ MODERN_SECURITY_STANDARDS.md (XSS, CSRF)
 ### Scenario 3: Compliance-Heavy Project
 
 **Before:**
+
 ```bash
 # Load everything for compliance
 ALL standards (250,000+ tokens)
 ```
 
 **After:**
+
 ```bash
 # Targeted compliance bundle
 @load [
@@ -488,6 +508,7 @@ def authenticate_user(username, password):
 ```
 
 Skills enhance tagging with:
+
 - Auto-completion in VS Code
 - Validation scripts
 - Evidence collection
@@ -498,12 +519,14 @@ Skills enhance tagging with:
 **A:** Dramatically reduced:
 
 **Before:**
+
 ```yaml
 # Load entire standards
 # Token cost: ~250,000
 ```
 
 **After:**
+
 ```yaml
 # Load Level 1 skills
 # Token cost: ~1,755 (99.3% reduction)
@@ -514,11 +537,13 @@ Skills enhance tagging with:
 **A:** Skills simplify updates:
 
 **Before:**
+
 - Update `CODING_STANDARDS.md` (1 large file)
 - Manual propagation to examples
 - All-or-nothing changes
 
 **After:**
+
 - Update `skills/coding-standards/SKILL.md` (modular)
 - Templates/scripts in same directory
 - Versioned independently
@@ -528,6 +553,7 @@ Skills enhance tagging with:
 ## Migration Checklist
 
 ### Pre-Migration
+
 - [ ] Review current standards usage
 - [ ] Identify product type(s)
 - [ ] Install migration tools
@@ -535,6 +561,7 @@ Skills enhance tagging with:
 - [ ] Review token savings estimate
 
 ### Migration
+
 - [ ] Migrate coding standards
 - [ ] Migrate testing standards
 - [ ] Migrate security standards
@@ -544,6 +571,7 @@ Skills enhance tagging with:
 - [ ] Update team documentation
 
 ### Post-Migration
+
 - [ ] Train team on new format
 - [ ] Update project templates
 - [ ] Monitor token usage
@@ -555,17 +583,20 @@ Skills enhance tagging with:
 ## Support & Resources
 
 ### Documentation
+
 - **User Guide**: [SKILLS_USER_GUIDE.md](../guides/SKILLS_USER_GUIDE.md)
 - **Authoring Guide**: [SKILL_AUTHORING_GUIDE.md](../guides/SKILL_AUTHORING_GUIDE.md)
 - **API Docs**: [SKILLS_API.md](../api/SKILLS_API.md)
 - **Catalog**: [SKILLS_CATALOG.md](../SKILLS_CATALOG.md)
 
 ### Tools
+
 - **Migration Script**: `scripts/migrate-to-skills.py`
 - **Validation Tool**: `scripts/validate-skills.py`
 - **Skill Loader**: `scripts/skill-loader.py`
 
 ### Help
+
 - **GitHub Issues**: [Report bugs or request help](https://github.com/williamzujkowski/standards/issues)
 - **Discussions**: [Community support](https://github.com/williamzujkowski/standards/discussions)
 
@@ -579,6 +610,7 @@ Skills enhance tagging with:
 **Project:** Python FastAPI service
 **Migration Time:** 2 hours
 **Results:**
+
 - **Token usage:** ↓ 95% (250k → 12k)
 - **Onboarding time:** ↓ 70% (2 days → 5 hours)
 - **CI/CD speed:** ↑ 3x faster validation
@@ -590,6 +622,7 @@ Skills enhance tagging with:
 **Requirement:** NIST 800-53r5 compliance
 **Migration Time:** 4 hours
 **Results:**
+
 - **Control coverage:** 100% tagged
 - **Evidence collection:** Automated
 - **Audit prep time:** ↓ 80% (40 hours → 8 hours)

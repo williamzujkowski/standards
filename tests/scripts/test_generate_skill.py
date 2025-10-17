@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """Comprehensive unit tests for generate-skill.py with >90% coverage."""
 
-import pytest
-from pathlib import Path
-import sys
-import tempfile
 import shutil
 import subprocess
-import yaml
+import sys
+import tempfile
+from pathlib import Path
+
+import pytest
 
 # Add scripts directory to path
 SCRIPTS_DIR = Path(__file__).parent.parent.parent / "scripts"
@@ -15,6 +15,7 @@ sys.path.insert(0, str(SCRIPTS_DIR))
 
 # Import module under test
 import importlib.util
+
 spec = importlib.util.spec_from_file_location("generate_skill", SCRIPTS_DIR / "generate-skill.py")
 generate_skill = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(generate_skill)
@@ -147,17 +148,13 @@ class TestSkillFileCreation:
     def test_create_skill_file_dry_run(self, temp_dir):
         """Test dry-run mode doesn't create files."""
         skill_dir = temp_dir / "test-skill"
-        skill_file = generate_skill.create_skill_file(
-            skill_dir, "Test", "Description", dry_run=True
-        )
+        skill_file = generate_skill.create_skill_file(skill_dir, "Test", "Description", dry_run=True)
         assert not skill_file.exists()
 
     def test_skill_file_has_frontmatter(self, temp_dir):
         """Test SKILL.md file has YAML frontmatter."""
         skill_dir = temp_dir / "test-skill"
-        skill_file = generate_skill.create_skill_file(
-            skill_dir, "Test Skill", "Test description", dry_run=False
-        )
+        skill_file = generate_skill.create_skill_file(skill_dir, "Test Skill", "Test description", dry_run=False)
 
         content = skill_file.read_text()
         assert content.startswith("---")
@@ -165,9 +162,7 @@ class TestSkillFileCreation:
     def test_skill_file_has_all_levels(self, temp_dir):
         """Test SKILL.md file has all 3 levels."""
         skill_dir = temp_dir / "test-skill"
-        skill_file = generate_skill.create_skill_file(
-            skill_dir, "Test Skill", "Test description", dry_run=False
-        )
+        skill_file = generate_skill.create_skill_file(skill_dir, "Test Skill", "Test description", dry_run=False)
 
         content = skill_file.read_text()
         assert "## Level 1: Quick Start" in content
@@ -190,9 +185,7 @@ class TestSkillValidation:
     def test_validate_valid_skill(self, temp_dir):
         """Test validation of valid skill."""
         skill_dir = temp_dir / "test-skill"
-        skill_file = generate_skill.create_skill_file(
-            skill_dir, "Test Skill", "Test description", dry_run=False
-        )
+        skill_file = generate_skill.create_skill_file(skill_dir, "Test Skill", "Test description", dry_run=False)
 
         assert generate_skill.validate_skill_structure(skill_file) is True
 
@@ -342,13 +335,16 @@ class TestIntegrationTests:
             [
                 "python3",
                 str(SCRIPTS_DIR / "generate-skill.py"),
-                "--name", "CLI Test Skill",
-                "--description", "CLI test description",
-                "--output-dir", str(temp_dir),
+                "--name",
+                "CLI Test Skill",
+                "--description",
+                "CLI test description",
+                "--output-dir",
+                str(temp_dir),
                 "--dry-run",
             ],
             capture_output=True,
-            text=True
+            text=True,
         )
 
         assert result.returncode == 0
@@ -369,13 +365,16 @@ class TestIntegrationTests:
             [
                 "python3",
                 str(SCRIPTS_DIR / "generate-skill.py"),
-                "--name", name,
-                "--description", description,
-                "--output-dir", str(temp_dir),
+                "--name",
+                name,
+                "--description",
+                description,
+                "--output-dir",
+                str(temp_dir),
                 "--validate",
             ],
             capture_output=True,
-            text=True
+            text=True,
         )
 
         assert "validation passed" in result.stdout.lower() or result.returncode == 0

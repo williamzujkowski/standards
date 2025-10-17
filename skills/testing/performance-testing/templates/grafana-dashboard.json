@@ -1,27 +1,25 @@
 {
   "dashboard": {
-    "title": "Performance Testing Dashboard",
-    "tags": ["performance", "k6", "load-testing"],
-    "timezone": "browser",
     "panels": [
       {
         "id": 1,
-        "title": "Request Rate (RPS)",
-        "type": "graph",
         "targets": [
           {
             "expr": "rate(http_requests_total[5m])",
             "legendFormat": "{{method}} {{endpoint}}"
           }
         ],
+        "title": "Request Rate (RPS)",
+        "type": "graph",
         "yaxes": [
-          { "format": "reqps", "label": "Requests/sec" }
+          {
+            "format": "reqps",
+            "label": "Requests/sec"
+          }
         ]
       },
       {
         "id": 2,
-        "title": "Response Time Percentiles",
-        "type": "graph",
         "targets": [
           {
             "expr": "histogram_quantile(0.50, rate(http_request_duration_seconds_bucket[5m]))",
@@ -36,39 +34,45 @@
             "legendFormat": "p99"
           }
         ],
+        "title": "Response Time Percentiles",
+        "type": "graph",
         "yaxes": [
-          { "format": "ms", "label": "Response Time" }
+          {
+            "format": "ms",
+            "label": "Response Time"
+          }
         ]
       },
       {
         "id": 3,
-        "title": "Error Rate",
-        "type": "graph",
         "targets": [
           {
             "expr": "rate(http_requests_total{status=~\"5..\"}[5m]) / rate(http_requests_total[5m])",
             "legendFormat": "Error Rate"
           }
         ],
+        "title": "Error Rate",
+        "type": "graph",
         "yaxes": [
-          { "format": "percentunit", "label": "Error %" }
+          {
+            "format": "percentunit",
+            "label": "Error %"
+          }
         ]
       },
       {
         "id": 4,
-        "title": "Active Virtual Users",
-        "type": "graph",
         "targets": [
           {
             "expr": "k6_vus",
             "legendFormat": "Active VUs"
           }
-        ]
+        ],
+        "title": "Active Virtual Users",
+        "type": "graph"
       },
       {
         "id": 5,
-        "title": "System Resource Usage",
-        "type": "graph",
         "targets": [
           {
             "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)",
@@ -78,8 +82,17 @@
             "expr": "(1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100",
             "legendFormat": "Memory %"
           }
-        ]
+        ],
+        "title": "System Resource Usage",
+        "type": "graph"
       }
-    ]
+    ],
+    "tags": [
+      "performance",
+      "k6",
+      "load-testing"
+    ],
+    "timezone": "browser",
+    "title": "Performance Testing Dashboard"
   }
 }

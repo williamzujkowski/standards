@@ -53,6 +53,7 @@ applies_to: [backend, frontend, api, microservices, data-pipelines]
 ### Essential Checklist
 
 **Before Testing:**
+
 ```
 ☐ Define SLIs/SLOs (Service Level Indicators/Objectives)
 ☐ Identify critical user journeys
@@ -63,6 +64,7 @@ applies_to: [backend, frontend, api, microservices, data-pipelines]
 ```
 
 **During Testing:**
+
 ```
 ☐ Monitor system resources in real-time
 ☐ Track error logs and exceptions
@@ -72,6 +74,7 @@ applies_to: [backend, frontend, api, microservices, data-pipelines]
 ```
 
 **After Testing:**
+
 ```
 ☐ Analyze latency distributions
 ☐ Identify performance bottlenecks
@@ -111,6 +114,7 @@ export default function () {
 ```
 
 **Run:**
+
 ```bash
 k6 run load-test.js
 ```
@@ -135,6 +139,7 @@ k6 run load-test.js
 #### Define Performance Requirements
 
 **Service Level Indicators (SLIs):**
+
 ```yaml
 # performance-requirements.yaml
 service: user-api
@@ -517,6 +522,7 @@ function generatePrometheusMetrics(data) {
 ```
 
 **Run JMeter from CLI:**
+
 ```bash
 # Run test plan
 jmeter -n -t test-plan.jmx \
@@ -867,11 +873,13 @@ wireshark performance-test.pcap
 ### Latency Distribution
 
 ```
+
 p50:  87ms  ████████████████░░░░░░░░░░░░░░░░░░░░ (43%)
 p75:  234ms ████████████████████████████░░░░░░░░ (70%)
 p90:  412ms ████████████████████████████████████░ (90%)
 p95:  574ms ████████████████████████████████████▓ (95%)
 p99:  1247ms████████████████████████████████████▓ (99%)
+
 ```
 
 ## Bottlenecks Identified
@@ -923,16 +931,19 @@ p99:  1247ms██████████████████████�
 ### Official Documentation
 
 **k6:**
+
 - [k6 Documentation](https://k6.io/docs/)
 - [k6 Examples](https://k6.io/docs/examples/)
 - [k6 Extensions](https://k6.io/docs/extensions/)
 
 **JMeter:**
+
 - [Apache JMeter User Manual](https://jmeter.apache.org/usermanual/)
 - [JMeter Best Practices](https://jmeter.apache.org/usermanual/best-practices.html)
 - [JMeter Plugins](https://jmeter-plugins.org/)
 
 **Gatling:**
+
 - [Gatling Documentation](https://gatling.io/docs/)
 - [Gatling Scenario DSL](https://gatling.io/docs/gatling/reference/current/core/scenario/)
 
@@ -946,6 +957,7 @@ p99:  1247ms██████████████████████�
 ### Tools & Services
 
 **Load Testing:**
+
 - [k6](https://k6.io/) - Modern load testing tool
 - [Apache JMeter](https://jmeter.apache.org/) - Java-based load testing
 - [Gatling](https://gatling.io/) - Scala-based load testing
@@ -953,6 +965,7 @@ p99:  1247ms██████████████████████�
 - [Artillery](https://artillery.io/) - Modern performance testing toolkit
 
 **APM & Monitoring:**
+
 - [Prometheus](https://prometheus.io/) + [Grafana](https://grafana.com/)
 - [Datadog APM](https://www.datadoghq.com/product/apm/)
 - [New Relic](https://newrelic.com/)
@@ -960,6 +973,7 @@ p99:  1247ms██████████████████████�
 - [Elastic APM](https://www.elastic.co/apm)
 
 **Profiling:**
+
 - [Clinic.js](https://clinicjs.org/) - Node.js profiling
 - [py-spy](https://github.com/benfred/py-spy) - Python profiling
 - [pprof](https://github.com/google/pprof) - Go profiling
@@ -988,21 +1002,25 @@ This skill includes 6 ready-to-use resources in this directory:
 ## 🎓 Learning Path
 
 **Week 1-2:** Fundamentals
+
 - Study performance testing types and metrics
 - Set up k6 and run basic load tests
 - Learn to interpret latency percentiles
 
 **Week 3-4:** Implementation
+
 - Create realistic test scenarios
 - Implement custom metrics and thresholds
 - Integrate with monitoring tools (Prometheus/Grafana)
 
 **Week 5-6:** Analysis & Optimization
+
 - Profile application bottlenecks
 - Optimize database queries
 - Implement caching strategies
 
 **Week 7-8:** CI/CD & Production
+
 - Automate performance testing in CI/CD
 - Set up SLI/SLO monitoring
 - Create alerting and incident response plans

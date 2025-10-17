@@ -4,12 +4,12 @@ Test Suite: SKILL.md Validation
 Tests YAML frontmatter, description limits, and progressive disclosure structure.
 """
 
-import os
 import re
-import yaml
-import pytest
 from pathlib import Path
 from typing import Dict, List, Optional
+
+import pytest
+import yaml
 
 
 class SkillValidator:
@@ -29,10 +29,10 @@ class SkillValidator:
 
     def extract_frontmatter(self, skill_path: Path) -> Optional[Dict]:
         """Extract and parse YAML frontmatter from SKILL.md."""
-        content = skill_path.read_text(encoding='utf-8')
+        content = skill_path.read_text(encoding="utf-8")
 
         # Match YAML frontmatter pattern
-        pattern = r'^---\s*\n(.*?\n)---\s*\n'
+        pattern = r"^---\s*\n(.*?\n)---\s*\n"
         match = re.match(pattern, content, re.DOTALL)
 
         if not match:
@@ -48,18 +48,18 @@ class SkillValidator:
         errors = []
 
         # Required fields
-        if 'name' not in frontmatter:
+        if "name" not in frontmatter:
             errors.append(f"{skill_path}: Missing 'name' field in frontmatter")
-        elif not isinstance(frontmatter['name'], str):
+        elif not isinstance(frontmatter["name"], str):
             errors.append(f"{skill_path}: 'name' must be a string")
-        elif not frontmatter['name'].strip():
+        elif not frontmatter["name"].strip():
             errors.append(f"{skill_path}: 'name' cannot be empty")
 
-        if 'description' not in frontmatter:
+        if "description" not in frontmatter:
             errors.append(f"{skill_path}: Missing 'description' field in frontmatter")
-        elif not isinstance(frontmatter['description'], str):
+        elif not isinstance(frontmatter["description"], str):
             errors.append(f"{skill_path}: 'description' must be a string")
-        elif not frontmatter['description'].strip():
+        elif not frontmatter["description"].strip():
             errors.append(f"{skill_path}: 'description' cannot be empty")
 
         return errors
@@ -74,10 +74,10 @@ class SkillValidator:
     def validate_progressive_disclosure(self, skill_path: Path) -> List[str]:
         """Validate progressive disclosure structure (Level 1, 2, 3)."""
         errors = []
-        content = skill_path.read_text(encoding='utf-8')
+        content = skill_path.read_text(encoding="utf-8")
 
         # Remove frontmatter for analysis
-        content_without_frontmatter = re.sub(r'^---\s*\n.*?\n---\s*\n', '', content, flags=re.DOTALL)
+        content_without_frontmatter = re.sub(r"^---\s*\n.*?\n---\s*\n", "", content, flags=re.DOTALL)
 
         # Level 1: Metadata (frontmatter) - already validated
 
@@ -87,12 +87,12 @@ class SkillValidator:
 
         # Level 3: Should reference additional resources
         # Look for patterns like ./resources/, ./templates/, ./scripts/
-        resource_pattern = r'\.\/(resources|templates|scripts|examples)\/'
+        resource_pattern = r"\.\/(resources|templates|scripts|examples)\/"
         has_resources = bool(re.search(resource_pattern, content))
 
         # Check for resource directory structure
         skill_dir = skill_path.parent
-        resource_dirs = ['resources', 'templates', 'scripts', 'examples']
+        resource_dirs = ["resources", "templates", "scripts", "examples"]
         has_resource_dirs = any((skill_dir / d).exists() for d in resource_dirs)
 
         # Warning if skill has no Level 3 resources (not an error, but recommended)
@@ -104,61 +104,51 @@ class SkillValidator:
 
     def validate_skill(self, skill_path: Path) -> Dict[str, any]:
         """Run all validations on a single skill."""
-        results = {
-            'path': str(skill_path),
-            'valid': True,
-            'errors': [],
-            'warnings': []
-        }
+        results = {"path": str(skill_path), "valid": True, "errors": [], "warnings": []}
 
         # Extract frontmatter
         try:
             frontmatter = self.extract_frontmatter(skill_path)
             if frontmatter is None:
-                results['errors'].append(f"{skill_path}: No valid YAML frontmatter found")
-                results['valid'] = False
+                results["errors"].append(f"{skill_path}: No valid YAML frontmatter found")
+                results["valid"] = False
                 return results
         except ValueError as e:
-            results['errors'].append(str(e))
-            results['valid'] = False
+            results["errors"].append(str(e))
+            results["valid"] = False
             return results
 
         # Validate frontmatter structure
         structure_errors = self.validate_frontmatter_structure(frontmatter, skill_path)
-        results['errors'].extend(structure_errors)
+        results["errors"].extend(structure_errors)
 
         # Validate description length
-        if 'description' in frontmatter:
-            length_error = self.validate_description_length(frontmatter['description'], skill_path)
+        if "description" in frontmatter:
+            length_error = self.validate_description_length(frontmatter["description"], skill_path)
             if length_error:
-                results['errors'].append(length_error)
+                results["errors"].append(length_error)
 
         # Validate progressive disclosure
         disclosure_errors = self.validate_progressive_disclosure(skill_path)
-        results['errors'].extend(disclosure_errors)
+        results["errors"].extend(disclosure_errors)
 
-        results['valid'] = len(results['errors']) == 0
+        results["valid"] = len(results["errors"]) == 0
         return results
 
     def validate_all_skills(self) -> Dict[str, any]:
         """Validate all skills in the directory."""
         skills = self.find_all_skills()
 
-        results = {
-            'total_skills': len(skills),
-            'valid_skills': 0,
-            'invalid_skills': 0,
-            'details': []
-        }
+        results = {"total_skills": len(skills), "valid_skills": 0, "invalid_skills": 0, "details": []}
 
         for skill_path in skills:
             skill_result = self.validate_skill(skill_path)
-            results['details'].append(skill_result)
+            results["details"].append(skill_result)
 
-            if skill_result['valid']:
-                results['valid_skills'] += 1
+            if skill_result["valid"]:
+                results["valid_skills"] += 1
             else:
-                results['invalid_skills'] += 1
+                results["invalid_skills"] += 1
 
         return results
 
@@ -203,8 +193,8 @@ Follow these steps:
         validator = SkillValidator(tmp_path / "skills")
         result = validator.validate_skill(skills_dir / "SKILL.md")
 
-        assert result['valid'] == True
-        assert len(result['errors']) == 0
+        assert result["valid"] == True
+        assert len(result["errors"]) == 0
 
     def test_missing_frontmatter(self, tmp_path):
         """Test that missing frontmatter is detected."""
@@ -221,8 +211,8 @@ This skill has no frontmatter.
         validator = SkillValidator(tmp_path / "skills")
         result = validator.validate_skill(skills_dir / "SKILL.md")
 
-        assert result['valid'] == False
-        assert any("No valid YAML frontmatter" in error for error in result['errors'])
+        assert result["valid"] == False
+        assert any("No valid YAML frontmatter" in error for error in result["errors"])
 
     def test_missing_name_field(self, tmp_path):
         """Test that missing name field is detected."""
@@ -241,8 +231,8 @@ description: Missing name field
         validator = SkillValidator(tmp_path / "skills")
         result = validator.validate_skill(skills_dir / "SKILL.md")
 
-        assert result['valid'] == False
-        assert any("Missing 'name'" in error for error in result['errors'])
+        assert result["valid"] == False
+        assert any("Missing 'name'" in error for error in result["errors"])
 
     def test_description_length_limit(self, tmp_path):
         """Test that description length limit is enforced."""
@@ -264,8 +254,8 @@ description: {long_description}
         validator = SkillValidator(tmp_path / "skills")
         result = validator.validate_skill(skills_dir / "SKILL.md")
 
-        assert result['valid'] == False
-        assert any("exceeds" in error and "1024" in error for error in result['errors'])
+        assert result["valid"] == False
+        assert any("exceeds" in error and "1024" in error for error in result["errors"])
 
     def test_empty_level2_content(self, tmp_path):
         """Test that empty Level 2 content is detected."""
@@ -284,8 +274,8 @@ description: This skill has no body content
         validator = SkillValidator(tmp_path / "skills")
         result = validator.validate_skill(skills_dir / "SKILL.md")
 
-        assert result['valid'] == False
-        assert any("Missing Level 2 content" in error for error in result['errors'])
+        assert result["valid"] == False
+        assert any("Missing Level 2 content" in error for error in result["errors"])
 
     def test_progressive_disclosure_with_resources(self, tmp_path):
         """Test that resource references are recognized."""
@@ -315,7 +305,7 @@ See ./resources/example.md for more details.
         validator = SkillValidator(tmp_path / "skills")
         result = validator.validate_skill(skills_dir / "SKILL.md")
 
-        assert result['valid'] == True
+        assert result["valid"] == True
 
     def test_batch_validation(self, tmp_path):
         """Test validation of multiple skills."""
@@ -342,12 +332,12 @@ Content for skill {i}.
         validator = SkillValidator(skills_dir)
         results = validator.validate_all_skills()
 
-        assert results['total_skills'] == 3
-        assert results['valid_skills'] == 3
-        assert results['invalid_skills'] == 0
+        assert results["total_skills"] == 3
+        assert results["valid_skills"] == 3
+        assert results["invalid_skills"] == 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Run validation on actual skills directory if it exists
     import sys
 
@@ -358,17 +348,17 @@ if __name__ == '__main__':
         validator = SkillValidator(skills_dir)
         results = validator.validate_all_skills()
 
-        print(f"\n=== Skill Validation Results ===")
+        print("\n=== Skill Validation Results ===")
         print(f"Total skills: {results['total_skills']}")
         print(f"Valid: {results['valid_skills']}")
         print(f"Invalid: {results['invalid_skills']}")
 
-        if results['invalid_skills'] > 0:
-            print(f"\n=== Errors ===")
-            for detail in results['details']:
-                if not detail['valid']:
+        if results["invalid_skills"] > 0:
+            print("\n=== Errors ===")
+            for detail in results["details"]:
+                if not detail["valid"]:
                     print(f"\n{detail['path']}:")
-                    for error in detail['errors']:
+                    for error in detail["errors"]:
                         print(f"  - {error}")
             sys.exit(1)
         else:

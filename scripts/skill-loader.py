@@ -17,12 +17,11 @@ Usage:
 
 import argparse
 import json
-import os
 import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Optional, Set
+from typing import Dict, List, Optional
 
 import yaml
 
@@ -30,6 +29,7 @@ import yaml
 @dataclass
 class Skill:
     """Represents a skill with metadata"""
+
     name: str
     path: Path
     description: str
@@ -78,7 +78,7 @@ class SkillLoader:
             return
 
         for skill_dir in self.skills_dir.iterdir():
-            if not skill_dir.is_dir() or skill_dir.name.startswith('.'):
+            if not skill_dir.is_dir() or skill_dir.name.startswith("."):
                 continue
 
             skill_file = skill_dir / "SKILL.md"
@@ -94,14 +94,14 @@ class SkillLoader:
                 content = f.read()
 
             # Extract YAML frontmatter
-            frontmatter_match = re.match(r'^---\s*\n(.*?)\n---\s*\n', content, re.DOTALL)
+            frontmatter_match = re.match(r"^---\s*\n(.*?)\n---\s*\n", content, re.DOTALL)
             if not frontmatter_match:
                 return None
 
             metadata = yaml.safe_load(frontmatter_match.group(1))
 
-            skill_name = metadata.get('name', skill_file.parent.name)
-            description = metadata.get('description', 'No description available')
+            skill_name = metadata.get("name", skill_file.parent.name)
+            description = metadata.get("description", "No description available")
 
             # Determine category from path
             category = skill_file.parent.name
@@ -111,7 +111,7 @@ class SkillLoader:
                 path=skill_file.parent,
                 description=description,
                 category=category,
-                related=metadata.get('related', [])
+                related=metadata.get("related", []),
             )
         except Exception as e:
             print(f"⚠️  Error parsing {skill_file}: {e}", file=sys.stderr)
@@ -124,12 +124,11 @@ class SkillLoader:
         for skill in self.skills_cache.values():
             # Filter by keyword if provided
             if keyword:
-                if keyword.lower() not in skill.name.lower() and \
-                   keyword.lower() not in skill.description.lower():
+                if keyword.lower() not in skill.name.lower() and keyword.lower() not in skill.description.lower():
                     continue
 
             # Filter by category if provided
-            if category and category != 'all':
+            if category and category != "all":
                 if skill.category != category:
                     continue
 
@@ -140,7 +139,7 @@ class SkillLoader:
     def recommend(self, product_type: str) -> List[Skill]:
         """Recommend skills for a product type"""
         # Use legacy mappings to determine recommended skills
-        product_mappings = self.legacy_mappings.get('product_mappings', {})
+        product_mappings = self.legacy_mappings.get("product_mappings", {})
 
         if product_type not in product_mappings:
             print(f"⚠️  Unknown product type: {product_type}")
@@ -148,13 +147,13 @@ class SkillLoader:
             return []
 
         product_config = product_mappings[product_type]
-        skill_names = product_config.get('skills', [])
+        skill_names = product_config.get("skills", [])
 
         # Resolve skill names to skill objects
         recommended = []
         for skill_name in skill_names:
             # Extract base skill name (e.g., 'coding-standards/python' -> 'coding-standards')
-            base_name = skill_name.split('/')[0]
+            base_name = skill_name.split("/")[0]
             if base_name in self.skills_cache:
                 skill = self.skills_cache[base_name]
                 recommended.append(skill)
@@ -164,7 +163,7 @@ class SkillLoader:
     def load_skill(self, skill_name: str, level: int = 2) -> Optional[Skill]:
         """Load a specific skill at the given level"""
         # Handle composite skill names (e.g., 'coding-standards/python')
-        base_name = skill_name.split('/')[0]
+        base_name = skill_name.split("/")[0]
 
         if base_name not in self.skills_cache:
             # Try legacy pattern translation
@@ -177,13 +176,13 @@ class SkillLoader:
     def _translate_legacy_pattern(self, pattern: str) -> Optional[Skill]:
         """Translate a legacy @load pattern to skills"""
         # Handle product types
-        if pattern.startswith('product:'):
-            product_type = pattern.replace('product:', '')
+        if pattern.startswith("product:"):
+            product_type = pattern.replace("product:", "")
             skills = self.recommend(product_type)
             return skills[0] if skills else None
 
         # Handle standard codes (CS:, TS:, SEC:, etc.)
-        code_pattern = r'([A-Z]+):(.*)'
+        code_pattern = r"([A-Z]+):(.*)"
         match = re.match(code_pattern, pattern)
         if match:
             code_type, code_value = match.groups()
@@ -193,20 +192,20 @@ class SkillLoader:
             mappings = self.legacy_mappings.get(mapping_key, {})
 
             if code_value in mappings:
-                skill_path = mappings[code_value].get('skill', '')
-                base_name = skill_path.split('/')[0]
+                skill_path = mappings[code_value].get("skill", "")
+                base_name = skill_path.split("/")[0]
                 if base_name in self.skills_cache:
                     return self.skills_cache[base_name]
 
         return None
 
-    def list_skills(self, category: str = 'all') -> List[Skill]:
+    def list_skills(self, category: str = "all") -> List[Skill]:
         """List all skills, optionally filtered by category"""
         return self.discover(category=category)
 
     def get_skill_info(self, skill_name: str) -> Optional[Skill]:
         """Get detailed information about a skill"""
-        base_name = skill_name.split('/')[0]
+        base_name = skill_name.split("/")[0]
         return self.skills_cache.get(base_name)
 
     def validate_skill(self, skill_name: str) -> bool:
@@ -225,11 +224,7 @@ class SkillLoader:
         with open(skill_file) as f:
             content = f.read()
 
-        required_sections = [
-            '## Overview',
-            '## When to Use This Skill',
-            '## Core Instructions'
-        ]
+        required_sections = ["## Overview", "## When to Use This Skill", "## Core Instructions"]
 
         missing_sections = []
         for section in required_sections:
@@ -249,7 +244,7 @@ class SkillLoader:
 def main():
     """Main CLI entry point"""
     parser = argparse.ArgumentParser(
-        description='Skill Loader CLI - Load and manage development skills',
+        description="Skill Loader CLI - Load and manage development skills",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
@@ -269,38 +264,38 @@ Examples:
 
   # Recommendations
   %(prog)s recommend --product-type api
-        """
+        """,
     )
 
-    subparsers = parser.add_subparsers(dest='command', help='Command to run')
+    subparsers = parser.add_subparsers(dest="command", help="Command to run")
 
     # Discover command
-    discover_parser = subparsers.add_parser('discover', help='Discover skills by keyword or category')
-    discover_parser.add_argument('--keyword', help='Search keyword')
-    discover_parser.add_argument('--category', help='Filter by category')
+    discover_parser = subparsers.add_parser("discover", help="Discover skills by keyword or category")
+    discover_parser.add_argument("--keyword", help="Search keyword")
+    discover_parser.add_argument("--category", help="Filter by category")
 
     # Load command
-    load_parser = subparsers.add_parser('load', help='Load specific skills')
-    load_parser.add_argument('skills', help='Skill name(s) to load (comma-separated or [a,b] format)')
-    load_parser.add_argument('--level', type=int, default=2, help='Skill level to load (1-3)')
-    load_parser.add_argument('--format', choices=['text', 'json'], default='text', help='Output format')
+    load_parser = subparsers.add_parser("load", help="Load specific skills")
+    load_parser.add_argument("skills", help="Skill name(s) to load (comma-separated or [a,b] format)")
+    load_parser.add_argument("--level", type=int, default=2, help="Skill level to load (1-3)")
+    load_parser.add_argument("--format", choices=["text", "json"], default="text", help="Output format")
 
     # List command
-    list_parser = subparsers.add_parser('list', help='List all skills')
-    list_parser.add_argument('--category', default='all', help='Filter by category')
-    list_parser.add_argument('--format', choices=['text', 'json'], default='text', help='Output format')
+    list_parser = subparsers.add_parser("list", help="List all skills")
+    list_parser.add_argument("--category", default="all", help="Filter by category")
+    list_parser.add_argument("--format", choices=["text", "json"], default="text", help="Output format")
 
     # Info command
-    info_parser = subparsers.add_parser('info', help='Get detailed skill information')
-    info_parser.add_argument('skill', help='Skill name')
+    info_parser = subparsers.add_parser("info", help="Get detailed skill information")
+    info_parser.add_argument("skill", help="Skill name")
 
     # Validate command
-    validate_parser = subparsers.add_parser('validate', help='Validate skill structure')
-    validate_parser.add_argument('skill', help='Skill name')
+    validate_parser = subparsers.add_parser("validate", help="Validate skill structure")
+    validate_parser.add_argument("skill", help="Skill name")
 
     # Recommend command
-    recommend_parser = subparsers.add_parser('recommend', help='Recommend skills for product type')
-    recommend_parser.add_argument('--product-type', required=True, help='Product type (api, web-service, etc.)')
+    recommend_parser = subparsers.add_parser("recommend", help="Recommend skills for product type")
+    recommend_parser.add_argument("--product-type", required=True, help="Product type (api, web-service, etc.)")
 
     args = parser.parse_args()
 
@@ -313,7 +308,7 @@ Examples:
     loader = SkillLoader(repo_root)
 
     # Execute command
-    if args.command == 'discover':
+    if args.command == "discover":
         skills = loader.discover(keyword=args.keyword, category=args.category)
         if not skills:
             print("No skills found matching criteria")
@@ -326,10 +321,10 @@ Examples:
             print(f"    Category: {skill.category}")
             print()
 
-    elif args.command == 'load':
+    elif args.command == "load":
         # Parse skill names (handle [a,b] or a,b format)
-        skills_input = args.skills.strip('[]')
-        skill_names = [s.strip() for s in skills_input.split(',')]
+        skills_input = args.skills.strip("[]")
+        skill_names = [s.strip() for s in skills_input.split(",")]
 
         loaded_skills = []
         for skill_name in skill_names:
@@ -343,15 +338,10 @@ Examples:
             print("❌ No skills loaded", file=sys.stderr)
             return 1
 
-        if args.format == 'json':
+        if args.format == "json":
             output = {
-                'skills': [
-                    {
-                        'name': s.name,
-                        'path': str(s.path),
-                        'description': s.description,
-                        'level': s.level
-                    }
+                "skills": [
+                    {"name": s.name, "path": str(s.path), "description": s.description, "level": s.level}
                     for s in loaded_skills
                 ]
             }
@@ -364,19 +354,12 @@ Examples:
                 print(f"    Path: {skill.path}")
                 print()
 
-    elif args.command == 'list':
+    elif args.command == "list":
         skills = loader.list_skills(category=args.category)
 
-        if args.format == 'json':
+        if args.format == "json":
             output = {
-                'skills': [
-                    {
-                        'name': s.name,
-                        'category': s.category,
-                        'description': s.description
-                    }
-                    for s in skills
-                ]
+                "skills": [{"name": s.name, "category": s.category, "description": s.description} for s in skills]
             }
             print(json.dumps(output, indent=2))
         else:
@@ -394,7 +377,7 @@ Examples:
                     print(f"    • {skill.name}")
                 print()
 
-    elif args.command == 'info':
+    elif args.command == "info":
         skill = loader.get_skill_info(args.skill)
         if not skill:
             print(f"❌ Skill not found: {args.skill}", file=sys.stderr)
@@ -408,11 +391,11 @@ Examples:
             print(f"Related: {', '.join(skill.related)}")
         print()
 
-    elif args.command == 'validate':
+    elif args.command == "validate":
         success = loader.validate_skill(args.skill)
         return 0 if success else 1
 
-    elif args.command == 'recommend':
+    elif args.command == "recommend":
         skills = loader.recommend(args.product_type)
         if not skills:
             return 1
@@ -428,5 +411,5 @@ Examples:
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())

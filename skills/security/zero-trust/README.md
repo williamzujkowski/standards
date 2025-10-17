@@ -25,6 +25,7 @@ skills/security/zero-trust/
 ## Learning Path
 
 ### Level 1: Quick Reference (15-30 minutes)
+
 - Zero-trust principles and core tenets
 - Common patterns (mTLS, service mesh, BeyondCorp)
 - Essential implementation checklist
@@ -33,6 +34,7 @@ skills/security/zero-trust/
 **Target audience:** Developers, DevOps engineers, security practitioners
 
 ### Level 2: Implementation Guide (4-6 hours)
+
 - Detailed zero-trust architecture principles
 - Step-by-step mTLS implementation
 - Service mesh deployment (Istio/Linkerd)
@@ -45,6 +47,7 @@ skills/security/zero-trust/
 **Target audience:** Security architects, platform engineers, DevSecOps teams
 
 ### Level 3: Deep Dive Resources
+
 - Official NIST documentation
 - Service mesh documentation (Istio, Linkerd)
 - SPIFFE/SPIRE specifications
@@ -56,6 +59,7 @@ skills/security/zero-trust/
 ## Quick Start
 
 ### Prerequisites
+
 - Kubernetes cluster (1.20+)
 - kubectl configured
 - Basic understanding of:
@@ -120,6 +124,7 @@ kubectl describe networkpolicy default-deny-all -n production
 ## Templates
 
 ### mTLS Configuration (`templates/mtls-config.yaml`)
+
 - Global strict mTLS policy for Istio
 - Namespace-level permissive mode for migration
 - Workload-specific mTLS overrides
@@ -131,6 +136,7 @@ kubectl describe networkpolicy default-deny-all -n production
 **Lines:** 233 | **Use cases:** Service mesh security, encrypted communication
 
 ### Workload Identity (`templates/workload-identity.yaml`)
+
 - SPIRE server and agent configurations
 - Kubernetes integration (k8s_psat attestation)
 - Workload registration entries
@@ -141,6 +147,7 @@ kubectl describe networkpolicy default-deny-all -n production
 **Lines:** 424 | **Use cases:** Zero-trust identity, mTLS with automatic certificates
 
 ### Network Policy (`templates/network-policy.yaml`)
+
 - Default deny-all policies
 - DNS resolution allowance
 - Tier-based segmentation (frontend, backend, database)
@@ -154,7 +161,9 @@ kubectl describe networkpolicy default-deny-all -n production
 ## Resources
 
 ### Zero-Trust Architecture (`resources/zero-trust-architecture.md`)
+
 Comprehensive architecture guide including:
+
 - Component diagrams (PDP, PEP, PA)
 - Data flow examples
 - Network segmentation strategies
@@ -166,7 +175,9 @@ Comprehensive architecture guide including:
 **Lines:** 573 | **Key topics:** Architecture design, component integration
 
 ### NIST 800-207 Checklist (`resources/nist-800-207-checklist.md`)
+
 Detailed compliance checklist covering:
+
 - 7 zero-trust tenets (NIST)
 - Architecture components (PE, PA, PEP)
 - Trust algorithm implementation
@@ -183,9 +194,11 @@ Detailed compliance checklist covering:
 ## Automation Scripts
 
 ### mTLS Setup (`scripts/setup-mtls.sh`)
+
 Automated certificate management and mTLS configuration:
 
 **Commands:**
+
 ```bash
 setup-mtls.sh setup                  # Create CA and configure service mesh
 setup-mtls.sh generate-cert <name>   # Generate service certificate
@@ -195,6 +208,7 @@ setup-mtls.sh info <name>            # Display certificate info
 ```
 
 **Features:**
+
 - Root and intermediate CA generation
 - Service certificate creation with SAN
 - Kubernetes secret management
@@ -217,24 +231,28 @@ This skill directly addresses the following NIST SP 800-53 controls:
 ## Use Cases
 
 ### 1. Microservices Security
+
 - mTLS between all services
 - Service-to-service authorization
 - Workload identities without secrets
 - Traffic encryption and inspection
 
 ### 2. Compliance Requirements
+
 - NIST 800-207 compliance
 - PCI-DSS segmentation
 - HIPAA data protection
 - SOC 2 access controls
 
 ### 3. Cloud-Native Security
+
 - Kubernetes NetworkPolicies
 - Service mesh integration
 - Cloud-agnostic identity (SPIFFE)
 - Multi-cluster security
 
 ### 4. Remote Access Security
+
 - BeyondCorp model
 - Identity-aware proxy
 - Context-aware access
@@ -243,12 +261,14 @@ This skill directly addresses the following NIST SP 800-53 controls:
 ## Best Practices
 
 ### 1. Start with Visibility
+
 - Deploy service mesh in permissive mode
 - Enable comprehensive logging
 - Map service dependencies
 - Understand traffic patterns
 
 ### 2. Gradual Migration
+
 - Phase 1: Visibility (weeks 1-4)
 - Phase 2: Identity (weeks 5-8)
 - Phase 3: Segmentation (weeks 9-12)
@@ -256,12 +276,14 @@ This skill directly addresses the following NIST SP 800-53 controls:
 - Phase 5: Continuous improvement
 
 ### 3. Automate Everything
+
 - Certificate lifecycle management
 - Policy deployment and testing
 - Monitoring and alerting
 - Incident response
 
 ### 4. Measure and Improve
+
 - Track key metrics (authorization latency, policy violations)
 - Regular security assessments
 - Policy effectiveness reviews
@@ -280,6 +302,7 @@ This skill directly addresses the following NIST SP 800-53 controls:
 ## Troubleshooting
 
 ### mTLS Issues
+
 ```bash
 # Check mTLS status
 istioctl proxy-status
@@ -295,6 +318,7 @@ kubectl exec <pod> -c istio-proxy -- \
 ```
 
 ### NetworkPolicy Issues
+
 ```bash
 # Test connectivity
 kubectl run test-pod --rm -it --image=nicolaka/netshoot -- \
@@ -308,6 +332,7 @@ kubectl logs -n kube-system -l k8s-app=cilium --tail=50
 ```
 
 ### SPIRE Issues
+
 ```bash
 # Check SPIRE server health
 kubectl exec -n spire spire-server-0 -- \
@@ -331,18 +356,21 @@ kubectl logs -n spire -l app=spire-agent --tail=50
 ## Additional Resources
 
 ### Documentation
+
 - [NIST SP 800-207](https://csrc.nist.gov/publications/detail/sp/800-207/final)
 - [Istio Security](https://istio.io/latest/docs/concepts/security/)
 - [SPIFFE/SPIRE](https://spiffe.io/docs/latest/)
 - [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/)
 
 ### Tools
+
 - Service Meshes: Istio, Linkerd, Consul Connect
 - Policy Engines: OPA, Kyverno, Gatekeeper
 - Identity: SPIFFE/SPIRE, Keycloak, Dex
 - Monitoring: Prometheus, Grafana, Falco
 
 ### Training
+
 - SANS SEC530: Defensible Security Architecture
 - Kubernetes Security Specialist (CKS)
 - Cloud Security Alliance CCSK
@@ -363,6 +391,7 @@ Track these metrics to measure zero-trust effectiveness:
 ## Contributing
 
 To improve this skill:
+
 1. Test configurations in your environment
 2. Document edge cases and solutions
 3. Share automation scripts

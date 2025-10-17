@@ -23,6 +23,7 @@ last_updated: "2025-10-17"
 # API Security
 
 > **Level System**: Each skill contains three progressive levels
+>
 > - **Level 1**: Quick Reference (600-800 tokens) - Essential patterns and checklists
 > - **Level 2**: Implementation Guide (3000-4500 tokens) - Detailed practices and examples
 > - **Level 3**: Deep Dive - Additional resources and advanced topics
@@ -181,6 +182,7 @@ def require_api_key(f):
 ```
 
 **Security Considerations**:
+
 - Store only hashed keys in database (SHA-256 minimum)
 - Use HTTPS exclusively
 - Implement key rotation policy
@@ -314,6 +316,7 @@ class TokenManager {
 ```
 
 **JWT Security Checklist**:
+
 - Use RS256 (asymmetric) for multi-service architectures
 - Keep access tokens short-lived (15-60 minutes)
 - Implement refresh token rotation
@@ -558,6 +561,7 @@ app.use('/api/public', cors({
 ```
 
 **CORS Security Rules**:
+
 - Never use `origin: '*'` with `credentials: true`
 - Validate origin against allowlist (no regex if possible)
 - Minimize `allowedHeaders` and `exposedHeaders`
@@ -1028,12 +1032,14 @@ def login(email: str, password: str):
 #### SC-8: Transmission Confidentiality and Integrity
 
 **Implementation**:
+
 - TLS 1.2+ for all API traffic
 - Perfect Forward Secrecy (PFS) cipher suites
 - Certificate pinning for mobile clients
 - Mutual TLS (mTLS) for service-to-service
 
 **Validation**:
+
 ```bash
 # Test TLS configuration
 testssl.sh https://api.example.com
@@ -1045,6 +1051,7 @@ nmap --script ssl-enum-ciphers -p 443 api.example.com
 #### SC-13: Cryptographic Protection
 
 **Implementation**:
+
 - AES-256-GCM for data at rest
 - RSA-2048 or ECDSA P-256 for signatures
 - Argon2id for password hashing
@@ -1053,6 +1060,7 @@ nmap --script ssl-enum-ciphers -p 443 api.example.com
 #### IA-5: Authenticator Management
 
 **Implementation**:
+
 - API key rotation every 90 days
 - JWT secret rotation on breach
 - Password complexity requirements
@@ -1061,6 +1069,7 @@ nmap --script ssl-enum-ciphers -p 443 api.example.com
 #### AC-7: Unsuccessful Logon Attempts
 
 **Implementation**:
+
 ```python
 class LoginAttemptTracker:
     MAX_ATTEMPTS = 5
@@ -1108,6 +1117,7 @@ This skill includes the following resources in this directory:
 ---
 
 **Next Steps**: After mastering API security, explore related skills:
+
 - **Threat Modeling** - Proactive security architecture design
 - **Penetration Testing** - Offensive security testing techniques
 - **Secure SDLC** - Integrating security throughout development lifecycle

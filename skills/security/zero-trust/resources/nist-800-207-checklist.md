@@ -3,6 +3,7 @@
 This checklist helps organizations assess their zero-trust implementation against NIST SP 800-207 guidelines.
 
 ## Legend
+
 - ✅ Implemented
 - ⚠️ Partially Implemented
 - ❌ Not Implemented
@@ -13,6 +14,7 @@ This checklist helps organizations assess their zero-trust implementation agains
 ## 1. Zero Trust Tenets (Section 2.1)
 
 ### 1.1 All Data Sources and Computing Services are Resources
+
 - [ ] All applications identified and inventoried
 - [ ] All services catalogued with owners
 - [ ] All data stores classified by sensitivity
@@ -20,6 +22,7 @@ This checklist helps organizations assess their zero-trust implementation agains
 - [ ] Cloud resources tracked and monitored
 
 ### 1.2 All Communication is Secured
+
 - [ ] mTLS enabled for service-to-service communication
 - [ ] TLS 1.3 (or 1.2 minimum) for all external communication
 - [ ] No unencrypted internal traffic
@@ -27,6 +30,7 @@ This checklist helps organizations assess their zero-trust implementation agains
 - [ ] Strong cipher suites configured
 
 ### 1.3 Access Granted Per-Session Basis
+
 - [ ] No persistent credentials or long-lived tokens
 - [ ] Session tokens have defined TTL
 - [ ] Re-authentication required after timeout
@@ -34,6 +38,7 @@ This checklist helps organizations assess their zero-trust implementation agains
 - [ ] Continuous session validation implemented
 
 ### 1.4 Access Determined by Dynamic Policy
+
 - [ ] Policy engine deployed (e.g., OPA)
 - [ ] Policies include user identity, device health, risk score
 - [ ] Context-aware authorization (location, time, behavior)
@@ -41,6 +46,7 @@ This checklist helps organizations assess their zero-trust implementation agains
 - [ ] Policy versioning and audit trail maintained
 
 ### 1.5 Monitor and Measure Asset Security Posture
+
 - [ ] Continuous monitoring of all assets
 - [ ] Device health checks automated
 - [ ] Security posture scoring implemented
@@ -48,6 +54,7 @@ This checklist helps organizations assess their zero-trust implementation agains
 - [ ] Real-time alerting on posture degradation
 
 ### 1.6 Dynamic and Strict Resource Authentication
+
 - [ ] Strong authentication for all resource access
 - [ ] Multi-factor authentication enforced
 - [ ] Workload identities (SPIFFE/SPIRE) deployed
@@ -55,6 +62,7 @@ This checklist helps organizations assess their zero-trust implementation agains
 - [ ] Failed authentication attempts monitored
 
 ### 1.7 Collect Information About Current State
+
 - [ ] Comprehensive asset inventory
 - [ ] Network traffic analysis enabled
 - [ ] Security telemetry collected
@@ -66,6 +74,7 @@ This checklist helps organizations assess their zero-trust implementation agains
 ## 2. Zero Trust Architecture Components (Section 3)
 
 ### 2.1 Policy Engine (PE)
+
 - [ ] Policy engine deployed and operational
 - [ ] Integrates with identity provider
 - [ ] Accesses device posture data
@@ -78,6 +87,7 @@ This checklist helps organizations assess their zero-trust implementation agains
 **Technology Used:** ___________________
 
 ### 2.2 Policy Administrator (PA)
+
 - [ ] Policy administrator deployed
 - [ ] Generates session-specific tokens
 - [ ] Communicates with policy engine
@@ -89,6 +99,7 @@ This checklist helps organizations assess their zero-trust implementation agains
 **Technology Used:** ___________________
 
 ### 2.3 Policy Enforcement Point (PEP)
+
 - [ ] PEPs deployed at critical boundaries
 - [ ] Enforces communication paths
 - [ ] Validates authentication tokens
@@ -105,12 +116,14 @@ This checklist helps organizations assess their zero-trust implementation agains
 ## 3. Trust Algorithm (Section 3.3)
 
 ### 3.1 Access Subject
+
 - [ ] User identity verified
 - [ ] User roles and attributes collected
 - [ ] Historical behavior analyzed
 - [ ] Access patterns monitored
 
 ### 3.2 Access Resource
+
 - [ ] Resource classification implemented
 - [ ] Sensitivity levels defined
 - [ ] Resource ownership assigned
@@ -119,6 +132,7 @@ This checklist helps organizations assess their zero-trust implementation agains
 ### 3.3 Trust Scoring Inputs
 
 #### User/Subject Attributes
+
 - [ ] Authentication method strength
 - [ ] MFA status
 - [ ] Account age
@@ -126,6 +140,7 @@ This checklist helps organizations assess their zero-trust implementation agains
 - [ ] Role and clearance level
 
 #### Device Attributes
+
 - [ ] Device management status
 - [ ] Operating system version
 - [ ] Security software status
@@ -133,12 +148,14 @@ This checklist helps organizations assess their zero-trust implementation agains
 - [ ] Compliance with baseline
 
 #### Network Attributes
+
 - [ ] Source IP reputation
 - [ ] Geographic location
 - [ ] Network type (corporate, public)
 - [ ] VPN/proxy detection
 
 #### Behavioral Attributes
+
 - [ ] Time of access (normal/unusual)
 - [ ] Frequency of access
 - [ ] Data volume accessed
@@ -146,12 +163,14 @@ This checklist helps organizations assess their zero-trust implementation agains
 - [ ] Anomaly detection
 
 #### Resource Attributes
+
 - [ ] Data classification level
 - [ ] Regulatory requirements
 - [ ] Business criticality
 - [ ] Access history
 
 ### 3.4 Trust Score Calculation
+
 - [ ] Trust algorithm documented
 - [ ] Weights assigned to each input
 - [ ] Threshold values defined
@@ -168,6 +187,7 @@ This checklist helps organizations assess their zero-trust implementation agains
 Select your deployment model(s):
 
 ### 4.1 Device Agent/Gateway-Based Deployment
+
 - [ ] Agents installed on devices
 - [ ] Gateway deployed for agentless devices
 - [ ] Agent/gateway communicates with policy engine
@@ -175,6 +195,7 @@ Select your deployment model(s):
 - [ ] Agent health monitoring
 
 ### 4.2 Enclave-Based Deployment
+
 - [ ] Security enclaves defined
 - [ ] Micro-perimeters established
 - [ ] Gateway controls enclave access
@@ -182,6 +203,7 @@ Select your deployment model(s):
 - [ ] Least privilege access enforced
 
 ### 4.3 Resource Portal-Based Deployment
+
 - [ ] Access portal deployed
 - [ ] All resource access through portal
 - [ ] Strong authentication enforced
@@ -189,6 +211,7 @@ Select your deployment model(s):
 - [ ] User activity logged
 
 ### 4.4 Device Application Sandboxing
+
 - [ ] Applications sandboxed
 - [ ] Sandbox policies enforced
 - [ ] Communication controlled
@@ -200,6 +223,7 @@ Select your deployment model(s):
 ## 5. Identity and Access Management (IAM)
 
 ### 5.1 Identity Management
+
 - [ ] Centralized identity provider
 - [ ] Single Sign-On (SSO) implemented
 - [ ] Identity lifecycle management
@@ -207,6 +231,7 @@ Select your deployment model(s):
 - [ ] Attribute-based access control (ABAC)
 
 ### 5.2 Multi-Factor Authentication
+
 - [ ] MFA required for all users
 - [ ] MFA for privileged accounts mandatory
 - [ ] Multiple MFA methods supported
@@ -214,6 +239,7 @@ Select your deployment model(s):
 - [ ] MFA enrollment monitored
 
 ### 5.3 Workload Identity
+
 - [ ] SPIFFE/SPIRE deployed
 - [ ] Service accounts managed
 - [ ] Certificate-based authentication
@@ -225,12 +251,14 @@ Select your deployment model(s):
 ## 6. Network Segmentation and Microsegmentation
 
 ### 6.1 Network Segmentation
+
 - [ ] Network zones defined
 - [ ] Traffic between zones controlled
 - [ ] Ingress/egress rules documented
 - [ ] Segment isolation tested
 
 ### 6.2 Microsegmentation
+
 - [ ] Kubernetes NetworkPolicies deployed
 - [ ] Default deny policies in place
 - [ ] Explicit allow rules documented
@@ -238,6 +266,7 @@ Select your deployment model(s):
 - [ ] Layer 7 policies implemented (if applicable)
 
 ### 6.3 East-West Traffic Security
+
 - [ ] Internal traffic encrypted (mTLS)
 - [ ] Service mesh deployed
 - [ ] Authorization policies enforced
@@ -249,6 +278,7 @@ Select your deployment model(s):
 ## 7. Encryption and Data Protection
 
 ### 7.1 Data in Transit
+
 - [ ] All external traffic encrypted (TLS 1.3)
 - [ ] All internal traffic encrypted (mTLS)
 - [ ] Strong cipher suites enforced
@@ -256,6 +286,7 @@ Select your deployment model(s):
 - [ ] Legacy protocols disabled
 
 ### 7.2 Data at Rest
+
 - [ ] Database encryption enabled
 - [ ] File system encryption enabled
 - [ ] Backup encryption enabled
@@ -263,6 +294,7 @@ Select your deployment model(s):
 - [ ] Encryption key rotation automated
 
 ### 7.3 Key Management
+
 - [ ] Centralized key management
 - [ ] Hardware Security Module (HSM) used
 - [ ] Key access controlled and logged
@@ -274,6 +306,7 @@ Select your deployment model(s):
 ## 8. Continuous Monitoring and Analytics
 
 ### 8.1 Security Monitoring
+
 - [ ] SIEM deployed
 - [ ] All logs centralized
 - [ ] Real-time alerting configured
@@ -281,6 +314,7 @@ Select your deployment model(s):
 - [ ] Incident response plan documented
 
 ### 8.2 Behavioral Analytics
+
 - [ ] User behavior analytics (UBA) implemented
 - [ ] Entity behavior analytics (EBA) implemented
 - [ ] Anomaly detection configured
@@ -288,6 +322,7 @@ Select your deployment model(s):
 - [ ] Baseline behavior established
 
 ### 8.3 Threat Detection
+
 - [ ] Threat intelligence feeds integrated
 - [ ] Indicators of Compromise (IoC) monitoring
 - [ ] Automated threat response
@@ -295,6 +330,7 @@ Select your deployment model(s):
 - [ ] Vulnerability scanning automated
 
 ### 8.4 Metrics and KPIs
+
 - [ ] Zero-trust metrics defined
 - [ ] KPIs tracked and reported
 - [ ] Policy effectiveness measured
@@ -302,6 +338,7 @@ Select your deployment model(s):
 - [ ] Continuous improvement process
 
 **Key Metrics Tracked:**
+
 - Authorization decision latency: _______
 - Policy violations per day: _______
 - Mean time to detect (MTTD): _______
@@ -313,6 +350,7 @@ Select your deployment model(s):
 ## 9. Governance and Compliance
 
 ### 9.1 Policy Management
+
 - [ ] Zero-trust policies documented
 - [ ] Policy ownership assigned
 - [ ] Regular policy review scheduled
@@ -320,6 +358,7 @@ Select your deployment model(s):
 - [ ] Policy exceptions tracked and approved
 
 ### 9.2 Compliance
+
 - [ ] Regulatory requirements mapped
 - [ ] Compliance controls implemented
 - [ ] Regular compliance audits conducted
@@ -327,6 +366,7 @@ Select your deployment model(s):
 - [ ] Non-compliance remediation process
 
 ### 9.3 Risk Management
+
 - [ ] Risk assessment conducted
 - [ ] Residual risks documented
 - [ ] Risk acceptance process
@@ -338,6 +378,7 @@ Select your deployment model(s):
 ## 10. Automation and Orchestration
 
 ### 10.1 Policy Automation
+
 - [ ] Policy deployment automated
 - [ ] Policy testing automated
 - [ ] Policy rollback capability
@@ -345,6 +386,7 @@ Select your deployment model(s):
 - [ ] GitOps workflow for policy management
 
 ### 10.2 Certificate Management
+
 - [ ] Certificate issuance automated
 - [ ] Certificate renewal automated
 - [ ] Expiration monitoring
@@ -352,6 +394,7 @@ Select your deployment model(s):
 - [ ] Certificate inventory maintained
 
 ### 10.3 Incident Response Automation
+
 - [ ] Automated threat containment
 - [ ] Automated evidence collection
 - [ ] Automated notification
@@ -363,6 +406,7 @@ Select your deployment model(s):
 ## 11. User Experience and Adoption
 
 ### 11.1 User Experience
+
 - [ ] Transparent authentication where possible
 - [ ] Minimal user friction
 - [ ] Clear error messages
@@ -370,6 +414,7 @@ Select your deployment model(s):
 - [ ] User feedback collected
 
 ### 11.2 Training and Awareness
+
 - [ ] Zero-trust training provided
 - [ ] Security awareness program
 - [ ] Role-specific training
@@ -377,6 +422,7 @@ Select your deployment model(s):
 - [ ] Training effectiveness measured
 
 ### 11.3 Support
+
 - [ ] Help desk trained on zero-trust
 - [ ] Support documentation available
 - [ ] Escalation process defined
@@ -388,6 +434,7 @@ Select your deployment model(s):
 ## 12. Resilience and Recovery
 
 ### 12.1 High Availability
+
 - [ ] Policy engine redundancy
 - [ ] Policy administrator redundancy
 - [ ] PEP redundancy
@@ -395,6 +442,7 @@ Select your deployment model(s):
 - [ ] Regular failover testing
 
 ### 12.2 Degradation Handling
+
 - [ ] Fail-secure defaults configured
 - [ ] Graceful degradation strategy
 - [ ] Emergency access procedures
@@ -402,6 +450,7 @@ Select your deployment model(s):
 - [ ] Degradation monitoring
 
 ### 12.3 Backup and Recovery
+
 - [ ] Configuration backup automated
 - [ ] Policy backup automated
 - [ ] Recovery procedures documented
@@ -434,26 +483,31 @@ Select your deployment model(s):
 Based on your scorecard, assess your zero-trust maturity:
 
 **Level 1: Traditional (0-25%)**
+
 - Perimeter-based security
 - Limited visibility
 - Static policies
 
 **Level 2: Initial (26-50%)**
+
 - Some zero-trust components
 - Basic encryption
 - Manual processes
 
 **Level 3: Intermediate (51-75%)**
+
 - Core zero-trust implemented
 - Good coverage
 - Some automation
 
 **Level 4: Advanced (76-90%)**
+
 - Comprehensive zero-trust
 - High automation
 - Continuous improvement
 
 **Level 5: Optimal (91-100%)**
+
 - Full zero-trust coverage
 - Mature processes
 - Industry-leading practices

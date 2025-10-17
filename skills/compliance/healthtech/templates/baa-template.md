@@ -57,8 +57,9 @@ Terms used but not otherwise defined in this Agreement shall have the meanings a
 (a) Business Associate may use PHI for the proper management and administration of Business Associate or to carry out the legal responsibilities of Business Associate.
 
 (b) Business Associate may disclose PHI for the proper management and administration of Business Associate or to carry out the legal responsibilities of Business Associate, provided that:
-   - The disclosure is Required by Law; or
-   - Business Associate obtains reasonable assurances from the recipient that the PHI will be held confidentially and used or further disclosed only as Required by Law or for the purpose for which it was disclosed to the recipient, and the recipient notifies Business Associate of any instances of which it is aware in which the confidentiality of the PHI has been breached.
+
+- The disclosure is Required by Law; or
+- Business Associate obtains reasonable assurances from the recipient that the PHI will be held confidentially and used or further disclosed only as Required by Law or for the purpose for which it was disclosed to the recipient, and the recipient notifies Business Associate of any instances of which it is aware in which the confidentiality of the PHI has been breached.
 
 **2.4 Data Aggregation Services.** Business Associate may use PHI to provide Data Aggregation services to Covered Entity as permitted by 45 CFR § 164.504(e)(2)(i)(B).
 
@@ -79,13 +80,14 @@ Terms used but not otherwise defined in this Agreement shall have the meanings a
 (a) **Security Incidents.** Business Associate shall report to Covered Entity any Security Incident of which it becomes aware. The parties acknowledge that this section constitutes notice by Business Associate to Covered Entity of the ongoing existence and occurrence of attempted but unsuccessful Security Incidents (such as pings and other broadcast attacks on a firewall, port scans, unsuccessful log-on attempts, denial of service attacks, and interception of encrypted information where the key is not compromised) for which no additional notice to Covered Entity will be provided.
 
 (b) **Breaches of Unsecured PHI.** Business Associate shall report to Covered Entity any Breach of Unsecured PHI of which it becomes aware without unreasonable delay and in no case later than **sixty (60) calendar days** after discovery of the Breach. Such report shall include, to the extent known:
-   - Identification of each individual whose Unsecured PHI has been, or is reasonably believed by Business Associate to have been, accessed, acquired, used, or disclosed during the Breach;
-   - Description of the nature of the Breach, including the date of the Breach and the date of discovery;
-   - Types of Unsecured PHI involved in the Breach (e.g., full name, Social Security number, date of birth, medical record number, diagnosis, treatment information);
-   - Identification of the unauthorized person who used the PHI or to whom the disclosure was made;
-   - Whether the PHI was actually acquired or viewed;
-   - The extent to which the risk to the PHI has been mitigated; and
-   - Any other information Covered Entity may reasonably request to fulfill its obligations under 45 CFR Part 164, Subpart D (Breach Notification Rule).
+
+- Identification of each individual whose Unsecured PHI has been, or is reasonably believed by Business Associate to have been, accessed, acquired, used, or disclosed during the Breach;
+- Description of the nature of the Breach, including the date of the Breach and the date of discovery;
+- Types of Unsecured PHI involved in the Breach (e.g., full name, Social Security number, date of birth, medical record number, diagnosis, treatment information);
+- Identification of the unauthorized person who used the PHI or to whom the disclosure was made;
+- Whether the PHI was actually acquired or viewed;
+- The extent to which the risk to the PHI has been mitigated; and
+- Any other information Covered Entity may reasonably request to fulfill its obligations under 45 CFR Part 164, Subpart D (Breach Notification Rule).
 
 (c) **Other Impermissible Uses or Disclosures.** Business Associate shall report to Covered Entity any use or disclosure of PHI by Business Associate, its employees, representatives, or Subcontractors not permitted by this Agreement of which Business Associate becomes aware.
 
