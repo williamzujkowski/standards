@@ -45,9 +45,9 @@ Standards documents not referencing UNIFIED_STANDARDS.md:
 
 ## Recommendations
 
-1. **Fix broken links**: Update or remove broken internal links
-2. **Link orphaned files**: Add references or extend exclusions in config/audit-rules.yaml
-3. **Add cross-references**: Link standards to UNIFIED_STANDARDS.md
-4. **Standardize names**: Rename files to follow conventions
-5. **Add READMEs**: Create README.md for directories lacking them
-6. **Satisfy hub rules**: Ensure required hub(s) link to required files
+1. __Fix broken links__: Update or remove broken internal links
+2. __Link orphaned files__: Add references or extend exclusions in config/audit-rules.yaml
+3. __Add cross-references__: Link standards to UNIFIED_STANDARDS.md
+4. __Standardize names__: Rename files to follow conventions
+5. __Add READMEs__: Create README.md for directories lacking them
+6. __Satisfy hub rules__: Ensure required hub(s) link to required files
