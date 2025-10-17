@@ -56,9 +56,29 @@ python3 scripts/skill-loader.py recommend ./
 
 ---
 
-## ⚡ Quick Start (30 Seconds)
+## ⚡ Quick Start for New Projects
 
-### For New Projects - Use the AI Kickstart or Skills
+**Copy these templates to your new repository and let AI do the rest:**
+
+### Option 1: Full Kickstart Template (Recommended)
+
+```bash
+# 1. Copy the kickstart template to your new repo
+curl -o KICKSTART.md https://raw.githubusercontent.com/williamzujkowski/standards/master/templates/KICKSTART_REPO.md
+
+# 2. Fill in basic project details (or let AI auto-detect)
+
+# 3. Provide KICKSTART.md to any AI assistant (Claude, ChatGPT, Gemini)
+# AI will auto-detect your tech stack and generate:
+# - Complete project structure
+# - Standards-aligned code
+# - Configuration files
+# - CI/CD pipelines
+# - Testing setup
+# - Security implementation
+```
+
+### Option 2: Use LLM Prompt Directly
 
 1. **Copy this prompt**: [KICKSTART_PROMPT.md](./docs/guides/KICKSTART_PROMPT.md)
 2. **Paste into any LLM** (ChatGPT, Claude, Gemini, etc.) with your project description
@@ -84,7 +104,63 @@ AI: Here's your complete setup:
 [... complete implementation plan ...]
 ```
 
-### For Existing Projects
+### What You Get
+
+The AI assistant will generate a complete `PROJECT_PLAN.md` including:
+
+- **Auto-detected tech stack** from your repository
+- **Standards recommendations** using `@load` directives
+- **Project structure** with full directory tree
+- **Configuration files** (pyproject.toml, package.json, etc.)
+- **CI/CD pipelines** with quality gates
+- **Security implementation** with NIST controls
+- **Testing strategy** with 80%+ coverage targets
+- **8-week implementation timeline** with phases
+
+### Common Scenarios
+
+**Python API:**
+```bash
+@load [product:api + CS:python + TS:pytest + SEC:* + DE:database]
+```
+
+**React Web App:**
+```bash
+@load [product:frontend-web + FE:react + SEC:auth + DOP:ci-cd]
+```
+
+**Mobile App:**
+```bash
+@load [product:mobile + CS:swift + TS:xctest + SEC:mobile-auth]
+```
+
+**Data Pipeline:**
+```bash
+@load [product:data-pipeline + CS:python + DE:* + OBS:monitoring]
+```
+
+---
+
+## 📋 Available Templates
+
+### Core Templates
+
+| Template | Purpose | Usage |
+|----------|---------|-------|
+| [KICKSTART_REPO.md](./templates/KICKSTART_REPO.md) | LLM-optimized repo kickstart | Copy to new repo, fill details, provide to AI |
+| [PROJECT_PLAN_TEMPLATE.md](./templates/PROJECT_PLAN_TEMPLATE.md) | Systematic project planning | AI generates this from kickstart |
+
+### Example Projects
+
+| Example | Tech Stack | Located In |
+|---------|-----------|------------|
+| Python API | FastAPI + PostgreSQL | [examples/project-templates/python-api/](./examples/project-templates/) |
+| React SPA | React + TypeScript | [examples/project-templates/react-spa/](./examples/project-templates/) |
+| NIST-compliant Service | Security controls | [examples/nist-templates/](./examples/nist-templates/) |
+
+---
+
+## 🔄 For Existing Projects
 
 ```bash
 # Quick assessment

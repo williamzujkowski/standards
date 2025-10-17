@@ -7,7 +7,7 @@ Generated: 2025-10-17
 
 ✅ No broken internal links found!
 
-## External Links (59 found)
+## External Links (60 found)
 
 
 ### 12factor.net (1 links)
@@ -39,13 +39,13 @@ Generated: 2025-10-17
 ### en.wikipedia.org (1 links)
 - tests/scripts/README.md: [Test-Driven Development](https://en.wikipedia.org/wiki/Test-driven_development)
 
-### github.com (34 links)
+### github.com (35 links)
 - README.md: [GitHub Issues](https://github.com/williamzujkowski/standards/issues)
 - README.md: [Discussions](https://github.com/williamzujkowski/standards/discussions)
+- templates/PROJECT_PLAN_TEMPLATE.md: [Software Development Standards Repository](https://github.com/williamzujkowski/standards)
 - badges/standards-compliance-template.md: [Comprehensive Software Development Standards](https://github.com/williamzujkowski/standards)
 - badges/standards-compliance-template.md: [Standards Compliance Tool](https://github.com/williamzujkowski/standards)
-- docs/SKILLS_CATALOG.md: [Report issues](https://github.com/williamzujkowski/standards/issues)
-- ... and 29 more
+- ... and 30 more
 
 ### keepachangelog.com (1 links)
 - CHANGELOG.md: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
@@ -85,6 +85,6 @@ Generated: 2025-10-17
 
 ## Summary
 
-- Files checked: 297
+- Files checked: 304
 - Broken links: 0
-- External links: 59
+- External links: 60
