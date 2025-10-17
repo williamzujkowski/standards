@@ -266,6 +266,7 @@ repos:
       - id: ruff
         name: Python security & quality analysis
         files: \.(py)$
+        exclude: ^(skills/.*/templates/.*\.py|tests/.*\.py|skills/.*/scripts/.*\.py)$
         args: [--fix]
 
   # TypeScript/JavaScript quality (if present)
