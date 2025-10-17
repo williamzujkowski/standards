@@ -17,7 +17,7 @@ This guide shows how to integrate the Skills system with Claude API (programmati
 ### Before Skills
 
 ```python
-# Load entire standards (250,000+ tokens)
+# Load entire standards (~150,000 tokens)
 with open('docs/standards/UNIFIED_STANDARDS.md') as f:
     standards = f.read()
 
@@ -29,7 +29,7 @@ response = client.messages.create(
         "content": f"{standards}\n\nImplement user authentication"
     }]
 )
-# Token cost: ~250,000 input tokens
+# Token cost: ~150,000 input tokens
 # Context overload: Claude sees too much irrelevant content
 ```
 
@@ -47,11 +47,11 @@ response = client.messages.create(
         "content": f"{skills}\n\nImplement user authentication"
     }]
 )
-# Token cost: ~1,755 input tokens (99.3% reduction)
+# Token cost: ~1,755 input tokens (98.8% reduction)
 # Better context: Claude sees only relevant guidance
 ```
 
-**Result**: 99%+ token reduction, better responses, lower costs
+**Result**: 98% token reduction, better responses, lower costs
 
 ---
 
@@ -628,7 +628,7 @@ exit 0
 
 | Approach | Tokens | Cost (per 1M tokens) | Time |
 |----------|--------|----------------------|------|
-| Full standards | 250,000 | $0.75 | Slow |
+| Full standards | 150,000 | $0.45 | Slow |
 | Skills Level 1 | 1,755 | $0.0053 | Fast |
 | Skills Level 2 | 6,500 | $0.0195 | Medium |
 | Skills Level 3 | 16,000 | $0.048 | Medium |

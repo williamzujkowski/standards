@@ -2,7 +2,7 @@
 
 **Version**: 1.0.0
 **Last Updated**: 2025-10-16
-**Total Skills**: 5
+**Core Documented Skills**: 5 | **Total Available**: 62+
 
 ---
 
@@ -682,5 +682,5 @@ Help us improve skills:
 
 *Last Updated: 2025-10-16*
 *Version: 1.0.0*
-*Total Skills: 5*
+*Core Documented Skills: 5 | Total Available: 62+*
 *Maintained by: Standards Repository Team*

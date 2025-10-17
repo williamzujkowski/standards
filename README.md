@@ -1,6 +1,6 @@
 # 🚀 Software Development Standards
 
-**Start any project right in 30 seconds. Battle-tested standards from real production systems.**
+**Start any project right in 30 seconds. Based on industry best practices and NIST guidelines.**
 
 ## Why This Repository?
 
@@ -14,7 +14,7 @@ Just copy, implement, and ship.
 
 ## 🆕 Skills System (NEW!)
 
-**Load only what you need. 99%+ token reduction.**
+**Load only what you need. 98% token reduction (from ~150K to ~2K tokens).**
 
 ### What Are Skills?
 
@@ -28,7 +28,7 @@ Instead of loading massive 50,000+ token documents, use **progressive skills** t
 @load product:api --language python
 # Loads: coding-standards, security-practices, testing, nist-compliance
 
-# Total: ~1,755 tokens vs 250,000+ tokens before (99.3% reduction!)
+# Total: ~1,755 tokens vs 150,000 tokens before (98.8% reduction)
 ```
 
 ### Quick Skills Tutorial (2 minutes)
@@ -41,8 +41,8 @@ npm run skill-loader -- recommend ./
 @load product:api
 
 # 3. See the difference!
-# Before: 250,000+ tokens
-# After: 1,755 tokens (Level 1)
+# Before: ~150,000 tokens (full standards)
+# After: ~1,755 tokens (Level 1)
 ```
 
 ### Available Skills

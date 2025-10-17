@@ -377,3 +377,15 @@ monitoring/reports/*.txt
 
 # MkDocs build output
 site/
+
+# ===========================
+# Tool Runtime & Benchmark Data
+# ===========================
+# Playwright MCP runtime
+.playwright-mcp/
+
+# Benchmark data
+.benchmarks/
+
+# Additional coverage variants
+htmlcov*/

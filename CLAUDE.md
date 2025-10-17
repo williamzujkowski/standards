@@ -70,12 +70,12 @@
 
 This project provides comprehensive software development standards with Claude-Flow orchestration for systematic development workflows.
 
-## Build Commands
+## Repository Commands
 
-- `npm run build` - Build project
-- `npm run test` - Run tests
-- `npm run lint` - Linting
-- `npm run typecheck` - Type checking
+- `python3 scripts/generate-audit-reports.py` - Generate audit reports
+- `python3 scripts/validate-skills.py` - Validate skills
+- `pre-commit run --all-files` - Run all checks
+- `pytest tests/` - Run test suite
 
 ## Code Style & Best Practices
 
@@ -85,7 +85,9 @@ This project provides comprehensive software development standards with Claude-F
 - **Clean Architecture**: Separate concerns
 - **Documentation**: Keep updated
 
-## 🚀 Available Agents (49 Total)
+## 🚀 Agent Types for Task Tool (49 Available)
+
+**Note**: These are conceptual agent types used with the Task tool, not separate callable tools. See MCP Tools section for actual callable tools (87 available from claude-flow MCP server).
 
 ### Core Development
 
@@ -247,7 +249,7 @@ Message 4: Write "file.js"
 
 ## Performance Benefits
 
-- **Significant token optimization** through strategic caching
+- **98% token reduction** (from ~150K to ~2K tokens) through strategic caching
 - **Parallel execution capabilities** for improved speed
 - **Multiple coordination strategies** for different task types
 - **Persistent memory** for context retention across sessions

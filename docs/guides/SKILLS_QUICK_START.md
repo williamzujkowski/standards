@@ -177,7 +177,7 @@ python scripts/validate-skills.py skills/
 ### Before Skills
 
 ```
-Full standards: 250,000+ tokens
+Full standards: ~150,000 tokens
 Load time: Minutes
 Cost: High
 ```
@@ -185,12 +185,12 @@ Cost: High
 ### After Skills (Level 1)
 
 ```
-All skills: 2,083 tokens
+All skills: ~2,083 tokens
 Load time: Seconds
-Cost: 99%+ reduction
+Cost: 98% reduction
 ```
 
-**Example**: Loading `product:api` saves **248,245 tokens** (99.3% reduction)
+**Example**: Loading `product:api` with skills saves ~148,000 tokens (98.6% reduction)
 
 ---
 
@@ -212,7 +212,7 @@ Cost: 99%+ reduction
 
 ---
 
-**That's it!** Start loading skills and experience 99%+ token reduction with better context. 🚀
+**That's it!** Start loading skills and experience 98% token reduction with better context. 🚀
 
 ---
 

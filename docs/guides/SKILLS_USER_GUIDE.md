@@ -51,7 +51,7 @@ Dynamic composition
 
 ### Key Benefits
 
-- **90%+ token reduction**: Load only what you need
+- **98% token reduction**: Load only what you need (~2K vs ~150K tokens)
 - **5-minute quick starts**: Get productive fast (Level 1)
 - **Auto-recommendations**: System suggests relevant skills
 - **Composable**: Combine multiple skills seamlessly

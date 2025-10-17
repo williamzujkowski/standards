@@ -36,7 +36,7 @@ TESTING_STANDARDS.md (15,000+ tokens)
 ```
 
 - Progressive disclosure (load only what you need)
-- 90%+ token reduction
+- 98% token reduction (~2K vs ~150K tokens)
 - Context-aware recommendations
 - Dynamic composition
 
@@ -219,7 +219,7 @@ find docs/standards -name "*.md" | wc -l
 
 # Check current token usage
 python scripts/estimate-tokens.py docs/standards/
-# Output: ~250,000 tokens total
+# Output: ~150,000 tokens total
 ```
 
 #### 1.2 Identify Key References
@@ -393,7 +393,7 @@ MODERN_SECURITY_STANDARDS.md (XSS, CSRF)
 
 ```bash
 # Load everything for compliance
-ALL standards (250,000+ tokens)
+ALL standards (~150,000 tokens)
 ```
 
 **After:**
@@ -407,7 +407,7 @@ ALL standards (250,000+ tokens)
 ] --level 2
 
 # Token cost: ~6,500 tokens
-# vs 250,000 tokens before
+# vs ~150,000 tokens before (95.7% reduction)
 ```
 
 ---
@@ -522,7 +522,7 @@ Skills enhance tagging with:
 
 ```yaml
 # Load entire standards
-# Token cost: ~250,000
+# Token cost: ~150,000
 ```
 
 **After:**

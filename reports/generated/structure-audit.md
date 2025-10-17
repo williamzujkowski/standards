@@ -4,7 +4,7 @@ Generated: 2025-10-17
 
 ## Summary
 
-Total issues found: 26
+Total issues found: 16
 
 
 ## Orphaned Files (1)
@@ -23,33 +23,23 @@ Standards documents not referencing UNIFIED_STANDARDS.md:
 
 ✅ All filenames follow conventions
 
-## Directories Missing README (25)
+## Directories Missing README (15)
 
-- scripts/.benchmarks/
 - scripts/tests/
-- scripts/__pycache__/
 - docs/api/
 - docs/.swarm/
 - docs/reports/
 - docs/.claude-flow/
 - tests/.swarm/
 - tests/.claude-flow/
-- tests/__pycache__/
 - examples/nist-templates/quickstart/.swarm/
-- examples/nist-templates/quickstart/.benchmarks/
 - examples/nist-templates/quickstart/.claude-flow/
 - examples/nist-templates/quickstart/scripts/
-- examples/nist-templates/quickstart/__pycache__/
 - examples/nist-templates/quickstart/scripts/tests/
-- examples/nist-templates/quickstart/.pytest_cache/v/cache/
-- scripts/tests/__pycache__/
-- scripts/.pytest_cache/v/cache/
 - docs/nist/.swarm/
 - docs/nist/.claude-flow/
 - docs/standards/.swarm/
 - docs/standards/.claude-flow/
-- tests/scripts/__pycache__/
-- tests/skills/__pycache__/
 
 ## Structure Violations (0)
 
@@ -61,9 +51,9 @@ Standards documents not referencing UNIFIED_STANDARDS.md:
 
 ## Recommendations
 
-1. __Fix broken links__: Update or remove broken internal links
-2. __Link orphaned files__: Add references or extend exclusions in config/audit-rules.yaml
-3. __Add cross-references__: Link standards to UNIFIED_STANDARDS.md
-4. __Standardize names__: Rename files to follow conventions
-5. __Add READMEs__: Create README.md for directories lacking them
-6. __Satisfy hub rules__: Ensure required hub(s) link to required files
+1. **Fix broken links**: Update or remove broken internal links
+2. **Link orphaned files**: Add references or extend exclusions in config/audit-rules.yaml
+3. **Add cross-references**: Link standards to UNIFIED_STANDARDS.md
+4. **Standardize names**: Rename files to follow conventions
+5. **Add READMEs**: Create README.md for directories lacking them
+6. **Satisfy hub rules**: Ensure required hub(s) link to required files
