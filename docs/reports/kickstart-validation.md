@@ -37,6 +37,7 @@ The kickstart system has strong foundational content in `KICKSTART_PROMPT.md` an
 ### 1. KICKSTART_PROMPT.md (Existing)
 
 **Strengths**:
+
 - Clear, structured prompt format for LLMs
 - Comprehensive analysis workflow (detect → map → blueprint → generate → validate)
 - Good integration with product matrix and standards router
@@ -45,6 +46,7 @@ The kickstart system has strong foundational content in `KICKSTART_PROMPT.md` an
 - Includes NIST compliance integration
 
 **Weaknesses**:
+
 - **Missing critical context**: No explanation of where to find project_plan.md template
 - **Broken reference**: References `USING_PRODUCT_MATRIX.md` which doesn't exist
 - **Router syntax inconsistency**: Uses `@load` syntax but doesn't explain fallback for LLMs without custom commands
@@ -52,11 +54,13 @@ The kickstart system has strong foundational content in `KICKSTART_PROMPT.md` an
 - **Missing examples**: Could benefit from a complete worked example
 
 **LLM Usability Score**: 7/10
+
 - An LLM can understand and follow this, but gaps in references cause confusion
 
 ### 2. KICKSTART_ADVANCED.md (Existing)
 
 **Strengths**:
+
 - Excellent progressive enhancement patterns
 - Technology-specific prompts are very helpful
 - Good troubleshooting section
@@ -66,17 +70,20 @@ The kickstart system has strong foundational content in `KICKSTART_PROMPT.md` an
 - Quick reference card is excellent
 
 **Weaknesses**:
+
 - **No link to basic kickstart prompt**: Should reference KICKSTART_PROMPT.md at the top
 - **Missing directory**: References templates that don't exist
 - **Inconsistent standard codes**: Uses shorthand (CS:python) without explaining the full mapping
 - **No verification steps**: Advanced features but no way to validate they work
 
 **LLM Usability Score**: 8/10
+
 - Very useful for advanced users, but assumes too much context
 
 ### 3. project_plan_example.md (Existing)
 
 **Strengths**:
+
 - Comprehensive, realistic example
 - Covers all essential sections
 - Good balance of functional and non-functional requirements
@@ -84,6 +91,7 @@ The kickstart system has strong foundational content in `KICKSTART_PROMPT.md` an
 - Includes team and timeline context
 
 **Weaknesses**:
+
 - **File location**: Should be in `/templates`, not `/examples`
 - **No instructions**: Missing header explaining how to use this template
 - **No validation criteria**: Doesn't explain what makes a good project plan
@@ -91,11 +99,13 @@ The kickstart system has strong foundational content in `KICKSTART_PROMPT.md` an
 - **No LLM-specific hints**: Doesn't guide users on what LLMs need
 
 **LLM Usability Score**: 7/10
+
 - Good example, but not positioned as a template
 
 ### 4. README.md (Updated)
 
 **Strengths**:
+
 - Excellent Skills System section with clear token metrics
 - Good quick start examples with concrete numbers
 - Clear value proposition
@@ -103,11 +113,13 @@ The kickstart system has strong foundational content in `KICKSTART_PROMPT.md` an
 - Skills catalog is well-promoted
 
 **Weaknesses**:
+
 - **No mention of templates**: Doesn't reference project plan templates
 - **Kickstart section buried**: Quick Start section could be more prominent
 - **Missing prerequisites**: Doesn't mention what users need before using kickstart
 
 **Integration Score**: 8/10
+
 - Good integration but could better highlight the kickstart workflow
 
 ---
@@ -122,10 +134,12 @@ The kickstart system has strong foundational content in `KICKSTART_PROMPT.md` an
 
 **Recommendation**:
 Create `/home/william/git/standards/templates/` with:
+
 - `KICKSTART_REPO.md` - Step-by-step guide for new repository setup
 - `PROJECT_PLAN_TEMPLATE.md` - Structured template with inline instructions
 
 **Example Structure for PROJECT_PLAN_TEMPLATE.md**:
+
 ```markdown
 # Project Plan Template
 
@@ -177,6 +191,7 @@ Either create the file or update reference to point to existing documentation in
 
 **Recommendation**:
 Create `/home/william/git/standards/tests/kickstart/test_kickstart_workflow.py`:
+
 ```python
 """Test that kickstart workflow produces expected outputs."""
 
@@ -278,16 +293,19 @@ def test_kickstart_prompt_references_valid():
 **Scenario**: I'm an LLM agent trying to kickstart a new Python API project
 
 **Step 1**: Read KICKSTART_PROMPT.md
+
 - ✅ I understand what to do
 - ❌ I don't know where to get project_plan.md
 - ⚠️ I see `@load` syntax but don't know if I can execute it
 
 **Step 2**: Look for project plan template
+
 - ❌ `/templates/` directory doesn't exist
 - ⚠️ Found example in `/examples/` but no instructions
 - ❌ Don't know if I should copy this or create my own
 
 **Step 3**: Try to apply standards
+
 - ⚠️ USING_PRODUCT_MATRIX.md reference is broken
 - ✅ Can read CLAUDE.md but unclear how to apply without `@load`
 - ⚠️ Standards codes (CS:python) not fully explained
@@ -367,6 +385,7 @@ templates/
 ```
 
 This structure provides:
+
 - Clear separation between templates (empty) and examples (filled)
 - Single source of truth for template location
 - Easy discovery for new users
@@ -377,6 +396,7 @@ This structure provides:
 **Validation Status**: ⚠️ INCOMPLETE - Critical blockers prevent production use
 
 **Next Steps**:
+
 1. Create missing template files
 2. Fix broken references
 3. Add verification section to KICKSTART_PROMPT.md

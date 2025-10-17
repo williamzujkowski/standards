@@ -30,17 +30,20 @@ curl -o KICKSTART.md https://raw.githubusercontent.com/williamzujkowski/standard
 **Purpose:** LLM-optimized template for repository initialization
 
 **Use When:**
+
 - Starting a brand new project
 - You want AI to auto-detect tech stack and generate a complete plan
 - You need standards-aligned project structure
 
 **What It Does:**
+
 1. Provides project context to AI assistant
 2. AI auto-detects technologies from your repository
 3. AI loads appropriate standards via `@load` directives
 4. AI generates comprehensive PROJECT_PLAN.md
 
 **What AI Generates:**
+
 - Complete project structure (directories, files)
 - Configuration files (pyproject.toml, package.json, etc.)
 - CI/CD pipelines (.github/workflows/)
@@ -50,6 +53,7 @@ curl -o KICKSTART.md https://raw.githubusercontent.com/williamzujkowski/standard
 - Development workflow and quality gates
 
 **Usage:**
+
 ```bash
 # Copy to your repo
 curl -o KICKSTART.md https://raw.githubusercontent.com/williamzujkowski/standards/master/templates/KICKSTART_REPO.md
@@ -68,11 +72,13 @@ vim KICKSTART.md
 **Purpose:** Comprehensive project planning document
 
 **Use When:**
+
 - AI has processed KICKSTART_REPO.md
 - You need a detailed implementation roadmap
 - Manual project planning is required
 
 **What It Contains:**
+
 - Executive summary and timeline
 - System architecture and data flow
 - Technology stack with justifications
@@ -94,12 +100,14 @@ vim KICKSTART.md
 ### Example 1: Python FastAPI Project
 
 **Step 1:** Copy kickstart template
+
 ```bash
 cd my-fastapi-project
 curl -o KICKSTART.md https://raw.githubusercontent.com/williamzujkowski/standards/master/templates/KICKSTART_REPO.md
 ```
 
 **Step 2:** Fill in project details
+
 ```markdown
 **Project Name:** `Healthcare Patient Portal API`
 **Project Description:** `RESTful API for patient data management`
@@ -110,6 +118,7 @@ curl -o KICKSTART.md https://raw.githubusercontent.com/williamzujkowski/standard
 ```
 
 **Step 3:** Provide to AI
+
 ```
 [Copy entire KICKSTART.md]
 
@@ -134,12 +143,14 @@ AI generates:
 ### Example 2: React Web Application
 
 **Step 1:** Copy kickstart template
+
 ```bash
 cd my-react-app
 curl -o KICKSTART.md https://raw.githubusercontent.com/williamzujkowski/standards/master/templates/KICKSTART_REPO.md
 ```
 
 **Step 2:** Fill in project details
+
 ```markdown
 **Project Name:** `E-commerce Dashboard`
 **Project Description:** `Admin dashboard for product management`
@@ -149,6 +160,7 @@ curl -o KICKSTART.md https://raw.githubusercontent.com/williamzujkowski/standard
 ```
 
 **Step 3:** AI auto-detects and generates
+
 ```
 AI detects:
 - Language: TypeScript
@@ -181,6 +193,7 @@ AI generates:
 ### @load Directive Examples
 
 **Product Types:**
+
 ```bash
 @load product:api              # REST/GraphQL API service
 @load product:web-service       # Full-stack web application
@@ -191,6 +204,7 @@ AI generates:
 ```
 
 **Custom Combinations:**
+
 ```bash
 @load [product:api + CS:python + TS:pytest]       # Python API
 @load [product:frontend-web + FE:react + SEC:*]   # React with all security
@@ -198,6 +212,7 @@ AI generates:
 ```
 
 **Wildcard Expansion:**
+
 ```bash
 SEC:*  → SEC:auth, SEC:secrets, SEC:input-validation, SEC:encryption, SEC:audit, NIST-IG:base
 TS:*   → TS:unit, TS:integration, TS:e2e, TS:performance, TS:security
@@ -212,6 +227,7 @@ FE:*   → FE:design-system, FE:accessibility, FE:performance, FE:responsive
 When AI processes KICKSTART_REPO.md, it generates:
 
 ### 1. Project Structure
+
 ```
 project-root/
 ├── src/                   # Source code
@@ -229,12 +245,14 @@ project-root/
 ### 2. Configuration Files
 
 **Python Example:**
+
 - `pyproject.toml` with black, ruff, mypy, pytest configs
 - `requirements.txt` and `requirements-dev.txt`
 - `.pre-commit-config.yaml` with hooks
 - `pytest.ini` with coverage settings
 
 **TypeScript Example:**
+
 - `package.json` with scripts and dependencies
 - `tsconfig.json` with strict type checking
 - `vitest.config.ts` with coverage
@@ -243,6 +261,7 @@ project-root/
 ### 3. CI/CD Pipelines
 
 **GitHub Actions:**
+
 - Linting and formatting
 - Security scanning (Gitleaks, Bandit, Trivy)
 - Unit and integration tests
@@ -309,21 +328,25 @@ project-root/
 ## 🔄 Template Lifecycle
 
 ### 1. Project Initialization
+
 ```
 User copies KICKSTART_REPO.md → Fills in details → Provides to AI
 ```
 
 ### 2. AI Processing
+
 ```
 AI auto-detects tech stack → Loads standards → Generates PROJECT_PLAN.md
 ```
 
 ### 3. Implementation
+
 ```
 Follow PROJECT_PLAN.md phases → Use generated configs → Run quality gates
 ```
 
 ### 4. Iteration
+
 ```
 Update PROJECT_PLAN.md as project evolves → Re-run AI for new features
 ```
@@ -333,16 +356,19 @@ Update PROJECT_PLAN.md as project evolves → Re-run AI for new features
 ## 📚 Related Documentation
 
 **Standards Repository:**
+
 - [Main README](../README.md) - Repository overview
 - [UNIFIED_STANDARDS.md](../docs/standards/UNIFIED_STANDARDS.md) - Complete standards
 - [CLAUDE.md](../CLAUDE.md) - LLM router and interface
 
 **Kickstart System:**
+
 - [KICKSTART_PROMPT.md](../docs/guides/KICKSTART_PROMPT.md) - Direct LLM prompt
 - [Product Matrix](../config/product-matrix.yaml) - Product type mappings
 - [Skills Catalog](../docs/SKILLS_CATALOG.md) - Progressive skill loading
 
 **Implementation Guides:**
+
 - [Standards Index](../docs/guides/STANDARDS_INDEX.md) - All standards
 - [Adoption Checklist](../docs/guides/ADOPTION_CHECKLIST.md) - Implementation steps
 - [Creating Standards Guide](../docs/guides/CREATING_STANDARDS_GUIDE.md) - Authoring standards

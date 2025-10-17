@@ -50,6 +50,7 @@ A **standalone, fill-in-the-blank template** that users copy to their new reposi
 ```
 
 **Rationale**:
+
 - Clear value proposition immediately
 - Minimal friction to start
 - Works even if user doesn't fill anything in
@@ -83,6 +84,7 @@ A **standalone, fill-in-the-blank template** that users copy to their new reposi
 ```
 
 **Rationale**:
+
 - Bracketed placeholders guide without overwhelming
 - "Auto-detect" reduces friction
 - Optional sections allow quick start
@@ -116,6 +118,7 @@ confidence: 0.0       # 0.0-1.0 confidence in detection
 ```
 
 **Detection Rules:**
+
 - If `package.json` + `src/components/` → React/Vue/Angular frontend
 - If `requirements.txt` + `app/main.py` → Python backend
 - If `Dockerfile` present → Containerized deployment
@@ -128,6 +131,7 @@ Based on detected tech stack, recommend standards from:
 **Standards Repository**: https://github.com/williamzujkowski/standards
 
 **Use Product Matrix Syntax:**
+
 ```
 @load product:[type]              # e.g., @load product:api
 @load [product:xxx + CS:lang]     # e.g., @load [product:api + CS:python]
@@ -135,6 +139,7 @@ Based on detected tech stack, recommend standards from:
 ```
 
 **Standard Code Reference:**
+
 - **CS** = Coding Standards (language-specific)
 - **TS** = Testing Standards (framework-specific)
 - **SEC** = Security Standards (auth, secrets, encryption)
@@ -144,6 +149,7 @@ Based on detected tech stack, recommend standards from:
 - **NIST-IG** = NIST 800-53r5 compliance (auto-included with SEC)
 
 **Examples:**
+
 - Python API: `@load [product:api + CS:python + TS:pytest + SEC:*]`
 - React App: `@load [product:frontend-web + FE:react + SEC:auth]`
 - Data Pipeline: `@load [product:data-pipeline + DE:* + OBS:monitoring]`
@@ -154,6 +160,7 @@ Create a comprehensive project plan using the template at:
 https://github.com/williamzujkowski/standards/blob/master/templates/PROJECT_PLAN_TEMPLATE.md
 
 **Required Sections:**
+
 1. Project Overview (with detected tech stack)
 2. Standards Alignment (with @load directives)
 3. Architecture & Structure (directory tree)
@@ -164,6 +171,7 @@ https://github.com/williamzujkowski/standards/blob/master/templates/PROJECT_PLAN
 ### Step 4: Configuration Generation
 
 Generate starter files based on detected stack:
+
 - `README.md` with setup instructions
 - Language-specific config (`package.json`, `pyproject.toml`, `go.mod`)
 - Testing config (`.jest.config.js`, `pytest.ini`, etc.)
@@ -174,6 +182,7 @@ Generate starter files based on detected stack:
 ### Step 5: Validation Checklist
 
 Ensure generated plan includes:
+
 - ✅ All required sections complete
 - ✅ Tech stack matches repository contents
 - ✅ Standards codes are valid
@@ -182,6 +191,7 @@ Ensure generated plan includes:
 - ✅ Security measures included
 - ✅ Testing strategy defined
 - ✅ CI/CD pipeline included
+
 ```
 
 **Rationale**:
@@ -230,6 +240,7 @@ Ensure generated plan includes:
 ```
 
 **Rationale**:
+
 - Provides escape hatch for edge cases
 - Keeps users from getting stuck
 - Simple structure lowers barrier
@@ -295,6 +306,7 @@ https://github.com/williamzujkowski/standards/tree/master/examples/project-templ
 5. **Quick Start Commands** (bash scripts)
 
 **Save the generated files and start building!**
+
 ```
 
 **Rationale**:
@@ -348,13 +360,16 @@ https://github.com/williamzujkowski/standards/tree/master/examples/project-templ
 #### Example 1: New Python API Project
 
 ```
+
 User Actions:
+
 1. Creates new empty repo
 2. Copies KICKSTART_REPO.md to repo root
 3. Fills in: Project Name: "Task Manager API", Project Type: "API"
 4. Pastes entire file to Claude
 
 Claude Response:
+
 - Detects: Empty repo, user wants Python API
 - Recommends: @load [product:api + CS:python + TS:pytest + SEC:*]
 - Generates: PROJECT_PLAN.md with FastAPI structure
@@ -362,21 +377,26 @@ Claude Response:
 - Provides: Setup commands (poetry install, pytest, docker build)
 
 User Gets:
+
 - Complete project structure
 - Standards-aligned configuration
 - Ready to code in 5 minutes
+
 ```
 
 #### Example 2: Existing React Project
 
 ```
+
 User Actions:
+
 1. Has existing React app with some code
 2. Copies KICKSTART_REPO.md to repo root
 3. Leaves all fields blank (triggers auto-detection)
 4. Pastes entire file to ChatGPT
 
 ChatGPT Response:
+
 - Scans: package.json, src/components/, detects React + TypeScript
 - Recommends: @load [product:frontend-web + FE:react + TS:vitest]
 - Generates: PROJECT_PLAN.md documenting current state + improvements
@@ -384,9 +404,11 @@ ChatGPT Response:
 - Creates: Updated configs, GitHub Actions, testing setup
 
 User Gets:
+
 - Documentation of existing project
 - Gaps identified and filled
 - Production-ready CI/CD
+
 ```
 
 ---
@@ -449,6 +471,7 @@ This project plan serves as the single source of truth for:
 ```
 
 **Rationale**:
+
 - Establishes document as living artifact
 - Quick navigation for large documents
 - Metadata enables version tracking
@@ -513,6 +536,7 @@ This project plan serves as the single source of truth for:
 ```
 
 **Rationale**:
+
 - Table format makes metadata scannable
 - Stakeholders section clarifies roles early
 - Context section prevents assumption gaps
@@ -595,6 +619,7 @@ This project plan serves as the single source of truth for:
 ### Tech Stack Diagram
 
 ```
+
 ┌─────────────────────────────────────────────────┐
 │                   Clients                       │
 │          (Web Browser, Mobile App)              │
@@ -627,10 +652,12 @@ This project plan serves as the single source of truth for:
        │    RDS   │ │  Redis   │ │ RabbitMQ │
        │PostgreSQL│ │  Cache   │ │  Queue   │
        └──────────┘ └──────────┘ └──────────┘
+
 ```
 ```
 
 **Rationale**:
+
 - Tables make comparisons easy
 - Rationale for each choice prevents "why did we choose this?" questions
 - Alternatives considered shows thoughtful decision-making
@@ -648,7 +675,9 @@ This project plan serves as the single source of truth for:
 
 **Auto-Load Command**:
 ```
+
 @load [product:api + CS:python + CS:typescript + TS:pytest + TS:vitest + SEC:* + NIST-IG:base]
+
 ```
 
 **Token Efficiency**:
@@ -703,6 +732,7 @@ async def create_user(user_data: UserCreate) -> User:
 ### Standards Compliance Checklist
 
 **Coding Standards:**
+
 - ✅ Linter configured and passing (Ruff, ESLint)
 - ✅ Formatter configured and passing (Black, Prettier)
 - ✅ Type checking enabled (mypy, tsc)
@@ -710,6 +740,7 @@ async def create_user(user_data: UserCreate) -> User:
 - ⚪ Code review process documented
 
 **Testing Standards:**
+
 - ✅ Test framework configured (pytest, Vitest)
 - 🟡 Coverage >= 80% (currently 65%)
 - ⚪ Integration tests defined
@@ -717,6 +748,7 @@ async def create_user(user_data: UserCreate) -> User:
 - ⚪ Performance tests defined
 
 **Security Standards:**
+
 - ✅ Secrets management configured
 - ⚪ Authentication implemented
 - ⚪ Authorization implemented
@@ -725,11 +757,13 @@ async def create_user(user_data: UserCreate) -> User:
 - ⚪ Dependency vulnerability scanning
 
 **Documentation Standards:**
+
 - ✅ README with setup instructions
 - ⚪ API documentation (OpenAPI/Swagger)
 - ⚪ Architecture diagrams
 - ⚪ Deployment runbooks
 - ⚪ Incident response procedures
+
 ```
 
 **Rationale**:
@@ -759,6 +793,7 @@ async def create_user(user_data: UserCreate) -> User:
 ### Component Architecture
 
 ```
+
 ┌──────────────────────────────────────────────────────┐
 │                     Client Layer                     │
 │  (Web Browser, Mobile App, Third-party Integrations) │
@@ -792,6 +827,7 @@ async def create_user(user_data: UserCreate) -> User:
 │  (Primary)   │ │  (Cache +    │ │  (Async      │
 │              │ │   Sessions)  │ │   Tasks)     │
 └──────────────┘ └──────────────┘ └──────────────┘
+
 ```
 
 ### Service Breakdown
@@ -806,6 +842,7 @@ async def create_user(user_data: UserCreate) -> User:
 
 **API Endpoints**:
 ```
+
 POST   /auth/register
 POST   /auth/login
 POST   /auth/refresh
@@ -813,6 +850,7 @@ POST   /auth/logout
 GET    /auth/me
 POST   /auth/password-reset/request
 POST   /auth/password-reset/confirm
+
 ```
 
 **Dependencies**:
@@ -831,11 +869,13 @@ POST   /auth/password-reset/confirm
 
 **API Endpoints**:
 ```
+
 GET    /api/v1/resources
 POST   /api/v1/resources
 GET    /api/v1/resources/{id}
 PUT    /api/v1/resources/{id}
 DELETE /api/v1/resources/{id}
+
 ```
 
 **Dependencies**:
@@ -868,6 +908,7 @@ CREATE INDEX idx_users_role ON users(role);
 ```
 
 **Resources Table** (example):
+
 ```sql
 CREATE TABLE resources (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -888,16 +929,19 @@ CREATE INDEX idx_resources_metadata ON resources USING GIN (metadata);
 #### Data Flow Diagram
 
 **Write Path**:
+
 ```
 Client → API Gateway → Core API → Validation → Database → Cache Invalidation → Response
 ```
 
 **Read Path** (cached):
+
 ```
 Client → API Gateway → Core API → Cache Check (Hit) → Response
 ```
 
 **Read Path** (cache miss):
+
 ```
 Client → API Gateway → Core API → Cache Check (Miss) → Database → Cache Update → Response
 ```
@@ -913,6 +957,7 @@ Client → API Gateway → Core API → Cache Check (Miss) → Database → Cach
 5. **Data Layer**: Encryption at rest and in transit, field-level encryption for PII
 
 **Threat Model** (STRIDE):
+
 - **Spoofing**: JWT signature validation, OAuth2 flows
 - **Tampering**: Input validation, HMAC for critical data
 - **Repudiation**: Audit logging of all actions
@@ -923,15 +968,18 @@ Client → API Gateway → Core API → Cache Check (Miss) → Database → Cach
 ### Scalability Design
 
 **Horizontal Scaling**:
+
 - Stateless services (scale containers independently)
 - Session data in Redis (shared state)
 - Database read replicas (read-heavy workloads)
 
 **Vertical Scaling Limits**:
+
 - Services: 4GB memory, 2 vCPU (measured baseline)
 - Database: RDS PostgreSQL (db.t4g.large initially, upgrade path to db.r6g.2xlarge)
 
 **Caching Strategy**:
+
 - L1: In-memory service cache (LRU, 100MB limit)
 - L2: Redis cache (TTL: 5 minutes for reads, invalidate on writes)
 
@@ -942,6 +990,7 @@ Client → API Gateway → Core API → Cache Check (Miss) → Database → Cach
 | API Response (p99) | < 500ms | CloudWatch |
 | Database Query (p95) | < 50ms | RDS Performance Insights |
 | Cache Hit Rate | > 80% | Redis INFO stats |
+
 ```
 
 **Rationale**:
@@ -1048,6 +1097,7 @@ curl https://api-staging.example.com/health
 **Week 3: Authentication Foundation**
 
 **Days 11-13: User Model & Database**
+
 - [ ] Define User model (SQLAlchemy)
 - [ ] Create Alembic migration for users table
 - [ ] Implement password hashing (bcrypt)
@@ -1055,6 +1105,7 @@ curl https://api-staging.example.com/health
 - [ ] Write unit tests for user repository
 
 **Days 14-15: Registration & Login**
+
 - [ ] Implement POST /auth/register endpoint
 - [ ] Add email validation and uniqueness check
 - [ ] Implement POST /auth/login endpoint
@@ -1065,6 +1116,7 @@ curl https://api-staging.example.com/health
 **Week 4: OAuth2 & Token Management**
 
 **Days 16-18: OAuth2 Implementation**
+
 - [ ] Set up OAuth2 authorization code flow
 - [ ] Implement token refresh endpoint
 - [ ] Add token blacklist (Redis)
@@ -1073,6 +1125,7 @@ curl https://api-staging.example.com/health
 - [ ] Write security tests (invalid tokens, expired tokens)
 
 **Days 19-20: Password Reset**
+
 - [ ] Implement password reset request (email token)
 - [ ] Set up email service integration (SendGrid/SES)
 - [ ] Implement password reset confirmation
@@ -1082,6 +1135,7 @@ curl https://api-staging.example.com/health
 **Week 5-6: Resource CRUD**
 
 **Days 21-25: Core Business Logic**
+
 - [ ] Define Resource model (SQLAlchemy)
 - [ ] Create Alembic migration for resources table
 - [ ] Implement CRUD endpoints (GET, POST, PUT, DELETE /api/v1/resources)
@@ -1090,6 +1144,7 @@ curl https://api-staging.example.com/health
 - [ ] Write unit tests for business logic
 
 **Days 26-30: Frontend Integration**
+
 - [ ] Create React components for authentication
 - [ ] Implement login/register forms
 - [ ] Add JWT storage and auto-refresh
@@ -1098,12 +1153,14 @@ curl https://api-staging.example.com/health
 - [ ] Write frontend integration tests
 
 **Phase 2 Deliverables**:
+
 - ✅ Complete authentication system (register, login, logout, password reset)
 - ✅ Core CRUD API for resources
 - ✅ Frontend UI for authentication and resource management
 - ✅ Integration tests covering happy paths and error cases
 
 **Phase 2 Acceptance Criteria**:
+
 ```bash
 # Can register a new user
 curl -X POST https://api-staging.example.com/auth/register \
@@ -1126,6 +1183,7 @@ curl -X POST https://api-staging.example.com/api/v1/resources \
 **Week 7: Testing & Coverage**
 
 **Days 31-33: Test Suite Expansion**
+
 - [ ] Achieve 80% unit test coverage (backend)
 - [ ] Achieve 80% unit test coverage (frontend)
 - [ ] Add integration tests for all API endpoints
@@ -1133,6 +1191,7 @@ curl -X POST https://api-staging.example.com/api/v1/resources \
 - [ ] Add performance tests (Locust/k6)
 
 **Days 34-35: Security Hardening**
+
 - [ ] Run OWASP ZAP security scan
 - [ ] Fix identified vulnerabilities
 - [ ] Add dependency vulnerability scanning (Dependabot/Snyk)
@@ -1142,6 +1201,7 @@ curl -X POST https://api-staging.example.com/api/v1/resources \
 **Week 8: Code Review & Refinement**
 
 **Days 36-38: Code Quality**
+
 - [ ] Refactor code based on linter feedback
 - [ ] Add missing type hints (mypy --strict passes)
 - [ ] Optimize database queries (N+1 query checks)
@@ -1149,6 +1209,7 @@ curl -X POST https://api-staging.example.com/api/v1/resources \
 - [ ] Review and update error handling
 
 **Days 39-40: Documentation**
+
 - [ ] Generate OpenAPI documentation (Swagger UI)
 - [ ] Write API integration guide
 - [ ] Document environment variables
@@ -1156,12 +1217,14 @@ curl -X POST https://api-staging.example.com/api/v1/resources \
 - [ ] Add troubleshooting guide
 
 **Phase 3 Deliverables**:
+
 - ✅ Test coverage >= 80% (unit, integration, E2E)
 - ✅ Security scan passing (no high/critical vulnerabilities)
 - ✅ Performance benchmarks documented
 - ✅ Complete API documentation
 
 **Phase 3 Acceptance Criteria**:
+
 ```bash
 # Tests pass with high coverage
 pytest --cov=src --cov-report=term-missing
@@ -1185,6 +1248,7 @@ k6 run performance/load-test.js
 **Week 9-10: Production Infrastructure**
 
 **Days 41-45: Production Setup**
+
 - [ ] Create production VPC and subnets
 - [ ] Set up production RDS with multi-AZ
 - [ ] Configure Redis cluster with replication
@@ -1193,6 +1257,7 @@ k6 run performance/load-test.js
 - [ ] Configure auto-scaling policies
 
 **Days 46-50: Monitoring & Observability**
+
 - [ ] Set up CloudWatch dashboards
 - [ ] Configure CloudWatch alarms (error rate, latency, saturation)
 - [ ] Integrate Sentry for error tracking
@@ -1203,6 +1268,7 @@ k6 run performance/load-test.js
 **Week 11-12: Launch Preparation**
 
 **Days 51-55: Final Testing**
+
 - [ ] Perform load testing on production environment
 - [ ] Run disaster recovery drill (database restore)
 - [ ] Test auto-scaling behavior
@@ -1210,6 +1276,7 @@ k6 run performance/load-test.js
 - [ ] Conduct security penetration testing
 
 **Days 56-60: Documentation & Training**
+
 - [ ] Finalize deployment documentation
 - [ ] Create operational runbooks
 - [ ] Write incident response procedures
@@ -1217,12 +1284,14 @@ k6 run performance/load-test.js
 - [ ] Prepare launch checklist
 
 **Phase 4 Deliverables**:
+
 - ✅ Production environment deployed
 - ✅ Monitoring and alerting configured
 - ✅ Operational runbooks complete
 - ✅ Team trained on production operations
 
 **Phase 4 Acceptance Criteria**:
+
 ```bash
 # Production deployment successful
 curl https://api.example.com/health
@@ -1251,14 +1320,17 @@ aws cloudwatch put-metric-data --namespace "API" --metric-name "TestAlert" --val
 ### Dependency Management
 
 **External Dependencies**:
+
 - Email service (SendGrid/AWS SES) - **Critical path: Week 4**
 - Domain registration and SSL certificates - **Critical path: Week 1**
 - Third-party OAuth providers (Google, GitHub) - **Optional: Post-MVP**
 
 **Internal Dependencies**:
+
 - Infrastructure must be complete before API deployment
 - Authentication must work before resource CRUD
 - Testing framework must be set up before Phase 3
+
 ```
 
 **Rationale**:
@@ -1375,6 +1447,7 @@ repos:
    - **Failure Action**: Warning (not blocking)
 
 **GitHub Actions Workflow**:
+
 ```yaml
 # .github/workflows/pr-checks.yml
 name: Pull Request Checks
@@ -1460,6 +1533,7 @@ jobs:
    - **Failure Action**: Rollback deployment
 
 **Deployment Workflow**:
+
 ```yaml
 # .github/workflows/deploy-staging.yml
 name: Deploy to Staging
@@ -1533,6 +1607,7 @@ jobs:
    - **Failure Action**: Manual intervention required
 
 **Production Deployment Checklist**:
+
 ```markdown
 - [ ] All staging gates passed
 - [ ] Security review completed
@@ -1568,28 +1643,33 @@ jobs:
 ### Failure Recovery Procedures
 
 **If Pre-Commit Fails**:
+
 1. Review errors displayed
 2. Fix issues manually or use auto-fix suggestions
 3. Re-stage files (`git add`)
 4. Retry commit
 
 **If PR Checks Fail**:
+
 1. Review GitHub Actions logs
 2. Reproduce locally (`act` for GitHub Actions simulation)
 3. Fix issues and push
 4. Checks re-run automatically
 
 **If Deployment Fails**:
+
 1. Automatic rollback triggered
 2. Incident created in PagerDuty
 3. Review deployment logs
 4. Fix issues and redeploy
 
 **If Production Monitoring Alerts**:
+
 1. Evaluate severity (P1-P4)
 2. Check runbook for issue
 3. Roll back if critical
 4. Post-mortem within 48 hours
+
 ```
 
 **Rationale**:
@@ -1691,6 +1771,7 @@ Due to length, I'll provide an outline for the remaining sections:
 
 **Flow**:
 ```
+
 User fills KICKSTART_REPO.md
     ↓
 User pastes to LLM (Claude/ChatGPT/Gemini)
@@ -1706,6 +1787,7 @@ LLM generates PROJECT_PLAN.md using template structure
 User saves PROJECT_PLAN.md to repo
     ↓
 PROJECT_PLAN.md becomes source of truth
+
 ```
 
 **Example LLM Prompt** (embedded in KICKSTART_REPO.md):
@@ -1727,6 +1809,7 @@ Generate PROJECT_PLAN.md with these sections:
 ### How Templates Integrate with Standards Repository
 
 **Direct Integration** (if standards repo available):
+
 ```bash
 # User runs skill-loader
 python3 /path/to/standards/scripts/skill-loader.py recommend ./my-project
@@ -1742,6 +1825,7 @@ python3 /path/to/standards/scripts/skill-loader.py recommend ./my-project
 ```
 
 **Indirect Integration** (templates work standalone):
+
 - Templates embed standards URLs
 - LLMs fetch standards via web search (if capable)
 - Users manually copy relevant sections
@@ -1756,9 +1840,11 @@ python3 /path/to/standards/scripts/skill-loader.py recommend ./my-project
 **Scenario**: User wants to build a Python API, has no code yet
 
 **Steps**:
+
 1. Create empty Git repository
 2. Copy `KICKSTART_REPO.md` to repo root
 3. Fill in:
+
    ```markdown
    Project Name: Task Manager API
    Project Type: API
@@ -1767,6 +1853,7 @@ python3 /path/to/standards/scripts/skill-loader.py recommend ./my-project
      Backend: FastAPI
      Database: PostgreSQL
    ```
+
 4. Paste entire file to Claude
 5. Claude generates:
    - Tech Stack Analysis (Python, FastAPI, PostgreSQL)
@@ -1786,6 +1873,7 @@ python3 /path/to/standards/scripts/skill-loader.py recommend ./my-project
 **Scenario**: User has 3-month-old React app, needs to document it
 
 **Steps**:
+
 1. Copy `KICKSTART_REPO.md` to existing repo
 2. Leave all fields blank (triggers auto-detection)
 3. Paste entire file + instruction "This repo has existing code, please analyze it" to ChatGPT
@@ -1811,14 +1899,17 @@ python3 /path/to/standards/scripts/skill-loader.py recommend ./my-project
 **Scenario**: User building HIPAA-compliant healthcare API
 
 **Steps**:
+
 1. Copy `KICKSTART_REPO.md` to repo
 2. Fill in:
+
    ```markdown
    Project Name: Patient Portal API
    Project Type: API
    Primary Language: Python
    Compliance Needs: HIPAA
    ```
+
 3. Paste to Claude (with HIPAA context)
 4. Claude generates:
    - Standards: `@load [product:api + CS:python + SEC:* + NIST-IG:base + LEG:healthcare]`
@@ -1839,6 +1930,7 @@ python3 /path/to/standards/scripts/skill-loader.py recommend ./my-project
 ### Template Effectiveness Metrics
 
 **KICKSTART_REPO.md Success**:
+
 - ✅ User can start using in < 30 seconds
 - ✅ Works without filling any fields (auto-detection)
 - ✅ Works with any LLM (Claude, ChatGPT, Gemini)
@@ -1846,6 +1938,7 @@ python3 /path/to/standards/scripts/skill-loader.py recommend ./my-project
 - ✅ Produces working starter files
 
 **PROJECT_PLAN_TEMPLATE.md Success**:
+
 - ✅ Comprehensive (covers all aspects of project)
 - ✅ Scannable (quick navigation, tables)
 - ✅ Actionable (checklists, commands)
@@ -1855,16 +1948,19 @@ python3 /path/to/standards/scripts/skill-loader.py recommend ./my-project
 ### User Experience Validation
 
 **Test 1: New User (No Context)**
+
 - Give templates to developer who's never seen standards repo
 - Measure: Time to generate PROJECT_PLAN.md
 - Target: < 10 minutes
 
 **Test 2: LLM Compatibility**
+
 - Test KICKSTART_REPO.md with Claude, ChatGPT, Gemini
 - Measure: Quality of generated PROJECT_PLAN.md
 - Target: All LLMs produce usable output (80%+ complete)
 
 **Test 3: Real Project**
+
 - Have team use templates for actual project
 - Measure: Adoption rate, satisfaction score
 - Target: 4/5 satisfaction, continued use after trial
@@ -1908,6 +2004,7 @@ python3 /path/to/standards/scripts/skill-loader.py recommend ./my-project
 ### Why These Structures?
 
 **KICKSTART_REPO.md Design**:
+
 - **Standalone**: Works without external dependencies
 - **Progressive**: Quick Start → Basics → Advanced → Fallback
 - **LLM-Optimized**: Clear instructions, explicit examples, structured output
@@ -1915,6 +2012,7 @@ python3 /path/to/standards/scripts/skill-loader.py recommend ./my-project
 - **Auto-Detection**: Works even with blank fields
 
 **PROJECT_PLAN_TEMPLATE.md Design**:
+
 - **Comprehensive**: Covers all aspects developers need
 - **Scannable**: Tables, quick nav, clear sections
 - **Living Document**: Versioned, status-tracked, maintainable

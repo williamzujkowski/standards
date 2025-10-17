@@ -120,21 +120,25 @@ The AI assistant will generate a complete `PROJECT_PLAN.md` including:
 ### Common Scenarios
 
 **Python API:**
+
 ```bash
 @load [product:api + CS:python + TS:pytest + SEC:* + DE:database]
 ```
 
 **React Web App:**
+
 ```bash
 @load [product:frontend-web + FE:react + SEC:auth + DOP:ci-cd]
 ```
 
 **Mobile App:**
+
 ```bash
 @load [product:mobile + CS:swift + TS:xctest + SEC:mobile-auth]
 ```
 
 **Data Pipeline:**
+
 ```bash
 @load [product:data-pipeline + CS:python + DE:* + OBS:monitoring]
 ```

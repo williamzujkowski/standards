@@ -34,11 +34,13 @@ The system is designed to work across multiple AI coding tools (Claude Code, Cur
 #### ✅ Strengths
 
 **Universal Compatibility**
+
 - Designed to work with **any web-based LLM** (ChatGPT, Claude, Gemini)
 - No installation or tooling required
 - Simple copy-paste workflow
 
 **Structured Analysis Framework**
+
 ```
 1. Analyze & Identify (auto-detection)
 2. Standards Mapping (from standards repo)
@@ -49,6 +51,7 @@ The system is designed to work across multiple AI coding tools (Claude Code, Cur
 ```
 
 **Clear Expected Output Format**
+
 - Tech stack analysis (YAML)
 - Standards recommendations (standard codes)
 - Project structure (directory tree)
@@ -56,12 +59,14 @@ The system is designed to work across multiple AI coding tools (Claude Code, Cur
 - Implementation checklist
 
 **Product Matrix Integration**
+
 - References `@load` directive syntax
 - Links to `config/product-matrix.yaml`
 - Explains wildcard expansion (`SEC:*`)
 - Documents NIST auto-inclusion
 
 **Progressive Disclosure**
+
 - Starts broad (tech stack detection)
 - Narrows to specific standards
 - Ends with actionable code
@@ -69,26 +74,31 @@ The system is designed to work across multiple AI coding tools (Claude Code, Cur
 #### ❌ Weaknesses
 
 **Length & Complexity**
+
 - 172 lines - May overwhelm users
 - Multiple concepts introduced simultaneously
 - No "minimal quick start" option
 
 **Standards Router Integration Unclear**
+
 - Shows `@load` syntax but notes it's "planned interface"
 - Current implementation requires `scripts/skill-loader.py`
 - Disconnect between documented syntax and actual usage
 
 **Limited Examples**
+
 - Only one example project plan (`project_plan_example.md`)
 - Missing concrete "before/after" examples
 - No failure mode examples ("what if LLM gets it wrong?")
 
 **No Token Optimization Guidance**
+
 - Doesn't explain skills system benefits
 - No comparison of different loading strategies
 - Missing token cost information
 
 **Assumes LLM Knowledge**
+
 - Expects LLM to "know" the standards repository
 - No fallback if LLM can't access the repo
 - No guidance on providing context manually
@@ -98,12 +108,14 @@ The system is designed to work across multiple AI coding tools (Claude Code, Cur
 #### ✅ Strengths
 
 **Multi-Purpose Design**
+
 - Serves as LLM configuration file
 - Documents standards auto-loading
 - Defines agent coordination protocols
 - Provides execution examples
 
 **Fast Path Loading**
+
 ```
 @load product:api              # One-liner for APIs
 @load product:frontend-web     # One-liner for frontends
@@ -111,19 +123,23 @@ The system is designed to work across multiple AI coding tools (Claude Code, Cur
 ```
 
 **Comprehensive Agent Catalog**
+
 - 49 agent types documented
 - Clear role definitions
 - Integration with Claude-Flow MCP server
 
 **Concurrent Execution Emphasis**
+
 ```
 ⚡ GOLDEN RULE: "1 MESSAGE = ALL RELATED OPERATIONS"
 ```
+
 - Batch operations explicitly required
 - Performance benefits explained
 - Good/bad examples provided
 
 **Documentation Integrity Principles**
+
 - Verification checklist
 - No unverifiable claims
 - Honest representation of features
@@ -131,27 +147,32 @@ The system is designed to work across multiple AI coding tools (Claude Code, Cur
 #### ❌ Weaknesses
 
 **Information Overload**
+
 - 499 lines of mixed concerns
 - Standards loading + agent coordination + file management
 - Hard to find specific information quickly
 
 **Conflicting Information**
+
 - Shows `@load` syntax as primary interface
 - Notes "Current implementation requires skill-loader script"
 - Unclear which to use when
 
 **Token Claims Verification**
+
 - Claims "98% token reduction" but context unclear
 - "Significant token optimization" vs "98% reduction" - which is accurate?
 - Numbers updated after review but need ongoing validation
 
 **Dual Purpose Confusion**
+
 - Standards orchestrator (Gatekeeper section)
 - Agent coordinator (SPARC section)
 - File manager (organization rules)
 - Too many responsibilities
 
 **MCP vs Claude Code Boundaries**
+
 - "Claude Code handles ALL" section
 - "MCP Tools ONLY" section
 - In practice, boundaries blur
@@ -162,11 +183,13 @@ The system is designed to work across multiple AI coding tools (Claude Code, Cur
 #### ✅ Strengths
 
 **Comprehensive Product Mappings**
+
 - 9 product types (api, web-service, frontend-web, mobile, etc.)
 - Clear descriptions for each
 - Curated standard bundles per type
 
 **Smart Wildcard Expansion**
+
 ```yaml
 "SEC:*":
   expands_to:
@@ -179,6 +202,7 @@ The system is designed to work across multiple AI coding tools (Claude Code, Cur
 ```
 
 **Language Auto-Detection**
+
 ```yaml
 language_mappings:
   python:
@@ -187,32 +211,38 @@ language_mappings:
 ```
 
 **Framework-Specific Mappings**
+
 - React, Vue, Angular
 - Django, FastAPI, Express
 - Intelligent overrides
 
 **Stack Presets**
+
 - MERN, MEAN, LAMP, JAMstack
 - Quick shortcuts for common stacks
 
 #### ❌ Weaknesses
 
 **No Validation**
+
 - Standard codes referenced but not validated
 - Could reference non-existent standards
 - No schema validation
 
 **Limited Product Types**
+
 - Only 9 product types
 - Missing: Desktop apps, embedded systems, browser extensions, etc.
 - No guidance on handling hybrid cases
 
 **No Versioning Strategy**
+
 - How do we evolve product definitions?
 - Backward compatibility concerns
 - Deprecation policy missing
 
 **Incomplete Mappings**
+
 - Some standards referenced without full paths
 - Unclear what `@load CS:api` actually loads
 - Missing connection to skills system
@@ -222,6 +252,7 @@ language_mappings:
 #### ✅ Strengths
 
 **Progressive Disclosure Design**
+
 ```
 Level 1: Quick Start (5 min, <2,000 tokens)
 Level 2: Implementation (30 min, <5,000 tokens)
@@ -229,11 +260,13 @@ Level 3: Mastery (Extended)
 ```
 
 **Dramatic Token Reduction**
+
 - Before: ~150,000 tokens (all standards)
 - After: ~2,083 tokens (all Level 1 skills)
 - **98% reduction**
 
 **Modular Structure**
+
 ```
 skills/
 ├── coding-standards/
@@ -244,6 +277,7 @@ skills/
 ```
 
 **Clear Skill Metadata**
+
 ```yaml
 Name: coding-standards
 Category: Development
@@ -255,6 +289,7 @@ Tokens:
 ```
 
 **Product Type Auto-Loading**
+
 ```bash
 @load product:api
 # Auto-loads: coding-standards, security-practices,
@@ -263,6 +298,7 @@ Tokens:
 ```
 
 **Context-Aware Recommendations**
+
 ```bash
 python3 scripts/skill-loader.py recommend ./
 # Detects: REST API (Python/FastAPI)
@@ -272,21 +308,25 @@ python3 scripts/skill-loader.py recommend ./
 #### ❌ Weaknesses
 
 **Adoption Barrier**
+
 - Requires understanding new system
 - Migration from old standards needed
 - Learning curve for skill syntax
 
 **Limited Skills Coverage**
+
 - Only 5 core skills documented
 - Claims "62+ available" but most undocumented
 - Gap between promise and reality
 
 **Tool Dependency**
+
 - Requires Python script for loading
 - No native LLM integration yet
 - `@load` syntax not actually implemented
 
 **Documentation Fragmentation**
+
 - Skills catalog separate from standards docs
 - Multiple guides (Quick Start, User Guide, Authoring Guide)
 - Hard to know where to start
@@ -296,6 +336,7 @@ python3 scripts/skill-loader.py recommend ./
 #### ✅ Strengths
 
 **Comprehensive Structure**
+
 ```markdown
 ## Project Overview
 ## Core Requirements
@@ -309,11 +350,13 @@ python3 scripts/skill-loader.py recommend ./
 ```
 
 **Concrete Example**
+
 - Task Management API example
 - Real-world requirements
 - Specific tech stack choices
 
 **LLM-Friendly Format**
+
 - Clear sections
 - Bullet points
 - Specific metrics
@@ -322,16 +365,19 @@ python3 scripts/skill-loader.py recommend ./
 #### ❌ Weaknesses
 
 **Only One Example**
+
 - Only `project_plan_example.md`
 - Missing: Frontend, Mobile, Data Pipeline examples
 - No templates for different project types
 
 **No Validation Schema**
+
 - What makes a "good" project plan?
 - Required vs optional sections
 - No automated validation
 
 **Limited Guidance**
+
 - How detailed should requirements be?
 - When to include technical constraints?
 - How to handle unknowns?
@@ -345,6 +391,7 @@ Based on research of effective LLM interactions and analysis of this repository:
 ### 1. Structure & Format
 
 **✅ DO:**
+
 - Use clear hierarchical headings (`##`, `###`)
 - Provide numbered steps for sequential tasks
 - Use bullet points for lists and options
@@ -352,6 +399,7 @@ Based on research of effective LLM interactions and analysis of this repository:
 - Separate instructions from context
 
 **❌ DON'T:**
+
 - Write wall-of-text paragraphs
 - Mix instructions with examples
 - Use ambiguous language ("maybe", "could")
@@ -360,6 +408,7 @@ Based on research of effective LLM interactions and analysis of this repository:
 ### 2. Progressive Disclosure
 
 **✅ DO:**
+
 ```
 Step 1: Minimal (30 seconds)
 Step 2: Basic (5 minutes)
@@ -367,6 +416,7 @@ Step 3: Complete (30 minutes)
 ```
 
 **Example:**
+
 ```markdown
 ## Quick Start (30 seconds)
 @load product:api
@@ -379,6 +429,7 @@ Step 3: Complete (30 minutes)
 ```
 
 **❌ DON'T:**
+
 - Front-load all information
 - Require reading everything before starting
 - Hide critical information in later sections
@@ -386,11 +437,13 @@ Step 3: Complete (30 minutes)
 ### 3. Context Embedding
 
 **✅ DO:**
+
 - Embed essential context in the prompt
 - Provide fallback instructions if external resources unavailable
 - Include examples inline
 
 **Example:**
+
 ```markdown
 This repository provides standards at:
 https://github.com/williamzujkowski/standards
@@ -400,6 +453,7 @@ If you can't access the repo, here are the core principles:
 ```
 
 **❌ DON'T:**
+
 - Assume LLM can fetch URLs
 - Rely solely on external references
 - Require multi-step lookups
@@ -407,11 +461,13 @@ If you can't access the repo, here are the core principles:
 ### 4. Specificity vs Flexibility
 
 **✅ DO:**
+
 - Provide specific examples
 - Allow for variations
 - Acknowledge edge cases
 
 **Example:**
+
 ```markdown
 For Python projects: @load CS:python + TS:pytest
 For TypeScript projects: @load CS:typescript + TS:vitest
@@ -419,6 +475,7 @@ For other languages: [guidance on mapping]
 ```
 
 **❌ DON'T:**
+
 - Be overly prescriptive
 - Assume one-size-fits-all
 - Ignore edge cases
@@ -426,11 +483,13 @@ For other languages: [guidance on mapping]
 ### 5. Actionable Outputs
 
 **✅ DO:**
+
 - Specify exact output format
 - Provide templates
 - Include validation criteria
 
 **Example:**
+
 ```markdown
 ## Expected Output Format
 
@@ -442,10 +501,12 @@ For other languages: [guidance on mapping]
    ```
 
 2. **Quick Start Commands**
+
    ```bash
    # Create virtual environment
    python -m venv venv
    ```
+
 ```
 
 **❌ DON'T:**
@@ -468,6 +529,7 @@ If LLM misidentifies your stack:
 ```
 
 **❌ DON'T:**
+
 - Assume perfect execution
 - Ignore failure modes
 - Leave users stuck
@@ -475,11 +537,13 @@ If LLM misidentifies your stack:
 ### 7. Token Optimization
 
 **✅ DO:**
+
 - Provide token cost estimates
 - Offer minimal vs complete options
 - Explain trade-offs
 
 **Example:**
+
 ```markdown
 ## Loading Options
 
@@ -491,6 +555,7 @@ Complete (1,755 tokens):
 ```
 
 **❌ DON'T:**
+
 - Ignore token costs
 - Always load everything
 - Hide efficiency options
@@ -506,6 +571,7 @@ Based on best practices analysis, here's the optimal structure:
 **Purpose**: Get started immediately with any LLM
 
 **Structure**:
+
 ```markdown
 # 🚀 30-Second Project Kickstart
 
@@ -538,6 +604,7 @@ Expected output:
 **Purpose**: Structured setup with standards integration
 
 **Structure**:
+
 ```markdown
 # 🎯 Guided Project Kickstart
 
@@ -562,14 +629,17 @@ detected:
 From https://github.com/williamzujkowski/standards:
 
 **Essential** (must-have):
+
 - [ ] CS:[language] - Coding standards
 - [ ] TS:[framework] - Testing approach
 - [ ] SEC:[relevant] - Security patterns
 
 **Recommended** (should-have):
+
 - [ ] [Additional standards based on project]
 
 **Optional** (nice-to-have):
+
 - [ ] [Advanced standards]
 
 ### 2.3 Implementation Blueprint
@@ -601,6 +671,7 @@ From https://github.com/williamzujkowski/standards:
 ---
 
 [PROJECT PLAN CONTENT]
+
 ```
 
 **Token Budget**: ~1,200 tokens
@@ -682,18 +753,21 @@ def authenticate_user(credentials):
 ### 5. Implementation Checklist
 
 **Phase 1: Setup (Week 1)**
+
 - [ ] Initialize repository
 - [ ] Configure development environment
 - [ ] Set up CI/CD
 - [ ] Implement core structure
 
 **Phase 2: Core Features (Week 2-4)**
+
 - [ ] Implement main functionality
 - [ ] Add comprehensive tests
 - [ ] Security hardening
 - [ ] Performance optimization
 
 **Phase 3: Deployment (Week 5)**
+
 - [ ] Production configuration
 - [ ] Monitoring setup
 - [ ] Documentation
@@ -713,6 +787,7 @@ def authenticate_user(credentials):
 ---
 
 [COMPREHENSIVE PROJECT PLAN CONTENT]
+
 ```
 
 **Token Budget**: ~3,000 tokens
@@ -759,6 +834,7 @@ def authenticate_user(credentials):
 **Purpose**: Comprehensive project specification
 
 **Structure**:
+
 ```markdown
 # Project Plan: [PROJECT NAME]
 
@@ -969,6 +1045,7 @@ Add these sections to the Standard Template:
 **Problem**: Confusion between `@load` syntax (documented but not implemented) and `skill-loader.py` script (implemented but not prominently documented).
 
 **Solution**:
+
 ```markdown
 # Option A: Document Current Reality
 "Use the skill-loader script:"
@@ -977,13 +1054,17 @@ python3 scripts/skill-loader.py load product:api
 ```
 
 # Option B: Implement @load Syntax
+
 Create a Claude-Flow plugin or MCP tool that interprets `@load` directives.
 
 # Option C: Dual Documentation
+
 Clearly separate:
+
 - "For Claude Code users: Use @load syntax"
 - "For other LLMs: Use skill-loader.py script"
 - "For direct integration: Use Skills API"
+
 ```
 
 **Recommendation**: **Option C** - Document both clearly until `@load` is fully implemented.
@@ -999,23 +1080,28 @@ Clearly separate:
 
 **Content**:
 ```
+
 KICKSTART_QUICK.md:
+
 - One-paragraph instructions
 - Paste project plan placeholder
 - Minimal expected output
 - Total: ~200 tokens, ~50 lines
 
 KICKSTART_STANDARD.md:
+
 - Current KICKSTART_PROMPT.md streamlined
 - Remove advanced sections
 - Focus on core workflow
 - Total: ~800 tokens, ~120 lines
 
 KICKSTART_ADVANCED.md:
+
 - Expand current KICKSTART_ADVANCED.md
 - Add compliance sections
 - Include troubleshooting
 - Total: ~2,000 tokens, ~300 lines
+
 ```
 
 #### 3. Add Concrete Examples
@@ -1024,6 +1110,7 @@ KICKSTART_ADVANCED.md:
 
 **Solution**: Create example library:
 ```
+
 examples/
 ├── kickstart-examples/
 │   ├── api-project/
@@ -1037,6 +1124,7 @@ examples/
 │   ├── mobile-project/
 │   ├── data-pipeline/
 │   └── ml-service/
+
 ```
 
 Each example shows:
@@ -1081,6 +1169,7 @@ Instead of loading massive documents:
 **Problem**: No way to validate if project plan is "good enough" for LLM.
 
 **Solution**: Create validation tool:
+
 ```python
 # scripts/validate-project-plan.py
 
@@ -1112,6 +1201,7 @@ def validate_project_plan(plan_path):
 ```
 
 **CLI Usage**:
+
 ```bash
 python3 scripts/validate-project-plan.py examples/project_plan_example.md
 
@@ -1127,6 +1217,7 @@ python3 scripts/validate-project-plan.py examples/project_plan_example.md
 **Problem**: Users need to manually copy/paste and edit prompts.
 
 **Solution**: Create interactive CLI tool:
+
 ```bash
 python3 scripts/interactive-kickstart.py
 
@@ -1149,6 +1240,7 @@ python3 scripts/interactive-kickstart.py
 **Problem**: No way to verify if LLM response is good/complete.
 
 **Solution**: Create response validator:
+
 ```python
 # scripts/validate-llm-response.py
 
@@ -1180,6 +1272,7 @@ def validate_response(response_path, project_type):
 **Problem**: Users don't know token costs before loading.
 
 **Solution**: Add token calculator:
+
 ```bash
 python3 scripts/calculate-tokens.py --product api --level 1
 
@@ -1204,6 +1297,7 @@ python3 scripts/calculate-tokens.py --product api --level 1
 **Problem**: Currently English-only.
 
 **Solution**: Translate kickstart prompts to:
+
 - Spanish
 - Chinese
 - Japanese
@@ -1217,6 +1311,7 @@ Store in `docs/guides/kickstart/[lang]/`
 **Problem**: One-size-fits-all prompt may not be optimal for each LLM.
 
 **Solution**: Create LLM-specific variants:
+
 - `KICKSTART_CLAUDE.md` - Optimized for Claude (uses projects, artifacts)
 - `KICKSTART_CHATGPT.md` - Optimized for GPT-4 (uses system prompts)
 - `KICKSTART_GEMINI.md` - Optimized for Gemini (uses examples)
@@ -1227,6 +1322,7 @@ Store in `docs/guides/kickstart/[lang]/`
 **Problem**: Text-only documentation limits accessibility.
 
 **Solution**: Create video walkthroughs:
+
 1. "30-Second Kickstart Demo"
 2. "Building an API with Kickstart & Skills"
 3. "Skills System Deep Dive"
@@ -1237,6 +1333,7 @@ Store in `docs/guides/kickstart/[lang]/`
 **Problem**: Manual process for kickstarting projects.
 
 **Solution**: Create VSCode extension:
+
 - Command: "Standards: Kickstart Project"
 - Opens interactive wizard
 - Generates project plan
@@ -1253,6 +1350,7 @@ Store in `docs/guides/kickstart/[lang]/`
 **Goal**: Fix immediate confusion and provide clear entry points.
 
 **Tasks**:
+
 1. Create three-tier kickstart prompts (Quick/Standard/Advanced)
 2. Add concrete examples for each product type
 3. Document current skills loading reality (script vs @load)
@@ -1260,6 +1358,7 @@ Store in `docs/guides/kickstart/[lang]/`
 5. Create token cost comparison table
 
 **Deliverables**:
+
 - `/docs/guides/kickstart/QUICK.md`
 - `/docs/guides/kickstart/STANDARD.md`
 - `/docs/guides/kickstart/ADVANCED.md`
@@ -1271,6 +1370,7 @@ Store in `docs/guides/kickstart/[lang]/`
 **Goal**: Automate validation and provide interactive tools.
 
 **Tasks**:
+
 1. Build project plan validator
 2. Create LLM response validator
 3. Implement interactive kickstart CLI
@@ -1278,6 +1378,7 @@ Store in `docs/guides/kickstart/[lang]/`
 5. Add skills to product matrix mappings
 
 **Deliverables**:
+
 - `scripts/validate-project-plan.py`
 - `scripts/validate-llm-response.py`
 - `scripts/interactive-kickstart.py`
@@ -1289,6 +1390,7 @@ Store in `docs/guides/kickstart/[lang]/`
 **Goal**: Seamless end-to-end experience.
 
 **Tasks**:
+
 1. Implement @load directive (if feasible)
 2. Create skill resolution API
 3. Build example repository
@@ -1296,6 +1398,7 @@ Store in `docs/guides/kickstart/[lang]/`
 5. Create migration guide for old standards
 
 **Deliverables**:
+
 - @load directive implementation or clear documentation of script-only approach
 - Skills API endpoint/library
 - 15+ complete kickstart examples
@@ -1307,6 +1410,7 @@ Store in `docs/guides/kickstart/[lang]/`
 **Goal**: Professional, production-ready system.
 
 **Tasks**:
+
 1. Create video tutorials
 2. Build interactive web demo
 3. Develop VSCode extension (prototype)
@@ -1314,6 +1418,7 @@ Store in `docs/guides/kickstart/[lang]/`
 5. Comprehensive testing
 
 **Deliverables**:
+
 - 4-5 video tutorials
 - Web-based kickstart demo at `standards.dev/kickstart`
 - VSCode extension (beta)
@@ -1341,26 +1446,31 @@ Store in `docs/guides/kickstart/[lang]/`
 ### Validation Tests
 
 **Test 1: New User Experience**
+
 - Give kickstart prompt to someone who's never seen the repo
 - Measure: Time to complete, questions asked, satisfaction
 - Target: < 10 minutes, < 3 questions, > 8/10 satisfaction
 
 **Test 2: LLM Compatibility**
+
 - Run same kickstart prompt in Claude, ChatGPT, Gemini, Cursor
 - Measure: Response quality, consistency, completeness
 - Target: All LLMs produce usable output
 
 **Test 3: Token Efficiency**
+
 - Measure actual tokens for common scenarios
 - Compare skills vs full standards loading
 - Target: Validate 98% reduction claim
 
 **Test 4: Code Quality**
+
 - Generate projects using kickstart
 - Run through automated quality gates
 - Target: 100% pass linting, 80%+ test coverage
 
 **Test 5: Real-World Projects**
+
 - Partner with 5 teams to use kickstart on actual projects
 - Collect feedback, measure adoption
 - Target: 4/5 teams continue using after trial
@@ -1378,18 +1488,21 @@ This repository has created an **innovative multi-tier system** for LLM-assisted
 5. **Project Plans** - Structured input format
 
 **Strengths**:
+
 - Comprehensive coverage (62+ skills, 9 product types)
 - Dramatic token efficiency (98% reduction)
 - Multiple entry points (quick/standard/advanced)
 - Cross-LLM compatibility
 
 **Weaknesses**:
+
 - Complexity and information overload
 - Confusion between documented syntax and implementation
 - Limited concrete examples
 - Skills system adoption barrier
 
 **Critical Improvements**:
+
 1. Three-tier kickstart prompts (Quick/Standard/Advanced)
 2. Concrete examples for each product type
 3. Unified loading interface documentation
@@ -1407,6 +1520,7 @@ The foundation is **excellent**. With focused improvements on clarity, examples,
 ### Appendix A: Token Analysis
 
 **Skill Token Counts (Level 1)**:
+
 ```
 coding-standards:      336 tokens
 security-practices:    409 tokens
@@ -1418,6 +1532,7 @@ Total:              2,083 tokens
 ```
 
 **Product Bundle Token Counts (Level 1)**:
+
 ```
 product:api:          1,755 tokens (4 skills)
 product:frontend-web: 1,175 tokens (3 skills)
@@ -1426,6 +1541,7 @@ product:data-pipeline: 1,755 tokens (4 skills)
 ```
 
 **Comparison**:
+
 ```
 Full standards (all docs):  ~150,000 tokens
 All skills (Level 1):         ~2,083 tokens
@@ -1435,24 +1551,28 @@ Reduction:                       98.6%
 ### Appendix B: User Personas
 
 **Persona 1: Solo Developer Hacker**
+
 - **Need**: Quick start for weekend project
 - **Best Fit**: Quick Kickstart + product:api
 - **Token Budget**: < 1,000 tokens
 - **Time Budget**: < 5 minutes
 
 **Persona 2: Junior Developer on Team**
+
 - **Need**: Learn standards while building
 - **Best Fit**: Standard Kickstart + skills Level 1 & 2
 - **Token Budget**: < 5,000 tokens
 - **Time Budget**: < 30 minutes
 
 **Persona 3: Senior Developer on Enterprise Project**
+
 - **Need**: Comprehensive setup with compliance
 - **Best Fit**: Advanced Kickstart + skills Level 3
 - **Token Budget**: < 10,000 tokens
 - **Time Budget**: 1-2 hours
 
 **Persona 4: Tech Lead Establishing Standards**
+
 - **Need**: Understand entire system, create team guidelines
 - **Best Fit**: All documentation, custom skill authoring
 - **Token Budget**: Unlimited (reading over days)
@@ -1471,6 +1591,7 @@ Reduction:                       98.6%
 | Cody | ✅ Good | ✅ Yes | ⚠️ Conceptual | Use skill-loader.py |
 
 **Legend**:
+
 - ✅ Full support
 - ⚠️ Partial/workaround needed
 - ❌ Not supported
@@ -1478,23 +1599,27 @@ Reduction:                       98.6%
 ### Appendix D: Related Documentation
 
 **Core Documents**:
+
 - `/docs/guides/KICKSTART_PROMPT.md` - Current universal prompt
 - `/docs/guides/KICKSTART_ADVANCED.md` - Advanced patterns
 - `/CLAUDE.md` - Standards router and agent orchestration
 - `/config/product-matrix.yaml` - Tech stack to standards mappings
 
 **Skills System**:
+
 - `/docs/guides/SKILLS_QUICK_START.md` - 5-minute tutorial
 - `/docs/guides/SKILLS_USER_GUIDE.md` - Complete guide
 - `/docs/SKILLS_CATALOG.md` - All available skills
 - `/docs/guides/SKILL_AUTHORING_GUIDE.md` - Creating new skills
 
 **Examples**:
+
 - `/examples/project_plan_example.md` - Task management API example
 - `/examples/project-templates/` - Starter projects
 - `/examples/nist-templates/` - Compliance templates
 
 **Tools**:
+
 - `/scripts/skill-loader.py` - Load skills by product type
 - `/scripts/validate-skills.py` - Validate skill structure
 - `/scripts/generate-audit-reports.py` - Audit standards compliance

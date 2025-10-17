@@ -18,6 +18,7 @@
 **Target Users:** [Who will use this system?]
 
 **Success Metrics:**
+
 - [Metric 1: e.g., Handle 10K requests/second]
 - [Metric 2: e.g., 99.9% uptime]
 - [Metric 3: e.g., <200ms API response time]
@@ -76,24 +77,28 @@ graph TB
 ### Component Responsibilities
 
 #### API Server
+
 - **Purpose:** Handle HTTP requests, business logic orchestration
 - **Technology:** FastAPI (Python)
 - **Scaling:** Horizontal (stateless)
 - **Dependencies:** PostgreSQL, Redis, Message Queue
 
 #### Database
+
 - **Purpose:** Persistent data storage
 - **Technology:** PostgreSQL 15
 - **Scaling:** Vertical (primary), read replicas
 - **Backup Strategy:** Daily automated backups, point-in-time recovery
 
 #### Cache Layer
+
 - **Purpose:** Reduce database load, improve response times
 - **Technology:** Redis
 - **Scaling:** Horizontal (cluster mode)
 - **TTL Strategy:** [Define caching strategy]
 
 #### Background Workers
+
 - **Purpose:** Asynchronous task processing
 - **Technology:** Celery (Python)
 - **Scaling:** Horizontal (based on queue depth)
@@ -350,6 +355,7 @@ project-root/
 ### Git Branching Strategy
 
 **Branch Types:**
+
 - `main` - Production-ready code
 - `develop` - Integration branch for features
 - `feature/*` - Feature development branches
@@ -357,6 +363,7 @@ project-root/
 - `hotfix/*` - Emergency production fixes
 
 **Workflow:**
+
 1. Create feature branch from `develop`: `git checkout -b feature/user-authentication develop`
 2. Develop feature with regular commits
 3. Push branch and open Pull Request to `develop`
@@ -367,6 +374,7 @@ project-root/
 ### Code Review Process
 
 **Requirements for PR Approval:**
+
 - [ ] All CI checks pass (tests, linting, security)
 - [ ] Code coverage maintained or improved (minimum 80%)
 - [ ] At least one approving review from team member
@@ -375,6 +383,7 @@ project-root/
 - [ ] CHANGELOG updated for user-facing changes
 
 **Review Checklist:**
+
 - [ ] Code follows coding standards (CS:python)
 - [ ] Tests are comprehensive and meaningful
 - [ ] Security best practices followed
@@ -385,11 +394,13 @@ project-root/
 ### Testing Approach
 
 **Test Pyramid:**
+
 - **Unit Tests (70%):** Fast, isolated, test individual functions/classes
 - **Integration Tests (20%):** Test component interactions
 - **E2E Tests (10%):** Test complete user workflows
 
 **Coverage Requirements:**
+
 - **Minimum:** 80% line coverage
 - **Target:** 90%+ for critical paths (auth, payment, data processing)
 - **Exclusions:** Migration scripts, configuration files
@@ -397,11 +408,13 @@ project-root/
 ### Deployment Process
 
 **Environments:**
+
 1. **Development:** Developer machines (Docker Compose)
 2. **Staging:** Kubernetes cluster (mimics production)
 3. **Production:** Kubernetes cluster (HA configuration)
 
 **Deployment Pipeline:**
+
 1. Merge to `develop` → Auto-deploy to **Staging**
 2. Smoke tests run on staging
 3. Manual approval required
@@ -418,6 +431,7 @@ project-root/
 **Strategy:** JWT (JSON Web Tokens) with refresh tokens
 
 **Flow:**
+
 1. User submits credentials (username + password)
 2. Server validates credentials against database (hashed passwords with bcrypt)
 3. Server issues access token (15-minute expiry) + refresh token (7-day expiry)
@@ -426,6 +440,7 @@ project-root/
 6. Client uses refresh token to obtain new access token when expired
 
 **Implementation Details:**
+
 - **Library:** `python-jose[cryptography]` for JWT handling
 - **Password Hashing:** `passlib` with bcrypt algorithm
 - **Token Storage:** Redis for refresh token allowlist/denylist
@@ -436,11 +451,13 @@ project-root/
 **Strategy:** Role-Based Access Control (RBAC)
 
 **Roles:**
+
 - `admin` - Full system access
 - `user` - Standard user permissions
 - `readonly` - Read-only access
 
 **Permissions:**
+
 - Defined per endpoint using FastAPI dependencies
 - Checked via `Depends(require_role("admin"))` decorators
 - Stored in database, cached in Redis
@@ -448,16 +465,19 @@ project-root/
 ### Secret Management Approach
 
 **Development:**
+
 - `.env` files (NOT committed to git)
 - `.env.example` template provided
 
 **Production:**
+
 - **AWS Secrets Manager** for sensitive credentials
 - **Kubernetes Secrets** for deployment configs
 - **Environment variables** injected at runtime
 - **Secret rotation** automated (90-day cycle)
 
 **Secrets Inventory:**
+
 - Database connection strings
 - API keys for external services
 - JWT signing keys
@@ -466,15 +486,18 @@ project-root/
 ### Security Scanning Tools
 
 **Pre-commit:**
+
 - `gitleaks` - Secret detection in commits
 
 **CI Pipeline:**
+
 - `bandit` - Python security linter
 - `safety` - Dependency vulnerability scanner
 - `trivy` - Container image scanning
 - `semgrep` - Static application security testing (SAST)
 
 **Runtime:**
+
 - `fail2ban` - Intrusion detection
 - `ModSecurity` - Web application firewall (WAF)
 
@@ -499,6 +522,7 @@ project-root/
 **Scope:** Individual functions, classes, and modules in isolation
 
 **Tools:**
+
 - `pytest` - Test framework
 - `pytest-cov` - Coverage reporting
 - `pytest-mock` - Mocking utilities
@@ -547,6 +571,7 @@ def test_create_user_duplicate_email(user_service):
 **Scope:** Test interactions between components (API + Database, API + Cache, etc.)
 
 **Setup:**
+
 - Test database (PostgreSQL in Docker)
 - Test Redis instance
 - FastAPI TestClient
@@ -591,6 +616,7 @@ def test_user_registration_flow():
 **Scope:** Complete user workflows from start to finish
 
 **Tools:**
+
 - `playwright` or `selenium` (for UI testing if applicable)
 - API-based E2E tests for backend-only
 
@@ -626,10 +652,12 @@ def test_complete_item_management_workflow():
 ### Performance Testing
 
 **Tools:**
+
 - `locust` - Load testing
 - `pytest-benchmark` - Benchmark tests
 
 **Targets:**
+
 - API response time: <200ms (p95)
 - Throughput: 1000 requests/second
 - Database query time: <50ms (p95)
@@ -672,14 +700,17 @@ class APIUser(HttpUser):
 ### Security Testing
 
 **SAST (Static Analysis):**
+
 - `bandit` - Python security issues
 - `semgrep` - Custom security rules
 
 **DAST (Dynamic Analysis):**
+
 - `OWASP ZAP` - API security testing
 - Penetration testing (manual, periodic)
 
 **Dependency Scanning:**
+
 - `safety` - Known vulnerabilities in dependencies
 - `trivy` - Container vulnerabilities
 
@@ -721,25 +752,30 @@ repos:
 ### CI Pipeline Stages
 
 **Stage 1: Lint & Format**
+
 - Ruff linting (no errors allowed)
 - Black formatting check (auto-fix in pre-commit)
 - mypy type checking (no type errors)
 
 **Stage 2: Security Scan**
+
 - Gitleaks (no secrets in commits)
 - Bandit (no high-severity issues)
 - Safety (no critical vulnerabilities)
 
 **Stage 3: Test**
+
 - Unit tests (all pass)
 - Integration tests (all pass)
 - Coverage check (≥80%)
 
 **Stage 4: Build**
+
 - Docker image build
 - Trivy container scan (no critical CVEs)
 
 **Stage 5: Deploy (if all pass)**
+
 - Deploy to staging (develop branch)
 - Deploy to production (main branch, manual approval)
 
@@ -752,6 +788,7 @@ addopts = --cov=src --cov-report=html --cov-report=term --cov-fail-under=80
 ```
 
 **Requirements:**
+
 - **Overall:** ≥80% line coverage
 - **Critical modules (auth, payment):** ≥90%
 - **New code:** 100% coverage required
@@ -759,30 +796,36 @@ addopts = --cov=src --cov-report=html --cov-report=term --cov-fail-under=80
 ### Security Scan Requirements
 
 **Bandit:**
+
 - No high-severity issues
 - Medium-severity issues must be justified and documented
 
 **Safety:**
+
 - No critical or high vulnerabilities in production dependencies
 - Medium vulnerabilities must have mitigation plan
 
 **Trivy:**
+
 - No critical CVEs in base images
 - High CVEs must be patched within 7 days
 
 ### Performance Benchmarks
 
 **API Endpoints:**
+
 - p50 (median): <100ms
 - p95: <200ms
 - p99: <500ms
 
 **Database Queries:**
+
 - Simple queries: <10ms
 - Complex queries: <50ms
 - Joins (≤3 tables): <100ms
 
 **Load Testing:**
+
 - Sustained throughput: 1000 req/sec
 - Peak throughput: 2000 req/sec
 - Error rate under load: <0.1%
@@ -794,6 +837,7 @@ addopts = --cov=src --cov-report=html --cov-report=term --cov-fail-under=80
 ### Phase 1: Foundation (Weeks 1-2)
 
 **Week 1: Project Setup**
+
 - [ ] Initialize Git repository
 - [ ] Create project structure (directories, files)
 - [ ] Configure development tools (Ruff, Black, mypy)
@@ -804,6 +848,7 @@ addopts = --cov=src --cov-report=html --cov-report=term --cov-fail-under=80
 - [ ] Configure CI pipeline (basic linting and testing)
 
 **Week 2: Infrastructure**
+
 - [ ] Design database schema
 - [ ] Set up Alembic for migrations
 - [ ] Create initial database migration
@@ -814,6 +859,7 @@ addopts = --cov=src --cov-report=html --cov-report=term --cov-fail-under=80
 - [ ] Create health check endpoints
 
 **Deliverables:**
+
 - Working local development environment
 - CI pipeline with linting and basic tests
 - Database schema and migrations
@@ -822,6 +868,7 @@ addopts = --cov=src --cov-report=html --cov-report=term --cov-fail-under=80
 ### Phase 2: Core Development (Weeks 3-5)
 
 **Week 3: Authentication & Authorization**
+
 - [ ] Implement user model and repository
 - [ ] Create registration endpoint with validation
 - [ ] Implement password hashing (bcrypt)
@@ -832,6 +879,7 @@ addopts = --cov=src --cov-report=html --cov-report=term --cov-fail-under=80
 - [ ] Write unit tests for auth logic (target: 90%+ coverage)
 
 **Week 4: Core Business Logic**
+
 - [ ] Implement core data models (e.g., Items, Orders, etc.)
 - [ ] Create repository layer for data access
 - [ ] Build service layer for business logic
@@ -842,6 +890,7 @@ addopts = --cov=src --cov-report=html --cov-report=term --cov-fail-under=80
 - [ ] Write unit tests for services and repositories
 
 **Week 5: Integration & Polish**
+
 - [ ] Implement background tasks (email, notifications, etc.)
 - [ ] Add rate limiting on endpoints
 - [ ] Implement pagination for list endpoints
@@ -852,6 +901,7 @@ addopts = --cov=src --cov-report=html --cov-report=term --cov-fail-under=80
 - [ ] Add request/response middleware (timing, tracing)
 
 **Deliverables:**
+
 - Fully functional API with core features
 - Comprehensive test suite (≥80% coverage)
 - Auto-generated API documentation
@@ -860,6 +910,7 @@ addopts = --cov=src --cov-report=html --cov-report=term --cov-fail-under=80
 ### Phase 3: Security & Quality (Week 6)
 
 **Security Hardening**
+
 - [ ] Implement input sanitization on all endpoints
 - [ ] Add CORS configuration (restrictive defaults)
 - [ ] Set up security headers (CSP, HSTS, etc.)
@@ -871,6 +922,7 @@ addopts = --cov=src --cov-report=html --cov-report=term --cov-fail-under=80
 - [ ] Address all high-severity security findings
 
 **Quality Assurance**
+
 - [ ] Achieve 80%+ test coverage
 - [ ] Write E2E tests for critical workflows
 - [ ] Run load testing (Locust)
@@ -881,6 +933,7 @@ addopts = --cov=src --cov-report=html --cov-report=term --cov-fail-under=80
 - [ ] Fix all linting and type checking issues
 
 **Deliverables:**
+
 - Security-hardened application
 - Performance benchmarks met
 - Complete test suite with high coverage
@@ -889,6 +942,7 @@ addopts = --cov=src --cov-report=html --cov-report=term --cov-fail-under=80
 ### Phase 4: Deployment (Weeks 7-8)
 
 **Week 7: Staging Deployment**
+
 - [ ] Create production-ready Docker images
 - [ ] Write Kubernetes manifests (deployment, service, ingress)
 - [ ] Set up staging environment (Kubernetes cluster)
@@ -901,6 +955,7 @@ addopts = --cov=src --cov-report=html --cov-report=term --cov-fail-under=80
 - [ ] Conduct security scan on staging environment
 
 **Week 8: Production Deployment**
+
 - [ ] Production readiness review (checklist)
 - [ ] Create runbook for operations
 - [ ] Set up production Kubernetes cluster (HA config)
@@ -914,6 +969,7 @@ addopts = --cov=src --cov-report=html --cov-report=term --cov-fail-under=80
 - [ ] Conduct retrospective and document lessons learned
 
 **Deliverables:**
+
 - Production deployment
 - Monitoring and alerting configured
 - Runbooks and documentation
@@ -992,15 +1048,18 @@ addopts = --cov=src --cov-report=html --cov-report=term --cov-fail-under=80
 ### Communication Plan
 
 **Daily:**
+
 - Async updates in team chat (Slack/Discord)
 - Blocker flagging and resolution
 
 **Weekly:**
+
 - Team sync meeting (30 minutes)
 - Demo of completed features
 - Planning for next week
 
 **Bi-weekly (Sprint Boundaries):**
+
 - Sprint retrospective (what went well, what to improve)
 - Sprint planning (task breakdown and estimation)
 
