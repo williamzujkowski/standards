@@ -30,13 +30,13 @@ TESTING_STANDARDS.md (15,000+ tokens)
 
 ```bash
 # Progressive loading with 3 levels
-@load skill:coding-standards --level 1  # Quick Start (336 tokens)
+@load skill:coding-standards --level 1  # Quick Start (327 tokens)
 @load skill:coding-standards --level 2  # Implementation (1,245 tokens)
 @load skill:coding-standards --level 3  # Mastery (1,342 tokens)
 ```
 
 - Progressive disclosure (load only what you need)
-- 98% token reduction (~2K vs ~150K tokens)
+- 98% token reduction (~2K vs ~150K tokens for all standards documents)
 - Context-aware recommendations
 - Dynamic composition
 
@@ -81,7 +81,7 @@ TESTING_STANDARDS.md (15,000+ tokens)
 # - Essential checklist
 # - Common pitfalls
 
-# Total tokens: ~336 (vs 12,000 before)
+# Total tokens: ~327 (vs 12,000 before)
 ```
 
 #### 3. When You Need More
@@ -131,7 +131,7 @@ python scripts/validate-skills.py --audit-project ./
 cat docs/guides/SKILLS_USER_GUIDE.md
 
 # Set up in CI/CD
-npm run skill-loader -- load product:api --level 1 --output .claude/skills.md
+python3 scripts/skill-loader.py load product:api --level 1 --output .claude/skills.md
 ```
 
 #### 2. Backward Compatibility
@@ -218,7 +218,7 @@ find docs/standards -name "*.md" | wc -l
 # Output: 24 standards
 
 # Check current token usage
-python scripts/estimate-tokens.py docs/standards/
+python3 scripts/estimate-tokens.py docs/standards/
 # Output: ~150,000 tokens total
 ```
 
@@ -242,23 +242,23 @@ git pull origin master
 pip install -r requirements.txt
 
 # Verify migration tools
-python scripts/migrate-to-skills.py --help
-python scripts/validate-skills.py --help
+python3 scripts/migrate-to-skills.py --help
+python3 scripts/validate-skills.py --help
 ```
 
 ### Step 3: Run Auto-Migration
 
 ```bash
 # Dry run (preview changes)
-python scripts/migrate-to-skills.py --dry-run
+python3 scripts/migrate-to-skills.py --dry-run
 
 # Migrate specific standard
-python scripts/migrate-to-skills.py \
+python3 scripts/migrate-to-skills.py \
   --source docs/standards/CODING_STANDARDS.md \
   --target skills/coding-standards/SKILL.md
 
 # Validate migration
-python scripts/validate-skills.py skills/coding-standards/
+python3 scripts/validate-skills.py skills/coding-standards/
 ```
 
 ### Step 4: Update Project Configuration
@@ -298,8 +298,8 @@ python scripts/validate-skills.py skills/coding-standards/
 # .github/workflows/validate.yml
 - name: Validate skills
   run: |
-    python scripts/validate-skills.py skills/
-    python scripts/validate-skills.py --check-tokens --max-level1 2000
+    python3 scripts/validate-skills.py skills/
+    python3 scripts/validate-skills.py --check-tokens --max-level1 2000
 ```
 
 ### Step 5: Team Rollout
@@ -418,13 +418,13 @@ ALL standards (~150,000 tokens)
 
 ```bash
 # Run validation suite
-python scripts/validate-skills.py skills/ --verbose
+python3 scripts/validate-skills.py skills/ --verbose
 
 # Check token counts
-python scripts/validate-skills.py skills/ --check-tokens
+python3 scripts/validate-skills.py skills/ --check-tokens
 
 # Validate cross-references
-python scripts/validate-skills.py skills/ --check-refs
+python3 scripts/validate-skills.py skills/ --check-refs
 
 # Expected output:
 # ✅ Skills validated: 5
@@ -468,7 +468,7 @@ export USE_LEGACY_STANDARDS=true
 **A:** You can convert them to skills:
 
 ```bash
-python scripts/migrate-to-skills.py \
+python3 scripts/migrate-to-skills.py \
   --source my-custom-standard.md \
   --target skills/my-custom-skill/SKILL.md
 ```
@@ -486,7 +486,7 @@ Or reference them as bundled resources using the pattern:
 
 ```bash
 # Analyze your project
-python scripts/skill-loader.py recommend ./
+python3 scripts/skill-loader.py recommend ./
 
 # Output:
 # Detected: REST API (Python/FastAPI)
@@ -611,7 +611,7 @@ Skills enhance tagging with:
 **Migration Time:** 2 hours
 **Results:**
 
-- **Token usage:** ↓ 95% (250k → 12k)
+- **Token usage:** ↓ 98% (150K → 2K for typical loads)
 - **Onboarding time:** ↓ 70% (2 days → 5 hours)
 - **CI/CD speed:** ↑ 3x faster validation
 - **Developer satisfaction:** ↑ 92% positive feedback
@@ -634,7 +634,7 @@ Skills enhance tagging with:
 
 1. **Read the User Guide**: [SKILLS_USER_GUIDE.md](../guides/SKILLS_USER_GUIDE.md)
 2. **Try a skill**: `@load skill:coding-standards --level 1`
-3. **Run auto-recommendation**: `python scripts/skill-loader.py recommend ./`
+3. **Run auto-recommendation**: `python3 scripts/skill-loader.py recommend ./`
 4. **Join the discussion**: [GitHub Discussions](https://github.com/williamzujkowski/standards/discussions)
 
 ---

@@ -35,6 +35,13 @@
 - **Processing**: Matrix resolution → wildcard expansion → NIST inclusion
 - **Output**: Loaded standards with implementation guidance
 
+**Implementation Note**: The `@load` directive syntax shown above represents the planned interface. Current implementation requires using the skill-loader script:
+
+```bash
+python3 scripts/skill-loader.py load product:api
+python3 scripts/skill-loader.py load skill:coding-standards/python
+```
+
 ---
 
 ## 🚨 CRITICAL: CONCURRENT EXECUTION & FILE MANAGEMENT

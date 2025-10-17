@@ -4,14 +4,14 @@ Generated: 2025-10-17
 
 ## Summary
 
-Total issues found: 16
+Total issues found: 9
 
 
-## Orphaned Files (1)
+## Orphaned Files (0)
 
 Files not linked from any other document:
 
-- docs/reports/pre-commit-failure-analysis.md
+✅ No orphaned files found
 
 ## Missing Cross-References (0)
 
@@ -23,23 +23,17 @@ Standards documents not referencing UNIFIED_STANDARDS.md:
 
 ✅ All filenames follow conventions
 
-## Directories Missing README (15)
+## Directories Missing README (9)
 
 - scripts/tests/
+- scripts/__pycache__/
 - docs/api/
-- docs/.swarm/
 - docs/reports/
-- docs/.claude-flow/
-- tests/.swarm/
-- tests/.claude-flow/
-- examples/nist-templates/quickstart/.swarm/
-- examples/nist-templates/quickstart/.claude-flow/
+- tests/__pycache__/
 - examples/nist-templates/quickstart/scripts/
 - examples/nist-templates/quickstart/scripts/tests/
-- docs/nist/.swarm/
-- docs/nist/.claude-flow/
-- docs/standards/.swarm/
-- docs/standards/.claude-flow/
+- tests/scripts/__pycache__/
+- tests/skills/__pycache__/
 
 ## Structure Violations (0)
 

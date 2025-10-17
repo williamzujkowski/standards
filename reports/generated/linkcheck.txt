@@ -7,7 +7,7 @@ Generated: 2025-10-17
 
 ✅ No broken internal links found!
 
-## External Links (58 found)
+## External Links (59 found)
 
 
 ### 12factor.net (1 links)
@@ -32,7 +32,8 @@ Generated: 2025-10-17
 ### docs.github.com (1 links)
 - docs/core/GITHUB_WORKFLOWS.md: [GitHub Actions Documentation](https://docs.github.com/en/actions)
 
-### docs.pytest.org (1 links)
+### docs.pytest.org (2 links)
+- .pytest_cache/README.md: [the docs](https://docs.pytest.org/en/stable/how-to/cache.html)
 - tests/scripts/README.md: [Pytest Documentation](https://docs.pytest.org/)
 
 ### en.wikipedia.org (1 links)
@@ -84,6 +85,6 @@ Generated: 2025-10-17
 
 ## Summary
 
-- Files checked: 296
+- Files checked: 297
 - Broken links: 0
-- External links: 58
+- External links: 59

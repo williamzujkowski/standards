@@ -28,14 +28,14 @@ Instead of loading massive 50,000+ token documents, use **progressive skills** t
 @load product:api --language python
 # Loads: coding-standards, security-practices, testing, nist-compliance
 
-# Total: ~1,755 tokens vs 150,000 tokens before (98.8% reduction)
+# Total: ~1,755 tokens compared to loading all standards documents (~150K tokens) (98.8% reduction)
 ```
 
 ### Quick Skills Tutorial (2 minutes)
 
 ```bash
 # 1. Get skill recommendations for your project
-npm run skill-loader -- recommend ./
+python3 scripts/skill-loader.py recommend ./
 
 # 2. Load recommended skills
 @load product:api
@@ -47,7 +47,7 @@ npm run skill-loader -- recommend ./
 
 ### Available Skills
 
-- **coding-standards**: Code quality patterns (336 tokens L1)
+- **coding-standards**: Code quality patterns (327 tokens L1)
 - **security-practices**: Modern security (409 tokens L1)
 - **testing**: TDD & testing strategies (430 tokens L1)
 - **nist-compliance**: NIST 800-53r5 controls (580 tokens L1)

@@ -295,6 +295,10 @@ This index provides quick summaries of all standards sections. Use the codes bel
 | `COMPLIANCE:llm-integration` | LLM Integration | When working with code that needs NIST tags, provide this context: You are helping tag code with NIS |
 
 
+## 🔧 Troubleshooting & Operations
+
+- [Pre-commit Failure Analysis](../reports/pre-commit-failure-analysis.md) - Comprehensive troubleshooting guide for pre-commit check failures
+
 ## 📋 Additional Standards
 
 

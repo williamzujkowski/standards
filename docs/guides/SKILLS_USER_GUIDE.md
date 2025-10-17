@@ -51,7 +51,7 @@ Dynamic composition
 
 ### Key Benefits
 
-- **98% token reduction**: Load only what you need (~2K vs ~150K tokens)
+- **98% token reduction**: Load only what you need (~2K vs ~150K tokens for all standards documents)
 - **5-minute quick starts**: Get productive fast (Level 1)
 - **Auto-recommendations**: System suggests relevant skills
 - **Composable**: Combine multiple skills seamlessly
@@ -523,7 +523,7 @@ Let the system analyze your project and recommend skills:
 
 ```bash
 # Analyze current project
-npm run skill-loader -- recommend ./
+python3 scripts/skill-loader.py recommend ./
 
 # Output:
 # 🔍 Analyzing project...
@@ -560,18 +560,18 @@ The system considers:
 
 ```bash
 # Load recommendations automatically
-npm run skill-loader -- auto-load ./
+python3 scripts/skill-loader.py auto-load ./
 
 # Confirmation prompt:
 # Load all recommended skills at Level 1? [Y/n] y
 #
 # Loading skills...
-# ✓ coding-standards (336 tokens)
+# ✓ coding-standards (327 tokens)
 # ✓ security-practices (409 tokens)
 # ✓ testing (430 tokens)
 # ✓ nist-compliance (580 tokens)
 #
-# Total: 1,755 tokens (~0.4% of context window)
+# Total: 1,746 tokens (~0.4% of context window)
 # Saved to: .claude/auto-loaded-skills.md
 ```
 
@@ -583,7 +583,7 @@ npm run skill-loader -- auto-load ./
 
 ```bash
 # Cache frequently used skills
-npm run skill-loader -- cache skill:coding-standards --level 2
+python3 scripts/skill-loader.py cache skill:coding-standards --level 2
 
 # Load from cache (instant)
 @load skill:coding-standards --from-cache
@@ -613,7 +613,7 @@ npm run skill-loader -- cache skill:coding-standards --level 2
 
 ```bash
 # Export composed skills to file
-npm run skill-loader -- compose \
+python3 scripts/skill-loader.py compose \
   skill:coding-standards \
   skill:security-practices \
   --level 1 \
@@ -640,12 +640,12 @@ jobs:
 
       - name: Load Skills
         run: |
-          npm run skill-loader -- load product:api --level 1 --output .claude/skills.md
+          python3 scripts/skill-loader.py load product:api --level 1 --output .claude/skills.md
 
       - name: Validate Compliance
         run: |
-          python scripts/validate-nist-tags.py
-          python scripts/validate-skills.py skills/
+          python3 scripts/validate-nist-tags.py
+          python3 scripts/validate-skills.py skills/
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
@@ -709,7 +709,7 @@ jobs:
 
 ```bash
 # Create team bundle
-npm run skill-loader -- compose \
+python3 scripts/skill-loader.py compose \
   product:api \
   --level 1 \
   --output .claude/team-bundle.md
@@ -722,7 +722,7 @@ npm run skill-loader -- compose \
 
 ```bash
 # Let the system guide you
-npm run skill-loader -- recommend ./
+python3 scripts/skill-loader.py recommend ./
 
 # More accurate than manual selection
 ```
@@ -740,7 +740,7 @@ Error: Skill not found: skill:my-skill
 @load skill:coding-standards  # Correct spelling
 
 # Solution 2: List available skills
-npm run skill-loader -- list
+python3 scripts/skill-loader.py list
 
 # Solution 3: Check path
 ls skills/
@@ -791,7 +791,7 @@ Warning: Level 1 section too large (2,500 tokens, recommended <2,000)
 
 # Solution: Ensure you're in project root
 cd /path/to/project
-npm run skill-loader -- recommend ./
+python3 scripts/skill-loader.py recommend ./
 
 # Or: Specify project type manually
 @load product:api --language python
@@ -818,10 +818,10 @@ npm run skill-loader -- recommend ./
 @load product:api
 
 # 3. Get recommendations
-npm run skill-loader -- recommend ./
+python3 scripts/skill-loader.py recommend ./
 
 # 4. Compose a custom bundle
-npm run skill-loader -- compose skill:coding-standards skill:testing --output my-bundle.md
+python3 scripts/skill-loader.py compose skill:coding-standards skill:testing --output my-bundle.md
 ```
 
 ### Get Help

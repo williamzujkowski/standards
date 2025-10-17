@@ -47,11 +47,11 @@ response = client.messages.create(
         "content": f"{skills}\n\nImplement user authentication"
     }]
 )
-# Token cost: ~1,755 input tokens (98.8% reduction)
+# Token cost: ~1,755 input tokens (98.8% reduction compared to loading all standards)
 # Better context: Claude sees only relevant guidance
 ```
 
-**Result**: 98% token reduction, better responses, lower costs
+**Result**: 98.8% token reduction (from ~150K to ~1.8K tokens), better responses, lower costs
 
 ---
 
@@ -100,10 +100,10 @@ This project uses the Skills system for progressive standards loading.
 @load product:api
 
 # Get recommendations
-npm run skill-loader -- recommend ./
+python3 scripts/skill-loader.py recommend ./
 
 # Validate compliance
-python scripts/validate-nist-tags.py
+python3 scripts/validate-nist-tags.py
 ```
 
 ### Project Context
@@ -151,10 +151,9 @@ Add to `package.json`:
 ```json
 {
   "scripts": {
-    "skill-loader": "node scripts/skill-loader.js",
-    "skills:recommend": "npm run skill-loader -- recommend ./",
-    "skills:load": "npm run skill-loader -- load product:api --level 1 --output .claude/skills.md",
-    "skills:validate": "python scripts/validate-skills.py skills/"
+    "skills:recommend": "python3 scripts/skill-loader.py recommend ./",
+    "skills:load": "python3 scripts/skill-loader.py load product:api --level 1 --output .claude/skills.md",
+    "skills:validate": "python3 scripts/validate-skills.py skills/"
   }
 }
 ```
@@ -297,7 +296,7 @@ class ClaudeWithSkills:
     def get_skill_recommendations(self) -> list[dict]:
         """Get skill recommendations for the project."""
         result = subprocess.run(
-            ["npm", "run", "skill-loader", "--", "recommend", self.project_path, "--format", "json"],
+            ["python3", "scripts/skill-loader.py", "recommend", self.project_path, "--format", "json"],
             capture_output=True,
             text=True
         )
@@ -312,7 +311,7 @@ class ClaudeWithSkills:
         # Use skill-loader tool
         skills_str = "+".join([f"skill:{s}" for s in skill_names])
         result = subprocess.run(
-            ["npm", "run", "skill-loader", "--", "load", skills_str, "--level", str(level)],
+            ["python3", "scripts/skill-loader.py", "load", skills_str, "--level", str(level)],
             capture_output=True,
             text=True
         )
@@ -392,7 +391,7 @@ class ClaudeWithSkills {
 
   async getSkillRecommendations(): Promise<any[]> {
     const { stdout } = await execAsync(
-      `npm run skill-loader -- recommend ${this.projectPath} --format json`
+      `python3 scripts/skill-loader.py recommend ${this.projectPath} --format json`
     )
     return JSON.parse(stdout)
   }
@@ -400,7 +399,7 @@ class ClaudeWithSkills {
   async loadSkills(skillNames: string[], level: number = 1): Promise<string> {
     const skillsStr = skillNames.map(s => `skill:${s}`).join('+')
     const { stdout } = await execAsync(
-      `npm run skill-loader -- load "${skillsStr}" --level ${level}`
+      `python3 scripts/skill-loader.py load "${skillsStr}" --level ${level}`
     )
     return stdout
   }
@@ -567,7 +566,7 @@ jobs:
 
       - name: Load skills
         run: |
-          npm run skill-loader -- load product:api --level 1 --output .claude/skills.md
+          python3 scripts/skill-loader.py load product:api --level 1 --output .claude/skills.md
 
       - name: Run Claude Code Review
         env:
@@ -601,7 +600,7 @@ jobs:
 #!/bin/bash
 
 # Load skills
-npm run skill-loader -- load product:api --level 1 --output .claude/skills.md
+python3 scripts/skill-loader.py load product:api --level 1 --output .claude/skills.md
 
 # Run Claude for pre-commit checks
 claude --load-skills ".claude/skills.md" \
@@ -628,7 +627,7 @@ exit 0
 
 | Approach | Tokens | Cost (per 1M tokens) | Time |
 |----------|--------|----------------------|------|
-| Full standards | 150,000 | $0.45 | Slow |
+| Full standards (~150K docs) | 150,000 | $0.45 | Slow |
 | Skills Level 1 | 1,755 | $0.0053 | Fast |
 | Skills Level 2 | 6,500 | $0.0195 | Medium |
 | Skills Level 3 | 16,000 | $0.048 | Medium |
@@ -676,7 +675,7 @@ ls skills/
 python scripts/validate-skills.py skills/
 
 # Check skill-loader script
-npm run skill-loader -- list
+python3 scripts/skill-loader.py list
 ```
 
 ### Issue: High token usage

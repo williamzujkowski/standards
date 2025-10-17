@@ -27,7 +27,7 @@ Skills are **modular, bite-sized standards** that load progressively. Instead of
 - ✅ Essential checklist
 - ✅ Common pitfalls
 
-**Token cost**: 336 tokens (~5 min read)
+**Token cost**: 327 tokens (~5 min read)
 
 ### Step 2: Try Product Type Loading (30 seconds)
 
@@ -47,7 +47,7 @@ Skills are **modular, bite-sized standards** that load progressively. Instead of
 ### Step 3: Get Recommendations (1 minute)
 
 ```bash
-npm run skill-loader -- recommend ./
+python3 scripts/skill-loader.py recommend ./
 
 # Output:
 # 🔍 Detected: REST API (Python/FastAPI)
@@ -127,7 +127,7 @@ npm run skill-loader -- recommend ./
 
 | Skill | Use When | Tokens (L1) |
 |-------|----------|-------------|
-| `coding-standards` | Any project | 336 |
+| `coding-standards` | Any project | 327 |
 | `security-practices` | APIs, web services | 409 |
 | `testing` | Any project with tests | 430 |
 | `nist-compliance` | Regulated industries | 580 |
@@ -143,31 +143,31 @@ npm run skill-loader -- recommend ./
 
 ```bash
 # Single skill
-npm run skill-loader -- load skill:coding-standards
+python3 scripts/skill-loader.py load skill:coding-standards
 
 # Multiple skills
-npm run skill-loader -- load "skill:coding-standards + skill:testing"
+python3 scripts/skill-loader.py load "skill:coding-standards + skill:testing"
 
 # Product type
-npm run skill-loader -- load product:api --language python
+python3 scripts/skill-loader.py load product:api --language python
 ```
 
 ### Get Recommendations
 
 ```bash
-npm run skill-loader -- recommend ./
+python3 scripts/skill-loader.py recommend ./
 ```
 
 ### List Skills
 
 ```bash
-npm run skill-loader -- list
+python3 scripts/skill-loader.py list
 ```
 
 ### Validate Skills
 
 ```bash
-python scripts/validate-skills.py skills/
+python3 scripts/validate-skills.py skills/
 ```
 
 ---
@@ -177,7 +177,7 @@ python scripts/validate-skills.py skills/
 ### Before Skills
 
 ```
-Full standards: ~150,000 tokens
+Full standards: ~150,000 tokens (loading all documents)
 Load time: Minutes
 Cost: High
 ```
@@ -187,17 +187,17 @@ Cost: High
 ```
 All skills: ~2,083 tokens
 Load time: Seconds
-Cost: 98% reduction
+Cost: 98% reduction compared to loading all standards documents
 ```
 
-**Example**: Loading `product:api` with skills saves ~148,000 tokens (98.6% reduction)
+**Example**: Loading `product:api` with skills uses ~1,755 tokens vs ~150K tokens for all docs (98.8% reduction)
 
 ---
 
 ## Next Steps
 
 1. **Try it now**: `@load skill:coding-standards --level 1`
-2. **Get recommendations**: `npm run skill-loader -- recommend ./`
+2. **Get recommendations**: `python3 scripts/skill-loader.py recommend ./`
 3. **Read full guide**: [SKILLS_USER_GUIDE.md](./SKILLS_USER_GUIDE.md)
 4. **Explore catalog**: [SKILLS_CATALOG.md](../SKILLS_CATALOG.md)
 
@@ -212,7 +212,7 @@ Cost: 98% reduction
 
 ---
 
-**That's it!** Start loading skills and experience 98% token reduction with better context. 🚀
+**That's it!** Start loading skills and experience 98% token reduction (compared to loading all standards documents) with better context. 🚀
 
 ---
 
