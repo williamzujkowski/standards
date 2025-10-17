@@ -956,4 +956,3 @@ data:
 - [CNCF Observability SIG](https://github.com/cncf/sig-observability)
 - [Prometheus Community](https://prometheus.io/community/)
 - [#observability on CNCF Slack](https://slack.cncf.io)
-

@@ -1238,4 +1238,3 @@ See `templates/` and `config/` directories for production-ready implementations:
 - `dataloader-implementation.ts` - DataLoader patterns
 - `subscription-server.ts` - Real-time subscriptions
 - `apollo-studio.yaml` - Monitoring configuration
-

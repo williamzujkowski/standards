@@ -1,6 +1,13 @@
 # YAML Linting Configuration
 extends: default
 
+# Ignore infrastructure templates with special formatting
+ignore: |
+  skills/cloud-native/service-mesh/templates/istio-installation.yaml
+  skills/cloud-native/serverless/templates/sam-template.yaml
+  skills/cloud-native/aws-advanced/templates/*.yaml
+  skills/security/api-security/templates/openapi-security.yaml
+
 rules:
   line-length:
     max: 120

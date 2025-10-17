@@ -25,7 +25,7 @@
 
 ### Master Coordinator
 - **Agent:** phase3-master-coordinator (task-orchestrator)
-- **Responsibilities:** 
+- **Responsibilities:**
   - Task decomposition and assignment
   - Progress tracking and gate validation
   - Checkpoint coordination
