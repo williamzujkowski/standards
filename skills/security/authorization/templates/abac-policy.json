@@ -1,0 +1,138 @@
+{
+  "version": "1.0",
+  "description": "Attribute-Based Access Control policy for document management",
+  "comment": "@nist ac-3, ac-4, ac-16",
+  "policies": [
+    {
+      "id": "owner-access",
+      "description": "Users can access their own documents",
+      "effect": "permit",
+      "target": {
+        "resource_type": "document"
+      },
+      "conditions": [
+        {
+          "operator": "equals",
+          "left": "subject.id",
+          "right": "resource.owner_id"
+        }
+      ]
+    },
+    {
+      "id": "department-manager-access",
+      "description": "Managers can access department documents during business hours",
+      "effect": "permit",
+      "target": {
+        "resource_type": "document",
+        "subject_role": "manager"
+      },
+      "conditions": [
+        {
+          "operator": "and",
+          "conditions": [
+            {
+              "operator": "equals",
+              "left": "subject.department",
+              "right": "resource.department"
+            },
+            {
+              "operator": "time_between",
+              "start": "09:00:00",
+              "end": "17:00:00"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "classified-network-only",
+      "description": "Classified documents only accessible from secure network",
+      "effect": "deny",
+      "target": {
+        "resource_type": "document"
+      },
+      "conditions": [
+        {
+          "operator": "and",
+          "conditions": [
+            {
+              "operator": "equals",
+              "left": "resource.classification",
+              "right": "classified"
+            },
+            {
+              "operator": "not",
+              "condition": {
+                "operator": "ip_in_network",
+                "network": "10.0.0.0/8"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "clearance-level-access",
+      "description": "Users must have sufficient clearance level",
+      "effect": "deny",
+      "target": {
+        "resource_type": "document"
+      },
+      "conditions": [
+        {
+          "operator": "less_than",
+          "left": "subject.clearance_level",
+          "right": "resource.required_clearance"
+        }
+      ]
+    },
+    {
+      "id": "weekend-emergency-only",
+      "description": "Non-emergency access denied on weekends",
+      "effect": "deny",
+      "target": {},
+      "conditions": [
+        {
+          "operator": "and",
+          "conditions": [
+            {
+              "operator": "in",
+              "left": "environment.day_of_week",
+              "right": ["Saturday", "Sunday"]
+            },
+            {
+              "operator": "not",
+              "condition": {
+                "operator": "equals",
+                "left": "subject.emergency_role",
+                "right": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "attributes": {
+    "subject": {
+      "id": "User identifier",
+      "role": "User role (user, manager, admin)",
+      "department": "User department",
+      "clearance_level": "Security clearance (1-5)",
+      "emergency_role": "Has emergency access privilege"
+    },
+    "resource": {
+      "type": "Resource type (document, user, etc.)",
+      "owner_id": "Resource owner identifier",
+      "department": "Resource department",
+      "classification": "Security classification (public, internal, confidential, classified)",
+      "required_clearance": "Minimum clearance level required (1-5)"
+    },
+    "environment": {
+      "current_time": "ISO 8601 timestamp",
+      "day_of_week": "Day of week string",
+      "ip_address": "Client IP address"
+    }
+  },
+  "rule_combining_algorithm": "deny-overrides"
+}

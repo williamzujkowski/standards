@@ -1,7 +1,9 @@
 file	README.md	docs/README.md	docs/core/README.md	docs/guides/STANDARDS_INDEX.md	docs/nist/README.md	docs/standards/UNIFIED_STANDARDS.md	examples/README.md	micro/README.md	monitoring/README.md	tools-config/README.md
 README.md	1	0	0	0	0	0	0	0	0	0
 badges/standards-compliance-template.md	1	0	0	0	0	0	0	0	0	0
+docs/AUTOMATION_SCRIPTS_SUMMARY.md	0	1	0	0	0	0	0	0	0	0
 docs/README.md	0	1	0	0	0	0	0	0	0	0
+docs/SKILLS_CATALOG.md	0	1	0	0	0	0	0	0	0	0
 docs/VISUAL_NAVIGATION.md	0	1	0	0	0	0	0	0	0	0
 docs/WORKFLOW_ANALYSIS_REPORT.md	0	1	0	0	0	0	0	0	0	0
 docs/WORKFLOW_STATUS_SUMMARY.md	0	1	0	0	0	0	0	0	0	0
@@ -16,10 +18,15 @@ docs/core/GITHUB_WORKFLOWS.md	0	0	1	0	0	0	0	0	0	0
 docs/core/INTEGRATION_GUIDE.md	0	0	1	0	0	0	0	0	0	0
 docs/core/README.md	0	0	1	0	0	0	0	0	0	0
 docs/guides/ADOPTION_CHECKLIST.md	0	0	0	1	0	0	0	0	0	0
+docs/guides/CLAUDE_INTEGRATION_GUIDE.md	0	0	0	1	0	0	0	0	0	0
 docs/guides/CREATING_STANDARDS_GUIDE.md	0	0	0	1	0	0	0	0	0	0
 docs/guides/KICKSTART_ADVANCED.md	0	0	0	1	0	0	0	0	0	0
 docs/guides/KICKSTART_PROMPT.md	0	0	0	1	0	0	0	0	0	0
 docs/guides/LLM_TRAINING.md	0	0	0	1	0	0	0	0	0	0
+docs/guides/SKILLS_IMPLEMENTATION_SUMMARY.md	0	0	0	1	0	0	0	0	0	0
+docs/guides/SKILLS_QUICK_START.md	0	0	0	1	0	0	0	0	0	0
+docs/guides/SKILLS_USER_GUIDE.md	0	0	0	1	0	0	0	0	0	0
+docs/guides/SKILL_AUTHORING_GUIDE.md	0	0	0	1	0	0	0	0	0	0
 docs/guides/STANDARDS_GRAPH.md	0	0	0	1	0	0	0	0	0	0
 docs/guides/STANDARDS_INDEX.md	0	0	0	1	0	0	0	0	0	0
 docs/guides/STANDARD_TEMPLATE.md	0	0	0	1	0	0	0	0	0	0
@@ -63,4 +70,5 @@ micro/README.md	0	0	0	0	0	0	0	1	0	0
 micro/SEC-auth.micro.md	0	0	0	0	0	0	0	1	0	0
 micro/TS-unit.micro.md	0	0	0	0	0	0	0	1	0	0
 monitoring/README.md	0	0	0	0	0	0	0	0	1	0
+skills/testing/integration-testing/resources/examples/contract-testing.md	0	0	0	0	0	0	0	0	0	0
 tools-config/README.md	0	0	0	0	0	0	0	0	0	1

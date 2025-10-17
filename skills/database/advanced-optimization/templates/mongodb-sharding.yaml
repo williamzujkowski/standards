@@ -1,0 +1,288 @@
+# MongoDB Sharding Configuration
+# Version: 1.0.0
+# Description: Production-ready MongoDB sharded cluster configuration
+
+---
+# Config Server Replica Set Configuration
+configServer:
+  replicaSet: configReplSet
+  members:
+    - host: config1.example.com:27019
+      priority: 3
+    - host: config2.example.com:27019
+      priority: 2
+    - host: config3.example.com:27019
+      priority: 1
+
+# Shard Replica Set Configurations
+shards:
+  # Shard 1: US East Region
+  - name: shard-us-east
+    replicaSet: shard1ReplSet
+    members:
+      - host: shard1a.example.com:27018
+        priority: 3
+        tags:
+          region: us-east
+          datacenter: dc1
+      - host: shard1b.example.com:27018
+        priority: 2
+        tags:
+          region: us-east
+          datacenter: dc2
+      - host: shard1c.example.com:27018
+        priority: 1
+        tags:
+          region: us-east
+          datacenter: dc3
+
+  # Shard 2: US West Region
+  - name: shard-us-west
+    replicaSet: shard2ReplSet
+    members:
+      - host: shard2a.example.com:27018
+        priority: 3
+        tags:
+          region: us-west
+          datacenter: dc1
+      - host: shard2b.example.com:27018
+        priority: 2
+        tags:
+          region: us-west
+          datacenter: dc2
+      - host: shard2c.example.com:27018
+        priority: 1
+        tags:
+          region: us-west
+          datacenter: dc3
+
+  # Shard 3: EU West Region
+  - name: shard-eu-west
+    replicaSet: shard3ReplSet
+    members:
+      - host: shard3a.example.com:27018
+        priority: 3
+        tags:
+          region: eu-west
+          datacenter: dc1
+      - host: shard3b.example.com:27018
+        priority: 2
+        tags:
+          region: eu-west
+          datacenter: dc2
+      - host: shard3c.example.com:27018
+        priority: 1
+        tags:
+          region: eu-west
+          datacenter: dc3
+
+# Mongos Router Configuration
+mongos:
+  instances:
+    - host: mongos1.example.com:27017
+    - host: mongos2.example.com:27017
+    - host: mongos3.example.com:27017
+
+# Shard Key Strategies
+shardKeyStrategies:
+  # User data: Hashed shard key for even distribution
+  users:
+    database: myapp
+    collection: users
+    key:
+      _id: hashed
+    options:
+      unique: false
+      numInitialChunks: 8
+
+  # Orders: Compound shard key with user_id and timestamp
+  orders:
+    database: myapp
+    collection: orders
+    key:
+      userId: 1
+      createdAt: 1
+    options:
+      unique: false
+      presplitHashedZones: true
+
+  # Events/Logs: Time-series with compound key
+  events:
+    database: analytics
+    collection: events
+    key:
+      tenantId: 1
+      timestamp: 1
+    options:
+      unique: false
+
+  # Multi-tenant: Tenant-based sharding
+  tenant_data:
+    database: saas
+    collection: tenant_data
+    key:
+      tenantId: 1
+      _id: 1
+    options:
+      unique: false
+
+# Zone Sharding Configuration (Geographic Data Locality)
+zoneSharding:
+  enabled: true
+  zones:
+    # US East Zone
+    - name: US-EAST
+      shards:
+        - shard-us-east
+      ranges:
+        - database: myapp
+          collection: users
+          min: { region: "us-east", userId: { $minKey: 1 } }
+          max: { region: "us-east", userId: { $maxKey: 1 } }
+
+    # US West Zone
+    - name: US-WEST
+      shards:
+        - shard-us-west
+      ranges:
+        - database: myapp
+          collection: users
+          min: { region: "us-west", userId: { $minKey: 1 } }
+          max: { region: "us-west", userId: { $maxKey: 1 } }
+
+    # EU West Zone
+    - name: EU-WEST
+      shards:
+        - shard-eu-west
+      ranges:
+        - database: myapp
+          collection: users
+          min: { region: "eu-west", userId: { $minKey: 1 } }
+          max: { region: "eu-west", userId: { $maxKey: 1 } }
+
+# Balancer Configuration
+balancer:
+  enabled: true
+  # Schedule balancing during off-peak hours
+  activeWindow:
+    start: "01:00"
+    stop: "05:00"
+  # Chunk size in MB
+  chunkSize: 64
+  # Wait time in milliseconds between balancing rounds
+  secondaryThrottle: true
+  waitForDelete: true
+
+# Performance Tuning
+performanceTuning:
+  # Read preferences
+  readPreference:
+    default: secondaryPreferred
+    maxStalenessSeconds: 120
+
+  # Write concerns
+  writeConcern:
+    default:
+      w: majority
+      j: true
+      wtimeout: 5000
+
+  # Read concerns
+  readConcern:
+    default: majority
+
+  # Connection pooling
+  connectionPool:
+    maxPoolSize: 100
+    minPoolSize: 10
+    maxIdleTimeMS: 30000
+    waitQueueTimeoutMS: 10000
+
+# Monitoring and Alerting
+monitoring:
+  metrics:
+    - chunkDistribution
+    - balancerActivity
+    - queryPerformance
+    - replicationLag
+    - connectionCount
+    - operationLatency
+
+  alerts:
+    - name: UnbalancedChunks
+      condition: chunkDifference > 20
+      severity: warning
+    - name: HighReplicationLag
+      condition: replicationLag > 10s
+      severity: critical
+    - name: SlowQueries
+      condition: queryTime > 1000ms
+      severity: warning
+
+# Backup Strategy
+backup:
+  method: cloudBackup
+  schedule:
+    full: daily
+    incremental: hourly
+  retention:
+    daily: 7
+    weekly: 4
+    monthly: 12
+  pointInTimeRecovery: enabled
+
+# Example MongoDB Shell Commands for Setup
+shellCommands: |
+  # 1. Start config servers
+  mongod --configsvr --replSet configReplSet --port 27019 --dbpath /data/configdb
+
+  # 2. Initialize config server replica set
+  rs.initiate({
+    _id: "configReplSet",
+    configsvr: true,
+    members: [
+      { _id: 0, host: "config1.example.com:27019" },
+      { _id: 1, host: "config2.example.com:27019" },
+      { _id: 2, host: "config3.example.com:27019" }
+    ]
+  })
+
+  # 3. Start shard servers
+  mongod --shardsvr --replSet shard1ReplSet --port 27018 --dbpath /data/shard1
+
+  # 4. Initialize shard replica sets
+  rs.initiate({
+    _id: "shard1ReplSet",
+    members: [
+      { _id: 0, host: "shard1a.example.com:27018" },
+      { _id: 1, host: "shard1b.example.com:27018" },
+      { _id: 2, host: "shard1c.example.com:27018" }
+    ]
+  })
+
+  # 5. Start mongos routers
+  mongos --configdb configReplSet/config1.example.com:27019,config2.example.com:27019,config3.example.com:27019 --port 27017
+
+  # 6. Add shards to cluster
+  sh.addShard("shard1ReplSet/shard1a.example.com:27018")
+  sh.addShard("shard2ReplSet/shard2a.example.com:27018")
+  sh.addShard("shard3ReplSet/shard3a.example.com:27018")
+
+  # 7. Enable sharding on database
+  sh.enableSharding("myapp")
+
+  # 8. Shard collections
+  sh.shardCollection("myapp.users", { "_id": "hashed" })
+  sh.shardCollection("myapp.orders", { "userId": 1, "createdAt": 1 })
+
+  # 9. Configure zones
+  sh.addShardTag("shard-us-east", "US-EAST")
+  sh.addTagRange(
+    "myapp.users",
+    { region: "us-east", userId: MinKey },
+    { region: "us-east", userId: MaxKey },
+    "US-EAST"
+  )
+
+  # 10. Check shard status
+  sh.status()

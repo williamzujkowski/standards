@@ -1,0 +1,555 @@
+# CDE Network Segmentation Architecture
+# PCI-DSS Requirement 1: Network Security Controls
+
+version: "1.0"
+standard: "PCI-DSS-v4.0.1"
+last_updated: "2025-10-17"
+
+network_zones:
+  untrusted:
+    name: "Untrusted Networks"
+    description: "Public internet and external networks"
+    trust_level: 0
+    networks:
+      - "0.0.0.0/0"  # Internet
+    allowed_inbound:
+      - protocol: "HTTPS"
+        port: 443
+        destination: "dmz"
+    allowed_outbound: []
+    
+  corporate:
+    name: "Corporate Network"
+    description: "Employee workstations and general business applications"
+    trust_level: 1
+    networks:
+      - "10.0.0.0/16"
+    allowed_inbound:
+      - protocol: "SSH"
+        port: 22
+        source: "bastion"
+    allowed_outbound:
+      - protocol: "HTTPS"
+        port: 443
+        destination: "internet"
+      - protocol: "DNS"
+        port: 53
+        destination: "dns_servers"
+    security_controls:
+      - "Endpoint protection (anti-malware)"
+      - "DLP (Data Loss Prevention)"
+      - "Email security gateway"
+      - "Web content filtering"
+    
+  dmz:
+    name: "Demilitarized Zone"
+    description: "Public-facing web servers and API gateways"
+    trust_level: 2
+    networks:
+      - "172.16.0.0/24"
+    allowed_inbound:
+      - protocol: "HTTPS"
+        port: 443
+        source: "internet"
+      - protocol: "SSH"
+        port: 22
+        source: "bastion"
+    allowed_outbound:
+      - protocol: "HTTPS"
+        port: 443
+        destination: "cde"
+      - protocol: "PostgreSQL"
+        port: 5432
+        destination: "cde_database"
+    components:
+      - "Web application servers"
+      - "API gateways"
+      - "Load balancers"
+      - "WAF (Web Application Firewall)"
+    security_controls:
+      - "WAF rules (OWASP Top 10)"
+      - "IDS/IPS monitoring"
+      - "DDoS protection"
+      - "Rate limiting"
+    
+  cde:
+    name: "Cardholder Data Environment"
+    description: "Systems that store, process, or transmit cardholder data"
+    trust_level: 4
+    networks:
+      - "192.168.10.0/24"
+    allowed_inbound:
+      - protocol: "HTTPS"
+        port: 443
+        source: "dmz"
+      - protocol: "SSH"
+        port: 22
+        source: "bastion"
+    allowed_outbound:
+      - protocol: "HTTPS"
+        port: 443
+        destination: "payment_gateway"
+      - protocol: "Syslog"
+        port: 514
+        destination: "siem"
+    components:
+      - "Payment gateway"
+      - "Tokenization service"
+      - "Database servers (encrypted PAN)"
+      - "HSM (Hardware Security Module)"
+      - "Key management service"
+    security_controls:
+      - "MFA for all access"
+      - "Encryption at rest (AES-256)"
+      - "Encryption in transit (TLS 1.2+)"
+      - "File integrity monitoring (FIM)"
+      - "Database activity monitoring (DAM)"
+      - "Privileged access management (PAM)"
+    data_stored:
+      - "PAN (encrypted)"
+      - "Cardholder name"
+      - "Expiration date"
+      - "Service code"
+    data_prohibited:
+      - "Full track data"
+      - "CAV2/CVC2/CVV2/CID"
+      - "PIN/PIN block"
+    
+  management:
+    name: "Management Network"
+    description: "Administrative access, monitoring, and logging systems"
+    trust_level: 3
+    networks:
+      - "172.31.0.0/24"
+    allowed_inbound:
+      - protocol: "SSH"
+        port: 22
+        source: "vpn"
+      - protocol: "HTTPS"
+        port: 443
+        source: "vpn"
+    allowed_outbound:
+      - protocol: "SSH"
+        port: 22
+        destination: "all_zones"
+      - protocol: "SNMP"
+        port: 161
+        destination: "all_zones"
+    components:
+      - "Bastion hosts / jump boxes"
+      - "SIEM (Security Information and Event Management)"
+      - "Vulnerability scanners"
+      - "Configuration management tools"
+      - "Monitoring dashboards"
+    security_controls:
+      - "MFA for all access"
+      - "Session recording"
+      - "Privileged access management"
+      - "Change auditing"
+
+firewall_rules:
+  perimeter_firewall:
+    name: "Internet to DMZ"
+    type: "next-generation firewall"
+    vendor: "Palo Alto Networks"
+    rules:
+      - rule_id: "FW-001"
+        action: "ALLOW"
+        source: "0.0.0.0/0"
+        destination: "dmz"
+        protocol: "HTTPS"
+        port: 443
+        inspection: "SSL decryption, IPS, malware scan"
+        logging: true
+        
+      - rule_id: "FW-002"
+        action: "DENY"
+        source: "0.0.0.0/0"
+        destination: "dmz"
+        protocol: "any"
+        port: "any"
+        logging: true
+    
+  internal_firewall:
+    name: "DMZ to CDE"
+    type: "stateful firewall"
+    vendor: "Cisco ASA"
+    rules:
+      - rule_id: "FW-101"
+        action: "ALLOW"
+        source: "dmz"
+        source_ip: "172.16.0.10-172.16.0.20"
+        destination: "cde"
+        destination_ip: "192.168.10.10"
+        protocol: "HTTPS"
+        port: 443
+        logging: true
+        
+      - rule_id: "FW-102"
+        action: "ALLOW"
+        source: "bastion"
+        source_ip: "172.31.0.10"
+        destination: "cde"
+        protocol: "SSH"
+        port: 22
+        logging: true
+        mfa_required: true
+        
+      - rule_id: "FW-103"
+        action: "DENY"
+        source: "any"
+        destination: "cde"
+        protocol: "any"
+        port: "any"
+        logging: true
+    
+  cde_firewall:
+    name: "CDE Internal Segmentation"
+    type: "micro-segmentation"
+    vendor: "VMware NSX"
+    rules:
+      - rule_id: "FW-201"
+        action: "ALLOW"
+        source: "payment_gateway"
+        source_ip: "192.168.10.10"
+        destination: "database"
+        destination_ip: "192.168.10.20"
+        protocol: "PostgreSQL"
+        port: 5432
+        encryption: "TLS 1.2"
+        logging: true
+        
+      - rule_id: "FW-202"
+        action: "ALLOW"
+        source: "payment_gateway"
+        source_ip: "192.168.10.10"
+        destination: "hsm"
+        destination_ip: "192.168.10.30"
+        protocol: "KMIP"
+        port: 5696
+        encryption: "TLS 1.2"
+        logging: true
+        
+      - rule_id: "FW-203"
+        action: "ALLOW"
+        source: "cde"
+        source_subnet: "192.168.10.0/24"
+        destination: "siem"
+        destination_ip: "172.31.0.50"
+        protocol: "Syslog-TLS"
+        port: 6514
+        logging: false  # Don't log logs
+
+network_access_control:
+  vlans:
+    - vlan_id: 100
+      name: "Corporate"
+      subnet: "10.0.0.0/16"
+      gateway: "10.0.0.1"
+      
+    - vlan_id: 200
+      name: "DMZ"
+      subnet: "172.16.0.0/24"
+      gateway: "172.16.0.1"
+      
+    - vlan_id: 300
+      name: "CDE"
+      subnet: "192.168.10.0/24"
+      gateway: "192.168.10.1"
+      pvlan: true  # Private VLAN for isolation
+      
+    - vlan_id: 400
+      name: "Management"
+      subnet: "172.31.0.0/24"
+      gateway: "172.31.0.1"
+  
+  acls:
+    - acl_name: "CDE-INGRESS"
+      interface: "CDE-VLAN-300"
+      direction: "inbound"
+      entries:
+        - sequence: 10
+          action: "permit"
+          protocol: "tcp"
+          source: "172.16.0.0/24"
+          destination: "192.168.10.0/24"
+          destination_port: 443
+          
+        - sequence: 20
+          action: "permit"
+          protocol: "tcp"
+          source: "172.31.0.10/32"  # Bastion
+          destination: "192.168.10.0/24"
+          destination_port: 22
+          
+        - sequence: 100
+          action: "deny"
+          protocol: "ip"
+          source: "any"
+          destination: "any"
+          log: true
+
+wireless_security:
+  ssids:
+    - ssid: "Corporate-WiFi"
+      security: "WPA3-Enterprise"
+      authentication: "802.1X with RADIUS"
+      vlan: 100
+      access_to_cde: false
+      
+    - ssid: "Guest-WiFi"
+      security: "WPA3-Personal"
+      vlan: 500  # Isolated guest VLAN
+      access_to_cde: false
+      internet_only: true
+      
+  wireless_controllers:
+    - vendor: "Cisco"
+      model: "Catalyst 9800"
+      management_ip: "172.31.0.100"
+      security_controls:
+        - "Wireless IPS"
+        - "Rogue AP detection"
+        - "Client isolation"
+        - "MAC address filtering"
+
+remote_access:
+  vpn:
+    vendor: "Cisco AnyConnect"
+    protocol: "IKEv2"
+    encryption: "AES-256"
+    authentication: "Certificate + MFA"
+    network: "10.200.0.0/16"
+    access:
+      - "Corporate network: Full access"
+      - "CDE: Bastion host only"
+    security_controls:
+      - "Always-on VPN for CDE access"
+      - "Split tunneling disabled for CDE access"
+      - "Endpoint posture check (OS patches, anti-malware)"
+      - "Session timeout: 30 minutes idle"
+      
+  bastion_hosts:
+    - hostname: "bastion-01.example.com"
+      ip: "172.31.0.10"
+      purpose: "SSH/RDP jump server for CDE access"
+      authentication: "MFA (RSA SecurID)"
+      session_recording: true
+      allowed_users: "cde-admins group"
+      monitoring: "Real-time session monitoring"
+
+data_flows:
+  customer_payment:
+    description: "Customer payment processing flow"
+    steps:
+      - step: 1
+        source: "Customer Browser"
+        destination: "Stripe.js / Braintree.js"
+        data: "Card details"
+        encryption: "TLS 1.2+"
+        notes: "Card data never touches merchant server (SAQ A)"
+        
+      - step: 2
+        source: "Stripe.js"
+        destination: "Stripe API"
+        data: "Tokenized card data"
+        encryption: "TLS 1.2+"
+        
+      - step: 3
+        source: "Stripe API"
+        destination: "Merchant Server (DMZ)"
+        data: "Token (tok_xxxx)"
+        encryption: "TLS 1.2+"
+        
+      - step: 4
+        source: "Merchant Server (DMZ)"
+        destination: "Payment Gateway (CDE)"
+        data: "Token + amount"
+        encryption: "TLS 1.2+ (mutual TLS)"
+        network: "DMZ -> CDE (firewall permitted)"
+        
+      - step: 5
+        source: "Payment Gateway (CDE)"
+        destination: "Database (CDE)"
+        data: "Transaction record (no PAN)"
+        encryption: "TLS 1.2 + AES-256 at rest"
+        
+      - step: 6
+        source: "Payment Gateway (CDE)"
+        destination: "Stripe API"
+        data: "Charge request with token"
+        encryption: "TLS 1.2+"
+        
+      - step: 7
+        source: "Payment Gateway (CDE)"
+        destination: "SIEM (Management)"
+        data: "Audit logs"
+        encryption: "Syslog over TLS"
+  
+  administrative_access:
+    description: "Administrator accessing CDE systems"
+    steps:
+      - step: 1
+        source: "Admin workstation"
+        destination: "VPN Gateway"
+        authentication: "Certificate + MFA"
+        encryption: "IKEv2 with AES-256"
+        
+      - step: 2
+        source: "VPN Gateway"
+        destination: "Bastion Host (Management)"
+        authentication: "MFA (RSA token)"
+        encryption: "SSH with certificate"
+        logging: "Session recorded"
+        
+      - step: 3
+        source: "Bastion Host"
+        destination: "CDE Server"
+        authentication: "SSH key + MFA"
+        encryption: "SSH"
+        logging: "All commands logged to SIEM"
+
+segmentation_testing:
+  penetration_testing:
+    frequency: "Annual"
+    scope: "All network boundaries"
+    methodology: "PTES (Penetration Testing Execution Standard)"
+    tests:
+      - "Attempt to reach CDE from corporate network"
+      - "Attempt to bypass firewall rules"
+      - "Test wireless network isolation"
+      - "Verify DMZ cannot directly access internet"
+      - "Validate VPN access controls"
+    
+  vulnerability_scanning:
+    internal:
+      frequency: "Quarterly"
+      tool: "Tenable Nessus"
+      scope: "All zones"
+      
+    external:
+      frequency: "Quarterly"
+      tool: "Qualys (ASV)"
+      scope: "DMZ public IPs"
+      
+  compliance_validation:
+    - requirement: "1.2.2"
+      test: "Verify firewall restricts connections between untrusted and CDE"
+      evidence: "Firewall rule review, penetration test results"
+      
+    - requirement: "1.3.1"
+      test: "Verify inbound traffic to CDE is restricted"
+      evidence: "Firewall logs, IDS alerts"
+      
+    - requirement: "11.4.5"
+      test: "Verify network segmentation annually via penetration test"
+      evidence: "Annual pen test report"
+
+monitoring_and_logging:
+  siem:
+    vendor: "Splunk Enterprise Security"
+    log_sources:
+      - "Firewall logs (all zones)"
+      - "IDS/IPS alerts"
+      - "VPN authentication logs"
+      - "Bastion session logs"
+      - "CDE system logs"
+      - "Database activity logs"
+    retention: "90 days online, 1 year archive"
+    alerting:
+      - "Unauthorized access attempts to CDE"
+      - "Firewall rule changes"
+      - "Failed MFA attempts (threshold: 3)"
+      - "New device on network (rogue detection)"
+      - "Large data transfers from CDE"
+    
+  network_monitoring:
+    tools:
+      - "NetFlow analysis"
+      - "Packet capture (for forensics)"
+      - "Bandwidth monitoring"
+      - "Anomaly detection (ML-based)"
+    alerts:
+      - "Traffic from CDE to internet (should never happen)"
+      - "Unusual protocols on network"
+      - "Port scanning activity"
+
+disaster_recovery:
+  cde_backup:
+    frequency: "Daily"
+    retention: "30 days"
+    encryption: "AES-256"
+    storage_location: "Off-site secure facility"
+    testing: "Quarterly restore drills"
+    
+  network_redundancy:
+    firewalls: "Active-passive HA pair"
+    internet_connections: "Dual ISP with BGP"
+    data_centers: "Primary + DR site with replication"
+    rto: "8 hours"
+    rpo: "4 hours"
+
+compliance_matrix:
+  pci_dss_requirements:
+    - requirement: "1.2.1"
+      control: "Configuration standards for NSCs"
+      implementation: "Firewall rule documentation"
+      evidence: "firewall_rules.yaml, change log"
+      
+    - requirement: "1.2.2"
+      control: "Restrict connections between untrusted and CDE"
+      implementation: "Perimeter and internal firewalls"
+      evidence: "Firewall configs, pen test results"
+      
+    - requirement: "1.2.7"
+      control: "Review NSC configs every six months"
+      implementation: "Scheduled firewall rule reviews"
+      evidence: "Review sign-offs, before/after configs"
+      
+    - requirement: "1.3.3"
+      control: "NSCs between wireless and CDE"
+      implementation: "Wireless on separate VLAN, no CDE access"
+      evidence: "Network diagram, VLAN configs"
+      
+    - requirement: "2.3.1"
+      control: "Strong cryptography for wireless"
+      implementation: "WPA3-Enterprise with 802.1X"
+      evidence: "Wireless controller configs"
+
+network_diagram_ascii: |
+  Internet
+     |
+  [Perimeter Firewall] ← IDS/IPS
+     |
+  ┌──▼──────────────────────────┐
+  │         DMZ (VLAN 200)       │
+  │  - Web Servers               │
+  │  - API Gateways              │
+  │  - Load Balancers            │
+  │  - WAF                       │
+  └──┬──────────────────────────┘
+     |
+  [Internal Firewall]
+     |
+  ┌──▼──────────────────────────┐
+  │    CDE (VLAN 300) [ISOLATED]│
+  │  - Payment Gateway           │
+  │  - Tokenization Service      │
+  │  - DB (Encrypted PAN)        │
+  │  - HSM                       │
+  └──┬──────────────────────────┘
+     |
+  [SIEM Logging] ← All logs over TLS
+     |
+  ┌──▼──────────────────────────┐
+  │  Management (VLAN 400)       │
+  │  - Bastion Hosts             │
+  │  - SIEM                      │
+  │  - Monitoring                │
+  └──────────────────────────────┘
+     ▲
+     |
+  [VPN Gateway] ← MFA required
+     ▲
+     |
+  Administrators (Remote)

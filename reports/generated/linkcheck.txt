@@ -1,71 +1,641 @@
 # Link Check Report
 
-Generated: 2025-08-24
+Generated: 2025-10-17
 
 
-## Broken Internal Links (0 found)
+## Broken Internal Links (90 found)
 
-✅ No broken internal links found!
+- **skills/README.md**: [Migration Plan](../docs/migration/migration-plan.md)
+- **skills/README.md**: [Skill Authoring Guide](../docs/migration/skill-authoring-guide.md)
+- **docs/guides/SKILL_AUTHORING_GUIDE.md**: [Security Practices](../../skills/security/security-fundamentals/SKILL.md)
+- **docs/guides/SKILL_AUTHORING_GUIDE.md**: [New Skill](../new-skill/SKILL.md)
+- **tests/scripts/fixtures/skills/broken-reference/SKILL.md**: [Related Skill](../nonexistent-skill/SKILL.md)
+- **skills/legacy-bridge/SKILL.md**: [Example Translations](./examples/)
+- **skills/devops/ci-cd/SKILL.md**: [templates/.github/workflows/cleanup.yml](templates/.github/workflows/cleanup.yml)
+- **skills/devops/ci-cd/SKILL.md**: [docker-standards](../docker/SKILL.md)
+- **skills/devops/ci-cd/SKILL.md**: [security-scanning](../../security/scanning/SKILL.md)
+- **skills/security/security-operations/SKILL.md**: [Security Fundamentals](../security-fundamentals/SKILL.md)
+- **skills/security/security-operations/SKILL.md**: [Network Security](../network-security/SKILL.md)
+- **skills/security/security-operations/SKILL.md**: [Linux Security](../linux-security/SKILL.md)
+- **skills/security/security-operations/SKILL.md**: [Cloud Security](../cloud-security/SKILL.md)
+- **skills/security/secrets-management/SKILL.md**: [PKI Infrastructure](resources/pki-infrastructure.md)
+- **skills/security/secrets-management/SKILL.md**: [Secrets Sprawl Management](resources/secrets-sprawl.md)
+- **skills/security/secrets-management/SKILL.md**: [Zero-Trust Secrets](resources/zero-trust-secrets.md)
+- **skills/coding-standards/javascript/SKILL.md**: [Advanced Patterns](resources/advanced-patterns.md)
+- **skills/coding-standards/javascript/SKILL.md**: [Test Template](templates/test-template.js)
+- **skills/coding-standards/javascript/SKILL.md**: [Advanced Patterns](resources/advanced-patterns.md)
+- **skills/coding-standards/javascript/SKILL.md**: [Architecture Patterns](resources/architecture-patterns.md)
+- **skills/coding-standards/javascript/SKILL.md**: [Performance Optimization](resources/performance.md)
+- **skills/coding-standards/javascript/SKILL.md**: [Express API Template](templates/express-api-template/)
+- **skills/coding-standards/javascript/SKILL.md**: [React App Template](templates/react-app-template/)
+- **skills/coding-standards/javascript/SKILL.md**: [Test Template](templates/test-template.js)
+- **skills/coding-standards/javascript/SKILL.md**: [Package Template](templates/package-template/)
+- **skills/coding-standards/javascript/SKILL.md**: [setup-project.sh](scripts/setup-project.sh)
+- **skills/coding-standards/javascript/SKILL.md**: [check-quality.sh](scripts/check-quality.sh)
+- **skills/coding-standards/javascript/SKILL.md**: [deploy.sh](scripts/deploy.sh)
+- **skills/coding-standards/typescript/SKILL.md**: [Advanced Type Patterns](resources/advanced-type-patterns.md)
+- **skills/coding-standards/typescript/SKILL.md**: [Generic Patterns](resources/generic-patterns.md)
+- **skills/coding-standards/typescript/SKILL.md**: [Performance Optimization](resources/performance.md)
+- **skills/coding-standards/typescript/SKILL.md**: [Generic Repository](templates/generic-repository.ts)
+- **skills/coding-standards/typescript/SKILL.md**: [API Client](templates/type-safe-api-client.ts)
+- **skills/coding-standards/typescript/SKILL.md**: [State Management](templates/discriminated-unions-state.ts)
+- **skills/coding-standards/typescript/SKILL.md**: [Validation Schema](templates/schema-validation.ts)
+- **skills/coding-standards/typescript/SKILL.md**: [jest.config.ts](resources/configs/jest.config.ts)
+- **skills/coding-standards/typescript/SKILL.md**: [setup-typescript-project.sh](scripts/setup-typescript-project.sh)
+- **skills/coding-standards/typescript/SKILL.md**: [type-check.sh](scripts/type-check.sh)
+- **skills/coding-standards/typescript/SKILL.md**: [API Design](../../architecture/api-design/SKILL.md)
+- **skills/coding-standards/python/SKILL.md**: [Project Template](templates/project-template/)
+- **skills/coding-standards/python/SKILL.md**: [Architecture Patterns](resources/architecture-patterns.md)
+- **skills/coding-standards/python/SKILL.md**: [Testing Strategies](resources/testing-strategies.md)
+- **skills/coding-standards/python/SKILL.md**: [Project Template](templates/project-template/)
+- **skills/coding-standards/python/SKILL.md**: [CLI Template](templates/cli-template.py)
+- **skills/coding-standards/python/SKILL.md**: [API Example](resources/examples/api-example/)
+- **skills/coding-standards/python/SKILL.md**: [mypy.ini](resources/configs/mypy.ini)
+- **skills/coding-standards/python/SKILL.md**: [pytest.ini](resources/configs/pytest.ini)
+- **skills/coding-standards/python/SKILL.md**: [generate-requirements.py](scripts/generate-requirements.py)
+- **skills/coding-standards/python/SKILL.md**: [Testing Standards](../testing-standards/SKILL.md)
+- **skills/coding-standards/python/SKILL.md**: [Security Standards](../security-standards/SKILL.md)
+- **skills/coding-standards/python/SKILL.md**: [API Design](../api-design/SKILL.md)
+- **skills/coding-standards/go/SKILL.md**: [Test Template](templates/test-template.go)
+- **skills/coding-standards/go/SKILL.md**: [Benchmarking Guide](resources/benchmarking.md)
+- **skills/coding-standards/go/SKILL.md**: [Concurrency Patterns](resources/concurrency-patterns.md)
+- **skills/coding-standards/go/SKILL.md**: [Generics Guide](resources/generics-guide.md)
+- **skills/coding-standards/go/SKILL.md**: [Performance](resources/performance-guide.md)
+- **skills/coding-standards/go/SKILL.md**: [Project Template](templates/project/)
+- **skills/coding-standards/go/SKILL.md**: [HTTP Server](templates/http-server/)
+- **skills/coding-standards/go/SKILL.md**: [CLI App](templates/cli/)
+- **skills/coding-standards/go/SKILL.md**: [Makefile](resources/configs/Makefile)
+- **skills/coding-standards/python/resources/advanced-patterns.md**: [Testing Strategies](testing-strategies.md)
+- **skills/coding-standards/python/resources/advanced-patterns.md**: [Architecture Patterns](architecture-patterns.md)
+- **skills/cloud-native/kubernetes/SKILL.md**: [templates/ingress.yaml](templates/ingress.yaml)
+- **skills/cloud-native/kubernetes/SKILL.md**: [resources/security/network-policy.yaml](resources/security/network-policy.yaml)
+- **skills/cloud-native/kubernetes/SKILL.md**: [templates/configmap.yaml](templates/configmap.yaml)
+- **skills/cloud-native/kubernetes/SKILL.md**: [templates/secret.yaml](templates/secret.yaml)
+- **skills/cloud-native/kubernetes/SKILL.md**: [resources/security/rbac.yaml](resources/security/rbac.yaml)
+- **skills/cloud-native/kubernetes/SKILL.md**: [resources/security/pod-security-policy.yaml](resources/security/pod-security-policy.yaml)
+- **skills/cloud-native/kubernetes/SKILL.md**: [templates/service.yaml](templates/service.yaml)
+- **skills/cloud-native/kubernetes/SKILL.md**: [templates/ingress.yaml](templates/ingress.yaml)
+- **skills/cloud-native/kubernetes/SKILL.md**: [templates/configmap.yaml](templates/configmap.yaml)
+- **skills/cloud-native/kubernetes/SKILL.md**: [resources/security/network-policy.yaml](resources/security/network-policy.yaml)
+- **skills/cloud-native/kubernetes/SKILL.md**: [resources/security/pod-security-policy.yaml](resources/security/pod-security-policy.yaml)
+- **skills/cloud-native/kubernetes/SKILL.md**: [templates/helm/Chart.yaml](templates/helm/Chart.yaml)
+- **skills/cloud-native/kubernetes/SKILL.md**: [docker-standards](../../containers/docker/SKILL.md)
+- **skills/cloud-native/kubernetes/SKILL.md**: [helm](../helm/SKILL.md)
+- **skills/cloud-native/kubernetes/SKILL.md**: [monitoring](../../observability/monitoring/SKILL.md)
+- **skills/database/advanced-optimization/SKILL.md**: [Database Design Fundamentals](../design-fundamentals/SKILL.md)
+- **skills/database/advanced-optimization/SKILL.md**: [API Performance Optimization](../../backend/api-performance/SKILL.md)
+- **skills/database/advanced-optimization/SKILL.md**: [System Architecture Patterns](../../architecture/system-patterns/SKILL.md)
+- **skills/testing/integration-testing/SKILL.md**: [Service Mesh Testing](resources/service-mesh-testing.md)
+- **skills/testing/integration-testing/SKILL.md**: [Message Queue Testing](resources/mq-testing.md)
+- **skills/testing/integration-testing/SKILL.md**: [GraphQL Testing](resources/graphql-testing.md)
+- **skills/testing/unit-testing/SKILL.md**: [resources/tdd-workflow.md](resources/tdd-workflow.md)
+- **skills/testing/unit-testing/SKILL.md**: [templates/test-mocking-examples.py](templates/test-mocking-examples.py)
+- **skills/testing/unit-testing/SKILL.md**: [Property-Based Testing](resources/property-based-testing.md)
+- **skills/testing/unit-testing/SKILL.md**: [Mutation Testing](resources/mutation-testing.md)
+- **skills/testing/unit-testing/SKILL.md**: [Test Doubles](resources/test-doubles.md)
+- **skills/ml-ai/mlops/SKILL.md**: [data-engineering](../data-engineering/SKILL.md)
+- **skills/ml-ai/mlops/SKILL.md**: [observability](../../devops/observability/SKILL.md)
 
-## External Links (36 found)
+## External Links (329 found)
 
 
 ### 12factor.net (1 links)
 - docs/standards/MICROSERVICES_STANDARDS.md: [The Twelve-Factor App](https://12factor.net/)
 
-### csrc.nist.gov (3 links)
+### academy.tetrate.io (1 links)
+- skills/cloud-native/service-mesh/SKILL.md: [Istio Fundamentals (Tetrate Academy)](https://academy.tetrate.io/)
+
+### apisecurity.io (1 links)
+- skills/security/api-security/SKILL.md: [API Security Weekly](https://apisecurity.io/)
+
+### artillery.io (1 links)
+- skills/testing/performance-testing/SKILL.md: [Artillery](https://artillery.io/)
+
+### aws.amazon.com (1 links)
+- skills/devops/infrastructure-as-code/SKILL.md: [AWS Well-Architected](https://aws.amazon.com/architecture/well-architected/)
+
+### blog.jetbrains.com (1 links)
+- skills/coding-standards/kotlin/SKILL.md: [Kotlin Blog](https://blog.jetbrains.com/kotlin/)
+
+### book.kubebuilder.io (1 links)
+- skills/cloud-native/advanced-kubernetes/SKILL.md: [Kubebuilder Book](https://book.kubebuilder.io/)
+
+### callstack.github.io (1 links)
+- skills/frontend/mobile-react-native/SKILL.md: [Testing Library for React Native](https://callstack.github.io/react-native-testing-library/)
+
+### cheatsheetseries.owasp.org (1 links)
+- skills/frontend/vue/SKILL.md: [OWASP Vue Security Cheatsheet](https://cheatsheetseries.owasp.org/cheatsheets/Vue_Security_Cheat_Sheet.html)
+
+### clinicjs.org (1 links)
+- skills/testing/performance-testing/SKILL.md: [Clinic.js](https://clinicjs.org/)
+
+### cloud.google.com (3 links)
+- skills/security/zero-trust/SKILL.md: [BeyondCorp Research Papers](https://cloud.google.com/beyondcorp)
+- skills/security/zero-trust/SKILL.md: [Identity-Aware Proxy](https://cloud.google.com/iap/docs)
+- skills/cloud-native/serverless/SKILL.md: [Google Cloud Functions](https://cloud.google.com/functions/docs)
+
+### community.k6.io (1 links)
+- skills/testing/performance-testing/SKILL.md: [k6 Community Forum](https://community.k6.io/)
+
+### coverage.readthedocs.io (1 links)
+- tests/scripts/README.md: [Coverage.py](https://coverage.readthedocs.io/)
+
+### csrc.nist.gov (16 links)
 - examples/nist-templates/quickstart/README.md: [NIST 800-53r5 Controls](https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final)
 - prompts/nist-compliance/VALIDATION_RUN.md: [NIST 800-53r5 Controls](https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final)
 - prompts/nist-compliance/README.md: [NIST 800-53r5 Official Documentation](https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final)
+- skills/nist-compliance/SKILL.md: [NIST 800-53r5 Control Catalog](https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final)
+- skills/nist-compliance/SKILL.md: [NIST Risk Management Framework](https://csrc.nist.gov/projects/risk-management)
+- ... and 11 more
+
+### cwe.mitre.org (1 links)
+- skills/security-practices/SKILL.md: [CWE Top 25](https://cwe.mitre.org/top25/)
+
+### datatracker.ietf.org (8 links)
+- skills/security/api-security/SKILL.md: [OAuth 2.0 RFC 6749](https://datatracker.ietf.org/doc/html/rfc6749)
+- skills/security/api-security/SKILL.md: [OAuth 2.0 for Native Apps (PKCE) - RFC 8252](https://datatracker.ietf.org/doc/html/rfc8252)
+- skills/security/api-security/SKILL.md: [JSON Web Token (JWT) - RFC 7519](https://datatracker.ietf.org/doc/html/rfc7519)
+- skills/security/authorization/SKILL.md: [OAuth 2.0 Security Best Practices](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics)
+- skills/security/authentication/resources/oauth2-flow-diagram.md: [RFC 6749: OAuth 2.0 Authorization Framework](https://datatracker.ietf.org/doc/html/rfc6749)
+- ... and 3 more
+
+### detekt.dev (1 links)
+- skills/coding-standards/kotlin/SKILL.md: [Detekt](https://detekt.dev/)
+
+### developer.apple.com (3 links)
+- skills/frontend/mobile-react-native/SKILL.md: [App Store Guidelines](https://developer.apple.com/app-store/review/guidelines/)
+- skills/frontend/mobile-react-native/resources/deployment-checklist.md: [iOS App Store Review Guidelines](https://developer.apple.com/app-store/review/guidelines/)
+- skills/coding-standards/swift/SKILL.md: [WWDC Videos](https://developer.apple.com/videos/)
+
+### developer.hashicorp.com (1 links)
+- skills/devops/infrastructure-as-code/SKILL.md: [Terraform Documentation](https://developer.hashicorp.com/terraform/docs)
+
+### developer.mozilla.org (2 links)
+- skills/frontend/vue/SKILL.md: [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
+- skills/frontend/react/resources/accessibility-checklist.md: [MDN Accessibility](https://developer.mozilla.org/en-US/docs/Web/Accessibility)
+
+### developers.google.com (2 links)
+- skills/frontend/react/resources/accessibility-checklist.md: [Lighthouse](https://developers.google.com/web/tools/lighthouse)
+- skills/testing/performance-testing/SKILL.md: [Google's Web Performance Optimization Course](https://developers.google.com/web/fundamentals/performance)
+
+### devtools.vuejs.org (1 links)
+- skills/frontend/vue/SKILL.md: [Vue DevTools](https://devtools.vuejs.org/)
+
+### docs.anthropic.com (3 links)
+- docs/guides/CLAUDE_INTEGRATION_GUIDE.md: [https://docs.anthropic.com/](https://docs.anthropic.com/)
+- docs/guides/CLAUDE_INTEGRATION_GUIDE.md: [https://docs.anthropic.com/claude-code/](https://docs.anthropic.com/claude-code/)
+- tests/skills/README.md: [Anthropic Skills Documentation](https://docs.anthropic.com/en/docs/build-with-claude/agent-skills)
+
+### docs.aws.amazon.com (14 links)
+- skills/cloud-native/serverless/SKILL.md: [AWS Lambda Developer Guide](https://docs.aws.amazon.com/lambda/)
+- skills/cloud-native/serverless/SKILL.md: [AWS SAM](https://docs.aws.amazon.com/serverless-application-model/)
+- skills/cloud-native/aws-advanced/SKILL.md: [Developer Guide](https://docs.aws.amazon.com/step-functions/latest/dg/)
+- skills/cloud-native/aws-advanced/SKILL.md: [Best Practices](https://docs.aws.amazon.com/step-functions/latest/dg/bp-general.html)
+- skills/cloud-native/aws-advanced/SKILL.md: [User Guide](https://docs.aws.amazon.com/eventbridge/latest/userguide/)
+- ... and 9 more
+
+### docs.claude.com (1 links)
+- docs/migration/README.md: [Agent Skills Overview](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview)
+
+### docs.expo.dev (1 links)
+- skills/frontend/mobile-react-native/SKILL.md: [Expo Documentation](https://docs.expo.dev/)
 
 ### docs.github.com (1 links)
 - docs/core/GITHUB_WORKFLOWS.md: [GitHub Actions Documentation](https://docs.github.com/en/actions)
 
-### docs.pytest.org (3 links)
+### docs.microsoft.com (2 links)
+- skills/frontend/mobile-react-native/resources/deployment-checklist.md: [CodePush Documentation](https://docs.microsoft.com/en-us/appcenter/distribution/codepush/)
+- skills/testing/performance-testing/SKILL.md: [Performance Testing Guidance for Web Applications (Microsoft)](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/bb924375(v=pandp.10)
+
+### docs.oasis-open.org (1 links)
+- skills/security/authorization/SKILL.md: [XACML 3.0 Core Specification](http://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-os-en.html)
+
+### docs.oracle.com (1 links)
+- skills/testing/performance-testing/SKILL.md: [Java Flight Recorder](https://docs.oracle.com/javacomponents/jmc-5-4/jfr-runtime-guide/about.htm)
+
+### docs.pytest.org (4 links)
 - .pytest_cache/README.md: [the docs](https://docs.pytest.org/en/stable/how-to/cache.html)
 - examples/nist-templates/quickstart/.pytest_cache/README.md: [the docs](https://docs.pytest.org/en/stable/how-to/cache.html)
 - scripts/.pytest_cache/README.md: [the docs](https://docs.pytest.org/en/stable/how-to/cache.html)
+- tests/scripts/README.md: [Pytest Documentation](https://docs.pytest.org/)
 
-### github.com (18 links)
+### docs.swift.org (1 links)
+- skills/coding-standards/swift/SKILL.md: [Swift Language Guide](https://docs.swift.org/swift-book/)
+
+### en.wikipedia.org (2 links)
+- tests/scripts/README.md: [Test-Driven Development](https://en.wikipedia.org/wiki/Test-driven_development)
+- skills/coding-standards/SKILL.md: [Design Patterns: Elements of Reusable Object-Oriented Software](https://en.wikipedia.org/wiki/Design_Patterns)
+
+### events.istio.io (1 links)
+- skills/cloud-native/service-mesh/SKILL.md: [IstioCon Talks](https://events.istio.io/)
+
+### events.linuxfoundation.org (1 links)
+- skills/security/zero-trust/SKILL.md: [Cloud Native Security Day](https://events.linuxfoundation.org/cloud-native-security-day-north-america/)
+
+### example.com (3 links)
+- tests/scripts/fixtures/standards/SAMPLE_STANDARD.md: [Clean Code](https://example.com/clean-code)
+- tests/scripts/fixtures/standards/SAMPLE_STANDARD.md: [Testing Guide](https://example.com/testing)
+- tests/scripts/fixtures/skills/valid-skill/SKILL.md: [Example Link](https://example.com)
+
+### forums.swift.org (2 links)
+- skills/coding-standards/swift/SKILL.md: [Swift Forums](https://forums.swift.org/)
+- skills/coding-standards/swift/SKILL.md: [Swift Forums](https://forums.swift.org/)
+
+### gatling.io (3 links)
+- skills/testing/performance-testing/SKILL.md: [Gatling Documentation](https://gatling.io/docs/)
+- skills/testing/performance-testing/SKILL.md: [Gatling Scenario DSL](https://gatling.io/docs/gatling/reference/current/core/scenario/)
+- skills/testing/performance-testing/SKILL.md: [Gatling](https://gatling.io/)
+
+### github.com (66 links)
 - README.md: [GitHub Issues](https://github.com/williamzujkowski/standards/issues)
 - README.md: [Discussions](https://github.com/williamzujkowski/standards/discussions)
 - badges/standards-compliance-template.md: [Comprehensive Software Development Standards](https://github.com/williamzujkowski/standards)
 - badges/standards-compliance-template.md: [Standards Compliance Tool](https://github.com/williamzujkowski/standards)
-- docs/guides/KICKSTART_PROMPT.md: [CREATING_STANDARDS_GUIDE.md](https://github.com/williamzujkowski/standards/blob/master/CREATING_STANDARDS_GUIDE.md)
-- ... and 13 more
+- docs/SKILLS_CATALOG.md: [Report issues](https://github.com/williamzujkowski/standards/issues)
+- ... and 61 more
+
+### go.dev (1 links)
+- skills/coding-standards/SKILL.md: [Effective Go](https://go.dev/doc/effective_go)
+
+### google.github.io (2 links)
+- skills/coding-standards/SKILL.md: [Google JavaScript Style Guide](https://google.github.io/styleguide/jsguide.html)
+- skills/coding-standards/SKILL.md: [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html)
+
+### grafana.com (3 links)
+- skills/devops/monitoring-observability/SKILL.md: [Grafana Docs](https://grafana.com/docs/)
+- skills/devops/monitoring-observability/SKILL.md: [Loki](https://grafana.com/docs/loki/latest/)
+- skills/testing/performance-testing/SKILL.md: [Grafana](https://grafana.com/)
+
+### gruntwork.io (1 links)
+- skills/devops/infrastructure-as-code/SKILL.md: [Gruntwork Production Guide](https://gruntwork.io/guides/terraform/)
+
+### istio.io (5 links)
+- skills/security/zero-trust/README.md: [Istio Security](https://istio.io/latest/docs/concepts/security/)
+- skills/security/zero-trust/SKILL.md: [Istio Security](https://istio.io/latest/docs/concepts/security/)
+- skills/cloud-native/service-mesh/SKILL.md: [Istio Documentation](https://istio.io/latest/docs/)
+- skills/cloud-native/service-mesh/SKILL.md: [Istio Production Best Practices](https://istio.io/latest/docs/ops/best-practices/)
+- skills/cloud-native/service-mesh/SKILL.md: [Performance Tuning Guide](https://istio.io/latest/docs/ops/deployment/performance-and-scalability/)
+
+### jmeter-plugins.org (1 links)
+- skills/testing/performance-testing/SKILL.md: [JMeter Plugins](https://jmeter-plugins.org/)
+
+### jmeter.apache.org (3 links)
+- skills/testing/performance-testing/SKILL.md: [Apache JMeter User Manual](https://jmeter.apache.org/usermanual/)
+- skills/testing/performance-testing/SKILL.md: [JMeter Best Practices](https://jmeter.apache.org/usermanual/best-practices.html)
+- skills/testing/performance-testing/SKILL.md: [Apache JMeter](https://jmeter.apache.org/)
+
+### k6.io (4 links)
+- skills/testing/performance-testing/SKILL.md: [k6 Documentation](https://k6.io/docs/)
+- skills/testing/performance-testing/SKILL.md: [k6 Examples](https://k6.io/docs/examples/)
+- skills/testing/performance-testing/SKILL.md: [k6 Extensions](https://k6.io/docs/extensions/)
+- skills/testing/performance-testing/SKILL.md: [k6](https://k6.io/)
 
 ### keepachangelog.com (1 links)
 - CHANGELOG.md: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
+### kotlinlang.org (4 links)
+- skills/coding-standards/kotlin/SKILL.md: [Kotlin Language Reference](https://kotlinlang.org/docs/reference/)
+- skills/coding-standards/kotlin/SKILL.md: [Kotlin Coroutines Guide](https://kotlinlang.org/docs/coroutines-guide.html)
+- skills/coding-standards/kotlin/SKILL.md: [Kotlin Style Guide](https://kotlinlang.org/docs/coding-conventions.html)
+- skills/coding-standards/kotlin/SKILL.md: [Kotlin for Java Developers](https://kotlinlang.org/docs/java-to-kotlin-interop.html)
+
+### kotlinlang.slack.com (1 links)
+- skills/coding-standards/kotlin/SKILL.md: [Kotlin Slack](https://kotlinlang.slack.com/)
+
+### ktlint.github.io (1 links)
+- skills/coding-standards/kotlin/SKILL.md: [ktlint](https://ktlint.github.io/)
+
+### kubernetes.io (1 links)
+- skills/security/zero-trust/README.md: [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/)
+
+### kubernetes.slack.com (1 links)
+- skills/cloud-native/advanced-kubernetes/SKILL.md: [Kubernetes Slack #kubebuilder](https://kubernetes.slack.com/)
+
+### landscape.cncf.io (1 links)
+- skills/cloud-native/service-mesh/SKILL.md: [CNCF Service Mesh Landscape](https://landscape.cncf.io/guide#orchestration-management--service-mesh)
+
+### learn.hashicorp.com (1 links)
+- skills/devops/infrastructure-as-code/SKILL.md: [HashiCorp Learn](https://learn.hashicorp.com/terraform)
+
+### learn.microsoft.com (1 links)
+- skills/cloud-native/serverless/SKILL.md: [Azure Functions Documentation](https://learn.microsoft.com/azure/azure-functions/)
+
+### locust.io (1 links)
+- skills/testing/performance-testing/SKILL.md: [Locust](https://locust.io/)
+
+### media.defense.gov (1 links)
+- skills/security/zero-trust/resources/nist-800-207-checklist.md: [NSA Zero Trust Guidance](https://media.defense.gov/2021/Feb/25/2002588479/-1/-1/0/CSI_EMBRACING_ZT_SECURITY_MODEL_UOO115131-21.PDF)
+
 ### microservices.io (1 links)
 - docs/standards/MICROSERVICES_STANDARDS.md: [Microservices Patterns](https://microservices.io/patterns/)
+
+### mockk.io (1 links)
+- skills/coding-standards/kotlin/SKILL.md: [MockK](https://mockk.io/)
 
 ### modelcontextprotocol.io (1 links)
 - docs/standards/MODEL_CONTEXT_PROTOCOL_STANDARDS.md: [Model Context Protocol Specification](https://modelcontextprotocol.io)
 
-### pages.nist.gov (1 links)
+### newrelic.com (1 links)
+- skills/testing/performance-testing/SKILL.md: [New Relic](https://newrelic.com/)
+
+### nuxt.com (1 links)
+- skills/frontend/vue/SKILL.md: [Nuxt 3](https://nuxt.com/)
+
+### offbynone.io (1 links)
+- skills/cloud-native/serverless/SKILL.md: [Off-by-none Newsletter](https://offbynone.io/)
+
+### opentelemetry.io (1 links)
+- skills/devops/monitoring-observability/SKILL.md: [OpenTelemetry](https://opentelemetry.io/docs/)
+
+### owasp.org (4 links)
+- skills/security-practices/SKILL.md: [OWASP Top 10](https://owasp.org/www-project-top-ten/)
+- skills/security/api-security/SKILL.md: [OWASP API Security Project](https://owasp.org/www-project-api-security/)
+- skills/security/api-security/SKILL.md: [OWASP API Security Top 10 2023](https://owasp.org/API-Security/editions/2023/en/0x00-header/)
+- skills/security/zero-trust/SKILL.md: [OWASP](https://owasp.org/)
+
+### pages.nist.gov (4 links)
 - prompts/nist-compliance/README.md: [OSCAL Documentation](https://pages.nist.gov/OSCAL/)
+- skills/security/authentication/resources/oauth2-flow-diagram.md: [NIST 800-63B: Digital Identity Guidelines](https://pages.nist.gov/800-63-3/sp800-63b.html)
+- skills/security/authentication/resources/nist-800-63b-checklist.md: [NIST SP 800-63B Revision 3](https://pages.nist.gov/800-63-3/sp800-63b.html)
+- skills/security/authentication/skills/security/authentication/SKILL.md: [NIST 800-63B: Digital Identity Guidelines](https://pages.nist.gov/800-63-3/sp800-63b.html)
+
+### peps.python.org (2 links)
+- tests/scripts/fixtures/standards/SAMPLE_STANDARD.md: [PEP 8](https://peps.python.org/pep-0008/)
+- skills/coding-standards/SKILL.md: [Python PEP 8](https://peps.python.org/pep-0008/)
+
+### pinia.vuejs.org (1 links)
+- skills/frontend/vue/SKILL.md: [Pinia Documentation](https://pinia.vuejs.org/)
+
+### play.google.com (2 links)
+- skills/frontend/mobile-react-native/SKILL.md: [Play Store Policies](https://play.google.com/about/developer-content-policy/)
+- skills/frontend/mobile-react-native/resources/deployment-checklist.md: [Android Play Store Policies](https://play.google.com/about/developer-content-policy/)
+
+### prometheus.io (3 links)
+- skills/devops/monitoring-observability/SKILL.md: [Prometheus Docs](https://prometheus.io/docs/)
+- skills/devops/monitoring-observability/SKILL.md: [Prometheus Community](https://prometheus.io/community/)
+- skills/testing/performance-testing/SKILL.md: [Prometheus](https://prometheus.io/)
+
+### react.dev (2 links)
+- skills/frontend/react/resources/accessibility-checklist.md: [React Accessibility Docs](https://react.dev/learn/accessibility)
+- skills/frontend/react/resources/performance-checklist.md: [React DevTools Profiler](https://react.dev/learn/react-developer-tools)
+
+### reactnative.dev (6 links)
+- skills/frontend/mobile-react-native/SKILL.md: [React Native Docs](https://reactnative.dev/docs/getting-started)
+- skills/frontend/mobile-react-native/SKILL.md: [React Native Performance Guide](https://reactnative.dev/docs/performance)
+- skills/frontend/mobile-react-native/SKILL.md: [Profiling React Native](https://reactnative.dev/docs/profiling)
+- skills/frontend/mobile-react-native/SKILL.md: [Native Modules Guide](https://reactnative.dev/docs/native-modules-intro)
+- skills/frontend/mobile-react-native/SKILL.md: [Turbo Modules](https://reactnative.dev/docs/the-new-architecture/pillars-turbomodules)
+- ... and 1 more
+
+### reactnavigation.org (1 links)
+- skills/frontend/mobile-react-native/SKILL.md: [React Navigation](https://reactnavigation.org/docs/getting-started)
+
+### reddit.com (1 links)
+- skills/security/zero-trust/SKILL.md: [r/netsec](https://reddit.com/r/netsec)
+
+### redis.io (4 links)
+- skills/database/advanced-optimization/SKILL.md: [Redis Documentation](https://redis.io/documentation)
+- skills/database/advanced-optimization/SKILL.md: [Redis Cluster Tutorial](https://redis.io/docs/manual/scaling/)
+- skills/database/advanced-optimization/SKILL.md: [Redis Persistence](https://redis.io/docs/manual/persistence/)
+- skills/database/advanced-optimization/SKILL.md: [Redis Best Practices](https://redis.io/docs/manual/patterns/)
+
+### redux-toolkit.js.org (1 links)
+- skills/frontend/mobile-react-native/SKILL.md: [Redux Toolkit](https://redux-toolkit.js.org/)
+
+### refactoring.com (1 links)
+- skills/coding-standards/SKILL.md: [Refactoring by Martin Fowler](https://refactoring.com/)
+
+### registry.terraform.io (4 links)
+- skills/devops/infrastructure-as-code/SKILL.md: [Terraform Registry](https://registry.terraform.io/)
+- skills/devops/infrastructure-as-code/SKILL.md: [AWS Provider Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
+- skills/devops/infrastructure-as-code/SKILL.md: [Azure Provider Documentation](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs)
+- skills/devops/infrastructure-as-code/SKILL.md: [GCP Provider Documentation](https://registry.terraform.io/providers/hashicorp/google/latest/docs)
+
+### router.vuejs.org (1 links)
+- skills/frontend/vue/SKILL.md: [Vue Router Documentation](https://router.vuejs.org/)
+
+### sdk.operatorframework.io (1 links)
+- skills/cloud-native/advanced-kubernetes/SKILL.md: [Operator SDK Documentation](https://sdk.operatorframework.io/)
 
 ### semver.org (1 links)
 - CHANGELOG.md: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+### serverlessland.com (4 links)
+- skills/cloud-native/serverless/SKILL.md: [ServerlessLand Patterns](https://serverlessland.com/patterns)
+- skills/cloud-native/aws-advanced/SKILL.md: [Serverless Patterns Collection](https://serverlessland.com/patterns)
+- skills/cloud-native/aws-advanced/SKILL.md: [EventBridge Patterns](https://serverlessland.com/event-driven-architecture)
+- skills/cloud-native/aws-advanced/SKILL.md: [Step Functions Workflows](https://serverlessland.com/workflows)
+
+### serverlessrepo.aws.amazon.com (1 links)
+- skills/cloud-native/aws-advanced/SKILL.md: [Serverless Application Repository](https://serverlessrepo.aws.amazon.com/)
+
+### servicemeshpatterns.github.io (1 links)
+- skills/cloud-native/service-mesh/SKILL.md: [Service Mesh Patterns](https://servicemeshpatterns.github.io/servicemeshbook/)
+
+### servicemeshsummit.io (1 links)
+- skills/cloud-native/service-mesh/SKILL.md: [Service Mesh Summit](https://servicemeshsummit.io/)
+
+### slack.cncf.io (1 links)
+- skills/devops/monitoring-observability/SKILL.md: [#observability on CNCF Slack](https://slack.cncf.io)
+
+### spiffe.io (2 links)
+- skills/security/zero-trust/README.md: [SPIFFE/SPIRE](https://spiffe.io/docs/latest/)
+- skills/security/zero-trust/SKILL.md: [SPIRE Documentation](https://spiffe.io/docs/latest/spire-about/)
+
 ### squidfunk.github.io (1 links)
 - README.md: [Material theme](https://squidfunk.github.io/mkdocs-material/)
+
+### sst.dev (1 links)
+- skills/cloud-native/serverless/SKILL.md: [Serverless Stack (SST)](https://sst.dev/)
+
+### swagger.io (1 links)
+- skills/security/api-security/SKILL.md: [OpenAPI Specification - Security](https://swagger.io/specification/#security-scheme-object)
+
+### swift.org (1 links)
+- skills/coding-standards/swift/SKILL.md: [API Design Guidelines](https://swift.org/documentation/api-design-guidelines/)
+
+### tanstack.com (1 links)
+- skills/frontend/mobile-react-native/SKILL.md: [React Query](https://tanstack.com/query/latest)
+
+### terraform-compliance.com (1 links)
+- skills/devops/infrastructure-as-code/SKILL.md: [Terraform Compliance](https://terraform-compliance.com/)
+
+### terraform-docs.io (1 links)
+- skills/devops/infrastructure-as-code/SKILL.md: [Terraform-docs](https://terraform-docs.io/)
+
+### terratest.gruntwork.io (1 links)
+- skills/devops/infrastructure-as-code/SKILL.md: [Terratest Documentation](https://terratest.gruntwork.io/)
+
+### test-utils.vuejs.org (1 links)
+- skills/frontend/vue/SKILL.md: [Vue Test Utils](https://test-utils.vuejs.org/)
+
+### tools.ietf.org (1 links)
+- skills/security/authentication/skills/security/authentication/SKILL.md: [JWT Best Practices](https://tools.ietf.org/html/rfc8725)
+
+### training.linuxfoundation.org (1 links)
+- skills/cloud-native/service-mesh/SKILL.md: [Linkerd Fundamentals (Linux Foundation)](https://training.linuxfoundation.org/)
+
+### twitter.com (1 links)
+- skills/security/api-security/SKILL.md: [@APIsecurity](https://twitter.com/APIsecurity)
+
+### vitejs.dev (2 links)
+- skills/frontend/vue/SKILL.md: [Vite](https://vitejs.dev/)
+- skills/frontend/vue/resources/performance-checklist.md: [Vite Performance](https://vitejs.dev/guide/performance.html)
+
+### vitest.dev (1 links)
+- skills/frontend/vue/SKILL.md: [Vitest Documentation](https://vitest.dev/)
+
+### vue-a11y.com (2 links)
+- skills/frontend/vue/SKILL.md: [Vue A11y](https://vue-a11y.com/)
+- skills/frontend/vue/resources/accessibility-checklist.md: [Vue A11y](https://vue-a11y.com/)
+
+### vue-macros.sxzz.moe (1 links)
+- skills/frontend/vue/SKILL.md: [Vue Macros](https://vue-macros.sxzz.moe/)
+
+### vuejs.org (3 links)
+- skills/frontend/vue/SKILL.md: [Vue 3 Documentation](https://vuejs.org/guide/introduction.html)
+- skills/frontend/vue/SKILL.md: [Vue Performance Guide](https://vuejs.org/guide/best-practices/performance.html)
+- skills/frontend/vue/resources/performance-checklist.md: [Vue Performance Guide](https://vuejs.org/guide/best-practices/performance.html)
+
+### vueuse.org (1 links)
+- skills/frontend/vue/SKILL.md: [VueUse](https://vueuse.org/)
+
+### wave.webaim.org (1 links)
+- skills/frontend/react/resources/accessibility-checklist.md: [WAVE](https://wave.webaim.org/extension/)
+
+### web.dev (3 links)
+- skills/frontend/react/resources/performance-checklist.md: [web.dev Performance](https://web.dev/performance/)
+- skills/frontend/vue/resources/performance-checklist.md: [Web.dev Performance](https://web.dev/performance/)
+- skills/frontend/vue/resources/performance-checklist.md: [Core Web Vitals](https://web.dev/vitals/)
+
+### webaim.org (3 links)
+- skills/frontend/react/resources/accessibility-checklist.md: [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
+- skills/frontend/react/resources/accessibility-checklist.md: [WebAIM](https://webaim.org/)
+- skills/frontend/vue/resources/accessibility-checklist.md: [WebAIM](https://webaim.org/)
+
+### williamzujkowski.github.io (1 links)
+- docs/guides/SKILLS_USER_GUIDE.md: [Full docs](https://williamzujkowski.github.io/standards/)
+
+### wix.github.io (1 links)
+- skills/frontend/mobile-react-native/SKILL.md: [Detox E2E Framework](https://wix.github.io/Detox/)
+
+### www.a11yproject.com (1 links)
+- skills/frontend/react/resources/accessibility-checklist.md: [A11y Project Checklist](https://www.a11yproject.com/checklist/)
+
+### www.anthropic.com (1 links)
+- docs/migration/README.md: [Announcement](https://www.anthropic.com/news/skills)
+
+### www.cedarpolicy.com (1 links)
+- skills/security/authorization/SKILL.md: [Cedar Policy Language (AWS)](https://www.cedarpolicy.com/)
+
+### www.checkov.io (1 links)
+- skills/devops/infrastructure-as-code/SKILL.md: [Checkov - Infrastructure Security](https://www.checkov.io/)
+
+### www.cisa.gov (1 links)
+- skills/security/zero-trust/resources/nist-800-207-checklist.md: [CISA Zero Trust Maturity Model](https://www.cisa.gov/zero-trust-maturity-model)
+
+### www.cncf.io (1 links)
+- skills/cloud-native/service-mesh/SKILL.md: [CNCF Webinars](https://www.cncf.io/webinars/)
+
+### www.datadoghq.com (1 links)
+- skills/testing/performance-testing/SKILL.md: [Datadog APM](https://www.datadoghq.com/product/apm/)
+
+### www.deque.com (2 links)
+- skills/frontend/vue/SKILL.md: [axe DevTools](https://www.deque.com/axe/devtools/)
+- skills/frontend/react/resources/accessibility-checklist.md: [axe DevTools](https://www.deque.com/axe/devtools/)
 
 ### www.domainlanguage.com (1 links)
 - docs/standards/MICROSERVICES_STANDARDS.md: [Domain-Driven Design](https://www.domainlanguage.com/ddd/)
 
+### www.dynatrace.com (1 links)
+- skills/testing/performance-testing/SKILL.md: [Dynatrace](https://www.dynatrace.com/)
+
+### www.elastic.co (1 links)
+- skills/testing/performance-testing/SKILL.md: [Elastic APM](https://www.elastic.co/apm)
+
+### www.envoyproxy.io (2 links)
+- skills/cloud-native/service-mesh/SKILL.md: [Envoy Proxy Documentation](https://www.envoyproxy.io/docs)
+- skills/cloud-native/service-mesh/SKILL.md: [Envoy Proxy Sandbox](https://www.envoyproxy.io/docs/envoy/latest/start/sandboxes/)
+
+### www.growing-object-oriented-software.com (1 links)
+- skills/testing/SKILL.md: [Growing Object-Oriented Software, Guided by Tests](http://www.growing-object-oriented-software.com/)
+
+### www.hackingwithswift.com (1 links)
+- skills/coding-standards/swift/SKILL.md: [Hacking with Swift](https://www.hackingwithswift.com/)
+
+### www.infracost.io (1 links)
+- skills/devops/infrastructure-as-code/SKILL.md: [Infracost](https://www.infracost.io/)
+
+### www.jaegertracing.io (1 links)
+- skills/devops/monitoring-observability/SKILL.md: [Jaeger](https://www.jaegertracing.io/docs/)
+
+### www.manning.com (1 links)
+- skills/testing/SKILL.md: [Unit Testing Principles, Practices, and Patterns by Vladimir Khorikov](https://www.manning.com/books/unit-testing)
+
 ### www.mkdocs.org (1 links)
 - README.md: [MkDocs](https://www.mkdocs.org/)
 
-### www.nist.gov (1 links)
-- docs/standards/MICROSERVICES_STANDARDS.md: [NIST Microservices Guide](https://www.nist.gov/publications/microservices-guide)
+### www.mongodb.com (4 links)
+- skills/database/advanced-optimization/SKILL.md: [MongoDB Performance Best Practices](https://www.mongodb.com/docs/manual/administration/analyzing-mongodb-performance/)
+- skills/database/advanced-optimization/SKILL.md: [Sharding Guide](https://www.mongodb.com/docs/manual/sharding/)
+- skills/database/advanced-optimization/SKILL.md: [Index Strategies](https://www.mongodb.com/docs/manual/applications/indexes/)
+- skills/database/advanced-optimization/SKILL.md: [Aggregation Pipeline Optimization](https://www.mongodb.com/docs/manual/core/aggregation-pipeline-optimization/)
 
-### www.oreilly.com (1 links)
+### www.nist.gov (4 links)
+- docs/standards/MICROSERVICES_STANDARDS.md: [NIST Microservices Guide](https://www.nist.gov/publications/microservices-guide)
+- skills/nist-compliance/SKILL.md: [NIST Cybersecurity Framework](https://www.nist.gov/cyberframework)
+- skills/security-practices/SKILL.md: [NIST Cybersecurity Framework](https://www.nist.gov/cyberframework)
+- skills/cloud-native/service-mesh/SKILL.md: [Service Mesh Security Patterns](https://www.nist.gov/publications/zero-trust-architecture)
+
+### www.openpolicyagent.org (1 links)
+- skills/security/authorization/SKILL.md: [Open Policy Agent (OPA) Rego](https://www.openpolicyagent.org/docs/latest/policy-language/)
+
+### www.oreilly.com (3 links)
 - docs/standards/MICROSERVICES_STANDARDS.md: [Building Microservices](https://www.oreilly.com/library/view/building-microservices-2nd/9781492034018/)
+- skills/coding-standards/SKILL.md: [Clean Code by Robert C. Martin](https://www.oreilly.com/library/view/clean-code-a/9780136083238/)
+- skills/testing/SKILL.md: [Test Driven Development by Kent Beck](https://www.oreilly.com/library/view/test-driven-development/0321146530/)
+
+### www.pgbouncer.org (1 links)
+- skills/database/advanced-optimization/SKILL.md: [PgBouncer Documentation](https://www.pgbouncer.org/usage.html)
+
+### www.pluralsight.com (1 links)
+- skills/cloud-native/service-mesh/SKILL.md: [Service Mesh with Istio (Pluralsight)](https://www.pluralsight.com/)
+
+### www.pointfree.co (1 links)
+- skills/coding-standards/swift/SKILL.md: [Point-Free](https://www.pointfree.co/)
+
+### www.postgresql.org (3 links)
+- skills/database/advanced-optimization/SKILL.md: [PostgreSQL Performance Tips](https://www.postgresql.org/docs/current/performance-tips.html)
+- skills/database/advanced-optimization/SKILL.md: [pg_stat_statements](https://www.postgresql.org/docs/current/pgstatstatements.html)
+- skills/database/advanced-optimization/SKILL.md: [EXPLAIN Documentation](https://www.postgresql.org/docs/current/sql-explain.html)
+
+### www.reddit.com (2 links)
+- skills/coding-standards/kotlin/SKILL.md: [r/Kotlin](https://www.reddit.com/r/Kotlin/)
+- skills/testing/performance-testing/SKILL.md: [r/webdev Performance Discussions](https://www.reddit.com/r/webdev/)
+
+### www.serverless.com (1 links)
+- skills/cloud-native/serverless/SKILL.md: [Serverless Framework](https://www.serverless.com/framework/docs)
+
+### www.swiftbysundell.com (1 links)
+- skills/coding-standards/swift/SKILL.md: [Swift by Sundell](https://www.swiftbysundell.com/)
+
+### www.terraform-best-practices.com (1 links)
+- skills/devops/infrastructure-as-code/SKILL.md: [Terraform Best Practices](https://www.terraform-best-practices.com/)
+
+### www.terraform.io (2 links)
+- skills/devops/infrastructure-as-code/SKILL.md: [Terraform Patterns](https://www.terraform.io/docs/language/patterns)
+- skills/devops/infrastructure-as-code/SKILL.md: [Terraform Graph](https://www.terraform.io/docs/cli/commands/graph.html)
+
+### www.w3.org (6 links)
+- skills/frontend/vue/SKILL.md: [ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/)
+- skills/frontend/react/resources/accessibility-checklist.md: [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
+- skills/frontend/vue/resources/accessibility-checklist.md: [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
+- skills/frontend/vue/resources/accessibility-checklist.md: [ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/)
+- skills/security/authentication/skills/security/authentication/SKILL.md: [WebAuthn Specification](https://www.w3.org/TR/webauthn-2/)
+- ... and 1 more
 
 ## Summary
 
-- Files checked: 259
-- Broken links: 0
-- External links: 36
+- Files checked: 529
+- Broken links: 90
+- External links: 329

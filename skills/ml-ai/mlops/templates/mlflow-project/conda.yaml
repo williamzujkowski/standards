@@ -1,0 +1,17 @@
+name: mlflow-fraud-detection
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - mlflow>=2.9.0
+      - scikit-learn>=1.3.0
+      - xgboost>=2.0.0
+      - pandas>=2.0.0
+      - numpy>=1.24.0
+      - matplotlib>=3.7.0
+      - seaborn>=0.12.0
+      - shap>=0.43.0
+      - great-expectations>=0.18.0

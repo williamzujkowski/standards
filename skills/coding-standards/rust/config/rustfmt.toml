@@ -1,0 +1,61 @@
+# Rust Formatter Configuration
+# Based on Rust 2021 edition best practices
+
+# Maximum line width
+max_width = 100
+
+# Use hard tabs
+hard_tabs = false
+tab_spaces = 4
+
+# Edition
+edition = "2021"
+
+# Newlines
+newline_style = "Unix"
+
+# Remove trailing whitespace
+trim_trailing_whitespace = true
+
+# Imports
+imports_granularity = "Crate"
+group_imports = "StdExternalCrate"
+imports_layout = "HorizontalVertical"
+
+# Formatting style
+fn_params_layout = "Tall"
+brace_style = "SameLineWhere"
+control_brace_style = "AlwaysSameLine"
+indent_style = "Block"
+where_single_line = false
+
+# Comments and strings
+comment_width = 80
+wrap_comments = true
+normalize_comments = true
+normalize_doc_attributes = true
+
+# Expressions
+match_arm_blocks = true
+match_block_trailing_comma = true
+overflow_delimited_expr = true
+struct_lit_single_line = false
+fn_single_line = false
+chain_width = 60
+
+# Miscellaneous
+reorder_imports = true
+reorder_modules = true
+remove_nested_parens = true
+use_field_init_shorthand = true
+use_try_shorthand = true
+force_explicit_abi = true
+condense_wildcard_suffixes = true
+format_code_in_doc_comments = true
+format_strings = true
+format_macro_matchers = true
+format_macro_bodies = true
+
+# Unstable options (require nightly)
+# unstable_features = true
+# format_generated_files = false

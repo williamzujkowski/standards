@@ -1,0 +1,129 @@
+# Pre-commit hooks configuration
+# Run: pre-commit install
+# Manual run: pre-commit run --all-files
+
+repos:
+  # General file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-toml
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-docstring-first
+      - id: debug-statements
+      - id: mixed-line-ending
+      - id: name-tests-test
+        args: ['--pytest-test-first']
+
+  # Black - Code formatter
+  - repo: https://github.com/psf/black
+    rev: 23.12.1
+    hooks:
+      - id: black
+        language_version: python3.10
+        args: ['--line-length=88']
+
+  # isort - Import sorter
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: ['--profile=black', '--line-length=88']
+
+  # Ruff - Fast linter
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.11
+    hooks:
+      - id: ruff
+        args: ['--fix', '--exit-non-zero-on-fix']
+
+  # mypy - Type checker
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      - id: mypy
+        additional_dependencies:
+          - pydantic>=2.0.0
+          - types-requests
+        args: ['--strict', '--ignore-missing-imports']
+        exclude: ^tests/
+
+  # Bandit - Security linter
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.6
+    hooks:
+      - id: bandit
+        args: ['-c', 'pyproject.toml', '-r', 'src/']
+        additional_dependencies: ['bandit[toml]']
+
+  # pylint - Code analysis
+  - repo: https://github.com/PyCQA/pylint
+    rev: v3.0.3
+    hooks:
+      - id: pylint
+        args: ['--rcfile=pyproject.toml']
+        additional_dependencies:
+          - pydantic>=2.0.0
+
+  # pytest - Run tests
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest
+        entry: pytest
+        language: system
+        pass_filenames: false
+        always_run: true
+        args: ['tests/', '-v', '--tb=short']
+
+  # pytest-cov - Check coverage
+  - repo: local
+    hooks:
+      - id: pytest-cov
+        name: pytest-cov
+        entry: pytest
+        language: system
+        pass_filenames: false
+        always_run: true
+        args: ['--cov=src', '--cov-report=term-missing:skip-covered', '--cov-fail-under=80']
+
+  # Docstring formatter
+  - repo: https://github.com/PyCQA/docformatter
+    rev: v1.7.5
+    hooks:
+      - id: docformatter
+        args: ['--in-place', '--wrap-summaries=88', '--wrap-descriptions=88']
+
+  # Security - Check for secrets
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        args: ['--baseline', '.secrets.baseline']
+
+  # YAML linter
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.33.0
+    hooks:
+      - id: yamllint
+        args: ['-d', '{extends: default, rules: {line-length: {max: 120}}}']
+
+  # Markdown linter
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.38.0
+    hooks:
+      - id: markdownlint
+        args: ['--fix']
+
+# CI-specific settings
+ci:
+  autofix_commit_msg: 'chore: auto fixes from pre-commit hooks'
+  autoupdate_commit_msg: 'chore: pre-commit autoupdate'
+  skip: [pytest, pytest-cov]  # Skip slow checks in CI

@@ -1,0 +1,403 @@
+openapi: 3.0.3
+info:
+  title: Secure API Template
+  version: 2.0.0
+  description: |
+    Production-ready API with comprehensive security controls.
+    Implements OWASP API Security Top 10 best practices.
+  contact:
+    name: API Security Team
+    email: security@example.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+
+servers:
+  - url: https://api.example.com/v2
+    description: Production server
+  - url: https://staging-api.example.com/v2
+    description: Staging server
+
+# Define security schemes
+components:
+  securitySchemes:
+    # API Key for server-to-server authentication
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: |
+        API key authentication for server-to-server communication.
+        Keys should be rotated every 90 days.
+        Example: X-API-Key: sk_live_abc123def456
+
+    # JWT Bearer token for user authentication
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT token obtained from /auth/token endpoint.
+        Token expires in 15 minutes.
+        Example: Authorization: Bearer eyJhbGciOiJSUzI1NiIs...
+
+    # OAuth 2.0 for third-party integrations
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.example.com/oauth/authorize
+          tokenUrl: https://auth.example.com/oauth/token
+          refreshUrl: https://auth.example.com/oauth/refresh
+          scopes:
+            read:users: Read user information
+            write:users: Create and update users
+            read:resources: Read protected resources
+            write:resources: Create and update resources
+            admin: Full administrative access
+        clientCredentials:
+          tokenUrl: https://auth.example.com/oauth/token
+          scopes:
+            api:access: Basic API access
+
+    # Basic Auth (deprecated, only for legacy endpoints)
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: |
+        DEPRECATED: Use BearerAuth or OAuth2 instead.
+        Will be removed in v3.0.0
+
+  # Reusable schemas
+  schemas:
+    Error:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          example: "unauthorized"
+        message:
+          type: string
+          example: "Invalid authentication credentials"
+        request_id:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+
+    ValidationError:
+      type: object
+      required:
+        - error
+        - validation_errors
+      properties:
+        error:
+          type: string
+          example: "validation_failed"
+        validation_errors:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+                example: "email"
+              message:
+                type: string
+                example: "Invalid email format"
+
+  # Reusable responses
+  responses:
+    UnauthorizedError:
+      description: Authentication required or failed
+      headers:
+        WWW-Authenticate:
+          schema:
+            type: string
+            example: 'Bearer realm="api", error="invalid_token"'
+        X-Request-ID:
+          schema:
+            type: string
+            format: uuid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "unauthorized"
+            message: "Invalid or expired authentication token"
+            request_id: "550e8400-e29b-41d4-a716-446655440000"
+
+    ForbiddenError:
+      description: Insufficient permissions
+      headers:
+        X-Request-ID:
+          schema:
+            type: string
+            format: uuid
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Error'
+              - type: object
+                properties:
+                  required_scope:
+                    type: string
+                    example: "admin"
+          example:
+            error: "forbidden"
+            message: "Insufficient permissions to access this resource"
+            required_scope: "admin"
+            request_id: "550e8400-e29b-41d4-a716-446655440000"
+
+    NotFoundError:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "not_found"
+            message: "The requested resource was not found"
+
+    RateLimitError:
+      description: Rate limit exceeded
+      headers:
+        X-RateLimit-Limit:
+          schema:
+            type: integer
+            example: 100
+          description: Number of requests allowed per time window
+        X-RateLimit-Remaining:
+          schema:
+            type: integer
+            example: 0
+          description: Number of requests remaining
+        X-RateLimit-Reset:
+          schema:
+            type: integer
+            format: unix-timestamp
+            example: 1640995200
+          description: Unix timestamp when rate limit resets
+        Retry-After:
+          schema:
+            type: integer
+            example: 60
+          description: Seconds to wait before retrying
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "rate_limit_exceeded"
+            message: "Too many requests. Please try again later."
+
+    ValidationError:
+      description: Input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationError'
+
+  # Reusable parameters
+  parameters:
+    RequestID:
+      name: X-Request-ID
+      in: header
+      description: Unique request identifier for tracing
+      schema:
+        type: string
+        format: uuid
+      example: "550e8400-e29b-41d4-a716-446655440000"
+
+# Global security requirement (can be overridden per endpoint)
+security:
+  - BearerAuth: []
+
+# API Endpoints
+paths:
+  # Public endpoints (no authentication)
+  /health:
+    get:
+      summary: Health check
+      description: Public health check endpoint with no authentication required
+      operationId: healthCheck
+      security: []  # Override global security
+      tags:
+        - System
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "healthy"
+                  version:
+                    type: string
+                    example: "2.0.0"
+                  timestamp:
+                    type: string
+                    format: date-time
+
+  # JWT-authenticated endpoints
+  /users:
+    get:
+      summary: List users
+      description: Retrieve a paginated list of users. Requires read:users scope.
+      operationId: listUsers
+      tags:
+        - Users
+      security:
+        - OAuth2: [read:users]
+      parameters:
+        - $ref: '#/components/parameters/RequestID'
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: Page number
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: Items per page
+      responses:
+        '200':
+          description: User list retrieved successfully
+          headers:
+            X-Total-Count:
+              schema:
+                type: integer
+              description: Total number of users
+            X-Page-Count:
+              schema:
+                type: integer
+              description: Total number of pages
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+
+  # Admin-only endpoints
+  /admin/users:
+    post:
+      summary: Create user (admin only)
+      description: Create a new user account. Requires admin scope.
+      operationId: createUser
+      tags:
+        - Admin
+      security:
+        - OAuth2: [admin]
+      parameters:
+        - $ref: '#/components/parameters/RequestID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - username
+              properties:
+                email:
+                  type: string
+                  format: email
+                  maxLength: 255
+                username:
+                  type: string
+                  pattern: '^[a-zA-Z0-9_-]{3,30}$'
+                  minLength: 3
+                  maxLength: 30
+                roles:
+                  type: array
+                  maxItems: 10
+                  items:
+                    type: string
+                    enum: [user, admin, moderator]
+      responses:
+        '201':
+          description: User created successfully
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+
+  # API Key authenticated endpoints
+  /internal/reports:
+    post:
+      summary: Generate report (internal API)
+      description: Server-to-server endpoint for report generation
+      operationId: generateReport
+      tags:
+        - Internal
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RequestID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - report_type
+                - date_range
+              properties:
+                report_type:
+                  type: string
+                  enum: [daily, weekly, monthly]
+                date_range:
+                  type: object
+                  required:
+                    - start
+                    - end
+                  properties:
+                    start:
+                      type: string
+                      format: date
+                    end:
+                      type: string
+                      format: date
+      responses:
+        '202':
+          description: Report generation initiated
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+
+# Global tags
+tags:
+  - name: System
+    description: System health and status endpoints
+  - name: Users
+    description: User management operations
+  - name: Admin
+    description: Administrative operations
+  - name: Internal
+    description: Internal server-to-server APIs
+
+# External documentation
+externalDocs:
+  description: Full API documentation and security guidelines
+  url: https://docs.example.com/api

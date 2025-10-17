@@ -1,0 +1,235 @@
+# Istio mTLS Configuration for Zero-Trust Architecture
+# This configuration enforces strict mutual TLS across the service mesh
+
+---
+# Global strict mTLS policy
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: istio-system
+spec:
+  mtls:
+    mode: STRICT
+
+---
+# Namespace-level mTLS configuration with permissive mode for migration
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: production
+spec:
+  mtls:
+    mode: PERMISSIVE  # Use PERMISSIVE during migration, then switch to STRICT
+
+---
+# Workload-specific mTLS configuration
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: api-service-mtls
+  namespace: production
+spec:
+  selector:
+    matchLabels:
+      app: api-service
+  mtls:
+    mode: STRICT
+  portLevelMtls:
+    8080:
+      mode: STRICT
+    8443:
+      mode: STRICT
+    9090:
+      mode: DISABLE  # Disable mTLS for metrics endpoint (internal only)
+
+---
+# DestinationRule for client-side mTLS
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: api-service-dr
+  namespace: production
+spec:
+  host: api-service.production.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL  # Use Istio-managed mTLS
+    connectionPool:
+      tcp:
+        maxConnections: 100
+      http:
+        http2MaxRequests: 1000
+        maxRequestsPerConnection: 2
+    outlierDetection:
+      consecutiveErrors: 5
+      interval: 30s
+      baseEjectionTime: 30s
+
+---
+# Authorization policy for mTLS-authenticated services
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: api-service-authz
+  namespace: production
+spec:
+  selector:
+    matchLabels:
+      app: api-service
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - "cluster.local/ns/production/sa/frontend"
+        - "cluster.local/ns/production/sa/worker"
+    to:
+    - operation:
+        methods: ["GET", "POST", "PUT"]
+        paths: ["/api/*"]
+    when:
+    - key: connection.sni
+      values: ["api-service.production.svc.cluster.local"]
+
+---
+# Certificate configuration for custom CA
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cacerts
+  namespace: istio-system
+type: Opaque
+data:
+  # Base64-encoded CA certificate chain
+  ca-cert.pem: LS0tLS1CRUdJTi...
+  ca-key.pem: LS0tLS1CRUdJTi...
+  cert-chain.pem: LS0tLS1CRUdJTi...
+  root-cert.pem: LS0tLS1CRUdJTi...
+
+---
+# ServiceEntry for external service mTLS
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: external-api-mtls
+  namespace: production
+spec:
+  hosts:
+  - external-api.example.com
+  ports:
+  - number: 443
+    name: https
+    protocol: HTTPS
+  location: MESH_EXTERNAL
+  resolution: DNS
+
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: external-api-mtls-dr
+  namespace: production
+spec:
+  host: external-api.example.com
+  trafficPolicy:
+    tls:
+      mode: MUTUAL
+      clientCertificate: /etc/certs/client-cert.pem
+      privateKey: /etc/certs/client-key.pem
+      caCertificates: /etc/certs/ca-cert.pem
+      sni: external-api.example.com
+
+---
+# Gateway with mTLS configuration
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: mtls-gateway
+  namespace: production
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 443
+      name: https-mtls
+      protocol: HTTPS
+    tls:
+      mode: MUTUAL
+      credentialName: gateway-mtls-certs
+      minProtocolVersion: TLSV1_3
+    hosts:
+    - "api.example.com"
+
+---
+# VirtualService for mTLS gateway
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: api-service-vs
+  namespace: production
+spec:
+  hosts:
+  - "api.example.com"
+  gateways:
+  - mtls-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/api"
+    route:
+    - destination:
+        host: api-service.production.svc.cluster.local
+        port:
+          number: 8080
+      weight: 100
+    timeout: 30s
+    retries:
+      attempts: 3
+      perTryTimeout: 10s
+
+---
+# RequestAuthentication for JWT validation with mTLS
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: api-jwt-auth
+  namespace: production
+spec:
+  selector:
+    matchLabels:
+      app: api-service
+  jwtRules:
+  - issuer: "https://auth.example.com"
+    jwksUri: "https://auth.example.com/.well-known/jwks.json"
+    audiences:
+    - "api.example.com"
+    forwardOriginalToken: true
+
+---
+# AuthorizationPolicy combining mTLS and JWT
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: api-mtls-jwt-policy
+  namespace: production
+spec:
+  selector:
+    matchLabels:
+      app: api-service
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/production/sa/frontend"]
+        requestPrincipals: ["*"]
+    to:
+    - operation:
+        methods: ["GET", "POST"]
+    when:
+    - key: request.auth.claims[role]
+      values: ["user", "admin"]
+    - key: connection.sni
+      values: ["api-service.production.svc.cluster.local"]

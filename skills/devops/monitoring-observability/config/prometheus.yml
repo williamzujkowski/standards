@@ -1,0 +1,276 @@
+# Prometheus Server Configuration
+# Production-ready setup with service discovery and remote write
+
+global:
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: 'production'
+    env: 'prod'
+    region: 'us-east-1'
+
+# Alertmanager configuration
+alerting:
+  alert_relabel_configs:
+    - source_labels: [dc]
+      regex: (.+)\d+
+      target_label: dc
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - alertmanager:9093
+      timeout: 10s
+      api_version: v2
+
+# Load alerting and recording rules
+rule_files:
+  - '/etc/prometheus/rules/*.yml'
+  - '/etc/prometheus/recording-rules.yml'
+  - '/etc/prometheus/alert-rules.yml'
+
+# Remote write for long-term storage (Thanos, Cortex, etc.)
+remote_write:
+  - url: "http://thanos-receive:19291/api/v1/receive"
+    queue_config:
+      capacity: 10000
+      max_shards: 50
+      min_shards: 1
+      max_samples_per_send: 5000
+      batch_send_deadline: 5s
+      min_backoff: 30ms
+      max_backoff: 100ms
+
+# Scrape configurations
+scrape_configs:
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+        labels:
+          app: 'prometheus'
+          tier: 'monitoring'
+
+  # Node Exporter - System metrics
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets:
+          - 'node-exporter-1:9100'
+          - 'node-exporter-2:9100'
+          - 'node-exporter-3:9100'
+        labels:
+          env: 'production'
+          datacenter: 'dc1'
+
+  # Kubernetes service discovery - Pods
+  - job_name: 'kubernetes-pods'
+    kubernetes_sd_configs:
+      - role: pod
+        namespaces:
+          names:
+            - production
+            - staging
+    
+    relabel_configs:
+      # Only scrape pods with prometheus.io/scrape: "true" annotation
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+        action: keep
+        regex: true
+      
+      # Use custom scrape path if specified
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+        action: replace
+        target_label: __metrics_path__
+        regex: (.+)
+      
+      # Use custom port if specified
+      - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+        action: replace
+        regex: ([^:]+)(?::\d+)?;(\d+)
+        replacement: $1:$2
+        target_label: __address__
+      
+      # Add namespace label
+      - source_labels: [__meta_kubernetes_namespace]
+        action: replace
+        target_label: kubernetes_namespace
+      
+      # Add pod name label
+      - source_labels: [__meta_kubernetes_pod_name]
+        action: replace
+        target_label: kubernetes_pod_name
+      
+      # Add app label
+      - source_labels: [__meta_kubernetes_pod_label_app]
+        action: replace
+        target_label: app
+      
+      # Add version label
+      - source_labels: [__meta_kubernetes_pod_label_version]
+        action: replace
+        target_label: version
+
+  # Kubernetes service discovery - Services
+  - job_name: 'kubernetes-services'
+    kubernetes_sd_configs:
+      - role: service
+    
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_probe]
+        action: keep
+        regex: true
+      - source_labels: [__address__]
+        target_label: __param_target
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+      - source_labels: [__param_target]
+        target_label: instance
+      - source_labels: [__meta_kubernetes_service_name]
+        target_label: kubernetes_service_name
+      - source_labels: [__meta_kubernetes_namespace]
+        target_label: kubernetes_namespace
+
+  # Application metrics - API Service
+  - job_name: 'api-service'
+    static_configs:
+      - targets:
+          - 'api-1.internal:8080'
+          - 'api-2.internal:8080'
+          - 'api-3.internal:8080'
+        labels:
+          app: 'api-service'
+          env: 'production'
+          team: 'backend'
+
+  # Application metrics - Frontend Service
+  - job_name: 'frontend-service'
+    static_configs:
+      - targets:
+          - 'frontend-1.internal:3000'
+          - 'frontend-2.internal:3000'
+        labels:
+          app: 'frontend'
+          env: 'production'
+          team: 'frontend'
+
+  # Database exporters
+  - job_name: 'postgres-exporter'
+    static_configs:
+      - targets:
+          - 'postgres-exporter:9187'
+        labels:
+          db: 'postgres'
+          env: 'production'
+
+  - job_name: 'mongodb-exporter'
+    static_configs:
+      - targets:
+          - 'mongodb-exporter:9216'
+        labels:
+          db: 'mongodb'
+          env: 'production'
+
+  - job_name: 'redis-exporter'
+    static_configs:
+      - targets:
+          - 'redis-exporter:9121'
+        labels:
+          db: 'redis'
+          env: 'production'
+
+  # Message queue exporters
+  - job_name: 'rabbitmq-exporter'
+    static_configs:
+      - targets:
+          - 'rabbitmq-exporter:9419'
+        labels:
+          service: 'rabbitmq'
+          env: 'production'
+
+  # Cloud provider metrics (AWS CloudWatch exporter example)
+  - job_name: 'cloudwatch-exporter'
+    static_configs:
+      - targets:
+          - 'cloudwatch-exporter:9106'
+        labels:
+          cloud: 'aws'
+          region: 'us-east-1'
+
+  # Blackbox exporter - HTTP probes
+  - job_name: 'blackbox-http'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+        - https://api.example.com/health
+        - https://example.com
+        - https://admin.example.com
+        labels:
+          probe: 'http'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  # Blackbox exporter - TCP probes
+  - job_name: 'blackbox-tcp'
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets:
+        - db-primary.internal:5432
+        - redis.internal:6379
+        labels:
+          probe: 'tcp'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  # Consul service discovery example
+  - job_name: 'consul-services'
+    consul_sd_configs:
+      - server: 'consul.internal:8500'
+        datacenter: 'dc1'
+        services: ['api', 'frontend', 'worker']
+    relabel_configs:
+      - source_labels: [__meta_consul_service]
+        target_label: job
+      - source_labels: [__meta_consul_tags]
+        target_label: tags
+      - source_labels: [__meta_consul_dc]
+        target_label: datacenter
+
+  # Custom application metrics with file-based service discovery
+  - job_name: 'custom-apps'
+    file_sd_configs:
+      - files:
+          - '/etc/prometheus/targets/*.json'
+        refresh_interval: 5m
+
+# Storage configuration
+storage:
+  tsdb:
+    path: /prometheus
+    retention.time: 15d
+    retention.size: 50GB
+    min_block_duration: 2h
+    max_block_duration: 12h
+
+# Enable lifecycle management (reload config without restart)
+# POST /-/reload
+# web:
+#   enable_lifecycle: true
+#   enable_admin_api: true

@@ -1,0 +1,152 @@
+service: user-service
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: python3.11
+  architecture: arm64
+  region: us-east-1
+  stage: dev
+  memorySize: 512
+  timeout: 30
+  tracing:
+    apiGateway: true
+    lambda: true
+  
+  environment:
+    TABLE_NAME: user-service-dev-users
+    ENVIRONMENT: dev
+    LOG_LEVEL: INFO
+  
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+            - dynamodb:Query
+          Resource:
+            - Fn::GetAtt: [UsersTable, Arn]
+            - Fn::Sub: '${UsersTable.Arn}/index/*'
+        - Effect: Allow
+          Action: cloudwatch:PutMetricData
+          Resource: '*'
+        - Effect: Allow
+          Action:
+            - xray:PutTraceSegments
+            - xray:PutTelemetryRecords
+          Resource: '*'
+
+custom:
+  pythonRequirements:
+    dockerizePip: true
+    layer: true
+    slim: true
+    strip: false
+  
+  prune:
+    automatic: true
+    number: 3
+
+functions:
+  getUser:
+    handler: handler.get_user
+    description: Retrieve user by ID
+    events:
+      - http:
+          path: users/{id}
+          method: get
+          cors: true
+    layers:
+      - Ref: PythonRequirementsLambdaLayer
+
+  createUser:
+    handler: handler.create_user
+    description: Create new user
+    events:
+      - http:
+          path: users
+          method: post
+          cors: true
+    layers:
+      - Ref: PythonRequirementsLambdaLayer
+
+  processUserStream:
+    handler: handler.process_stream
+    description: Process DynamoDB stream events
+    events:
+      - stream:
+          type: dynamodb
+          arn:
+            Fn::GetAtt: [UsersTable, StreamArn]
+          batchSize: 10
+          startingPosition: LATEST
+          maximumRetryAttempts: 3
+    layers:
+      - Ref: PythonRequirementsLambdaLayer
+
+resources:
+  Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: user-service-dev-users
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: email
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: EmailIndex
+            KeySchema:
+              - AttributeName: email
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+        StreamSpecification:
+          StreamViewType: NEW_AND_OLD_IMAGES
+        Tags:
+          - Key: Environment
+            Value: dev
+
+    FunctionErrorAlarm:
+      Type: AWS::CloudWatch::Alarm
+      Properties:
+        AlarmName: user-service-dev-function-errors
+        MetricName: Errors
+        Namespace: AWS/Lambda
+        Statistic: Sum
+        Period: 60
+        EvaluationPeriods: 1
+        Threshold: 5
+        ComparisonOperator: GreaterThanThreshold
+        AlarmActions:
+          - Ref: AlertTopic
+
+    AlertTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: user-service-dev-alerts
+
+  Outputs:
+    ApiUrl:
+      Description: API Gateway endpoint URL
+      Value:
+        Fn::Sub: 'https://${ApiGatewayRestApi}.execute-api.${AWS::Region}.amazonaws.com/dev'
+
+    TableName:
+      Description: DynamoDB table name
+      Value:
+        Ref: UsersTable
+
+plugins:
+  - serverless-python-requirements
+  - serverless-prune-plugin
+  - serverless-plugin-tracing

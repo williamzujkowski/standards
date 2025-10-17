@@ -1,0 +1,661 @@
+{
+  "dashboard": {
+    "title": "PCI-DSS & SOC2 Compliance Dashboard",
+    "tags": ["compliance", "pci-dss", "soc2", "fintech"],
+    "timezone": "UTC",
+    "refresh": "5m",
+    "panels": [
+      {
+        "id": 1,
+        "title": "PCI-DSS Compliance Score",
+        "type": "gauge",
+        "gridPos": {"x": 0, "y": 0, "w": 6, "h": 6},
+        "targets": [
+          {
+            "expr": "(count(pci_requirement_status{status=\"compliant\"}) / count(pci_requirement_status)) * 100",
+            "legendFormat": "Compliance %"
+          }
+        ],
+        "options": {
+          "thresholds": [
+            {"value": 0, "color": "red"},
+            {"value": 80, "color": "yellow"},
+            {"value": 95, "color": "green"}
+          ],
+          "unit": "percent"
+        }
+      },
+      {
+        "id": 2,
+        "title": "SOC2 Control Effectiveness",
+        "type": "gauge",
+        "gridPos": {"x": 6, "y": 0, "w": 6, "h": 6},
+        "targets": [
+          {
+            "expr": "(count(soc2_control_status{status=\"effective\"}) / count(soc2_control_status)) * 100",
+            "legendFormat": "Effectiveness %"
+          }
+        ],
+        "options": {
+          "thresholds": [
+            {"value": 0, "color": "red"},
+            {"value": 85, "color": "yellow"},
+            {"value": 98, "color": "green"}
+          ],
+          "unit": "percent"
+        }
+      },
+      {
+        "id": 3,
+        "title": "Open Compliance Issues by Severity",
+        "type": "pie",
+        "gridPos": {"x": 12, "y": 0, "w": 6, "h": 6},
+        "targets": [
+          {
+            "expr": "sum by (severity) (compliance_issues{status=\"open\"})",
+            "legendFormat": "{{severity}}"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Days Until Next Audit",
+        "type": "stat",
+        "gridPos": {"x": 18, "y": 0, "w": 6, "h": 6},
+        "targets": [
+          {
+            "expr": "(next_audit_date - time()) / 86400",
+            "legendFormat": "Days"
+          }
+        ],
+        "options": {
+          "colorMode": "value",
+          "thresholds": [
+            {"value": 0, "color": "red"},
+            {"value": 30, "color": "yellow"},
+            {"value": 60, "color": "green"}
+          ]
+        }
+      },
+      {
+        "id": 5,
+        "title": "PCI-DSS Requirements Status",
+        "type": "table",
+        "gridPos": {"x": 0, "y": 6, "w": 12, "h": 8},
+        "targets": [
+          {
+            "expr": "pci_requirement_status",
+            "format": "table"
+          }
+        ],
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "indexByName": {
+                "requirement": 0,
+                "description": 1,
+                "status": 2,
+                "last_validated": 3
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "SOC2 Control Categories Status",
+        "type": "bar",
+        "gridPos": {"x": 12, "y": 6, "w": 12, "h": 8},
+        "targets": [
+          {
+            "expr": "sum by (category) (soc2_control_status{status=\"effective\"})",
+            "legendFormat": "{{category}}"
+          }
+        ],
+        "options": {
+          "orientation": "horizontal"
+        }
+      },
+      {
+        "id": 7,
+        "title": "CDE Access Attempts (Last 24h)",
+        "type": "timeseries",
+        "gridPos": {"x": 0, "y": 14, "w": 12, "h": 6},
+        "targets": [
+          {
+            "expr": "sum by (result) (rate(cde_access_attempts[5m]))",
+            "legendFormat": "{{result}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "palette-classic"},
+            "custom": {
+              "axisBorderShow": false,
+              "fillOpacity": 10,
+              "lineWidth": 2
+            }
+          }
+        }
+      },
+      {
+        "id": 8,
+        "title": "Failed Authentication Attempts",
+        "type": "timeseries",
+        "gridPos": {"x": 12, "y": 14, "w": 12, "h": 6},
+        "targets": [
+          {
+            "expr": "sum(rate(authentication_failures[5m]))",
+            "legendFormat": "Failed Logins"
+          }
+        ],
+        "alert": {
+          "name": "High Failed Auth Rate",
+          "conditions": [
+            {
+              "evaluator": {"type": "gt", "params": [10]},
+              "query": {"params": ["A", "5m", "now"]}
+            }
+          ]
+        }
+      },
+      {
+        "id": 9,
+        "title": "Encryption Status by Service",
+        "type": "stat",
+        "gridPos": {"x": 0, "y": 20, "w": 8, "h": 4},
+        "targets": [
+          {
+            "expr": "count(encryption_status{enabled=\"true\"}) by (service)",
+            "legendFormat": "{{service}}"
+          }
+        ],
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "textMode": "value_and_name"
+        }
+      },
+      {
+        "id": 10,
+        "title": "MFA Adoption Rate",
+        "type": "gauge",
+        "gridPos": {"x": 8, "y": 20, "w": 8, "h": 4},
+        "targets": [
+          {
+            "expr": "(count(user_mfa_status{enabled=\"true\"}) / count(user_mfa_status)) * 100",
+            "legendFormat": "MFA Enabled %"
+          }
+        ],
+        "options": {
+          "thresholds": [
+            {"value": 0, "color": "red"},
+            {"value": 90, "color": "yellow"},
+            {"value": 100, "color": "green"}
+          ],
+          "unit": "percent"
+        }
+      },
+      {
+        "id": 11,
+        "title": "Log Retention Compliance",
+        "type": "gauge",
+        "gridPos": {"x": 16, "y": 20, "w": 8, "h": 4},
+        "targets": [
+          {
+            "expr": "(count(log_retention_days >= 90) / count(log_retention_days)) * 100",
+            "legendFormat": "Compliant %"
+          }
+        ],
+        "options": {
+          "thresholds": [
+            {"value": 0, "color": "red"},
+            {"value": 99, "color": "yellow"},
+            {"value": 100, "color": "green"}
+          ],
+          "unit": "percent"
+        }
+      },
+      {
+        "id": 12,
+        "title": "Vulnerability Scan Results",
+        "type": "table",
+        "gridPos": {"x": 0, "y": 24, "w": 12, "h": 6},
+        "targets": [
+          {
+            "expr": "vulnerability_scan_findings",
+            "format": "table"
+          }
+        ],
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "indexByName": {
+                "severity": 0,
+                "count": 1,
+                "avg_age_days": 2,
+                "sla_breach": 3
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": 13,
+        "title": "Patch Compliance by Environment",
+        "type": "bar",
+        "gridPos": {"x": 12, "y": 24, "w": 12, "h": 6},
+        "targets": [
+          {
+            "expr": "sum by (environment) ((patched_systems / total_systems) * 100)",
+            "legendFormat": "{{environment}}"
+          }
+        ],
+        "options": {
+          "orientation": "vertical"
+        }
+      },
+      {
+        "id": 14,
+        "title": "Firewall Rule Changes (Last 30d)",
+        "type": "timeseries",
+        "gridPos": {"x": 0, "y": 30, "w": 12, "h": 6},
+        "targets": [
+          {
+            "expr": "sum by (action) (increase(firewall_rule_changes[1h]))",
+            "legendFormat": "{{action}}"
+          }
+        ]
+      },
+      {
+        "id": 15,
+        "title": "Incident Response Time (Avg)",
+        "type": "stat",
+        "gridPos": {"x": 12, "y": 30, "w": 6, "h": 6},
+        "targets": [
+          {
+            "expr": "avg(incident_response_time_minutes)",
+            "legendFormat": "Minutes"
+          }
+        ],
+        "options": {
+          "colorMode": "value",
+          "unit": "minutes",
+          "thresholds": [
+            {"value": 0, "color": "green"},
+            {"value": 30, "color": "yellow"},
+            {"value": 60, "color": "red"}
+          ]
+        }
+      },
+      {
+        "id": 16,
+        "title": "Security Incidents (Last 90d)",
+        "type": "stat",
+        "gridPos": {"x": 18, "y": 30, "w": 6, "h": 6},
+        "targets": [
+          {
+            "expr": "count(security_incidents{timestamp > time() - 90d})",
+            "legendFormat": "Incidents"
+          }
+        ],
+        "options": {
+          "colorMode": "value",
+          "thresholds": [
+            {"value": 0, "color": "green"},
+            {"value": 5, "color": "yellow"},
+            {"value": 10, "color": "red"}
+          ]
+        }
+      },
+      {
+        "id": 17,
+        "title": "Access Reviews Completion",
+        "type": "timeseries",
+        "gridPos": {"x": 0, "y": 36, "w": 12, "h": 6},
+        "targets": [
+          {
+            "expr": "(completed_access_reviews / total_access_reviews) * 100",
+            "legendFormat": "Completion %"
+          }
+        ],
+        "options": {
+          "thresholds": [
+            {"value": 0, "color": "red"},
+            {"value": 90, "color": "yellow"},
+            {"value": 100, "color": "green"}
+          ]
+        }
+      },
+      {
+        "id": 18,
+        "title": "Key Rotation Status",
+        "type": "table",
+        "gridPos": {"x": 12, "y": 36, "w": 12, "h": 6},
+        "targets": [
+          {
+            "expr": "key_rotation_status",
+            "format": "table"
+          }
+        ],
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "indexByName": {
+                "key_id": 0,
+                "service": 1,
+                "last_rotated": 2,
+                "days_until_rotation": 3
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": 19,
+        "title": "Training Completion Rate",
+        "type": "gauge",
+        "gridPos": {"x": 0, "y": 42, "w": 8, "h": 4},
+        "targets": [
+          {
+            "expr": "(count(security_training_completed) / count(employees)) * 100",
+            "legendFormat": "Training %"
+          }
+        ],
+        "options": {
+          "thresholds": [
+            {"value": 0, "color": "red"},
+            {"value": 95, "color": "yellow"},
+            {"value": 100, "color": "green"}
+          ],
+          "unit": "percent"
+        }
+      },
+      {
+        "id": 20,
+        "title": "Vendor Risk Assessments",
+        "type": "stat",
+        "gridPos": {"x": 8, "y": 42, "w": 8, "h": 4},
+        "targets": [
+          {
+            "expr": "count(vendor_assessments{status=\"current\"})",
+            "legendFormat": "Current"
+          },
+          {
+            "expr": "count(vendor_assessments{status=\"overdue\"})",
+            "legendFormat": "Overdue"
+          }
+        ]
+      },
+      {
+        "id": 21,
+        "title": "Backup Success Rate",
+        "type": "gauge",
+        "gridPos": {"x": 16, "y": 42, "w": 8, "h": 4},
+        "targets": [
+          {
+            "expr": "(count(backup_status{status=\"success\"}) / count(backup_status)) * 100",
+            "legendFormat": "Success %"
+          }
+        ],
+        "options": {
+          "thresholds": [
+            {"value": 0, "color": "red"},
+            {"value": 95, "color": "yellow"},
+            {"value": 99, "color": "green"}
+          ],
+          "unit": "percent"
+        }
+      },
+      {
+        "id": 22,
+        "title": "Compliance Audit Trail",
+        "type": "logs",
+        "gridPos": {"x": 0, "y": 46, "w": 24, "h": 8},
+        "targets": [
+          {
+            "expr": "{job=\"compliance-audit\"} |= \"PCI\" or \"SOC2\"",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "showTime": true,
+          "wrapLogMessage": true
+        }
+      }
+    ],
+    "annotations": {
+      "list": [
+        {
+          "name": "Audits",
+          "datasource": "Prometheus",
+          "expr": "audit_events",
+          "tagKeys": "audit_type",
+          "textFormat": "{{audit_type}}: {{description}}"
+        },
+        {
+          "name": "Incidents",
+          "datasource": "Prometheus",
+          "expr": "security_incidents",
+          "tagKeys": "severity",
+          "textFormat": "{{severity}}: {{description}}"
+        }
+      ]
+    },
+    "templating": {
+      "list": [
+        {
+          "name": "environment",
+          "type": "query",
+          "query": "label_values(environment)",
+          "multi": true,
+          "includeAll": true
+        },
+        {
+          "name": "compliance_standard",
+          "type": "custom",
+          "query": "PCI-DSS,SOC2,NIST",
+          "multi": true,
+          "includeAll": false
+        }
+      ]
+    }
+  },
+  "prometheus_queries": {
+    "description": "Sample Prometheus queries for compliance metrics",
+    "queries": [
+      {
+        "name": "pci_requirement_status",
+        "query": "pci_requirement_status{requirement=~\".*\"}",
+        "labels": ["requirement", "description", "status", "last_validated"]
+      },
+      {
+        "name": "soc2_control_status",
+        "query": "soc2_control_status{category=~\".*\"}",
+        "labels": ["category", "control_id", "status", "evidence_collected"]
+      },
+      {
+        "name": "cde_access_attempts",
+        "query": "sum by (result) (rate(cde_access_attempts[5m]))",
+        "labels": ["result", "user", "source_ip"]
+      },
+      {
+        "name": "encryption_status",
+        "query": "encryption_status{service=~\".*\"}",
+        "labels": ["service", "enabled", "algorithm", "key_length"]
+      },
+      {
+        "name": "vulnerability_scan_findings",
+        "query": "vulnerability_scan_findings",
+        "labels": ["severity", "cvss_score", "age_days", "remediation_status"]
+      }
+    ]
+  },
+  "alerting_rules": {
+    "description": "Prometheus alerting rules for compliance violations",
+    "groups": [
+      {
+        "name": "pci_compliance",
+        "interval": "1m",
+        "rules": [
+          {
+            "alert": "PCIComplianceBelow95Percent",
+            "expr": "(count(pci_requirement_status{status=\"compliant\"}) / count(pci_requirement_status)) * 100 < 95",
+            "for": "5m",
+            "labels": {"severity": "critical", "compliance": "pci-dss"},
+            "annotations": {
+              "summary": "PCI-DSS compliance score below 95%",
+              "description": "Current compliance: {{ $value }}%"
+            }
+          },
+          {
+            "alert": "CDEUnauthorizedAccess",
+            "expr": "rate(cde_access_attempts{result=\"denied\"}[5m]) > 10",
+            "for": "1m",
+            "labels": {"severity": "critical", "compliance": "pci-dss"},
+            "annotations": {
+              "summary": "High rate of unauthorized CDE access attempts",
+              "description": "{{ $value }} denied access attempts per second"
+            }
+          },
+          {
+            "alert": "MFANotEnforced",
+            "expr": "(count(user_mfa_status{enabled=\"true\"}) / count(user_mfa_status)) * 100 < 100",
+            "for": "5m",
+            "labels": {"severity": "high", "compliance": "pci-dss"},
+            "annotations": {
+              "summary": "MFA not enabled for all users",
+              "description": "Only {{ $value }}% of users have MFA enabled"
+            }
+          },
+          {
+            "alert": "LogRetentionViolation",
+            "expr": "count(log_retention_days < 90) > 0",
+            "for": "1h",
+            "labels": {"severity": "high", "compliance": "pci-dss"},
+            "annotations": {
+              "summary": "Log retention below 90 days requirement",
+              "description": "{{ $value }} log sources with insufficient retention"
+            }
+          },
+          {
+            "alert": "EncryptionDisabled",
+            "expr": "count(encryption_status{enabled=\"false\"}) > 0",
+            "for": "5m",
+            "labels": {"severity": "critical", "compliance": "pci-dss"},
+            "annotations": {
+              "summary": "Encryption disabled on service",
+              "description": "{{ $value }} services without encryption"
+            }
+          }
+        ]
+      },
+      {
+        "name": "soc2_compliance",
+        "interval": "5m",
+        "rules": [
+          {
+            "alert": "SOC2ControlIneffective",
+            "expr": "count(soc2_control_status{status!=\"effective\"}) > 0",
+            "for": "10m",
+            "labels": {"severity": "high", "compliance": "soc2"},
+            "annotations": {
+              "summary": "SOC2 control not operating effectively",
+              "description": "{{ $value }} controls require attention"
+            }
+          },
+          {
+            "alert": "AccessReviewOverdue",
+            "expr": "count(access_review_status{status=\"overdue\"}) > 0",
+            "for": "1h",
+            "labels": {"severity": "medium", "compliance": "soc2"},
+            "annotations": {
+              "summary": "Access reviews overdue",
+              "description": "{{ $value }} access reviews past due date"
+            }
+          },
+          {
+            "alert": "BackupFailure",
+            "expr": "rate(backup_status{status=\"failure\"}[1h]) > 0",
+            "for": "5m",
+            "labels": {"severity": "high", "compliance": "soc2"},
+            "annotations": {
+              "summary": "Backup failures detected",
+              "description": "Backup failures occurring"
+            }
+          }
+        ]
+      },
+      {
+        "name": "vulnerability_management",
+        "interval": "1h",
+        "rules": [
+          {
+            "alert": "CriticalVulnerabilityOverdue",
+            "expr": "count(vulnerability_scan_findings{severity=\"critical\", age_days > 7}) > 0",
+            "for": "1h",
+            "labels": {"severity": "critical", "compliance": "pci-dss"},
+            "annotations": {
+              "summary": "Critical vulnerabilities past SLA",
+              "description": "{{ $value }} critical vulnerabilities unresolved for >7 days"
+            }
+          },
+          {
+            "alert": "HighVulnerabilityOverdue",
+            "expr": "count(vulnerability_scan_findings{severity=\"high\", age_days > 30}) > 0",
+            "for": "1h",
+            "labels": {"severity": "high", "compliance": "pci-dss"},
+            "annotations": {
+              "summary": "High severity vulnerabilities past SLA",
+              "description": "{{ $value }} high vulnerabilities unresolved for >30 days"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "data_sources": {
+    "prometheus": {
+      "type": "prometheus",
+      "url": "http://prometheus:9090",
+      "access": "proxy"
+    },
+    "loki": {
+      "type": "loki",
+      "url": "http://loki:3100",
+      "access": "proxy"
+    },
+    "elasticsearch": {
+      "type": "elasticsearch",
+      "url": "http://elasticsearch:9200",
+      "access": "proxy",
+      "database": "compliance-logs-*"
+    }
+  },
+  "deployment": {
+    "grafana_version": "10.x",
+    "required_plugins": [
+      "grafana-piechart-panel",
+      "grafana-worldmap-panel"
+    ],
+    "installation": [
+      "1. Import this JSON into Grafana",
+      "2. Configure Prometheus data source",
+      "3. Configure Loki data source for logs",
+      "4. Set up alerting notification channels",
+      "5. Schedule dashboard refresh (5 minutes recommended)"
+    ]
+  },
+  "customization_notes": {
+    "metrics": "Adjust metric names to match your Prometheus exporter labels",
+    "thresholds": "Modify alert thresholds based on your compliance requirements",
+    "retention": "Ensure Prometheus retention aligns with audit requirements (90+ days)",
+    "permissions": "Restrict dashboard access to compliance and security teams"
+  }
+}

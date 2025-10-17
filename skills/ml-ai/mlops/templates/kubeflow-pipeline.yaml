@@ -1,0 +1,323 @@
+# Kubeflow Pipeline for End-to-End ML Workflow
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: ml-training-pipeline-
+  labels:
+    pipeline: fraud-detection
+    version: v1
+spec:
+  entrypoint: ml-pipeline
+  arguments:
+    parameters:
+    - name: data-path
+      value: "s3://ml-data/fraud-detection/train.parquet"
+    - name: model-name
+      value: "fraud_detection_model"
+    - name: learning-rate
+      value: "0.01"
+    - name: epochs
+      value: "100"
+
+  templates:
+  - name: ml-pipeline
+    dag:
+      tasks:
+      - name: data-validation
+        template: validate-data
+        arguments:
+          parameters:
+          - name: data-path
+            value: "{{workflow.parameters.data-path}}"
+      
+      - name: feature-engineering
+        dependencies: [data-validation]
+        template: engineer-features
+        arguments:
+          parameters:
+          - name: data-path
+            value: "{{workflow.parameters.data-path}}"
+      
+      - name: train-model
+        dependencies: [feature-engineering]
+        template: train
+        arguments:
+          parameters:
+          - name: data-path
+            value: "{{tasks.feature-engineering.outputs.parameters.output-path}}"
+          - name: learning-rate
+            value: "{{workflow.parameters.learning-rate}}"
+          - name: epochs
+            value: "{{workflow.parameters.epochs}}"
+      
+      - name: evaluate-model
+        dependencies: [train-model]
+        template: evaluate
+        arguments:
+          parameters:
+          - name: model-path
+            value: "{{tasks.train-model.outputs.parameters.model-path}}"
+      
+      - name: register-model
+        dependencies: [evaluate-model]
+        when: "{{tasks.evaluate-model.outputs.parameters.auc}} >= 0.85"
+        template: register
+        arguments:
+          parameters:
+          - name: model-path
+            value: "{{tasks.train-model.outputs.parameters.model-path}}"
+          - name: model-name
+            value: "{{workflow.parameters.model-name}}"
+      
+      - name: deploy-staging
+        dependencies: [register-model]
+        template: deploy
+        arguments:
+          parameters:
+          - name: model-version
+            value: "{{tasks.register-model.outputs.parameters.version}}"
+          - name: environment
+            value: "staging"
+      
+      - name: canary-test
+        dependencies: [deploy-staging]
+        template: canary-test
+        arguments:
+          parameters:
+          - name: endpoint
+            value: "{{tasks.deploy-staging.outputs.parameters.endpoint}}"
+      
+      - name: deploy-production
+        dependencies: [canary-test]
+        when: "{{tasks.canary-test.outputs.parameters.success}} == true"
+        template: deploy
+        arguments:
+          parameters:
+          - name: model-version
+            value: "{{tasks.register-model.outputs.parameters.version}}"
+          - name: environment
+            value: "production"
+
+  # Component Templates
+  - name: validate-data
+    inputs:
+      parameters:
+      - name: data-path
+    container:
+      image: python:3.10-slim
+      command: [python]
+      args:
+      - -c
+      - |
+        import pandas as pd
+        import great_expectations as ge
+        
+        # Load data
+        df = ge.read_parquet("{{inputs.parameters.data-path}}")
+        
+        # Validate
+        assert df.expect_column_to_exist('target').success
+        assert df.expect_column_values_to_not_be_null('target').success
+        assert df.expect_column_values_to_be_between('feature_1', -10, 10).success
+        
+        print("Data validation passed")
+    resources:
+      requests:
+        memory: "2Gi"
+        cpu: "1"
+
+  - name: engineer-features
+    inputs:
+      parameters:
+      - name: data-path
+    outputs:
+      parameters:
+      - name: output-path
+        valueFrom:
+          path: /tmp/output_path.txt
+    container:
+      image: python:3.10-slim
+      command: [python]
+      args:
+      - -c
+      - |
+        import pandas as pd
+        from sklearn.preprocessing import StandardScaler
+        
+        # Load data
+        df = pd.read_parquet("{{inputs.parameters.data-path}}")
+        
+        # Feature engineering
+        df['feature_interaction'] = df['feature_1'] * df['feature_2']
+        df['feature_ratio'] = df['feature_3'] / (df['feature_4'] + 1e-6)
+        
+        # Save processed data
+        output_path = "s3://ml-data/processed/features.parquet"
+        df.to_parquet(output_path)
+        
+        with open('/tmp/output_path.txt', 'w') as f:
+            f.write(output_path)
+    resources:
+      requests:
+        memory: "4Gi"
+        cpu: "2"
+
+  - name: train
+    inputs:
+      parameters:
+      - name: data-path
+      - name: learning-rate
+      - name: epochs
+    outputs:
+      parameters:
+      - name: model-path
+        valueFrom:
+          path: /tmp/model_path.txt
+    container:
+      image: mlflow-training:latest
+      command: [python, train.py]
+      args:
+      - --data-path
+      - "{{inputs.parameters.data-path}}"
+      - --learning-rate
+      - "{{inputs.parameters.learning-rate}}"
+      - --epochs
+      - "{{inputs.parameters.epochs}}"
+      env:
+      - name: MLFLOW_TRACKING_URI
+        value: "http://mlflow-server:5000"
+    resources:
+      requests:
+        memory: "8Gi"
+        cpu: "4"
+        nvidia.com/gpu: "1"
+
+  - name: evaluate
+    inputs:
+      parameters:
+      - name: model-path
+    outputs:
+      parameters:
+      - name: auc
+        valueFrom:
+          path: /tmp/auc.txt
+    container:
+      image: mlflow-training:latest
+      command: [python, evaluate.py]
+      args:
+      - --model-path
+      - "{{inputs.parameters.model-path}}"
+      env:
+      - name: MLFLOW_TRACKING_URI
+        value: "http://mlflow-server:5000"
+    resources:
+      requests:
+        memory: "4Gi"
+        cpu: "2"
+
+  - name: register
+    inputs:
+      parameters:
+      - name: model-path
+      - name: model-name
+    outputs:
+      parameters:
+      - name: version
+        valueFrom:
+          path: /tmp/version.txt
+    container:
+      image: mlflow-training:latest
+      command: [python]
+      args:
+      - -c
+      - |
+        import mlflow
+        from mlflow.tracking import MlflowClient
+        
+        mlflow.set_tracking_uri("http://mlflow-server:5000")
+        client = MlflowClient()
+        
+        # Register model
+        mv = client.create_model_version(
+            name="{{inputs.parameters.model-name}}",
+            source="{{inputs.parameters.model-path}}",
+            run_id=extract_run_id("{{inputs.parameters.model-path}}")
+        )
+        
+        # Transition to staging
+        client.transition_model_version_stage(
+            name="{{inputs.parameters.model-name}}",
+            version=mv.version,
+            stage="Staging"
+        )
+        
+        with open('/tmp/version.txt', 'w') as f:
+            f.write(str(mv.version))
+
+  - name: deploy
+    inputs:
+      parameters:
+      - name: model-version
+      - name: environment
+    outputs:
+      parameters:
+      - name: endpoint
+        valueFrom:
+          path: /tmp/endpoint.txt
+    container:
+      image: bitnami/kubectl:latest
+      command: [/bin/bash]
+      args:
+      - -c
+      - |
+        # Update deployment
+        kubectl set image deployment/model-server \
+          model=gcr.io/project/model:v{{inputs.parameters.model-version}} \
+          -n {{inputs.parameters.environment}}
+        
+        # Get endpoint
+        ENDPOINT=$(kubectl get svc model-server -n {{inputs.parameters.environment}} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+        echo "http://${ENDPOINT}:8080/predict" > /tmp/endpoint.txt
+
+  - name: canary-test
+    inputs:
+      parameters:
+      - name: endpoint
+    outputs:
+      parameters:
+      - name: success
+        valueFrom:
+          path: /tmp/success.txt
+    container:
+      image: python:3.10-slim
+      command: [python]
+      args:
+      - -c
+      - |
+        import requests
+        import time
+        
+        endpoint = "{{inputs.parameters.endpoint}}"
+        success_count = 0
+        total_requests = 100
+        
+        for _ in range(total_requests):
+            try:
+                response = requests.post(
+                    endpoint,
+                    json={"features": [0.5, 1.2, -0.3, 2.1]},
+                    timeout=1
+                )
+                if response.status_code == 200:
+                    success_count += 1
+            except:
+                pass
+            time.sleep(0.1)
+        
+        success_rate = success_count / total_requests
+        passed = success_rate >= 0.95
+        
+        with open('/tmp/success.txt', 'w') as f:
+            f.write(str(passed).lower())
+        
+        print(f"Canary test: {success_rate:.2%} success rate")

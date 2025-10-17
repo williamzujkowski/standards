@@ -1,0 +1,898 @@
+# Skill Transformation Mapping
+# Version: 1.0.0
+# Date: 2025-10-17
+# Purpose: Maps current standards to target Agent Skills structure
+
+version: "1.0.0"
+metadata:
+  repository: williamzujkowski/standards
+  current_standards_count: 25
+  target_skills_count: 48
+  transformation_approach: "Split large standards into focused skills"
+  backward_compatibility: "Maintained via legacy-bridge skill"
+
+# ============================================================================
+# SKILL MAPPING: Current Standard → Target Skill(s)
+# ============================================================================
+
+skill_mappings:
+  # ------------------------------------------------------------------------
+  # Coding Standards → Language-Specific Skills
+  # ------------------------------------------------------------------------
+  - source_file: docs/standards/CODING_STANDARDS.md
+    target_skills:
+      - name: python
+        path: skills/coding-standards/python
+        category: coding
+        priority: high
+        description: "Python development standards including PEP 8, type hints, async patterns, project structure, and best practices. Use when developing Python applications, APIs, CLIs, or data pipelines."
+        extracted_sections:
+          - "Python section (lines 50-200)"
+          - "Python testing patterns"
+          - "Python tooling (black, ruff, mypy)"
+        bundled_resources:
+          - templates/pyproject.toml
+          - templates/pytest.ini
+          - scripts/lint.sh
+          - scripts/format.sh
+        token_estimate: 4200
+
+      - name: javascript
+        path: skills/coding-standards/javascript
+        category: coding
+        priority: high
+        description: "JavaScript development standards including ESNext features, async/await, module patterns, and tooling. Use when building Node.js services, browser applications, or JavaScript libraries."
+        extracted_sections:
+          - "JavaScript section (lines 201-350)"
+          - "JavaScript testing patterns"
+          - "JavaScript tooling (ESLint, Prettier)"
+        bundled_resources:
+          - templates/.eslintrc.json
+          - templates/package.json
+          - scripts/lint.sh
+        token_estimate: 3800
+
+      - name: typescript
+        path: skills/coding-standards/typescript
+        category: coding
+        priority: high
+        description: "TypeScript development standards including advanced types, decorators, generics, strict mode, and best practices. Use when building type-safe applications with TypeScript."
+        extracted_sections:
+          - "TypeScript section"
+          - "TypeScript configuration"
+          - "Type safety patterns"
+        bundled_resources:
+          - templates/tsconfig.json
+          - templates/vitest.config.ts
+        token_estimate: 4100
+
+      - name: go
+        path: skills/coding-standards/go
+        category: coding
+        priority: medium
+        description: "Go development standards including idiomatic patterns, error handling, concurrency, project layout, and tooling. Use when developing Go services, CLIs, or systems."
+        extracted_sections:
+          - "Go section"
+          - "Go project structure"
+          - "Go testing patterns"
+        bundled_resources:
+          - templates/go.mod
+          - scripts/fmt.sh
+        token_estimate: 3500
+
+      - name: rust
+        path: skills/coding-standards/rust
+        category: coding
+        priority: low
+        description: "Rust development standards including ownership, lifetimes, error handling, and idiomatic patterns. Use when building performance-critical or systems-level applications."
+        extracted_sections:
+          - "Rust section (if present)"
+        bundled_resources:
+          - templates/Cargo.toml
+        token_estimate: 3200
+
+  # ------------------------------------------------------------------------
+  # Security Standards → Security Domain Skills
+  # ------------------------------------------------------------------------
+  - source_file: docs/standards/MODERN_SECURITY_STANDARDS.md
+    target_skills:
+      - name: security-auth
+        path: skills/security/auth
+        category: security
+        priority: high
+        description: "Authentication and authorization standards including OAuth 2.0, OIDC, JWT, session management, and multi-factor authentication. Use when implementing user authentication in applications."
+        extracted_sections:
+          - "Authentication section (lines 1-250)"
+          - "OAuth/OIDC patterns"
+          - "Session management"
+        bundled_resources:
+          - resources/oauth-flows.md
+          - resources/jwt-best-practices.md
+          - templates/auth-middleware.template
+          - scripts/validate-jwt.sh
+        token_estimate: 4500
+
+      - name: security-secrets
+        path: skills/security/secrets
+        category: security
+        priority: high
+        description: "Secrets management standards including vault integration, environment variables, rotation policies, and key management. Use when handling API keys, credentials, or sensitive configuration."
+        extracted_sections:
+          - "Secrets management section"
+          - "Vault integration"
+          - "Key rotation"
+        bundled_resources:
+          - resources/vault-setup.md
+          - templates/.env.template
+          - scripts/rotate-secrets.sh
+        token_estimate: 3800
+
+      - name: security-zero-trust
+        path: skills/security/zero-trust
+        category: security
+        priority: medium
+        description: "Zero trust architecture standards including network segmentation, least privilege, continuous verification, and policy enforcement. Use when designing secure distributed systems."
+        extracted_sections:
+          - "Zero trust section"
+          - "Policy enforcement"
+          - "Network segmentation"
+        bundled_resources:
+          - resources/zero-trust-architecture.md
+          - examples/istio-policies/
+        token_estimate: 4200
+
+      - name: security-threat-modeling
+        path: skills/security/threat-modeling
+        category: security
+        priority: medium
+        description: "Threat modeling standards including STRIDE methodology, attack trees, risk assessment, and mitigation strategies. Use when conducting security assessments or designing secure systems."
+        extracted_sections:
+          - "Threat modeling section"
+          - "STRIDE methodology"
+          - "Risk assessment"
+        bundled_resources:
+          - resources/stride-guide.md
+          - templates/threat-model.template
+          - scripts/generate-threat-model.sh
+        token_estimate: 4000
+
+      - name: security-input-validation
+        path: skills/security/input-validation
+        category: security
+        priority: high
+        description: "Input validation and sanitization standards including SQL injection prevention, XSS protection, CSRF tokens, and data validation patterns. Use when handling user input or external data."
+        extracted_sections:
+          - "Input validation section"
+          - "SQL injection prevention"
+          - "XSS/CSRF protection"
+        bundled_resources:
+          - resources/validation-patterns.md
+          - templates/validator.template
+        token_estimate: 3600
+
+  # ------------------------------------------------------------------------
+  # Testing Standards → Testing Level Skills
+  # ------------------------------------------------------------------------
+  - source_file: docs/standards/TESTING_STANDARDS.md
+    target_skills:
+      - name: unit-testing
+        path: skills/testing/unit-testing
+        category: testing
+        priority: high
+        description: "Unit testing standards including TDD, test structure, mocking, assertions, and coverage. Use when writing tests for individual functions, classes, or components."
+        extracted_sections:
+          - "Unit testing section (lines 1-200)"
+          - "TDD methodology"
+          - "Mocking patterns"
+        bundled_resources:
+          - resources/tdd-guide.md
+          - templates/test.template.py
+          - templates/test.template.js
+          - scripts/run-unit-tests.sh
+        token_estimate: 4300
+
+      - name: integration-testing
+        path: skills/testing/integration-testing
+        category: testing
+        priority: high
+        description: "Integration testing standards including API testing, database integration, external service mocking, and test containers. Use when testing interactions between system components."
+        extracted_sections:
+          - "Integration testing section"
+          - "API testing"
+          - "Test containers"
+        bundled_resources:
+          - resources/api-testing-guide.md
+          - templates/integration-test.template
+          - scripts/setup-test-db.sh
+        token_estimate: 4100
+
+      - name: e2e-testing
+        path: skills/testing/e2e-testing
+        category: testing
+        priority: medium
+        description: "End-to-end testing standards including Playwright, Cypress, test scenarios, page objects, and CI integration. Use when testing complete user workflows or system behavior."
+        extracted_sections:
+          - "E2E testing section"
+          - "Playwright patterns"
+          - "Test scenarios"
+        bundled_resources:
+          - resources/playwright-guide.md
+          - templates/e2e-test.template.ts
+          - scripts/run-e2e-tests.sh
+        token_estimate: 4400
+
+      - name: performance-testing
+        path: skills/testing/performance-testing
+        category: testing
+        priority: medium
+        description: "Performance testing standards including load testing, stress testing, benchmarking, and profiling. Use when validating system performance or identifying bottlenecks."
+        extracted_sections:
+          - "Performance testing section"
+          - "Load testing"
+          - "Benchmarking"
+        bundled_resources:
+          - resources/k6-guide.md
+          - templates/load-test.template.js
+          - scripts/run-performance-tests.sh
+        token_estimate: 3900
+
+  # ------------------------------------------------------------------------
+  # NIST Compliance → Consolidated NIST Skill
+  # ------------------------------------------------------------------------
+  - source_file: Multiple NIST sources
+    target_skills:
+      - name: nist-compliance
+        path: skills/nist-compliance
+        category: compliance
+        priority: high
+        description: "NIST 800-53 compliance including control implementation, SSP generation, assessment, continuous monitoring, and audit support. Use when implementing security controls or preparing for audits."
+        extracted_sections:
+          - "All NIST documentation"
+          - "Control mappings"
+          - "Implementation guidance"
+        bundled_resources:
+          - controls/*.md  # All control guides
+          - templates/ssp.template.yaml
+          - templates/control.template.md
+          - scripts/generate-ssp.py
+          - scripts/validate-controls.sh
+          - vscode-extension/  # Existing VS Code extension
+          - examples/nist-templates/
+        token_estimate: 4800
+        special_notes: "Bundle existing NIST system as-is; largest single skill"
+
+  # ------------------------------------------------------------------------
+  # DevOps Standards → DevOps Phase Skills
+  # ------------------------------------------------------------------------
+  - source_file: docs/standards/DEVOPS_PLATFORM_STANDARDS.md
+    target_skills:
+      - name: ci-cd
+        path: skills/devops/ci-cd
+        category: devops
+        priority: high
+        description: "CI/CD pipeline standards including GitHub Actions, GitLab CI, testing automation, deployment strategies, and release management. Use when setting up or improving continuous integration and deployment."
+        extracted_sections:
+          - "CI/CD section"
+          - "GitHub Actions patterns"
+          - "Deployment strategies"
+        bundled_resources:
+          - resources/github-actions-guide.md
+          - templates/.github/workflows/ci.yml
+          - templates/.github/workflows/deploy.yml
+          - scripts/deploy.sh
+        token_estimate: 4400
+
+      - name: infrastructure
+        path: skills/devops/infrastructure
+        category: devops
+        priority: high
+        description: "Infrastructure as Code standards including Terraform, CloudFormation, state management, modules, and best practices. Use when provisioning or managing cloud infrastructure."
+        extracted_sections:
+          - "IaC section"
+          - "Terraform patterns"
+          - "State management"
+        bundled_resources:
+          - resources/terraform-guide.md
+          - templates/main.tf.template
+          - scripts/terraform-validate.sh
+        token_estimate: 4200
+
+      - name: monitoring
+        path: skills/devops/monitoring
+        category: devops
+        priority: medium
+        description: "Monitoring and observability standards including Prometheus, Grafana, metrics, alerts, and dashboards. Use when implementing system monitoring or troubleshooting."
+        extracted_sections:
+          - "Monitoring section"
+          - "Prometheus patterns"
+          - "Alert configuration"
+        bundled_resources:
+          - resources/prometheus-guide.md
+          - templates/prometheus.yml
+          - templates/alerts.yml
+        token_estimate: 3900
+
+  # ------------------------------------------------------------------------
+  # Cloud Native Standards → Cloud Native Pattern Skills
+  # ------------------------------------------------------------------------
+  - source_file: docs/standards/CLOUD_NATIVE_STANDARDS.md
+    target_skills:
+      - name: kubernetes
+        path: skills/cloud-native/kubernetes
+        category: cloud-native
+        priority: high
+        description: "Kubernetes standards including deployment patterns, resource management, networking, security, and best practices. Use when deploying or managing applications on Kubernetes."
+        extracted_sections:
+          - "Kubernetes section"
+          - "Deployment patterns"
+          - "Resource management"
+        bundled_resources:
+          - resources/k8s-patterns.md
+          - templates/deployment.yaml
+          - templates/service.yaml
+          - scripts/validate-manifests.sh
+        token_estimate: 4600
+
+      - name: containers
+        path: skills/cloud-native/containers
+        category: cloud-native
+        priority: high
+        description: "Container standards including Docker, multi-stage builds, security scanning, image optimization, and registry management. Use when containerizing applications."
+        extracted_sections:
+          - "Container section"
+          - "Dockerfile best practices"
+          - "Security scanning"
+        bundled_resources:
+          - resources/dockerfile-guide.md
+          - templates/Dockerfile.template
+          - scripts/build-and-scan.sh
+        token_estimate: 3800
+
+      - name: serverless
+        path: skills/cloud-native/serverless
+        category: cloud-native
+        priority: medium
+        description: "Serverless standards including AWS Lambda, event-driven patterns, cold start optimization, and observability. Use when building serverless applications."
+        extracted_sections:
+          - "Serverless section"
+          - "Lambda patterns"
+          - "Event-driven architecture"
+        bundled_resources:
+          - resources/lambda-guide.md
+          - templates/serverless.yml
+        token_estimate: 3700
+
+  # ------------------------------------------------------------------------
+  # Frontend/Mobile Standards → Framework Skills
+  # ------------------------------------------------------------------------
+  - source_file: docs/standards/FRONTEND_MOBILE_STANDARDS.md
+    target_skills:
+      - name: react
+        path: skills/frontend/react
+        category: frontend
+        priority: high
+        description: "React development standards including hooks, component patterns, state management, performance optimization, and testing. Use when building React applications."
+        extracted_sections:
+          - "React section"
+          - "Hooks patterns"
+          - "State management"
+        bundled_resources:
+          - resources/react-patterns.md
+          - templates/component.template.tsx
+          - templates/vite.config.ts
+        token_estimate: 4300
+
+      - name: vue
+        path: skills/frontend/vue
+        category: frontend
+        priority: medium
+        description: "Vue.js development standards including composition API, component patterns, state management with Pinia, and best practices. Use when building Vue applications."
+        extracted_sections:
+          - "Vue section"
+          - "Composition API"
+          - "Pinia patterns"
+        bundled_resources:
+          - resources/vue-patterns.md
+          - templates/component.template.vue
+        token_estimate: 3900
+
+      - name: mobile-ios
+        path: skills/frontend/mobile-ios
+        category: frontend
+        priority: medium
+        description: "iOS development standards including Swift, SwiftUI, UIKit patterns, architecture, and testing. Use when building iOS applications."
+        extracted_sections:
+          - "iOS section"
+          - "SwiftUI patterns"
+          - "Architecture"
+        bundled_resources:
+          - resources/swift-guide.md
+          - templates/view.template.swift
+        token_estimate: 4000
+
+      - name: mobile-android
+        path: skills/frontend/mobile-android
+        category: frontend
+        priority: medium
+        description: "Android development standards including Kotlin, Jetpack Compose, architecture components, and testing. Use when building Android applications."
+        extracted_sections:
+          - "Android section"
+          - "Jetpack Compose"
+          - "Architecture components"
+        bundled_resources:
+          - resources/kotlin-guide.md
+          - templates/activity.template.kt
+        token_estimate: 4000
+
+  # ------------------------------------------------------------------------
+  # Data Engineering Standards → Data Pipeline Skills
+  # ------------------------------------------------------------------------
+  - source_file: docs/standards/DATA_ENGINEERING_STANDARDS.md
+    target_skills:
+      - name: data-orchestration
+        path: skills/data-engineering/orchestration
+        category: data-engineering
+        priority: high
+        description: "Data pipeline orchestration standards including Airflow, workflow patterns, scheduling, monitoring, and error handling. Use when building or managing data pipelines."
+        extracted_sections:
+          - "Orchestration section"
+          - "Airflow patterns"
+          - "Workflow design"
+        bundled_resources:
+          - resources/airflow-guide.md
+          - templates/dag.template.py
+          - scripts/validate-dag.sh
+        token_estimate: 4200
+
+      - name: data-quality
+        path: skills/data-engineering/data-quality
+        category: data-engineering
+        priority: high
+        description: "Data quality standards including validation rules, profiling, anomaly detection, and quality metrics. Use when ensuring data reliability and consistency."
+        extracted_sections:
+          - "Data quality section"
+          - "Validation patterns"
+          - "Quality metrics"
+        bundled_resources:
+          - resources/dq-patterns.md
+          - templates/dq-checks.template.sql
+          - scripts/run-dq-checks.sh
+        token_estimate: 3900
+
+  # ------------------------------------------------------------------------
+  # ML/AI Standards → ML Lifecycle Skills
+  # ------------------------------------------------------------------------
+  - source_file: docs/standards/ML_AI_STANDARDS.md
+    target_skills:
+      - name: ml-model-development
+        path: skills/ml-ai/model-development
+        category: ml-ai
+        priority: high
+        description: "ML model development standards including experimentation, feature engineering, model training, hyperparameter tuning, and versioning. Use when developing machine learning models."
+        extracted_sections:
+          - "Model development section"
+          - "Experimentation patterns"
+          - "Feature engineering"
+        bundled_resources:
+          - resources/mlflow-guide.md
+          - templates/training.template.py
+          - scripts/train-model.sh
+        token_estimate: 4400
+
+      - name: ml-model-deployment
+        path: skills/ml-ai/model-deployment
+        category: ml-ai
+        priority: high
+        description: "ML model deployment standards including serving, monitoring, A/B testing, and rollback strategies. Use when deploying models to production."
+        extracted_sections:
+          - "Deployment section"
+          - "Serving patterns"
+          - "Model monitoring"
+        bundled_resources:
+          - resources/deployment-guide.md
+          - templates/model-api.template.py
+          - scripts/deploy-model.sh
+        token_estimate: 4100
+
+  # ------------------------------------------------------------------------
+  # Observability Standards → Observability Pillar Skills
+  # ------------------------------------------------------------------------
+  - source_file: docs/standards/OBSERVABILITY_STANDARDS.md
+    target_skills:
+      - name: logging
+        path: skills/observability/logging
+        category: observability
+        priority: high
+        description: "Logging standards including structured logging, log levels, correlation IDs, aggregation, and analysis. Use when implementing application logging."
+        extracted_sections:
+          - "Logging section"
+          - "Structured logging"
+          - "Log aggregation"
+        bundled_resources:
+          - resources/logging-patterns.md
+          - templates/logger.template.py
+        token_estimate: 3700
+
+      - name: tracing
+        path: skills/observability/tracing
+        category: observability
+        priority: medium
+        description: "Distributed tracing standards including OpenTelemetry, trace context, sampling, and analysis. Use when debugging distributed systems."
+        extracted_sections:
+          - "Tracing section"
+          - "OpenTelemetry"
+          - "Trace context"
+        bundled_resources:
+          - resources/otel-guide.md
+          - templates/tracing.template.py
+        token_estimate: 3800
+
+  # ------------------------------------------------------------------------
+  # Microservices Standards → Microservices Pattern Skills
+  # ------------------------------------------------------------------------
+  - source_file: docs/standards/MICROSERVICES_STANDARDS.md
+    target_skills:
+      - name: microservices-patterns
+        path: skills/microservices/patterns
+        category: microservices
+        priority: medium
+        description: "Microservices architecture patterns including service decomposition, API gateway, circuit breaker, and saga patterns. Use when designing microservices systems."
+        extracted_sections:
+          - "Architecture patterns"
+          - "Service decomposition"
+          - "Communication patterns"
+        bundled_resources:
+          - resources/patterns-guide.md
+          - examples/circuit-breaker/
+        token_estimate: 4300
+
+  # ------------------------------------------------------------------------
+  # Database Standards → Database Type Skills
+  # ------------------------------------------------------------------------
+  - source_file: docs/standards/DATABASE_STANDARDS.md
+    target_skills:
+      - name: relational-databases
+        path: skills/database/relational
+        category: database
+        priority: high
+        description: "Relational database standards including schema design, normalization, indexing, query optimization, and migrations. Use when working with SQL databases."
+        extracted_sections:
+          - "Relational DB section"
+          - "Schema design"
+          - "Query optimization"
+        bundled_resources:
+          - resources/sql-patterns.md
+          - templates/migration.template.sql
+        token_estimate: 4000
+
+      - name: nosql-databases
+        path: skills/database/nosql
+        category: database
+        priority: medium
+        description: "NoSQL database standards including document stores, key-value, columnar, and graph databases. Use when working with NoSQL databases."
+        extracted_sections:
+          - "NoSQL section"
+          - "Data modeling"
+          - "Access patterns"
+        bundled_resources:
+          - resources/nosql-patterns.md
+        token_estimate: 3600
+
+  # ------------------------------------------------------------------------
+  # Additional Standards → Specialized Skills
+  # ------------------------------------------------------------------------
+  - source_file: docs/standards/EVENT_DRIVEN_STANDARDS.md
+    target_skills:
+      - name: event-driven
+        path: skills/architecture/event-driven
+        category: architecture
+        priority: medium
+        description: "Event-driven architecture standards including event sourcing, CQRS, message brokers, and event patterns. Use when building event-driven systems."
+        extracted_sections:
+          - "All sections"
+        bundled_resources:
+          - resources/event-patterns.md
+        token_estimate: 4200
+
+  - source_file: docs/standards/COMPLIANCE_STANDARDS.md
+    target_skills:
+      - name: compliance-general
+        path: skills/compliance/general
+        category: compliance
+        priority: medium
+        description: "General compliance standards including GDPR, HIPAA, SOC 2, audit trails, and evidence collection. Use when implementing compliance requirements."
+        extracted_sections:
+          - "All sections"
+        bundled_resources:
+          - resources/gdpr-guide.md
+          - resources/hipaa-guide.md
+        token_estimate: 4100
+
+  - source_file: docs/standards/WEB_DESIGN_UX_STANDARDS.md
+    target_skills:
+      - name: web-design
+        path: skills/design/web-design
+        category: design
+        priority: low
+        description: "Web design standards including accessibility (WCAG), responsive design, design systems, and UX patterns. Use when designing web interfaces."
+        extracted_sections:
+          - "All sections"
+        bundled_resources:
+          - resources/wcag-checklist.md
+        token_estimate: 3900
+
+  - source_file: docs/standards/CONTENT_STANDARDS.md
+    target_skills:
+      - name: content-strategy
+        path: skills/content/strategy
+        category: content
+        priority: low
+        description: "Content standards including documentation, technical writing, style guides, and content management. Use when creating documentation or content."
+        extracted_sections:
+          - "All sections"
+        bundled_resources:
+          - resources/style-guide.md
+        token_estimate: 3500
+
+# ============================================================================
+# META-SKILLS: Special coordination and utility skills
+# ============================================================================
+
+meta_skills:
+  - name: skill-loader
+    path: skills/skill-loader
+    category: meta
+    priority: critical
+    description: "Intelligent skill discovery and loading system that identifies which skills are needed based on natural language requests, product types, or explicit patterns. Implements @load syntax and product-matrix integration."
+    functionality:
+      - "Parse @load directives (product:type, category:*, specific-skill)"
+      - "Resolve product-matrix.yaml to skill sets"
+      - "Expand wildcards (security:* → all security skills)"
+      - "Compose multiple skills for complex workflows"
+      - "Provide skill search and filtering"
+    bundled_resources:
+      - config/product-matrix.yaml
+      - config/skills-catalog.yaml
+      - scripts/discover-skills.sh
+    token_estimate: 3800
+    special_notes: "Core coordination skill; must load first"
+
+  - name: legacy-bridge
+    path: skills/legacy-bridge
+    category: meta
+    priority: critical
+    description: "Backward compatibility layer that maps old @load patterns and standard references to new skills. Provides deprecation warnings and migration guidance."
+    functionality:
+      - "Map old standard names to new skill names"
+      - "Support legacy @load syntax"
+      - "Provide deprecation warnings with migration paths"
+      - "Reference archived standards in docs/standards/"
+    bundled_resources:
+      - config/legacy-mappings.yaml
+      - docs/guides/MIGRATION_GUIDE.md
+    token_estimate: 2800
+    special_notes: "Enables gradual transition; deprecate after 6 months"
+
+# ============================================================================
+# TRANSFORMATION STATISTICS
+# ============================================================================
+
+statistics:
+  source_standards: 25
+  target_skills: 48
+  meta_skills: 2
+  total_skills: 50
+
+  by_priority:
+    high: 22
+    medium: 18
+    low: 8
+    critical: 2
+
+  by_category:
+    coding: 5
+    security: 5
+    testing: 4
+    devops: 3
+    cloud-native: 3
+    frontend: 4
+    data-engineering: 2
+    ml-ai: 2
+    observability: 2
+    microservices: 1
+    database: 2
+    compliance: 2
+    architecture: 1
+    design: 1
+    content: 1
+    meta: 2
+
+  token_estimates:
+    total_original: ~500000  # Estimate of all standards loaded
+    total_level1: ~5000      # All skill metadata
+    avg_level2: 4000         # Average SKILL.md body
+    total_optimized: ~5000   # Typical workflow (1-2 skills)
+    reduction_percent: 99%   # From full baseline
+
+# ============================================================================
+# TRANSFORMATION PRIORITIES
+# ============================================================================
+
+transformation_phases:
+  phase1_foundation:
+    priority: critical
+    skills:
+      - python
+      - javascript
+      - typescript
+      - security-auth
+      - unit-testing
+      - skill-loader
+      - legacy-bridge
+    timeline: "Week 1"
+    deliverable: "7 skills operational, validation framework established"
+
+  phase2_core:
+    priority: high
+    skills:
+      - go
+      - security-secrets
+      - security-input-validation
+      - integration-testing
+      - e2e-testing
+      - ci-cd
+      - infrastructure
+      - kubernetes
+      - containers
+      - react
+      - nist-compliance
+    timeline: "Week 2-3"
+    deliverable: "18 skills operational, token optimization validated"
+
+  phase3_extended:
+    priority: medium
+    skills:
+      - security-zero-trust
+      - security-threat-modeling
+      - performance-testing
+      - monitoring
+      - serverless
+      - vue
+      - mobile-ios
+      - mobile-android
+      - data-orchestration
+      - data-quality
+      - ml-model-development
+      - ml-model-deployment
+      - logging
+      - tracing
+      - microservices-patterns
+    timeline: "Week 4-5"
+    deliverable: "33 skills operational, composition patterns established"
+
+  phase4_specialized:
+    priority: low
+    skills:
+      - rust
+      - relational-databases
+      - nosql-databases
+      - event-driven
+      - compliance-general
+      - web-design
+      - content-strategy
+    timeline: "Week 6"
+    deliverable: "All 40 skills operational, documentation complete"
+
+# ============================================================================
+# VALIDATION REQUIREMENTS
+# ============================================================================
+
+validation_checklist:
+  per_skill:
+    - "YAML frontmatter valid (name, description only)"
+    - "Name ≤64 chars, lowercase-with-hyphens"
+    - "Description ≤1024 chars, includes 'when to use'"
+    - "Token count <5000 for SKILL.md body"
+    - "All resource references are valid paths"
+    - "Scripts are executable (chmod +x)"
+    - "Examples are functional"
+    - "Documentation complete"
+
+  repository_wide:
+    - "Skills catalog accurate (config/skills-catalog.yaml)"
+    - "Product matrix updated (config/product-matrix.yaml)"
+    - "Legacy mappings functional (config/legacy-mappings.yaml)"
+    - "Migration guide complete (docs/guides/MIGRATION_GUIDE.md)"
+    - "Skill authoring guide complete (docs/guides/SKILL_AUTHORING.md)"
+    - "All validation scripts pass"
+    - "Token reduction targets met (95%+)"
+    - "Skill discovery accuracy >90%"
+    - "Test coverage >90%"
+
+# ============================================================================
+# BACKWARD COMPATIBILITY
+# ============================================================================
+
+backward_compatibility:
+  legacy_references:
+    - pattern: "@load CODING_STANDARDS.md#python"
+      resolution: "skill-loader → python skill"
+      warning: "Deprecated: Use '@load python' instead"
+
+    - pattern: "@load product:api"
+      resolution: "skill-loader → product-matrix → [python, security-auth, unit-testing, ci-cd]"
+      warning: "None (supported pattern)"
+
+    - pattern: "MODERN_SECURITY_STANDARDS.md"
+      resolution: "legacy-bridge → [security-auth, security-secrets, security-zero-trust, security-threat-modeling]"
+      warning: "Deprecated: Load specific security skills instead"
+
+  deprecation_timeline:
+    - phase: "Launch (Week 1-4)"
+      support: "Both systems fully operational"
+      action: "No warnings"
+
+    - phase: "Transition (Week 5-12)"
+      support: "Both systems operational, legacy warnings shown"
+      action: "Encourage migration"
+
+    - phase: "Deprecation (Week 13-26)"
+      support: "Legacy system deprecated but functional"
+      action: "Strong migration push"
+
+    - phase: "Sunset (Week 27+)"
+      support: "Skills-only, legacy archived"
+      action: "Legacy references redirect with errors"
+
+# ============================================================================
+# SUCCESS METRICS
+# ============================================================================
+
+success_metrics:
+  technical:
+    - metric: "Token Usage Reduction"
+      target: "95%+"
+      baseline: "500,000 tokens (all standards)"
+      optimized: "5,000 tokens (typical workflow)"
+
+    - metric: "Skill Load Time"
+      target: "<500ms average"
+      measurement: "Time from request to skill loaded"
+
+    - metric: "Discovery Accuracy"
+      target: ">90%"
+      measurement: "Correct skill selection / total requests"
+
+    - metric: "Composition Success"
+      target: ">85%"
+      measurement: "Multi-skill workflows completed / attempted"
+
+  usability:
+    - metric: "User Satisfaction"
+      target: ">4.5/5"
+      measurement: "Post-interaction survey"
+
+    - metric: "Skill Adoption"
+      target: ">80% users within 30 days"
+      measurement: "Users leveraging skills / total users"
+
+    - metric: "Self-Service Success"
+      target: ">70%"
+      measurement: "Tasks completed without manual skill selection"
+
+  maintenance:
+    - metric: "Update Velocity"
+      target: "Skills updated within 1 week of standard changes"
+      measurement: "Avg time from change to skill update"
+
+    - metric: "Bug Rate"
+      target: "<2% per skill per quarter"
+      measurement: "Reported issues / total skills"
+
+    - metric: "Test Coverage"
+      target: ">90%"
+      measurement: "Skill scenarios covered / total scenarios"
+
+# ============================================================================
+# END OF MAPPING
+# ============================================================================

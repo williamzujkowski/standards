@@ -1,0 +1,248 @@
+# Prometheus Recording Rules
+# Pre-compute expensive queries for faster dashboard loading and alerting
+
+groups:
+  # API Service Performance Rules
+  - name: api_performance
+    interval: 30s
+    rules:
+      # Request rate per second
+      - record: job:http_requests:rate5m
+        expr: sum(rate(http_requests_total[5m])) by (job)
+      
+      - record: job:http_requests:rate1h
+        expr: sum(rate(http_requests_total[1h])) by (job)
+      
+      # Request rate by status code
+      - record: job_status:http_requests:rate5m
+        expr: sum(rate(http_requests_total[5m])) by (job, status)
+      
+      # Error rate (5xx responses)
+      - record: job:http_errors:rate5m
+        expr: sum(rate(http_requests_total{status=~"5.."}[5m])) by (job)
+      
+      # Error percentage
+      - record: job:http_error_percentage:rate5m
+        expr: |
+          sum(rate(http_requests_total{status=~"5.."}[5m])) by (job)
+          /
+          sum(rate(http_requests_total[5m])) by (job)
+          * 100
+      
+      # Latency percentiles
+      - record: job:http_request_duration:p50
+        expr: histogram_quantile(0.50, sum(rate(http_request_duration_seconds_bucket[5m])) by (job, le))
+      
+      - record: job:http_request_duration:p90
+        expr: histogram_quantile(0.90, sum(rate(http_request_duration_seconds_bucket[5m])) by (job, le))
+      
+      - record: job:http_request_duration:p95
+        expr: histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (job, le))
+      
+      - record: job:http_request_duration:p99
+        expr: histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket[5m])) by (job, le))
+      
+      # Average latency
+      - record: job:http_request_duration:avg
+        expr: |
+          sum(rate(http_request_duration_seconds_sum[5m])) by (job)
+          /
+          sum(rate(http_request_duration_seconds_count[5m])) by (job)
+
+  # Infrastructure Resource Usage
+  - name: infrastructure_usage
+    interval: 30s
+    rules:
+      # CPU usage percentage by instance
+      - record: instance:cpu:usage
+        expr: 100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+      
+      # Memory usage percentage by instance
+      - record: instance:memory:usage_percentage
+        expr: |
+          (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100
+      
+      # Memory available in GB
+      - record: instance:memory:available_gb
+        expr: node_memory_MemAvailable_bytes / 1024 / 1024 / 1024
+      
+      # Disk usage percentage
+      - record: instance:disk:usage_percentage
+        expr: |
+          (1 - (node_filesystem_avail_bytes{fstype!~"tmpfs|fuse.lxcfs"} / node_filesystem_size_bytes{fstype!~"tmpfs|fuse.lxcfs"})) * 100
+      
+      # Network receive rate (MB/s)
+      - record: instance:network:receive_mb_per_sec
+        expr: rate(node_network_receive_bytes_total[5m]) / 1024 / 1024
+      
+      # Network transmit rate (MB/s)
+      - record: instance:network:transmit_mb_per_sec
+        expr: rate(node_network_transmit_bytes_total[5m]) / 1024 / 1024
+      
+      # Disk I/O read rate (MB/s)
+      - record: instance:disk:read_mb_per_sec
+        expr: rate(node_disk_read_bytes_total[5m]) / 1024 / 1024
+      
+      # Disk I/O write rate (MB/s)
+      - record: instance:disk:write_mb_per_sec
+        expr: rate(node_disk_written_bytes_total[5m]) / 1024 / 1024
+
+  # Database Performance
+  - name: database_performance
+    interval: 30s
+    rules:
+      # PostgreSQL connections
+      - record: instance:postgres:connections:total
+        expr: sum(pg_stat_database_numbackends) by (instance)
+      
+      # PostgreSQL transaction rate
+      - record: instance:postgres:transactions:rate5m
+        expr: rate(pg_stat_database_xact_commit[5m]) + rate(pg_stat_database_xact_rollback[5m])
+      
+      # PostgreSQL slow queries
+      - record: instance:postgres:slow_queries:rate5m
+        expr: rate(pg_stat_statements_mean_exec_time{query=~".*"}[5m])
+      
+      # Redis memory usage percentage
+      - record: instance:redis:memory_usage_percentage
+        expr: (redis_memory_used_bytes / redis_memory_max_bytes) * 100
+      
+      # Redis connected clients
+      - record: instance:redis:connected_clients
+        expr: redis_connected_clients
+      
+      # Redis hit rate
+      - record: instance:redis:hit_rate
+        expr: |
+          rate(redis_keyspace_hits_total[5m])
+          /
+          (rate(redis_keyspace_hits_total[5m]) + rate(redis_keyspace_misses_total[5m]))
+          * 100
+
+  # Kubernetes Pod Metrics
+  - name: kubernetes_pods
+    interval: 30s
+    rules:
+      # Pod CPU usage
+      - record: namespace_pod:cpu:usage_cores
+        expr: sum(rate(container_cpu_usage_seconds_total{container!=""}[5m])) by (namespace, pod)
+      
+      # Pod memory usage
+      - record: namespace_pod:memory:usage_bytes
+        expr: sum(container_memory_working_set_bytes{container!=""}) by (namespace, pod)
+      
+      # Pod memory usage percentage (of limits)
+      - record: namespace_pod:memory:usage_percentage
+        expr: |
+          sum(container_memory_working_set_bytes{container!=""}) by (namespace, pod)
+          /
+          sum(container_spec_memory_limit_bytes{container!=""}) by (namespace, pod)
+          * 100
+      
+      # Pod restart count
+      - record: namespace_pod:restart:total
+        expr: sum(kube_pod_container_status_restarts_total) by (namespace, pod)
+      
+      # Pods in pending state
+      - record: namespace:pods:pending
+        expr: sum(kube_pod_status_phase{phase="Pending"}) by (namespace)
+      
+      # Pods in failed state
+      - record: namespace:pods:failed
+        expr: sum(kube_pod_status_phase{phase="Failed"}) by (namespace)
+
+  # Service Level Indicators (SLIs)
+  - name: sli_calculations
+    interval: 1m
+    rules:
+      # Availability SLI (successful requests / total requests)
+      - record: sli:availability:ratio_rate5m
+        expr: |
+          sum(rate(http_requests_total{status!~"5.."}[5m]))
+          /
+          sum(rate(http_requests_total[5m]))
+      
+      # Latency SLI (requests under 200ms / total requests)
+      - record: sli:latency:ratio_rate5m
+        expr: |
+          sum(rate(http_request_duration_seconds_bucket{le="0.2"}[5m]))
+          /
+          sum(rate(http_request_duration_seconds_count[5m]))
+      
+      # Error budget burn rate (1h)
+      - record: sli:error_budget:burn_rate_1h
+        expr: |
+          (1 - (
+            sum(rate(http_requests_total{status!~"5.."}[1h]))
+            /
+            sum(rate(http_requests_total[1h]))
+          ))
+          /
+          (1 - 0.999)  # Assuming 99.9% SLO
+      
+      # Error budget burn rate (5m)
+      - record: sli:error_budget:burn_rate_5m
+        expr: |
+          (1 - (
+            sum(rate(http_requests_total{status!~"5.."}[5m]))
+            /
+            sum(rate(http_requests_total[5m]))
+          ))
+          /
+          (1 - 0.999)
+
+  # Application-Specific Business Metrics
+  - name: business_metrics
+    interval: 1m
+    rules:
+      # Active users (approximation via unique request patterns)
+      - record: app:active_users:estimate_5m
+        expr: count(count by (user_id) (http_requests_total{endpoint="/api/users"}))
+      
+      # Successful transactions per minute
+      - record: app:transactions:successful_rate1m
+        expr: sum(rate(transaction_total{status="success"}[1m])) * 60
+      
+      # Failed transactions per minute
+      - record: app:transactions:failed_rate1m
+        expr: sum(rate(transaction_total{status="failed"}[1m])) * 60
+      
+      # Transaction success rate
+      - record: app:transactions:success_rate
+        expr: |
+          sum(rate(transaction_total{status="success"}[5m]))
+          /
+          sum(rate(transaction_total[5m]))
+          * 100
+      
+      # Revenue per minute (if you have revenue metrics)
+      - record: app:revenue:per_minute
+        expr: sum(rate(transaction_revenue_total[1m])) * 60
+
+  # Aggregated Cluster-Wide Metrics
+  - name: cluster_aggregates
+    interval: 1m
+    rules:
+      # Total cluster CPU usage
+      - record: cluster:cpu:usage_cores
+        expr: sum(rate(container_cpu_usage_seconds_total{container!=""}[5m]))
+      
+      # Total cluster memory usage
+      - record: cluster:memory:usage_bytes
+        expr: sum(container_memory_working_set_bytes{container!=""})
+      
+      # Total cluster network receive
+      - record: cluster:network:receive_bytes_per_sec
+        expr: sum(rate(node_network_receive_bytes_total[5m]))
+      
+      # Total cluster network transmit
+      - record: cluster:network:transmit_bytes_per_sec
+        expr: sum(rate(node_network_transmit_bytes_total[5m]))
+      
+      # Total HTTP requests across all services
+      - record: cluster:http_requests:rate5m
+        expr: sum(rate(http_requests_total[5m]))
+      
+      # Cluster-wide error rate
+      - record: cluster:http_errors:rate5m
+        expr: sum(rate(http_requests_total{status=~"5.."}[5m]))

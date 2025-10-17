@@ -1,0 +1,51 @@
+name: CD Pipeline
+
+on:
+  push:
+    branches: [main]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  deploy-staging:
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: https://staging.example.com
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to staging
+        run: |
+          kubectl set image deployment/myapp \
+            myapp=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            --namespace=staging
+
+      - name: Wait for rollout
+        run: kubectl rollout status deployment/myapp -n staging --timeout=5m
+
+      - name: Run smoke tests
+        run: |
+          curl -f https://staging.example.com/health || exit 1
+
+  deploy-production:
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://example.com
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Blue-green deployment
+        run: |
+          kubectl set image deployment/myapp-green \
+            myapp=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            --namespace=production
+
+          kubectl rollout status deployment/myapp-green -n production --timeout=5m
+
+          kubectl patch service myapp -n production \
+            -p '{"spec":{"selector":{"version":"green"}}}'

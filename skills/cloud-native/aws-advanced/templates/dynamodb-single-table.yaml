@@ -1,0 +1,184 @@
+# DynamoDB Single-Table Design Template
+# Supports multiple entity types with flexible access patterns
+
+Resources:
+  SingleTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub '${AWS::StackName}-single-table'
+      BillingMode: PAY_PER_REQUEST  # or PROVISIONED
+      
+      # Primary key
+      AttributeDefinitions:
+        - AttributeName: PK
+          AttributeType: S
+        - AttributeName: SK
+          AttributeType: S
+        # GSI attributes
+        - AttributeName: GSI1PK
+          AttributeType: S
+        - AttributeName: GSI1SK
+          AttributeType: S
+        - AttributeName: GSI2PK
+          AttributeType: S
+        - AttributeName: GSI2SK
+          AttributeType: S
+      
+      KeySchema:
+        - AttributeName: PK
+          KeyType: HASH
+        - AttributeName: SK
+          KeyType: RANGE
+      
+      # Global Secondary Indexes
+      GlobalSecondaryIndexes:
+        - IndexName: GSI1
+          KeySchema:
+            - AttributeName: GSI1PK
+              KeyType: HASH
+            - AttributeName: GSI1SK
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+        
+        - IndexName: GSI2
+          KeySchema:
+            - AttributeName: GSI2PK
+              KeyType: HASH
+            - AttributeName: GSI2SK
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+      
+      # Enable streams for change data capture
+      StreamSpecification:
+        StreamViewType: NEW_AND_OLD_IMAGES
+      
+      # Point-in-time recovery
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      
+      # Server-side encryption
+      SSESpecification:
+        SSEEnabled: true
+        SSEType: KMS
+        KMSMasterKeyId: !Ref KMSKey
+      
+      # Time to Live
+      TimeToLiveSpecification:
+        AttributeName: ttl
+        Enabled: true
+      
+      Tags:
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: Application
+          Value: !Ref ApplicationName
+
+  # KMS key for encryption
+  KMSKey:
+    Type: AWS::KMS::Key
+    Properties:
+      Description: KMS key for DynamoDB encryption
+      KeyPolicy:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: Enable IAM policies
+            Effect: Allow
+            Principal:
+              AWS: !Sub 'arn:aws:iam::${AWS::AccountId}:root'
+            Action: 'kms:*'
+            Resource: '*'
+
+  KMSKeyAlias:
+    Type: AWS::KMS::Alias
+    Properties:
+      AliasName: !Sub 'alias/${AWS::StackName}-dynamodb'
+      TargetKeyId: !Ref KMSKey
+
+  # CloudWatch alarms
+  ReadThrottleAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub '${AWS::StackName}-read-throttle'
+      MetricName: UserErrors
+      Namespace: AWS/DynamoDB
+      Statistic: Sum
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 10
+      ComparisonOperator: GreaterThanThreshold
+      Dimensions:
+        - Name: TableName
+          Value: !Ref SingleTable
+
+Parameters:
+  Environment:
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - staging
+      - prod
+  
+  ApplicationName:
+    Type: String
+    Default: myapp
+
+Outputs:
+  TableName:
+    Value: !Ref SingleTable
+    Export:
+      Name: !Sub '${AWS::StackName}-table-name'
+  
+  TableArn:
+    Value: !GetAtt SingleTable.Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-table-arn'
+  
+  StreamArn:
+    Value: !GetAtt SingleTable.StreamArn
+    Export:
+      Name: !Sub '${AWS::StackName}-stream-arn'
+
+# Entity Design Patterns:
+#
+# USER Entity:
+#   PK: USER#<userId>
+#   SK: PROFILE
+#   GSI1PK: EMAIL#<email>
+#   GSI1SK: USER#<userId>
+#   Data: {name, email, created, ...}
+#
+# ORDER Entity:
+#   PK: USER#<userId>
+#   SK: ORDER#<orderId>
+#   GSI1PK: ORDER#<orderId>
+#   GSI1SK: METADATA
+#   GSI2PK: STATUS#<status>
+#   GSI2SK: ORDER#<timestamp>
+#   Data: {orderId, amount, status, items, ...}
+#
+# ORDER ITEM:
+#   PK: ORDER#<orderId>
+#   SK: ITEM#<itemId>
+#   GSI1PK: PRODUCT#<productId>
+#   GSI1SK: ORDER#<orderId>
+#   Data: {productId, quantity, price, ...}
+#
+# PRODUCT Entity:
+#   PK: PRODUCT#<productId>
+#   SK: METADATA
+#   GSI1PK: CATEGORY#<category>
+#   GSI1SK: PRODUCT#<productId>
+#   Data: {name, description, price, inventory, ...}
+#
+# Access Patterns:
+#   1. Get user profile: PK=USER#<userId>, SK=PROFILE
+#   2. Get all orders for user: PK=USER#<userId>, SK begins_with ORDER#
+#   3. Get order by ID: GSI1PK=ORDER#<orderId>, GSI1SK=METADATA
+#   4. Get user by email: GSI1PK=EMAIL#<email>
+#   5. Get orders by status: GSI2PK=STATUS#<status>
+#   6. Get order items: PK=ORDER#<orderId>, SK begins_with ITEM#
+#   7. Get products by category: GSI1PK=CATEGORY#<category>
+#   8. Find orders containing product: GSI1PK=PRODUCT#<productId>

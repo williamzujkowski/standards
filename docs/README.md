@@ -108,8 +108,11 @@ Organizations using these standards report:
 
 <!-- AUTO-LINKS:docs/*.md -->
 
+- [Automation Scripts Summary](AUTOMATION_SCRIPTS_SUMMARY.md)
+- [Skills Catalog](SKILLS_CATALOG.md)
 - [Visual Navigation](VISUAL_NAVIGATION.md)
 - [Workflow Analysis Report](WORKFLOW_ANALYSIS_REPORT.md)
 - [Workflow Status Summary](WORKFLOW_STATUS_SUMMARY.md)
+- [Index](index.md)
 
 <!-- /AUTO-LINKS -->

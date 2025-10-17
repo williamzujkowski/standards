@@ -1,0 +1,431 @@
+# Apollo Federation v2 Gateway Configuration
+# Complete setup for federated GraphQL architecture with subgraphs
+
+# ============================================================================
+# Gateway Configuration
+# ============================================================================
+
+gateway:
+  name: "api-gateway"
+  version: "2.0"
+  
+  # Deployment settings
+  deployment:
+    mode: "managed"  # Options: managed, standalone
+    port: 4000
+    host: "0.0.0.0"
+    
+  # Health checks
+  healthCheck:
+    enabled: true
+    endpoint: "/health"
+    interval: 30000  # 30 seconds
+    
+  # CORS settings
+  cors:
+    enabled: true
+    origins:
+      - "https://app.example.com"
+      - "https://admin.example.com"
+    credentials: true
+    methods:
+      - GET
+      - POST
+      - OPTIONS
+    allowedHeaders:
+      - Content-Type
+      - Authorization
+      
+  # Rate limiting
+  rateLimit:
+    enabled: true
+    windowMs: 60000  # 1 minute
+    maxRequests: 100
+    skipSuccessfulRequests: false
+
+# ============================================================================
+# Subgraph Definitions
+# ============================================================================
+
+subgraphs:
+  # Users Service
+  - name: "users"
+    url: "http://users-service:4001/graphql"
+    
+    # Retry configuration
+    retry:
+      maxRetries: 3
+      retryDelay: 1000
+      timeout: 5000
+      
+    # Health check
+    healthCheck:
+      enabled: true
+      path: "/health"
+      
+    # Entities managed by this subgraph
+    entities:
+      - User
+      - Profile
+      
+    # Rate limiting (per subgraph)
+    rateLimit:
+      maxConcurrentRequests: 50
+      
+  # Posts Service
+  - name: "posts"
+    url: "http://posts-service:4002/graphql"
+    
+    retry:
+      maxRetries: 3
+      retryDelay: 1000
+      timeout: 5000
+      
+    healthCheck:
+      enabled: true
+      path: "/health"
+      
+    entities:
+      - Post
+      - Comment
+      - Tag
+      
+    rateLimit:
+      maxConcurrentRequests: 50
+      
+  # Notifications Service
+  - name: "notifications"
+    url: "http://notifications-service:4003/graphql"
+    
+    retry:
+      maxRetries: 3
+      retryDelay: 1000
+      timeout: 5000
+      
+    healthCheck:
+      enabled: true
+      path: "/health"
+      
+    entities:
+      - Notification
+      
+    rateLimit:
+      maxConcurrentRequests: 30
+
+# ============================================================================
+# Apollo Studio Integration (Managed Federation)
+# ============================================================================
+
+studio:
+  enabled: true
+  
+  # Graph reference (from Apollo Studio)
+  graphRef: "${APOLLO_GRAPH_REF}"
+  
+  # API key for authentication
+  key: "${APOLLO_KEY}"
+  
+  # Schema reporting
+  schemaReporting:
+    enabled: true
+    endpoint: "https://usage-reporting.api.apollographql.com/api/ingress/traces"
+    
+  # Usage reporting
+  usageReporting:
+    enabled: true
+    sendVariableValues: "none"  # Options: none, all, transform
+    sendHeaders: "none"  # Options: none, all
+    
+  # Operation registry
+  operationRegistry:
+    enabled: true
+    
+  # Trace sampling
+  trace:
+    samplingRate: 0.01  # 1% sampling
+
+# ============================================================================
+# Caching Configuration
+# ============================================================================
+
+cache:
+  # Redis configuration for distributed caching
+  redis:
+    enabled: true
+    url: "${REDIS_URL}"
+    keyPrefix: "graphql:"
+    ttl: 300  # 5 minutes default
+    
+  # Query plan caching
+  queryPlanCache:
+    enabled: true
+    maxSize: 1000
+    ttl: 3600  # 1 hour
+    
+  # Response caching
+  responseCache:
+    enabled: true
+    defaultMaxAge: 60  # 1 minute
+    
+  # Automatic Persisted Queries (APQ)
+  persistedQueries:
+    enabled: true
+    ttl: 86400  # 24 hours
+
+# ============================================================================
+# Security Settings
+# ============================================================================
+
+security:
+  # Query depth limiting
+  queryDepthLimit:
+    enabled: true
+    maxDepth: 10
+    
+  # Query complexity
+  complexity:
+    enabled: true
+    maximumComplexity: 1000
+    estimators:
+      - type: "simple"
+        defaultComplexity: 1
+        
+  # Introspection
+  introspection:
+    enabled: "${NODE_ENV !== 'production'}"
+    
+  # GraphQL Playground
+  playground:
+    enabled: "${NODE_ENV !== 'production'}"
+    
+  # CSRF protection
+  csrf:
+    enabled: true
+    
+  # Request size limits
+  requestSizeLimit:
+    enabled: true
+    maxSize: "1mb"
+
+# ============================================================================
+# Monitoring & Observability
+# ============================================================================
+
+monitoring:
+  # Prometheus metrics
+  prometheus:
+    enabled: true
+    endpoint: "/metrics"
+    includeDefaultMetrics: true
+    
+  # Logging
+  logging:
+    level: "info"  # Options: error, warn, info, debug
+    format: "json"  # Options: json, pretty
+    
+    # Structured logging fields
+    fields:
+      - timestamp
+      - level
+      - message
+      - operationName
+      - duration
+      - errors
+      
+  # Distributed tracing
+  tracing:
+    enabled: true
+    serviceName: "api-gateway"
+    
+    # Jaeger configuration
+    jaeger:
+      enabled: true
+      endpoint: "${JAEGER_ENDPOINT}"
+      samplingRate: 0.1  # 10% sampling
+      
+  # Error tracking
+  errorTracking:
+    sentry:
+      enabled: true
+      dsn: "${SENTRY_DSN}"
+      environment: "${NODE_ENV}"
+      tracesSampleRate: 0.1
+
+# ============================================================================
+# Performance Tuning
+# ============================================================================
+
+performance:
+  # Query batching
+  batchRequests:
+    enabled: true
+    maxBatchSize: 10
+    
+  # DataLoader configuration
+  dataLoader:
+    cache: true
+    maxBatchSize: 100
+    
+  # Connection pooling
+  connectionPool:
+    min: 2
+    max: 10
+    idleTimeoutMillis: 30000
+    
+  # Query timeouts
+  timeouts:
+    query: 10000  # 10 seconds
+    mutation: 30000  # 30 seconds
+    subscription: 300000  # 5 minutes
+
+# ============================================================================
+# Development Settings
+# ============================================================================
+
+development:
+  # Mock services for testing
+  mocking:
+    enabled: false
+    
+  # Schema SDL output
+  schemaSdl:
+    enabled: true
+    outputPath: "./schema.graphql"
+    
+  # Auto-reload on schema changes
+  autoReload:
+    enabled: true
+    pollInterval: 10000  # 10 seconds
+
+# ============================================================================
+# Subgraph Schema Examples
+# ============================================================================
+
+# Users Subgraph Schema
+users_schema: |
+  extend schema @link(
+    url: "https://specs.apollo.dev/federation/v2.0"
+    import: ["@key", "@shareable", "@provides", "@requires", "@external"]
+  )
+  
+  type User @key(fields: "id") {
+    id: ID!
+    email: String!
+    username: String!
+    profile: Profile
+  }
+  
+  type Profile {
+    bio: String
+    avatarUrl: String
+  }
+  
+  type Query {
+    me: User
+    user(id: ID!): User
+  }
+
+# Posts Subgraph Schema
+posts_schema: |
+  extend schema @link(
+    url: "https://specs.apollo.dev/federation/v2.0"
+    import: ["@key", "@shareable", "@provides", "@requires", "@external"]
+  )
+  
+  type User @key(fields: "id") {
+    id: ID! @external
+    posts: [Post!]!
+  }
+  
+  type Post @key(fields: "id") {
+    id: ID!
+    title: String!
+    content: String!
+    author: User!
+  }
+  
+  type Query {
+    post(id: ID!): Post
+    posts: [Post!]!
+  }
+
+# ============================================================================
+# Environment Variables
+# ============================================================================
+
+env_vars:
+  required:
+    - APOLLO_GRAPH_REF
+    - APOLLO_KEY
+    - NODE_ENV
+    
+  optional:
+    - REDIS_URL
+    - JAEGER_ENDPOINT
+    - SENTRY_DSN
+    
+  defaults:
+    NODE_ENV: "development"
+    PORT: "4000"
+    HOST: "0.0.0.0"
+
+# ============================================================================
+# Docker Compose Example
+# ============================================================================
+
+docker_compose_example: |
+  version: '3.8'
+  
+  services:
+    gateway:
+      image: apollo-gateway:latest
+      ports:
+        - "4000:4000"
+      environment:
+        - NODE_ENV=production
+        - APOLLO_GRAPH_REF=${APOLLO_GRAPH_REF}
+        - APOLLO_KEY=${APOLLO_KEY}
+        - REDIS_URL=redis://redis:6379
+      depends_on:
+        - redis
+        - users-service
+        - posts-service
+        
+    users-service:
+      image: users-service:latest
+      ports:
+        - "4001:4001"
+      environment:
+        - DATABASE_URL=${USERS_DB_URL}
+        
+    posts-service:
+      image: posts-service:latest
+      ports:
+        - "4002:4002"
+      environment:
+        - DATABASE_URL=${POSTS_DB_URL}
+        
+    redis:
+      image: redis:7-alpine
+      ports:
+        - "6379:6379"
+
+# ============================================================================
+# CI/CD Integration
+# ============================================================================
+
+cicd:
+  # Schema checks before deployment
+  schemaChecks:
+    enabled: true
+    command: "rover subgraph check ${APOLLO_GRAPH_REF} --schema ./schema.graphql"
+    
+  # Schema publishing
+  schemaPublish:
+    enabled: true
+    command: "rover subgraph publish ${APOLLO_GRAPH_REF} --schema ./schema.graphql --name ${SUBGRAPH_NAME}"
+    
+  # Composition validation
+  compositionValidation:
+    enabled: true
+    command: "rover supergraph compose --config ./supergraph.yaml"

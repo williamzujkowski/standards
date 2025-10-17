@@ -1,0 +1,454 @@
+# Legacy Pattern to Skills Translation Mappings
+# Version: 1.0.0
+# Last Updated: 2025-10-16
+#
+# This file defines how legacy @load patterns map to new Skills format.
+# Used by legacy-bridge skill and skill-loader CLI.
+
+version: "1.0.0"
+transition_period_months: 6
+deprecation_warnings: true
+
+# Product type mappings to skill collections
+product_mappings:
+  api:
+    description: "REST/GraphQL API service"
+    skills:
+      - coding-standards/python
+      - coding-standards/general
+      - testing/unit
+      - testing/integration
+      - security/authentication
+      - security/input-validation
+      - security/secrets-management
+      - devops/ci-cd
+      - observability/monitoring
+      - nist-compliance/baseline
+    level: 2  # Load skills at level 2 by default
+
+  web-service:
+    description: "Full-stack web application"
+    skills:
+      - coding-standards/general
+      - testing/unit
+      - testing/e2e
+      - security/authentication
+      - security/secrets-management
+      - frontend/design-system
+      - frontend/accessibility
+      - devops/ci-cd
+      - observability/monitoring
+      - nist-compliance/baseline
+    level: 2
+
+  frontend-web:
+    description: "Frontend SPA/MPA"
+    skills:
+      - frontend/design-system
+      - frontend/accessibility
+      - frontend/performance
+      - coding-standards/typescript
+      - coding-standards/javascript
+      - testing/vitest
+      - testing/e2e
+      - security/auth-ui
+      - devops/ci-cd
+    level: 2
+
+  mobile:
+    description: "Mobile application"
+    skills:
+      - frontend/mobile
+      - coding-standards/mobile
+      - testing/mobile
+      - security/mobile-auth
+      - security/secure-storage
+      - devops/mobile-ci
+      - observability/crash-reporting
+    level: 2
+
+  data-pipeline:
+    description: "ETL/ELT data processing"
+    skills:
+      - data-engineering/orchestration
+      - data-engineering/data-quality
+      - coding-standards/python
+      - testing/integration
+      - security/secrets-management
+      - security/data-classification
+      - devops/ci-cd
+      - compliance/data-retention
+      - nist-compliance/baseline
+    level: 2
+
+  ml-service:
+    description: "ML training/inference"
+    skills:
+      - ml-ai/model-development
+      - ml-ai/feature-engineering
+      - data-engineering/feature-store
+      - coding-standards/python
+      - testing/model-validation
+      - security/model-security
+      - security/secrets-management
+      - devops/mlops
+      - observability/model-monitoring
+      - compliance/ai-ethics
+      - nist-compliance/baseline
+    level: 2
+
+  cli:
+    description: "Command-line tool"
+    skills:
+      - coding-standards/general
+      - testing/unit
+      - security/secrets-management
+      - devops/packaging
+    level: 2
+
+# Coding Standards (CS) mappings
+coding_standards_mappings:
+  python:
+    skill: coding-standards/python
+    level: 2
+    includes:
+      - PEP 8 style guide
+      - Type hints and mypy
+      - Pythonic patterns
+
+  javascript:
+    skill: coding-standards/javascript
+    level: 2
+    includes:
+      - ESLint configuration
+      - Modern ES6+ patterns
+      - Async/await best practices
+
+  typescript:
+    skill: coding-standards/typescript
+    level: 2
+    includes:
+      - TypeScript strict mode
+      - Type system best practices
+      - TSConfig templates
+
+  go:
+    skill: coding-standards/go
+    level: 2
+    includes:
+      - gofmt and golint
+      - Effective Go patterns
+      - Package organization
+
+  java:
+    skill: coding-standards/java
+    level: 2
+    includes:
+      - Google Java Style
+      - Modern Java patterns
+      - Dependency management
+
+# Testing Standards (TS) mappings
+testing_standards_mappings:
+  pytest:
+    skill: testing/pytest
+    level: 2
+    includes:
+      - Fixture patterns
+      - Parametrization
+      - Coverage configuration
+
+  jest:
+    skill: testing/jest
+    level: 2
+    includes:
+      - Mock strategies
+      - Snapshot testing
+      - Configuration templates
+
+  vitest:
+    skill: testing/vitest
+    level: 2
+    includes:
+      - Vite integration
+      - Fast test execution
+      - Modern testing patterns
+
+  unit:
+    skill: testing/unit
+    level: 2
+
+  integration:
+    skill: testing/integration
+    level: 2
+
+  e2e:
+    skill: testing/e2e
+    level: 2
+
+  performance:
+    skill: testing/performance
+    level: 2
+
+  security:
+    skill: testing/security
+    level: 2
+
+# Security Standards (SEC) mappings
+security_mappings:
+  auth:
+    skill: security/authentication
+    level: 2
+    auto_includes:
+      - nist-compliance/baseline
+    includes:
+      - OAuth 2.0 / OIDC
+      - JWT best practices
+      - Session management
+
+  secrets:
+    skill: security/secrets-management
+    level: 2
+    auto_includes:
+      - nist-compliance/baseline
+    includes:
+      - Vault integration
+      - Secret rotation
+      - Environment variables
+
+  input-validation:
+    skill: security/input-validation
+    level: 2
+    auto_includes:
+      - nist-compliance/baseline
+    includes:
+      - Sanitization patterns
+      - SQL injection prevention
+      - XSS protection
+
+  encryption:
+    skill: security/encryption
+    level: 2
+    auto_includes:
+      - nist-compliance/baseline
+
+  audit:
+    skill: security/audit-logging
+    level: 2
+    auto_includes:
+      - nist-compliance/baseline
+
+  mobile-auth:
+    skill: security/mobile-auth
+    level: 2
+
+  secure-storage:
+    skill: security/secure-storage
+    level: 2
+
+  data-classification:
+    skill: security/data-classification
+    level: 2
+
+  model-security:
+    skill: security/model-security
+    level: 2
+
+# Frontend (FE) mappings
+frontend_mappings:
+  react:
+    skill: frontend/react
+    level: 2
+    includes:
+      - Component patterns
+      - Hook best practices
+      - State management
+
+  vue:
+    skill: frontend/vue
+    level: 2
+
+  angular:
+    skill: frontend/angular
+    level: 2
+
+  accessibility:
+    skill: frontend/accessibility
+    level: 2
+    includes:
+      - WCAG 2.1 compliance
+      - ARIA patterns
+      - Keyboard navigation
+
+  design-system:
+    skill: frontend/design-system
+    level: 2
+
+  performance:
+    skill: frontend/performance
+    level: 2
+
+  responsive:
+    skill: frontend/responsive
+    level: 2
+
+  mobile:
+    skill: frontend/mobile
+    level: 2
+
+# DevOps (DOP) mappings
+devops_mappings:
+  ci-cd:
+    skill: devops/ci-cd
+    level: 2
+    includes:
+      - GitHub Actions
+      - Pipeline patterns
+      - Deployment strategies
+
+  iac:
+    skill: devops/infrastructure-as-code
+    level: 2
+    includes:
+      - Terraform patterns
+      - CloudFormation
+      - Module structure
+
+  monitoring:
+    skill: devops/monitoring
+    level: 2
+
+  incident-response:
+    skill: devops/incident-response
+    level: 2
+
+  packaging:
+    skill: devops/packaging
+    level: 2
+
+  mobile-ci:
+    skill: devops/mobile-ci
+    level: 2
+
+  mlops:
+    skill: devops/mlops
+    level: 2
+
+# NIST Implementation Guides (NIST-IG) mappings
+nist_mappings:
+  base:
+    skill: nist-compliance/baseline
+    level: 2
+    includes:
+      - Core NIST 800-53 controls
+      - Implementation templates
+      - Compliance checklist
+
+  full:
+    skill: nist-compliance/full-implementation
+    level: 3
+    includes:
+      - Complete control families
+      - Evidence generation
+      - Audit preparation
+
+# Wildcard expansion rules
+wildcards:
+  "SEC:*":
+    description: "All security standards"
+    skills:
+      - security/authentication
+      - security/secrets-management
+      - security/input-validation
+      - security/encryption
+      - security/audit-logging
+      - nist-compliance/baseline  # Auto-included
+    level: 2
+
+  "TS:*":
+    description: "All testing standards"
+    skills:
+      - testing/unit
+      - testing/integration
+      - testing/e2e
+      - testing/performance
+      - testing/security
+    level: 2
+
+  "DOP:*":
+    description: "All DevOps standards"
+    skills:
+      - devops/ci-cd
+      - devops/infrastructure-as-code
+      - devops/monitoring
+      - devops/incident-response
+    level: 2
+
+  "FE:*":
+    description: "All frontend standards"
+    skills:
+      - frontend/design-system
+      - frontend/accessibility
+      - frontend/performance
+      - frontend/responsive
+    level: 2
+
+# Auto-inclusion rules
+auto_inclusion:
+  rules:
+    - condition: "any(SEC:*)"
+      includes:
+        - nist-compliance/baseline
+      reason: "Security standards require NIST baseline compliance"
+
+# Deprecation warnings
+deprecation:
+  enabled: true
+  warning_template: |
+    ⚠️  DEPRECATION WARNING: @load syntax will be removed in {months_remaining} months
+    Please migrate to: skill-loader.py load {pattern}
+    Migration guide: docs/guides/skill-migration.md
+
+  removal_date: "2026-04-16"  # 6 months from 2025-10-16
+
+# Translation examples for testing
+examples:
+  - legacy: "@load product:api"
+    translates_to:
+      skills:
+        - coding-standards/python
+        - coding-standards/general
+        - testing/unit
+        - testing/integration
+        - security/authentication
+        - security/input-validation
+        - security/secrets-management
+        - devops/ci-cd
+        - observability/monitoring
+        - nist-compliance/baseline
+      level: 2
+
+  - legacy: "@load [product:api + CS:python + TS:pytest]"
+    translates_to:
+      skills:
+        - coding-standards/python  # Specific overrides general
+        - testing/pytest  # Specific overrides general testing
+        - testing/integration
+        - security/authentication
+        - security/input-validation
+        - security/secrets-management
+        - devops/ci-cd
+        - observability/monitoring
+        - nist-compliance/baseline
+      level: 2
+
+  - legacy: "@load SEC:*"
+    translates_to:
+      skills:
+        - security/authentication
+        - security/secrets-management
+        - security/input-validation
+        - security/encryption
+        - security/audit-logging
+        - nist-compliance/baseline
+      level: 2

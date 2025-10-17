@@ -1,0 +1,85 @@
+# Clippy Linter Configuration
+# Enforces Rust best practices and catches common mistakes
+
+# Cognitive complexity threshold
+cognitive-complexity-threshold = 25
+
+# Cyclomatic complexity threshold  
+cyclomatic-complexity-threshold = 30
+
+# Documentation settings
+missing-docs-in-crate-items = false
+
+# Literal representations
+literals-string-suffix = true
+
+# Array size threshold for passing by reference
+too-large-for-stack = 200
+
+# Maximum function lines
+too-many-lines-threshold = 100
+
+# Type complexity threshold
+type-complexity-threshold = 250
+
+# Single char binding names
+single-char-binding-names-threshold = 4
+
+# Allowed names
+allowed-idents-below-min-chars = ["i", "j", "x", "y", "z", "db", "id", "io", "ok"]
+
+# Disallowed methods
+disallowed-methods = [
+    # Prefer ? operator over unwrap in production code
+    # { path = "core::result::Result::unwrap", reason = "use ? operator instead" },
+]
+
+# Allowed prefixes for module inception
+allow-module-inception = true
+
+# Arithmetic side effects
+arithmetic-side-effects-allowed = ["Saturating", "Wrapping"]
+
+# Enable all restriction lints manually (opt-in)
+# This allows teams to gradually adopt stricter rules
+
+# Performance lints (always on)
+warn-on-all-wildcard-imports = true
+
+# Suspicious patterns
+suspicious-arithmetic-impl = "warn"
+suspicious-op-assign-impl = "warn"
+suspicious-operation-groupings = "warn"
+
+# Correctness (errors)
+absurd-extreme-comparisons = "warn"
+almost-swapped = "warn"
+approx-constant = "warn"
+derive-partial-eq-without-eq = "warn"
+duplicate-mod = "warn"
+eq-op = "warn"
+ineffective-bit-mask = "warn"
+infinite-iter = "warn"
+mistyped-literal-suffixes = "warn"
+out-of-bounds-indexing = "warn"
+
+# Style suggestions
+bool-comparison = "warn"
+enum-glob-use = "warn"
+explicit-into-iter-loop = "warn"
+explicit-iter-loop = "warn"
+filter-map-next = "warn"
+flat-map-option = "warn"
+manual-filter-map = "warn"
+manual-find-map = "warn"
+match-bool = "warn"
+needless-bool = "warn"
+needless-return = "warn"
+redundant-closure = "warn"
+redundant-pattern-matching = "warn"
+single-match = "warn"
+
+# Pedantic (opt-in, uncomment to enable)
+# must-use-candidate = "warn"
+# missing-errors-doc = "warn"
+# missing-panics-doc = "warn"

@@ -60,7 +60,7 @@ Generated: 2025-08-23 | Total: 60 documents
 | **STA** | Standards Quick Reference Index | ai, api, auth | [docs/guides/STANDARDS_INDEX.md](docs/guides/STANDARDS_INDEX.md) |
 | **TOOL** | Toolchain Standards | ai, containers, javascript | [docs/standards/TOOLCHAIN_STANDARDS.md](docs/standards/TOOLCHAIN_STANDARDS.md) |
 | **TS** | Comprehensive Testing Manifesto for LLM Coding Projects | ai, api, auth | [docs/standards/TESTING_STANDARDS.md](docs/standards/TESTING_STANDARDS.md) |
-| **UNIFIED** | Unified Software Development Standards | ai, api, auth | [docs/standards/UNIFIED_STANDARDS.md](docs/standards/UNIFIED_STANDARDS.md) |
+| **UNIFIED** | Unified Software Development Standards | ai, api, cicd | [docs/standards/UNIFIED_STANDARDS.md](docs/standards/UNIFIED_STANDARDS.md) |
 | **VAL** | Interactive Validation Patterns | ai, api, auth | [docs/guides/VALIDATION_PATTERNS.md](docs/guides/VALIDATION_PATTERNS.md) |
 | **VAL** | NIST Compliance Validation Run | ai, auth, cicd | [prompts/nist-compliance/VALIDATION_RUN.md](prompts/nist-compliance/VALIDATION_RUN.md) |
 | **WD** | Web Design and UX Standards | ai, ml, typescript | [docs/standards/WEB_DESIGN_UX_STANDARDS.md](docs/standards/WEB_DESIGN_UX_STANDARDS.md) |

@@ -1,0 +1,416 @@
+# Prometheus Alerting Rules
+# Production-ready alerts with proper severity levels and runbooks
+
+groups:
+  # Critical Infrastructure Alerts
+  - name: infrastructure_critical
+    interval: 30s
+    rules:
+      - alert: InstanceDown
+        expr: up == 0
+        for: 2m
+        labels:
+          severity: critical
+          team: sre
+          category: infrastructure
+        annotations:
+          summary: "Instance {{ $labels.instance }} is down"
+          description: "{{ $labels.job }} instance {{ $labels.instance }} has been down for more than 2 minutes."
+          runbook_url: "https://runbooks.company.com/InstanceDown"
+          dashboard_url: "https://grafana.company.com/d/infrastructure"
+
+      - alert: HighCPUUsage
+        expr: instance:cpu:usage > 90
+        for: 10m
+        labels:
+          severity: warning
+          team: infrastructure
+          category: resources
+        annotations:
+          summary: "High CPU usage on {{ $labels.instance }}"
+          description: "CPU usage is {{ $value | humanize }}% (threshold: 90%)"
+          runbook_url: "https://runbooks.company.com/HighCPU"
+
+      - alert: HighMemoryUsage
+        expr: instance:memory:usage_percentage > 90
+        for: 10m
+        labels:
+          severity: warning
+          team: infrastructure
+          category: resources
+        annotations:
+          summary: "High memory usage on {{ $labels.instance }}"
+          description: "Memory usage is {{ $value | humanize }}% (threshold: 90%)"
+          runbook_url: "https://runbooks.company.com/HighMemory"
+
+      - alert: DiskSpaceCritical
+        expr: instance:disk:usage_percentage > 90
+        for: 5m
+        labels:
+          severity: critical
+          team: infrastructure
+          category: storage
+        annotations:
+          summary: "Critical disk space on {{ $labels.instance }}"
+          description: "Disk usage is {{ $value | humanize }}% (threshold: 90%). Immediate action required."
+          runbook_url: "https://runbooks.company.com/DiskSpaceCritical"
+
+      - alert: DiskSpaceWarning
+        expr: instance:disk:usage_percentage > 80
+        for: 10m
+        labels:
+          severity: warning
+          team: infrastructure
+          category: storage
+        annotations:
+          summary: "Low disk space on {{ $labels.instance }}"
+          description: "Disk usage is {{ $value | humanize }}% (threshold: 80%)"
+          runbook_url: "https://runbooks.company.com/DiskSpaceWarning"
+
+  # API Service Alerts
+  - name: api_service
+    interval: 30s
+    rules:
+      - alert: HighErrorRate
+        expr: |
+          sum(rate(http_requests_total{status=~"5.."}[5m])) by (job)
+          /
+          sum(rate(http_requests_total[5m])) by (job)
+          > 0.05
+        for: 5m
+        labels:
+          severity: critical
+          team: backend
+          category: availability
+        annotations:
+          summary: "High error rate on {{ $labels.job }}"
+          description: "Error rate is {{ $value | humanizePercentage }} (threshold: 5%)"
+          runbook_url: "https://runbooks.company.com/HighErrorRate"
+          dashboard_url: "https://grafana.company.com/d/api-service"
+
+      - alert: HighLatency
+        expr: job:http_request_duration:p95 > 1.0
+        for: 10m
+        labels:
+          severity: warning
+          team: backend
+          category: performance
+        annotations:
+          summary: "High latency on {{ $labels.job }}"
+          description: "p95 latency is {{ $value | humanizeDuration }} (threshold: 1s)"
+          runbook_url: "https://runbooks.company.com/HighLatency"
+
+      - alert: VeryHighLatency
+        expr: job:http_request_duration:p95 > 3.0
+        for: 5m
+        labels:
+          severity: critical
+          team: backend
+          category: performance
+        annotations:
+          summary: "Very high latency on {{ $labels.job }}"
+          description: "p95 latency is {{ $value | humanizeDuration }} (threshold: 3s)"
+          runbook_url: "https://runbooks.company.com/HighLatency"
+
+      - alert: LowRequestRate
+        expr: job:http_requests:rate5m < 1
+        for: 10m
+        labels:
+          severity: warning
+          team: backend
+          category: traffic
+        annotations:
+          summary: "Low request rate on {{ $labels.job }}"
+          description: "Request rate is {{ $value | humanize }} req/s (expected: >1 req/s)"
+          runbook_url: "https://runbooks.company.com/LowRequestRate"
+
+      - alert: NoTraffic
+        expr: job:http_requests:rate5m == 0
+        for: 5m
+        labels:
+          severity: critical
+          team: backend
+          category: availability
+        annotations:
+          summary: "No traffic to {{ $labels.job }}"
+          description: "Service is receiving zero requests. Possible outage or routing issue."
+          runbook_url: "https://runbooks.company.com/NoTraffic"
+
+  # SLO and Error Budget Alerts
+  - name: slo_alerts
+    interval: 1m
+    rules:
+      - alert: SLOAvailabilityBreach
+        expr: sli:availability:ratio_rate5m < 0.999
+        for: 5m
+        labels:
+          severity: critical
+          team: sre
+          category: slo
+        annotations:
+          summary: "SLO availability breach"
+          description: "Availability is {{ $value | humanizePercentage }} (SLO: 99.9%)"
+          runbook_url: "https://runbooks.company.com/SLOBreach"
+
+      - alert: ErrorBudgetBurnRateFast
+        expr: sli:error_budget:burn_rate_1h > 14.4
+        for: 2m
+        labels:
+          severity: critical
+          team: sre
+          category: error_budget
+        annotations:
+          summary: "Fast error budget burn rate"
+          description: "Error budget burning at {{ $value }}x rate (threshold: 14.4x). At this rate, 30-day budget will be exhausted in 2 days."
+          runbook_url: "https://runbooks.company.com/ErrorBudgetBurnRate"
+
+      - alert: ErrorBudgetBurnRateSlow
+        expr: sli:error_budget:burn_rate_1h > 3
+        for: 1h
+        labels:
+          severity: warning
+          team: sre
+          category: error_budget
+        annotations:
+          summary: "Elevated error budget burn rate"
+          description: "Error budget burning at {{ $value }}x rate (threshold: 3x)"
+          runbook_url: "https://runbooks.company.com/ErrorBudgetBurnRate"
+
+  # Database Alerts
+  - name: database_alerts
+    interval: 30s
+    rules:
+      - alert: PostgreSQLDown
+        expr: pg_up == 0
+        for: 1m
+        labels:
+          severity: critical
+          team: database
+          category: availability
+        annotations:
+          summary: "PostgreSQL instance {{ $labels.instance }} is down"
+          description: "PostgreSQL database is unreachable"
+          runbook_url: "https://runbooks.company.com/PostgreSQLDown"
+
+      - alert: PostgreSQLTooManyConnections
+        expr: instance:postgres:connections:total > 180
+        for: 5m
+        labels:
+          severity: warning
+          team: database
+          category: resources
+        annotations:
+          summary: "PostgreSQL has too many connections"
+          description: "{{ $labels.instance }} has {{ $value }} connections (threshold: 180/200)"
+          runbook_url: "https://runbooks.company.com/TooManyConnections"
+
+      - alert: PostgreSQLSlowQueries
+        expr: rate(pg_stat_statements_mean_exec_time[5m]) > 1000
+        for: 10m
+        labels:
+          severity: warning
+          team: database
+          category: performance
+        annotations:
+          summary: "PostgreSQL slow queries detected"
+          description: "Average query time is {{ $value }}ms (threshold: 1000ms)"
+          runbook_url: "https://runbooks.company.com/SlowQueries"
+
+      - alert: RedisDown
+        expr: redis_up == 0
+        for: 1m
+        labels:
+          severity: critical
+          team: database
+          category: availability
+        annotations:
+          summary: "Redis instance {{ $labels.instance }} is down"
+          description: "Redis cache is unreachable"
+          runbook_url: "https://runbooks.company.com/RedisDown"
+
+      - alert: RedisMemoryHigh
+        expr: instance:redis:memory_usage_percentage > 90
+        for: 5m
+        labels:
+          severity: warning
+          team: database
+          category: resources
+        annotations:
+          summary: "Redis memory usage high"
+          description: "{{ $labels.instance }} memory usage is {{ $value }}% (threshold: 90%)"
+          runbook_url: "https://runbooks.company.com/RedisMemoryHigh"
+
+      - alert: RedisLowHitRate
+        expr: instance:redis:hit_rate < 80
+        for: 10m
+        labels:
+          severity: warning
+          team: database
+          category: performance
+        annotations:
+          summary: "Redis hit rate low"
+          description: "{{ $labels.instance }} hit rate is {{ $value }}% (threshold: 80%)"
+          runbook_url: "https://runbooks.company.com/RedisLowHitRate"
+
+  # Kubernetes Alerts
+  - name: kubernetes_alerts
+    interval: 30s
+    rules:
+      - alert: PodCrashLooping
+        expr: rate(kube_pod_container_status_restarts_total[15m]) > 0
+        for: 5m
+        labels:
+          severity: warning
+          team: sre
+          category: kubernetes
+        annotations:
+          summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} is crash looping"
+          description: "Pod has restarted {{ $value }} times in the last 15 minutes"
+          runbook_url: "https://runbooks.company.com/PodCrashLooping"
+
+      - alert: PodNotReady
+        expr: sum by (namespace, pod) (kube_pod_status_phase{phase=~"Pending|Unknown"}) > 0
+        for: 10m
+        labels:
+          severity: warning
+          team: sre
+          category: kubernetes
+        annotations:
+          summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} not ready"
+          description: "Pod has been in {{ $labels.phase }} state for more than 10 minutes"
+          runbook_url: "https://runbooks.company.com/PodNotReady"
+
+      - alert: DeploymentReplicasMismatch
+        expr: |
+          kube_deployment_spec_replicas
+          !=
+          kube_deployment_status_replicas_available
+        for: 10m
+        labels:
+          severity: warning
+          team: sre
+          category: kubernetes
+        annotations:
+          summary: "Deployment {{ $labels.namespace }}/{{ $labels.deployment }} replicas mismatch"
+          description: "Deployment has {{ $value }} available replicas, expected {{ $labels.spec_replicas }}"
+          runbook_url: "https://runbooks.company.com/ReplicasMismatch"
+
+      - alert: PodMemoryUsageHigh
+        expr: namespace_pod:memory:usage_percentage > 90
+        for: 5m
+        labels:
+          severity: warning
+          team: sre
+          category: resources
+        annotations:
+          summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} high memory usage"
+          description: "Memory usage is {{ $value }}% of limit (threshold: 90%)"
+          runbook_url: "https://runbooks.company.com/PodMemoryHigh"
+
+      - alert: NodeNotReady
+        expr: kube_node_status_condition{condition="Ready",status="true"} == 0
+        for: 5m
+        labels:
+          severity: critical
+          team: infrastructure
+          category: kubernetes
+        annotations:
+          summary: "Node {{ $labels.node }} not ready"
+          description: "Kubernetes node is not ready"
+          runbook_url: "https://runbooks.company.com/NodeNotReady"
+
+  # Certificate Expiration Alerts
+  - name: certificate_alerts
+    interval: 1h
+    rules:
+      - alert: CertificateExpiringSoon
+        expr: (probe_ssl_earliest_cert_expiry - time()) / 86400 < 30
+        for: 1h
+        labels:
+          severity: warning
+          team: security
+          category: certificates
+        annotations:
+          summary: "Certificate expiring soon for {{ $labels.instance }}"
+          description: "Certificate expires in {{ $value }} days (threshold: 30 days)"
+          runbook_url: "https://runbooks.company.com/CertificateRenewal"
+
+      - alert: CertificateExpiring
+        expr: (probe_ssl_earliest_cert_expiry - time()) / 86400 < 7
+        for: 1h
+        labels:
+          severity: critical
+          team: security
+          category: certificates
+        annotations:
+          summary: "Certificate expiring in 7 days for {{ $labels.instance }}"
+          description: "Certificate expires in {{ $value }} days. Immediate renewal required."
+          runbook_url: "https://runbooks.company.com/CertificateRenewal"
+
+  # Business Metrics Alerts
+  - name: business_alerts
+    interval: 1m
+    rules:
+      - alert: LowTransactionSuccessRate
+        expr: app:transactions:success_rate < 95
+        for: 10m
+        labels:
+          severity: warning
+          team: business
+          category: transactions
+        annotations:
+          summary: "Low transaction success rate"
+          description: "Success rate is {{ $value }}% (threshold: 95%)"
+          runbook_url: "https://runbooks.company.com/LowSuccessRate"
+
+      - alert: HighFailedTransactions
+        expr: app:transactions:failed_rate1m > 10
+        for: 5m
+        labels:
+          severity: critical
+          team: business
+          category: transactions
+        annotations:
+          summary: "High number of failed transactions"
+          description: "{{ $value }} transactions failing per minute (threshold: 10)"
+          runbook_url: "https://runbooks.company.com/FailedTransactions"
+
+  # Prometheus Self-Monitoring
+  - name: prometheus_alerts
+    interval: 30s
+    rules:
+      - alert: PrometheusConfigReloadFailed
+        expr: prometheus_config_last_reload_successful == 0
+        for: 5m
+        labels:
+          severity: warning
+          team: sre
+          category: monitoring
+        annotations:
+          summary: "Prometheus config reload failed"
+          description: "Prometheus configuration reload has failed"
+          runbook_url: "https://runbooks.company.com/PrometheusConfigFailed"
+
+      - alert: PrometheusTSDBCompactionsFailed
+        expr: rate(prometheus_tsdb_compactions_failed_total[5m]) > 0
+        for: 5m
+        labels:
+          severity: warning
+          team: sre
+          category: monitoring
+        annotations:
+          summary: "Prometheus TSDB compactions failing"
+          description: "Prometheus is failing to compact TSDB blocks"
+          runbook_url: "https://runbooks.company.com/TSDBCompactionFailed"
+
+      - alert: PrometheusNotIngesting
+        expr: rate(prometheus_tsdb_head_samples_appended_total[5m]) == 0
+        for: 10m
+        labels:
+          severity: critical
+          team: sre
+          category: monitoring
+        annotations:
+          summary: "Prometheus not ingesting samples"
+          description: "Prometheus has not ingested any samples in the last 10 minutes"
+          runbook_url: "https://runbooks.company.com/PrometheusNotIngesting"

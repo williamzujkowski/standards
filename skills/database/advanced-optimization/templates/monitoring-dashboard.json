@@ -1,0 +1,522 @@
+{
+  "dashboard": {
+    "title": "Database Performance Monitoring",
+    "description": "Comprehensive database monitoring dashboard for PostgreSQL, MongoDB, and Redis",
+    "version": "1.0.0",
+    "tags": ["database", "performance", "monitoring"],
+    "timezone": "UTC",
+    "refresh": "30s",
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "PostgreSQL Metrics",
+        "collapsed": false
+      },
+      {
+        "id": 2,
+        "type": "graph",
+        "title": "PostgreSQL - Query Performance",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "rate(pg_stat_statements_total_time_seconds[5m])",
+            "legendFormat": "Total Query Time",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(pg_stat_statements_calls_total[5m])",
+            "legendFormat": "Query Rate",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "s",
+            "label": "Time"
+          },
+          {
+            "format": "short",
+            "label": "Queries/sec"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "type": "singlestat",
+        "title": "PostgreSQL - Cache Hit Ratio",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "pg_stat_database_blks_hit / (pg_stat_database_blks_hit + pg_stat_database_blks_read) * 100",
+            "refId": "A"
+          }
+        ],
+        "format": "percent",
+        "thresholds": "80,90",
+        "colors": ["#d44a3a", "#e0b400", "#299c46"],
+        "gauge": {
+          "show": true,
+          "minValue": 0,
+          "maxValue": 100,
+          "thresholdMarkers": true
+        }
+      },
+      {
+        "id": 4,
+        "type": "graph",
+        "title": "PostgreSQL - Connections",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "pg_stat_activity_count",
+            "legendFormat": "Active Connections",
+            "refId": "A"
+          },
+          {
+            "expr": "pg_settings_max_connections",
+            "legendFormat": "Max Connections",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "short",
+            "label": "Connections"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "type": "graph",
+        "title": "PostgreSQL - Transaction Rate",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "rate(pg_stat_database_xact_commit[5m])",
+            "legendFormat": "Commits/sec",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(pg_stat_database_xact_rollback[5m])",
+            "legendFormat": "Rollbacks/sec",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "short",
+            "label": "Transactions/sec"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "type": "table",
+        "title": "PostgreSQL - Top 10 Slowest Queries",
+        "datasource": "PostgreSQL",
+        "targets": [
+          {
+            "rawSql": "SELECT substring(query, 1, 100) AS query, calls, ROUND(mean_exec_time::numeric, 2) AS avg_ms FROM pg_stat_statements ORDER BY mean_exec_time DESC LIMIT 10",
+            "refId": "A"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "type": "graph",
+        "title": "PostgreSQL - Dead Tuples",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "pg_stat_user_tables_n_dead_tup",
+            "legendFormat": "{{schemaname}}.{{relname}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "short",
+            "label": "Dead Tuples"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "type": "row",
+        "title": "MongoDB Metrics",
+        "collapsed": false
+      },
+      {
+        "id": 9,
+        "type": "graph",
+        "title": "MongoDB - Operations Per Second",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "rate(mongodb_op_counters_total{type='query'}[5m])",
+            "legendFormat": "Queries/sec",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(mongodb_op_counters_total{type='insert'}[5m])",
+            "legendFormat": "Inserts/sec",
+            "refId": "B"
+          },
+          {
+            "expr": "rate(mongodb_op_counters_total{type='update'}[5m])",
+            "legendFormat": "Updates/sec",
+            "refId": "C"
+          },
+          {
+            "expr": "rate(mongodb_op_counters_total{type='delete'}[5m])",
+            "legendFormat": "Deletes/sec",
+            "refId": "D"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "short",
+            "label": "Operations/sec"
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "type": "singlestat",
+        "title": "MongoDB - Connections",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "mongodb_connections{state='current'}",
+            "refId": "A"
+          }
+        ],
+        "format": "short",
+        "thresholds": "800,900",
+        "colors": ["#299c46", "#e0b400", "#d44a3a"]
+      },
+      {
+        "id": 11,
+        "type": "graph",
+        "title": "MongoDB - Memory Usage",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "mongodb_memory{type='resident'}",
+            "legendFormat": "Resident Memory",
+            "refId": "A"
+          },
+          {
+            "expr": "mongodb_memory{type='virtual'}",
+            "legendFormat": "Virtual Memory",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "bytes",
+            "label": "Memory"
+          }
+        ]
+      },
+      {
+        "id": 12,
+        "type": "graph",
+        "title": "MongoDB - Replication Lag",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "mongodb_mongod_replset_member_replication_lag",
+            "legendFormat": "{{member}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "s",
+            "label": "Lag"
+          }
+        ],
+        "alert": {
+          "name": "High Replication Lag",
+          "conditions": [
+            {
+              "evaluator": {
+                "params": [10],
+                "type": "gt"
+              },
+              "operator": {
+                "type": "and"
+              },
+              "query": {
+                "params": ["A", "5m", "now"]
+              },
+              "reducer": {
+                "params": [],
+                "type": "avg"
+              },
+              "type": "query"
+            }
+          ]
+        }
+      },
+      {
+        "id": 13,
+        "type": "graph",
+        "title": "MongoDB - Document Operations",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "rate(mongodb_mongod_metrics_document_total[5m])",
+            "legendFormat": "{{state}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "short",
+            "label": "Operations/sec"
+          }
+        ]
+      },
+      {
+        "id": 14,
+        "type": "row",
+        "title": "Redis Metrics",
+        "collapsed": false
+      },
+      {
+        "id": 15,
+        "type": "singlestat",
+        "title": "Redis - Cache Hit Rate",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "redis_keyspace_hits_total / (redis_keyspace_hits_total + redis_keyspace_misses_total) * 100",
+            "refId": "A"
+          }
+        ],
+        "format": "percent",
+        "thresholds": "70,90",
+        "colors": ["#d44a3a", "#e0b400", "#299c46"],
+        "gauge": {
+          "show": true,
+          "minValue": 0,
+          "maxValue": 100,
+          "thresholdMarkers": true
+        }
+      },
+      {
+        "id": 16,
+        "type": "graph",
+        "title": "Redis - Memory Usage",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "redis_memory_used_bytes",
+            "legendFormat": "Used Memory",
+            "refId": "A"
+          },
+          {
+            "expr": "redis_memory_max_bytes",
+            "legendFormat": "Max Memory",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "bytes",
+            "label": "Memory"
+          }
+        ]
+      },
+      {
+        "id": 17,
+        "type": "graph",
+        "title": "Redis - Commands Per Second",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "rate(redis_commands_processed_total[5m])",
+            "legendFormat": "Commands/sec",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "short",
+            "label": "Commands/sec"
+          }
+        ]
+      },
+      {
+        "id": 18,
+        "type": "singlestat",
+        "title": "Redis - Connected Clients",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "redis_connected_clients",
+            "refId": "A"
+          }
+        ],
+        "format": "short",
+        "thresholds": "900,950",
+        "colors": ["#299c46", "#e0b400", "#d44a3a"]
+      },
+      {
+        "id": 19,
+        "type": "graph",
+        "title": "Redis - Evicted Keys",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "rate(redis_evicted_keys_total[5m])",
+            "legendFormat": "Evictions/sec",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "short",
+            "label": "Keys/sec"
+          }
+        ],
+        "alert": {
+          "name": "High Eviction Rate",
+          "conditions": [
+            {
+              "evaluator": {
+                "params": [100],
+                "type": "gt"
+              },
+              "operator": {
+                "type": "and"
+              },
+              "query": {
+                "params": ["A", "5m", "now"]
+              },
+              "reducer": {
+                "params": [],
+                "type": "avg"
+              },
+              "type": "query"
+            }
+          ]
+        }
+      },
+      {
+        "id": 20,
+        "type": "graph",
+        "title": "Redis - Keyspace",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "redis_db_keys",
+            "legendFormat": "db{{db}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "short",
+            "label": "Keys"
+          }
+        ]
+      },
+      {
+        "id": 21,
+        "type": "row",
+        "title": "System Metrics",
+        "collapsed": false
+      },
+      {
+        "id": 22,
+        "type": "graph",
+        "title": "CPU Usage",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode='idle'}[5m])) * 100)",
+            "legendFormat": "{{instance}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "percent",
+            "label": "CPU %",
+            "max": 100
+          }
+        ]
+      },
+      {
+        "id": 23,
+        "type": "graph",
+        "title": "Disk I/O",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "rate(node_disk_read_bytes_total[5m])",
+            "legendFormat": "Read - {{device}}",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(node_disk_written_bytes_total[5m])",
+            "legendFormat": "Write - {{device}}",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "Bps",
+            "label": "Bytes/sec"
+          }
+        ]
+      },
+      {
+        "id": 24,
+        "type": "graph",
+        "title": "Network Traffic",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "rate(node_network_receive_bytes_total[5m])",
+            "legendFormat": "RX - {{device}}",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(node_network_transmit_bytes_total[5m])",
+            "legendFormat": "TX - {{device}}",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "Bps",
+            "label": "Bytes/sec"
+          }
+        ]
+      }
+    ],
+    "annotations": {
+      "list": [
+        {
+          "datasource": "Prometheus",
+          "enable": true,
+          "expr": "ALERTS{alertstate='firing'}",
+          "name": "Alerts",
+          "step": "60s",
+          "tagKeys": "alertname,severity",
+          "textFormat": "{{alertname}}",
+          "titleFormat": "Alert"
+        }
+      ]
+    }
+  }
+}

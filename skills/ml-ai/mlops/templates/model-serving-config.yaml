@@ -1,0 +1,306 @@
+# Model Serving Configurations for TorchServe and TensorFlow Serving
+
+---
+# TorchServe Configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: torchserve-config
+  namespace: ml-serving
+data:
+  config.properties: |
+    # TorchServe Configuration
+    inference_address=http://0.0.0.0:8080
+    management_address=http://0.0.0.0:8081
+    metrics_address=http://0.0.0.0:8082
+    
+    # Model Store
+    model_store=/mnt/models/model-store
+    load_models=all
+    
+    # Performance
+    number_of_netty_threads=32
+    job_queue_size=1000
+    number_of_gpu=1
+    
+    # Logging
+    default_workers_per_model=4
+    max_request_size=1048576000
+    max_response_size=1048576000
+    
+    # Batching
+    batch_size=8
+    max_batch_delay=100
+    
+    # CORS
+    cors_allowed_origin=*
+    cors_allowed_methods=GET,POST,PUT,DELETE
+    cors_allowed_headers=Content-Type
+
+---
+# TorchServe Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: torchserve
+  namespace: ml-serving
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: torchserve
+  template:
+    metadata:
+      labels:
+        app: torchserve
+        version: v1
+    spec:
+      containers:
+      - name: torchserve
+        image: pytorch/torchserve:latest-gpu
+        ports:
+        - containerPort: 8080
+          name: inference
+        - containerPort: 8081
+          name: management
+        - containerPort: 8082
+          name: metrics
+        env:
+        - name: TS_CONFIG_FILE
+          value: "/config/config.properties"
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        - name: model-store
+          mountPath: /mnt/models/model-store
+        resources:
+          requests:
+            memory: "4Gi"
+            cpu: "2"
+            nvidia.com/gpu: "1"
+          limits:
+            memory: "8Gi"
+            cpu: "4"
+            nvidia.com/gpu: "1"
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 5
+      volumes:
+      - name: config
+        configMap:
+          name: torchserve-config
+      - name: model-store
+        persistentVolumeClaim:
+          claimName: model-store-pvc
+
+---
+# TorchServe Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: torchserve
+  namespace: ml-serving
+spec:
+  type: LoadBalancer
+  selector:
+    app: torchserve
+  ports:
+  - name: inference
+    port: 8080
+    targetPort: 8080
+  - name: management
+    port: 8081
+    targetPort: 8081
+  - name: metrics
+    port: 8082
+    targetPort: 8082
+
+---
+# TorchServe HPA
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: torchserve-hpa
+  namespace: ml-serving
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: torchserve
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Percent
+        value: 50
+        periodSeconds: 60
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 15
+
+---
+# TensorFlow Serving Configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tfserving-config
+  namespace: ml-serving
+data:
+  model_config.config: |
+    model_config_list {
+      config {
+        name: 'fraud_detection'
+        base_path: '/models/fraud_detection'
+        model_platform: 'tensorflow'
+        model_version_policy {
+          specific {
+            versions: 1
+            versions: 2
+          }
+        }
+      }
+    }
+
+---
+# TensorFlow Serving Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tensorflow-serving
+  namespace: ml-serving
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: tensorflow-serving
+  template:
+    metadata:
+      labels:
+        app: tensorflow-serving
+        version: v1
+    spec:
+      containers:
+      - name: tensorflow-serving
+        image: tensorflow/serving:latest-gpu
+        ports:
+        - containerPort: 8500
+          name: grpc
+        - containerPort: 8501
+          name: rest
+        args:
+        - --model_config_file=/config/model_config.config
+        - --model_config_file_poll_wait_seconds=60
+        - --rest_api_port=8501
+        - --grpc_port=8500
+        - --enable_batching=true
+        - --batching_parameters_file=/config/batching_config.txt
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        - name: models
+          mountPath: /models
+        resources:
+          requests:
+            memory: "4Gi"
+            cpu: "2"
+            nvidia.com/gpu: "1"
+          limits:
+            memory: "8Gi"
+            cpu: "4"
+            nvidia.com/gpu: "1"
+        livenessProbe:
+          httpGet:
+            path: /v1/models/fraud_detection
+            port: 8501
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /v1/models/fraud_detection
+            port: 8501
+          initialDelaySeconds: 15
+          periodSeconds: 5
+      volumes:
+      - name: config
+        configMap:
+          name: tfserving-config
+      - name: models
+        persistentVolumeClaim:
+          claimName: models-pvc
+
+---
+# TensorFlow Serving Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: tensorflow-serving
+  namespace: ml-serving
+spec:
+  type: LoadBalancer
+  selector:
+    app: tensorflow-serving
+  ports:
+  - name: grpc
+    port: 8500
+    targetPort: 8500
+  - name: rest
+    port: 8501
+    targetPort: 8501
+
+---
+# ServiceMonitor for Prometheus
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: model-serving-metrics
+  namespace: ml-serving
+spec:
+  selector:
+    matchLabels:
+      app: torchserve
+  endpoints:
+  - port: metrics
+    interval: 15s
+    path: /metrics
+
+---
+# PersistentVolumeClaim for model storage
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: model-store-pvc
+  namespace: ml-serving
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: fast-ssd
