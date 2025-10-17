@@ -22,6 +22,7 @@
 ### 1. Runtime Cache Directories
 
 #### A. `.swarm/` (Root)
+
 - **Path:** `/home/william/git/standards/.swarm/`
 - **Contents:**
   - `memory.db` (208 KB)
@@ -31,6 +32,7 @@
 - **Confidence:** 100%
 
 **References Found:**
+
 ```
 ./reports/generated/structure-audit.md:- docs/.swarm/
 ./reports/generated/quality-review-summary.md:- **File:** `.swarm/memory.db-wal`
@@ -38,6 +40,7 @@
 ```
 
 **Analysis:**
+
 - All references are in generated reports describing the issue
 - No code creates or requires this database
 - `.gitignore` line 15: `.swarm/` (properly ignored)
@@ -51,6 +54,7 @@
 ---
 
 #### B. `.claude-flow/` (Root)
+
 - **Path:** `/home/william/git/standards/.claude-flow/`
 - **Contents:**
   - `metrics/` directory with JSON metrics files:
@@ -63,6 +67,7 @@
 - **Confidence:** 100%
 
 **References Found:**
+
 ```
 ./scripts/fix-critical-quality-issues.sh:    -not -path "./.claude-flow/*" \
 ./scripts/check_whitespace.sh:  -not -path "./.claude-flow/*" \
@@ -70,6 +75,7 @@
 ```
 
 **Analysis:**
+
 - Documentation explicitly states this should NOT be committed
 - Scripts properly exclude it from checks
 - `.gitignore` line 6: `.claude-flow/` (properly ignored)
@@ -84,6 +90,7 @@
 ---
 
 #### C. `.benchmarks/` (Root and nested)
+
 - **Paths:**
   - `/home/william/git/standards/.benchmarks/`
   - `/home/william/git/standards/scripts/.benchmarks/`
@@ -94,12 +101,14 @@
 - **Confidence:** 100%
 
 **References Found:**
+
 ```
 ./.claude/agents/optimization/benchmark-suite.md:    this.benchmarks = {
 (References to benchmark code structure, not the directory)
 ```
 
 **Analysis:**
+
 - References are to code structure, not filesystem directories
 - `.gitignore` not explicitly listing (should be added)
 - `config/audit-rules.yaml` excludes `.benchmarks/` and `**/.benchmarks/**`
@@ -113,6 +122,7 @@
 ---
 
 #### D. `__pycache__/` (Multiple locations)
+
 - **Paths:**
   - `/home/william/git/standards/scripts/__pycache__/`
   - `/home/william/git/standards/scripts/tests/__pycache__/`
@@ -128,6 +138,7 @@
 - **Confidence:** 100%
 
 **References Found:**
+
 ```
 ./monitoring/performance_monitor.py:if script not in ["__pycache__"]
 ./scripts/generate-readmes.py:if child.name not in [".git", "__pycache__", "node_modules"]
@@ -135,6 +146,7 @@
 ```
 
 **Analysis:**
+
 - All references are exclusion logic (properly avoiding the directory)
 - `.gitignore` line 47: `__pycache__/` (properly ignored)
 - `.pre-commit-config.yaml` excludes from checks
@@ -149,6 +161,7 @@
 ---
 
 #### E. `.pytest_cache/` (Multiple locations)
+
 - **Paths:**
   - `/home/william/git/standards/.pytest_cache/`
   - `/home/william/git/standards/scripts/.pytest_cache/`
@@ -163,6 +176,7 @@
 - **Confidence:** 95%
 
 **References Found:**
+
 ```
 ./examples/README.md:- [Readme](nist-templates/quickstart/.pytest_cache/README.md)
 ./reports/generated/structure-audit.md:- examples/nist-templates/quickstart/.pytest_cache/v/cache/
@@ -170,6 +184,7 @@
 ```
 
 **Analysis:**
+
 - `.gitignore` line 94: `.pytest_cache/` (properly ignored)
 - `.pre-commit-config.yaml` excludes from checks
 - `config/audit-rules.yaml` excludes `.pytest_cache/` and `**/.pytest_cache/**`
@@ -182,6 +197,7 @@
 **Recommendation:** DELETE cache, UPDATE examples/README.md
 **Archive:** Not needed
 **Post-delete actions:**
+
 1. Delete all `.pytest_cache/` directories
 2. Regenerate `examples/README.md` or manually remove the pytest_cache link
 
@@ -197,6 +213,7 @@ All nested `.swarm/`, `.claude-flow/`, `.pytest_cache/` directories in subdirect
 - **Confidence:** 100%
 
 **Analysis:**
+
 - All properly excluded by `config/audit-rules.yaml` with `**/` patterns
 - All properly ignored by `.gitignore`
 - No code dependencies found
@@ -212,6 +229,7 @@ All nested `.swarm/`, `.claude-flow/`, `.pytest_cache/` directories in subdirect
 ### 3. Orphaned Documentation File
 
 #### `docs/reports/pre-commit-failure-analysis.md`
+
 - **Path:** `/home/william/git/standards/docs/reports/pre-commit-failure-analysis.md`
 - **Size:** 470 lines, comprehensive pre-commit failure analysis
 - **Purpose:** Detailed analysis of pre-commit workflow failures
@@ -219,12 +237,14 @@ All nested `.swarm/`, `.claude-flow/`, `.pytest_cache/` directories in subdirect
 - **Confidence:** 80%
 
 **References Found:**
+
 ```
 ./reports/generated/structure-audit.md:- docs/reports/pre-commit-failure-analysis.md
 (Listed as orphan, no other references)
 ```
 
 **Analysis:**
+
 - High-quality, detailed analysis document (not vestigial content)
 - Documents specific workflow run: 18598728416, Job: 53031646052
 - References PR #16 and branch `audit-gates-final/20251017`
@@ -234,6 +254,7 @@ All nested `.swarm/`, `.claude-flow/`, `.pytest_cache/` directories in subdirect
 - No README in `docs/reports/` directory
 
 **Content Value:**
+
 - ✅ Documents actual failure patterns
 - ✅ Provides fix procedures
 - ✅ Contains prevention measures
@@ -241,6 +262,7 @@ All nested `.swarm/`, `.claude-flow/`, `.pytest_cache/` directories in subdirect
 - ✅ Technical details for future debugging
 
 **Options:**
+
 1. **Link from relevant documentation** (RECOMMENDED)
    - Add to `docs/guides/STANDARDS_INDEX.md`
    - Link from `docs/core/CLAUDE_CONFIGURATION.md` (pre-commit section)
@@ -262,6 +284,7 @@ All nested `.swarm/`, `.claude-flow/`, `.pytest_cache/` directories in subdirect
 **Recommendation:** OPTION 1 - Link from documentation
 **Archive:** Keep in current location
 **Post-delete actions:**
+
 1. Add link from `docs/guides/STANDARDS_INDEX.md`
 2. Add link from troubleshooting documentation
 3. Consider creating `docs/reports/README.md` hub
@@ -274,17 +297,20 @@ All nested `.swarm/`, `.claude-flow/`, `.pytest_cache/` directories in subdirect
 ### 1. `docs/reports/` Directory Purpose
 
 **Current State:**
+
 - Only contains one file: `pre-commit-failure-analysis.md`
 - No README.md
 - Not excluded from orphan checking
 - Not listed in audit hub rules
 
 **Questions:**
+
 1. Is this intended as a permanent directory for generated reports?
 2. Should it be treated like `reports/generated/`?
 3. Should it have a README.md hub?
 
 **Recommendation:**
+
 - **IF** intended for one-time analysis reports: Keep, add README.md hub
 - **IF** should be with other generated reports: Move to `reports/generated/`
 - **IF** vestigial: Can be removed after moving file
@@ -296,11 +322,13 @@ All nested `.swarm/`, `.claude-flow/`, `.pytest_cache/` directories in subdirect
 **Issue:** Auto-generated TOC includes link to `.pytest_cache/README.md`
 
 **Root Cause:** Script `scripts/generate-readmes.py` line 110:
+
 ```python
 if child.name not in [".git", "__pycache__", "node_modules"]:
 ```
 
 **Fix:** Add `.pytest_cache` to exclusion list:
+
 ```python
 if child.name not in [".git", "__pycache__", "node_modules", ".pytest_cache", ".benchmarks", ".swarm", ".claude-flow"]:
 ```
@@ -316,6 +344,7 @@ if child.name not in [".git", "__pycache__", "node_modules", ".pytest_cache", ".
 #### ✅ SAFE_TO_DELETE (25 items)
 
 **Runtime Caches (100% confidence):**
+
 1. `.swarm/` (root)
 2. `.claude-flow/` (root)
 3. `.benchmarks/` (root)
@@ -326,6 +355,7 @@ if child.name not in [".git", "__pycache__", "node_modules", ".pytest_cache", ".
 25. `.pytest_cache/v/cache/` subdirectories
 
 **Rationale:**
+
 - All properly gitignored
 - All excluded from audit rules
 - No code dependencies
@@ -380,13 +410,16 @@ python3 scripts/generate-readmes.py
 ### Phase 3: Address Orphaned File
 
 **Option A: Link from existing documentation**
+
 1. Add section to `docs/guides/STANDARDS_INDEX.md`:
+
    ```markdown
    ## Troubleshooting
    - [Pre-commit Failure Analysis](../reports/pre-commit-failure-analysis.md)
    ```
 
 2. Update `config/audit-rules.yaml`:
+
    ```yaml
    - pattern: "docs/reports/*.md"
      hubs:
@@ -394,6 +427,7 @@ python3 scripts/generate-readmes.py
    ```
 
 **Option B: Create docs/reports/ hub**
+
 1. Create `docs/reports/README.md`
 2. Link to pre-commit-failure-analysis.md
 3. Update audit-rules.yaml to use docs/reports/README.md as hub
@@ -414,6 +448,7 @@ echo ".benchmarks/" >> .gitignore
 ## Git History Analysis
 
 **Commands Used:**
+
 ```bash
 git log --all --oneline --grep="swarm|claude-flow|benchmark" -- .swarm .claude-flow .benchmarks
 ```
@@ -463,6 +498,7 @@ After deletions, verify:
 ### Overall Risk: **VERY LOW**
 
 **Justification:**
+
 - All identified vestigial content is runtime-generated
 - All properly gitignored
 - All excluded from audit rules
@@ -519,6 +555,7 @@ EOF
 ## Conclusion
 
 **Summary:**
+
 - ✅ **25 of 26 items** are completely safe to delete (runtime caches)
 - ⚠️ **1 item** needs documentation linking (pre-commit analysis)
 - ⚠️ **1 script** needs update (generate-readmes.py)
@@ -527,6 +564,7 @@ EOF
 **Confidence Level:** 95%
 
 **Recommended Approach:**
+
 1. Delete all runtime cache directories (Phase 1)
 2. Fix documentation generation script (Phase 2)
 3. Link orphaned report from STANDARDS_INDEX.md (Phase 3)
@@ -534,6 +572,7 @@ EOF
 5. Monitor for 24 hours for any unexpected issues
 
 **Expected Outcome:**
+
 - Cleaner repository structure
 - Reduced confusion about runtime vs. tracked content
 - Resolved orphan file issue

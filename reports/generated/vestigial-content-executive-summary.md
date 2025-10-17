@@ -9,6 +9,7 @@
 
 **All 25 identified cache directories are SAFE TO DELETE.**
 The only concerns are:
+
 1. Link one orphaned doc file
 2. Fix one auto-generated README
 
@@ -37,6 +38,7 @@ find . -type d \( -name ".swarm" -o -name ".claude-flow" -o -name ".benchmarks" 
 ```
 
 **Breakdown:**
+
 - `.swarm/` - Claude Flow coordination (1 root + 4 nested = 5 locations)
 - `.claude-flow/` - Claude Flow metrics (1 root + 4 nested = 5 locations)
 - `.benchmarks/` - Benchmark outputs (1 root + 2 nested = 3 locations)
@@ -44,6 +46,7 @@ find . -type d \( -name ".swarm" -o -name ".claude-flow" -o -name ".benchmarks" 
 - `.pytest_cache/` - Pytest cache (1 root + 2 nested + 1 subdir = 4 locations)
 
 **Why Safe:**
+
 - All listed in `.gitignore`
 - All excluded in `config/audit-rules.yaml`
 - No code dependencies found
@@ -61,12 +64,14 @@ find . -type d \( -name ".swarm" -o -name ".claude-flow" -o -name ".benchmarks" 
 **Risk:** Low
 
 **Quick Fix:**
+
 ```bash
 # Add to docs/guides/STANDARDS_INDEX.md
 echo "- [Pre-commit Troubleshooting](../reports/pre-commit-failure-analysis.md)" >> docs/guides/STANDARDS_INDEX.md
 ```
 
 **Why Keep:**
+
 - High-quality troubleshooting guide
 - Documents actual workflow failures
 - References current configuration
@@ -81,6 +86,7 @@ echo "- [Pre-commit Troubleshooting](../reports/pre-commit-failure-analysis.md)"
 **Risk:** Low
 
 **Quick Fix:**
+
 ```python
 # In scripts/generate-readmes.py line 110, change:
 if child.name not in [".git", "__pycache__", "node_modules"]:
@@ -90,6 +96,7 @@ if child.name not in [".git", "__pycache__", "node_modules", ".pytest_cache", ".
 ```
 
 Then regenerate:
+
 ```bash
 python3 scripts/generate-readmes.py
 ```
@@ -155,12 +162,14 @@ find . -type d \( -name ".swarm" -o -name ".claude-flow" -o -name ".benchmarks" 
 ## Expected Impact
 
 ### Before
+
 ```
 Orphaned files: 1
 Directories missing README: 25
 ```
 
 ### After
+
 ```
 Orphaned files: 0 (linked)
 Directories missing README: 0 (deleted)
@@ -204,6 +213,7 @@ Based on comprehensive analysis:
 For detailed analysis, see: `reports/generated/vestigial-content-safety-validation.md`
 
 **Includes:**
+
 - Complete cross-reference analysis
 - Git history investigation
 - Dependency mapping

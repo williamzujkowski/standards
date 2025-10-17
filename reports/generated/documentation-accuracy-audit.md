@@ -35,6 +35,7 @@ The documentation is **generally accurate** but contains several **critical misr
 **Location**: CLAUDE.md, Line 88
 
 **Claim**:
+
 ```markdown
 ## 🚀 Available Agents (49 Total)
 ```
@@ -42,6 +43,7 @@ The documentation is **generally accurate** but contains several **critical misr
 **Reality**: The 49 items listed are **conceptual agent types** (like "coder", "reviewer", "tester"), not actual MCP tools.
 
 **Actual MCP Tools**: 87 tools across categories:
+
 - Swarm Coordination: 12 tools
 - Neural Networks & AI: 15 tools
 - Memory & Persistence: 12 tools
@@ -54,6 +56,7 @@ The documentation is **generally accurate** but contains several **critical misr
 **Issue**: The documentation conflates **agent types** (conceptual roles) with **MCP tools** (actual callable functions).
 
 **Recommended Fix**:
+
 ```markdown
 ## 🚀 Available Agent Types (49 Conceptual Roles)
 
@@ -75,6 +78,7 @@ Actual implementation uses tools from the MCP categories below.
 **Location**: CLAUDE.md, Lines 73-78
 
 **Claims**:
+
 ```markdown
 ## Build Commands
 
@@ -87,6 +91,7 @@ Actual implementation uses tools from the MCP categories below.
 **Reality**: No package.json exists at repository root.
 
 **Verification**:
+
 ```bash
 $ test -f /home/william/git/standards/package.json
 # Result: File does not exist
@@ -97,6 +102,7 @@ $ test -f /home/william/git/standards/package.json
 **Recommended Fix**:
 
 **Option A** - Remove the section entirely:
+
 ```markdown
 ## Build Commands
 
@@ -105,6 +111,7 @@ refer to the templates in `examples/project-templates/`.
 ```
 
 **Option B** - Create a package.json with actual scripts:
+
 ```json
 {
   "name": "standards",
@@ -127,6 +134,7 @@ refer to the templates in `examples/project-templates/`.
 **Location**: docs/README.md, Lines 96-101
 
 **Claims**:
+
 ```markdown
 ## 📈 Success Metrics
 
@@ -139,12 +147,14 @@ Organizations using these standards report:
 ```
 
 **Issues**:
+
 1. No source data provided
 2. No methodology explained
 3. No sample size or confidence intervals
 4. Cannot be independently verified
 
 **Recommended Fix**:
+
 ```markdown
 ## 📈 Expected Benefits
 
@@ -166,20 +176,24 @@ For case studies and adoption stories, see [GitHub Discussions](https://github.c
 **Location**: README.md, Line 18
 
 **Claim**:
+
 ```markdown
 **Load only what you need. 99%+ token reduction.**
 ```
 
 **Issues**:
+
 1. No baseline comparison provided
 2. "99%" is specific but has no supporting data
 3. Doesn't explain what is being compared
 
 **Reality from docs/SKILLS_CATALOG.md**:
+
 - Level 1 skills: ~2,083 tokens total (all 5 skills)
 - Claim mentions "250,000+ tokens before" (Line 45, README.md)
 
 **Recommended Fix**:
+
 ```markdown
 **Progressive disclosure: Load only what you need.**
 
@@ -197,11 +211,13 @@ Skills approach: Load Level 1 essentials (~2,000 tokens)
 **Location**: docs/SKILLS_CATALOG.md, Line 5
 
 **Claim**:
+
 ```markdown
 **Total Skills**: 5
 ```
 
 **Reality**:
+
 ```bash
 $ find /home/william/git/standards/skills -name "SKILL.md" -type f | wc -l
 62
@@ -210,6 +226,7 @@ $ find /home/william/git/standards/skills -name "SKILL.md" -type f | wc -l
 **Issue**: The catalog claims 5 skills but repository contains 62 SKILL.md files.
 
 **Recommended Fix**:
+
 ```markdown
 **Total Skills**: 62 (5 core skills documented in catalog, 57+ specialized skills)
 
@@ -226,6 +243,7 @@ For complete skill listing, run: `python scripts/discover-skills.py`*
 **Location**: CLAUDE.md, Line 250
 
 **Claim**:
+
 ```markdown
 - **Significant token optimization** through strategic caching
 ```
@@ -233,6 +251,7 @@ For complete skill listing, run: `python scripts/discover-skills.py`*
 **Issue**: "Significant" is vague and unmeasurable.
 
 **Recommended Fix**:
+
 ```markdown
 - **Token optimization** through strategic caching and progressive skill loading
   - Reduces initial context from ~150K to ~2K tokens (98%+ reduction)
@@ -246,6 +265,7 @@ For complete skill listing, run: `python scripts/discover-skills.py`*
 **Location**: README.md, Line 3
 
 **Claim**:
+
 ```markdown
 **Start any project right in 30 seconds. Battle-tested standards from real production systems.**
 ```
@@ -253,6 +273,7 @@ For complete skill listing, run: `python scripts/discover-skills.py`*
 **Issue**: Cannot verify "battle-tested" or "real production systems" claims.
 
 **Recommended Fix**:
+
 ```markdown
 **Start any project right in 30 seconds. Comprehensive standards based on industry best practices.**
 
@@ -270,6 +291,7 @@ These standards consolidate patterns from:
 **Location**: CLAUDE.md, Lines 180-203
 
 **Claims**:
+
 ```bash
 npx claude-flow@alpha hooks pre-task --description "[task]"
 npx claude-flow@alpha hooks session-restore --session-id "swarm-[id]"
@@ -280,6 +302,7 @@ npx claude-flow@alpha hooks session-restore --session-id "swarm-[id]"
 **Verification Needed**: Test each command to ensure they work as documented.
 
 **Recommended Action**:
+
 1. Test each command example
 2. Provide example output
 3. Document error scenarios
@@ -294,6 +317,7 @@ npx claude-flow@alpha hooks session-restore --session-id "swarm-[id]"
 **Location**: Multiple locations
 
 **Examples**:
+
 - "Enterprise-Grade" (CLAUDE.md comment in code)
 - "Complete integrated framework" (STANDARDS_INDEX.md)
 - "Comprehensive" (used 15+ times across docs)
@@ -309,6 +333,7 @@ npx claude-flow@alpha hooks session-restore --session-id "swarm-[id]"
 **Status**: ✅ VERIFIED
 
 All major links checked:
+
 - ✅ `docs/guides/KICKSTART_PROMPT.md` - exists
 - ✅ `config/product-matrix.yaml` - exists
 - ✅ `scripts/generate-audit-reports.py` - exists
@@ -350,12 +375,15 @@ All major links checked:
 ### CLAUDE.md
 
 #### Lines 88-124: Agent Section
+
 **Current**:
+
 ```markdown
 ## 🚀 Available Agents (49 Total)
 ```
 
 **Corrected**:
+
 ```markdown
 ## 🚀 Agent Types & Roles (49 Examples)
 
@@ -366,7 +394,9 @@ For actual MCP tool list, see section below.
 ```
 
 #### Lines 73-78: Build Commands
+
 **Remove or replace** with:
+
 ```markdown
 ## Repository Commands
 
@@ -381,12 +411,15 @@ For actual MCP tool list, see section below.
 ### README.md
 
 #### Line 18: Token Reduction
+
 **Current**:
+
 ```markdown
 **Load only what you need. 99%+ token reduction.**
 ```
 
 **Corrected**:
+
 ```markdown
 **Progressive disclosure: Load only what you need.**
 
@@ -395,12 +428,15 @@ Skills system loads essentials first (~2K tokens) - a 98%+ reduction.*
 ```
 
 #### Line 3: Battle-Tested Claim
+
 **Current**:
+
 ```markdown
 Battle-tested standards from real production systems.
 ```
 
 **Corrected**:
+
 ```markdown
 Comprehensive standards based on industry best practices and modern development frameworks.
 ```
@@ -410,7 +446,9 @@ Comprehensive standards based on industry best practices and modern development 
 ### docs/README.md
 
 #### Lines 96-101: Success Metrics
+
 **Replace** entire section with:
+
 ```markdown
 ## 📈 Implementation Benefits
 
@@ -429,12 +467,15 @@ Proper adoption of these standards can help organizations:
 ### docs/SKILLS_CATALOG.md
 
 #### Line 5: Total Skills Count
+
 **Current**:
+
 ```markdown
 **Total Skills**: 5
 ```
 
 **Corrected**:
+
 ```markdown
 **Core Skills Documented**: 5 (62+ total skills available)
 
@@ -447,20 +488,24 @@ For complete skill discovery, run: `python scripts/discover-skills.py`*
 ## Priority Ranking Summary
 
 ### Critical (Fix Immediately)
+
 1. **Agent count claim** - Misleading terminology (Line 88, CLAUDE.md)
 2. **Missing package.json** - Documented commands don't work (Lines 73-78, CLAUDE.md)
 
 ### High (Fix in Next Update)
+
 3. **Performance claims** - Unverified statistics (Lines 96-101, docs/README.md)
 4. **Token reduction context** - Missing baseline (Line 18, README.md)
 5. **Skills count mismatch** - Catalog vs reality (Line 5, docs/SKILLS_CATALOG.md)
 
 ### Medium (Address When Possible)
+
 6. **Vague optimization claims** - Need quantification (Line 250, CLAUDE.md)
 7. **"Battle-tested" claim** - Unverifiable (Line 3, README.md)
 8. **Hook commands** - Need verification (Lines 180-203, CLAUDE.md)
 
 ### Low (Minor Improvements)
+
 9. **Superlative language** - Overuse of "comprehensive", "enterprise-grade"
 10. **General tone** - Could be more modest and data-driven
 
@@ -469,22 +514,26 @@ For complete skill discovery, run: `python scripts/discover-skills.py`*
 ## Recommended Action Plan
 
 ### Phase 1: Critical Fixes (Today)
+
 1. Update agent section in CLAUDE.md to clarify conceptual vs actual tools
 2. Fix or remove npm build commands section
 3. Add note distinguishing agent types from MCP tools
 
 ### Phase 2: High-Priority Updates (This Week)
+
 4. Revise performance claims with proper disclaimers
 5. Add context to token reduction claims with baseline
 6. Update skills catalog with accurate count
 7. Remove or contextualize "battle-tested" language
 
 ### Phase 3: Medium-Priority Improvements (This Month)
+
 8. Quantify "significant" optimization claims
 9. Verify and document all hook commands
 10. Test all example commands for accuracy
 
 ### Phase 4: Low-Priority Polish (Ongoing)
+
 11. Review superlative language usage
 12. Add case studies or adoption stories for claims
 13. Include methodology for any statistics
@@ -535,18 +584,21 @@ ls -1 /home/william/git/standards/.github/workflows/*.yml | wc -l
 The documentation is **fundamentally sound** with real, working features. However, it contains several **exaggerations and unverifiable claims** that reduce credibility. The most critical issue is the **agent count claim**, which conflates conceptual agent types with actual MCP tools.
 
 ### Key Strengths
+
 - Comprehensive coverage of standards and practices
 - Real, functional tools and scripts
 - Well-organized structure
 - Genuine skills system with progressive disclosure
 
 ### Key Weaknesses
+
 - Misleading agent terminology
 - Unverified performance statistics
 - Missing baseline context for optimization claims
 - Documentation of commands that don't exist
 
 ### Recommendation
+
 **Approve for use** after addressing **Critical and High-priority** issues. The documentation provides real value; it just needs to be more accurate and modest in its claims.
 
 ---
