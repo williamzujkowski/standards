@@ -60,6 +60,7 @@ orphans:
     - "skills_alignment.md"   # Planning document (temporary)
     - ".playwright-mcp/**"    # Playwright MCP runtime
     - "overrides/**"          # MkDocs theme overrides
+    - "**/structure-audit.md" # Generated audit reports (transient)
 
   require_link_from:
     # Standards are linked from the unified hub

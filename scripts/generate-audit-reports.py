@@ -91,6 +91,8 @@ def load_rules() -> Dict:
             merged["orphans"]["require_link_from"] = uo.get(
                 "require_link_from", DEFAULT_RULES["orphans"]["require_link_from"]
             )
+            # Add link_check exclusions
+            merged["link_check"] = user.get("link_check", {})
             return merged
         except Exception as e:
             print(f"⚠️  Failed to read {POLICY}: {e}. Using defaults.")
@@ -444,6 +446,10 @@ def generate_linkcheck_report() -> Tuple[str, int]:
     lines.append("# Link Check Report")
     lines.append(f"\nGenerated: {datetime.now().strftime('%Y-%m-%d')}\n")
 
+    # Load rules to get link_check exclusions
+    rules = load_rules()
+    link_exclusions = rules.get("link_check", {}).get("exclude_files", [])
+
     all_broken: List[Tuple[str, str, str]] = []
     all_external: List[Tuple[str, str, str]] = []
     file_count = 0
@@ -451,6 +457,9 @@ def generate_linkcheck_report() -> Tuple[str, int]:
     for md in ROOT.rglob("*.md"):
         rel = normalize_repo_path(md)
         if matches_any(rel, ["reports/generated/**", ".git/**", "node_modules/**", "__pycache__/**"]):
+            continue
+        # Skip files matching link_check exclusions
+        if link_exclusions and matches_any(rel, link_exclusions):
             continue
         file_count += 1
         _, external, broken = check_links_in_file(md)
