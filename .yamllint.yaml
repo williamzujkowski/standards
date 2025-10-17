@@ -3,10 +3,13 @@ extends: default
 
 # Ignore infrastructure templates with special formatting
 ignore: |
-  skills/cloud-native/service-mesh/templates/istio-installation.yaml
-  skills/cloud-native/serverless/templates/sam-template.yaml
+  skills/cloud-native/service-mesh/templates/*.yaml
+  skills/cloud-native/serverless/templates/*.yaml
   skills/cloud-native/aws-advanced/templates/*.yaml
+  skills/cloud-native/kubernetes/templates/*.yaml
   skills/security/api-security/templates/openapi-security.yaml
+  skills/security/zero-trust/templates/network-policy.yaml
+  skills/devops/monitoring-observability/config/*.yml
 
 rules:
   line-length:

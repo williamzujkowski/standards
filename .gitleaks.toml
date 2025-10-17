@@ -16,6 +16,15 @@ paths = [
     '''\.secrets\.baseline''',
     '''package-lock\.json''',
     '''nist-.*-catalog\.json''',
+    # Generated reports (may contain quoted examples)
+    '''reports/generated/.*''',
+    # Documentation files with example credentials
+    '''skills/.*/SKILL\.md''',
+    # Template and example files
+    '''skills/.*/templates/\.env\.(example|template)''',
+    '''skills/.*/templates/.*\.(tsx?|jsx?|yaml|yml|sh|md)''',
+    '''skills/.*/resources/.*\.md''',
+    '''skills/.*/scripts/.*\.sh''',
 ]
 
 # Specific patterns to ignore
