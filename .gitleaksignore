@@ -1,0 +1,45 @@
+# Gitleaks Ignore File
+# See reports/generated/gitleaks-secret-scanning-analysis.md for full analysis
+# All entries are intentional examples in documentation, templates, and test files
+# Total: 37 false positive detections (0 real secrets)
+
+# ==============================================================================
+# TEMPLATE AND EXAMPLE FILES
+# ==============================================================================
+# These files contain official AWS documentation example credentials
+# (AKIAIOSFODNN7EXAMPLE, etc.) which are published by Amazon for tutorials
+skills/security/secrets-management/templates/.env.example
+skills/security/secrets-management/templates/.env.template
+
+# ==============================================================================
+# DOCUMENTATION FILES (SKILL.md)
+# ==============================================================================
+# Educational content showing proper configuration patterns
+# Includes example connection strings and placeholder credentials
+skills/cloud-native/kubernetes/SKILL.md
+skills/cloud-native/aws-advanced/SKILL.md
+skills/coding-standards/javascript/SKILL.md
+skills/coding-standards/swift/SKILL.md
+skills/coding-standards/python/resources/advanced-patterns.md
+skills/database/advanced-optimization/SKILL.md
+skills/devops/ci-cd/SKILL.md
+skills/nist-compliance/SKILL.md
+skills/security/zero-trust/SKILL.md
+skills/testing/integration-testing/SKILL.md
+
+# ==============================================================================
+# TEST FILES
+# ==============================================================================
+# Test fixtures and mock data
+# React tests contain accessibility assertions with "password" text
+skills/frontend/react/templates/component.test.tsx
+skills/frontend/mobile-react-native/templates/navigation-setup.tsx
+
+# ==============================================================================
+# TEMPLATE CONFIGURATION FILES
+# ==============================================================================
+# Example configurations for CI/CD, security playbooks, and testing
+skills/coding-standards/python/scripts/setup-project.sh
+skills/security/security-operations/templates/incident-response-playbook.md
+skills/security/zero-trust/templates/workload-identity.yaml
+skills/testing/integration-testing/templates/docker-compose.test.yml

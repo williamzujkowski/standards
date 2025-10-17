@@ -283,7 +283,9 @@ repos:
               build/|
               tests/|
               .*\.test\.(js|ts|jsx|tsx)$|
-              .*\.spec\.(js|ts|jsx|tsx)$
+              .*\.spec\.(js|ts|jsx|tsx)$|
+              skills/.*/templates/.*\.(js|ts)$|
+              skills/.*/config/.*\.(js|ts)$
           )$
         additional_dependencies:
           - eslint@8.57.0
