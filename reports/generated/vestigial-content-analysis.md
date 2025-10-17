@@ -1,4 +1,5 @@
 # Vestigial Content Analysis Report
+
 **Standards Repository Comprehensive Audit**
 *Generated: 2025-10-17*
 
@@ -7,12 +8,14 @@
 ## Executive Summary
 
 **Total Vestigial Content Identified: ~27.1 MB**
+
 - **Item Count**: 147+ files/directories
 - **High-Confidence Deletions**: 20.6 MB (safe to remove)
 - **Medium-Confidence**: 6.5 MB (needs validation)
 - **Low-Confidence**: Keep for now
 
 ### Quick Stats
+
 | Category | Size | Count | Safety |
 |----------|------|-------|--------|
 | HTML Coverage Reports | 7.7 MB | 80+ files | HIGH - Safe to delete |
@@ -28,6 +31,7 @@
 ## 1. HIGH-CONFIDENCE DELETIONS (Safe to Remove)
 
 ### 1.1 HTML Coverage Reports (7.7 MB)
+
 **Status**: Build artifacts, regeneratable
 
 | Path | Size | Last Modified | Purpose |
@@ -41,6 +45,7 @@
 **Total**: ~7.7 MB
 
 **Reason**: HTML coverage reports are build artifacts that:
+
 - Can be regenerated with `pytest --cov --cov-report=html`
 - Are not needed in version control
 - Consume significant space
@@ -58,6 +63,7 @@ rm -rf reports/generated/script-coverage
 ---
 
 ### 1.2 Duplicate NIST Catalog (10 MB)
+
 **Status**: Redundant copy
 
 | File | Size | Location |
@@ -66,6 +72,7 @@ rm -rf reports/generated/script-coverage
 | `standards/compliance/oscal/catalogs/nist-800-53r5-catalog.json` | 10 MB | OSCAL subdir |
 
 **Reason**:
+
 - Identical files (10,382,262 bytes each)
 - Same modification timestamp (Aug 23 14:22)
 - One location is sufficient
@@ -74,6 +81,7 @@ rm -rf reports/generated/script-coverage
 **Recommendation**: Keep the OSCAL location (more organized), remove root `catalogs/`
 
 **Action**:
+
 ```bash
 # Verify they're identical first
 diff catalogs/nist-800-53r5-catalog.json \
@@ -88,6 +96,7 @@ rm -rf catalogs/
 ---
 
 ### 1.3 Runtime/Cache Directories (120 KB)
+
 **Status**: Temporary runtime artifacts
 
 | Path | Size | Purpose |
@@ -106,17 +115,20 @@ rm -rf catalogs/
 **Total**: 11 directories, ~120 KB
 
 **Reason**:
+
 - Runtime state directories for claude-flow/swarm operations
 - Should be in `.gitignore`
 - Generated dynamically during tool execution
 - No permanent value
 
 **Action**:
+
 ```bash
 find . -name ".swarm" -o -name ".claude-flow" | xargs rm -rf
 ```
 
 **Add to .gitignore**:
+
 ```
 .swarm/
 .claude-flow/
@@ -128,9 +140,11 @@ find . -name ".swarm" -o -name ".claude-flow" | xargs rm -rf
 ---
 
 ### 1.4 Empty Directories (11 found)
+
 **Status**: No content, cleanup needed
 
 **List**:
+
 - `.git/refs/tags` (empty)
 - `.git/branches` (empty)
 - `overrides/` (empty)
@@ -145,6 +159,7 @@ find . -name ".swarm" -o -name ".claude-flow" | xargs rm -rf
 - `tests/scripts/fixtures/skills/valid-skill/scripts/` (empty)
 
 **Action**:
+
 ```bash
 # Find and remove empty directories (excluding .git)
 find . -type d -empty -not -path "./.git/*" -delete
@@ -155,6 +170,7 @@ find . -type d -empty -not -path "./.git/*" -delete
 ---
 
 ### 1.5 Backup Files (15 KB)
+
 **Status**: Obsolete backup
 
 | File | Size | Last Modified | Differs from Original? |
@@ -162,12 +178,14 @@ find . -type d -empty -not -path "./.git/*" -delete
 | `CLAUDE_backup.md` | 15 KB | Oct 17 13:58 | YES |
 
 **Reason**:
+
 - Backup of CLAUDE.md
 - Git provides version history
 - No need for manual backups
 - Potentially outdated
 
 **Action**:
+
 ```bash
 rm CLAUDE_backup.md
 ```
@@ -179,17 +197,21 @@ rm CLAUDE_backup.md
 ## 2. MEDIUM-CONFIDENCE (Needs Validation)
 
 ### 2.1 Old Phase Reports (1.2+ MB)
+
 **Status**: Historical execution reports
 
 #### Generated Reports (reports/generated/)
+
 35+ reports from various phases, including:
 
 **Phase 1 Reports**:
+
 - `PHASE1_EXECUTION_SUMMARY.md` (14 KB, Oct 17)
 - `phase1-quality-review.md` (28 KB, Oct 17)
 - `phase1-test-report.md` (12 KB, Oct 17)
 
 **Phase 2 Reports**:
+
 - `PHASE2_100PCT_COMPLETION_REPORT.md` (18 KB, Oct 17)
 - `PHASE2_100_COMPLETION_REPORT.md` (20 KB, Oct 17)
 - `PHASE2_80PCT_COMPLETION_SUMMARY.md` (14 KB, Oct 17)
@@ -209,6 +231,7 @@ rm CLAUDE_backup.md
 - `phase2-validation-report.md` (16 KB, Oct 17)
 
 **Phase 3/4 Reports**:
+
 - `PHASE3_COMPLETION_REPORT.md` (21 KB, Oct 17)
 - `PHASE3_EXECUTION_PLAN.md` (11 KB, Oct 17)
 - `PHASE3_FINAL_SUMMARY.txt` (7 KB, Oct 17)
@@ -218,6 +241,7 @@ rm CLAUDE_backup.md
 - `PHASE4_HARDENING_REPORT.md` (3 KB, Aug 23)
 
 **Old Reports (August 23)**:
+
 - `AUDIT_REMEDIATION_SUMMARY.md` (5.3 KB, Aug 23)
 - `CLEANUP_COMPLETION_REPORT.md` (4.7 KB, Aug 23)
 - `COMPREHENSIVE_TESTING_REPORT.md` (9.1 KB, Aug 23)
@@ -231,6 +255,7 @@ rm CLAUDE_backup.md
 **Total**: ~1.2 MB markdown reports
 
 **Reason for Caution**:
+
 - Historical record of project execution
 - May contain important decisions/rationale
 - Some stakeholders may reference them
@@ -241,6 +266,7 @@ rm CLAUDE_backup.md
 **Action Options**:
 
 **Option A - Archive to historical directory**:
+
 ```bash
 mkdir -p reports/historical/phase-completion
 mv reports/generated/PHASE*.md reports/historical/phase-completion/
@@ -249,6 +275,7 @@ mv reports/generated/*SUMMARY*.md reports/historical/phase-completion/
 ```
 
 **Option B - Compress and archive**:
+
 ```bash
 tar -czf reports/historical/phase-reports-$(date +%Y%m%d).tar.gz \
     reports/generated/PHASE*.md \
@@ -258,6 +285,7 @@ tar -czf reports/historical/phase-reports-$(date +%Y%m%d).tar.gz \
 ```
 
 **Option C - Delete if phases are complete and documented elsewhere**:
+
 ```bash
 # Only if confirmed phases are done and archived
 rm reports/generated/PHASE*.md
@@ -269,11 +297,13 @@ rm reports/generated/phase[1-4]*.md
 ---
 
 ### 2.2 Migration Planning Documents (728 KB)
+
 **Status**: Planning artifacts from completed migration
 
 **Location**: `docs/migration/` (29 files)
 
 **Files**:
+
 - `EXECUTIVE_SUMMARY.md` (10 KB)
 - `IMPLEMENTATION_PLAN.md` (48 KB)
 - `README.md` (8 KB) - Keep
@@ -307,6 +337,7 @@ rm reports/generated/phase[1-4]*.md
 **All Updated**: Oct 17 13:58
 
 **Reason for Caution**:
+
 - Documents the migration process
 - Contains architectural decisions
 - Phase completion documentation
@@ -314,11 +345,13 @@ rm reports/generated/phase[1-4]*.md
 - Could be valuable for onboarding
 
 **Recommendation**:
+
 - **Keep**: README.md, MIGRATION_GUIDE.md, architecture-design.md
 - **Archive**: All phase-specific daily plans and trackers
 - **Consider Deleting**: directory-creation-log.md (purely operational)
 
 **Action**:
+
 ```bash
 # Archive phase-specific operational docs
 mkdir -p docs/migration/archived/phase-tracking
@@ -335,6 +368,7 @@ mv docs/migration/directory-creation-log.md docs/migration/archived/
 ---
 
 ### 2.3 Root-Level Planning Files
+
 **Status**: Project planning artifacts
 
 | File | Size | Last Modified | Purpose |
@@ -344,6 +378,7 @@ mv docs/migration/directory-creation-log.md docs/migration/archived/
 | `QUICK_REFERENCE.json` | 435 bytes | Aug 23 14:22 | Quick reference |
 
 **Recommendation**:
+
 - **Keep** `skills_alignment.md` (actively updated)
 - **Archive or Delete** `project_plan.md` (may be outdated)
 - **Evaluate** `QUICK_REFERENCE.json` (check if used)
@@ -357,6 +392,7 @@ mv docs/migration/directory-creation-log.md docs/migration/archived/
 ### 3.1 Utility Directories
 
 #### badges/ (20 KB)
+
 - `standards-compliance-template.md`
 - `README.md`
 - `generate-dynamic-badge.sh`
@@ -365,6 +401,7 @@ mv docs/migration/directory-creation-log.md docs/migration/archived/
 **Action**: KEEP
 
 #### micro/ (20 KB)
+
 - Micro-documentation format files
 - CS-api.micro.md, SEC-auth.micro.md, TS-unit.micro.md
 
@@ -372,6 +409,7 @@ mv docs/migration/directory-creation-log.md docs/migration/archived/
 **Action**: KEEP
 
 #### lint/ (52 KB)
+
 - Custom linting rules and setup
 - `custom-rules.js`, `setup-hooks.sh`, `standards-linter.py`
 
@@ -379,6 +417,7 @@ mv docs/migration/directory-creation-log.md docs/migration/archived/
 **Action**: KEEP
 
 #### memory/ (24 KB)
+
 - Agent and session templates
 - Structure for claude-flow memory system
 
@@ -386,6 +425,7 @@ mv docs/migration/directory-creation-log.md docs/migration/archived/
 **Action**: KEEP
 
 #### prompts/ (64 KB)
+
 - NIST compliance prompts
 - Useful templates for AI interactions
 
@@ -552,6 +592,7 @@ du -sh docs/migration/
 ## 8. Detailed File List
 
 ### HTML Coverage Files (Sample - 80+ total)
+
 ```
 reports/generated/script-coverage/index.html
 reports/generated/script-coverage/style.css
@@ -563,6 +604,7 @@ reports/generated/coverage-generate-skill/**/*
 ```
 
 ### Runtime Directories
+
 ```
 ./examples/nist-templates/quickstart/.swarm
 ./examples/nist-templates/quickstart/.claude-flow
@@ -581,11 +623,13 @@ reports/generated/coverage-generate-skill/**/*
 ## Conclusion
 
 **Recommended Immediate Action**: Execute high-confidence deletions (20.6 MB)
+
 - Zero risk
 - Significant space savings
 - Immediate repository improvement
 
 **Recommended Secondary Action**: Archive medium-confidence items (6.5 MB)
+
 - Low risk
 - Preserves historical data
 - Improves organization
@@ -593,6 +637,7 @@ reports/generated/coverage-generate-skill/**/*
 **Total Potential Savings**: ~27.1 MB (29% of repository size)
 
 **Next Steps**:
+
 1. Review and approve this analysis
 2. Execute high-confidence cleanup script
 3. Archive medium-confidence content
