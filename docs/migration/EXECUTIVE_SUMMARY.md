@@ -206,7 +206,7 @@ Anthropic's new format for modular, composable AI capabilities:
 
 ### Nice to Have (Stretch Goals)
 
-- ⭐ >99% token reduction
+- ⭐ >99% token reduction (from 150K baseline)
 - ⭐ <200ms skill load time
 - ⭐ >95% discovery accuracy
 - ⭐ Community skill contributions

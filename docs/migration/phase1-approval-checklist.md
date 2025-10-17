@@ -725,7 +725,7 @@ python3 -m pylint scripts/
 
 | Criterion                           | Target  | Actual | Status |
 |-------------------------------------|---------|--------|--------|
-| Token reduction >99%                | >99%    | TBD    | ⏳ Phase 2 |
+| Token reduction >99% (vs 150K baseline) | >99%    | TBD    | ⏳ Phase 2 |
 | Skill load time <200ms              | <200ms  | TBD    | ⏳ Phase 2 |
 | Discovery accuracy >95%             | >95%    | TBD    | ⏳ Phase 2 |
 | Community contributions             | >0      | 0      | ⏳ Future |
