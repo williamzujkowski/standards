@@ -1,0 +1,422 @@
+{
+  "dashboard": {
+    "title": "Security Operations Center (SOC) Metrics Dashboard",
+    "description": "Real-time security metrics: MTTD, MTTR, incident trends, SOC workload",
+    "tags": ["security", "soc", "incident-response", "nist"],
+    "timezone": "utc",
+    "refresh": "30s",
+    "time": {
+      "from": "now-24h",
+      "to": "now"
+    },
+    "panels": [
+      {
+        "id": 1,
+        "title": "Mean Time To Detect (MTTD)",
+        "type": "stat",
+        "gridPos": {"x": 0, "y": 0, "w": 6, "h": 4},
+        "targets": [
+          {
+            "datasource": "Splunk",
+            "query": "index=incidents | eval ttd_hours=(detection_time-occurrence_time)/3600 | stats avg(ttd_hours) as mttd",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "unit": "hours",
+          "thresholds": [
+            {"value": 0, "color": "green"},
+            {"value": 1, "color": "yellow"},
+            {"value": 4, "color": "red"}
+          ]
+        }
+      },
+      {
+        "id": 2,
+        "title": "Mean Time To Respond (MTTR)",
+        "type": "stat",
+        "gridPos": {"x": 6, "y": 0, "w": 6, "h": 4},
+        "targets": [
+          {
+            "datasource": "Splunk",
+            "query": "index=incidents | eval ttr_hours=(containment_time-detection_time)/3600 | stats avg(ttr_hours) as mttr",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "unit": "hours",
+          "thresholds": [
+            {"value": 0, "color": "green"},
+            {"value": 2, "color": "yellow"},
+            {"value": 8, "color": "red"}
+          ]
+        }
+      },
+      {
+        "id": 3,
+        "title": "Active Incidents",
+        "type": "stat",
+        "gridPos": {"x": 12, "y": 0, "w": 6, "h": 4},
+        "targets": [
+          {
+            "datasource": "Splunk",
+            "query": "index=incidents status=\"in_progress\" | stats count",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "colorMode": "background",
+          "thresholds": [
+            {"value": 0, "color": "green"},
+            {"value": 5, "color": "yellow"},
+            {"value": 10, "color": "red"}
+          ]
+        }
+      },
+      {
+        "id": 4,
+        "title": "False Positive Rate",
+        "type": "gauge",
+        "gridPos": {"x": 18, "y": 0, "w": 6, "h": 4},
+        "targets": [
+          {
+            "datasource": "Splunk",
+            "query": "index=alerts | stats count(eval(verdict=\"false_positive\")) as fp, count as total | eval fp_rate=(fp/total)*100",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "thresholds": [
+            {"value": 0, "color": "green"},
+            {"value": 10, "color": "yellow"},
+            {"value": 20, "color": "red"}
+          ]
+        }
+      },
+      {
+        "id": 5,
+        "title": "Incident Trends (Last 30 Days)",
+        "type": "graph",
+        "gridPos": {"x": 0, "y": 4, "w": 12, "h": 8},
+        "targets": [
+          {
+            "datasource": "Splunk",
+            "query": "index=incidents earliest=-30d | timechart span=1d count by severity",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "legend": {"show": true, "position": "bottom"},
+          "xaxis": {"mode": "time"},
+          "yaxis": {"label": "Incident Count"},
+          "seriesOverrides": [
+            {"alias": "critical", "color": "#C4162A"},
+            {"alias": "high", "color": "#FF7383"},
+            {"alias": "medium", "color": "#FFEE52"},
+            {"alias": "low", "color": "#73BF69"}
+          ]
+        }
+      },
+      {
+        "id": 6,
+        "title": "Incident Type Distribution",
+        "type": "piechart",
+        "gridPos": {"x": 12, "y": 4, "w": 6, "h": 8},
+        "targets": [
+          {
+            "datasource": "Splunk",
+            "query": "index=incidents earliest=-30d | stats count by type",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "legend": {"show": true, "position": "right"},
+          "pieType": "donut"
+        }
+      },
+      {
+        "id": 7,
+        "title": "Severity Breakdown",
+        "type": "piechart",
+        "gridPos": {"x": 18, "y": 4, "w": 6, "h": 8},
+        "targets": [
+          {
+            "datasource": "Splunk",
+            "query": "index=incidents earliest=-30d | stats count by severity",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "legend": {"show": true, "position": "right"},
+          "colors": {
+            "critical": "#C4162A",
+            "high": "#FF7383",
+            "medium": "#FFEE52",
+            "low": "#73BF69"
+          }
+        }
+      },
+      {
+        "id": 8,
+        "title": "Top 10 Alert Sources",
+        "type": "bargauge",
+        "gridPos": {"x": 0, "y": 12, "w": 12, "h": 8},
+        "targets": [
+          {
+            "datasource": "Splunk",
+            "query": "index=alerts earliest=-24h | stats count by source | sort -count | head 10",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "orientation": "horizontal",
+          "displayMode": "gradient",
+          "thresholds": [
+            {"value": 0, "color": "green"},
+            {"value": 100, "color": "yellow"},
+            {"value": 500, "color": "red"}
+          ]
+        }
+      },
+      {
+        "id": 9,
+        "title": "SOC Analyst Workload (Heatmap)",
+        "type": "heatmap",
+        "gridPos": {"x": 12, "y": 12, "w": 12, "h": 8},
+        "targets": [
+          {
+            "datasource": "Splunk",
+            "query": "index=incidents | eval hour=strftime(_time, \"%H\"), day=strftime(_time, \"%A\") | stats count by day, hour",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "xAxis": {"label": "Hour of Day"},
+          "yAxis": {"label": "Day of Week"},
+          "colorScheme": "interpolateRdYlGn"
+        }
+      },
+      {
+        "id": 10,
+        "title": "MTTD/MTTR Trend (7 Days)",
+        "type": "graph",
+        "gridPos": {"x": 0, "y": 20, "w": 12, "h": 8},
+        "targets": [
+          {
+            "datasource": "Splunk",
+            "query": "index=incidents earliest=-7d | eval ttd_hours=(detection_time-occurrence_time)/3600, ttr_hours=(containment_time-detection_time)/3600 | timechart span=1d avg(ttd_hours) as \"MTTD\", avg(ttr_hours) as \"MTTR\"",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "legend": {"show": true, "position": "bottom"},
+          "xaxis": {"mode": "time"},
+          "yaxis": {"label": "Hours", "min": 0}
+        }
+      },
+      {
+        "id": 11,
+        "title": "Threat Actor Attribution (Geolocation)",
+        "type": "geomap",
+        "gridPos": {"x": 12, "y": 20, "w": 12, "h": 8},
+        "targets": [
+          {
+            "datasource": "Splunk",
+            "query": "index=incidents | iplocation src_ip | stats count by Country",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "view": {"id": "coords", "lat": 20, "lon": 0, "zoom": 2},
+          "basemap": {"type": "carto-light"},
+          "colorScheme": "interpolateReds"
+        }
+      },
+      {
+        "id": 12,
+        "title": "Alert Volume (Real-Time)",
+        "type": "graph",
+        "gridPos": {"x": 0, "y": 28, "w": 12, "h": 6},
+        "targets": [
+          {
+            "datasource": "Splunk",
+            "query": "index=alerts | timechart span=5m count",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "legend": {"show": false},
+          "xaxis": {"mode": "time"},
+          "yaxis": {"label": "Alerts per 5 minutes"},
+          "fill": 1,
+          "linewidth": 2
+        }
+      },
+      {
+        "id": 13,
+        "title": "Top 5 Targeted Assets",
+        "type": "table",
+        "gridPos": {"x": 12, "y": 28, "w": 12, "h": 6},
+        "targets": [
+          {
+            "datasource": "Splunk",
+            "query": "index=incidents | stats count as incident_count, values(type) as incident_types by dest_host | sort -incident_count | head 5",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "columns": [
+            {"text": "Hostname", "value": "dest_host"},
+            {"text": "Incidents", "value": "incident_count"},
+            {"text": "Incident Types", "value": "incident_types"}
+          ]
+        }
+      },
+      {
+        "id": 14,
+        "title": "Incident Resolution Rate",
+        "type": "stat",
+        "gridPos": {"x": 0, "y": 34, "w": 6, "h": 4},
+        "targets": [
+          {
+            "datasource": "Splunk",
+            "query": "index=incidents earliest=-7d | stats count(eval(status=\"resolved\")) as resolved, count as total | eval resolution_rate=(resolved/total)*100",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "unit": "percent",
+          "thresholds": [
+            {"value": 0, "color": "red"},
+            {"value": 80, "color": "yellow"},
+            {"value": 95, "color": "green"}
+          ]
+        }
+      },
+      {
+        "id": 15,
+        "title": "Average Incident Lifetime",
+        "type": "stat",
+        "gridPos": {"x": 6, "y": 34, "w": 6, "h": 4},
+        "targets": [
+          {
+            "datasource": "Splunk",
+            "query": "index=incidents status=\"resolved\" | eval lifetime_hours=(resolved_time-detection_time)/3600 | stats avg(lifetime_hours) as avg_lifetime",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "unit": "hours",
+          "thresholds": [
+            {"value": 0, "color": "green"},
+            {"value": 24, "color": "yellow"},
+            {"value": 72, "color": "red"}
+          ]
+        }
+      },
+      {
+        "id": 16,
+        "title": "SOC Team Performance (Incidents Resolved)",
+        "type": "bargauge",
+        "gridPos": {"x": 12, "y": 34, "w": 12, "h": 4},
+        "targets": [
+          {
+            "datasource": "Splunk",
+            "query": "index=incidents status=\"resolved\" earliest=-7d | stats count by assigned_analyst | sort -count",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "orientation": "horizontal",
+          "displayMode": "lcd"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "created": "2025-01-17",
+    "author": "SOC Team",
+    "description": "Grafana dashboard for Security Operations Center metrics aligned with NIST 800-61",
+    "nist_controls": ["IR-4", "IR-5", "AU-6", "SI-4"],
+    "data_sources": ["Splunk", "ELK", "Azure Sentinel"],
+    "refresh_interval": "30s",
+    "retention": "90 days hot, 1 year archive"
+  },
+  "variables": [
+    {
+      "name": "severity",
+      "label": "Severity Filter",
+      "type": "custom",
+      "options": ["critical", "high", "medium", "low"],
+      "default": "all"
+    },
+    {
+      "name": "incident_type",
+      "label": "Incident Type",
+      "type": "query",
+      "query": "index=incidents | stats count by type | fields type",
+      "default": "all"
+    },
+    {
+      "name": "timerange",
+      "label": "Time Range",
+      "type": "interval",
+      "options": ["Last 1 hour", "Last 24 hours", "Last 7 days", "Last 30 days"],
+      "default": "Last 24 hours"
+    }
+  ],
+  "annotations": [
+    {
+      "name": "Major Incidents",
+      "datasource": "Splunk",
+      "query": "index=incidents severity=critical | eval time=_time, text=concat(\"Critical: \", title)",
+      "color": "#C4162A"
+    },
+    {
+      "name": "System Maintenance",
+      "datasource": "Splunk",
+      "query": "index=maintenance | eval time=_time, text=concat(\"Maintenance: \", description)",
+      "color": "#1F60C4"
+    }
+  ],
+  "alerts": [
+    {
+      "name": "High MTTD Alert",
+      "condition": "MTTD > 4 hours",
+      "notification": "Slack #soc-alerts, Email SOC Manager",
+      "frequency": "Once per incident"
+    },
+    {
+      "name": "Critical Incident Alert",
+      "condition": "severity = critical",
+      "notification": "PagerDuty, Phone call to Incident Commander",
+      "frequency": "Immediate"
+    },
+    {
+      "name": "High False Positive Rate",
+      "condition": "False Positive Rate > 20%",
+      "notification": "Email SOC Manager",
+      "frequency": "Daily digest"
+    }
+  ],
+  "installation": {
+    "steps": [
+      "1. Import this JSON file into Grafana (Dashboard > Import)",
+      "2. Configure data source connections (Splunk/ELK/Azure Sentinel)",
+      "3. Update queries to match your index/field names",
+      "4. Set up alert notification channels (Slack, PagerDuty, Email)",
+      "5. Adjust refresh interval based on your environment",
+      "6. Configure user permissions (read-only for analysts, edit for SOC managers)"
+    ],
+    "requirements": [
+      "Grafana 9.0+",
+      "SIEM integration (Splunk, ELK, or Azure Sentinel)",
+      "Incident tracking system (ServiceNow, Jira, or custom)",
+      "GeoIP database for threat actor geolocation"
+    ]
+  }
+}
