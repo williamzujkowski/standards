@@ -518,20 +518,23 @@ Based on your scorecard, assess your zero-trust maturity:
 
 ## Next Steps and Recommendations
 
-1. **Immediate Actions (0-3 months):**
-   - _______________________________________________
-   - _______________________________________________
-   - _______________________________________________
+### Immediate Actions (0-3 months)
 
-2. **Short-term Goals (3-6 months):**
-   - _______________________________________________
-   - _______________________________________________
-   - _______________________________________________
+- ___ (to be filled)
+- ___ (to be filled)
+- ___ (to be filled)
 
-3. **Long-term Goals (6-12 months):**
-   - _______________________________________________
-   - _______________________________________________
-   - _______________________________________________
+### Short-term Goals (3-6 months)
+
+- ___ (to be filled)
+- ___ (to be filled)
+- ___ (to be filled)
+
+### Long-term Goals (6-12 months)
+
+- ___ (to be filled)
+- ___ (to be filled)
+- ___ (to be filled)
 
 ---
 

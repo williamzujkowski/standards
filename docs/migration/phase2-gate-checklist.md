@@ -105,8 +105,8 @@ description: Clear description of what this skill does, when Claude should use i
 
 **Optimization Notes** (if >4,500 tokens):
 
-- _______________
-- _______________
+- ___ (to be filled)
+- ___ (to be filled)
 
 **Notes**: _______________
 
@@ -265,9 +265,9 @@ description: Clear description of what this skill does, when Claude should use i
 **Validation Output**:
 
 ```
-_______________
-_______________
-_______________
+---
+---
+---
 ```
 
 **Notes**: _______________
@@ -291,9 +291,9 @@ _______________
 
 **Action Items** (if CONDITIONAL PASS or FAIL):
 
-1. _______________
-2. _______________
-3. _______________
+1. _______________  (to be filled)
+2. _______________  (to be filled)
+3. _______________  (to be filled)
 
 ---
 
@@ -324,14 +324,14 @@ Complete this checklist at the end of each day during Phase 2.
 
 **Issues Identified**:
 
-- _______________
-- _______________
+- ___ (to be filled)
+- ___ (to be filled)
 
 **Action Plan for Tomorrow**:
 
-1. _______________
-2. _______________
-3. _______________
+1. _______________  (to be filled)
+2. _______________  (to be filled)
+3. _______________  (to be filled)
 
 **Daily Gate Decision**: PASS / CONDITIONAL PASS / FAIL
 

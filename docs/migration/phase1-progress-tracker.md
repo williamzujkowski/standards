@@ -475,27 +475,27 @@ Based on current progress:
 
 ### What Went Well
 
-1. _______________
-2. _______________
-3. _______________
+1. _______________  (to be filled)
+2. _______________  (to be filled)
+3. _______________  (to be filled)
 
 ### What Needs Improvement
 
-1. _______________
-2. _______________
-3. _______________
+1. _______________  (to be filled)
+2. _______________  (to be filled)
+3. _______________  (to be filled)
 
 ### Action Items for Phase 2
 
-1. _______________
-2. _______________
-3. _______________
+1. _______________  (to be filled)
+2. _______________  (to be filled)
+3. _______________  (to be filled)
 
 ### Lessons Learned
 
-- _______________
-- _______________
-- _______________
+- ___ (to be filled)
+- ___ (to be filled)
+- ___ (to be filled)
 
 ---
 

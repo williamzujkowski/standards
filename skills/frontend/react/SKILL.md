@@ -1,7 +1,4 @@
-# React Frontend Development Standards
-
 ---
-
 name: react-frontend
 description: React frontend standards covering hooks (useState, useEffect, useContext, custom hooks), state management (Context API, Redux, Zustand), performance optimization (memoization, lazy loading, code splitting), testing with React Testing Library, and accessibility (WCAG 2.1, ARIA) for modern SPAs
 tags: [frontend, react, hooks, state-management, performance, accessibility, testing]
@@ -12,6 +9,8 @@ prerequisites: [javascript-coding-standards, html-css-standards]
 related_skills: [typescript-coding-standards, testing-standards, web-accessibility]
 wcag_level: AA
 ---
+
+# React Frontend Development Standards
 
 ## Level 1: Quick Reference (5-10 minutes)
 

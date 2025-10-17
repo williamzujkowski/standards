@@ -1,3 +1,5 @@
+# Skills Alignment Guide
+
 I'll help you create a comprehensive prompt to align your standards repo with Anthropic's new agent skills format. Let me first examine both the Anthropic documentation and your current standards repository to understand the alignment needed.Based on my analysis of your standards repository and Anthropic's new Agent Skills format, I'll create a comprehensive prompt for Claude Flow to help you modernize your standards repo. Your repository already has excellent content that aligns well with the Skills philosophy - it just needs restructuring to follow the new format.
 
 ## **Claude Flow Prompt for Standards-to-Skills Migration**

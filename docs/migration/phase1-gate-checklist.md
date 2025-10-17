@@ -405,9 +405,11 @@ All items must be **PASS** to proceed to Phase 2.
 
 **Action Items** (if CONDITIONAL-GO or NO-GO):
 
-1. _______________
-2. _______________
-3. _______________
+1. _______________  (to be filled)
+2. _______________  (to be filled)
+3. _______________  (to be filled)
+
+---
 
 **Re-Gate Date** (if NO-GO): _______________
 

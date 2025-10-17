@@ -558,7 +558,7 @@ description: Coding stuff.
 
 ---
 
-## Bundled Resources
+## Bundled Resources (Implementation)
 
 ### Templates
 
