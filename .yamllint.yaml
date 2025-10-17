@@ -2,14 +2,12 @@
 extends: default
 
 # Ignore infrastructure templates with special formatting
+# All skill templates and configs use infrastructure-specific indentation
 ignore: |
-  skills/cloud-native/service-mesh/templates/*.yaml
-  skills/cloud-native/serverless/templates/*.yaml
-  skills/cloud-native/aws-advanced/templates/*.yaml
-  skills/cloud-native/kubernetes/templates/*.yaml
-  skills/security/api-security/templates/openapi-security.yaml
-  skills/security/zero-trust/templates/network-policy.yaml
-  skills/devops/monitoring-observability/config/*.yml
+  skills/**/templates/*.yaml
+  skills/**/templates/*.yml
+  skills/**/config/*.yaml
+  skills/**/config/*.yml
 
 rules:
   line-length:
