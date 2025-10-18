@@ -4,18 +4,14 @@ Generated: 2025-10-17
 
 ## Summary
 
-Total issues found: 14
+Total issues found: 8
 
 
-## Orphaned Files (5)
+## Orphaned Files (0)
 
 Files not linked from any other document:
 
-- docs/reports/kickstart-analysis.md
-- docs/reports/kickstart-implementation-summary.md
-- docs/reports/kickstart-validation.md
-- docs/reports/pre-commit-failure-analysis.md
-- docs/reports/template-architecture.md
+✅ No orphaned files found
 
 ## Missing Cross-References (0)
 
@@ -27,12 +23,11 @@ Standards documents not referencing UNIFIED_STANDARDS.md:
 
 ✅ All filenames follow conventions
 
-## Directories Missing README (9)
+## Directories Missing README (8)
 
 - scripts/tests/
 - scripts/__pycache__/
 - docs/api/
-- docs/reports/
 - tests/__pycache__/
 - examples/nist-templates/quickstart/scripts/
 - examples/nist-templates/quickstart/scripts/tests/
@@ -49,9 +44,9 @@ Standards documents not referencing UNIFIED_STANDARDS.md:
 
 ## Recommendations
 
-1. __Fix broken links__: Update or remove broken internal links
-2. __Link orphaned files__: Add references or extend exclusions in config/audit-rules.yaml
-3. __Add cross-references__: Link standards to UNIFIED_STANDARDS.md
-4. __Standardize names__: Rename files to follow conventions
-5. __Add READMEs__: Create README.md for directories lacking them
-6. __Satisfy hub rules__: Ensure required hub(s) link to required files
+1. **Fix broken links**: Update or remove broken internal links
+2. **Link orphaned files**: Add references or extend exclusions in config/audit-rules.yaml
+3. **Add cross-references**: Link standards to UNIFIED_STANDARDS.md
+4. **Standardize names**: Rename files to follow conventions
+5. **Add READMEs**: Create README.md for directories lacking them
+6. **Satisfy hub rules**: Ensure required hub(s) link to required files
