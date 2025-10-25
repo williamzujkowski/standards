@@ -23,6 +23,12 @@ link_check:
     - "skills/**"                    # Skills are self-contained modular system
     - "tests/scripts/fixtures/**"    # Test fixtures with intentional broken links
     - "docs/guides/SKILL_AUTHORING_GUIDE.md"  # Template with example placeholder links
+    - "archive/**"                   # Archived historical content (may have outdated links)
+    - "README.md"                    # Links to planned MIGRATION_GUIDE.md (v2.0 feature)
+    - "agents/README.md"             # Links to planned MIGRATION_GUIDE.md (v2.0 feature)
+    - "docs/SKILLS_CATALOG.md"       # Links to planned MIGRATION_GUIDE.md (v2.0 feature)
+    - "docs/guides/SKILLS_QUICK_START.md"  # Links to planned MIGRATION_GUIDE.md (v2.0 feature)
+    - "docs/guides/SKILLS_USER_GUIDE.md"   # Links to planned MIGRATION_GUIDE.md (v2.0 feature)
 
 orphans:
   exclude:
@@ -34,22 +40,32 @@ orphans:
     - ".vscode/**"           # IDE configuration
     - ".git/**"              # Git internal files
     - "node_modules/**"      # Node.js dependencies
-    - "__pycache__/**"       # Python cache
+    - "__pycache__/**"       # Python cache (root level)
     - ".github/**"           # GitHub configuration files
+    - ".backup/**"           # Backup directories
+    - ".backup/"             # Backup root
+    - "**/.backup/**"        # Backup directories (all levels)
     - ".claude-flow/**"      # Claude Flow runtime
     - ".hive-mind/**"        # Hive Mind sessions
     - ".swarm/**"            # Swarm coordination
     - ".nist/**"             # NIST tooling
-    - ".ruff_cache/**"       # Ruff linter cache
-    - ".pytest_cache/**"     # Pytest cache
-    - ".benchmarks/**"       # Benchmark data
+    - ".ruff_cache/**"       # Ruff linter cache (root level)
+    - ".pytest_cache/**"     # Pytest cache (root level)
+    - ".benchmarks/**"       # Benchmark data (root level)
+    - ".mypy_cache/**"       # Mypy cache (root level)
+    - ".tox/**"              # Tox environments
     - "**/.swarm/**"         # Swarm coordination (all levels)
     - "**/.claude-flow/**"   # Claude Flow runtime (all levels)
     - "**/.pytest_cache/**"  # Pytest cache (all levels)
     - "**/__pycache__/**"    # Python cache (all levels)
     - "**/.benchmarks/**"    # Benchmark data (all levels)
     - "**/.ruff_cache/**"    # Ruff cache (all levels)
+    - "**/.mypy_cache/**"    # Mypy cache (all levels)
+    - "**/.tox/**"           # Tox environments (all levels)
+    - "**/*.pyc"             # Compiled Python files
+    - "**/.DS_Store"         # macOS metadata
     - "project_plan.md"      # Planning document (intentional)
+    - "update_repo.md"       # Completed project plan (Phase 4 executed in d6a1260)
     - "standards/compliance/IMPLEMENTATION_SUMMARY.md"  # Generated report
     - "MIGRATION_LOG.md"      # Jekyll to MkDocs migration log (one-time document)
     - "site/**"               # MkDocs generated site (build output)
@@ -61,6 +77,20 @@ orphans:
     - ".playwright-mcp/**"    # Playwright MCP runtime
     - "overrides/**"          # MkDocs theme overrides
     - "**/structure-audit.md"  # Generated audit reports (transient)
+    - "archive/**"            # Archived historical content (completed plans, old migrations)
+    - "docs/architecture/migration-summary.md"  # Architecture planning document
+    - "docs/optimization/PERFORMANCE_SUMMARY.md"  # Performance analysis report
+    - "docs/optimization/performance-analysis.md"  # Detailed performance analysis
+    - "tests/validation/VALIDATION_SUMMARY.md"  # Test validation summary report
+    - "ROUTER_VALIDATION_SUMMARY.md"  # Router validation executive summary
+    - "tests/TDD_TEST_SPECIFICATION.md"  # TDD test specification document
+    - "tests/integration/TESTING_SUMMARY.md"  # Integration testing summary
+    - "tests/validation/NEXT_STEPS.md"  # Validation next steps report
+    - "tests/validation/ROUTER_EDGE_CASES_REPORT.md"  # Router edge cases analysis
+    - "tests/validation/ROUTER_VALIDATION_REPORT.md"  # Detailed router validation
+    - "tests/validation/SKILLS_TEST_SPEC.md"  # TDD skills test specification
+    - "tests/validation/TDD_SKILLS_SUMMARY.md"  # TDD skills summary report
+    - "reports/healthtech-refactoring-summary.md"  # Healthtech refactoring report
 
   require_link_from:
     # Standards are linked from the unified hub

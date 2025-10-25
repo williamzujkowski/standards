@@ -9,6 +9,7 @@ Comprehensive guides for adopting standards, creating new standards, and leverag
 - [Kickstart Advanced](./KICKSTART_ADVANCED.md)
 - [Kickstart Prompt](./KICKSTART_PROMPT.md)
 - [Llm Training](./LLM_TRAINING.md)
+- [Skill Format Specification](./SKILL_FORMAT_SPEC.md)
 - [Standards Graph](./STANDARDS_GRAPH.md)
 - [Standards Index](./STANDARDS_INDEX.md)
 - [Standard Template](./STANDARD_TEMPLATE.md)

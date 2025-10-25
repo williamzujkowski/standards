@@ -2,10 +2,23 @@
 name: service-mesh
 category: cloud-native
 difficulty: advanced
-tags: [istio, linkerd, envoy, mtls, traffic-management, observability]
-prerequisites: [kubernetes, networking, security]
+tags:
+- istio
+- linkerd
+- envoy
+- mtls
+- traffic-management
+- observability
+prerequisites:
+- kubernetes
+- networking
+- security
 estimated_time: 8-12 hours
+description: A service mesh is an infrastructure layer that provides transparent service-to-service
+  communication with built-in observability, traffic management, and security features
+  without requiring application code changes.
 ---
+
 
 # Service Mesh
 
@@ -229,7 +242,10 @@ spec:
 
 ---
 
-## Level 2: Implementation Guide
+## Level 2:
+> **📚 Full Examples**: See [REFERENCE.md](./REFERENCE.md) for complete code samples, detailed configurations, and production-ready implementations.
+
+ Implementation Guide
 
 ### Service Mesh Architecture
 
@@ -246,39 +262,21 @@ The control plane manages and configures the data plane proxies:
 
 **Istiod Components:**
 
-```
-┌─────────────────────────────────────────┐
-│             Istiod (Control Plane)      │
-├─────────────────────────────────────────┤
-│  ┌─────────────┐  ┌─────────────┐      │
-│  │   Pilot     │  │   Citadel   │      │
-│  │ (Discovery) │  │    (CA)     │      │
-│  └─────────────┘  └─────────────┘      │
-│  ┌─────────────┐  ┌─────────────┐      │
-│  │   Galley    │  │   Telemetry │      │
-│  │  (Config)   │  │  (Metrics)  │      │
-│  └─────────────┘  └─────────────┘      │
-└─────────────────────────────────────────┘
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-0) for complete implementation.*
+
+
 
 #### Data Plane (Envoy Proxies)
 
 **Sidecar Pattern:**
 
-```
-┌────────────────────────────────────┐
-│             Pod                    │
-│  ┌──────────────┐  ┌────────────┐ │
-│  │ Application  │  │   Envoy    │ │
-│  │ Container    │◄─┤   Proxy    │ │
-│  │              │  │  (Sidecar) │ │
-│  └──────────────┘  └────────────┘ │
-│         ▲                ▲         │
-└─────────┼────────────────┼─────────┘
-          │                │
-    Business Logic    Traffic Management
-                      Security, Observability
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-1) for complete implementation.*
+
+
 
 **Envoy Capabilities:**
 
@@ -290,25 +288,11 @@ The control plane manages and configures the data plane proxies:
 
 #### Traffic Flow
 
-```
-Client Request
-      │
-      ▼
-┌─────────────┐
-│   Ingress   │ ← External entry point
-│   Gateway   │
-└──────┬──────┘
-       │
-       ▼
-┌─────────────┐     ┌─────────────┐
-│  Service A  │────►│  Service B  │
-│   (Envoy)   │     │   (Envoy)   │
-└──────┬──────┘     └──────┬──────┘
-       │                   │
-       ▼                   ▼
-  Application         Application
-   Container           Container
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-2) for complete implementation.*
+
+
 
 ### Istio Installation and Configuration
 
@@ -316,81 +300,27 @@ Client Request
 
 **1. IstioOperator (Recommended):**
 
-```yaml
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-metadata:
-  name: istio-installation
-spec:
-  profile: default
-  components:
-    pilot:
-      k8s:
-        resources:
-          requests:
-            cpu: 500m
-            memory: 2048Mi
-    ingressGateways:
-    - name: istio-ingressgateway
-      enabled: true
-      k8s:
-        service:
-          type: LoadBalancer
-        resources:
-          requests:
-            cpu: 100m
-            memory: 128Mi
-  meshConfig:
-    accessLogFile: /dev/stdout
-    enableTracing: true
-    defaultConfig:
-      tracing:
-        sampling: 100.0
-  values:
-    global:
-      proxy:
-        resources:
-          requests:
-            cpu: 10m
-            memory: 40Mi
-          limits:
-            cpu: 2000m
-            memory: 1024Mi
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-3) for complete implementation.*
+
+
 
 **2. Helm Installation:**
 
-```bash
-# Add Istio repository
-helm repo add istio https://istio-release.storage.googleapis.com/charts
-helm repo update
 
-# Create istio-system namespace
-kubectl create namespace istio-system
 
-# Install base components
-helm install istio-base istio/base -n istio-system
+*See [REFERENCE.md](./REFERENCE.md#example-4) for complete implementation.*
 
-# Install Istiod
-helm install istiod istio/istiod -n istio-system --wait
 
-# Install ingress gateway
-helm install istio-ingress istio/gateway -n istio-system
-```
 
 **3. Production Profile:**
 
-```bash
-# Minimal production setup
-istioctl install --set profile=minimal \
-  --set values.pilot.autoscaleEnabled=true \
-  --set values.pilot.autoscaleMin=2 \
-  --set values.pilot.autoscaleMax=5 \
-  --set values.global.proxy.resources.requests.cpu=100m \
-  --set values.global.proxy.resources.requests.memory=128Mi \
-  --set values.global.proxy.resources.limits.cpu=2000m \
-  --set values.global.proxy.resources.limits.memory=1024Mi
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-5) for complete implementation.*
+
+
 
 #### Sidecar Injection Strategies
 
@@ -430,19 +360,11 @@ spec:
 
 #### Configuration Validation
 
-```bash
-# Validate installation
-istioctl verify-install
 
-# Check proxy status
-istioctl proxy-status
 
-# Analyze configuration
-istioctl analyze --all-namespaces
+*See [REFERENCE.md](./REFERENCE.md#example-9) for complete implementation.*
 
-# View proxy configuration
-istioctl proxy-config cluster <pod-name> -n <namespace>
-```
+
 
 ### Advanced Traffic Management
 
@@ -450,226 +372,57 @@ istioctl proxy-config cluster <pod-name> -n <namespace>
 
 **Gradual Rollout Strategy:**
 
-```yaml
-apiVersion: networking.istio.io/v1beta1
-kind: VirtualService
-metadata:
-  name: reviews-canary
-spec:
-  hosts:
-  - reviews
-  http:
-  - match:
-    - headers:
-        user-agent:
-          regex: ".*Mobile.*"
-    route:
-    - destination:
-        host: reviews
-        subset: v2
-  - route:
-    - destination:
-        host: reviews
-        subset: v1
-      weight: 80
-    - destination:
-        host: reviews
-        subset: v2
-      weight: 20
----
-apiVersion: networking.istio.io/v1beta1
-kind: DestinationRule
-metadata:
-  name: reviews-destination
-spec:
-  host: reviews
-  subsets:
-  - name: v1
-    labels:
-      version: v1
-  - name: v2
-    labels:
-      version: v2
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-10) for complete implementation.*
+
+
 
 **Progressive Rollout Script:**
 
-```bash
-#!/bin/bash
-# Gradual canary rollout: 10% → 25% → 50% → 100%
 
-WEIGHTS=(10 25 50 100)
-for weight in "${WEIGHTS[@]}"; do
-  echo "Shifting $weight% traffic to v2..."
 
-  kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1beta1
-kind: VirtualService
-metadata:
-  name: reviews-canary
-spec:
-  hosts:
-  - reviews
-  http:
-  - route:
-    - destination:
-        host: reviews
-        subset: v1
-      weight: $((100 - weight))
-    - destination:
-        host: reviews
-        subset: v2
-      weight: $weight
-EOF
+*See [REFERENCE.md](./REFERENCE.md#example-11) for complete implementation.*
 
-  # Monitor metrics for 5 minutes
-  sleep 300
 
-  # Check error rate
-  ERROR_RATE=$(kubectl exec -it deploy/prometheus -n istio-system -- \
-    promtool query instant 'rate(istio_requests_total{destination_version="v2",response_code=~"5.."}[5m])')
-
-  if (( $(echo "$ERROR_RATE > 0.05" | bc -l) )); then
-    echo "Error rate too high, rolling back!"
-    kubectl apply -f virtualservice-v1-only.yaml
-    exit 1
-  fi
-done
-```
 
 #### 2. Blue-Green Deployments
 
 **Zero-Downtime Cutover:**
 
-```yaml
-apiVersion: networking.istio.io/v1beta1
-kind: VirtualService
-metadata:
-  name: myapp-bluegreen
-spec:
-  hosts:
-  - myapp.example.com
-  gateways:
-  - myapp-gateway
-  http:
-  - match:
-    - headers:
-        x-version:
-          exact: green
-    route:
-    - destination:
-        host: myapp
-        subset: green
-  - route:  # Default to blue
-    - destination:
-        host: myapp
-        subset: blue
----
-apiVersion: networking.istio.io/v1beta1
-kind: DestinationRule
-metadata:
-  name: myapp-destination
-spec:
-  host: myapp
-  subsets:
-  - name: blue
-    labels:
-      version: blue
-  - name: green
-    labels:
-      version: green
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-12) for complete implementation.*
+
+
 
 **Cutover Process:**
 
-```bash
-# 1. Deploy green version
-kubectl apply -f deployment-green.yaml
 
-# 2. Test green version
-curl -H "x-version: green" https://myapp.example.com/health
 
-# 3. Switch all traffic to green
-kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1beta1
-kind: VirtualService
-metadata:
-  name: myapp-bluegreen
-spec:
-  hosts:
-  - myapp.example.com
-  http:
-  - route:
-    - destination:
-        host: myapp
-        subset: green
-EOF
+*See [REFERENCE.md](./REFERENCE.md#example-13) for complete implementation.*
 
-# 4. Verify metrics, then remove blue
-kubectl delete deployment myapp-blue
-```
+
 
 #### 3. A/B Testing
 
 **User Cohort Routing:**
 
-```yaml
-apiVersion: networking.istio.io/v1beta1
-kind: VirtualService
-metadata:
-  name: frontend-ab-test
-spec:
-  hosts:
-  - frontend.example.com
-  gateways:
-  - frontend-gateway
-  http:
-  - match:
-    - headers:
-        cookie:
-          regex: ".*session=premium.*"
-    route:
-    - destination:
-        host: frontend
-        subset: premium-ui
-  - match:
-    - headers:
-        x-user-id:
-          regex: "^[0-4].*"  # 50% of users (IDs starting with 0-4)
-    route:
-    - destination:
-        host: frontend
-        subset: variant-a
-  - route:  # Default variant B
-    - destination:
-        host: frontend
-        subset: variant-b
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-14) for complete implementation.*
+
+
 
 #### 4. Traffic Mirroring
 
 **Shadow Testing:**
 
-```yaml
-apiVersion: networking.istio.io/v1beta1
-kind: VirtualService
-metadata:
-  name: api-mirror
-spec:
-  hosts:
-  - api.example.com
-  http:
-  - route:
-    - destination:
-        host: api
-        subset: v1
-      weight: 100
-    mirror:
-      host: api
-      subset: v2
-    mirrorPercentage:
-      value: 100.0  # Mirror 100% of traffic
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-15) for complete implementation.*
+
+
 
 **Use Cases:**
 
@@ -700,27 +453,11 @@ istioctl dashboard kiali
 
 **Kiali Configuration:**
 
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: kiali
-  namespace: istio-system
-data:
-  config.yaml: |
-    auth:
-      strategy: anonymous
-    deployment:
-      accessible_namespaces:
-      - '**'
-    external_services:
-      prometheus:
-        url: "http://prometheus:9090"
-      tracing:
-        url: "http://jaeger-query:16686"
-      grafana:
-        url: "http://grafana:3000"
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-17) for complete implementation.*
+
+
 
 #### Jaeger (Distributed Tracing)
 
@@ -735,47 +472,19 @@ istioctl dashboard jaeger
 
 **Enable Tracing in Mesh:**
 
-```yaml
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  meshConfig:
-    enableTracing: true
-    defaultConfig:
-      tracing:
-        sampling: 100.0  # 100% sampling for testing
-        zipkin:
-          address: jaeger-collector.istio-system:9411
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-19) for complete implementation.*
+
+
 
 **Application Instrumentation:**
 
-```python
-# Python (Flask) example
-from opentelemetry import trace
-from opentelemetry.exporter.jaeger import JaegerExporter
-from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import BatchSpanProcessor
 
-# Configure Jaeger exporter
-jaeger_exporter = JaegerExporter(
-    agent_host_name="localhost",
-    agent_port=6831,
-)
 
-trace.set_tracer_provider(TracerProvider())
-trace.get_tracer_provider().add_span_processor(
-    BatchSpanProcessor(jaeger_exporter)
-)
+*See [REFERENCE.md](./REFERENCE.md#example-20) for complete implementation.*
 
-tracer = trace.get_tracer(__name__)
 
-@app.route('/api/data')
-def get_data():
-    with tracer.start_as_current_span("get_data"):
-        # Business logic
-        return {"data": "value"}
-```
 
 #### Prometheus & Grafana
 
@@ -787,22 +496,11 @@ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.20/samp
 
 **Key Metrics:**
 
-```promql
-# Request rate (QPS)
-rate(istio_requests_total{reporter="source"}[1m])
 
-# Error rate
-rate(istio_requests_total{reporter="source",response_code=~"5.."}[1m])
- / rate(istio_requests_total{reporter="source"}[1m])
 
-# P95 latency
-histogram_quantile(0.95,
-  rate(istio_request_duration_milliseconds_bucket{reporter="source"}[1m])
-)
+*See [REFERENCE.md](./REFERENCE.md#example-22) for complete implementation.*
 
-# Circuit breaker triggers
-rate(envoy_cluster_upstream_rq_pending_overflow[1m])
-```
+
 
 **Grafana Dashboards:**
 
@@ -814,31 +512,11 @@ istioctl dashboard grafana
 
 **Custom Dashboard (JSON):**
 
-```json
-{
-  "dashboard": {
-    "title": "Service Mesh Overview",
-    "panels": [
-      {
-        "title": "Request Rate",
-        "targets": [
-          {
-            "expr": "sum(rate(istio_requests_total[1m])) by (destination_service)"
-          }
-        ]
-      },
-      {
-        "title": "Error Rate (%)",
-        "targets": [
-          {
-            "expr": "sum(rate(istio_requests_total{response_code=~\"5..\"}[1m])) / sum(rate(istio_requests_total[1m])) * 100"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-24) for complete implementation.*
+
+
 
 ### Security Configuration
 
@@ -846,148 +524,61 @@ istioctl dashboard grafana
 
 **Enable Strict mTLS (Cluster-wide):**
 
-```yaml
-apiVersion: security.istio.io/v1beta1
-kind: PeerAuthentication
-metadata:
-  name: default
-  namespace: istio-system
-spec:
-  mtls:
-    mode: STRICT  # Enforce mTLS on all services
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-25) for complete implementation.*
+
+
 
 **Per-Namespace mTLS:**
 
-```yaml
-apiVersion: security.istio.io/v1beta1
-kind: PeerAuthentication
-metadata:
-  name: namespace-policy
-  namespace: production
-spec:
-  mtls:
-    mode: STRICT
----
-apiVersion: security.istio.io/v1beta1
-kind: PeerAuthentication
-metadata:
-  name: legacy-policy
-  namespace: legacy
-spec:
-  mtls:
-    mode: PERMISSIVE  # Allow plaintext for migration
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-26) for complete implementation.*
+
+
 
 **Per-Port mTLS:**
 
-```yaml
-apiVersion: security.istio.io/v1beta1
-kind: PeerAuthentication
-metadata:
-  name: service-policy
-  namespace: default
-spec:
-  selector:
-    matchLabels:
-      app: myapp
-  mtls:
-    mode: STRICT
-  portLevelMtls:
-    8080:
-      mode: DISABLE  # Health check endpoint
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-27) for complete implementation.*
+
+
 
 #### Authorization Policies
 
 **Default Deny:**
 
-```yaml
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: deny-all
-  namespace: default
-spec:
-  {}  # Empty spec = deny all
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-28) for complete implementation.*
+
+
 
 **Allow Specific Services:**
 
-```yaml
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: frontend-to-backend
-  namespace: default
-spec:
-  selector:
-    matchLabels:
-      app: backend
-  action: ALLOW
-  rules:
-  - from:
-    - source:
-        principals: ["cluster.local/ns/default/sa/frontend"]
-    to:
-    - operation:
-        methods: ["GET", "POST"]
-        paths: ["/api/*"]
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-29) for complete implementation.*
+
+
 
 **JWT Authentication:**
 
-```yaml
-apiVersion: security.istio.io/v1beta1
-kind: RequestAuthentication
-metadata:
-  name: jwt-auth
-  namespace: default
-spec:
-  selector:
-    matchLabels:
-      app: api
-  jwtRules:
-  - issuer: "https://auth.example.com"
-    jwksUri: "https://auth.example.com/.well-known/jwks.json"
-    audiences:
-    - "api.example.com"
----
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: require-jwt
-spec:
-  selector:
-    matchLabels:
-      app: api
-  action: ALLOW
-  rules:
-  - from:
-    - source:
-        requestPrincipals: ["*"]  # Any valid JWT
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-30) for complete implementation.*
+
+
 
 **RBAC with Custom Claims:**
 
-```yaml
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: admin-only
-spec:
-  selector:
-    matchLabels:
-      app: admin-api
-  action: ALLOW
-  rules:
-  - when:
-    - key: request.auth.claims[role]
-      values: ["admin"]
-    to:
-    - operation:
-        methods: ["DELETE", "PUT"]
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-31) for complete implementation.*
+
+
 
 ### Resilience Patterns
 
@@ -995,149 +586,55 @@ spec:
 
 **Configuration:**
 
-```yaml
-apiVersion: networking.istio.io/v1beta1
-kind: DestinationRule
-metadata:
-  name: backend-circuit-breaker
-spec:
-  host: backend
-  trafficPolicy:
-    connectionPool:
-      tcp:
-        maxConnections: 100  # Max TCP connections
-      http:
-        http1MaxPendingRequests: 10  # Max queued requests
-        http2MaxRequests: 100
-        maxRequestsPerConnection: 2
-        maxRetries: 3
-    outlierDetection:
-      consecutiveErrors: 5  # Eject after 5 errors
-      interval: 30s  # Analysis interval
-      baseEjectionTime: 30s  # Minimum ejection duration
-      maxEjectionPercent: 50  # Max 50% of instances ejected
-      minHealthPercent: 40  # Panic threshold
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-32) for complete implementation.*
+
+
 
 **Testing Circuit Breaker:**
 
-```bash
-# Generate load to trigger circuit breaker
-kubectl run -it --rm load-generator --image=busybox --restart=Never -- /bin/sh -c \
-  "while true; do wget -q -O- http://backend:8080/api/slow; done"
 
-# Monitor circuit breaker stats
-istioctl pc cluster <pod> --fqdn backend.default.svc.cluster.local -o json | \
-  jq '.outlierDetection'
-```
+
+*See [REFERENCE.md](./REFERENCE.md#example-33) for complete implementation.*
+
+
 
 #### Retries and Timeouts
 
 **Retry Configuration:**
 
-```yaml
-apiVersion: networking.istio.io/v1beta1
-kind: VirtualService
-metadata:
-  name: backend-retry
-spec:
-  hosts:
-  - backend
-  http:
-  - route:
-    - destination:
-        host: backend
-    retries:
-      attempts: 3  # Retry up to 3 times
-      perTryTimeout: 2s  # Each attempt timeout
-      retryOn: 5xx,reset,connect-failure,refused-stream
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-34) for complete implementation.*
+
+
 
 **Timeout Configuration:**
 
-```yaml
-apiVersion: networking.istio.io/v1beta1
-kind: VirtualService
-metadata:
-  name: api-timeout
-spec:
-  hosts:
-  - api
-  http:
-  - route:
-    - destination:
-        host: api
-    timeout: 10s  # Total request timeout
-    retries:
-      attempts: 2
-      perTryTimeout: 3s
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-35) for complete implementation.*
+
+
 
 **Fault Injection (Chaos Testing):**
 
-```yaml
-apiVersion: networking.istio.io/v1beta1
-kind: VirtualService
-metadata:
-  name: chaos-testing
-spec:
-  hosts:
-  - backend
-  http:
-  - fault:
-      delay:
-        percentage:
-          value: 10  # 10% of requests
-        fixedDelay: 5s  # Add 5s latency
-      abort:
-        percentage:
-          value: 5  # 5% of requests
-        httpStatus: 503  # Return 503 error
-    route:
-    - destination:
-        host: backend
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-36) for complete implementation.*
+
+
 
 #### Rate Limiting
 
 **Local Rate Limiting (Envoy):**
 
-```yaml
-apiVersion: networking.istio.io/v1beta1
-kind: EnvoyFilter
-metadata:
-  name: local-rate-limit
-  namespace: istio-system
-spec:
-  workloadSelector:
-    labels:
-      app: api
-  configPatches:
-  - applyTo: HTTP_FILTER
-    match:
-      context: SIDECAR_INBOUND
-    patch:
-      operation: INSERT_BEFORE
-      value:
-        name: envoy.filters.http.local_ratelimit
-        typed_config:
-          "@type": type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
-          stat_prefix: http_local_rate_limiter
-          token_bucket:
-            max_tokens: 100
-            tokens_per_fill: 100
-            fill_interval: 1s
-          filter_enabled:
-            runtime_key: local_rate_limit_enabled
-            default_value:
-              numerator: 100
-              denominator: HUNDRED
-          filter_enforced:
-            runtime_key: local_rate_limit_enforced
-            default_value:
-              numerator: 100
-              denominator: HUNDRED
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-37) for complete implementation.*
+
+
 
 ### Multi-Cluster Service Mesh
 
@@ -1145,62 +642,25 @@ spec:
 
 **Primary-Remote Model:**
 
-```yaml
-# On primary cluster
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  values:
-    global:
-      meshID: mesh1
-      multiCluster:
-        clusterName: cluster1
-      network: network1
-```
 
-```yaml
-# On remote cluster
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  values:
-    global:
-      meshID: mesh1
-      multiCluster:
-        clusterName: cluster2
-      network: network2
-      remotePilotAddress: istiod.istio-system.svc.cluster.local
-```
+
+*See [REFERENCE.md](./REFERENCE.md#example-38) for complete implementation.*
+
+
+
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-39) for complete implementation.*
+
+
 
 **Cross-Cluster Service Discovery:**
 
-```bash
-# Create remote secret on primary cluster
-istioctl x create-remote-secret \
-  --context=cluster2 \
-  --name=cluster2 | \
-  kubectl apply -f - --context=cluster1
 
-# Enable ServiceEntry for remote services
-kubectl apply --context=cluster1 -f - <<EOF
-apiVersion: networking.istio.io/v1beta1
-kind: ServiceEntry
-metadata:
-  name: backend-cluster2
-spec:
-  hosts:
-  - backend.default.svc.cluster.local
-  location: MESH_INTERNAL
-  ports:
-  - number: 8080
-    name: http
-    protocol: HTTP
-  resolution: DNS
-  endpoints:
-  - address: backend.default.svc.cluster2.global
-    locality: us-west/zone1
-EOF
-```
+
+*See [REFERENCE.md](./REFERENCE.md#example-40) for complete implementation.*
+
+
 
 ### Performance Tuning
 
@@ -1208,77 +668,139 @@ EOF
 
 **Sidecar Resource Limits:**
 
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: istio-sidecar-injector
-  namespace: istio-system
-data:
-  values: |
-    global:
-      proxy:
-        resources:
-          requests:
-            cpu: 10m  # Minimum for idle
-            memory: 40Mi
-          limits:
-            cpu: 2000m  # Burst capacity
-            memory: 1024Mi
-        concurrency: 2  # Worker threads
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-41) for complete implementation.*
+
+
 
 **Sidecar Scoping:**
 
-```yaml
-apiVersion: networking.istio.io/v1beta1
-kind: Sidecar
-metadata:
-  name: default
-  namespace: production
-spec:
-  egress:
-  - hosts:
-    - "./*"  # Only services in same namespace
-    - "istio-system/*"  # And istio-system
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-42) for complete implementation.*
+
+
 
 #### Telemetry Optimization
 
 **Reduce Metrics Cardinality:**
 
-```yaml
-apiVersion: telemetry.istio.io/v1alpha1
-kind: Telemetry
-metadata:
-  name: mesh-default
-  namespace: istio-system
-spec:
-  metrics:
-  - providers:
-    - name: prometheus
-    overrides:
-    - match:
-        metric: ALL_METRICS
-      tagOverrides:
-        source_cluster:
-          operation: REMOVE
-        destination_cluster:
-          operation: REMOVE
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-43) for complete implementation.*
+
+
 
 **Sampling Configuration:**
 
-```yaml
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  meshConfig:
-    enableTracing: true
-    defaultConfig:
-      tracing:
-        sampling: 1.0  # 1% sampling for production
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-44) for complete implementation.*
+
+
+
+## Examples
+
+### Basic Usage
+
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-45) for complete implementation.*
+
+
+
+### Advanced Usage
+
+```python
+// TODO: Add advanced example for service-mesh
+// This example shows production-ready patterns
 ```
+
+### Integration Example
+
+```python
+// TODO: Add integration example showing how service-mesh
+// works with other systems and services
+```
+
+See `examples/service-mesh/` for complete working examples.
+
+## Integration Points
+
+This skill integrates with:
+
+### Upstream Dependencies
+
+- **Tools**: Common development tools and frameworks
+- **Prerequisites**: Basic understanding of general concepts
+
+### Downstream Consumers
+
+- **Applications**: Production systems requiring service-mesh functionality
+- **CI/CD Pipelines**: Automated testing and deployment workflows
+- **Monitoring Systems**: Observability and logging platforms
+
+### Related Skills
+
+- See other skills in this category
+
+### Common Integration Patterns
+
+1. **Development Workflow**: How this skill fits into daily development
+2. **Production Deployment**: Integration with production systems
+3. **Monitoring & Alerting**: Observability integration points
+
+## Common Pitfalls
+
+### Pitfall 1: Insufficient Testing
+
+**Problem:** Not testing edge cases and error conditions leads to production bugs
+
+**Solution:** Implement comprehensive test coverage including:
+
+- Happy path scenarios
+- Error handling and edge cases
+- Integration points with external systems
+
+**Prevention:** Enforce minimum code coverage (80%+) in CI/CD pipeline
+
+### Pitfall 2: Hardcoded Configuration
+
+**Problem:** Hardcoding values makes applications inflexible and environment-dependent
+
+**Solution:** Use environment variables and configuration management:
+
+- Separate config from code
+- Use environment-specific configuration files
+- Never commit secrets to version control
+
+**Prevention:** Use tools like dotenv, config validators, and secret scanners
+
+### Pitfall 3: Ignoring Security Best Practices
+
+**Problem:** Security vulnerabilities from not following established security patterns
+
+**Solution:** Follow security guidelines:
+
+- Input validation and sanitization
+- Proper authentication and authorization
+- Encrypted data transmission (TLS/SSL)
+- Regular security audits and updates
+
+**Prevention:** Use security linters, SAST tools, and regular dependency updates
+
+**Best Practices:**
+
+- Follow established patterns and conventions for service-mesh
+- Keep dependencies up to date and scan for vulnerabilities
+- Write comprehensive documentation and inline comments
+- Use linting and formatting tools consistently
+- Implement proper error handling and logging
+- Regular code reviews and pair programming
+- Monitor production metrics and set up alerts
+
+---
 
 ---
 

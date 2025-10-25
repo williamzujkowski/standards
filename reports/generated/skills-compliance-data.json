@@ -1,0 +1,1494 @@
+{
+  "average_compliance": 74.70725995316158,
+  "compliant_skills": 1,
+  "generated": "2025-10-24T21:33:39.417398",
+  "skills": [
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": false,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 0,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 2: Implementation (1,500-2,500 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "documentation",
+      "path": "skills/content/documentation/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 531,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 2: Implementation",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": false,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 0,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 2: Implementation (1,500-2,500 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "gdpr",
+      "path": "skills/compliance/gdpr/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 531,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 2: Implementation",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": false,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 0,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 2: Implementation (1,500-2,500 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "infrastructure",
+      "path": "skills/devops/infrastructure/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 531,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 2: Implementation",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": false,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 0,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 2: Implementation (1,500-2,500 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "input-validation",
+      "path": "skills/security/input-validation/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 531,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 2: Implementation",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": false,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 0,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 2: Implementation (1,500-2,500 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "legacy-bridge",
+      "path": "skills/legacy-bridge/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 1562,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 2: Implementation",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": false,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 0,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 2: Implementation (1,500-2,500 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "logging",
+      "path": "skills/observability/logging/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 531,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 2: Implementation",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": false,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 0,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 2: Implementation (1,500-2,500 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "metrics",
+      "path": "skills/observability/metrics/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 531,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 2: Implementation",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": false,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 0,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 2: Implementation (1,500-2,500 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "mobile-android",
+      "path": "skills/frontend/mobile-android/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 531,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 2: Implementation",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": false,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 0,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 2: Implementation (1,500-2,500 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "mobile-ios",
+      "path": "skills/frontend/mobile-ios/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 531,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 2: Implementation",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": false,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 0,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 2: Implementation (1,500-2,500 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "model-deployment",
+      "path": "skills/ml-ai/model-deployment/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 531,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 2: Implementation",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": false,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 0,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 2: Implementation (1,500-2,500 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "model-development",
+      "path": "skills/ml-ai/model-development/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 531,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 2: Implementation",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": false,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 0,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 2: Implementation (1,500-2,500 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "monitoring",
+      "path": "skills/devops/monitoring/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 531,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 2: Implementation",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": false,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 0,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 2: Implementation (1,500-2,500 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "nist",
+      "path": "skills/compliance/nist/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 531,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 2: Implementation",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": false,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 0,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 2: Implementation (1,500-2,500 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "nosql",
+      "path": "skills/database/nosql/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 531,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 2: Implementation",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": false,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 0,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 2: Implementation (1,500-2,500 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "orchestration",
+      "path": "skills/data-engineering/orchestration/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 531,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 2: Implementation",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": false,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 0,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 2: Implementation (1,500-2,500 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "patterns",
+      "path": "skills/architecture/patterns/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 531,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 2: Implementation",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": false,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 0,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 2: Implementation (1,500-2,500 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "patterns",
+      "path": "skills/microservices/patterns/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 531,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 2: Implementation",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": false,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 0,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 2: Implementation (1,500-2,500 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "performance-testing",
+      "path": "skills/testing/performance-testing/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 4816,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 2: Implementation",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": false,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 0,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 2: Implementation (1,500-2,500 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "react",
+      "path": "skills/frontend/react/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 3792,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 2: Implementation",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": false,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 0,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 2: Implementation (1,500-2,500 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "skill-loader",
+      "path": "skills/skill-loader/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 531,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 2: Implementation",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": false,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 0,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 2: Implementation (1,500-2,500 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "sql",
+      "path": "skills/database/sql/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 526,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 2: Implementation",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": false,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 0,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 2: Implementation (1,500-2,500 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "ux",
+      "path": "skills/design/ux/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 531,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 2: Implementation",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": true,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 3099,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "advanced-kubernetes",
+      "path": "skills/cloud-native/advanced-kubernetes/SKILL.md",
+      "token_violations": [
+        "Level 2 tokens: 3099 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 6767,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": true,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 731,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "advanced-optimization",
+      "path": "skills/database/advanced-optimization/SKILL.md",
+      "token_violations": [
+        "Level 2 tokens: 731 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 5911,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": true,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 24,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "api-security",
+      "path": "skills/security/api-security/SKILL.md",
+      "token_violations": [
+        "Level 2 tokens: 24 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 5296,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": true,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 601,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "aws-advanced",
+      "path": "skills/cloud-native/aws-advanced/SKILL.md",
+      "token_violations": [
+        "Level 2 tokens: 601 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 5586,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": true,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 15,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "e2e-testing",
+      "path": "skills/testing/e2e-testing/SKILL.md",
+      "token_violations": [
+        "Level 2 tokens: 15 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 3767,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": true,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 3504,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "fintech",
+      "path": "skills/compliance/fintech/SKILL.md",
+      "token_violations": [
+        "Level 2 tokens: 3504 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 6214,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": true,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 1114,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "graphql",
+      "path": "skills/api/graphql/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 4882,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": true,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 96,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "infrastructure-as-code",
+      "path": "skills/devops/infrastructure-as-code/SKILL.md",
+      "token_violations": [
+        "Level 2 tokens: 96 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 4364,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": true,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 2221,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "kotlin",
+      "path": "skills/coding-standards/kotlin/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 3448,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": true,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 16,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "mlops",
+      "path": "skills/ml-ai/mlops/SKILL.md",
+      "token_violations": [
+        "Level 2 tokens: 16 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 4734,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": true,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 2549,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "mobile-react-native",
+      "path": "skills/frontend/mobile-react-native/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 3794,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": true,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 59,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "monitoring-observability",
+      "path": "skills/devops/monitoring-observability/SKILL.md",
+      "token_violations": [
+        "Level 2 tokens: 59 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 3675,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": true,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 3083,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "rust",
+      "path": "skills/coding-standards/rust/SKILL.md",
+      "token_violations": [
+        "Level 2 tokens: 3083 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 4947,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": true,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 364,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "security-operations",
+      "path": "skills/security/security-operations/SKILL.md",
+      "token_violations": [
+        "Level 2 tokens: 364 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 5781,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": true,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 110,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "serverless",
+      "path": "skills/cloud-native/serverless/SKILL.md",
+      "token_violations": [
+        "Level 2 tokens: 110 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 4387,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": true,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 421,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "service-mesh",
+      "path": "skills/cloud-native/service-mesh/SKILL.md",
+      "token_violations": [
+        "Level 2 tokens: 421 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 4200,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": true,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 18,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "shell",
+      "path": "skills/coding-standards/shell/SKILL.md",
+      "token_violations": [
+        "Level 2 tokens: 18 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 5686,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": true,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 2889,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "swift",
+      "path": "skills/coding-standards/swift/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 5014,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": true,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 10,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "threat-modeling",
+      "path": "skills/security/threat-modeling/SKILL.md",
+      "token_violations": [
+        "Level 2 tokens: 10 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 4620,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": true,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 3377,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "vue",
+      "path": "skills/frontend/vue/SKILL.md",
+      "token_violations": [
+        "Level 2 tokens: 3377 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 4765,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": false,
+      "has_level2": true,
+      "has_level3": false,
+      "has_pitfalls": true,
+      "level1_tokens": 0,
+      "level2_tokens": 371,
+      "level3_tokens": 0,
+      "missing_sections": [
+        "Level 1: Quick Start (100-150 tokens)",
+        "Level 3: Mastery (filesystem references only)"
+      ],
+      "name": "zero-trust",
+      "path": "skills/security/zero-trust/SKILL.md",
+      "token_violations": [
+        "Level 2 tokens: 371 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 5822,
+      "violations": [
+        "Missing Level 1: Quick Start",
+        "Missing Level 3: Mastery"
+      ]
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": true,
+      "has_level2": true,
+      "has_level3": true,
+      "has_pitfalls": true,
+      "level1_tokens": 412,
+      "level2_tokens": 278,
+      "level3_tokens": 106,
+      "missing_sections": [],
+      "name": "authentication",
+      "path": "skills/security/authentication/SKILL.md",
+      "token_violations": [
+        "Level 1 tokens: 412 (expected: 100-150)",
+        "Level 2 tokens: 278 (expected: 1,500-2,500)",
+        "Level 3 tokens: 106 (expected: <100, mostly references)"
+      ],
+      "total_tokens": 3435,
+      "violations": []
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": true,
+      "has_level2": true,
+      "has_level3": true,
+      "has_pitfalls": true,
+      "level1_tokens": 317,
+      "level2_tokens": 321,
+      "level3_tokens": 276,
+      "missing_sections": [],
+      "name": "authorization",
+      "path": "skills/security/authorization/SKILL.md",
+      "token_violations": [
+        "Level 1 tokens: 317 (expected: 100-150)",
+        "Level 2 tokens: 321 (expected: 1,500-2,500)",
+        "Level 3 tokens: 276 (expected: <100, mostly references)"
+      ],
+      "total_tokens": 5969,
+      "violations": []
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": true,
+      "has_level2": true,
+      "has_level3": true,
+      "has_pitfalls": true,
+      "level1_tokens": 193,
+      "level2_tokens": 9,
+      "level3_tokens": 85,
+      "missing_sections": [],
+      "name": "ci-cd",
+      "path": "skills/devops/ci-cd/SKILL.md",
+      "token_violations": [
+        "Level 2 tokens: 9 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 3243,
+      "violations": []
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": true,
+      "has_level2": true,
+      "has_level3": true,
+      "has_pitfalls": true,
+      "level1_tokens": 79,
+      "level2_tokens": 57,
+      "level3_tokens": 490,
+      "missing_sections": [],
+      "name": "coding-standards",
+      "path": "skills/coding-standards/SKILL.md",
+      "token_violations": [
+        "Level 1 tokens: 79 (expected: 100-150)",
+        "Level 2 tokens: 57 (expected: 1,500-2,500)",
+        "Level 3 tokens: 490 (expected: <100, mostly references)"
+      ],
+      "total_tokens": 2359,
+      "violations": []
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": true,
+      "has_level2": true,
+      "has_level3": true,
+      "has_pitfalls": true,
+      "level1_tokens": 124,
+      "level2_tokens": 15,
+      "level3_tokens": 44,
+      "missing_sections": [],
+      "name": "containers",
+      "path": "skills/cloud-native/containers/SKILL.md",
+      "token_violations": [
+        "Level 2 tokens: 15 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 997,
+      "violations": []
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": true,
+      "has_level2": true,
+      "has_level3": true,
+      "has_pitfalls": true,
+      "level1_tokens": 42,
+      "level2_tokens": 40,
+      "level3_tokens": 45,
+      "missing_sections": [],
+      "name": "data-quality",
+      "path": "skills/data-engineering/data-quality/SKILL.md",
+      "token_violations": [
+        "Level 1 tokens: 42 (expected: 100-150)",
+        "Level 2 tokens: 40 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 1138,
+      "violations": []
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": true,
+      "has_level2": true,
+      "has_level3": true,
+      "has_pitfalls": true,
+      "level1_tokens": 490,
+      "level2_tokens": 655,
+      "level3_tokens": 78,
+      "missing_sections": [],
+      "name": "go",
+      "path": "skills/coding-standards/go/SKILL.md",
+      "token_violations": [
+        "Level 1 tokens: 490 (expected: 100-150)",
+        "Level 2 tokens: 655 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 1881,
+      "violations": []
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": true,
+      "has_level2": true,
+      "has_level3": true,
+      "has_pitfalls": true,
+      "level1_tokens": 131,
+      "level2_tokens": 920,
+      "level3_tokens": 24,
+      "missing_sections": [],
+      "name": "healthtech",
+      "path": "skills/compliance/healthtech/SKILL.md",
+      "token_violations": [
+        "Level 2 tokens: 920 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 1822,
+      "violations": []
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": true,
+      "has_level2": true,
+      "has_level3": true,
+      "has_pitfalls": true,
+      "level1_tokens": 174,
+      "level2_tokens": 503,
+      "level3_tokens": 97,
+      "missing_sections": [],
+      "name": "integration-testing",
+      "path": "skills/testing/integration-testing/SKILL.md",
+      "token_violations": [
+        "Level 2 tokens: 503 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 1911,
+      "violations": []
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": true,
+      "has_level2": true,
+      "has_level3": true,
+      "has_pitfalls": true,
+      "level1_tokens": 533,
+      "level2_tokens": 2232,
+      "level3_tokens": 169,
+      "missing_sections": [],
+      "name": "javascript",
+      "path": "skills/coding-standards/javascript/SKILL.md",
+      "token_violations": [
+        "Level 1 tokens: 533 (expected: 100-150)",
+        "Level 3 tokens: 169 (expected: <100, mostly references)"
+      ],
+      "total_tokens": 3640,
+      "violations": []
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": true,
+      "has_level2": true,
+      "has_level3": true,
+      "has_pitfalls": true,
+      "level1_tokens": 182,
+      "level2_tokens": 432,
+      "level3_tokens": 534,
+      "missing_sections": [],
+      "name": "kubernetes",
+      "path": "skills/cloud-native/kubernetes/SKILL.md",
+      "token_violations": [
+        "Level 2 tokens: 432 (expected: 1,500-2,500)",
+        "Level 3 tokens: 534 (expected: <100, mostly references)"
+      ],
+      "total_tokens": 3123,
+      "violations": []
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": true,
+      "has_level2": true,
+      "has_level3": true,
+      "has_pitfalls": true,
+      "level1_tokens": 130,
+      "level2_tokens": 1393,
+      "level3_tokens": 96,
+      "missing_sections": [],
+      "name": "nist-compliance",
+      "path": "skills/nist-compliance/SKILL.md",
+      "token_violations": [],
+      "total_tokens": 2645,
+      "violations": []
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": true,
+      "has_level2": true,
+      "has_level3": true,
+      "has_pitfalls": true,
+      "level1_tokens": 429,
+      "level2_tokens": 14,
+      "level3_tokens": 183,
+      "missing_sections": [],
+      "name": "python",
+      "path": "skills/coding-standards/python/SKILL.md",
+      "token_violations": [
+        "Level 1 tokens: 429 (expected: 100-150)",
+        "Level 2 tokens: 14 (expected: 1,500-2,500)",
+        "Level 3 tokens: 183 (expected: <100, mostly references)"
+      ],
+      "total_tokens": 4433,
+      "violations": []
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": true,
+      "has_level2": true,
+      "has_level3": true,
+      "has_pitfalls": true,
+      "level1_tokens": 211,
+      "level2_tokens": 10,
+      "level3_tokens": 119,
+      "missing_sections": [],
+      "name": "secrets-management",
+      "path": "skills/security/secrets-management/SKILL.md",
+      "token_violations": [
+        "Level 1 tokens: 211 (expected: 100-150)",
+        "Level 2 tokens: 10 (expected: 1,500-2,500)",
+        "Level 3 tokens: 119 (expected: <100, mostly references)"
+      ],
+      "total_tokens": 2069,
+      "violations": []
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": true,
+      "has_level2": true,
+      "has_level3": true,
+      "has_pitfalls": true,
+      "level1_tokens": 312,
+      "level2_tokens": 195,
+      "level3_tokens": 557,
+      "missing_sections": [],
+      "name": "security-practices",
+      "path": "skills/security-practices/SKILL.md",
+      "token_violations": [
+        "Level 1 tokens: 312 (expected: 100-150)",
+        "Level 2 tokens: 195 (expected: 1,500-2,500)",
+        "Level 3 tokens: 557 (expected: <100, mostly references)"
+      ],
+      "total_tokens": 2774,
+      "violations": []
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": true,
+      "has_level2": true,
+      "has_level3": true,
+      "has_pitfalls": true,
+      "level1_tokens": 332,
+      "level2_tokens": 1233,
+      "level3_tokens": 622,
+      "missing_sections": [],
+      "name": "testing",
+      "path": "skills/testing/SKILL.md",
+      "token_violations": [
+        "Level 1 tokens: 332 (expected: 100-150)",
+        "Level 3 tokens: 622 (expected: <100, mostly references)"
+      ],
+      "total_tokens": 2741,
+      "violations": []
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": true,
+      "has_level2": true,
+      "has_level3": true,
+      "has_pitfalls": true,
+      "level1_tokens": 465,
+      "level2_tokens": 2102,
+      "level3_tokens": 169,
+      "missing_sections": [],
+      "name": "typescript",
+      "path": "skills/coding-standards/typescript/SKILL.md",
+      "token_violations": [
+        "Level 1 tokens: 465 (expected: 100-150)",
+        "Level 3 tokens: 169 (expected: <100, mostly references)"
+      ],
+      "total_tokens": 3585,
+      "violations": []
+    },
+    {
+      "has_examples": true,
+      "has_frontmatter": true,
+      "has_integration": true,
+      "has_level1": true,
+      "has_level2": true,
+      "has_level3": true,
+      "has_pitfalls": true,
+      "level1_tokens": 179,
+      "level2_tokens": 10,
+      "level3_tokens": 97,
+      "missing_sections": [],
+      "name": "unit-testing",
+      "path": "skills/testing/unit-testing/SKILL.md",
+      "token_violations": [
+        "Level 2 tokens: 10 (expected: 1,500-2,500)"
+      ],
+      "total_tokens": 2395,
+      "violations": []
+    }
+  ],
+  "total_skills": 61
+}

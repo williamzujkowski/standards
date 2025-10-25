@@ -362,6 +362,46 @@ jobs:
           echo "  Version: $version"
           echo "  Products defined: $products"
 
+  validate-anthropic-compliance:
+    name: Validate Anthropic Skills Compliance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml tiktoken
+
+      - name: Run Anthropic compliance validation
+        run: |
+          python3 scripts/validate-anthropic-compliance.py
+
+      - name: Check compliance threshold
+        run: |
+          # Extract compliance percentage from report
+          COMPLIANCE=$(grep "Compliant:" reports/generated/anthropic-compliance-report.md | grep -oP '\d+(?=%)')
+          echo "Anthropic compliance: ${COMPLIANCE}%"
+
+          # Enforce minimum 60% compliance (currently 68.9%)
+          if [ "$COMPLIANCE" -lt 60 ]; then
+            echo "❌ Compliance below threshold: ${COMPLIANCE}% < 60%"
+            exit 1
+          fi
+
+          echo "✅ Compliance meets threshold: ${COMPLIANCE}% >= 60%"
+
+      - name: Upload compliance report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: anthropic-compliance-report
+          path: reports/generated/anthropic-compliance-report.md
+
   nist-compliance-check:
     name: NIST Compliance Check (Changed Files)
     runs-on: ubuntu-latest
@@ -407,6 +447,7 @@ jobs:
       - nist-quickstart
       - standards-inventory
       - product-matrix-validation
+      - validate-anthropic-compliance
       - nist-compliance-check
     if: always()
     steps:
@@ -424,12 +465,14 @@ jobs:
           echo "- NIST quickstart: ${{ needs.nist-quickstart.result }}"
           echo "- Standards inventory: ${{ needs.standards-inventory.result }}"
           echo "- Product matrix: ${{ needs.product-matrix-validation.result }}"
+          echo "- Anthropic compliance: ${{ needs.validate-anthropic-compliance.result }}"
           echo "- NIST compliance (changed files): ${{ needs.nist-compliance-check.result }}"
           echo ""
           # Fail pipeline if critical gates fail
           if [ "${{ needs.audit-gates.result }}" != "success" ] || \
              [ "${{ needs.standards-inventory.result }}" = "failure" ] || \
              [ "${{ needs.product-matrix-validation.result }}" = "failure" ] || \
+             [ "${{ needs.validate-anthropic-compliance.result }}" = "failure" ] || \
              [ "${{ needs.nist-quickstart.result }}" = "failure" ]; then
             echo "❌ Critical checks failed"
             exit 1

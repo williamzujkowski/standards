@@ -46,6 +46,36 @@ A **skill** is a self-contained, modular standard that uses **progressive disclo
 
 ## Skill Structure
 
+### Anthropic Compliance Requirements
+
+All skills MUST include these required fields in YAML frontmatter:
+
+```yaml
+---
+name: skill-identifier          # Required: <64 chars, lowercase/hyphens only
+description: What this skill... # Required: <1024 chars, clear purpose
+---
+```
+
+**Validation**: Run `python3 scripts/analyze-skills-compliance.py` before committing.
+
+**Token Budget**: Aim for <5,000 tokens in Level 2 (markdown body). Use verification:
+```bash
+python3 scripts/token-counter.py skills/your-skill/SKILL.md
+```
+
+**If you exceed 5K tokens**:
+- Move verbose examples to Level 3 (separate files)
+- Link to external resources
+- Condense without losing critical information
+- Document trade-off in skill's metadata
+
+**Why Anthropic compliance matters**:
+- Ensures interoperability across Claude Code, API, and Agent SDK
+- Enables native skill loading in all Anthropic tools
+- Maintains consistency with official Anthropic standards
+- Facilitates community skill sharing
+
 ### Directory Layout
 
 ```
@@ -731,7 +761,7 @@ python scripts/validate-skills.py skills/your-skill-name/ --verbose
 python scripts/validate-skills.py skills/your-skill-name/ --check-refs
 
 # Test skill loading
-npm run skill-loader -- load skill:your-skill-name --level 1
+python3 scripts/skill-loader.py load skill:your-skill-name --level 1
 ```
 
 ### Step 2: Documentation
@@ -889,7 +919,10 @@ See existing skills:
 ## Get Help
 
 ### Resources
+- **Anthropic Official Documentation**: [Skills Format](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/use-case-guides/use-skills)
 - **Validation Tool**: `python scripts/validate-skills.py --help`
+- **Compliance Checker**: `python3 scripts/analyze-skills-compliance.py`
+- **Token Counter**: `python3 scripts/token-counter.py`
 - **Generator Tool**: `python scripts/generate-skill.py --help`
 - **Examples**: Existing skills in `skills/` directory
 

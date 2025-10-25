@@ -874,6 +874,109 @@ See bundled resources in `skills/frontend/react/`:
 - `resources/accessibility-checklist.md` - WCAG 2.1 AA compliance
 - `config/jest.config.js` - Jest configuration for React + TypeScript
 
+## Examples
+
+### Basic Usage
+
+```javascript
+// TODO: Add basic example for react
+// This example demonstrates core functionality
+```
+
+### Advanced Usage
+
+```javascript
+// TODO: Add advanced example for react
+// This example shows production-ready patterns
+```
+
+### Integration Example
+
+```javascript
+// TODO: Add integration example showing how react
+// works with other systems and services
+```
+
+See `examples/react/` for complete working examples.
+
+## Integration Points
+
+This skill integrates with:
+
+### Upstream Dependencies
+
+- **Tools**: React, Redux, React Router, Jest
+- **Prerequisites**: Basic understanding of frontend concepts
+
+### Downstream Consumers
+
+- **Applications**: Production systems requiring react functionality
+- **CI/CD Pipelines**: Automated testing and deployment workflows
+- **Monitoring Systems**: Observability and logging platforms
+
+### Related Skills
+
+- [Typescript](../../typescript/SKILL.md)
+- [Unit Testing](../../unit-testing/SKILL.md)
+- [E2E Testing](../../e2e-testing/SKILL.md)
+
+### Common Integration Patterns
+
+1. **Development Workflow**: How this skill fits into daily development
+2. **Production Deployment**: Integration with production systems
+3. **Monitoring & Alerting**: Observability integration points
+
+## Common Pitfalls
+
+### Pitfall 1: Insufficient Testing
+
+**Problem:** Not testing edge cases and error conditions leads to production bugs
+
+**Solution:** Implement comprehensive test coverage including:
+
+- Happy path scenarios
+- Error handling and edge cases
+- Integration points with external systems
+
+**Prevention:** Enforce minimum code coverage (80%+) in CI/CD pipeline
+
+### Pitfall 2: Hardcoded Configuration
+
+**Problem:** Hardcoding values makes applications inflexible and environment-dependent
+
+**Solution:** Use environment variables and configuration management:
+
+- Separate config from code
+- Use environment-specific configuration files
+- Never commit secrets to version control
+
+**Prevention:** Use tools like dotenv, config validators, and secret scanners
+
+### Pitfall 3: Ignoring Security Best Practices
+
+**Problem:** Security vulnerabilities from not following established security patterns
+
+**Solution:** Follow security guidelines:
+
+- Input validation and sanitization
+- Proper authentication and authorization
+- Encrypted data transmission (TLS/SSL)
+- Regular security audits and updates
+
+**Prevention:** Use security linters, SAST tools, and regular dependency updates
+
+**Best Practices:**
+
+- Follow established patterns and conventions for react
+- Keep dependencies up to date and scan for vulnerabilities
+- Write comprehensive documentation and inline comments
+- Use linting and formatting tools consistently
+- Implement proper error handling and logging
+- Regular code reviews and pair programming
+- Monitor production metrics and set up alerts
+
+---
+
 ---
 
 ## Summary

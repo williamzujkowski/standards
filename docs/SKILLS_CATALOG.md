@@ -668,9 +668,9 @@ Help us improve skills:
 
 ### Tools
 
-- **Skill Loader**: `npm run skill-loader`
-- **Validator**: `python scripts/validate-skills.py`
-- **Generator**: `python scripts/generate-skill.py`
+- **Skill Loader**: `python3 scripts/skill-loader.py`
+- **Validator**: `python3 scripts/validate-skills.py`
+- **Generator**: `python3 scripts/generate-skill.py`
 
 ### Support
 

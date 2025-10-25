@@ -1,5 +1,7 @@
 # 🚀 Software Development Standards
 
+![Anthropic Skills](https://img.shields.io/badge/Anthropic%20Skills-68.9%25%20Compliant-yellow)
+
 **Start any project right in 30 seconds. Based on industry best practices and NIST guidelines.**
 
 ## Why This Repository?
@@ -14,45 +16,79 @@ Just copy, implement, and ship.
 
 ## 🆕 Skills System (NEW!)
 
-**Load only what you need. 98% token reduction (from ~150K to ~2K tokens).**
+**Last Updated**: 2025-10-24 21:45:00 EDT (UTC-04:00)
+
+**Load only what you need. Progressive loading reduces token usage by 91-99.6% depending on scenario:**
+
+- Repository metadata: 127K → 500 tokens (99.6% reduction)
+- Typical usage: 8.9K → 573 tokens (93.6% reduction)
+- Single skill Level 1: ~300-600 tokens
+
+**Evidence**: 61 active skills with progressive disclosure (Level 1: metadata, Level 2: instructions, Level 3: resources)
 
 ### What Are Skills?
 
 Instead of loading massive 50,000+ token documents, use **progressive skills** that deliver the right information at the right time:
 
+**Note**: The `@load` directive is planned for v2.0. Current implementation uses the skill-loader script.
+
+**Current (v1.x):**
+
 ```bash
 # Load Level 1: Quick Start (5 minutes, ~336 tokens)
-@load skill:coding-standards
+python3 scripts/skill-loader.py load skill:coding-standards
 
 # Load by product type (auto-selects relevant skills)
-@load product:api --language python
+python3 scripts/skill-loader.py load product:api --language python
 # Loads: coding-standards, security-practices, testing, nist-compliance
 
 # Total: ~1,755 tokens compared to loading all standards documents (~150K tokens) (98.8% reduction)
 ```
 
+**Planned (v2.0):**
+
+```bash
+@load skill:coding-standards
+@load product:api --language python
+```
+
 ### Quick Skills Tutorial (2 minutes)
+
+**Current (v1.x):**
 
 ```bash
 # 1. Get skill recommendations for your project
 python3 scripts/skill-loader.py recommend ./
 
 # 2. Load recommended skills
-@load product:api
+python3 scripts/skill-loader.py load product:api
 
 # 3. See the difference!
 # Before: ~150,000 tokens (full standards)
 # After: ~1,755 tokens (Level 1)
 ```
 
-### Available Skills
+**Planned (v2.0):**
 
-- **coding-standards**: Code quality patterns (327 tokens L1)
-- **security-practices**: Modern security (409 tokens L1)
-- **testing**: TDD & testing strategies (430 tokens L1)
-- **nist-compliance**: NIST 800-53r5 controls (580 tokens L1)
+```bash
+# 2. Load recommended skills
+@load product:api
+```
 
-**[View Full Catalog →](./docs/SKILLS_CATALOG.md) | [Quick Start Guide →](./docs/guides/SKILLS_QUICK_START.md)**
+### Available Skills (61 Total)
+
+**Skill Count Verified**: 2025-10-24 19:21:55 EDT (UTC-04:00)
+
+**Core Skills** (examples with estimated Level 1 token counts):
+
+- **coding-standards**: Code quality patterns (~300-400 tokens L1)
+- **security-practices**: Modern security (~400-500 tokens L1)
+- **testing**: TDD & testing strategies (~400-500 tokens L1)
+- **nist-compliance**: NIST 800-53r5 controls (~500-600 tokens L1)
+
+Note: Token counts are estimates. Actual counts vary based on skill complexity. See `skills/` directory for complete catalog.
+
+**[View Full Catalog →](./docs/SKILLS_CATALOG.md) | [Quick Start Guide →](./docs/guides/SKILLS_QUICK_START.md) | [Skills Directory →](./skills/README.md)**
 
 ---
 
@@ -109,7 +145,7 @@ AI: Here's your complete setup:
 The AI assistant will generate a complete `PROJECT_PLAN.md` including:
 
 - **Auto-detected tech stack** from your repository
-- **Standards recommendations** using `@load` directives
+- **Standards recommendations** using `@load` directives (v2.0 - planned) or skill-loader script (v1.x - current)
 - **Project structure** with full directory tree
 - **Configuration files** (pyproject.toml, package.json, etc.)
 - **CI/CD pipelines** with quality gates
@@ -119,28 +155,54 @@ The AI assistant will generate a complete `PROJECT_PLAN.md` including:
 
 ### Common Scenarios
 
-**Python API:**
+**Note**: The `@load` directive examples below are planned for v2.0. Current implementation uses skill-loader script.
+
+**Python API (v2.0 - planned):**
 
 ```bash
 @load [product:api + CS:python + TS:pytest + SEC:* + DE:database]
 ```
 
-**React Web App:**
+**Python API (v1.x - current):**
+
+```bash
+python3 scripts/skill-loader.py load product:api --language python
+```
+
+**React Web App (v2.0 - planned):**
 
 ```bash
 @load [product:frontend-web + FE:react + SEC:auth + DOP:ci-cd]
 ```
 
-**Mobile App:**
+**React Web App (v1.x - current):**
+
+```bash
+python3 scripts/skill-loader.py load product:frontend-web --framework react
+```
+
+**Mobile App (v2.0 - planned):**
 
 ```bash
 @load [product:mobile + CS:swift + TS:xctest + SEC:mobile-auth]
 ```
 
-**Data Pipeline:**
+**Mobile App (v1.x - current):**
+
+```bash
+python3 scripts/skill-loader.py load product:mobile
+```
+
+**Data Pipeline (v2.0 - planned):**
 
 ```bash
 @load [product:data-pipeline + CS:python + DE:* + OBS:monitoring]
+```
+
+**Data Pipeline (v1.x - current):**
+
+```bash
+python3 scripts/skill-loader.py load product:data-pipeline --language python
 ```
 
 ---
@@ -182,7 +244,7 @@ chmod +x setup-project.sh
 
 ## 📚 What You Get
 
-### Complete Standards Library (24 Documents)
+### Complete Standards Library (25 Documents)
 
 **Core Development**
 
@@ -255,22 +317,49 @@ examples/
 
 ### Start a Python API
 
+**Planned (v2.0):**
+
 ```bash
 @load [product:api + CS:python + TS:pytest + SEC:auth]
 # Gets you: FastAPI structure, pytest config, JWT auth, Docker, CI/CD
 ```
 
+**Current (v1.x):**
+
+```bash
+python3 scripts/skill-loader.py load product:api --language python
+# Gets you: FastAPI structure, pytest config, JWT auth, Docker, CI/CD
+```
+
 ### Build a React App
+
+**Planned (v2.0):**
 
 ```bash
 @load [product:frontend-web + FE:react + SEC:*]
 # Gets you: React patterns, testing, all security standards, deployment
 ```
 
+**Current (v1.x):**
+
+```bash
+python3 scripts/skill-loader.py load product:frontend-web --framework react
+# Gets you: React patterns, testing, all security standards, deployment
+```
+
 ### Data Pipeline
+
+**Planned (v2.0):**
 
 ```bash
 @load [product:data-pipeline + DE:* + OBS:monitoring]
+# Gets you: ETL patterns, data quality, monitoring, orchestration
+```
+
+**Current (v1.x):**
+
+```bash
+python3 scripts/skill-loader.py load product:data-pipeline
 # Gets you: ETL patterns, data quality, monitoring, orchestration
 ```
 

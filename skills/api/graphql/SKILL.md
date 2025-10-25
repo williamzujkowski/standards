@@ -140,7 +140,10 @@ version: 1.0.0
 
 ---
 
-## Level 2: Implementation Guide (~4500 tokens)
+## Level 2:
+> **📚 Full Examples**: See [REFERENCE.md](./REFERENCE.md) for complete code samples, detailed configurations, and production-ready implementations.
+
+ Implementation Guide (~4500 tokens)
 
 ### 1. GraphQL Schema Design Best Practices
 
@@ -148,87 +151,35 @@ version: 1.0.0
 
 **Object Types**: Primary building blocks
 
-```graphql
-type User {
-  id: ID!
-  email: String!
-  profile: Profile
-  posts: [Post!]!
-  createdAt: DateTime!
-}
 
-type Profile {
-  bio: String
-  avatarUrl: URL
-  location: String
-}
 
-type Post {
-  id: ID!
-  title: String!
-  content: String!
-  author: User!
-  publishedAt: DateTime
-  tags: [String!]!
-}
-```
+*See [REFERENCE.md](./REFERENCE.md#example-0) for complete implementation.*
+
+
 
 **Input Types**: For mutations and complex arguments
 
-```graphql
-input CreateUserInput {
-  email: String!
-  password: String!
-  profile: ProfileInput
-}
 
-input ProfileInput {
-  bio: String
-  avatarUrl: URL
-}
 
-input UpdatePostInput {
-  title: String
-  content: String
-  tags: [String!]
-}
-```
+*See [REFERENCE.md](./REFERENCE.md#example-1) for complete implementation.*
+
+
 
 **Enums**: For fixed sets of values
 
-```graphql
-enum PostStatus {
-  DRAFT
-  PUBLISHED
-  ARCHIVED
-}
 
-enum UserRole {
-  ADMIN
-  MODERATOR
-  USER
-}
-```
+
+*See [REFERENCE.md](./REFERENCE.md#example-2) for complete implementation.*
+
+
 
 **Interfaces**: For polymorphic types
 
-```graphql
-interface Node {
-  id: ID!
-}
 
-interface Timestamped {
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
 
-type User implements Node & Timestamped {
-  id: ID!
-  email: String!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-```
+*See [REFERENCE.md](./REFERENCE.md#example-3) for complete implementation.*
+
+
 
 **Unions**: For heterogeneous result types
 
@@ -254,74 +205,29 @@ scalar PositiveInt
 
 **Root Query Type**
 
-```graphql
-type Query {
-  # Single entity
-  user(id: ID!): User
-  post(id: ID!): Post
 
-  # Lists with pagination
-  users(first: Int, after: String): UserConnection!
-  posts(
-    status: PostStatus
-    authorId: ID
-    first: Int
-    after: String
-  ): PostConnection!
 
-  # Search
-  searchUsers(query: String!): [User!]!
+*See [REFERENCE.md](./REFERENCE.md#example-6) for complete implementation.*
 
-  # Aggregations
-  postStats: PostStats!
-}
-```
+
 
 **Cursor-Based Pagination** (Relay spec)
 
-```graphql
-type UserConnection {
-  edges: [UserEdge!]!
-  pageInfo: PageInfo!
-  totalCount: Int!
-}
 
-type UserEdge {
-  cursor: String!
-  node: User!
-}
 
-type PageInfo {
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
-  startCursor: String
-  endCursor: String
-}
-```
+*See [REFERENCE.md](./REFERENCE.md#example-7) for complete implementation.*
+
+
 
 #### Mutation Design Patterns
 
 **Input/Payload Pattern**: Consistent structure
 
-```graphql
-type Mutation {
-  createUser(input: CreateUserInput!): CreateUserPayload!
-  updateUser(id: ID!, input: UpdateUserInput!): UpdateUserPayload!
-  deleteUser(id: ID!): DeleteUserPayload!
-}
 
-type CreateUserPayload {
-  user: User
-  userEdge: UserEdge  # For optimistic updates
-  errors: [UserError!]
-}
 
-type UserError {
-  message: String!
-  field: String
-  code: String!
-}
-```
+*See [REFERENCE.md](./REFERENCE.md#example-8) for complete implementation.*
+
+
 
 **Optimistic Response Support**
 
@@ -337,26 +243,11 @@ type UpdatePostPayload {
 
 **Real-Time Events**
 
-```graphql
-type Subscription {
-  # Entity-specific
-  userUpdated(userId: ID!): User!
 
-  # Filtered streams
-  messageAdded(channelId: ID!): Message!
 
-  # Global events
-  notificationReceived: Notification!
-}
+*See [REFERENCE.md](./REFERENCE.md#example-10) for complete implementation.*
 
-type Message {
-  id: ID!
-  content: String!
-  author: User!
-  channel: Channel!
-  createdAt: DateTime!
-}
-```
+
 
 ### 2. Resolvers and DataLoaders
 
@@ -364,52 +255,11 @@ type Message {
 
 **Basic Resolvers**
 
-```typescript
-// resolvers/userResolvers.ts
-import { GraphQLContext } from '../types';
 
-export const userResolvers = {
-  Query: {
-    user: async (_parent, { id }, context: GraphQLContext) => {
-      return context.dataSources.userAPI.getUserById(id);
-    },
 
-    users: async (_parent, { first, after }, context: GraphQLContext) => {
-      return context.dataSources.userAPI.getUsers({ first, after });
-    }
-  },
+*See [REFERENCE.md](./REFERENCE.md#example-11) for complete implementation.*
 
-  Mutation: {
-    createUser: async (_parent, { input }, context: GraphQLContext) => {
-      // Check authorization
-      if (!context.user) {
-        throw new Error('Unauthorized');
-      }
 
-      // Validate input
-      const errors = validateUserInput(input);
-      if (errors.length > 0) {
-        return { user: null, errors };
-      }
-
-      // Create user
-      const user = await context.dataSources.userAPI.createUser(input);
-      return { user, errors: [] };
-    }
-  },
-
-  User: {
-    // Field resolver for computed/related data
-    posts: async (parent, { first, after }, context: GraphQLContext) => {
-      return context.loaders.postLoader.loadByAuthor(parent.id, { first, after });
-    },
-
-    fullName: (parent) => {
-      return `${parent.firstName} ${parent.lastName}`;
-    }
-  }
-};
-```
 
 **Resolver Best Practices**
 
@@ -440,81 +290,35 @@ query {
 
 With DataLoader (2 queries):
 
-```typescript
-// batches-and-caches.ts
-import DataLoader from 'dataloader';
 
-// Batch function: receives array of keys, returns array of values
-const batchUsers = async (userIds: readonly string[]) => {
-  const users = await db.users.findMany({
-    where: { id: { in: userIds as string[] } }
-  });
 
-  // Must return values in same order as keys
-  return userIds.map(id => users.find(user => user.id === id) || null);
-};
+*See [REFERENCE.md](./REFERENCE.md#example-13) for complete implementation.*
 
-// Create loader (per-request instance)
-export const createUserLoader = () => new DataLoader(batchUsers, {
-  cache: true,  // Enable caching (default)
-  maxBatchSize: 100  // Limit batch size
-});
-```
+
 
 **DataLoader in Context**
 
-```typescript
-// server.ts
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context: ({ req }) => ({
-    user: authenticate(req),
-    loaders: {
-      userLoader: createUserLoader(),
-      postLoader: createPostLoader(),
-      commentLoader: createCommentLoader()
-    }
-  })
-});
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-14) for complete implementation.*
+
+
 
 **Using DataLoader in Resolvers**
 
-```typescript
-const postResolvers = {
-  Post: {
-    author: async (parent, _args, context) => {
-      return context.loaders.userLoader.load(parent.authorId);
-    }
-  }
-};
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-15) for complete implementation.*
+
+
 
 **Advanced DataLoader Patterns**
 
-```typescript
-// Batch by composite keys
-const batchPostsByAuthor = async (authorIds: readonly string[]) => {
-  const posts = await db.posts.findMany({
-    where: { authorId: { in: authorIds as string[] } }
-  });
 
-  return authorIds.map(authorId =>
-    posts.filter(post => post.authorId === authorId)
-  );
-};
 
-// Prime cache from mutation
-async createPost(parent, { input }, context) {
-  const post = await db.posts.create({ data: input });
+*See [REFERENCE.md](./REFERENCE.md#example-16) for complete implementation.*
 
-  // Prime loader cache to avoid refetch
-  context.loaders.postLoader.prime(post.id, post);
 
-  return { post };
-}
-```
 
 ### 3. Apollo Federation v2
 
@@ -522,111 +326,45 @@ async createPost(parent, { input }, context) {
 
 **Users Subgraph**
 
-```graphql
-# users-subgraph/schema.graphql
-extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@shareable"])
 
-type User @key(fields: "id") {
-  id: ID!
-  email: String!
-  name: String!
-}
 
-type Query {
-  user(id: ID!): User
-  users: [User!]!
-}
-```
+*See [REFERENCE.md](./REFERENCE.md#example-17) for complete implementation.*
+
+
 
 **Posts Subgraph**
 
-```graphql
-# posts-subgraph/schema.graphql
-extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@external"])
 
-type User @key(fields: "id") {
-  id: ID! @external
-  posts: [Post!]!
-}
 
-type Post @key(fields: "id") {
-  id: ID!
-  title: String!
-  content: String!
-  authorId: ID!
-  author: User!
-}
+*See [REFERENCE.md](./REFERENCE.md#example-18) for complete implementation.*
 
-type Query {
-  post(id: ID!): Post
-  posts: [Post!]!
-}
-```
+
 
 **Reference Resolvers**
 
-```typescript
-// posts-subgraph/resolvers.ts
-export const resolvers = {
-  User: {
-    __resolveReference: async (user: { id: string }) => {
-      return { id: user.id };  // Minimal representation
-    },
 
-    posts: async (user: { id: string }, _args, context) => {
-      return context.dataSources.postAPI.getPostsByAuthor(user.id);
-    }
-  },
 
-  Post: {
-    __resolveReference: async (post: { id: string }, context) => {
-      return context.dataSources.postAPI.getPostById(post.id);
-    }
-  }
-};
-```
+*See [REFERENCE.md](./REFERENCE.md#example-19) for complete implementation.*
+
+
 
 #### Gateway Configuration
 
 **Apollo Gateway Setup**
 
-```typescript
-// gateway/server.ts
-import { ApolloGateway, IntrospectAndCompose } from '@apollo/gateway';
-import { ApolloServer } from '@apollo/server';
-import { startStandaloneServer } from '@apollo/server/standalone';
 
-const gateway = new ApolloGateway({
-  supergraphSdl: new IntrospectAndCompose({
-    subgraphs: [
-      { name: 'users', url: 'http://localhost:4001/graphql' },
-      { name: 'posts', url: 'http://localhost:4002/graphql' },
-      { name: 'comments', url: 'http://localhost:4003/graphql' }
-    ],
-    pollIntervalInMs: 10000  // Poll for schema updates
-  })
-});
 
-const server = new ApolloServer({ gateway });
+*See [REFERENCE.md](./REFERENCE.md#example-20) for complete implementation.*
 
-const { url } = await startStandaloneServer(server, {
-  listen: { port: 4000 }
-});
 
-console.log(`🚀 Gateway ready at ${url}`);
-```
 
 **Managed Federation** (Apollo Studio)
 
-```typescript
-const gateway = new ApolloGateway({
-  // Use managed federation for production
-  async supergraphSdl({ apolloGraphRef }) {
-    // Graph ref from Apollo Studio
-    return fetchSupergraphSdl(apolloGraphRef);
-  }
-});
-```
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-21) for complete implementation.*
+
+
 
 ### 4. Authentication and Authorization
 
@@ -634,124 +372,37 @@ const gateway = new ApolloGateway({
 
 **JWT Token Verification**
 
-```typescript
-// auth/context.ts
-import jwt from 'jsonwebtoken';
 
-interface AuthContext {
-  user: { id: string; role: string } | null;
-  loaders: DataLoaders;
-}
 
-export async function createContext({ req }): Promise<AuthContext> {
-  const token = req.headers.authorization?.replace('Bearer ', '');
+*See [REFERENCE.md](./REFERENCE.md#example-22) for complete implementation.*
 
-  let user = null;
-  if (token) {
-    try {
-      user = jwt.verify(token, process.env.JWT_SECRET) as { id: string; role: string };
-    } catch (error) {
-      console.error('Invalid token:', error);
-    }
-  }
 
-  return {
-    user,
-    loaders: createLoaders()
-  };
-}
-```
 
 **Resolver-Level Authorization**
 
-```typescript
-// auth/guards.ts
-export function requireAuth(next: GraphQLFieldResolver<any, any, any>) {
-  return (parent, args, context: AuthContext, info) => {
-    if (!context.user) {
-      throw new Error('Unauthorized - authentication required');
-    }
-    return next(parent, args, context, info);
-  };
-}
 
-export function requireRole(role: string) {
-  return (next: GraphQLFieldResolver<any, any, any>) => {
-    return (parent, args, context: AuthContext, info) => {
-      if (!context.user) {
-        throw new Error('Unauthorized');
-      }
-      if (context.user.role !== role) {
-        throw new Error('Forbidden - insufficient permissions');
-      }
-      return next(parent, args, context, info);
-    };
-  };
-}
 
-// Usage in resolvers
-const resolvers = {
-  Mutation: {
-    createPost: requireAuth(async (parent, { input }, context) => {
-      // User is authenticated
-      return createPost(input, context.user.id);
-    }),
+*See [REFERENCE.md](./REFERENCE.md#example-23) for complete implementation.*
 
-    deleteUser: requireRole('ADMIN')(async (parent, { id }, context) => {
-      // User is admin
-      return deleteUser(id);
-    })
-  }
-};
-```
+
 
 #### Directive-Based Authorization
 
 **Schema Directives**
 
-```graphql
-directive @auth on FIELD_DEFINITION | OBJECT
-directive @requireRole(role: String!) on FIELD_DEFINITION
 
-type Query {
-  me: User @auth
-  users: [User!]! @requireRole(role: "ADMIN")
-}
 
-type Mutation {
-  deleteUser(id: ID!): User @requireRole(role: "ADMIN")
-  updateProfile(input: UpdateProfileInput!): User @auth
-}
-```
+*See [REFERENCE.md](./REFERENCE.md#example-24) for complete implementation.*
+
+
 
 **Directive Implementation**
 
-```typescript
-// auth/directives.ts
-import { mapSchema, getDirective, MapperKind } from '@graphql-tools/utils';
-import { GraphQLSchema } from 'graphql';
 
-export function authDirective(schema: GraphQLSchema) {
-  return mapSchema(schema, {
-    [MapperKind.OBJECT_FIELD]: (fieldConfig) => {
-      const authDirective = getDirective(schema, fieldConfig, 'auth')?.[0];
 
-      if (authDirective) {
-        const { resolve = defaultFieldResolver } = fieldConfig;
+*See [REFERENCE.md](./REFERENCE.md#example-25) for complete implementation.*
 
-        fieldConfig.resolve = function (source, args, context, info) {
-          if (!context.user) {
-            throw new Error('Unauthorized');
-          }
-          return resolve(source, args, context, info);
-        };
-      }
 
-      return fieldConfig;
-    }
-  });
-}
-```
 
 ### 5. Subscriptions for Real-Time Data
 
@@ -759,123 +410,27 @@ export function authDirective(schema: GraphQLSchema) {
 
 **Apollo Server Subscriptions**
 
-```typescript
-// server.ts
-import { ApolloServer } from '@apollo/server';
-import { expressMiddleware } from '@apollo/server/express4';
-import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
-import { createServer } from 'http';
-import { WebSocketServer } from 'ws';
-import { useServer } from 'graphql-ws/lib/use/ws';
-import { makeExecutableSchema } from '@graphql-tools/schema';
-import express from 'express';
 
-const schema = makeExecutableSchema({ typeDefs, resolvers });
 
-const app = express();
-const httpServer = createServer(app);
+*See [REFERENCE.md](./REFERENCE.md#example-26) for complete implementation.*
 
-// WebSocket server for subscriptions
-const wsServer = new WebSocketServer({
-  server: httpServer,
-  path: '/graphql'
-});
 
-const serverCleanup = useServer({ schema }, wsServer);
-
-const server = new ApolloServer({
-  schema,
-  plugins: [
-    ApolloServerPluginDrainHttpServer({ httpServer }),
-    {
-      async serverWillStart() {
-        return {
-          async drainServer() {
-            await serverCleanup.dispose();
-          }
-        };
-      }
-    }
-  ]
-});
-
-await server.start();
-
-app.use('/graphql', express.json(), expressMiddleware(server));
-
-httpServer.listen(4000, () => {
-  console.log(`🚀 Server ready at http://localhost:4000/graphql`);
-});
-```
 
 **PubSub Implementation**
 
-```typescript
-// pubsub/index.ts
-import { RedisPubSub } from 'graphql-redis-subscriptions';
-import Redis from 'ioredis';
 
-const options = {
-  host: process.env.REDIS_HOST,
-  port: parseInt(process.env.REDIS_PORT || '6379'),
-  retryStrategy: (times: number) => Math.min(times * 50, 2000)
-};
 
-export const pubsub = new RedisPubSub({
-  publisher: new Redis(options),
-  subscriber: new Redis(options)
-});
+*See [REFERENCE.md](./REFERENCE.md#example-27) for complete implementation.*
 
-// Event types
-export const EVENTS = {
-  MESSAGE_ADDED: 'MESSAGE_ADDED',
-  USER_UPDATED: 'USER_UPDATED',
-  NOTIFICATION_RECEIVED: 'NOTIFICATION_RECEIVED'
-};
-```
+
 
 **Subscription Resolvers**
 
-```typescript
-// resolvers/subscriptions.ts
-import { withFilter } from 'graphql-subscriptions';
-import { pubsub, EVENTS } from '../pubsub';
 
-export const subscriptionResolvers = {
-  Subscription: {
-    messageAdded: {
-      subscribe: withFilter(
-        () => pubsub.asyncIterator(EVENTS.MESSAGE_ADDED),
-        (payload, variables, context) => {
-          // Filter by channel
-          return payload.message.channelId === variables.channelId;
-        }
-      )
-    },
 
-    userUpdated: {
-      subscribe: withFilter(
-        () => pubsub.asyncIterator(EVENTS.USER_UPDATED),
-        (payload, variables, context) => {
-          // User receives their own updates
-          return context.user?.id === variables.userId;
-        }
-      )
-    }
-  },
+*See [REFERENCE.md](./REFERENCE.md#example-28) for complete implementation.*
 
-  Mutation: {
-    sendMessage: async (parent, { input }, context) => {
-      const message = await createMessage(input);
 
-      // Publish event
-      pubsub.publish(EVENTS.MESSAGE_ADDED, { message });
-
-      return { message };
-    }
-  }
-};
-```
 
 ### 6. Performance Optimization
 
@@ -890,128 +445,39 @@ type Query {
 }
 ```
 
-```typescript
-// server.ts
-import { ApolloServerPluginCacheControl } from '@apollo/server/plugin/cacheControl';
 
-const server = new ApolloServer({
-  schema,
-  plugins: [
-    ApolloServerPluginCacheControl({ defaultMaxAge: 60 })
-  ]
-});
-```
+
+*See [REFERENCE.md](./REFERENCE.md#example-30) for complete implementation.*
+
+
 
 **Redis Response Caching**
 
-```typescript
-// cache/redis.ts
-import { createClient } from 'redis';
 
-const redis = createClient({ url: process.env.REDIS_URL });
 
-export async function cacheResolver<T>(
-  key: string,
-  ttl: number,
-  fn: () => Promise<T>
-): Promise<T> {
-  // Check cache
-  const cached = await redis.get(key);
-  if (cached) {
-    return JSON.parse(cached);
-  }
+*See [REFERENCE.md](./REFERENCE.md#example-31) for complete implementation.*
 
-  // Execute and cache
-  const result = await fn();
-  await redis.setEx(key, ttl, JSON.stringify(result));
 
-  return result;
-}
-
-// Usage in resolver
-async user(parent, { id }, context) {
-  return cacheResolver(
-    `user:${id}`,
-    3600,
-    () => context.dataSources.userAPI.getUserById(id)
-  );
-}
-```
 
 #### Query Complexity Analysis
 
 **Cost-Based Limiting**
 
-```typescript
-// plugins/complexity.ts
-import { ApolloServerPlugin } from '@apollo/server';
-import { getComplexity, simpleEstimator } from 'graphql-query-complexity';
 
-export function complexityPlugin(maxComplexity: number): ApolloServerPlugin {
-  return {
-    async requestDidStart() {
-      return {
-        async didResolveOperation({ request, document, schema }) {
-          const complexity = getComplexity({
-            schema,
-            query: document,
-            variables: request.variables,
-            estimators: [simpleEstimator({ defaultComplexity: 1 })]
-          });
 
-          if (complexity > maxComplexity) {
-            throw new Error(
-              `Query too complex: ${complexity}. Maximum: ${maxComplexity}`
-            );
-          }
-        }
-      };
-    }
-  };
-}
-```
+*See [REFERENCE.md](./REFERENCE.md#example-32) for complete implementation.*
+
+
 
 #### Pagination Best Practices
 
 **Cursor-Based Pagination**
 
-```typescript
-// pagination/cursor.ts
-export function encodeCursor(value: string): string {
-  return Buffer.from(value).toString('base64');
-}
 
-export function decodeCursor(cursor: string): string {
-  return Buffer.from(cursor, 'base64').toString('utf-8');
-}
 
-export async function paginate<T>(
-  query: any,
-  { first, after }: { first: number; after?: string }
-): Promise<{ edges: Array<{ cursor: string; node: T }>; pageInfo: any }> {
-  const limit = first + 1;  // Fetch one extra for hasNextPage
+*See [REFERENCE.md](./REFERENCE.md#example-33) for complete implementation.*
 
-  if (after) {
-    query = query.where('id', '>', decodeCursor(after));
-  }
 
-  const items = await query.limit(limit).orderBy('id');
-  const hasNextPage = items.length > first;
-
-  const edges = items.slice(0, first).map((item: T & { id: string }) => ({
-    cursor: encodeCursor(item.id),
-    node: item
-  }));
-
-  return {
-    edges,
-    pageInfo: {
-      hasNextPage,
-      endCursor: edges.length > 0 ? edges[edges.length - 1].cursor : null
-    }
-  };
-}
-```
 
 ### 7. Error Handling and Validation
 
@@ -1019,69 +485,19 @@ export async function paginate<T>(
 
 **Custom Error Classes**
 
-```typescript
-// errors/index.ts
-import { GraphQLError } from 'graphql';
 
-export class ValidationError extends GraphQLError {
-  constructor(message: string, field?: string) {
-    super(message, {
-      extensions: {
-        code: 'VALIDATION_ERROR',
-        field,
-        http: { status: 400 }
-      }
-    });
-  }
-}
 
-export class AuthenticationError extends GraphQLError {
-  constructor(message = 'Authentication required') {
-    super(message, {
-      extensions: {
-        code: 'UNAUTHENTICATED',
-        http: { status: 401 }
-      }
-    });
-  }
-}
+*See [REFERENCE.md](./REFERENCE.md#example-34) for complete implementation.*
 
-export class ForbiddenError extends GraphQLError {
-  constructor(message = 'Insufficient permissions') {
-    super(message, {
-      extensions: {
-        code: 'FORBIDDEN',
-        http: { status: 403 }
-      }
-    });
-  }
-}
-```
+
 
 **Error Formatting**
 
-```typescript
-// server.ts
-const server = new ApolloServer({
-  schema,
-  formatError: (formattedError, error) => {
-    // Log internal errors
-    if (formattedError.extensions?.code === 'INTERNAL_SERVER_ERROR') {
-      console.error('Internal error:', error);
 
-      // Mask details in production
-      if (process.env.NODE_ENV === 'production') {
-        return {
-          message: 'Internal server error',
-          extensions: { code: 'INTERNAL_SERVER_ERROR' }
-        };
-      }
-    }
 
-    return formattedError;
-  }
-});
-```
+*See [REFERENCE.md](./REFERENCE.md#example-35) for complete implementation.*
+
+
 
 ### 8. Testing GraphQL APIs
 
@@ -1089,109 +505,21 @@ const server = new ApolloServer({
 
 **Resolver Tests**
 
-```typescript
-// resolvers/user.test.ts
-import { userResolvers } from './userResolvers';
 
-describe('User Resolvers', () => {
-  const mockContext = {
-    dataSources: {
-      userAPI: {
-        getUserById: jest.fn(),
-        createUser: jest.fn()
-      }
-    },
-    loaders: {
-      userLoader: {
-        load: jest.fn()
-      }
-    },
-    user: { id: '1', role: 'USER' }
-  };
 
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
+*See [REFERENCE.md](./REFERENCE.md#example-36) for complete implementation.*
 
-  describe('Query.user', () => {
-    it('fetches user by id', async () => {
-      const mockUser = { id: '1', email: 'test@example.com' };
-      mockContext.dataSources.userAPI.getUserById.mockResolvedValue(mockUser);
 
-      const result = await userResolvers.Query.user(
-        null,
-        { id: '1' },
-        mockContext,
-        {} as any
-      );
-
-      expect(result).toEqual(mockUser);
-      expect(mockContext.dataSources.userAPI.getUserById).toHaveBeenCalledWith('1');
-    });
-  });
-
-  describe('Mutation.createUser', () => {
-    it('creates user with valid input', async () => {
-      const input = { email: 'new@example.com', password: 'secure123' };
-      const mockUser = { id: '2', ...input };
-      mockContext.dataSources.userAPI.createUser.mockResolvedValue(mockUser);
-
-      const result = await userResolvers.Mutation.createUser(
-        null,
-        { input },
-        mockContext,
-        {} as any
-      );
-
-      expect(result.user).toEqual(mockUser);
-      expect(result.errors).toHaveLength(0);
-    });
-  });
-});
-```
 
 #### Integration Testing
 
 **GraphQL Server Tests**
 
-```typescript
-// server.test.ts
-import { ApolloServer } from '@apollo/server';
-import { typeDefs } from './schema';
-import { resolvers } from './resolvers';
 
-describe('GraphQL Server', () => {
-  let server: ApolloServer;
 
-  beforeAll(async () => {
-    server = new ApolloServer({ typeDefs, resolvers });
-  });
+*See [REFERENCE.md](./REFERENCE.md#example-37) for complete implementation.*
 
-  afterAll(async () => {
-    await server.stop();
-  });
 
-  it('executes user query', async () => {
-    const result = await server.executeOperation({
-      query: `
-        query GetUser($id: ID!) {
-          user(id: $id) {
-            id
-            email
-          }
-        }
-      `,
-      variables: { id: '1' }
-    });
-
-    expect(result.body.kind).toBe('single');
-    if (result.body.kind === 'single') {
-      expect(result.body.singleResult.errors).toBeUndefined();
-      expect(result.body.singleResult.data?.user).toBeDefined();
-    }
-  });
-});
-```
 
 ### 9. Production Deployment
 
@@ -1199,71 +527,133 @@ describe('GraphQL Server', () => {
 
 **Readiness and Liveness**
 
-```typescript
-// health/checks.ts
-export async function healthCheck() {
-  const checks = {
-    database: await checkDatabase(),
-    redis: await checkRedis(),
-    subgraphs: await checkSubgraphs()
-  };
 
-  const isHealthy = Object.values(checks).every(check => check.status === 'ok');
 
-  return {
-    status: isHealthy ? 'ok' : 'degraded',
-    checks,
-    timestamp: new Date().toISOString()
-  };
-}
+*See [REFERENCE.md](./REFERENCE.md#example-38) for complete implementation.*
 
-app.get('/health', async (req, res) => {
-  const health = await healthCheck();
-  res.status(health.status === 'ok' ? 200 : 503).json(health);
-});
-```
+
 
 #### Monitoring and Observability
 
 **Apollo Studio Integration**
 
-```typescript
-import { ApolloServerPluginUsageReporting } from '@apollo/server/plugin/usageReporting';
 
-const server = new ApolloServer({
-  schema,
-  plugins: [
-    ApolloServerPluginUsageReporting({
-      sendVariableValues: { all: true },
-      sendHeaders: { all: true }
-    })
-  ]
-});
-```
+
+*See [REFERENCE.md](./REFERENCE.md#example-39) for complete implementation.*
+
+
 
 **Custom Metrics**
 
-```typescript
-// metrics/prometheus.ts
-import { register, Counter, Histogram } from 'prom-client';
 
-export const resolverDuration = new Histogram({
-  name: 'graphql_resolver_duration_seconds',
-  help: 'Duration of GraphQL resolver execution',
-  labelNames: ['type', 'field']
-});
 
-export const resolverErrors = new Counter({
-  name: 'graphql_resolver_errors_total',
-  help: 'Total number of resolver errors',
-  labelNames: ['type', 'field', 'code']
-});
+*See [REFERENCE.md](./REFERENCE.md#example-40) for complete implementation.*
 
-app.get('/metrics', (req, res) => {
-  res.set('Content-Type', register.contentType);
-  res.end(register.metrics());
-});
+
+
+## Examples
+
+### Basic Usage
+
+
+
+*See [REFERENCE.md](./REFERENCE.md#example-41) for complete implementation.*
+
+
+
+### Advanced Usage
+
+```python
+// TODO: Add advanced example for graphql
+// This example shows production-ready patterns
 ```
+
+### Integration Example
+
+```python
+// TODO: Add integration example showing how graphql
+// works with other systems and services
+```
+
+See `examples/graphql/` for complete working examples.
+
+## Integration Points
+
+This skill integrates with:
+
+### Upstream Dependencies
+
+- **Tools**: Apollo Server, GraphQL Yoga, Hasura
+- **Prerequisites**: Basic understanding of api concepts
+
+### Downstream Consumers
+
+- **Applications**: Production systems requiring graphql functionality
+- **CI/CD Pipelines**: Automated testing and deployment workflows
+- **Monitoring Systems**: Observability and logging platforms
+
+### Related Skills
+
+- [Authentication](../../authentication/SKILL.md)
+- [Authorization](../../authorization/SKILL.md)
+- [Api Security](../../api-security/SKILL.md)
+
+### Common Integration Patterns
+
+1. **Development Workflow**: How this skill fits into daily development
+2. **Production Deployment**: Integration with production systems
+3. **Monitoring & Alerting**: Observability integration points
+
+## Common Pitfalls
+
+### Pitfall 1: Insufficient Testing
+
+**Problem:** Not testing edge cases and error conditions leads to production bugs
+
+**Solution:** Implement comprehensive test coverage including:
+
+- Happy path scenarios
+- Error handling and edge cases
+- Integration points with external systems
+
+**Prevention:** Enforce minimum code coverage (80%+) in CI/CD pipeline
+
+### Pitfall 2: Hardcoded Configuration
+
+**Problem:** Hardcoding values makes applications inflexible and environment-dependent
+
+**Solution:** Use environment variables and configuration management:
+
+- Separate config from code
+- Use environment-specific configuration files
+- Never commit secrets to version control
+
+**Prevention:** Use tools like dotenv, config validators, and secret scanners
+
+### Pitfall 3: Ignoring Security Best Practices
+
+**Problem:** Security vulnerabilities from not following established security patterns
+
+**Solution:** Follow security guidelines:
+
+- Input validation and sanitization
+- Proper authentication and authorization
+- Encrypted data transmission (TLS/SSL)
+- Regular security audits and updates
+
+**Prevention:** Use security linters, SAST tools, and regular dependency updates
+
+**Best Practices:**
+
+- Follow established patterns and conventions for graphql
+- Keep dependencies up to date and scan for vulnerabilities
+- Write comprehensive documentation and inline comments
+- Use linting and formatting tools consistently
+- Implement proper error handling and logging
+- Regular code reviews and pair programming
+- Monitor production metrics and set up alerts
+
+---
 
 ---
 

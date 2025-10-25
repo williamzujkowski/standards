@@ -636,6 +636,107 @@ See `./scripts/` for:
 - SBOM generation scripts
 - Security audit reporters
 
+## Examples
+
+### Basic Usage
+
+```python
+// TODO: Add basic example for security-practices
+// This example demonstrates core functionality
+```
+
+### Advanced Usage
+
+```python
+// TODO: Add advanced example for security-practices
+// This example shows production-ready patterns
+```
+
+### Integration Example
+
+```python
+// TODO: Add integration example showing how security-practices
+// works with other systems and services
+```
+
+See `examples/security-practices/` for complete working examples.
+
+## Integration Points
+
+This skill integrates with:
+
+### Upstream Dependencies
+
+- **Tools**: Common development tools and frameworks
+- **Prerequisites**: Basic understanding of general concepts
+
+### Downstream Consumers
+
+- **Applications**: Production systems requiring security-practices functionality
+- **CI/CD Pipelines**: Automated testing and deployment workflows
+- **Monitoring Systems**: Observability and logging platforms
+
+### Related Skills
+
+- See other skills in this category
+
+### Common Integration Patterns
+
+1. **Development Workflow**: How this skill fits into daily development
+2. **Production Deployment**: Integration with production systems
+3. **Monitoring & Alerting**: Observability integration points
+
+## Common Pitfalls
+
+### Pitfall 1: Insufficient Testing
+
+**Problem:** Not testing edge cases and error conditions leads to production bugs
+
+**Solution:** Implement comprehensive test coverage including:
+
+- Happy path scenarios
+- Error handling and edge cases
+- Integration points with external systems
+
+**Prevention:** Enforce minimum code coverage (80%+) in CI/CD pipeline
+
+### Pitfall 2: Hardcoded Configuration
+
+**Problem:** Hardcoding values makes applications inflexible and environment-dependent
+
+**Solution:** Use environment variables and configuration management:
+
+- Separate config from code
+- Use environment-specific configuration files
+- Never commit secrets to version control
+
+**Prevention:** Use tools like dotenv, config validators, and secret scanners
+
+### Pitfall 3: Ignoring Security Best Practices
+
+**Problem:** Security vulnerabilities from not following established security patterns
+
+**Solution:** Follow security guidelines:
+
+- Input validation and sanitization
+- Proper authentication and authorization
+- Encrypted data transmission (TLS/SSL)
+- Regular security audits and updates
+
+**Prevention:** Use security linters, SAST tools, and regular dependency updates
+
+**Best Practices:**
+
+- Follow established patterns and conventions for security-practices
+- Keep dependencies up to date and scan for vulnerabilities
+- Write comprehensive documentation and inline comments
+- Use linting and formatting tools consistently
+- Implement proper error handling and logging
+- Regular code reviews and pair programming
+- Monitor production metrics and set up alerts
+
+---
+
 ---
 
 ## Bundled Resources

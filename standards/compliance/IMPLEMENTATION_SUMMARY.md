@@ -105,18 +105,27 @@ semantic/
 ### Generate System Security Plan
 
 ```bash
+# Navigate to compliance directory
+cd standards/compliance
+
 npm run generate-ssp -- --baseline moderate --format json
 ```
 
 ### Harvest Compliance Evidence
 
 ```bash
+# Navigate to compliance directory
+cd standards/compliance
+
 npm run harvest-evidence -- --project /path/to/project
 ```
 
 ### Run Demo
 
 ```bash
+# Navigate to compliance directory
+cd standards/compliance
+
 npm run demo
 ```
 

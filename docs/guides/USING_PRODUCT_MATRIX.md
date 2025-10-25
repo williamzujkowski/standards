@@ -27,15 +27,19 @@ Available Product Types:
 
 ### 2. Load Standards Bundle
 
-Use the `@load` directive in CLAUDE.md:
+**Note**: The `@load` directive is planned for v2.0. Current implementation uses the skill-loader script.
+
+**Current (v1.x):**
+
+```bash
+python3 scripts/skill-loader.py load product:web-service
+python3 scripts/skill-loader.py load product:api --language python
+```
+
+**Planned (v2.0):**
 
 ```
 @load product:web-service
-```
-
-Or combine with specific overrides:
-
-```
 @load [product:api + CS:python + TS:pytest]
 ```
 
@@ -56,6 +60,14 @@ Infrastructure: docker
 ```
 
 **Standards Loading:**
+
+**Current (v1.x):**
+
+```bash
+python3 scripts/skill-loader.py load product:api --language python
+```
+
+**Planned (v2.0):**
 
 ```
 @load [product:api + CS:python + TS:pytest + DB:postgresql + CN:docker]
@@ -102,6 +114,14 @@ Deployment: aws-s3-cloudfront
 
 **Standards Loading:**
 
+**Current (v1.x):**
+
+```bash
+python3 scripts/skill-loader.py load product:frontend-web --framework react
+```
+
+**Planned (v2.0):**
+
 ```
 @load [product:frontend-web + FE:react + WD:material-design + DOP:aws]
 ```
@@ -146,6 +166,14 @@ Processing: spark
 
 **Standards Loading:**
 
+**Current (v1.x):**
+
+```bash
+python3 scripts/skill-loader.py load product:data-pipeline
+```
+
+**Planned (v2.0):**
+
 ```
 @load [product:data-pipeline + DE:airflow + SEC:data-classification + LEG:gdpr]
 ```
@@ -179,10 +207,21 @@ Processing: spark
 
 ## Wildcard Expansion
 
+**Note**: Wildcard expansion is planned for v2.0. Current implementation auto-selects relevant skills based on product type.
+
 ### Security Wildcard (`SEC:*`)
+
+**Planned (v2.0):**
 
 ```
 @load [CS:python + SEC:*]
+```
+
+**Current (v1.x):**
+
+```bash
+python3 scripts/skill-loader.py load product:api --language python
+# Auto-includes security-practices skill
 ```
 
 Expands to:

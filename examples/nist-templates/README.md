@@ -74,6 +74,9 @@ cp examples/nist-templates/go/secure_service.go cmd/server/
 ### 3. Verify NIST Tags
 
 ```bash
+# Navigate to compliance directory
+cd standards/compliance
+
 # Scan for NIST annotations
 npm run scan-annotations scan src/
 

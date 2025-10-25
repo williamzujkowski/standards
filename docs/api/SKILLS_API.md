@@ -41,7 +41,7 @@ Main CLI tool for skill operations.
 #### Synopsis
 
 ```bash
-npm run skill-loader -- <command> [options]
+python3 scripts/skill-loader.py <command> [options]
 ```
 
 #### Commands
@@ -53,7 +53,7 @@ Load one or more skills.
 **Syntax:**
 
 ```bash
-npm run skill-loader -- load <skill-spec> [options]
+python3 scripts/skill-loader.py load <skill-spec> [options]
 ```
 
 **Parameters:**
@@ -68,16 +68,16 @@ npm run skill-loader -- load <skill-spec> [options]
 
 ```bash
 # Load single skill
-npm run skill-loader -- load skill:coding-standards
+python3 scripts/skill-loader.py load skill:coding-standards
 
 # Load multiple skills
-npm run skill-loader -- load "skill:coding-standards + skill:testing"
+python3 scripts/skill-loader.py load "skill:coding-standards + skill:testing"
 
 # Load at specific level
-npm run skill-loader -- load skill:coding-standards --level 2
+python3 scripts/skill-loader.py load skill:coding-standards --level 2
 
 # Load and save
-npm run skill-loader -- load product:api --output .claude/skills.md
+python3 scripts/skill-loader.py load product:api --output .claude/skills.md
 ```
 
 ##### `recommend`
@@ -87,7 +87,7 @@ Analyze project and recommend skills.
 **Syntax:**
 
 ```bash
-npm run skill-loader -- recommend <project-path> [options]
+python3 scripts/skill-loader.py recommend <project-path> [options]
 ```
 
 **Parameters:**
@@ -99,7 +99,7 @@ npm run skill-loader -- recommend <project-path> [options]
 **Example:**
 
 ```bash
-npm run skill-loader -- recommend ./my-project
+python3 scripts/skill-loader.py recommend ./my-project
 
 # Output:
 # 🔍 Analyzing project...
@@ -119,7 +119,7 @@ Compose multiple skills into a bundle.
 **Syntax:**
 
 ```bash
-npm run skill-loader -- compose <skill1> <skill2> ... [options]
+python3 scripts/skill-loader.py compose <skill1> <skill2> ... [options]
 ```
 
 **Parameters:**
@@ -133,7 +133,7 @@ npm run skill-loader -- compose <skill1> <skill2> ... [options]
 **Example:**
 
 ```bash
-npm run skill-loader -- compose \
+python3 scripts/skill-loader.py compose \
   skill:coding-standards \
   skill:security-practices \
   skill:testing \
@@ -149,7 +149,7 @@ List all available skills.
 **Syntax:**
 
 ```bash
-npm run skill-loader -- list [options]
+python3 scripts/skill-loader.py list [options]
 ```
 
 **Parameters:**
@@ -160,7 +160,7 @@ npm run skill-loader -- list [options]
 **Example:**
 
 ```bash
-npm run skill-loader -- list --format table
+python3 scripts/skill-loader.py list --format table
 
 # Output:
 # Skill                 Description                              Level 1 Tokens
@@ -179,7 +179,7 @@ Validate skill structure and content.
 **Syntax:**
 
 ```bash
-npm run skill-loader -- validate <skill-path> [options]
+python3 scripts/skill-loader.py validate <skill-path> [options]
 ```
 
 **Parameters:**
@@ -193,7 +193,7 @@ npm run skill-loader -- validate <skill-path> [options]
 **Example:**
 
 ```bash
-npm run skill-loader -- validate skills/coding-standards/ --check-tokens --check-refs
+python3 scripts/skill-loader.py validate skills/coding-standards/ --check-tokens --check-refs
 
 # Output:
 # ✅ YAML frontmatter valid
@@ -211,7 +211,7 @@ Auto-detect and load recommended skills.
 **Syntax:**
 
 ```bash
-npm run skill-loader -- auto-load <project-path> [options]
+python3 scripts/skill-loader.py auto-load <project-path> [options]
 ```
 
 **Parameters:**
@@ -224,7 +224,7 @@ npm run skill-loader -- auto-load <project-path> [options]
 **Example:**
 
 ```bash
-npm run skill-loader -- auto-load ./ --level 1 --output .claude/skills.md
+python3 scripts/skill-loader.py auto-load ./ --level 1 --output .claude/skills.md
 
 # Output:
 # Detected: REST API (Node.js/Express)
@@ -719,33 +719,33 @@ recommendations:
 
 ```bash
 # List available skills
-npm run skill-loader -- list
+python3 scripts/skill-loader.py list
 
 # Load a skill
-npm run skill-loader -- load skill:coding-standards --level 1
+python3 scripts/skill-loader.py load skill:coding-standards --level 1
 
 # Get recommendations
-npm run skill-loader -- recommend ./
+python3 scripts/skill-loader.py recommend ./
 
 # Auto-load recommended
-npm run skill-loader -- auto-load ./ --yes
+python3 scripts/skill-loader.py auto-load ./ --yes
 ```
 
 ### Example 2: Product Type Loading
 
 ```bash
 # Load API bundle
-npm run skill-loader -- load product:api --language python --output .claude/api-skills.md
+python3 scripts/skill-loader.py load product:api --language python --output .claude/api-skills.md
 
 # Load frontend bundle
-npm run skill-loader -- load product:frontend-web --framework react --output .claude/frontend-skills.md
+python3 scripts/skill-loader.py load product:frontend-web --framework react --output .claude/frontend-skills.md
 ```
 
 ### Example 3: Custom Composition
 
 ```bash
 # Create custom bundle
-npm run skill-loader -- compose \
+python3 scripts/skill-loader.py compose \
   skill:coding-standards \
   skill:security-practices \
   skill:testing \

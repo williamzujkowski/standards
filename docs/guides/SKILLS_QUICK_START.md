@@ -16,6 +16,16 @@ Skills are **modular, bite-sized standards** that load progressively. Instead of
 
 ### Step 1: Load Your First Skill (30 seconds)
 
+**Note**: The `@load` directive is planned for v2.0. Current implementation uses the skill-loader script.
+
+**Current (v1.x):**
+
+```bash
+python3 scripts/skill-loader.py load skill:coding-standards
+```
+
+**Planned (v2.0):**
+
 ```bash
 @load skill:coding-standards
 ```
@@ -30,6 +40,21 @@ Skills are **modular, bite-sized standards** that load progressively. Instead of
 **Token cost**: 327 tokens (~5 min read)
 
 ### Step 2: Try Product Type Loading (30 seconds)
+
+**Current (v1.x):**
+
+```bash
+# For API projects
+python3 scripts/skill-loader.py load product:api
+
+# For frontend projects
+python3 scripts/skill-loader.py load product:frontend-web
+
+# For mobile apps
+python3 scripts/skill-loader.py load product:mobile
+```
+
+**Planned (v2.0):**
 
 ```bash
 # For API projects
@@ -52,7 +77,8 @@ python3 scripts/skill-loader.py recommend ./
 # Output:
 # 🔍 Detected: REST API (Python/FastAPI)
 # 📚 Recommended: coding-standards, security-practices, testing, nist-compliance
-# 💡 Load with: @load product:api
+# 💡 Load with (v1.x): python3 scripts/skill-loader.py load product:api
+# 💡 Load with (v2.0 - planned): @load product:api
 ```
 
 ---
@@ -61,24 +87,48 @@ python3 scripts/skill-loader.py recommend ./
 
 ### Starting a New Project
 
+**Current (v1.x):**
+
 ```bash
-@load product:api --language python
+python3 scripts/skill-loader.py load product:api --language python
 # Loads: coding-standards, security-practices, testing, nist-compliance
 # Token cost: ~1,755 (Level 1)
 ```
 
+**Planned (v2.0):**
+
+```bash
+@load product:api --language python
+```
+
 ### Code Review
+
+**Current (v1.x):**
+
+```bash
+python3 scripts/skill-loader.py load "skill:coding-standards + skill:testing"
+# Quick checklists for review
+```
+
+**Planned (v2.0):**
 
 ```bash
 @load [skill:coding-standards + skill:testing] --level 1
-# Quick checklists for review
 ```
 
 ### Security Audit
 
+**Current (v1.x):**
+
+```bash
+python3 scripts/skill-loader.py load "skill:security-practices + skill:nist-compliance" --level 2
+# Comprehensive security coverage
+```
+
+**Planned (v2.0):**
+
 ```bash
 @load [skill:security-practices + skill:nist-compliance] --level 2
-# Comprehensive security coverage
 ```
 
 ---
@@ -86,6 +136,14 @@ python3 scripts/skill-loader.py recommend ./
 ## Progressive Levels
 
 ### Level 1: Quick Start (5 min, <2,000 tokens)
+
+**Current (v1.x):**
+
+```bash
+python3 scripts/skill-loader.py load skill:testing --level 1
+```
+
+**Planned (v2.0):**
 
 ```bash
 @load skill:testing --level 1
@@ -99,6 +157,14 @@ python3 scripts/skill-loader.py recommend ./
 
 ### Level 2: Implementation (30 min, <5,000 tokens)
 
+**Current (v1.x):**
+
+```bash
+python3 scripts/skill-loader.py load skill:testing --level 2
+```
+
+**Planned (v2.0):**
+
 ```bash
 @load skill:testing --level 2
 ```
@@ -110,6 +176,14 @@ python3 scripts/skill-loader.py recommend ./
 - System design
 
 ### Level 3: Mastery (Extended)
+
+**Current (v1.x):**
+
+```bash
+python3 scripts/skill-loader.py load skill:testing --level 3
+```
+
+**Planned (v2.0):**
 
 ```bash
 @load skill:testing --level 3
@@ -196,7 +270,7 @@ Cost: 98% reduction compared to loading all standards documents
 
 ## Next Steps
 
-1. **Try it now**: `@load skill:coding-standards --level 1`
+1. **Try it now** (v1.x): `python3 scripts/skill-loader.py load skill:coding-standards --level 1`
 2. **Get recommendations**: `python3 scripts/skill-loader.py recommend ./`
 3. **Read full guide**: [SKILLS_USER_GUIDE.md](./SKILLS_USER_GUIDE.md)
 4. **Explore catalog**: [SKILLS_CATALOG.md](../SKILLS_CATALOG.md)

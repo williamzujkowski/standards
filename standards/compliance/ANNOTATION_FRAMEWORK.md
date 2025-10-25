@@ -80,6 +80,9 @@ security:
 ### CLI Tool
 
 ```bash
+# Navigate to compliance directory
+cd standards/compliance
+
 # Scan current directory
 npm run scan-annotations
 

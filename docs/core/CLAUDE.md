@@ -43,6 +43,10 @@ context:
 
 ### Smart Loading Syntax
 
+**Note**: The `@load` directive and semantic loading syntax below are planned for v2.0. Current implementation (v1.x) uses the skill-loader script.
+
+**Planned (v2.0):**
+
 ```text
 # Basic Loading
 @load CS:api                    # Single section
@@ -59,6 +63,17 @@ context:
 @ask "How to build secure API" → auto-loads relevant standards
 @need "performance optimization" → loads performance toolkit
 @ask "how to organize docs" → loads KM:architecture + examples
+```
+
+**Current (v1.x):**
+
+```bash
+# Basic Loading
+python3 scripts/skill-loader.py load skill:coding-standards
+python3 scripts/skill-loader.py load product:api --language python
+
+# Get Recommendations
+python3 scripts/skill-loader.py recommend ./
 ```
 
 ### Natural Language Mappings

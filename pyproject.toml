@@ -66,3 +66,14 @@ exclude = [
 "tests/*" = ["S101"]  # Allow assert in tests
 "scripts/*" = ["S603", "S607"]  # Allow subprocess calls in scripts
 "monitoring/*" = ["S602", "S607", "E722"]  # Allow shell commands and bare except in monitoring
+
+[tool.pytest.ini_options]
+markers = [
+    "quality_gate: marks tests as quality gate tests (deselect with '-m \"not quality_gate\"')",
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-ra -q --strict-markers"

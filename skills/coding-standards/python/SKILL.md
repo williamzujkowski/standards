@@ -944,6 +944,261 @@ twine upload dist/*
 
 ---
 
+## Examples
+
+### Basic Example: Simple Python Module
+
+```python
+# calculator.py
+"""Simple calculator module demonstrating Python best practices."""
+
+from typing import Union
+
+def add(a: Union[int, float], b: Union[int, float]) -> Union[int, float]:
+    """Add two numbers.
+
+    Args:
+        a: First number
+        b: Second number
+
+    Returns:
+        Sum of a and b
+
+    Example:
+        >>> add(2, 3)
+        5
+        >>> add(2.5, 1.5)
+        4.0
+    """
+    return a + b
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+```
+
+### Production Example: FastAPI Service
+
+```python
+# app/main.py
+"""Production FastAPI service with proper structure."""
+
+from fastapi import FastAPI, HTTPException, Depends
+from pydantic import BaseModel, EmailStr
+from typing import Optional
+import logging
+
+app = FastAPI(title="User Service", version="1.0.0")
+logger = logging.getLogger(__name__)
+
+class UserCreate(BaseModel):
+    """User creation schema."""
+    email: EmailStr
+    name: str
+    age: int
+
+class User(BaseModel):
+    """User response schema."""
+    id: int
+    email: EmailStr
+    name: str
+    age: int
+
+@app.post("/users/", response_model=User, status_code=201)
+async def create_user(user: UserCreate) -> User:
+    """Create new user with validation."""
+    try:
+        # Implementation
+        new_user = User(id=1, **user.dict())
+        logger.info(f"Created user: {new_user.email}")
+        return new_user
+    except Exception as e:
+        logger.error(f"Error creating user: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+```
+
+### Integration Example: Database with SQLAlchemy
+
+```python
+# app/database.py
+"""Database integration with SQLAlchemy ORM."""
+
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from typing import Generator
+
+DATABASE_URL = "postgresql://user:pass@localhost/dbname"
+
+engine = create_engine(DATABASE_URL, pool_pre_ping=True)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
+
+class User(Base):
+    """User database model."""
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String, unique=True, index=True, nullable=False)
+    name = Column(String, nullable=False)
+
+def get_db() -> Generator:
+    """Database session dependency."""
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+```
+
+See `examples/python-fastapi-app/` for a complete working example.
+
+## Integration Points
+
+### Upstream Dependencies
+
+- **Development Tools**: Black, isort, mypy, pylint for code quality
+- **Testing Framework**: pytest with pytest-cov for testing
+- **Type Checking**: mypy for static type analysis
+- **Package Management**: pip, poetry, or pipenv for dependency management
+
+### Downstream Consumers
+
+- **CI/CD Systems**: GitHub Actions, GitLab CI, Jenkins for automation
+- **Code Review Tools**: pre-commit hooks, SonarQube for quality gates
+- **Documentation**: Sphinx or MkDocs for API documentation generation
+- **Containerization**: Docker for packaging applications
+
+### Related Skills
+
+- [Testing Standards](../../testing/SKILL.md) - Comprehensive testing practices including pytest
+- [Security Practices](../../security-practices/SKILL.md) - Security implementation and NIST controls
+- [API Design](../../api/graphql/SKILL.md) - RESTful and GraphQL API development
+- [DevOps CI/CD](../../devops/ci-cd/SKILL.md) - Continuous integration and deployment
+- [Database SQL](../../database/sql/SKILL.md) - Database design and optimization
+
+### Tool Ecosystem
+
+- **Linters**: pylint, flake8, ruff
+- **Formatters**: black, autopep8
+- **Type Checkers**: mypy, pyright
+- **Security Scanners**: bandit, safety
+- **Documentation**: sphinx, pdoc3
+- **Testing**: pytest, unittest, hypothesis
+
+## Common Pitfalls
+
+### Pitfall 1: Mutable Default Arguments
+
+**Problem:** Using mutable objects (lists, dicts) as default arguments causes unexpected behavior where the same object is shared across function calls.
+
+**Solution:** Use `None` as default and create new object inside function:
+
+```python
+# ❌ Bad
+def add_item(item, items=[]):
+    items.append(item)
+    return items
+
+# ✅ Good
+def add_item(item, items=None):
+    if items is None:
+        items = []
+    items.append(item)
+    return items
+```
+
+**Prevention:** Enable pylint warning `W0102` (dangerous-default-value)
+
+### Pitfall 2: Bare Except Clauses
+
+**Problem:** Using bare `except:` catches all exceptions including `KeyboardInterrupt` and `SystemExit`, making debugging difficult and preventing graceful shutdown.
+
+**Solution:** Catch specific exceptions and use proper logging:
+
+```python
+# ❌ Bad
+try:
+    risky_operation()
+except:
+    pass
+
+# ✅ Good
+try:
+    risky_operation()
+except (ValueError, KeyError) as e:
+    logger.error(f"Operation failed: {e}", exc_info=True)
+    raise
+```
+
+**Prevention:** Configure flake8 to enforce E722 (bare except)
+
+### Pitfall 3: Import * Anti-Pattern
+
+**Problem:** Using `from module import *` pollutes namespace, makes code harder to debug, and can cause naming conflicts.
+
+**Solution:** Use explicit imports:
+
+```python
+# ❌ Bad
+from os import *
+from sys import *
+
+# ✅ Good
+from os import path, environ
+from sys import argv, exit
+```
+
+**Prevention:** Enable pylint warning `W0401` (wildcard-import)
+
+### Pitfall 4: Not Using Type Hints
+
+**Problem:** Missing type hints make code harder to understand, maintain, and catch type errors at development time.
+
+**Solution:** Add type hints to all public interfaces:
+
+```python
+# ❌ Bad
+def process_data(data):
+    return [x * 2 for x in data]
+
+# ✅ Good
+def process_data(data: list[int]) -> list[int]:
+    return [x * 2 for x in data]
+```
+
+**Prevention:** Configure mypy with `disallow_untyped_defs = True`
+
+### Pitfall 5: Ignoring Virtual Environments
+
+**Problem:** Installing packages globally can cause version conflicts and make projects non-reproducible.
+
+**Solution:** Always use virtual environments:
+
+```bash
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # or venv\Scripts\activate on Windows
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+**Prevention:** Add virtual environment creation to project setup scripts
+
+**Best Practices:**
+
+- Use pre-commit hooks to catch issues before committing
+- Configure IDE/editor with linters and type checkers
+- Follow PEP 8 style guide consistently with automated formatters
+- Write docstrings for all public APIs using Google or NumPy style
+- Maintain test coverage above 80% for production code
+- Use type hints for all function signatures and class attributes
+- Pin dependency versions in requirements.txt for reproducibility
+- Never commit secrets - use environment variables or secret management tools
+
+---
+
 ## Validation
 
 This skill has been validated with:

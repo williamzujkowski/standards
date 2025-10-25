@@ -1,0 +1,839 @@
+# Api Security - Reference Implementation
+
+This document contains detailed configuration examples and full code samples extracted from the main skill guide to keep the implementation guide concise.
+
+## Table of Contents
+
+- [2.1 Authentication Mechanisms](#2.1-authentication-mechanisms)
+- [API Key Authentication](#api-key-authentication)
+- [OAuth 2.0 with PKCE](#oauth-2.0-with-pkce)
+- [JWT Token Management](#jwt-token-management)
+- [2.2 Rate Limiting and Throttling](#2.2-rate-limiting-and-throttling)
+- [Multi-Tier Rate Limiting](#multi-tier-rate-limiting)
+- [Adaptive Rate Limiting](#adaptive-rate-limiting)
+- [2.3 Input Validation and Sanitization](#2.3-input-validation-and-sanitization)
+- [Schema-Based Validation](#schema-based-validation)
+- [Content-Type Validation](#content-type-validation)
+
+---
+
+## Code Examples
+
+### Example 0
+
+```python
+# Python API Key Generation
+import secrets
+import hashlib
+from datetime import datetime, timedelta
+
+class APIKeyManager:
+    def generate_api_key(self, user_id: str, expires_days: int = 365):
+        """Generate cryptographically secure API key"""
+        key = secrets.token_urlsafe(32)  # 256-bit key
+        key_hash = hashlib.sha256(key.encode()).hexdigest()
+
+        return {
+            "key": key,  # Return to user once
+            "hash": key_hash,  # Store in database
+            "user_id": user_id,
+            "created_at": datetime.utcnow(),
+            "expires_at": datetime.utcnow() + timedelta(days=expires_days),
+            "permissions": []
+        }
+
+    def validate_api_key(self, provided_key: str, stored_hash: str) -> bool:
+        """Constant-time comparison to prevent timing attacks"""
+        provided_hash = hashlib.sha256(provided_key.encode()).hexdigest()
+        return secrets.compare_digest(provided_hash, stored_hash)
+
+# Flask middleware
+from functools import wraps
+
+def require_api_key(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        key = request.headers.get('X-API-Key')
+        if not key or not api_key_manager.validate_api_key(key):
+            return jsonify({"error": "Invalid API key"}), 401
+        return f(*args, **kwargs)
+    return decorated
+```
+
+### Example 1
+
+```javascript
+// Node.js OAuth 2.0 Authorization Code + PKCE
+const crypto = require('crypto');
+const express = require('express');
+const router = express.Router();
+
+// Step 1: Generate PKCE challenge
+function generatePKCE() {
+  const verifier = crypto.randomBytes(32).toString('base64url');
+  const challenge = crypto
+    .createHash('sha256')
+    .update(verifier)
+    .digest('base64url');
+
+  return { verifier, challenge };
+}
+
+// Step 2: Authorization endpoint
+router.get('/authorize', (req, res) => {
+  const { client_id, redirect_uri, state, code_challenge, code_challenge_method } = req.query;
+
+  // Validate client_id and redirect_uri
+  if (!validateClient(client_id, redirect_uri)) {
+    return res.status(400).json({ error: 'invalid_client' });
+  }
+
+  // Validate PKCE parameters
+  if (code_challenge_method !== 'S256') {
+    return res.status(400).json({ error: 'invalid_request',
+                                  error_description: 'code_challenge_method must be S256' });
+  }
+
+  // Store code_challenge associated with authorization code
+  const authCode = generateAuthCode();
+  storePKCEChallenge(authCode, code_challenge);
+
+  // Redirect with authorization code
+  res.redirect(`${redirect_uri}?code=${authCode}&state=${state}`);
+});
+
+// Step 3: Token endpoint
+router.post('/token', async (req, res) => {
+  const { grant_type, code, redirect_uri, client_id, code_verifier } = req.body;
+
+  if (grant_type !== 'authorization_code') {
+    return res.status(400).json({ error: 'unsupported_grant_type' });
+  }
+
+  // Verify code_verifier against stored challenge
+  const storedChallenge = getPKCEChallenge(code);
+  const computedChallenge = crypto
+    .createHash('sha256')
+    .update(code_verifier)
+    .digest('base64url');
+
+  if (computedChallenge !== storedChallenge) {
+    return res.status(400).json({ error: 'invalid_grant' });
+  }
+
+  // Issue tokens
+  const accessToken = generateJWT({ client_id }, '15m');
+  const refreshToken = generateRefreshToken();
+
+  res.json({
+    access_token: accessToken,
+    token_type: 'Bearer',
+    expires_in: 900,
+    refresh_token: refreshToken
+  });
+});
+```
+
+### Example 2
+
+```javascript
+// JWT Token Structure
+const jwt = require('jsonwebtoken');
+
+function generateJWT(payload, expiresIn = '15m') {
+  return jwt.sign(
+    {
+      sub: payload.user_id,
+      iat: Math.floor(Date.now() / 1000),
+      exp: Math.floor(Date.now() / 1000) + (15 * 60), // 15 minutes
+      iss: 'api.example.com',
+      aud: 'api.example.com',
+      scope: payload.permissions.join(' ')
+    },
+    process.env.JWT_PRIVATE_KEY,
+    { algorithm: 'RS256' } // Use asymmetric signing
+  );
+}
+
+// Refresh Token Rotation
+class TokenManager {
+  async refreshAccessToken(refreshToken) {
+    const storedToken = await db.refreshTokens.findOne({ token: refreshToken });
+
+    if (!storedToken || storedToken.expiresAt < new Date()) {
+      throw new Error('Invalid or expired refresh token');
+    }
+
+    // Rotate refresh token (one-time use)
+    await db.refreshTokens.deleteOne({ token: refreshToken });
+
+    const newAccessToken = generateJWT({ user_id: storedToken.userId });
+    const newRefreshToken = crypto.randomBytes(40).toString('hex');
+
+    await db.refreshTokens.insertOne({
+      token: newRefreshToken,
+      userId: storedToken.userId,
+      expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days
+    });
+
+    return { accessToken: newAccessToken, refreshToken: newRefreshToken };
+  }
+}
+```
+
+### Example 3
+
+```javascript
+// Express.js rate limiting with Redis
+const rateLimit = require('express-rate-limit');
+const RedisStore = require('rate-limit-redis');
+const redis = require('redis');
+
+const client = redis.createClient({ url: process.env.REDIS_URL });
+
+// Tier 1: Global IP-based limit
+const globalLimiter = rateLimit({
+  store: new RedisStore({ client, prefix: 'rl:global:' }),
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 1000, // 1000 requests per 15 min per IP
+  message: 'Too many requests from this IP'
+});
+
+// Tier 2: Authenticated user limit
+const userLimiter = rateLimit({
+  store: new RedisStore({ client, prefix: 'rl:user:' }),
+  windowMs: 60 * 1000, // 1 minute
+  max: 100, // 100 requests per minute per user
+  keyGenerator: (req) => req.user?.id || req.ip,
+  skip: (req) => !req.user // Skip for unauthenticated
+});
+
+// Tier 3: Endpoint-specific limit
+const expensiveOperationLimiter = rateLimit({
+  store: new RedisStore({ client, prefix: 'rl:expensive:' }),
+  windowMs: 60 * 1000,
+  max: 5, // 5 requests per minute
+  keyGenerator: (req) => req.user.id
+});
+
+// Apply to routes
+app.use('/api', globalLimiter);
+app.use('/api', authenticateToken, userLimiter);
+app.post('/api/generate-report', expensiveOperationLimiter, generateReport);
+```
+
+### Example 4
+
+```python
+# Python adaptive rate limiter based on system load
+import psutil
+from flask import request, jsonify
+
+class AdaptiveRateLimiter:
+    def __init__(self, base_limit=100):
+        self.base_limit = base_limit
+
+    def get_current_limit(self):
+        """Adjust rate limit based on CPU/memory usage"""
+        cpu_percent = psutil.cpu_percent(interval=1)
+        memory_percent = psutil.virtual_memory().percent
+
+        if cpu_percent > 80 or memory_percent > 80:
+            return int(self.base_limit * 0.5)  # Reduce by 50%
+        elif cpu_percent > 60 or memory_percent > 60:
+            return int(self.base_limit * 0.75)  # Reduce by 25%
+        else:
+            return self.base_limit
+
+    def check_limit(self, user_id):
+        current_limit = self.get_current_limit()
+        current_count = redis_client.incr(f"rate:{user_id}:{int(time.time() / 60)}")
+        redis_client.expire(f"rate:{user_id}:{int(time.time() / 60)}", 60)
+
+        if current_count > current_limit:
+            return False, current_limit, current_count
+        return True, current_limit, current_count
+
+# Middleware
+def adaptive_rate_limit():
+    limiter = AdaptiveRateLimiter()
+    user_id = get_current_user_id()
+
+    allowed, limit, count = limiter.check_limit(user_id)
+
+    if not allowed:
+        return jsonify({
+            "error": "Rate limit exceeded",
+            "limit": limit,
+            "current": count,
+            "retry_after": 60
+        }), 429
+```
+
+### Example 5
+
+```python
+# Pydantic models for request validation
+from pydantic import BaseModel, Field, validator, EmailStr
+from typing import Optional, List
+from datetime import datetime
+
+class CreateUserRequest(BaseModel):
+    email: EmailStr
+    username: str = Field(..., min_length=3, max_length=30, regex=r'^[a-zA-Z0-9_-]+$')
+    age: Optional[int] = Field(None, ge=0, le=150)
+    roles: List[str] = Field(default_factory=list, max_items=10)
+
+    @validator('username')
+    def username_no_profanity(cls, v):
+        if contains_profanity(v):
+            raise ValueError('Username contains inappropriate content')
+        return v
+
+    @validator('roles')
+    def validate_roles(cls, v):
+        allowed_roles = {'user', 'admin', 'moderator'}
+        if not set(v).issubset(allowed_roles):
+            raise ValueError(f'Invalid roles. Allowed: {allowed_roles}')
+        return v
+
+    class Config:
+        # Reject extra fields
+        extra = 'forbid'
+
+# FastAPI integration
+from fastapi import FastAPI, HTTPException
+
+app = FastAPI()
+
+@app.post("/users")
+async def create_user(user_data: CreateUserRequest):
+    # Input is automatically validated
+    # SQL injection prevented by ORM parameterization
+    user = await db.users.create(**user_data.dict())
+    return {"id": user.id, "username": user.username}
+```
+
+### Example 6
+
+```javascript
+// Express middleware for strict content-type checking
+function validateContentType(allowedTypes) {
+  return (req, res, next) => {
+    const contentType = req.headers['content-type'];
+
+    if (!contentType) {
+      return res.status(400).json({ error: 'Content-Type header required' });
+    }
+
+    const mediaType = contentType.split(';')[0].trim();
+
+    if (!allowedTypes.includes(mediaType)) {
+      return res.status(415).json({
+        error: 'Unsupported Media Type',
+        allowed: allowedTypes
+      });
+    }
+
+    next();
+  };
+}
+
+// Apply to routes
+app.post('/api/data',
+  validateContentType(['application/json']),
+  parseJSON,
+  handleData
+);
+```
+
+### Example 7
+
+```python
+# ALWAYS use parameterized queries
+from sqlalchemy import text
+
+# ✅ CORRECT: Parameterized query
+def get_user_by_email(email: str):
+    query = text("SELECT * FROM users WHERE email = :email")
+    result = db.execute(query, {"email": email})
+    return result.fetchone()
+
+# ❌ WRONG: String concatenation (vulnerable!)
+def get_user_by_email_UNSAFE(email: str):
+    query = f"SELECT * FROM users WHERE email = '{email}'"
+    result = db.execute(query)
+    return result.fetchone()
+
+# ✅ CORRECT: ORM usage
+from sqlalchemy.orm import Session
+
+def get_user_by_email_ORM(db: Session, email: str):
+    return db.query(User).filter(User.email == email).first()
+```
+
+### Example 8
+
+```javascript
+// Express CORS configuration
+const cors = require('cors');
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allowlist specific origins
+    const allowedOrigins = [
+      'https://app.example.com',
+      'https://admin.example.com'
+    ];
+
+    // Allow requests with no origin (mobile apps, Postman)
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true, // Allow cookies
+  optionsSuccessStatus: 200,
+  maxAge: 86400, // Cache preflight for 24 hours
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Request-ID'],
+  exposedHeaders: ['X-Total-Count', 'X-Page-Count']
+};
+
+app.use(cors(corsOptions));
+
+// Public API endpoints (no credentials)
+app.use('/api/public', cors({
+  origin: '*',
+  credentials: false
+}));
+```
+
+### Example 9
+
+```python
+# FastAPI versioning with deprecation
+from fastapi import FastAPI, Header, HTTPException, status
+from datetime import datetime
+
+app = FastAPI()
+
+# Version 1 (deprecated)
+@app.get("/v1/users", deprecated=True)
+async def get_users_v1(x_api_version: str = Header(None)):
+    # Add Sunset header (RFC 8594)
+    return Response(
+        content=json.dumps({"users": old_format()}),
+        headers={
+            "Sunset": "Sat, 31 Dec 2025 23:59:59 GMT",
+            "Deprecation": "true",
+            "Link": '<https://api.example.com/v2/users>; rel="successor-version"'
+        }
+    )
+
+# Version 2 (current)
+@app.get("/v2/users")
+async def get_users_v2():
+    return {"users": new_format(), "version": "2.0"}
+
+# Version-agnostic endpoint with header-based routing
+@app.get("/users")
+async def get_users(accept_version: str = Header("2.0", alias="Accept-Version")):
+    if accept_version == "1.0":
+        return await get_users_v1()
+    elif accept_version == "2.0":
+        return await get_users_v2()
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_406_NOT_ACCEPTABLE,
+            detail=f"Version {accept_version} not supported. Available: 1.0, 2.0"
+        )
+```
+
+### Example 10
+
+```yaml
+# openapi-security.yaml
+openapi: 3.0.3
+info:
+  title: Secure API
+  version: 2.0.0
+
+# Define security schemes
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key for server-to-server communication
+
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token for user authentication
+
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.example.com/oauth/authorize
+          tokenUrl: https://auth.example.com/oauth/token
+          scopes:
+            read:users: Read user data
+            write:users: Modify user data
+            admin: Administrative access
+
+# Apply security globally
+security:
+  - BearerAuth: []
+
+paths:
+  /public/health:
+    get:
+      summary: Health check
+      security: []  # Override: no auth required
+      responses:
+        '200':
+          description: Service healthy
+
+  /users:
+    get:
+      summary: List users
+      security:
+        - OAuth2: [read:users]
+      responses:
+        '200':
+          description: User list
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+
+  /admin/users:
+    post:
+      summary: Create user (admin only)
+      security:
+        - OAuth2: [admin]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+      responses:
+        '201':
+          description: User created
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          description: Validation error
+
+components:
+  responses:
+    UnauthorizedError:
+      description: Authentication required
+      headers:
+        WWW-Authenticate:
+          schema:
+            type: string
+            example: Bearer realm="api"
+
+    ForbiddenError:
+      description: Insufficient permissions
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Forbidden
+              required_scope:
+                type: string
+                example: admin
+```
+
+### Example 11
+
+```markdown
+## API Security Implementation Checklist
+
+### Authentication & Authorization
+
+- [ ] **Strong Authentication**
+  - [ ] Multi-factor authentication for sensitive operations
+  - [ ] Account lockout after N failed attempts (AC-7)
+  - [ ] Password policies enforced (IA-5)
+  - [ ] Secure password reset flow (email verification)
+
+- [ ] **Token Security**
+  - [ ] Short-lived access tokens (15-60 min)
+  - [ ] Refresh token rotation on each use
+  - [ ] Token revocation mechanism implemented
+  - [ ] Token binding to client (if applicable)
+
+- [ ] **Authorization**
+  - [ ] Object-level authorization (check user owns resource)
+  - [ ] Field-level authorization (redact sensitive fields)
+  - [ ] Function-level authorization (check endpoint permissions)
+  - [ ] Principle of least privilege applied
+
+### Data Protection
+
+- [ ] **Transport Security** (SC-8)
+  - [ ] TLS 1.2+ enforced
+  - [ ] Strong cipher suites only
+  - [ ] HSTS header set (max-age=31536000; includeSubDomains)
+  - [ ] Certificate pinning for mobile apps
+
+- [ ] **Cryptography** (SC-13)
+  - [ ] Sensitive data encrypted at rest (AES-256)
+  - [ ] Cryptographic keys rotated regularly
+  - [ ] Use authenticated encryption (GCM mode)
+  - [ ] No deprecated algorithms (MD5, SHA-1, DES)
+
+- [ ] **Data Handling**
+  - [ ] PII minimized in logs
+  - [ ] Sensitive data masked in responses
+  - [ ] No secrets in version control
+  - [ ] Secure deletion of sensitive data
+
+### Input Validation
+
+- [ ] **Request Validation**
+  - [ ] Schema validation on all inputs
+  - [ ] Content-Type verification
+  - [ ] Request size limits (prevent DoS)
+  - [ ] File upload validation (type, size, content)
+
+- [ ] **Injection Prevention**
+  - [ ] Parameterized queries (SQL injection)
+  - [ ] Output encoding (XSS prevention)
+  - [ ] Command injection prevention
+  - [ ] LDAP injection prevention
+
+### Rate Limiting & Resource Management
+
+- [ ] **Rate Limiting**
+  - [ ] Per-user rate limits
+  - [ ] Per-IP rate limits (unauthenticated)
+  - [ ] Endpoint-specific limits (expensive operations)
+  - [ ] Proper 429 responses with Retry-After
+
+- [ ] **Resource Quotas**
+  - [ ] Maximum request body size
+  - [ ] Maximum response size
+  - [ ] Pagination enforced on list endpoints
+  - [ ] Connection pooling configured
+
+### Monitoring & Logging
+
+- [ ] **Security Logging**
+  - [ ] Authentication attempts logged
+  - [ ] Authorization failures logged
+  - [ ] Input validation failures logged
+  - [ ] Rate limit violations logged
+
+- [ ] **Monitoring**
+  - [ ] Real-time alerting for anomalies
+  - [ ] Failed auth spike detection
+  - [ ] Unusual traffic pattern detection
+  - [ ] Security dashboard implemented
+
+### API Design
+
+- [ ] **Error Handling**
+  - [ ] No sensitive data in error messages
+  - [ ] No stack traces in production
+  - [ ] Consistent error format
+  - [ ] Proper HTTP status codes
+
+- [ ] **Versioning**
+  - [ ] API versioning strategy implemented
+  - [ ] Deprecated versions documented
+  - [ ] Sunset headers on old versions
+  - [ ] Migration guide published
+
+- [ ] **Documentation**
+  - [ ] OpenAPI specification maintained
+  - [ ] Security requirements documented
+  - [ ] Rate limits documented
+  - [ ] Example requests/responses
+
+### Infrastructure
+
+- [ ] **Deployment Security**
+  - [ ] API gateway/proxy implemented
+  - [ ] DDoS protection enabled
+  - [ ] WAF rules configured
+  - [ ] Regular security scans
+
+- [ ] **Secrets Management**
+  - [ ] Secrets in vault (not env vars)
+  - [ ] Automatic secret rotation
+  - [ ] Least privilege for service accounts
+  - [ ] Audit trail for secret access
+```
+
+### Example 12
+
+```bash
+# OWASP ZAP automated scan
+docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-stable \
+  zap-api-scan.py \
+  -t https://api.example.com/openapi.json \
+  -f openapi \
+  -r zap-report.html \
+  -J zap-report.json
+
+# Postman security tests
+newman run api-security-tests.json \
+  --environment production.json \
+  --reporters cli,json \
+  --reporter-json-export security-test-results.json
+```
+
+### Example 13
+
+```javascript
+// Postman/Newman security test collection
+{
+  "info": {
+    "name": "API Security Tests"
+  },
+  "item": [
+    {
+      "name": "SQL Injection Test",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/users?email=' OR '1'='1"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Should not be vulnerable to SQL injection', function() {",
+              "  pm.response.to.have.status(400);",
+              "  pm.expect(pm.response.json()).to.not.have.property('users');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Rate Limit Test",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/users"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Send 100 requests rapidly",
+              "for (let i = 0; i < 100; i++) {",
+              "  pm.sendRequest(pm.request.url, (err, res) => {",
+              "    if (res.code === 429) {",
+              "      pm.test('Rate limiting is enforced', function() {",
+              "        pm.expect(res.headers.get('Retry-After')).to.exist;",
+              "      });",
+              "    }",
+              "  });",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "CORS Policy Test",
+      "request": {
+        "method": "OPTIONS",
+        "url": "{{base_url}}/users",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "https://evil.com"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Should reject unauthorized origins', function() {",
+              "  const allowOrigin = pm.response.headers.get('Access-Control-Allow-Origin');",
+              "  pm.expect(allowOrigin).to.not.equal('https://evil.com');",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Example 14
+
+```python
+# ❌ ANTI-PATTERN 1: Trusting client-side data
+@app.post("/transfer")
+def transfer_money(request: TransferRequest):
+    # Client sends: {"from": "user123", "to": "user456", "amount": 100}
+    # Attacker changes "from" to another user's account!
+    transfer_funds(request.from_account, request.to_account, request.amount)
+
+# ✅ CORRECT: Use authenticated user context
+@app.post("/transfer")
+def transfer_money(request: TransferRequest, current_user: User = Depends(get_current_user)):
+    # Validate user owns the source account
+    if not current_user.owns_account(request.from_account):
+        raise HTTPException(status_code=403, detail="Unauthorized")
+    transfer_funds(request.from_account, request.to_account, request.amount)
+
+# ❌ ANTI-PATTERN 2: Exposing internal IDs
+@app.get("/users/{user_id}")
+def get_user(user_id: int):
+    # Sequential IDs allow enumeration attacks
+    return db.users.get(user_id)
+
+# ✅ CORRECT: Use UUIDs or enforce authorization
+@app.get("/users/{user_uuid}")
+def get_user(user_uuid: str, current_user: User = Depends(get_current_user)):
+    user = db.users.get_by_uuid(user_uuid)
+    if not current_user.can_view(user):
+        raise HTTPException(status_code=403)
+    return user
+
+# ❌ ANTI-PATTERN 3: Detailed error messages
+@app.post("/login")
+def login(email: str, password: str):
+    user = db.users.get_by_email(email)
+    if not user:
+        raise HTTPException(status_code=401, detail="Email not found")  # Info leak!
+    if not check_password(password, user.password_hash):
+        raise HTTPException(status_code=401, detail="Invalid password")  # Info leak!
+
+# ✅ CORRECT: Generic error messages
+@app.post("/login")
+def login(email: str, password: str):
+    user = db.users.get_by_email(email)
+    if not user or not check_password(password, user.password_hash):
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+    return generate_token(user)
+```
+
+---
+
+## Additional Resources
+
+See the main SKILL.md file for essential patterns and the official documentation for complete API references.

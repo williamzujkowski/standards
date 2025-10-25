@@ -106,13 +106,32 @@ Organizations adopting these standards can expect to work toward:
 
 ## Additional Resources
 
+### Development Documentation
+
+- **[Implementation Notes](implementation-notes.md)** - Repository validation & migration tools implementation
+
+### Recent Project Reports
+
+**Standards Optimization & Anthropic Alignment**:
+- [Implementation Progress Report](./IMPLEMENTATION_PROGRESS_REPORT.md) - Phase-by-phase status of repository optimization
+- [Claude Improvements Implementation](./CLAUDE_IMPROVEMENTS_IMPLEMENTATION_REPORT.md) - CLAUDE.md v3.1 enhancements
+- [Hive Mind Session Summary](./HIVE_MIND_SESSION_SUMMARY.md) - Sprint 1 execution summary
+
+**Architecture & Research**:
+- [Architecture Documentation](./architecture/README.md) - Architecture documentation and system design docs
+- [Research Findings](./research/README.md) - Research findings and analysis reports
+
 <!-- AUTO-LINKS:docs/*.md -->
 
 - [Automation Scripts Summary](AUTOMATION_SCRIPTS_SUMMARY.md)
+- [Claude Improvements Implementation Report](CLAUDE_IMPROVEMENTS_IMPLEMENTATION_REPORT.md)
+- [Hive Mind Session Summary](HIVE_MIND_SESSION_SUMMARY.md)
+- [Implementation Progress Report](IMPLEMENTATION_PROGRESS_REPORT.md)
 - [Skills Catalog](SKILLS_CATALOG.md)
 - [Visual Navigation](VISUAL_NAVIGATION.md)
 - [Workflow Analysis Report](WORKFLOW_ANALYSIS_REPORT.md)
 - [Workflow Status Summary](WORKFLOW_STATUS_SUMMARY.md)
+- [Implementation Notes](implementation-notes.md)
 - [Index](index.md)
 
 <!-- /AUTO-LINKS -->

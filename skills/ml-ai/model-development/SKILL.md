@@ -1,6 +1,24 @@
 ---
 name: model-development
-description: TODO - Add skill description
+description: Model-Development standards for model development in Ml Ai environments.
+  Covers best practices, implementation patterns, and integration guidelines.
+// TODO: Add integration example showing how model-development
+'- **Tools**': Common development tools and frameworks
+'- **Prerequisites**': Basic understanding of general concepts
+'- **Applications**': Production systems requiring model-development functionality
+'- **CI/CD Pipelines**': Automated testing and deployment workflows
+'- **Monitoring Systems**': Observability and logging platforms
+1. **Development Workflow**: How this skill fits into daily development
+2. **Production Deployment**: Integration with production systems
+3. **Monitoring & Alerting**: Observability integration points
+'**Problem': '** Security vulnerabilities from not following established security
+  patterns'
+'**Solution': '** Follow security guidelines:'
+'**Prevention': '** Use security linters, SAST tools, and regular dependency updates'
+'**Best Practices': '**'
+---
+
+
 ---
 
 # model-development Skill

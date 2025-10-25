@@ -2,6 +2,9 @@ file	README.md	docs/README.md	docs/core/README.md	docs/guides/STANDARDS_INDEX.md
 README.md	1	0	0	0	0	0	0	0	0	0
 badges/standards-compliance-template.md	1	0	0	0	0	0	0	0	0	0
 docs/AUTOMATION_SCRIPTS_SUMMARY.md	0	1	0	0	0	0	0	0	0	0
+docs/CLAUDE_IMPROVEMENTS_IMPLEMENTATION_REPORT.md	0	1	0	0	0	0	0	0	0	0
+docs/HIVE_MIND_SESSION_SUMMARY.md	0	1	0	0	0	0	0	0	0	0
+docs/IMPLEMENTATION_PROGRESS_REPORT.md	0	1	0	0	0	0	0	0	0	0
 docs/README.md	0	1	0	0	0	0	0	0	0	0
 docs/SKILLS_CATALOG.md	0	1	0	0	0	0	0	0	0	0
 docs/VISUAL_NAVIGATION.md	0	1	0	0	0	0	0	0	0	0
@@ -27,11 +30,13 @@ docs/guides/SKILLS_IMPLEMENTATION_SUMMARY.md	0	0	0	1	0	0	0	0	0	0
 docs/guides/SKILLS_QUICK_START.md	0	0	0	1	0	0	0	0	0	0
 docs/guides/SKILLS_USER_GUIDE.md	0	0	0	1	0	0	0	0	0	0
 docs/guides/SKILL_AUTHORING_GUIDE.md	0	0	0	1	0	0	0	0	0	0
+docs/guides/SKILL_FORMAT_SPEC.md	0	0	0	1	0	0	0	0	0	0
 docs/guides/STANDARDS_GRAPH.md	0	0	0	1	0	0	0	0	0	0
 docs/guides/STANDARDS_INDEX.md	0	0	0	1	0	0	0	0	0	0
 docs/guides/STANDARD_TEMPLATE.md	0	0	0	1	0	0	0	0	0	0
 docs/guides/USING_PRODUCT_MATRIX.md	0	0	0	1	0	0	0	0	0	0
 docs/guides/VALIDATION_PATTERNS.md	0	0	0	1	0	0	0	0	0	0
+docs/implementation-notes.md	0	1	0	0	0	0	0	0	0	0
 docs/index.md	0	1	0	0	0	0	0	0	0	0
 docs/nist/NIST_IMPLEMENTATION_GUIDE.md	0	0	0	0	1	0	0	0	0	0
 docs/nist/NIST_QUICK_CONTEXT.md	0	0	0	0	1	0	0	0	0	0

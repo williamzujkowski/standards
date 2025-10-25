@@ -50,6 +50,7 @@ products:
       - SEC:secrets       # Credential handling
       - DOP:packaging     # Package distribution
       - TOOL:cli          # CLI-specific tooling
+      - NIST-IG:base      # NIST baseline controls
 
   # Frontend web application (SPA/MPA)
   frontend-web:

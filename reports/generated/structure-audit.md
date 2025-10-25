@@ -1,17 +1,20 @@
 # Structure Audit Report
 
-Generated: 2025-10-17
+Generated: 2025-10-24
 
 ## Summary
 
-Total issues found: 8
+Total issues found: 24
 
 
-## Orphaned Files (0)
+## Orphaned Files (4)
 
 Files not linked from any other document:
 
-✅ No orphaned files found
+- docs/architecture/SKILLS_REFACTORING_EXECUTIVE_SUMMARY.md
+- docs/optimization/SKILL_OPTIMIZATION_SUMMARY.md
+- docs/research/SKILLS_IMPLEMENTATION_ANALYSIS.md
+- docs/scripts/FIX_ANTHROPIC_COMPLIANCE_GUIDE.md
 
 ## Missing Cross-References (0)
 
@@ -23,15 +26,27 @@ Standards documents not referencing UNIFIED_STANDARDS.md:
 
 ✅ All filenames follow conventions
 
-## Directories Missing README (8)
+## Directories Missing README (20)
 
+- examples/compliance/
 - scripts/tests/
 - scripts/__pycache__/
 - docs/api/
+- docs/optimization/
+- docs/compliance/
+- docs/scripts/
+- tests/unit/
 - tests/__pycache__/
+- examples/compliance/healthtech/
+- examples/nist-templates/quickstart/.benchmarks/
 - examples/nist-templates/quickstart/scripts/
+- examples/nist-templates/quickstart/__pycache__/
 - examples/nist-templates/quickstart/scripts/tests/
+- docs/compliance/healthtech/
+- tests/validation/__pycache__/
+- tests/integration/__pycache__/
 - tests/scripts/__pycache__/
+- tests/unit/__pycache__/
 - tests/skills/__pycache__/
 
 ## Structure Violations (0)
@@ -44,9 +59,9 @@ Standards documents not referencing UNIFIED_STANDARDS.md:
 
 ## Recommendations
 
-1. __Fix broken links__: Update or remove broken internal links
-2. __Link orphaned files__: Add references or extend exclusions in config/audit-rules.yaml
-3. __Add cross-references__: Link standards to UNIFIED_STANDARDS.md
-4. __Standardize names__: Rename files to follow conventions
-5. __Add READMEs__: Create README.md for directories lacking them
-6. __Satisfy hub rules__: Ensure required hub(s) link to required files
+1. **Fix broken links**: Update or remove broken internal links
+2. **Link orphaned files**: Add references or extend exclusions in config/audit-rules.yaml
+3. **Add cross-references**: Link standards to UNIFIED_STANDARDS.md
+4. **Standardize names**: Rename files to follow conventions
+5. **Add READMEs**: Create README.md for directories lacking them
+6. **Satisfy hub rules**: Ensure required hub(s) link to required files

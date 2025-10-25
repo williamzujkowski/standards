@@ -23,10 +23,20 @@ I need help implementing a project based on my project plan. I'll provide the pl
 
 After Tech Stack Analysis, the router at `CLAUDE.md` resolves bundles from `config/product-matrix.yaml`:
 
+**Planned Interface (v2.0):**
+
 ```
 @load [product:api + CS:python + TS:pytest]  # API service with Python
 @load [product:frontend-web + FE:react]       # React SPA
 @load [CS:python + TS:pytest + SEC:*]         # Python with all security standards
+```
+
+**Current Implementation (v1.x):**
+
+```bash
+python3 scripts/skill-loader.py load product:api --language python
+python3 scripts/skill-loader.py load product:frontend-web --framework react
+python3 scripts/skill-loader.py load skill:coding-standards/python
 ```
 
 The router (`CLAUDE.md` at repository root) provides:

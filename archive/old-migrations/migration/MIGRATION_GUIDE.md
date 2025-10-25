@@ -1,8 +1,11 @@
 # Migration Guide: Traditional Standards → Skills Format
 
 **Version**: 1.0.0
-**Date**: 2025-10-16
+**Date**: 2025-10-16 00:00:00 EDT (UTC-04:00)
+**Last Updated**: 2025-10-24 19:21:55 EDT (UTC-04:00)
 **Status**: Production Ready
+
+**Datetime Standard**: All timestamps in this document use NIST ET (America/New_York) timezone in ISO 8601 format
 
 ---
 
@@ -645,6 +648,9 @@ The skills format unlocks powerful capabilities while preserving everything you 
 
 ---
 
-*Last Updated: 2025-10-16*
-*Version: 1.0.0*
-*Maintained by: Standards Repository Team*
+**Metadata**:
+
+- **Last Updated**: 2025-10-24 19:21:55 EDT (UTC-04:00)
+- **Version**: 1.0.0
+- **Maintained by**: Standards Repository Team
+- **Datetime Standard**: NIST ET (America/New_York) - ISO 8601 format

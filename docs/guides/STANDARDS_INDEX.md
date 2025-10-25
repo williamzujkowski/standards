@@ -22,6 +22,7 @@ This index provides quick summaries of all standards sections. Use the codes bel
 - [Skills Quick Start](SKILLS_QUICK_START.md)
 - [Skills User Guide](SKILLS_USER_GUIDE.md)
 - [Skill Authoring Guide](SKILL_AUTHORING_GUIDE.md)
+- [Skill Format Spec](SKILL_FORMAT_SPEC.md)
 - [Standards Graph](STANDARDS_GRAPH.md)
 - [Standard Template](STANDARD_TEMPLATE.md)
 - [Using Product Matrix](USING_PRODUCT_MATRIX.md)

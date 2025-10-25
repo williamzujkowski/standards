@@ -29,6 +29,24 @@
 
 Skills are **modular, self-contained standards** that use **progressive disclosure** to deliver the right information at the right time. Instead of loading massive documents, you load exactly what you need—when you need it.
 
+## Anthropic Skills.md Format
+
+This repository follows [Anthropic's canonical skills.md format](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/use-case-guides/use-skills) with optional extensions.
+
+**What this means for you**:
+- Skills work natively in Claude Code, Claude API, Agent SDK, and Claude.ai
+- Progressive loading reduces token usage (91-99.6% in most cases)
+- Optional metadata (NIST controls, prerequisites) enhances discoverability
+
+**Required fields** (per Anthropic spec):
+- `name`: Skill identifier (<64 chars)
+- `description`: Purpose and usage (<1024 chars)
+
+**Optional extensions** (standards repository value-adds):
+- `category`, `difficulty`, `nist_controls`, `related_skills`, etc.
+
+**Current compliance status**: 42/61 skills (68.9%) meet Anthropic's required field specifications. See [validation reports](/home/william/git/standards/reports/generated/skills-compliance-report.md) for details.
+
 ### Why Skills?
 
 **Traditional Standards:**
@@ -63,9 +81,13 @@ Dynamic composition
 
 ### Your First Skill Load (2 minutes)
 
+**Note**: The `@load` directive is planned for v2.0. Current implementation (v1.x) uses the skill-loader script.
+
+**Current (v1.x):**
+
 ```bash
 # Load a single skill at Level 1 (Quick Start)
-@load skill:coding-standards
+python3 scripts/skill-loader.py load skill:coding-standards
 
 # What you get:
 # ✅ Core principles
@@ -77,22 +99,44 @@ Dynamic composition
 # Reading time: ~5 minutes
 ```
 
+**Planned (v2.0):**
+
+```bash
+@load skill:coding-standards
+```
+
 ### Try It Now
 
 **Python API Developer:**
 
+**Current (v1.x):**
+
 ```bash
-@load product:api --language python
+python3 scripts/skill-loader.py load product:api --language python
 # Auto-loads: coding-standards, security-practices, testing, nist-compliance
 # Total: ~1,755 tokens (Level 1)
 ```
 
+**Planned (v2.0):**
+
+```bash
+@load product:api --language python
+```
+
 **React Frontend Developer:**
+
+**Current (v1.x):**
+
+```bash
+python3 scripts/skill-loader.py load product:frontend-web --framework react
+# Auto-loads: coding-standards, security-practices, testing
+# Total: ~1,175 tokens (Level 1)
+```
+
+**Planned (v2.0):**
 
 ```bash
 @load product:frontend-web --framework react
-# Auto-loads: coding-standards, security-practices, testing
-# Total: ~1,175 tokens (Level 1)
 ```
 
 **See the difference immediately!**
@@ -803,10 +847,11 @@ python3 scripts/skill-loader.py recommend ./
 
 ### Learn More
 
-- **Migration Guide**: [MIGRATION_GUIDE.md](../migration/MIGRATION_GUIDE.md)
+- **Anthropic Official Documentation**: [Skills Documentation](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/use-case-guides/use-skills)
 - **Authoring Guide**: [SKILL_AUTHORING_GUIDE.md](./SKILL_AUTHORING_GUIDE.md)
 - **API Documentation**: [SKILLS_API.md](../api/SKILLS_API.md)
 - **Skills Catalog**: [SKILLS_CATALOG.md](../SKILLS_CATALOG.md)
+- **Compliance Validation**: Run `python3 scripts/analyze-skills-compliance.py` to check Anthropic compliance
 
 ### Try It Out
 
