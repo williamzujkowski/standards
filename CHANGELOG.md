@@ -9,6 +9,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **GEMINI.md** - Google Gemini AI assistant integration guide with project overview
+- **reports/generated/CLEANUP_REPORT.md** - Comprehensive documentation cleanup and accuracy verification report
+- **docs/decisions/ADR-ACCURACY-CLEANUP.md** - Architecture Decision Record establishing accuracy-first documentation policy
+
+### Changed
+
+- **Documentation Quality Standards** - Reinforced accuracy-first approach with evidence-based claims
+  - All metrics now include verification commands
+  - Prohibited marketing language (no vague quantifiers or unverifiable claims)
+  - Timestamps in ISO 8601 + timezone format
+  - Trade-offs and limitations documented for all features
+  - See Quality & Accuracy Framework in CLAUDE.md (lines 146-219)
+
+### Deprecated
+
+- None
+
+### Removed
+
+- None (documentation review only, no functionality changes)
+
+### Fixed
+
+- None (cleanup operation identified pre-existing structural issues for future remediation)
+
+### Security
+
+- None
+
+---
+
+## [Unreleased - Previous Additions]
+
+### Added
+
 - **KICKSTART_PROMPT.md** - Universal AI project kickstart prompt
 - **KICKSTART_ADVANCED.md** - Advanced kickstart patterns and examples
 - **examples/project_plan_example.md** - Sample project plan for kickstart

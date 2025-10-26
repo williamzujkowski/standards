@@ -1,9 +1,9 @@
 # Link Check Report
 
-Generated: 2025-10-24
+Generated: 2025-10-25
 
 
-## Broken Internal Links (18 found)
+## Broken Internal Links (20 found)
 
 - **.backup/skill-fixes-20251024-225933/skills/data-engineering/data-quality/SKILL.md**: [Python Coding Standards](../../coding-standards/python/SKILL.md)
 - **.backup/skill-fixes-20251024-225933/skills/frontend/mobile-react-native/SKILL.md**: [Screen Component Template](./templates/screen-component.tsx)
@@ -22,7 +22,9 @@ Generated: 2025-10-24
 - **.backup/skill-fixes-20251024-225933/skills/database/sql/SKILL.md**: [Advanced Optimization](../../advanced-optimization/SKILL.md)
 - **.backup/skill-fixes-20251024-225933/skills/ml-ai/mlops/SKILL.md**: [data-engineering](../data-engineering/SKILL.md)
 - **.backup/skill-fixes-20251024-225933/skills/ml-ai/mlops/SKILL.md**: [observability](../../devops/observability/SKILL.md)
+- **docs/guides/STANDARDS_INDEX.md**: [Reversion Guide](REVERSION_GUIDE.md)
 - **docs/research/SKILLS_IMPLEMENTATION_ANALYSIS.md**: [Authorization](../authorization/SKILL.md)
+- **docs/decisions/ADR-ACCURACY-CLEANUP.md**: [ADR-SKILLS-REVERSION.md](./ADR-SKILLS-REVERSION.md)
 
 ## External Links (208 found)
 
@@ -402,6 +404,6 @@ Generated: 2025-10-24
 
 ## Summary
 
-- Files checked: 260
-- Broken links: 18
+- Files checked: 269
+- Broken links: 20
 - External links: 208

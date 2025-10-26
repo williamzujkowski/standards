@@ -1,16 +1,17 @@
 # Structure Audit Report
 
-Generated: 2025-10-24
+Generated: 2025-10-25
 
 ## Summary
 
-Total issues found: 24
+Total issues found: 18
 
 
-## Orphaned Files (4)
+## Orphaned Files (5)
 
 Files not linked from any other document:
 
+- GEMINI.md
 - docs/architecture/SKILLS_REFACTORING_EXECUTIVE_SUMMARY.md
 - docs/optimization/SKILL_OPTIMIZATION_SUMMARY.md
 - docs/research/SKILLS_IMPLEMENTATION_ANALYSIS.md
@@ -26,28 +27,21 @@ Standards documents not referencing UNIFIED_STANDARDS.md:
 
 ✅ All filenames follow conventions
 
-## Directories Missing README (20)
+## Directories Missing README (13)
 
 - examples/compliance/
 - scripts/tests/
-- scripts/__pycache__/
 - docs/api/
 - docs/optimization/
 - docs/compliance/
+- docs/runbooks/
+- docs/notes/
 - docs/scripts/
 - tests/unit/
-- tests/__pycache__/
 - examples/compliance/healthtech/
-- examples/nist-templates/quickstart/.benchmarks/
 - examples/nist-templates/quickstart/scripts/
-- examples/nist-templates/quickstart/__pycache__/
 - examples/nist-templates/quickstart/scripts/tests/
 - docs/compliance/healthtech/
-- tests/validation/__pycache__/
-- tests/integration/__pycache__/
-- tests/scripts/__pycache__/
-- tests/unit/__pycache__/
-- tests/skills/__pycache__/
 
 ## Structure Violations (0)
 

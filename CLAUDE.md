@@ -279,11 +279,11 @@ python3 scripts/token-counter.py --compare
 - **Clean Architecture**: Separate concerns
 - **Documentation**: Keep updated
 
-## 🚀 Agent Types for Task Tool (50 Types Available)
+## 🚀 Agent Types for Task Tool (49 Agent Types)
 
-**Last Updated**: 2025-10-24 22:15:00 EDT (UTC-04:00)
+**Last Updated**: 2025-10-25 21:40:00 EDT (UTC-04:00)
 
-**Note**: These are conceptual agent types used with the Task tool, not separate callable tools. The 50 agent types below are implemented across 60 agent definition files in `.claude/agents/` directory (some types have multiple implementation variants). See MCP Tools section for actual callable tools from claude-flow MCP server.
+**Note**: These are conceptual agent types used with the Task tool, not separate callable tools. The 49 agent types below are implemented across 60 agent definition files in `.claude/agents/` directory (some types have multiple implementation variants). See MCP Tools section for actual callable tools from claude-flow MCP server.
 
 **Verification**:
 

@@ -13,11 +13,13 @@ This index provides quick summaries of all standards sections. Use the codes bel
 
 - [Adoption Checklist](ADOPTION_CHECKLIST.md)
 - [Claude Integration Guide](CLAUDE_INTEGRATION_GUIDE.md)
+- [Cleanup Scripts Usage](CLEANUP_SCRIPTS_USAGE.md)
 - [Creating Standards Guide](CREATING_STANDARDS_GUIDE.md)
 - [Kickstart Advanced](KICKSTART_ADVANCED.md)
 - [Kickstart Prompt](KICKSTART_PROMPT.md)
 - [Llm Training](LLM_TRAINING.md)
 - [Readme](README.md)
+- [Reversion Guide](REVERSION_GUIDE.md)
 - [Skills Implementation Summary](SKILLS_IMPLEMENTATION_SUMMARY.md)
 - [Skills Quick Start](SKILLS_QUICK_START.md)
 - [Skills User Guide](SKILLS_USER_GUIDE.md)
