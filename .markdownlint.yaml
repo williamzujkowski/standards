@@ -42,9 +42,9 @@ MD012:
 # Consistent unordered list markers (already defined above)
 
 # First line must be a top-level heading
-# Allow YAML frontmatter in skill files (starts with ---)
-MD041:
-  front_matter_title: ""
+# Disabled - our SKILL.md files use YAML frontmatter which triggers false positives
+# The frontmatter format (---\n...\n---) is required for Anthropic skill compatibility
+MD041: false
 
 # Proper spacing around headings
 MD022: true
