@@ -4,8 +4,9 @@ Pytest configuration for integration tests.
 Provides shared fixtures and configuration for router validation tests.
 """
 
-import pytest
 from pathlib import Path
+
+import pytest
 
 
 @pytest.fixture(scope="session")

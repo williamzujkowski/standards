@@ -1,6 +1,8 @@
-Absolutely. Here’s a **Claude-Flow–ready project plan** tailored to your actual stack (11ty, Tailwind, custom JS, Node, GitHub Pages) — **no Vale,
+# Claude Flow Project Plan
 
-# 🧭 Project Plan: `CLAUDE.md` v3.1 + Skills Pilot for Humanized, Accurate Content
+Absolutely. Here's a **Claude-Flow–ready project plan** tailored to your actual stack (11ty, Tailwind, custom JS, Node, GitHub Pages) — **no Vale,
+
+## 🧭 Project Plan: `CLAUDE.md` v3.1 + Skills Pilot for Humanized, Accurate Content
 
 **Project Name:** CLAUDE Governance v3.1 (Site-Only Stack)
 **Owner:** William Zujkowski

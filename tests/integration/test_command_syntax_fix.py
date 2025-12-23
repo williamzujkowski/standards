@@ -7,10 +7,11 @@ and interaction testing for command syntax validation across documentation.
 RED PHASE: These tests will FAIL until command syntax is fixed.
 """
 
-import pytest
-from pathlib import Path
-from typing import List, Dict
 import re
+from pathlib import Path
+from typing import Dict, List
+
+import pytest
 
 
 class MockDocumentScanner:

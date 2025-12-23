@@ -6,10 +6,11 @@ London School TDD approach - testing cleanup behavior and exclusion rules.
 RED PHASE: These tests will FAIL until cleanup is performed.
 """
 
-import pytest
-from pathlib import Path
-from typing import List, Set, Dict
 import json
+from pathlib import Path
+from typing import Dict, List, Set
+
+import pytest
 
 
 class MockCleanupService:

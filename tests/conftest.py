@@ -4,11 +4,12 @@ Pytest configuration and shared fixtures for test suite.
 London School TDD approach - provides mock factories and test utilities.
 """
 
-import pytest
+import shutil
+import tempfile
 from pathlib import Path
 from typing import Dict, List
-import tempfile
-import shutil
+
+import pytest
 
 
 @pytest.fixture

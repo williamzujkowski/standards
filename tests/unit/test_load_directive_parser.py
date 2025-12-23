@@ -6,8 +6,9 @@ London School TDD - focused unit tests with mocks for parser behavior.
 RED PHASE: Parser implementation does not exist yet.
 """
 
-import pytest
 from typing import Dict, List
+
+import pytest
 
 
 class LoadDirectiveParser:

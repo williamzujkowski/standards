@@ -17,7 +17,6 @@ from typing import Dict, List, Set
 import pytest
 import yaml
 
-
 # Get repository root
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
