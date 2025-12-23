@@ -431,6 +431,36 @@ Documentation automatically deploys to GitHub Pages when changes are pushed to t
 
 ---
 
+## 🤖 Claude Code Integration
+
+Make all standards skills and agents globally available in Claude Code via auto-discovery.
+
+### Quick Install
+
+```bash
+# Run from standards repo root
+./scripts/sync-to-claude.sh
+
+# Verify installation
+ls ~/.claude/skills/std-* | head -5
+ls ~/.claude/agents/std-*.md | head -5
+```
+
+### What Gets Installed
+
+- **61 Skills**: Symlinked to `~/.claude/skills/std-*`
+- **60 Agents**: Symlinked to `~/.claude/agents/std-*.md`
+
+All items prefixed with `std-` for easy identification and to avoid conflicts.
+
+### Uninstall
+
+```bash
+./scripts/sync-to-claude.sh --uninstall
+```
+
+---
+
 ## 🚦 Quick Links
 
 **Get Started**

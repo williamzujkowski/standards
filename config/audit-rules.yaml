@@ -24,11 +24,14 @@ link_check:
     - "tests/scripts/fixtures/**"    # Test fixtures with intentional broken links
     - "docs/guides/SKILL_AUTHORING_GUIDE.md"  # Template with example placeholder links
     - "archive/**"                   # Archived historical content (may have outdated links)
+    - ".backup/**"                   # Backup directories (historical snapshots)
     - "README.md"                    # Links to planned MIGRATION_GUIDE.md (v2.0 feature)
     - "agents/README.md"             # Links to planned MIGRATION_GUIDE.md (v2.0 feature)
     - "docs/SKILLS_CATALOG.md"       # Links to planned MIGRATION_GUIDE.md (v2.0 feature)
     - "docs/guides/SKILLS_QUICK_START.md"  # Links to planned MIGRATION_GUIDE.md (v2.0 feature)
     - "docs/guides/SKILLS_USER_GUIDE.md"   # Links to planned MIGRATION_GUIDE.md (v2.0 feature)
+    - "docs/research/**"             # Research documents (may reference non-existent files)
+    - "docs/decisions/**"            # ADRs (may reference superseded documents)
 
 orphans:
   exclude:
@@ -91,6 +94,11 @@ orphans:
     - "tests/validation/SKILLS_TEST_SPEC.md"  # TDD skills test specification
     - "tests/validation/TDD_SKILLS_SUMMARY.md"  # TDD skills summary report
     - "reports/healthtech-refactoring-summary.md"  # Healthtech refactoring report
+    - "GEMINI.md"                     # Gemini CLI configuration (standalone)
+    - "docs/architecture/SKILLS_REFACTORING_EXECUTIVE_SUMMARY.md"  # Executive summary report
+    - "docs/optimization/SKILL_OPTIMIZATION_SUMMARY.md"  # Optimization report
+    - "docs/research/SKILLS_IMPLEMENTATION_ANALYSIS.md"  # Research analysis
+    - "docs/scripts/FIX_ANTHROPIC_COMPLIANCE_GUIDE.md"  # Script documentation
 
   require_link_from:
     # Standards are linked from the unified hub

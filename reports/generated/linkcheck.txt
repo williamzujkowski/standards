@@ -1,194 +1,42 @@
 # Link Check Report
 
-Generated: 2025-10-25
+Generated: 2025-12-22
 
 
-## Broken Internal Links (20 found)
+## Broken Internal Links (0 found)
 
-- **.backup/skill-fixes-20251024-225933/skills/data-engineering/data-quality/SKILL.md**: [Python Coding Standards](../../coding-standards/python/SKILL.md)
-- **.backup/skill-fixes-20251024-225933/skills/frontend/mobile-react-native/SKILL.md**: [Screen Component Template](./templates/screen-component.tsx)
-- **.backup/skill-fixes-20251024-225933/skills/frontend/mobile-react-native/SKILL.md**: [Navigation Setup](./templates/navigation-setup.tsx)
-- **.backup/skill-fixes-20251024-225933/skills/frontend/mobile-react-native/SKILL.md**: [Redux Toolkit Slice](./templates/redux-slice.ts)
-- **.backup/skill-fixes-20251024-225933/skills/frontend/mobile-react-native/SKILL.md**: [Component Test](./templates/component.test.tsx)
-- **.backup/skill-fixes-20251024-225933/skills/frontend/mobile-react-native/SKILL.md**: [Metro Config](./config/metro.config.js)
-- **.backup/skill-fixes-20251024-225933/skills/frontend/mobile-react-native/SKILL.md**: [Deployment Checklist](./resources/deployment-checklist.md)
-- **.backup/skill-fixes-20251024-225933/skills/cloud-native/containers/SKILL.md**: [Kubernetes](../kubernetes/SKILL.md)
-- **.backup/skill-fixes-20251024-225933/skills/cloud-native/containers/SKILL.md**: [Secrets Management](../../security/secrets-management/SKILL.md)
-- **.backup/skill-fixes-20251024-225933/skills/cloud-native/containers/SKILL.md**: [CI/CD](../../devops/ci-cd/SKILL.md)
-- **.backup/skill-fixes-20251024-225933/skills/database/advanced-optimization/SKILL.md**: [Database Design Fundamentals](../design-fundamentals/SKILL.md)
-- **.backup/skill-fixes-20251024-225933/skills/database/advanced-optimization/SKILL.md**: [API Performance Optimization](../../backend/api-performance/SKILL.md)
-- **.backup/skill-fixes-20251024-225933/skills/database/advanced-optimization/SKILL.md**: [System Architecture Patterns](../../architecture/system-patterns/SKILL.md)
-- **.backup/skill-fixes-20251024-225933/skills/database/sql/SKILL.md**: [Nosql](../../nosql/SKILL.md)
-- **.backup/skill-fixes-20251024-225933/skills/database/sql/SKILL.md**: [Advanced Optimization](../../advanced-optimization/SKILL.md)
-- **.backup/skill-fixes-20251024-225933/skills/ml-ai/mlops/SKILL.md**: [data-engineering](../data-engineering/SKILL.md)
-- **.backup/skill-fixes-20251024-225933/skills/ml-ai/mlops/SKILL.md**: [observability](../../devops/observability/SKILL.md)
-- **docs/guides/STANDARDS_INDEX.md**: [Reversion Guide](REVERSION_GUIDE.md)
-- **docs/research/SKILLS_IMPLEMENTATION_ANALYSIS.md**: [Authorization](../authorization/SKILL.md)
-- **docs/decisions/ADR-ACCURACY-CLEANUP.md**: [ADR-SKILLS-REVERSION.md](./ADR-SKILLS-REVERSION.md)
+✅ No broken internal links found!
 
-## External Links (208 found)
+## External Links (33 found)
 
 
 ### 12factor.net (1 links)
 - docs/standards/MICROSERVICES_STANDARDS.md: [The Twelve-Factor App](https://12factor.net/)
 
-### academy.tetrate.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/service-mesh/SKILL.md: [Istio Fundamentals (Tetrate Academy)](https://academy.tetrate.io/)
-
-### apisecurity.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/security/api-security/SKILL.md: [API Security Weekly](https://apisecurity.io/)
-
-### artillery.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [Artillery](https://artillery.io/)
-
-### aws.amazon.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/devops/infrastructure-as-code/SKILL.md: [AWS Well-Architected](https://aws.amazon.com/architecture/well-architected/)
-
-### book.kubebuilder.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/advanced-kubernetes/SKILL.md: [Kubebuilder Book](https://book.kubebuilder.io/)
-
-### callstack.github.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/mobile-react-native/SKILL.md: [Testing Library for React Native](https://callstack.github.io/react-native-testing-library/)
-
-### cheatsheetseries.owasp.org (1 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/vue/SKILL.md: [OWASP Vue Security Cheatsheet](https://cheatsheetseries.owasp.org/cheatsheets/Vue_Security_Cheat_Sheet.html)
-
-### clinicjs.org (1 links)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [Clinic.js](https://clinicjs.org/)
-
-### cloud.google.com (3 links)
-- .backup/skill-fixes-20251024-225933/skills/security/zero-trust/SKILL.md: [BeyondCorp Research Papers](https://cloud.google.com/beyondcorp)
-- .backup/skill-fixes-20251024-225933/skills/security/zero-trust/SKILL.md: [Identity-Aware Proxy](https://cloud.google.com/iap/docs)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/serverless/SKILL.md: [Google Cloud Functions](https://cloud.google.com/functions/docs)
-
-### community.k6.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [k6 Community Forum](https://community.k6.io/)
-
-### csrc.nist.gov (4 links)
-- .backup/skill-fixes-20251024-225933/skills/security/zero-trust/SKILL.md: [NIST SP 800-207: Zero Trust Architecture](https://csrc.nist.gov/publications/detail/sp/800-207/final)
-- .backup/skill-fixes-20251024-225933/skills/security/zero-trust/SKILL.md: [NIST SP 800-53: Security and Privacy Controls](https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final)
-- .backup/skill-fixes-20251024-225933/skills/compliance/healthtech/SKILL.md: [NIST SP 800-66](https://csrc.nist.gov/publications/detail/sp/800-66/rev-2/final)
+### csrc.nist.gov (1 links)
 - prompts/nist-compliance/VALIDATION_RUN.md: [NIST 800-53r5 Controls](https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final)
-
-### datatracker.ietf.org (3 links)
-- .backup/skill-fixes-20251024-225933/skills/security/api-security/SKILL.md: [OAuth 2.0 RFC 6749](https://datatracker.ietf.org/doc/html/rfc6749)
-- .backup/skill-fixes-20251024-225933/skills/security/api-security/SKILL.md: [OAuth 2.0 for Native Apps (PKCE) - RFC 8252](https://datatracker.ietf.org/doc/html/rfc8252)
-- .backup/skill-fixes-20251024-225933/skills/security/api-security/SKILL.md: [JSON Web Token (JWT) - RFC 7519](https://datatracker.ietf.org/doc/html/rfc7519)
-
-### developer.apple.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/mobile-react-native/SKILL.md: [App Store Guidelines](https://developer.apple.com/app-store/review/guidelines/)
-
-### developer.hashicorp.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/devops/infrastructure-as-code/SKILL.md: [Terraform Documentation](https://developer.hashicorp.com/terraform/docs)
-
-### developer.mozilla.org (1 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/vue/SKILL.md: [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
-
-### developers.google.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [Google's Web Performance Optimization Course](https://developers.google.com/web/fundamentals/performance)
-
-### devtools.vuejs.org (1 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/vue/SKILL.md: [Vue DevTools](https://devtools.vuejs.org/)
 
 ### docs.anthropic.com (2 links)
 - docs/guides/CLAUDE_INTEGRATION_GUIDE.md: [https://docs.anthropic.com/](https://docs.anthropic.com/)
 - docs/guides/CLAUDE_INTEGRATION_GUIDE.md: [https://docs.anthropic.com/claude-code/](https://docs.anthropic.com/claude-code/)
 
-### docs.aws.amazon.com (14 links)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/serverless/SKILL.md: [AWS Lambda Developer Guide](https://docs.aws.amazon.com/lambda/)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/serverless/SKILL.md: [AWS SAM](https://docs.aws.amazon.com/serverless-application-model/)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/aws-advanced/SKILL.md: [Developer Guide](https://docs.aws.amazon.com/step-functions/latest/dg/)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/aws-advanced/SKILL.md: [Best Practices](https://docs.aws.amazon.com/step-functions/latest/dg/bp-general.html)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/aws-advanced/SKILL.md: [User Guide](https://docs.aws.amazon.com/eventbridge/latest/userguide/)
-- ... and 9 more
-
 ### docs.claude.com (2 links)
 - docs/guides/SKILL_FORMAT_SPEC.md: [Anthropic's canonical skills.md format](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview)
 - docs/guides/SKILL_FORMAT_SPEC.md: [Anthropic Skills Documentation](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview)
 
-### docs.docker.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/containers/SKILL.md: [Docker Best Practices](https://docs.docker.com/develop/dev-best-practices/)
-
-### docs.expo.dev (1 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/mobile-react-native/SKILL.md: [Expo Documentation](https://docs.expo.dev/)
-
 ### docs.github.com (1 links)
 - docs/core/GITHUB_WORKFLOWS.md: [GitHub Actions Documentation](https://docs.github.com/en/actions)
 
-### docs.greatexpectations.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/data-engineering/data-quality/SKILL.md: [Great Expectations Documentation](https://docs.greatexpectations.io/)
-
-### docs.microsoft.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [Performance Testing Guidance for Web Applications (Microsoft)](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/bb924375(v=pandp.10)
-
-### docs.oracle.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [Java Flight Recorder](https://docs.oracle.com/javacomponents/jmc-5-4/jfr-runtime-guide/about.htm)
-
-### events.istio.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/service-mesh/SKILL.md: [IstioCon Talks](https://events.istio.io/)
-
-### events.linuxfoundation.org (1 links)
-- .backup/skill-fixes-20251024-225933/skills/security/zero-trust/SKILL.md: [Cloud Native Security Day](https://events.linuxfoundation.org/cloud-native-security-day-north-america/)
-
-### gatling.io (3 links)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [Gatling Documentation](https://gatling.io/docs/)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [Gatling Scenario DSL](https://gatling.io/docs/gatling/reference/current/core/scenario/)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [Gatling](https://gatling.io/)
-
-### github.com (45 links)
+### github.com (19 links)
 - templates/PROJECT_PLAN_TEMPLATE.md: [Software Development Standards Repository](https://github.com/williamzujkowski/standards)
 - badges/standards-compliance-template.md: [Comprehensive Software Development Standards](https://github.com/williamzujkowski/standards)
 - badges/standards-compliance-template.md: [Standards Compliance Tool](https://github.com/williamzujkowski/standards)
-- .backup/skill-fixes-20251024-225933/skills/data-engineering/data-quality/SKILL.md: [Deequ (AWS)](https://github.com/awslabs/deequ)
-- .backup/skill-fixes-20251024-225933/skills/devops/infrastructure-as-code/SKILL.md: [TFLint Rules](https://github.com/terraform-linters/tflint)
-- ... and 40 more
-
-### grafana.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [Grafana](https://grafana.com/)
-
-### gruntwork.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/devops/infrastructure-as-code/SKILL.md: [Gruntwork Production Guide](https://gruntwork.io/guides/terraform/)
-
-### hl7.org (1 links)
-- .backup/skill-fixes-20251024-225933/skills/compliance/healthtech/SKILL.md: [FHIR R4](https://hl7.org/fhir/R4/)
-
-### istio.io (4 links)
-- .backup/skill-fixes-20251024-225933/skills/security/zero-trust/SKILL.md: [Istio Security](https://istio.io/latest/docs/concepts/security/)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/service-mesh/SKILL.md: [Istio Documentation](https://istio.io/latest/docs/)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/service-mesh/SKILL.md: [Istio Production Best Practices](https://istio.io/latest/docs/ops/best-practices/)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/service-mesh/SKILL.md: [Performance Tuning Guide](https://istio.io/latest/docs/ops/deployment/performance-and-scalability/)
-
-### jmeter-plugins.org (1 links)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [JMeter Plugins](https://jmeter-plugins.org/)
-
-### jmeter.apache.org (3 links)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [Apache JMeter User Manual](https://jmeter.apache.org/usermanual/)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [JMeter Best Practices](https://jmeter.apache.org/usermanual/best-practices.html)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [Apache JMeter](https://jmeter.apache.org/)
-
-### k6.io (4 links)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [k6 Documentation](https://k6.io/docs/)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [k6 Examples](https://k6.io/docs/examples/)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [k6 Extensions](https://k6.io/docs/extensions/)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [k6](https://k6.io/)
+- docs/api/SKILLS_API.md: [Report bugs](https://github.com/williamzujkowski/standards/issues)
+- docs/api/SKILLS_API.md: [Ask questions](https://github.com/williamzujkowski/standards/discussions)
+- ... and 14 more
 
 ### keepachangelog.com (1 links)
 - CHANGELOG.md: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
-
-### kubernetes.slack.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/advanced-kubernetes/SKILL.md: [Kubernetes Slack #kubebuilder](https://kubernetes.slack.com/)
-
-### landscape.cncf.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/service-mesh/SKILL.md: [CNCF Service Mesh Landscape](https://landscape.cncf.io/guide#orchestration-management--service-mesh)
-
-### learn.hashicorp.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/devops/infrastructure-as-code/SKILL.md: [HashiCorp Learn](https://learn.hashicorp.com/terraform)
-
-### learn.microsoft.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/serverless/SKILL.md: [Azure Functions Documentation](https://learn.microsoft.com/azure/azure-functions/)
-
-### locust.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [Locust](https://locust.io/)
 
 ### microservices.io (1 links)
 - docs/standards/MICROSERVICES_STANDARDS.md: [Microservices Patterns](https://microservices.io/patterns/)
@@ -196,214 +44,20 @@ Generated: 2025-10-25
 ### modelcontextprotocol.io (1 links)
 - docs/standards/MODEL_CONTEXT_PROTOCOL_STANDARDS.md: [Model Context Protocol Specification](https://modelcontextprotocol.io)
 
-### newrelic.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [New Relic](https://newrelic.com/)
-
-### nuxt.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/vue/SKILL.md: [Nuxt 3](https://nuxt.com/)
-
-### offbynone.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/serverless/SKILL.md: [Off-by-none Newsletter](https://offbynone.io/)
-
-### owasp.org (3 links)
-- .backup/skill-fixes-20251024-225933/skills/security/api-security/SKILL.md: [OWASP API Security Project](https://owasp.org/www-project-api-security/)
-- .backup/skill-fixes-20251024-225933/skills/security/api-security/SKILL.md: [OWASP API Security Top 10 2023](https://owasp.org/API-Security/editions/2023/en/0x00-header/)
-- .backup/skill-fixes-20251024-225933/skills/security/zero-trust/SKILL.md: [OWASP](https://owasp.org/)
-
-### pinia.vuejs.org (1 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/vue/SKILL.md: [Pinia Documentation](https://pinia.vuejs.org/)
-
-### play.google.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/mobile-react-native/SKILL.md: [Play Store Policies](https://play.google.com/about/developer-content-policy/)
-
-### prometheus.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [Prometheus](https://prometheus.io/)
-
-### reactnative.dev (5 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/mobile-react-native/SKILL.md: [React Native Docs](https://reactnative.dev/docs/getting-started)
-- .backup/skill-fixes-20251024-225933/skills/frontend/mobile-react-native/SKILL.md: [React Native Performance Guide](https://reactnative.dev/docs/performance)
-- .backup/skill-fixes-20251024-225933/skills/frontend/mobile-react-native/SKILL.md: [Profiling React Native](https://reactnative.dev/docs/profiling)
-- .backup/skill-fixes-20251024-225933/skills/frontend/mobile-react-native/SKILL.md: [Native Modules Guide](https://reactnative.dev/docs/native-modules-intro)
-- .backup/skill-fixes-20251024-225933/skills/frontend/mobile-react-native/SKILL.md: [Turbo Modules](https://reactnative.dev/docs/the-new-architecture/pillars-turbomodules)
-
-### reactnavigation.org (1 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/mobile-react-native/SKILL.md: [React Navigation](https://reactnavigation.org/docs/getting-started)
-
-### reddit.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/security/zero-trust/SKILL.md: [r/netsec](https://reddit.com/r/netsec)
-
-### redis.io (4 links)
-- .backup/skill-fixes-20251024-225933/skills/database/advanced-optimization/SKILL.md: [Redis Documentation](https://redis.io/documentation)
-- .backup/skill-fixes-20251024-225933/skills/database/advanced-optimization/SKILL.md: [Redis Cluster Tutorial](https://redis.io/docs/manual/scaling/)
-- .backup/skill-fixes-20251024-225933/skills/database/advanced-optimization/SKILL.md: [Redis Persistence](https://redis.io/docs/manual/persistence/)
-- .backup/skill-fixes-20251024-225933/skills/database/advanced-optimization/SKILL.md: [Redis Best Practices](https://redis.io/docs/manual/patterns/)
-
-### redux-toolkit.js.org (1 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/mobile-react-native/SKILL.md: [Redux Toolkit](https://redux-toolkit.js.org/)
-
-### registry.terraform.io (4 links)
-- .backup/skill-fixes-20251024-225933/skills/devops/infrastructure-as-code/SKILL.md: [Terraform Registry](https://registry.terraform.io/)
-- .backup/skill-fixes-20251024-225933/skills/devops/infrastructure-as-code/SKILL.md: [AWS Provider Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
-- .backup/skill-fixes-20251024-225933/skills/devops/infrastructure-as-code/SKILL.md: [Azure Provider Documentation](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs)
-- .backup/skill-fixes-20251024-225933/skills/devops/infrastructure-as-code/SKILL.md: [GCP Provider Documentation](https://registry.terraform.io/providers/hashicorp/google/latest/docs)
-
-### router.vuejs.org (1 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/vue/SKILL.md: [Vue Router Documentation](https://router.vuejs.org/)
-
-### sdk.operatorframework.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/advanced-kubernetes/SKILL.md: [Operator SDK Documentation](https://sdk.operatorframework.io/)
-
 ### semver.org (1 links)
 - CHANGELOG.md: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
-
-### serverlessland.com (4 links)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/serverless/SKILL.md: [ServerlessLand Patterns](https://serverlessland.com/patterns)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/aws-advanced/SKILL.md: [Serverless Patterns Collection](https://serverlessland.com/patterns)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/aws-advanced/SKILL.md: [EventBridge Patterns](https://serverlessland.com/event-driven-architecture)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/aws-advanced/SKILL.md: [Step Functions Workflows](https://serverlessland.com/workflows)
-
-### serverlessrepo.aws.amazon.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/aws-advanced/SKILL.md: [Serverless Application Repository](https://serverlessrepo.aws.amazon.com/)
-
-### servicemeshpatterns.github.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/service-mesh/SKILL.md: [Service Mesh Patterns](https://servicemeshpatterns.github.io/servicemeshbook/)
-
-### servicemeshsummit.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/service-mesh/SKILL.md: [Service Mesh Summit](https://servicemeshsummit.io/)
-
-### spiffe.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/security/zero-trust/SKILL.md: [SPIRE Documentation](https://spiffe.io/docs/latest/spire-about/)
-
-### sst.dev (1 links)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/serverless/SKILL.md: [Serverless Stack (SST)](https://sst.dev/)
-
-### swagger.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/security/api-security/SKILL.md: [OpenAPI Specification - Security](https://swagger.io/specification/#security-scheme-object)
-
-### tanstack.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/mobile-react-native/SKILL.md: [React Query](https://tanstack.com/query/latest)
-
-### tdwi.org (1 links)
-- .backup/skill-fixes-20251024-225933/skills/data-engineering/data-quality/SKILL.md: [Data Quality Framework](https://tdwi.org/articles/2017/01/10/data-quality-framework.aspx)
-
-### terraform-compliance.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/devops/infrastructure-as-code/SKILL.md: [Terraform Compliance](https://terraform-compliance.com/)
-
-### terraform-docs.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/devops/infrastructure-as-code/SKILL.md: [Terraform-docs](https://terraform-docs.io/)
-
-### terratest.gruntwork.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/devops/infrastructure-as-code/SKILL.md: [Terratest Documentation](https://terratest.gruntwork.io/)
-
-### test-utils.vuejs.org (1 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/vue/SKILL.md: [Vue Test Utils](https://test-utils.vuejs.org/)
-
-### training.linuxfoundation.org (1 links)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/service-mesh/SKILL.md: [Linkerd Fundamentals (Linux Foundation)](https://training.linuxfoundation.org/)
-
-### twitter.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/security/api-security/SKILL.md: [@APIsecurity](https://twitter.com/APIsecurity)
-
-### vitejs.dev (1 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/vue/SKILL.md: [Vite](https://vitejs.dev/)
-
-### vitest.dev (1 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/vue/SKILL.md: [Vitest Documentation](https://vitest.dev/)
-
-### vue-a11y.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/vue/SKILL.md: [Vue A11y](https://vue-a11y.com/)
-
-### vue-macros.sxzz.moe (1 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/vue/SKILL.md: [Vue Macros](https://vue-macros.sxzz.moe/)
-
-### vuejs.org (2 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/vue/SKILL.md: [Vue 3 Documentation](https://vuejs.org/guide/introduction.html)
-- .backup/skill-fixes-20251024-225933/skills/frontend/vue/SKILL.md: [Vue Performance Guide](https://vuejs.org/guide/best-practices/performance.html)
-
-### vueuse.org (1 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/vue/SKILL.md: [VueUse](https://vueuse.org/)
-
-### wix.github.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/mobile-react-native/SKILL.md: [Detox E2E Framework](https://wix.github.io/Detox/)
-
-### www.checkov.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/devops/infrastructure-as-code/SKILL.md: [Checkov - Infrastructure Security](https://www.checkov.io/)
-
-### www.cncf.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/service-mesh/SKILL.md: [CNCF Webinars](https://www.cncf.io/webinars/)
-
-### www.datadoghq.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [Datadog APM](https://www.datadoghq.com/product/apm/)
-
-### www.deque.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/vue/SKILL.md: [axe DevTools](https://www.deque.com/axe/devtools/)
 
 ### www.domainlanguage.com (1 links)
 - docs/standards/MICROSERVICES_STANDARDS.md: [Domain-Driven Design](https://www.domainlanguage.com/ddd/)
 
-### www.dynatrace.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [Dynatrace](https://www.dynatrace.com/)
-
-### www.elastic.co (1 links)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [Elastic APM](https://www.elastic.co/apm)
-
-### www.envoyproxy.io (2 links)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/service-mesh/SKILL.md: [Envoy Proxy Documentation](https://www.envoyproxy.io/docs)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/service-mesh/SKILL.md: [Envoy Proxy Sandbox](https://www.envoyproxy.io/docs/envoy/latest/start/sandboxes/)
-
-### www.hhs.gov (2 links)
-- .backup/skill-fixes-20251024-225933/skills/compliance/healthtech/SKILL.md: [HHS OCR](https://www.hhs.gov/ocr/privacy/)
-- .backup/skill-fixes-20251024-225933/skills/compliance/healthtech/SKILL.md: [HIPAA Security](https://www.hhs.gov/hipaa/for-professionals/security/)
-
-### www.hl7.org (1 links)
-- .backup/skill-fixes-20251024-225933/skills/compliance/healthtech/SKILL.md: [HL7](https://www.hl7.org/)
-
-### www.infracost.io (1 links)
-- .backup/skill-fixes-20251024-225933/skills/devops/infrastructure-as-code/SKILL.md: [Infracost](https://www.infracost.io/)
-
-### www.mongodb.com (4 links)
-- .backup/skill-fixes-20251024-225933/skills/database/advanced-optimization/SKILL.md: [MongoDB Performance Best Practices](https://www.mongodb.com/docs/manual/administration/analyzing-mongodb-performance/)
-- .backup/skill-fixes-20251024-225933/skills/database/advanced-optimization/SKILL.md: [Sharding Guide](https://www.mongodb.com/docs/manual/sharding/)
-- .backup/skill-fixes-20251024-225933/skills/database/advanced-optimization/SKILL.md: [Index Strategies](https://www.mongodb.com/docs/manual/applications/indexes/)
-- .backup/skill-fixes-20251024-225933/skills/database/advanced-optimization/SKILL.md: [Aggregation Pipeline Optimization](https://www.mongodb.com/docs/manual/core/aggregation-pipeline-optimization/)
-
-### www.nist.gov (2 links)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/service-mesh/SKILL.md: [Service Mesh Security Patterns](https://www.nist.gov/publications/zero-trust-architecture)
+### www.nist.gov (1 links)
 - docs/standards/MICROSERVICES_STANDARDS.md: [NIST Microservices Guide](https://www.nist.gov/publications/microservices-guide)
 
 ### www.oreilly.com (1 links)
 - docs/standards/MICROSERVICES_STANDARDS.md: [Building Microservices](https://www.oreilly.com/library/view/building-microservices-2nd/9781492034018/)
 
-### www.pgbouncer.org (1 links)
-- .backup/skill-fixes-20251024-225933/skills/database/advanced-optimization/SKILL.md: [PgBouncer Documentation](https://www.pgbouncer.org/usage.html)
-
-### www.pluralsight.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/service-mesh/SKILL.md: [Service Mesh with Istio (Pluralsight)](https://www.pluralsight.com/)
-
-### www.postgresql.org (3 links)
-- .backup/skill-fixes-20251024-225933/skills/database/advanced-optimization/SKILL.md: [PostgreSQL Performance Tips](https://www.postgresql.org/docs/current/performance-tips.html)
-- .backup/skill-fixes-20251024-225933/skills/database/advanced-optimization/SKILL.md: [pg_stat_statements](https://www.postgresql.org/docs/current/pgstatstatements.html)
-- .backup/skill-fixes-20251024-225933/skills/database/advanced-optimization/SKILL.md: [EXPLAIN Documentation](https://www.postgresql.org/docs/current/sql-explain.html)
-
-### www.reddit.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [r/webdev Performance Discussions](https://www.reddit.com/r/webdev/)
-
-### www.serverless.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/cloud-native/serverless/SKILL.md: [Serverless Framework](https://www.serverless.com/framework/docs)
-
-### www.terraform-best-practices.com (1 links)
-- .backup/skill-fixes-20251024-225933/skills/devops/infrastructure-as-code/SKILL.md: [Terraform Best Practices](https://www.terraform-best-practices.com/)
-
-### www.terraform.io (2 links)
-- .backup/skill-fixes-20251024-225933/skills/devops/infrastructure-as-code/SKILL.md: [Terraform Patterns](https://www.terraform.io/docs/language/patterns)
-- .backup/skill-fixes-20251024-225933/skills/devops/infrastructure-as-code/SKILL.md: [Terraform Graph](https://www.terraform.io/docs/cli/commands/graph.html)
-
-### www.w3.org (2 links)
-- .backup/skill-fixes-20251024-225933/skills/frontend/vue/SKILL.md: [ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/)
-- .backup/skill-fixes-20251024-225933/skills/testing/performance-testing/SKILL.md: [Web Performance Working Group (W3C)](https://www.w3.org/webperf/)
-
 ## Summary
 
-- Files checked: 269
-- Broken links: 20
-- External links: 208
+- Files checked: 224
+- Broken links: 0
+- External links: 33
