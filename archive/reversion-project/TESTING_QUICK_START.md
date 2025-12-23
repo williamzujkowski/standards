@@ -18,12 +18,14 @@ cat tests/reversion-test-report-*.md
 ## Prerequisites
 
 1. **Clean Working Directory**:
+
    ```bash
    git status
    # Should show: "nothing to commit, working tree clean"
    ```
 
 2. **Required Tools**:
+
    ```bash
    # Python 3.11+
    python3 --version
@@ -36,6 +38,7 @@ cat tests/reversion-test-report-*.md
    ```
 
 3. **Location**:
+
    ```bash
    # Must be in repository root
    cd /home/william/git/standards
@@ -61,6 +64,7 @@ ls -lt tests/reversion-test-report-*.md | head -1
 ```
 
 **What it does**:
+
 - ✅ Captures current state baseline
 - ✅ Creates backup branch
 - ✅ Tests reversion feasibility (dry-run)
@@ -87,6 +91,7 @@ cat tests/reversion-test-report-*.md
 ```
 
 **What it does**:
+
 - ✅ Everything from Mode 1
 - ✅ Actually executes `git revert a4b1ed1`
 - ✅ Validates post-reversion state
@@ -128,6 +133,7 @@ cat tests/reversion-test-report-*.md
 ### Critical vs Non-Critical
 
 **Critical Tests** (must pass):
+
 - PRE-004: Repository integrity
 - REV-001: Backup creation
 - REV-002: Reversion execution
@@ -136,6 +142,7 @@ cat tests/reversion-test-report-*.md
 - POST-005: Hub violations = 0
 
 **Non-Critical Tests** (warnings acceptable):
+
 - PRE-003: Validation scripts baseline
 - REG-001 through REG-005: Regression tests
 - ROLL-001 through ROLL-003: Rollback tests
@@ -460,6 +467,7 @@ A: `/tmp/reversion-tests-<PID>/` and `tests/reversion-test-report-*.md`
 ---
 
 **Quick Reference Card**:
+
 ```
 Test:     ./scripts/run-reversion-tests.sh
 Report:   cat tests/reversion-test-report-*.md

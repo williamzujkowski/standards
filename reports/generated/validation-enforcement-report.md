@@ -24,11 +24,13 @@
 **Status**: ✅ **FUNCTIONAL** but ❌ **INACCURATE**
 
 **Command Tested**:
+
 ```bash
 python3 scripts/validate-claims.py --verbose
 ```
 
 **Results**:
+
 - Total Checks: 10
 - Passed: 5 (50%)
 - Errors: 2
@@ -69,21 +71,25 @@ python3 scripts/validate-claims.py --verbose
 **Status**: ⚠️ **PARTIALLY FUNCTIONAL**
 
 **Command Tested**:
+
 ```bash
 python3 scripts/validate-skills.py --count-verify
 ```
 
 **Results**:
+
 - Skills validated: 6
 - Errors: 17
 - Warnings: 28
 
 **Key Issues**:
+
 - Script only validates top-level skill directories with SKILL.md
 - Many category directories (api, architecture, cloud-native, etc.) lack SKILL.md
 - This appears to be by design (categories vs. actual skills)
 
 **Critical Errors**:
+
 1. `skill-loader/SKILL.md` - Invalid YAML frontmatter
 2. `legacy-bridge/SKILL.md` - Missing Level 1 section
 
@@ -92,11 +98,13 @@ python3 scripts/validate-skills.py --count-verify
 **Status**: ✅ **FUNCTIONAL**
 
 **Command Tested**:
+
 ```bash
 python3 scripts/generate-audit-reports.py
 ```
 
 **Results**:
+
 - ✅ Broken links: 0
 - ⚠️ Orphans: 4
 - ⚠️ Hub violations: 3
@@ -104,6 +112,7 @@ python3 scripts/generate-audit-reports.py
 - ✅ Reports generated successfully
 
 **Artifacts Created**:
+
 - `/home/william/git/standards/reports/generated/linkcheck.txt`
 - `/home/william/git/standards/reports/generated/structure-audit.md`
 - `/home/william/git/standards/reports/generated/structure-audit.json`
@@ -114,6 +123,7 @@ python3 scripts/generate-audit-reports.py
 **Status**: ✅ **FUNCTIONAL** with auto-fixes
 
 **Auto-Fixed Issues**:
+
 - Trailing whitespace (2 files)
 - Missing newlines (4 files)
 - JSON formatting (2 files)
@@ -133,11 +143,13 @@ python3 scripts/generate-audit-reports.py
 **Actual Count**: **60 agents**
 
 **Command**:
+
 ```bash
 find .claude/agents -name "*.md" ! -name "README.md" ! -name "MIGRATION_SUMMARY.md" | wc -l
 ```
 
 **Actual Agents**:
+
 ```
 adaptive-coordinator, analyze-code-quality, arch-system-design, architecture,
 automation-smart-agent, base-template-generator, benchmark-suite, byzantine-coordinator,
@@ -163,6 +175,7 @@ topology-optimizer, workflow-automation
 **Actual Count**: **61 SKILL.md files** ✅
 
 **Command**:
+
 ```bash
 find skills -name "SKILL.md" | wc -l
 ```
@@ -175,6 +188,7 @@ find skills -name "SKILL.md" | wc -l
 **Actual Count**: **25 standards files** ✅
 
 **Command**:
+
 ```bash
 ls -1 docs/standards/*.md | wc -l
 ```
@@ -188,11 +202,13 @@ ls -1 docs/standards/*.md | wc -l
 ### 3.1 CLAUDE.md Claims (lines 87-104)
 
 **Documented Command**:
+
 ```bash
 python3 scripts/validate-claims.py --target CLAUDE.md
 ```
 
 **Actual Result**: ❌ **BROKEN**
+
 ```
 usage: validate-claims.py [-h] [--export EXPORT] [--verbose]
 validate-claims.py: error: unrecognized arguments: --target CLAUDE.md
@@ -201,6 +217,7 @@ validate-claims.py: error: unrecognized arguments: --target CLAUDE.md
 **Issue**: Script doesn't support `--target` argument
 
 **Correct Command**:
+
 ```bash
 python3 scripts/validate-claims.py --verbose
 ```
@@ -214,12 +231,14 @@ python3 scripts/validate-claims.py --verbose
 **Command**: `pytest tests/`
 
 **Results**:
+
 - Total Tests: 2531
 - Passed: ~1850 (73%)
 - Failed: ~650 (26%)
 - Skipped: ~31 (1%)
 
 **Notable Failures**:
+
 - Integration tests for cleanup (NotImplementedError - RED phase TDD)
 - Load directive parser tests (all failing - needs implementation)
 - Skills validation tests (structure/content issues)
@@ -232,6 +251,7 @@ python3 scripts/validate-claims.py --verbose
 ## 5. Script Permissions Analysis
 
 **Scripts Missing Execute Permission** (7):
+
 ```
 -rw-r----- scripts/add-universal-sections.py
 -rw-r----- scripts/analyze-skills-compliance.py
@@ -240,6 +260,7 @@ python3 scripts/validate-claims.py --verbose
 **Status**: ⚠️ **LOW PRIORITY** - Scripts work via `python3 script.py`
 
 **Recommendation**: Add execute permissions for consistency:
+
 ```bash
 chmod +x scripts/add-universal-sections.py
 chmod +x scripts/analyze-skills-compliance.py
@@ -252,17 +273,21 @@ chmod +x scripts/analyze-skills-compliance.py
 ### Priority 1: Critical Documentation Errors
 
 1. **Update Agent Count in CLAUDE.md**
+
    ```diff
    - ## 🚀 Agent Types for Task Tool (49 Available)
    + ## 🚀 Agent Types for Task Tool (60 Available)
    ```
+
    Also update line 555:
+
    ```diff
    - ✅ Agent counts: 49 agent type definitions documented in CLAUDE.md
    + ✅ Agent counts: 60 agent type definitions documented in CLAUDE.md
    ```
 
 2. **Fix validate-claims.py Command**
+
    ```diff
    - python3 scripts/validate-claims.py --target CLAUDE.md
    + python3 scripts/validate-claims.py --verbose
@@ -280,6 +305,7 @@ chmod +x scripts/analyze-skills-compliance.py
 ### Priority 3: Optional Enhancements
 
 5. **Add Execute Permissions**
+
    ```bash
    chmod +x scripts/*.py
    ```
@@ -343,6 +369,7 @@ The validation infrastructure is **functional** but has **accuracy issues**:
 6. ⚠️ File path validation checks wrong directories
 
 **Next Steps**:
+
 1. Update CLAUDE.md agent count (49 → 60)
 2. Fix validate-claims.py command syntax in docs
 3. Update validate-claims.py to check correct paths
@@ -384,6 +411,7 @@ The validation infrastructure is **functional** but has **accuracy issues**:
   ]
 }
 ```
+
 </details>
 
 <details>
@@ -397,4 +425,5 @@ The validation infrastructure is **functional** but has **accuracy issues**:
   - Structure issues: 27
   - Reports generated in: /home/william/git/standards/reports/generated/
 ```
+
 </details>

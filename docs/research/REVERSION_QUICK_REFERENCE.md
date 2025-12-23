@@ -1,6 +1,7 @@
 # Skills.md Reversion Quick Reference
 
 **QUICK FACTS**:
+
 - **Commit to Revert**: a4b1ed1 (skills.md refactor)
 - **Revert Target**: 68e0eb7 (last good state)
 - **Risk Level**: 🔴 **HIGH** (278 files affected)
@@ -13,6 +14,7 @@
 The skills.md refactor changed **278 files** with **64K+ insertions** and **16K+ deletions**. Reverting requires careful execution.
 
 ### What Changed?
+
 1. ✅ All 61 SKILL.md files reformatted to Anthropic specs
 2. ✅ 18 new REFERENCE.md files added
 3. ✅ 13 new validation scripts
@@ -21,6 +23,7 @@ The skills.md refactor changed **278 files** with **64K+ insertions** and **16K+
 6. ✅ New CI/CD workflow (368 lines)
 
 ### What Breaks on Revert?
+
 1. ❌ All skills.md-specific tests
 2. ❌ Skills validation scripts
 3. ❌ CI/CD validation workflow
@@ -48,6 +51,7 @@ git commit -m "revert: skills.md refactor (return to 68e0eb7)"
 ## Safe Reversion (RECOMMENDED)
 
 ### Step 1: Preparation
+
 ```bash
 # Create branch
 git checkout -b revert-skills-refactor
@@ -60,6 +64,7 @@ cat docs/research/SKILLS_REFACTOR_REVERSION_ANALYSIS.md
 ```
 
 ### Step 2: Selective Reversion
+
 ```bash
 # Revert core files
 git checkout 68e0eb7 -- CLAUDE.md
@@ -74,6 +79,7 @@ git status
 ```
 
 ### Step 3: Cleanup
+
 ```bash
 # Remove new files (carefully!)
 rm -rf docs/architecture/SKILLS_REFACTORING*.md
@@ -90,6 +96,7 @@ git clean -fd # Execute if safe
 ```
 
 ### Step 4: Validation
+
 ```bash
 # Run checks
 pre-commit run --all-files
@@ -116,6 +123,7 @@ Reason: [INSERT REASON]"
 ## Files to DELETE (113 total)
 
 ### Scripts (13 files)
+
 ```
 scripts/validate-anthropic-compliance.py
 scripts/analyze-skills-compliance.py
@@ -133,6 +141,7 @@ scripts/optimize-fintech-skill.py
 ```
 
 ### Tests (37 files)
+
 ```
 tests/conftest.py
 tests/TDD_TEST_SPECIFICATION.md
@@ -145,6 +154,7 @@ tests/unit/test_load_directive_parser.py
 ```
 
 ### Documentation (15+ files)
+
 ```
 docs/guides/SKILL_FORMAT_SPEC.md
 docs/architecture/SKILLS_REFACTORING*.md
@@ -156,16 +166,19 @@ docs/IMPLEMENTATION_PROGRESS_REPORT.md
 ```
 
 ### Skills (18 files)
+
 ```
 skills/*/REFERENCE.md (all 18 files)
 ```
 
 ### CI/CD (1 file)
+
 ```
 .github/workflows/validation.yml
 ```
 
 ### Reports (50+ files)
+
 ```
 reports/generated/ANTHROPIC_*.md
 reports/generated/*COMPLIANCE*.md
@@ -179,6 +192,7 @@ reports/generated/quality-review.md
 ## Files to REVERT (165 total)
 
 ### Core Docs (3 files)
+
 ```
 CLAUDE.md
 README.md
@@ -186,11 +200,13 @@ docs/README.md
 ```
 
 ### Skills (61 files)
+
 ```
 skills/*/SKILL.md (all 61 files)
 ```
 
 ### Guides (6 files)
+
 ```
 docs/guides/SKILLS_QUICK_START.md
 docs/guides/SKILLS_USER_GUIDE.md
@@ -201,6 +217,7 @@ docs/guides/STANDARDS_INDEX.md
 ```
 
 ### Config (3 files)
+
 ```
 config/audit-rules.yaml
 config/product-matrix.yaml
@@ -208,6 +225,7 @@ pyproject.toml
 ```
 
 ### CI/CD (1 file)
+
 ```
 .github/workflows/lint-and-validate.yml
 ```
@@ -217,12 +235,14 @@ pyproject.toml
 ## Valuable Code to PRESERVE
 
 ### Extract Before Revert
+
 1. **Quality Framework** from CLAUDE.md (lines 146-217)
 2. **validate-claims.py** logic (adapt for old structure)
 3. **pytest markers** from pyproject.toml
 4. **Documentation accuracy standards**
 
 ### How to Preserve
+
 ```bash
 # Before reversion, extract sections:
 git show a4b1ed1:CLAUDE.md | sed -n '146,217p' > /tmp/quality-framework.md
@@ -237,6 +257,7 @@ git show a4b1ed1:pyproject.toml | sed -n '/\[tool.pytest/,$p' > /tmp/pytest-conf
 ## Post-Reversion Checklist
 
 ### Critical Checks
+
 - [ ] `git status` shows expected changes only
 - [ ] No REFERENCE.md files exist: `find skills -name "REFERENCE.md"`
 - [ ] CLAUDE.md has no "Anthropic Skills.md" section
@@ -244,6 +265,7 @@ git show a4b1ed1:pyproject.toml | sed -n '/\[tool.pytest/,$p' > /tmp/pytest-conf
 - [ ] All SKILL.md files in old format (no YAML frontmatter)
 
 ### Validation
+
 - [ ] `pre-commit run --all-files` passes
 - [ ] `pytest tests/` passes
 - [ ] `python3 scripts/generate-audit-reports.py` runs
@@ -251,6 +273,7 @@ git show a4b1ed1:pyproject.toml | sed -n '/\[tool.pytest/,$p' > /tmp/pytest-conf
 - [ ] CI/CD workflows pass
 
 ### Final Steps
+
 - [ ] Review git diff
 - [ ] Cherry-pick valuable code
 - [ ] Update documentation

@@ -937,11 +937,13 @@ kind delete cluster --name operator-test
 ## Additional Resources
 
 ### Official Documentation
+
 - [Kubebuilder Book](https://book.kubebuilder.io/)
 - [Operator SDK](https://sdk.operatorframework.io/)
 - [Controller Runtime](https://github.com/kubernetes-sigs/controller-runtime)
 
 ### Production Operator Examples
+
 - [etcd-operator](https://github.com/coreos/etcd-operator)
 - [prometheus-operator](https://github.com/prometheus-operator/prometheus-operator)
 - [cert-manager](https://github.com/cert-manager/cert-manager)

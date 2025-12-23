@@ -115,6 +115,14 @@ class RedundancyChecker:
                                 "FOO.md",
                                 "file.md",
                                 "referenced/SKILL.md",
+                                # Architecture/design doc placeholders
+                                "../path/",
+                                "{STANDARD}",
+                                "./resources/",
+                                "../authorization/",
+                                "../coding-standards/",
+                                "../devops/",
+                                "./SKILL.md",
                             ]
                             if any(placeholder in clean_url for placeholder in placeholder_patterns):
                                 continue

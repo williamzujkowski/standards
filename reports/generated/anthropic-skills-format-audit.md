@@ -14,6 +14,7 @@
 Our skills format is a **superset** of Anthropic's canonical specification. All required fields are present and valid, with additional value-add metadata that enhances discoverability and automation.
 
 **Key Findings**:
+
 - ✅ YAML frontmatter format correct
 - ✅ Name field constraints satisfied (all < 64 chars)
 - ✅ Description field constraints satisfied (all < 1024 chars)
@@ -46,18 +47,21 @@ Our skills format is a **superset** of Anthropic's canonical specification. All 
 ### 1. Python Coding Standards (`coding-standards/python/SKILL.md`)
 
 **YAML Frontmatter**:
+
 ```yaml
 name: python-coding-standards
 description: Python coding standards following PEP 8, type hints, testing best practices, and modern Python patterns. Use for Python projects requiring clean, maintainable, production-ready code with comprehensive testing.
 ```
 
 **Compliance Check**:
+
 - ✅ `name`: 26 chars (valid format)
 - ✅ `description`: 234 chars (well under 1024)
 - ✅ Body structure: Level 1 (2K tokens), Level 2 (5K tokens), Level 3 (extended)
 - ⚠️  No extra fields (minimal, spec-compliant)
 
 **Value-Add Features**:
+
 - Three-level progressive disclosure (Quick Start → Implementation → Mastery)
 - Comprehensive code examples in Python
 - Related skills links
@@ -70,6 +74,7 @@ description: Python coding standards following PEP 8, type hints, testing best p
 ### 2. API Security (`security/api-security/SKILL.md`)
 
 **YAML Frontmatter**:
+
 ```yaml
 name: api-security
 category: security
@@ -93,6 +98,7 @@ last_updated: "2025-10-17"
 ```
 
 **Compliance Check**:
+
 - ✅ `name`: 12 chars (valid)
 - ✅ `description`: 0 chars — **MISSING in frontmatter!** ❌
   - However, Level 1 header and content provide clear description
@@ -101,6 +107,7 @@ last_updated: "2025-10-17"
 **Issue Identified**: `description` field is missing from frontmatter. This is a **spec violation** but content is otherwise excellent.
 
 **Recommendation**: Add description field:
+
 ```yaml
 description: API security standards following OWASP API Security Top 10, implementing authentication, authorization, rate limiting, and NIST controls for production APIs.
 ```
@@ -108,6 +115,7 @@ description: API security standards following OWASP API Security Top 10, impleme
 **Token Count Estimate**: Level 1 ~800 tokens, Level 2 ~4200 tokens ✅
 
 **Value-Add Fields**:
+
 - `nist_controls`: Compliance traceability
 - `related_skills`: Navigation and dependencies
 - `estimated_time`: Learning expectations
@@ -119,12 +127,14 @@ description: API security standards following OWASP API Security Top 10, impleme
 ### 3. Unit Testing (`testing/unit-testing/SKILL.md`)
 
 **YAML Frontmatter**:
+
 ```yaml
 name: unit-testing
 description: Unit testing standards following TDD methodology, test pyramid principles, and comprehensive coverage practices. Covers pytest, Jest, mocking, fixtures, and CI integration for reliable test suites.
 ```
 
 **Compliance Check**:
+
 - ✅ `name`: 12 chars (valid)
 - ✅ `description`: 220 chars (excellent summary)
 - ✅ Minimal fields (spec-compliant)
@@ -133,6 +143,7 @@ description: Unit testing standards following TDD methodology, test pyramid prin
 **Token Count Estimate**: Level 1 ~1500 tokens, Level 2 ~4000 tokens ✅
 
 **Strengths**:
+
 - Clear TDD workflow
 - Multi-language examples (Python, JavaScript, Go)
 - Parametrized testing patterns
@@ -143,12 +154,14 @@ description: Unit testing standards following TDD methodology, test pyramid prin
 ### 4. Kubernetes (`cloud-native/kubernetes/SKILL.md`)
 
 **YAML Frontmatter**:
+
 ```yaml
 name: kubernetes
 description: Kubernetes standards for container orchestration, deployments, services, ingress, ConfigMaps, Secrets, and security policies. Covers production-ready configurations, monitoring, and best practices for cloud-native applications.
 ```
 
 **Compliance Check**:
+
 - ✅ `name`: 10 chars (valid)
 - ✅ `description`: 267 chars (comprehensive)
 - ✅ Minimal fields (spec-compliant)
@@ -157,6 +170,7 @@ description: Kubernetes standards for container orchestration, deployments, serv
 **Token Count Estimate**: Level 1 ~1900 tokens, Level 2 ~4800 tokens ✅
 
 **Strengths**:
+
 - Production-ready deployment manifests
 - Security best practices (RBAC, NetworkPolicies)
 - Resource management (quotas, limits, HPA)
@@ -167,12 +181,14 @@ description: Kubernetes standards for container orchestration, deployments, serv
 ### 5. NIST Compliance (`nist-compliance/SKILL.md`)
 
 **YAML Frontmatter**:
+
 ```yaml
 name: nist-compliance
 description: NIST 800-53r5 control implementation, tagging, evidence collection, and compliance automation for security frameworks
 ```
 
 **Compliance Check**:
+
 - ✅ `name`: 15 chars (valid)
 - ✅ `description`: 128 chars (clear)
 - ✅ Minimal fields (spec-compliant)
@@ -180,6 +196,7 @@ description: NIST 800-53r5 control implementation, tagging, evidence collection,
 **Token Count Estimate**: Level 1 ~1200 tokens, Level 2 ~3800 tokens ✅
 
 **Strengths**:
+
 - Code-level NIST tagging examples
 - Evidence collection automation
 - SSP generation patterns
@@ -225,10 +242,12 @@ description: NIST 800-53r5 control implementation, tagging, evidence collection,
 1. **Missing Description (1 skill)**: `api-security` lacks `description` field in frontmatter
 
 2. **TODO Placeholders**: Many skills have placeholder examples:
+
    ```python
    // TODO: Add basic example for <skill-name>
    // This example demonstrates core functionality
    ```
+
    - This is in "Examples" section (Level 3)
    - Not a spec violation, but indicates incomplete documentation
 
@@ -254,6 +273,7 @@ description: NIST 800-53r5 control implementation, tagging, evidence collection,
 | `last_updated` | Freshness tracking | Medium | api-security | ✅ YES |
 
 **Recommendation**: These extra fields provide significant value for:
+
 - Discoverability (category, difficulty)
 - Compliance automation (nist_controls)
 - Learning paths (prerequisites, estimated_time, related_skills)
@@ -282,6 +302,7 @@ All sampled skills comply with token limits:
 ### 🔴 Critical (Blocking)
 
 1. **Add missing `description` field** to `/home/william/git/standards/skills/security/api-security/SKILL.md`:
+
    ```yaml
    description: API security standards following OWASP API Security Top 10, implementing authentication, authorization, rate limiting, and NIST controls for production APIs.
    ```
@@ -298,6 +319,7 @@ All sampled skills comply with token limits:
    - Or remove the placeholder sections entirely
 
 4. **Validate all 61 skills** for missing descriptions:
+
    ```bash
    python3 scripts/validate-skills.py --check-description
    ```
@@ -310,6 +332,7 @@ All sampled skills comply with token limits:
    - Verify related skill links
 
 6. **Create skill template generator**:
+
    ```bash
    python3 scripts/create-skill.py --name "new-skill" --category "testing"
    ```
@@ -367,10 +390,12 @@ python3 scripts/validate-skills.py --all --check-description --check-tokens
 **Remove** all extra fields, keep only `name` and `description`.
 
 **Pros**:
+
 - Pure Anthropic spec compliance
 - Simpler YAML
 
 **Cons**:
+
 - Lose valuable metadata
 - Lose compliance automation
 - Lose discoverability features
@@ -384,6 +409,7 @@ python3 scripts/validate-skills.py --all --check-description --check-tokens
 **Add** missing fields to all skills that lack them.
 
 **Schema**:
+
 ```yaml
 ---
 name: skill-name              # Required: <64 chars, alphanumeric+hyphens
@@ -405,6 +431,7 @@ last_updated: "2025-10-24"    # Optional: maintenance tracking
 ```
 
 **Implementation**:
+
 1. Create schema definition in `/home/william/git/standards/docs/SKILLS_SCHEMA.md`
 2. Run migration script to add missing fields
 3. Update skill-loader to use extended metadata
@@ -445,6 +472,7 @@ python3 scripts/token-counter.py --level 2 skills/**/SKILL.md
 ## Conclusion
 
 **Current State**:
+
 - 4/5 sampled skills fully compliant
 - 1/5 missing required `description` field
 - All skills have excellent content and structure
@@ -454,6 +482,7 @@ python3 scripts/token-counter.py --level 2 skills/**/SKILL.md
 **Our Format**: ✅ **Anthropic-Compatible Superset**
 
 **Next Steps**:
+
 1. ✅ Fix `api-security` missing description (5 min)
 2. ✅ Validate all 61 skills for description presence (10 min)
 3. 🟡 Standardize extended metadata across all skills (2-4 hours)

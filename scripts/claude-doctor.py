@@ -6,10 +6,8 @@ Checks for common problems in Claude Code settings files.
 """
 
 import json
-import os
 import sys
 from pathlib import Path
-from typing import Any
 
 # ANSI colors
 RED = "\033[91m"

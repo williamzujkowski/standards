@@ -185,12 +185,14 @@ make docker-build docker-push deploy IMG=myregistry/my-operator:v1.0.0
 CRDs extend Kubernetes API with custom object types validated by OpenAPI v3 schemas.
 
 **Key Components:**
+
 - **Spec** - Desired state (user input)
 - **Status** - Observed state (controller output, separate subresource)
 - **Validation** - Markers like `+kubebuilder:validation:Minimum=1`
 - **Versions** - Support multiple API versions with conversion webhooks
 
 **Essential Kubebuilder Markers:**
+
 ```go
 // +kubebuilder:validation:Minimum=1
 // +kubebuilder:validation:Maximum=10
@@ -204,12 +206,14 @@ Port int32 `json:"port,omitempty"`
 ```
 
 **Printcolumns for `kubectl get`:**
+
 ```go
 // +kubebuilder:printcolumn:name="Ready",type=integer,JSONPath=`.status.readyReplicas`
 // +kubebuilder:printcolumn:name="Phase",type=string,JSONPath=`.status.phase`
 ```
 
 **Subresources:**
+
 - `+kubebuilder:subresource:status` - Separate status endpoint
 - `+kubebuilder:subresource:scale` - Enable `kubectl scale`
 
@@ -222,6 +226,7 @@ See [REFERENCE.md](./REFERENCE.md) for complete CRD definition, versioning, and 
 ### 2.2 Operators and Controllers
 
 **Reconciliation Loop:**
+
 1. **Watch** - Controller watches for resource changes (via informers/caches)
 2. **Compare** - Reconcile compares desired vs actual state
 3. **Act** - Create/update/delete Kubernetes resources to match desired state
@@ -229,6 +234,7 @@ See [REFERENCE.md](./REFERENCE.md) for complete CRD definition, versioning, and 
 5. **Requeue** - Schedule next reconciliation (event-driven or periodic)
 
 **Controller Pattern:**
+
 ```go
 func (r *Reconciler) Reconcile(ctx, req) (ctrl.Result, error) {
     // 1. Fetch custom resource
@@ -254,11 +260,13 @@ func (r *Reconciler) Reconcile(ctx, req) (ctrl.Result, error) {
 ```
 
 **Key Functions:**
+
 - `controllerutil.CreateOrUpdate()` - Idempotent create/update
 - `controllerutil.SetControllerReference()` - Automatic garbage collection
 - `controllerutil.AddFinalizer()` - Cleanup before deletion
 
 **Error Handling:**
+
 - **Transient errors** - Requeue with delay: `ctrl.Result{RequeueAfter: 30s}`
 - **Permanent errors** - Set degraded condition, don't requeue
 - **Unknown errors** - Return error for exponential backoff
@@ -272,10 +280,12 @@ See [REFERENCE.md](./REFERENCE.md) for complete controller implementation with f
 Webhooks intercept API requests before persistence for validation/mutation.
 
 **Types:**
+
 - **Validating** - Accept/reject requests (JWT validation, cross-field checks)
 - **Mutating** - Modify requests (inject sidecars, set defaults)
 
 **Implementation:**
+
 ```go
 // Validating webhook
 func (r *MyApp) ValidateCreate() (admission.Warnings, error) {
@@ -294,12 +304,14 @@ func (r *MyApp) Default() {
 ```
 
 **Setup:**
+
 1. Implement `webhook.Validator` or `webhook.Defaulter` interface
 2. Add kubebuilder marker: `// +kubebuilder:webhook:path=/validate-...,mutating=false,...`
 3. `make manifests` generates webhook config
 4. Deploy with cert-manager for TLS certificates
 
 **Requirements:**
+
 - TLS certificates (use cert-manager)
 - Service routing webhook traffic to operator
 - `failurePolicy: fail` (default) - reject on webhook errors
@@ -313,6 +325,7 @@ See [REFERENCE.md](./REFERENCE.md) for complete webhook examples, cert-manager s
 Leader election ensures only one controller instance reconciles at a time (prevents race conditions).
 
 **Configuration:**
+
 ```go
 mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
     LeaderElection:          true,
@@ -322,12 +335,14 @@ mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
 ```
 
 **How It Works:**
+
 - Uses Kubernetes `Lease` resource for coordination
 - One replica acquires lease, becomes leader
 - Other replicas standby, ready to take over on leader failure
 - Leader renews lease every 10s (default)
 
 **Deployment:**
+
 ```yaml
 spec:
   replicas: 3  # High availability
@@ -343,11 +358,13 @@ See [REFERENCE.md](./REFERENCE.md) for RBAC requirements and lease configuration
 ### 2.5 Testing Operators
 
 **Unit Testing with envtest:**
+
 - Runs local API server (no kubelet, no containers)
 - Fast tests (milliseconds per test)
 - Full CRD validation
 
 **Setup:**
+
 ```go
 testEnv = &envtest.Environment{
     CRDDirectoryPaths: []string{filepath.Join("..", "config", "crd", "bases")},
@@ -357,6 +374,7 @@ k8sClient, _ = client.New(cfg, client.Options{Scheme: scheme.Scheme})
 ```
 
 **Test Pattern:**
+
 ```go
 It("Should create Deployment", func() {
     myApp := &MyApp{...}
@@ -372,6 +390,7 @@ It("Should create Deployment", func() {
 ```
 
 **Integration Testing with kind:**
+
 ```bash
 kind create cluster
 make docker-build docker-push deploy IMG=operator:test
@@ -386,6 +405,7 @@ See [REFERENCE.md](./REFERENCE.md) for complete test suites, ginkgo patterns, an
 ### 2.6 Best Practices & Anti-Patterns
 
 **✅ Best Practices:**
+
 - **Idempotent reconciliation** - Same result on multiple calls
 - **Use `CreateOrUpdate`** - Simplifies create/update logic
 - **Set owner references** - Automatic garbage collection
@@ -394,6 +414,7 @@ See [REFERENCE.md](./REFERENCE.md) for complete test suites, ginkgo patterns, an
 - **Structured logging** - JSON format with consistent key-value pairs
 
 **❌ Anti-Patterns:**
+
 - **Blocking operations** - Don't make sync calls that block reconcile
 - **Infinite loops** - Updating spec in reconcile triggers another reconcile
 - **Hardcoded values** - Use env vars/ConfigMaps
@@ -401,6 +422,7 @@ See [REFERENCE.md](./REFERENCE.md) for complete test suites, ginkgo patterns, an
 - **No health checks** - Implement `/healthz` and `/readyz` endpoints
 
 **Requeue Strategies:**
+
 ```go
 // Immediate requeue (rate-limited)
 return ctrl.Result{Requeue: true}, nil
@@ -418,16 +440,14 @@ return ctrl.Result{}, fmt.Errorf("transient error")
 See [REFERENCE.md](./REFERENCE.md) for advanced patterns, multi-cluster operators, and OLM integration.
 
 ---
-## Level 3: Deep Dive Resources
 
+## Level 3: Deep Dive Resources
 
 
 ### Advanced Operator Patterns
 
 
-
 **State Machine Operators**
-
 
 
 - Model complex workflows as finite state machines
@@ -437,9 +457,7 @@ See [REFERENCE.md](./REFERENCE.md) for advanced patterns, multi-cluster operator
 - Implement state transition validations and guards
 
 
-
 **Multi-Tenancy Operators**
-
 
 
 - Namespace isolation strategies
@@ -449,9 +467,7 @@ See [REFERENCE.md](./REFERENCE.md) for advanced patterns, multi-cluster operator
 - RBAC scoping for tenant-specific resources
 
 
-
 **GitOps Integration**
-
 
 
 - Reconcile against Git repository state
@@ -461,9 +477,7 @@ See [REFERENCE.md](./REFERENCE.md) for advanced patterns, multi-cluster operator
 - Use annotations to track source commits
 
 
-
 **External Secret Management**
-
 
 
 - Integrate with Vault, AWS Secrets Manager, or Azure Key Vault
@@ -473,13 +487,10 @@ See [REFERENCE.md](./REFERENCE.md) for advanced patterns, multi-cluster operator
 - Use external-secrets operator pattern
 
 
-
 ### Multi-Cluster Operators
 
 
-
 **Architecture Patterns:**
-
 
 
 1. **Hub-Spoke Model** - Central operator manages multiple clusters
@@ -489,9 +500,7 @@ See [REFERENCE.md](./REFERENCE.md) for advanced patterns, multi-cluster operator
 3. **Active-Active** - Operators in multiple clusters handle same resources
 
 
-
 **Implementation Considerations:**
-
 
 
 - Use cluster-api for cluster lifecycle management
@@ -503,9 +512,7 @@ See [REFERENCE.md](./REFERENCE.md) for advanced patterns, multi-cluster operator
 - Use consensus protocols for distributed state
 
 
-
 **Tools:**
-
 
 
 - **KubeFed** (deprecated) - Kubernetes Federation v2
@@ -517,13 +524,10 @@ See [REFERENCE.md](./REFERENCE.md) for advanced patterns, multi-cluster operator
 - **Crossplane** - Universal control plane for multi-cloud
 
 
-
 ### Operator Lifecycle Manager (OLM)
 
 
-
 **What is OLM?**
-
 
 
 - Package manager for Kubernetes operators
@@ -533,9 +537,7 @@ See [REFERENCE.md](./REFERENCE.md) for advanced patterns, multi-cluster operator
 - Used by OpenShift and available as CNCF project
 
 
-
 **OLM Components:**
-
 
 
 - **Catalog** - Repository of operator metadata (CSV, CRD)
@@ -547,9 +549,7 @@ See [REFERENCE.md](./REFERENCE.md) for advanced patterns, multi-cluster operator
 - **ClusterServiceVersion (CSV)** - Operator metadata and deployment info
 
 
-
 **Creating an OLM Bundle:**
-
 
 
 ```bash
@@ -583,9 +583,7 @@ opm index add --bundles myregistry/myapp-operator-bundle:v1.0.0 \
 ```
 
 
-
 **OLM Best Practices:**
-
 
 
 - Define proper upgrade paths in CSV
@@ -597,13 +595,10 @@ opm index add --bundles myregistry/myapp-operator-bundle:v1.0.0 \
 - Document breaking changes in release notes
 
 
-
 ### Advanced Testing Strategies
 
 
-
 **Property-Based Testing:**
-
 
 
 - Use tools like `gopter` for property-based tests
@@ -613,9 +608,7 @@ opm index add --bundles myregistry/myapp-operator-bundle:v1.0.0 \
 - Generate random valid/invalid inputs
 
 
-
 **Chaos Testing:**
-
 
 
 - Use Chaos Mesh or Litmus to inject failures
@@ -625,9 +618,7 @@ opm index add --bundles myregistry/myapp-operator-bundle:v1.0.0 \
 - Verify recovery from partial updates
 
 
-
 **Performance Testing:**
-
 
 
 - Benchmark reconciliation loop latency
@@ -639,13 +630,10 @@ opm index add --bundles myregistry/myapp-operator-bundle:v1.0.0 \
 - Use profiling tools (pprof) for bottleneck analysis
 
 
-
 ### Production Readiness Checklist
 
 
-
 **Observability:**
-
 
 
 - [ ] Metrics exported via Prometheus endpoint
@@ -657,9 +645,7 @@ opm index add --bundles myregistry/myapp-operator-bundle:v1.0.0 \
 - [ ] Custom metrics for business logic (e.g., backup success rate)
 
 
-
 **Security:**
-
 
 
 - [ ] RBAC follows least-privilege principle
@@ -673,9 +659,7 @@ opm index add --bundles myregistry/myapp-operator-bundle:v1.0.0 \
 - [ ] Image vulnerability scanning in CI/CD
 
 
-
 **Reliability:**
-
 
 
 - [ ] Leader election enabled for HA
@@ -689,9 +673,7 @@ opm index add --bundles myregistry/myapp-operator-bundle:v1.0.0 \
 - [ ] Backup/restore procedures documented
 
 
-
 **Operational:**
-
 
 
 - [ ] Runbooks for common failure scenarios
@@ -705,13 +687,10 @@ opm index add --bundles myregistry/myapp-operator-bundle:v1.0.0 \
 - [ ] Capacity planning documented
 
 
-
 ### Resources and Further Learning
 
 
-
 **Official Documentation:**
-
 
 
 - [Kubebuilder Book](https://book.kubebuilder.io/)
@@ -721,9 +700,7 @@ opm index add --bundles myregistry/myapp-operator-bundle:v1.0.0 \
 - [Kubernetes Controller Runtime](https://github.com/kubernetes-sigs/controller-runtime)
 
 
-
 **Bundled Resources in This Directory:**
-
 
 
 1. `templates/crd-definition.yaml` - Complete CRD with OpenAPI schema
@@ -739,9 +716,7 @@ opm index add --bundles myregistry/myapp-operator-bundle:v1.0.0 \
 6. `resources/operator-patterns.md` - Common patterns and anti-patterns
 
 
-
 **Community Resources:**
-
 
 
 - [CNCF Operator White Paper](https://github.com/cncf/tag-app-delivery/blob/main/operator-wg/whitepaper/Operator-WhitePaper_v1-0.md)
@@ -751,9 +726,7 @@ opm index add --bundles myregistry/myapp-operator-bundle:v1.0.0 \
 - [Kubernetes Slack #kubebuilder](https://kubernetes.slack.com/)
 
 
-
 **Example Production Operators:**
-
 
 
 - [etcd-operator](https://github.com/coreos/etcd-operator)
@@ -765,9 +738,7 @@ opm index add --bundles myregistry/myapp-operator-bundle:v1.0.0 \
 - [strimzi-kafka-operator](https://github.com/strimzi/strimzi-kafka-operator)
 
 
-
 ### Next Steps
-
 
 
 1. **Build a Simple Operator** - Start with a basic CRD and controller
@@ -781,9 +752,7 @@ opm index add --bundles myregistry/myapp-operator-bundle:v1.0.0 \
 5. **Iterate** - Add features based on operational experience
 
 
-
 **Advanced Topics to Explore:**
-
 
 
 - Custom admission plugins
@@ -795,6 +764,3 @@ opm index add --bundles myregistry/myapp-operator-bundle:v1.0.0 \
 - Multi-cluster federation
 
 - Operator performance optimization
-
-
-

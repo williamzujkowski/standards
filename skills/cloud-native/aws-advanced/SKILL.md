@@ -120,15 +120,18 @@ Key Services: Step Functions, Lambda, DynamoDB
 ### API Gateway Advanced Patterns
 
 **Custom Authorizers** - Lambda functions that validate tokens/API keys before allowing API access.
+
 - **JWT Authorizer** - Verify JWT tokens, return IAM policy + context
 - **Request Authorizer** - Validate custom headers, IP whitelist, API keys
 
 **Usage Plans & Rate Limiting:**
+
 - Throttle: Burst (max concurrent), Rate (requests/second)
 - Quota: Monthly/daily limits per API key
 - Associate API keys with usage plans
 
 **VTL Mapping Templates** - Transform request/response without Lambda:
+
 - Add `$context` variables (requestId, authorizer data, sourceIP)
 - Access `$input` for payload manipulation
 - Use for legacy system integration
@@ -142,22 +145,26 @@ See [REFERENCE.md](./REFERENCE.md) for authorizer implementations, VTL examples,
 **Single-Table Design** - Store multiple entity types in one table using composite keys.
 
 **Key Strategy:**
+
 - `PK` (Partition Key): Entity type + ID (e.g., `USER#123`, `ORDER#456`)
 - `SK` (Sort Key): Relationship or sub-entity (e.g., `PROFILE`, `ORDER#2024-01-15`)
 - GSI for alternate access patterns (e.g., query by email, status)
 
 **Common Patterns:**
+
 - 1:N relationships - Same PK, different SK prefixes
 - N:N relationships - Inverted index with GSI
 - Hierarchical data - SK with begins_with queries
 
 **DynamoDB Streams** - Capture changes (INSERT/MODIFY/REMOVE) for:
+
 - Materialized views
 - Cross-region replication
 - Analytics/auditing
 - Event-driven workflows
 
 **Transactions** - ACID operations across up to 100 items:
+
 - `TransactWriteItems` - Atomic writes with conditions
 - `TransactGetItems` - Consistent reads
 - Use for fund transfers, inventory management
@@ -169,22 +176,26 @@ See [REFERENCE.md](./REFERENCE.md) for complete access patterns, stream processo
 ### SQS/SNS Messaging Patterns
 
 **FIFO Queues** - Guarantee ordering and exactly-once processing:
+
 - `MessageGroupId` - Messages with same ID processed in order
 - `MessageDeduplicationId` - Prevents duplicates (5-minute window)
 - Throughput: 300 TPS (batching: 3,000 TPS)
 
 **Fan-Out Pattern** (SNS → Multiple SQS):
+
 - Publish once to SNS topic
 - Multiple SQS queues subscribe with filter policies
 - Each subscriber processes independently
 - Use for microservices decoupling
 
 **Dead-Letter Queues (DLQ):**
+
 - Capture messages that fail after `maxReceiveCount` attempts
 - Analyze failure patterns
 - Replay after fixing root cause
 
 **Best Practices:**
+
 - Idempotent processing (track message IDs in DB)
 - Exponential backoff for retries
 - Monitor DLQ depth with CloudWatch alarms
@@ -197,24 +208,28 @@ See [REFERENCE.md](./REFERENCE.md) for FIFO queue setup, SNS filter policies, an
 ### Cost Optimization Strategies
 
 **Lambda:**
+
 - Right-size memory (use AWS Lambda Power Tuning tool)
 - Use ARM64 (Graviton2) for 20% cost reduction
 - Reserved concurrency for predictable workloads
 - Reduce cold starts with provisioned concurrency
 
 **DynamoDB:**
+
 - On-demand vs provisioned capacity analysis
 - Auto-scaling for variable workloads
 - DAX (DynamoDB Accelerator) for read-heavy apps
 - Delete old data with TTL (no write cost)
 
 **S3:**
+
 - Intelligent-Tiering for variable access patterns
 - Lifecycle policies (Standard → IA → Glacier → Deep Archive)
 - Delete incomplete multipart uploads
 - Request metrics to optimize access patterns
 
 **General:**
+
 - CloudWatch Logs retention policies (default: never expire)
 - Use Cost Explorer and Budget alerts
 - Tag all resources for cost allocation
@@ -227,17 +242,20 @@ See [REFERENCE.md](./REFERENCE.md) for auto-scaling configs, lifecycle policies,
 ### Observability and Monitoring
 
 **X-Ray Distributed Tracing:**
+
 - Instrument AWS SDK calls automatically
 - Add subsegments for custom operations
 - Annotations (indexed) for filtering traces
 - Metadata (not indexed) for debugging context
 
 **CloudWatch Custom Metrics (EMF):**
+
 - Embedded Metric Format - log-based metrics (no PutMetricData API calls)
 - Custom dimensions for business KPIs
 - Composite alarms (AND/OR logic across multiple alarms)
 
 **Structured Logging:**
+
 ```javascript
 console.log(JSON.stringify({
   level: 'INFO',
@@ -248,6 +266,7 @@ console.log(JSON.stringify({
 ```
 
 **Best Practices:**
+
 - Correlation IDs across service boundaries
 - Log sampling for high-volume endpoints
 - Use CloudWatch Insights for log analysis
@@ -256,16 +275,14 @@ console.log(JSON.stringify({
 See [REFERENCE.md](./REFERENCE.md) for X-Ray instrumentation, EMF examples, and structured logger implementations.
 
 ---
-## Level 3: Deep Dive Resources
 
+## Level 3: Deep Dive Resources
 
 
 ### Official AWS Documentation
 
 
-
 **Step Functions:**
-
 
 
 - [Developer Guide](https://docs.aws.amazon.com/step-functions/latest/dg/)
@@ -275,9 +292,7 @@ See [REFERENCE.md](./REFERENCE.md) for X-Ray instrumentation, EMF examples, and 
 - [Best Practices](https://docs.aws.amazon.com/step-functions/latest/dg/bp-general.html)
 
 
-
 **EventBridge:**
-
 
 
 - [User Guide](https://docs.aws.amazon.com/eventbridge/latest/userguide/)
@@ -287,9 +302,7 @@ See [REFERENCE.md](./REFERENCE.md) for X-Ray instrumentation, EMF examples, and 
 - [Schema Registry](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-schema.html)
 
 
-
 **Lambda Layers:**
-
 
 
 - [Working with Layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html)
@@ -297,9 +310,7 @@ See [REFERENCE.md](./REFERENCE.md) for X-Ray instrumentation, EMF examples, and 
 - [Creating Layers](https://docs.aws.amazon.com/lambda/latest/dg/creating-deleting-layers.html)
 
 
-
 **DynamoDB:**
-
 
 
 - [Single-Table Design](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-general-nosql-design.html)
@@ -309,9 +320,7 @@ See [REFERENCE.md](./REFERENCE.md) for X-Ray instrumentation, EMF examples, and 
 - [Transactions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/transaction-apis.html)
 
 
-
 **Observability:**
-
 
 
 - [X-Ray Developer Guide](https://docs.aws.amazon.com/xray/latest/devguide/)
@@ -319,13 +328,10 @@ See [REFERENCE.md](./REFERENCE.md) for X-Ray instrumentation, EMF examples, and 
 - [CloudWatch Embedded Metrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Embedded_Metric_Format.html)
 
 
-
 ### Books and Courses
 
 
-
 **Books:**
-
 
 
 - "AWS Lambda in Action" by Danilo Poccia
@@ -335,9 +341,7 @@ See [REFERENCE.md](./REFERENCE.md) for X-Ray instrumentation, EMF examples, and 
 - "Serverless Architectures on AWS" by Peter Sbarski
 
 
-
 **Courses:**
-
 
 
 - AWS Certified Solutions Architect Professional
@@ -347,13 +351,10 @@ See [REFERENCE.md](./REFERENCE.md) for X-Ray instrumentation, EMF examples, and 
 - Linux Academy: DynamoDB Deep Dive
 
 
-
 ### Architecture Patterns
 
 
-
 **AWS Prescriptive Guidance:**
-
 
 
 - [Serverless Patterns Collection](https://serverlessland.com/patterns)
@@ -363,9 +364,7 @@ See [REFERENCE.md](./REFERENCE.md) for X-Ray instrumentation, EMF examples, and 
 - [Step Functions Workflows](https://serverlessland.com/workflows)
 
 
-
 **Reference Architectures:**
-
 
 
 - [AWS Samples Repository](https://github.com/aws-samples)
@@ -373,13 +372,10 @@ See [REFERENCE.md](./REFERENCE.md) for X-Ray instrumentation, EMF examples, and 
 - [Serverless Application Repository](https://serverlessrepo.aws.amazon.com/)
 
 
-
 ### Bundled Resources
 
 
-
 See included templates and scripts:
-
 
 
 - `templates/step-functions-state-machine.json`

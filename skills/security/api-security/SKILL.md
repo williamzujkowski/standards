@@ -144,6 +144,7 @@ function authenticateToken(req, res, next) {
 ---
 
 ## Level 2:
+>
 > **📚 Full Examples**: See [REFERENCE.md](./REFERENCE.md) for complete code samples, detailed configurations, and production-ready implementations.
 
  Implementation Guide
@@ -157,9 +158,7 @@ function authenticateToken(req, res, next) {
 **Implementation Best Practices**:
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-0) for complete implementation.*
-
 
 
 **Security Considerations**:
@@ -176,9 +175,7 @@ function authenticateToken(req, res, next) {
 **Use Case**: Third-party integrations, mobile/SPA clients
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-1) for complete implementation.*
-
 
 
 #### JWT Token Management
@@ -186,9 +183,7 @@ function authenticateToken(req, res, next) {
 **Best Practices**:
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-2) for complete implementation.*
-
 
 
 **JWT Security Checklist**:
@@ -206,17 +201,13 @@ function authenticateToken(req, res, next) {
 #### Multi-Tier Rate Limiting
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-3) for complete implementation.*
-
 
 
 #### Adaptive Rate Limiting
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-4) for complete implementation.*
-
 
 
 ### 2.3 Input Validation and Sanitization
@@ -224,26 +215,19 @@ function authenticateToken(req, res, next) {
 #### Schema-Based Validation
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-5) for complete implementation.*
-
 
 
 #### Content-Type Validation
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-6) for complete implementation.*
-
 
 
 #### SQL Injection Prevention
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-7) for complete implementation.*
-
-
 
 
 ### 2.4 CORS Configuration
@@ -251,9 +235,7 @@ function authenticateToken(req, res, next) {
 #### Secure CORS Setup
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-8) for complete implementation.*
-
 
 
 **CORS Security Rules**:
@@ -269,9 +251,7 @@ function authenticateToken(req, res, next) {
 #### Version Management Strategy
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-9) for complete implementation.*
-
 
 
 ### 2.6 OpenAPI Security Schemas
@@ -279,9 +259,7 @@ function authenticateToken(req, res, next) {
 #### Defining Security in OpenAPI 3.0
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-10) for complete implementation.*
-
 
 
 ### 2.7 OWASP API Security Checklist
@@ -289,9 +267,7 @@ function authenticateToken(req, res, next) {
 #### Complete Implementation Checklist
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-11) for complete implementation.*
-
 
 
 ### 2.8 Testing API Security
@@ -299,17 +275,13 @@ function authenticateToken(req, res, next) {
 #### Automated Security Testing
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-12) for complete implementation.*
-
 
 
 #### Security Test Cases
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-13) for complete implementation.*
-
 
 
 ### 2.9 API Security Anti-Patterns
@@ -317,9 +289,7 @@ function authenticateToken(req, res, next) {
 #### Common Mistakes to Avoid
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-14) for complete implementation.*
-
 
 
 ---

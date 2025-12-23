@@ -1,4 +1,5 @@
 # Skills Format Refactoring Strategy
+
 ## Alignment with Anthropic Canonical Format
 
 **Date**: 2025-10-24
@@ -26,6 +27,7 @@ This document outlines the strategy to refactor the standards repository's skill
 ### 1.1 Current Implementation (Standards Repo)
 
 **File Structure**:
+
 ```
 skills/
 ├── coding-standards/
@@ -76,6 +78,7 @@ nist_controls: [IA-2, IA-5]
 ```
 
 **Key Features**:
+
 1. ✅ **3-level progressive disclosure** for token optimization
 2. ✅ **YAML frontmatter** with rich metadata
 3. ✅ **NIST control tagging** for compliance
@@ -88,17 +91,20 @@ nist_controls: [IA-2, IA-5]
 **Based on Web Research** (docs.claude.com was unavailable):
 
 Anthropic's official approach uses:
+
 1. **Claude Projects** with "Custom Instructions" field
 2. Simple markdown format without strict schema
 3. Direct integration in claude.ai web interface
 4. No standardized frontmatter or metadata
 
 **Limitations of Research**:
+
 - Official skills.md specification not publicly available
 - Documentation pages returned 404 errors
 - Custom instructions format appears to be free-form markdown
 
 **Inferred Canonical Format**:
+
 ```markdown
 # Skill Title
 
@@ -298,12 +304,14 @@ integration:
    - Provide migration guide
 
 **Deliverables**:
+
 - ✅ `scripts/convert-skill-format.py` - working converter
 - ✅ Updated `scripts/skill-loader.py` with dual-format support
 - ✅ Updated `scripts/validate-skills.py`
 - ✅ `docs/guides/SKILL_FORMAT_SPEC.md`
 
 **Validation**:
+
 ```bash
 # Test converter
 python3 scripts/convert-skill-format.py skills/coding-standards/python/SKILL.md
@@ -338,6 +346,7 @@ python3 scripts/skill-loader.py load python --format canonical
 5. Gather feedback
 
 **Success Criteria**:
+
 - [ ] All 5 skills generate valid `skill.md`
 - [ ] Canonical format loads correctly in Claude Projects
 - [ ] 3-level format still works via skill-loader
@@ -351,12 +360,14 @@ python3 scripts/skill-loader.py load python --format canonical
 **Tasks**:
 
 1. **Automated Migration**
+
    ```bash
    # Batch convert all skills
    python3 scripts/bulk-convert-skills.py --all
    ```
 
 2. **Validation**
+
    ```bash
    # Run full validation suite
    python3 scripts/validate-skills.py --all
@@ -373,6 +384,7 @@ python3 scripts/skill-loader.py load python --format canonical
    - Update skill references if needed
 
 **Deliverables**:
+
 - ✅ 61 skills with both `SKILL.md` and `skill.md`
 - ✅ 61 `skill-metadata.yaml` files
 - ✅ Updated `CLAUDE.md` with dual-format docs
@@ -406,6 +418,7 @@ python3 scripts/skill-loader.py load python --format canonical
    - Provide rollback procedure
 
 **Deliverables**:
+
 - ✅ Complete documentation set
 - ✅ CI/CD pipeline updated
 - ✅ Migration guide published
@@ -418,6 +431,7 @@ python3 scripts/skill-loader.py load python --format canonical
 **Tasks**:
 
 1. **Comprehensive Testing**
+
    ```bash
    # Run full test suite
    pytest tests/ -v
@@ -442,6 +456,7 @@ python3 scripts/skill-loader.py load python --format canonical
    - Validate NIST control tagging
 
 4. **Documentation Accuracy**
+
    ```bash
    # Run claims validation
    python3 scripts/validate-claims.py --verbose
@@ -451,6 +466,7 @@ python3 scripts/skill-loader.py load python --format canonical
    ```
 
 **Success Criteria**:
+
 - [ ] All tests pass
 - [ ] 0 broken links
 - [ ] Token counts within limits
@@ -481,6 +497,7 @@ python3 scripts/skill-loader.py load python --format canonical
    - Rollback: delete generated files
 
 2. **Validation Gates**
+
    ```bash
    # Pre-commit validation
    python3 scripts/validate-skills.py --format both
@@ -490,6 +507,7 @@ python3 scripts/skill-loader.py load python --format canonical
    ```
 
 3. **Rollback Plan**
+
    ```bash
    # Remove generated files
    find skills -name "skill.md" -delete
@@ -512,6 +530,7 @@ python3 scripts/skill-loader.py load python --format canonical
 ### 5.1 Success Metrics
 
 **Functional Requirements**:
+
 - [ ] ✅ All 61 skills have both `SKILL.md` and `skill.md`
 - [ ] ✅ Both formats pass validation
 - [ ] ✅ skill-loader works with both formats
@@ -520,6 +539,7 @@ python3 scripts/skill-loader.py load python --format canonical
 - [ ] ✅ Templates and resources accessible from both formats
 
 **Non-Functional Requirements**:
+
 - [ ] ✅ Token counts within limits (Level 1 <2K, Level 2 <5K)
 - [ ] ✅ Loading time <2s per skill
 - [ ] ✅ 0 broken links
@@ -528,6 +548,7 @@ python3 scripts/skill-loader.py load python --format canonical
 - [ ] ✅ 100% backward compatibility
 
 **Documentation Requirements**:
+
 - [ ] ✅ All guides updated
 - [ ] ✅ Migration guide complete
 - [ ] ✅ Examples provided
@@ -537,6 +558,7 @@ python3 scripts/skill-loader.py load python --format canonical
 ### 5.2 Validation Checklist
 
 **Pre-Migration Validation**:
+
 ```bash
 # Baseline metrics
 python3 scripts/validate-skills.py --count-verify
@@ -545,6 +567,7 @@ python3 scripts/token-counter.py --all
 ```
 
 **Post-Migration Validation**:
+
 ```bash
 # Format validation
 python3 scripts/validate-skills.py --format both --comprehensive
@@ -763,6 +786,7 @@ python3 scripts/skill-loader.py load python --level 1  # Quick start only
 | Bundled Resources | ✅ Yes | ✅ Via links |
 | Claude Projects | ⚠️ Via CLAUDE.md | ✅ Direct upload |
 | Product Matrix | ✅ Yes | ✅ Yes |
+
 ```
 
 ### 6.3 CI/CD Changes
@@ -849,12 +873,14 @@ repos:
 ## 7. Implementation Sequence
 
 ### Day 1: Setup and Planning
+
 - ✅ Review and approve this strategy document
 - ✅ Set up development branch: `feature/skills-v2-dual-format`
 - ✅ Create task tracking in project management tool
 - ✅ Notify team of upcoming changes
 
 ### Day 2-3: Build Converter
+
 - ✅ Implement `scripts/convert-skill-format.py`
 - ✅ Add YAML frontmatter parser
 - ✅ Add content extractor (Level 1, Level 2, Level 3)
@@ -863,6 +889,7 @@ repos:
 - ✅ Write unit tests
 
 ### Day 4-5: Update Skill Loader
+
 - ✅ Modify `scripts/skill-loader.py` for dual-format support
 - ✅ Add `--format` flag
 - ✅ Implement fallback logic
@@ -870,12 +897,14 @@ repos:
 - ✅ Write integration tests
 
 ### Day 6-7: Validation Framework
+
 - ✅ Update `scripts/validate-skills.py`
 - ✅ Create `scripts/validate-skill-metadata.py`
 - ✅ Add consistency checks
 - ✅ Write comprehensive tests
 
 ### Day 8-9: Pilot Migration
+
 - ✅ Convert 5 pilot skills
 - ✅ Manual review of outputs
 - ✅ Fix converter issues
@@ -883,6 +912,7 @@ repos:
 - ✅ Iterate based on feedback
 
 ### Day 10-12: Bulk Migration
+
 - ✅ Create `scripts/bulk-convert-skills.py`
 - ✅ Run bulk conversion on all 61 skills
 - ✅ Run full validation suite
@@ -890,6 +920,7 @@ repos:
 - ✅ Re-run validation until clean
 
 ### Day 13-14: Documentation
+
 - ✅ Create `docs/guides/SKILL_FORMAT_SPEC.md`
 - ✅ Create `docs/migration/SKILLS_V2_MIGRATION.md`
 - ✅ Update all existing guides
@@ -897,6 +928,7 @@ repos:
 - ✅ Create example templates
 
 ### Day 15-16: CI/CD and Testing
+
 - ✅ Update `.github/workflows/validate-skills.yml`
 - ✅ Update `.pre-commit-config.yaml`
 - ✅ Run full test suite
@@ -904,6 +936,7 @@ repos:
 - ✅ Validate audit gates
 
 ### Day 17-18: Review and Polish
+
 - ✅ Code review
 - ✅ Documentation review
 - ✅ Test in production-like environment
@@ -911,6 +944,7 @@ repos:
 - ✅ Final validation
 
 ### Day 19-20: Deployment
+
 - ✅ Merge to main branch
 - ✅ Tag release: `v2.0.0-skills-dual-format`
 - ✅ Update changelog
@@ -924,6 +958,7 @@ repos:
 ### When to Rollback
 
 Rollback if:
+
 - [ ] Critical functionality breaks
 - [ ] More than 10% of skills fail validation
 - [ ] Performance degrades by >50%
@@ -1052,12 +1087,14 @@ find skills -name "SKILL.md" | wc -l
 ### Anthropic Documentation Search Results
 
 **Attempted URLs**:
+
 - `https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/prompt-libraries` → 404
 - `https://support.anthropic.com/en/articles/9517075-what-are-custom-instructions` → Generic Projects info
 - `https://docs.claude.com/en/docs/claude-code/skills` → Not accessible
 - `https://docs.claude.com/en/api/agent-sdk/skills` → Not accessible
 
 **Conclusions**:
+
 1. Official skills.md specification not publicly documented
 2. Custom instructions in Claude Projects use free-form markdown
 3. No standardized schema or frontmatter required
@@ -1141,6 +1178,7 @@ This skill covers Python testing best practices including:
    ```
 
 2. **Implement minimal code**:
+
    ```python
    # calculator.py
    def add(a, b):
@@ -1156,6 +1194,7 @@ This skill covers Python testing best practices including:
 ### NIST Controls
 
 This skill implements:
+
 - @nist SI-10: Input validation testing
 - @nist SI-11: Error handling validation
 
@@ -1166,12 +1205,14 @@ This skill implements:
 ## Integration Points
 
 Related skills:
+
 - [Coding Standards - Python](../coding-standards/python/SKILL.md)
 - [CI/CD](../devops/ci-cd/SKILL.md)
 
 ## Additional Resources
 
 For comprehensive coverage including advanced topics, see:
+
 - Full documentation: [SKILL.md](./SKILL.md)
 - Test templates: [templates/](./templates/)
 - Setup scripts: [scripts/](./scripts/)
@@ -1179,6 +1220,7 @@ For comprehensive coverage including advanced topics, see:
 ---
 
 *This is a simplified version for quick reference. For 3-level progressive disclosure (Level 1: <2K tokens, Level 2: <5K tokens, Level 3: Extended), see [SKILL.md](./SKILL.md)*
+
 ```
 
 ---
@@ -1188,6 +1230,7 @@ For comprehensive coverage including advanced topics, see:
 ### 3-Level Format Token Distribution
 
 ```
+
 skills/coding-standards/python/SKILL.md:
   Level 1 (Quick Start):     1,847 tokens ✅ <2,000
   Level 2 (Implementation):  4,923 tokens ✅ <5,000
@@ -1198,16 +1241,19 @@ Loading scenarios:
   Quick reference:           1,847 tokens (Level 1 only)
   Standard usage:            6,770 tokens (Level 1 + 2)
   Comprehensive:             8,926 tokens (All levels)
+
 ```
 
 ### Canonical Format Token Distribution
 
 ```
+
 skills/coding-standards/python/skill.md:
   Single level:              3,421 tokens
 
 Loading scenarios:
   All usage:                 3,421 tokens (no progressive disclosure)
+
 ```
 
 ### Optimization Impact

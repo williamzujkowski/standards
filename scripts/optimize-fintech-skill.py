@@ -4,17 +4,13 @@
 import re
 from pathlib import Path
 
-skill_file = Path('skills/compliance/fintech/SKILL.md')
-reference_file = Path('skills/compliance/fintech/REFERENCE.md')
+skill_file = Path("skills/compliance/fintech/SKILL.md")
+reference_file = Path("skills/compliance/fintech/REFERENCE.md")
 
 content = skill_file.read_text()
 
 # Extract detailed requirement sections (Requirements 1-12)
-detailed_reqs = re.findall(
-    r'(#### Requirement \d+:.*?)(?=#### Requirement \d+:|### Cardholder|$)',
-    content,
-    re.DOTALL
-)
+detailed_reqs = re.findall(r"(#### Requirement \d+:.*?)(?=#### Requirement \d+:|### Cardholder|$)", content, re.DOTALL)
 
 # Create condensed version with just headers
 condensed_requirements = """#### PCI-DSS v4.0.1 Requirements Summary
@@ -41,7 +37,7 @@ condensed_requirements = """#### PCI-DSS v4.0.1 Requirements Summary
 """
 
 # Replace the detailed requirements section
-pattern = r'#### Requirement 1:.*?(?=### Cardholder)'
+pattern = r"#### Requirement 1:.*?(?=### Cardholder)"
 content = re.sub(pattern, condensed_requirements, content, flags=re.DOTALL)
 
 # Write optimized SKILL.md
@@ -49,7 +45,7 @@ skill_file.write_text(content)
 
 # Create REFERENCE.md with detailed requirements
 if detailed_reqs:
-    reference_content = f"""# FinTech Compliance - Reference Implementation
+    reference_content = """# FinTech Compliance - Reference Implementation
 
 This document contains detailed PCI-DSS v4.0.1 requirements, SOC2 control mappings, and complete implementation examples.
 
@@ -303,14 +299,14 @@ class ComplianceEvidenceCollector:
 
 # Calculate new token count
 new_content = skill_file.read_text()
-level2_match = re.search(r'## Level 2:(.*?)(?=## Level 3:|$)', new_content, re.DOTALL)
+level2_match = re.search(r"## Level 2:(.*?)(?=## Level 3:|$)", new_content, re.DOTALL)
 if level2_match:
     level2_new = level2_match.group(1)
     new_tokens = len(level2_new) // 4
     original_tokens = 6132
     reduction = original_tokens - new_tokens
 
-    print(f"✅ Optimized SKILL.md")
+    print("✅ Optimized SKILL.md")
     print(f"   Original: {original_tokens:,} tokens")
     print(f"   New: {new_tokens:,} tokens")
     print(f"   Reduction: {reduction:,} tokens ({reduction/original_tokens*100:.1f}%)")

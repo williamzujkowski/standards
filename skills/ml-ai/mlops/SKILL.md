@@ -186,6 +186,7 @@ if p_value < 0.05:
 ---
 
 ## Level 2:
+>
 > **📚 Full Examples**: See [REFERENCE.md](./REFERENCE.md) for complete code samples, detailed configurations, and production-ready implementations.
 
  Implementation Guide
@@ -197,17 +198,13 @@ if p_value < 0.05:
 **Reproducible Training Environment:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-0) for complete implementation.*
-
 
 
 **Hyperparameter Optimization:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-1) for complete implementation.*
-
 
 
 #### Model Versioning
@@ -215,9 +212,7 @@ if p_value < 0.05:
 **Model Registry Pattern:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-2) for complete implementation.*
-
 
 
 ### 2. Feature Engineering & Feature Stores
@@ -225,17 +220,13 @@ if p_value < 0.05:
 **Feature Store with Feast:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-3) for complete implementation.*
-
 
 
 **Feature Retrieval in Training:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-4) for complete implementation.*
-
 
 
 ### 3. Model Serving Strategies
@@ -245,9 +236,7 @@ if p_value < 0.05:
 **Apache Airflow DAG:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-5) for complete implementation.*
-
 
 
 #### Real-Time Inference API
@@ -255,9 +244,7 @@ if p_value < 0.05:
 **FastAPI Model Serving:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-6) for complete implementation.*
-
 
 
 #### Streaming Inference
@@ -265,9 +252,7 @@ if p_value < 0.05:
 **Kafka Consumer with Model:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-7) for complete implementation.*
-
 
 
 ### 4. Model Monitoring & Drift Detection
@@ -277,9 +262,7 @@ if p_value < 0.05:
 **Statistical Testing Approach:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-8) for complete implementation.*
-
 
 
 #### Concept Drift Detection
@@ -287,9 +270,7 @@ if p_value < 0.05:
 **Performance-Based Monitoring:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-9) for complete implementation.*
-
 
 
 #### Production Monitoring Dashboard
@@ -297,9 +278,7 @@ if p_value < 0.05:
 **Prometheus Metrics + Grafana:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-10) for complete implementation.*
-
 
 
 ### 5. ML Pipelines & Orchestration
@@ -309,9 +288,7 @@ if p_value < 0.05:
 **Pipeline Definition:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-11) for complete implementation.*
-
 
 
 ### 6. A/B Testing & Canary Deployments
@@ -319,9 +296,7 @@ if p_value < 0.05:
 **Multi-Armed Bandit for Model Selection:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-12) for complete implementation.*
-
 
 
 ### 7. Production Best Practices
@@ -331,9 +306,7 @@ if p_value < 0.05:
 **Model Card Documentation:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-13) for complete implementation.*
-
 
 
 #### CI/CD for ML
@@ -341,9 +314,7 @@ if p_value < 0.05:
 **GitHub Actions Workflow:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-14) for complete implementation.*
-
 
 
 ---

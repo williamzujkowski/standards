@@ -4,13 +4,12 @@ Analyze all SKILL.md files for compliance with tiered learning standards.
 Generate comprehensive report with violations and recommendations.
 """
 
-import os
-import re
 import json
-from pathlib import Path
-from typing import Dict, List, Set, Tuple
-from dataclasses import dataclass, asdict
+import re
+from dataclasses import asdict, dataclass
 from datetime import datetime
+from pathlib import Path
+from typing import Dict, List, Tuple
 
 
 @dataclass
@@ -218,7 +217,7 @@ def generate_report(compliance_data: List[SkillCompliance]) -> str:
         pct = (count / total_skills) * 100
         report += f"- **{section}**: {count} skills ({pct:.1f}%)\n"
 
-    report += f"""
+    report += """
 ### Compliance Distribution
 
 | Score Range | Count | Percentage |
@@ -327,7 +326,7 @@ def generate_report(compliance_data: List[SkillCompliance]) -> str:
         report += "*No fully compliant skills yet*\n"
 
     # Templates section
-    report += """
+    report += r"""
 ## Template Sections for Common Missing Content
 
 ### YAML Frontmatter Template
@@ -566,10 +565,10 @@ def main():
     }
     json_path.write_text(json.dumps(json_data, indent=2), encoding="utf-8")
 
-    print(f"\n✅ Analysis complete!")
+    print("\n✅ Analysis complete!")
     print(f"   Report: {report_path}")
     print(f"   Data: {json_path}")
-    print(f"\n📊 Summary:")
+    print("\n📊 Summary:")
     print(f"   Total skills: {len(compliance_data)}")
     print(f"   Compliant: {len([s for s in compliance_data if s.is_compliant])}")
     print(f"   Average compliance: {json_data['average_compliance']:.1f}%")

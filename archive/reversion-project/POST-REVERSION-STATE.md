@@ -72,6 +72,7 @@ REFERENCE.md Files: 0 (all removed)
 ### What Changed
 
 **Removed from a4b1ed1**:
+
 - ❌ 18 REFERENCE.md files (skills Level 3 content extraction)
 - ❌ 18 new Python scripts (optimization, validation, migration)
 - ❌ 4 docs directories (architecture, optimization, research, scripts)
@@ -81,6 +82,7 @@ REFERENCE.md Files: 0 (all removed)
 - ❌ 2 new CI/CD workflows
 
 **Added for Reversion**:
+
 - ✅ docs/guides/REVERSION_GUIDE.md (comprehensive context)
 - ✅ docs/decisions/ADR-SKILLS-REVERSION.md (decision record)
 - ✅ docs/runbooks/SKILLS-REVERSION-RUNBOOK.md (operational procedures)
@@ -89,6 +91,7 @@ REFERENCE.md Files: 0 (all removed)
 - ✅ legacy/skills-md-refactor tag (a4b1ed1 reference)
 
 **Preserved from 68e0eb7**:
+
 - ✅ All 61 SKILL.md files (original format)
 - ✅ skill-loader.py functionality
 - ✅ Product matrix integration
@@ -111,6 +114,7 @@ find skills -name "SKILL.md" | wc -l && \
 ```
 
 **Expected Output**:
+
 ```
 61
 61/61 skills compliant (100%)
@@ -151,6 +155,7 @@ git tag -l | grep legacy/skills-md-refactor  # Should exist
 All pre-refactor systems operational:
 
 **Skills Loading**:
+
 ```bash
 # Product-based loading
 python3 scripts/skill-loader.py load product:api
@@ -166,6 +171,7 @@ python3 scripts/skill-loader.py recommend ./my-project
 ```
 
 **Validation**:
+
 ```bash
 # Anthropic compliance
 python3 scripts/validate-anthropic-compliance.py
@@ -181,6 +187,7 @@ pre-commit run --all-files
 ```
 
 **Product Matrix**:
+
 ```bash
 # Matrix configuration
 cat config/product-matrix.yaml
@@ -196,22 +203,26 @@ python3 scripts/skill-loader.py load product:api
 These capabilities from a4b1ed1 are no longer available:
 
 **Format Conversion**:
+
 - ❌ SKILL.md → skills.md conversion (was: scripts/convert-skill-format.py)
 - ❌ Dual format support
 - ❌ Format synchronization
 
 **Advanced Validation**:
+
 - ❌ Claims validation (was: scripts/validate-claims.py)
 - ❌ Token counting automation (was: scripts/token-counter.py)
 - ❌ Batch optimization (was: scripts/batch-optimize-skills.py)
 - ❌ Skills-specific migration tools
 
 **Additional Testing**:
+
 - ❌ Validation test suite (was: tests/validation/)
 - ❌ Router integration tests (was: tests/integration/test_router_*.py)
 - ❌ Content quality tests (was: tests/validation/test_skills_content_quality.py)
 
 **Documentation Generation**:
+
 - ❌ Performance analysis reports (was: docs/optimization/)
 - ❌ Architecture documentation (was: docs/architecture/)
 - ❌ Research documentation (was: docs/research/)
@@ -227,6 +238,7 @@ These capabilities from a4b1ed1 are no longer available:
 **Python**: 3.10+ (as per original requirements)
 
 **Dependencies** (from requirements.txt at 68e0eb7):
+
 ```bash
 # Core dependencies
 pyyaml>=6.0
@@ -242,6 +254,7 @@ pre-commit>=3.3.0
 ```
 
 **Installation**:
+
 ```bash
 # Create virtual environment
 python3 -m venv venv
@@ -270,6 +283,7 @@ pre-commit install
 | Orphan docs | ≤5 | From structure-audit.json |
 
 **Token Optimization** (preserved from pre-refactor):
+
 - Repository metadata: 127K → 500 tokens (99.6% reduction)
 - Typical usage: 8.9K → 573 tokens (93.6% reduction)
 - Single skill Level 1: ~300-600 tokens
@@ -295,17 +309,20 @@ git show 68e0eb7:CLAUDE.md | sha256sum  # Should match reverted CLAUDE.md
 ### Preserved State
 
 **Branch**: `backup/pre-reversion-state`
+
 - Contains: Full a4b1ed1 state
 - Location: `origin/backup/pre-reversion-state`
 - Purpose: Reference for future development if needed
 - **Do not delete**: Permanent historical reference
 
 **Tag**: `legacy/skills-md-refactor`
+
 - Points to: Commit a4b1ed1
 - Purpose: Easy reference to refactor commit
 - Usage: `git show legacy/skills-md-refactor`
 
 **Access Backup**:
+
 ```bash
 # View backup branch
 git checkout backup/pre-reversion-state
@@ -323,6 +340,7 @@ git checkout master
 ### Reversion Documentation
 
 **Complete Documentation**:
+
 1. **REVERSION_GUIDE.md** (../guides/REVERSION_GUIDE.md)
    - Comprehensive overview
    - Full context and rationale
@@ -438,6 +456,7 @@ git commit -m "feat: add product type mapping for [product]"
 **Symptoms**: `validate-anthropic-compliance.py` reports <61 compliant
 
 **Debug**:
+
 ```bash
 # Check skills count
 find skills -name "SKILL.md" | wc -l
@@ -455,6 +474,7 @@ python3 scripts/validate-anthropic-compliance.py --token-check
 ```
 
 **Resolution**:
+
 - If skills missing: verify reversion completed correctly
 - If frontmatter missing: check git status, may need to re-revert
 - If token violations: verify Level 2 sections are <5K tokens
@@ -464,6 +484,7 @@ python3 scripts/validate-anthropic-compliance.py --token-check
 **Symptoms**: `python3 scripts/skill-loader.py load product:api` errors
 
 **Debug**:
+
 ```bash
 # Check Python version
 python3 --version
@@ -481,6 +502,7 @@ python3 scripts/skill-loader.py --verbose load product:api
 ```
 
 **Resolution**:
+
 - Reinstall dependencies: `pip install -r requirements.txt`
 - Verify product-matrix.yaml syntax
 - Check skill-loader.py matches 68e0eb7 version
@@ -490,6 +512,7 @@ python3 scripts/skill-loader.py --verbose load product:api
 **Symptoms**: `pre-commit run --all-files` reports errors
 
 **Debug**:
+
 ```bash
 # Check pre-commit version
 pre-commit --version
@@ -507,6 +530,7 @@ cat .pre-commit-config.yaml
 ```
 
 **Resolution**:
+
 - Update pre-commit: `pip install --upgrade pre-commit`
 - Re-install hooks: `pre-commit install`
 - Fix formatting: `black . && isort .`
@@ -519,6 +543,7 @@ cat .pre-commit-config.yaml
 ### 2025-10-25: Reversion Complete
 
 **Changes**:
+
 - ✅ Reverted to commit 68e0eb7 (pre-refactor state)
 - ✅ Removed 278 files from a4b1ed1 refactor
 - ✅ Created backup/pre-reversion-state branch
@@ -528,6 +553,7 @@ cat .pre-commit-config.yaml
 - ✅ All validation scripts functional
 
 **Metrics**:
+
 - Files changed: 278 (reverted)
 - Net lines removed: 47,544
 - Skills: 61 (unchanged)
@@ -535,6 +561,7 @@ cat .pre-commit-config.yaml
 - Scripts: ~10-12 (reduced from 28)
 
 **See Also**:
+
 - [REVERSION_GUIDE.md](../guides/REVERSION_GUIDE.md) - Full context
 - [ADR-SKILLS-REVERSION.md](../decisions/ADR-SKILLS-REVERSION.md) - Decision record
 
@@ -588,6 +615,7 @@ echo "=== Health Check Complete ==="
 ### Watch for Triggers
 
 **Reversion reconsideration triggers**:
+
 1. Anthropic announces skills.md requirement
 2. 3+ GitHub issues request skills.md support
 3. Compliance drops below 95% (58/61 skills)
@@ -636,17 +664,20 @@ Hub Violations: 0
 ### Support Resources
 
 **Documentation**:
+
 - Comprehensive Guide: docs/guides/REVERSION_GUIDE.md
 - Decision Record: docs/decisions/ADR-SKILLS-REVERSION.md
 - Operational Runbook: docs/runbooks/SKILLS-REVERSION-RUNBOOK.md
 - This File: docs/notes/POST-REVERSION-STATE.md
 
 **Backup**:
+
 - Branch: backup/pre-reversion-state
 - Tag: legacy/skills-md-refactor
 - Commit: a4b1ed1
 
 **Validation**:
+
 - `python3 scripts/validate-anthropic-compliance.py`
 - `python3 scripts/generate-audit-reports.py`
 - `pre-commit run --all-files`
@@ -656,12 +687,14 @@ Hub Violations: 0
 ## Document Maintenance
 
 **Update Triggers**:
+
 - Repository state changes
 - New skills added/removed
 - Validation tool updates
 - Discovered issues/fixes
 
 **Review Schedule**:
+
 - Weekly (first month post-reversion)
 - Monthly (months 2-3)
 - Quarterly (ongoing)

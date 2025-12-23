@@ -124,6 +124,7 @@ threats:
 ---
 
 ## Level 2:
+>
 > **📚 Full Examples**: See [REFERENCE.md](./REFERENCE.md) for complete code samples, detailed configurations, and production-ready implementations.
 
  Implementation Guide
@@ -133,17 +134,13 @@ threats:
 #### Systematic Threat Identification
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-0) for complete implementation.*
-
 
 
 #### STRIDE-per-Element Pattern
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-1) for complete implementation.*
-
 
 
 ### Attack Trees
@@ -151,17 +148,13 @@ threats:
 #### Building Attack Trees
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-2) for complete implementation.*
-
 
 
 #### Attack Tree Template
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-3) for complete implementation.*
-
 
 
 ### Data Flow Diagrams (DFD)
@@ -169,25 +162,19 @@ threats:
 #### DFD Notation
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-4) for complete implementation.*
-
 
 
 #### Example DFD: Web Application
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-5) for complete implementation.*
-
 
 
 #### DFD Analysis Checklist
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-6) for complete implementation.*
-
 
 
 ### Trust Boundaries
@@ -195,17 +182,13 @@ threats:
 #### Identifying Trust Boundaries
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-7) for complete implementation.*
-
 
 
 #### Boundary Crossing Analysis
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-8) for complete implementation.*
-
 
 
 ### Threat Prioritization (DREAD)
@@ -213,17 +196,13 @@ threats:
 #### DREAD Scoring System
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-9) for complete implementation.*
-
 
 
 #### Threat Prioritization Example
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-10) for complete implementation.*
-
 
 
 ### Mitigation Strategies
@@ -231,9 +210,7 @@ threats:
 #### Mitigation Pattern Catalog
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-11) for complete implementation.*
-
 
 
 ### PASTA Methodology
@@ -241,9 +218,7 @@ threats:
 #### Process for Attack Simulation and Threat Analysis
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-12) for complete implementation.*
-
 
 
 ### Tools
@@ -251,17 +226,13 @@ threats:
 #### Microsoft Threat Modeling Tool
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-13) for complete implementation.*
-
 
 
 #### Threat Modeling Workflow
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-14) for complete implementation.*
-
 
 
 ### NIST Integration
@@ -269,17 +240,13 @@ threats:
 #### NIST RA-3: Risk Assessment
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-15) for complete implementation.*
-
 
 
 #### NIST RA-5: Vulnerability Monitoring and Scanning
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-16) for complete implementation.*
-
 
 
 ### Practical Examples
@@ -287,17 +254,13 @@ threats:
 #### Example 1: Authentication Service Threat Model
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-17) for complete implementation.*
-
 
 
 #### Example 2: API Gateway Threat Model
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-18) for complete implementation.*
-
 
 
 ---

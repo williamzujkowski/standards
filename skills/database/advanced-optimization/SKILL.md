@@ -156,6 +156,7 @@ redis-cli INFO stats | grep -E 'keyspace_hits|keyspace_misses'
 ---
 
 ## Level 2:
+>
 > **📚 Full Examples**: See [REFERENCE.md](./REFERENCE.md) for complete code samples, detailed configurations, and production-ready implementations.
 
  Implementation Guide (45 minutes)
@@ -169,42 +170,31 @@ PostgreSQL supports multiple index types, each optimized for specific use cases:
 **B-tree Indexes (Default)**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-0) for complete implementation.*
-
 
 
 **GIN Indexes (Full-text and Array Search)**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-1) for complete implementation.*
-
 
 
 **GiST Indexes (Geometric and Range Data)**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-2) for complete implementation.*
-
 
 
 #### Query Optimization with EXPLAIN ANALYZE
 
 
-
-
 *See [REFERENCE.md](./REFERENCE.md#example-3) for complete implementation.*
-
 
 
 **Understanding EXPLAIN Output:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-4) for complete implementation.*
-
 
 
 **Optimization Decisions:**
@@ -217,17 +207,13 @@ PostgreSQL supports multiple index types, each optimized for specific use cases:
 #### VACUUM and Maintenance
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-5) for complete implementation.*
-
 
 
 #### Connection Pooling with PgBouncer
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-6) for complete implementation.*
-
 
 
 **Connection Pooling Best Practices:**
@@ -240,9 +226,7 @@ PostgreSQL supports multiple index types, each optimized for specific use cases:
 #### PostgreSQL Performance Tuning
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-7) for complete implementation.*
-
 
 
 ### MongoDB Advanced Optimization
@@ -252,9 +236,7 @@ PostgreSQL supports multiple index types, each optimized for specific use cases:
 **Shard Key Selection:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-8) for complete implementation.*
-
 
 
 **Shard Key Patterns:**
@@ -282,42 +264,31 @@ db.profiles.find({ _id: { $gt: 1000, $lt: 2000 } })
 3. **Zone Sharding** (geographic distribution):
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-11) for complete implementation.*
-
 
 
 #### Index Optimization
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-12) for complete implementation.*
-
 
 
 **Index Analysis:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-13) for complete implementation.*
-
 
 
 #### Aggregation Pipeline Optimization
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-14) for complete implementation.*
-
 
 
 #### Replica Set Configuration
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-15) for complete implementation.*
-
-
 
 
 ### Redis Advanced Patterns
@@ -327,41 +298,31 @@ db.profiles.find({ _id: { $gt: 1000, $lt: 2000 } })
 **1. Cache-Aside (Lazy Loading)**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-16) for complete implementation.*
-
 
 
 **2. Write-Through Caching**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-17) for complete implementation.*
-
 
 
 **3. Write-Behind (Write-Back) Caching**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-18) for complete implementation.*
-
 
 
 **4. Read-Through Caching**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-19) for complete implementation.*
-
 
 
 #### Redis Data Structures and Use Cases
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-20) for complete implementation.*
-
 
 
 #### Pub/Sub and Streams
@@ -369,33 +330,25 @@ db.profiles.find({ _id: { $gt: 1000, $lt: 2000 } })
 **Pub/Sub Pattern:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-21) for complete implementation.*
-
 
 
 **Redis Streams (Preferred for Reliable Messaging):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-22) for complete implementation.*
-
 
 
 #### Redis Cluster Configuration
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-23) for complete implementation.*
-
 
 
 **Redis Configuration (redis.conf):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-24) for complete implementation.*
-
 
 
 ### Query Optimization Techniques
@@ -405,17 +358,13 @@ db.profiles.find({ _id: { $gt: 1000, $lt: 2000 } })
 **Bad: N+1 Queries**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-25) for complete implementation.*
-
 
 
 **Good: Join or Batch Loading**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-26) for complete implementation.*
-
 
 
 #### Database Scaling Strategies
@@ -431,17 +380,13 @@ db.profiles.find({ _id: { $gt: 1000, $lt: 2000 } })
 **Read Replicas:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-27) for complete implementation.*
-
 
 
 **Sharding:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-28) for complete implementation.*
-
 
 
 #### Connection Pooling Best Practices
@@ -449,26 +394,19 @@ db.profiles.find({ _id: { $gt: 1000, $lt: 2000 } })
 **HikariCP (Java):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-29) for complete implementation.*
-
 
 
 **Python (SQLAlchemy):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-30) for complete implementation.*
-
 
 
 **Node.js (pg-pool):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-31) for complete implementation.*
-
-
 
 
 ### Database Monitoring and Profiling
@@ -478,17 +416,13 @@ db.profiles.find({ _id: { $gt: 1000, $lt: 2000 } })
 **pg_stat_statements Extension:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-32) for complete implementation.*
-
 
 
 **Key Metrics to Monitor:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-33) for complete implementation.*
-
 
 
 #### MongoDB Profiling
@@ -496,25 +430,19 @@ db.profiles.find({ _id: { $gt: 1000, $lt: 2000 } })
 **Enable Profiler:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-34) for complete implementation.*
-
 
 
 **Analyze Slow Queries:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-35) for complete implementation.*
-
 
 
 **Server Status Metrics:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-36) for complete implementation.*
-
 
 
 #### Redis Monitoring
@@ -522,25 +450,19 @@ db.profiles.find({ _id: { $gt: 1000, $lt: 2000 } })
 **INFO Command:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-37) for complete implementation.*
-
 
 
 **Key Metrics:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-38) for complete implementation.*
-
 
 
 **Slow Log:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-39) for complete implementation.*
-
 
 
 ### Backup and Recovery Strategies
@@ -560,25 +482,19 @@ pg_basebackup -h localhost -U postgres -D /backup/pg_data -Ft -z -P
 **Logical Backup (pg_dump):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-41) for complete implementation.*
-
 
 
 **Restore:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-42) for complete implementation.*
-
 
 
 **Point-in-Time Recovery (PITR):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-43) for complete implementation.*
-
 
 
 #### MongoDB Backup
@@ -586,25 +502,19 @@ pg_basebackup -h localhost -U postgres -D /backup/pg_data -Ft -z -P
 **mongodump:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-44) for complete implementation.*
-
 
 
 **mongorestore:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-45) for complete implementation.*
-
 
 
 **Filesystem Snapshots (Replica Set):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-46) for complete implementation.*
-
 
 
 #### Redis Backup
@@ -612,9 +522,7 @@ pg_basebackup -h localhost -U postgres -D /backup/pg_data -Ft -z -P
 **RDB (Snapshot):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-47) for complete implementation.*
-
 
 
 **AOF (Append-Only File):**

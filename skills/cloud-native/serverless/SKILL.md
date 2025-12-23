@@ -123,6 +123,7 @@ Kinesis/Kafka → Lambda → Real-time Analytics → Dashboard
 ---
 
 ## Level 2:
+>
 > **📚 Full Examples**: See [REFERENCE.md](./REFERENCE.md) for complete code samples, detailed configurations, and production-ready implementations.
 
  Implementation Guide
@@ -151,9 +152,7 @@ Kinesis/Kafka → Lambda → Real-time Analytics → Dashboard
 **Lambda Handler Pattern:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-0) for complete implementation.*
-
 
 
 **Lambda Layers:**
@@ -163,9 +162,7 @@ Kinesis/Kafka → Lambda → Real-time Analytics → Dashboard
 - Common use cases: SDKs, custom libraries, config files
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-1) for complete implementation.*
-
 
 
 **Deployment Packages:**
@@ -193,9 +190,7 @@ Kinesis/Kafka → Lambda → Real-time Analytics → Dashboard
 - Built-in CI/CD with CodePipeline integration
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-2) for complete implementation.*
-
 
 
 **2. Serverless Framework:**
@@ -205,9 +200,7 @@ Kinesis/Kafka → Lambda → Real-time Analytics → Dashboard
 - Environment-based deployments
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-3) for complete implementation.*
-
 
 
 **3. AWS CDK (Cloud Development Kit):**
@@ -217,9 +210,7 @@ Kinesis/Kafka → Lambda → Real-time Analytics → Dashboard
 - Type safety and IDE autocomplete
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-4) for complete implementation.*
-
 
 
 ### Event Sources and Triggers
@@ -227,42 +218,31 @@ Kinesis/Kafka → Lambda → Real-time Analytics → Dashboard
 **1. API Gateway (HTTP/REST):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-5) for complete implementation.*
-
 
 
 **2. S3 Events:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-6) for complete implementation.*
-
 
 
 **3. SQS (Queue):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-7) for complete implementation.*
-
 
 
 **4. EventBridge (Scheduled/Custom):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-8) for complete implementation.*
-
 
 
 **5. DynamoDB Streams:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-9) for complete implementation.*
-
-
 
 
 ### Cold Start Optimization
@@ -278,33 +258,25 @@ Kinesis/Kafka → Lambda → Real-time Analytics → Dashboard
 **1. Provisioned Concurrency:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-10) for complete implementation.*
-
 
 
 **2. Minimize Package Size:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-11) for complete implementation.*
-
 
 
 **3. Lazy Loading:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-12) for complete implementation.*
-
 
 
 **4. Connection Pooling:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-13) for complete implementation.*
-
 
 
 **5. Choose Fast Runtimes:**
@@ -322,9 +294,7 @@ Cold Start Benchmarks (512 MB):
 **6. Lambda SnapStart (Java):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-15) for complete implementation.*
-
 
 
 ### State Management
@@ -332,41 +302,31 @@ Cold Start Benchmarks (512 MB):
 **Ephemeral Storage (Local):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-16) for complete implementation.*
-
 
 
 **DynamoDB (Key-Value):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-17) for complete implementation.*
-
 
 
 **S3 (Large Objects):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-18) for complete implementation.*
-
 
 
 **ElastiCache (Distributed Cache):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-19) for complete implementation.*
-
 
 
 **Step Functions (Workflow State):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-20) for complete implementation.*
-
 
 
 ### Observability and Monitoring
@@ -374,34 +334,25 @@ Cold Start Benchmarks (512 MB):
 **Structured Logging:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-21) for complete implementation.*
-
 
 
 **X-Ray Tracing:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-22) for complete implementation.*
-
 
 
 **Custom CloudWatch Metrics:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-23) for complete implementation.*
-
 
 
 **CloudWatch Alarms:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-24) for complete implementation.*
-
-
 
 
 ### Security Best Practices
@@ -409,33 +360,25 @@ Cold Start Benchmarks (512 MB):
 **IAM Roles and Permissions:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-25) for complete implementation.*
-
 
 
 **Secrets Management:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-26) for complete implementation.*
-
 
 
 **VPC Configuration:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-27) for complete implementation.*
-
 
 
 **Input Validation:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-28) for complete implementation.*
-
 
 
 ### Testing Strategies
@@ -443,25 +386,19 @@ Cold Start Benchmarks (512 MB):
 **Unit Tests:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-29) for complete implementation.*
-
 
 
 **Integration Tests:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-30) for complete implementation.*
-
 
 
 **Local Testing (SAM CLI):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-31) for complete implementation.*
-
 
 
 ### Cost Optimization
@@ -469,33 +406,25 @@ Cold Start Benchmarks (512 MB):
 **Memory Sizing:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-32) for complete implementation.*
-
 
 
 **ARM (Graviton2) Migration:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-33) for complete implementation.*
-
 
 
 **Monitoring Costs:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-34) for complete implementation.*
-
 
 
 **Cleanup and Governance:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-35) for complete implementation.*
-
 
 
 ## Examples
@@ -503,9 +432,7 @@ Cold Start Benchmarks (512 MB):
 ### Basic Usage
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-36) for complete implementation.*
-
 
 
 ### Advanced Usage

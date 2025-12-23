@@ -24,7 +24,7 @@ import sys
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Dict, List, Optional
 
 # Configuration
 REPO_ROOT = Path(__file__).parent.parent
@@ -276,7 +276,7 @@ class DocumentationAccuracyFixer:
 
         try:
             # Run link checker
-            result = subprocess.run(
+            subprocess.run(
                 [sys.executable, str(REPO_ROOT / "scripts" / "generate-audit-reports.py")],
                 cwd=REPO_ROOT,
                 capture_output=True,
@@ -345,7 +345,7 @@ class DocumentationAccuracyFixer:
             "# Documentation Accuracy Report",
             f"\nGenerated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
             f"Mode: {'DRY RUN' if self.dry_run else 'FIX'}",
-            f"\n## Summary\n",
+            "\n## Summary\n",
             f"- Total issues found: {len(self.issues)}",
             f"- Errors: {len([i for i in self.issues if i.severity == 'error'])}",
             f"- Warnings: {len([i for i in self.issues if i.severity == 'warning'])}",

@@ -26,6 +26,7 @@ description: Auto-generated description
 **Solution**: Automatically detects where YAML ends and Markdown begins
 
 **Before**:
+
 ```
 ---
 name: my-skill
@@ -34,6 +35,7 @@ description: Something
 ```
 
 **After**:
+
 ```yaml
 ---
 name: my-skill
@@ -84,6 +86,7 @@ Ensures description is <1024 characters (Anthropic API requirement).
 3. **Preserve all content**: Never deletes information, only reorganizes
 
 **Example**:
+
 ```
 Before: 5877 tokens (over limit)
 After:  4821 tokens (under limit)
@@ -130,11 +133,13 @@ python3 scripts/fix-anthropic-compliance.py --dry-run --all --verbose
 ### Automatic Backups
 
 Before modifying any file, the script:
+
 1. Creates timestamped backup directory: `.backup/skill-fixes-YYYYMMDD-HHMMSS/`
 2. Preserves original file with full directory structure
 3. Maintains file permissions and metadata
 
 **Restore from backup**:
+
 ```bash
 cp .backup/skill-fixes-20251024-223000/skills/my-skill/SKILL.md skills/my-skill/SKILL.md
 ```
@@ -151,6 +156,7 @@ cp .backup/skill-fixes-20251024-223000/skills/my-skill/SKILL.md skills/my-skill/
 All operations logged to: `reports/generated/skill-fixes.log`
 
 **Log includes**:
+
 - Timestamp for each operation
 - Files processed and changes made
 - Warnings for malformed frontmatter
@@ -223,27 +229,32 @@ Log file: reports/generated/skill-fixes.log
 ### First-Time Use
 
 1. **Dry-run preview**:
+
    ```bash
    python3 scripts/fix-anthropic-compliance.py --dry-run --all > /tmp/preview.txt
    ```
 
 2. **Review changes**:
+
    ```bash
    less /tmp/preview.txt
    ```
 
 3. **Fix a test skill** (verify quality):
+
    ```bash
    python3 scripts/fix-anthropic-compliance.py --skill skill-loader
    git diff skills/skill-loader/SKILL.md
    ```
 
 4. **If satisfied, fix all**:
+
    ```bash
    python3 scripts/fix-anthropic-compliance.py --all
    ```
 
 5. **Verify results**:
+
    ```bash
    python3 scripts/analyze-skills-compliance.py
    ```
@@ -251,11 +262,13 @@ Log file: reports/generated/skill-fixes.log
 ### Incremental Fixes
 
 **Fix only frontmatter issues first**:
+
 ```bash
 python3 scripts/fix-anthropic-compliance.py --all --skip-token-optimization
 ```
 
 **Then optimize tokens separately**:
+
 ```bash
 # Review which skills need optimization
 python3 scripts/fix-anthropic-compliance.py --dry-run --all | grep "Token count"
@@ -270,21 +283,25 @@ python3 scripts/fix-anthropic-compliance.py --skill ml-ai/mlops
 After running fixes:
 
 1. **Check YAML validity**:
+
    ```bash
    find skills -name "SKILL.md" -exec python3 -c "import yaml; yaml.safe_load(open('{}').read().split('---')[1])" \;
    ```
 
 2. **Verify token counts**:
+
    ```bash
    python3 scripts/token-counter.py
    ```
 
 3. **Review generated descriptions**:
+
    ```bash
    grep -h "^description:" skills/*/SKILL.md skills/*/*/SKILL.md
    ```
 
 4. **Test git diff** (before committing):
+
    ```bash
    git diff --stat
    git diff skills/*/SKILL.md | less
@@ -297,6 +314,7 @@ After running fixes:
 **Algorithm**: `tokens ≈ characters / 4`
 
 This approximation is based on:
+
 - English text averages ~4-5 characters per token
 - Code averages ~3-4 characters per token
 - Weighted average: ~4 characters per token
@@ -306,12 +324,14 @@ This approximation is based on:
 ### YAML Frontmatter Parsing
 
 **Handles**:
+
 - Standard format: `---\n...\n---\n`
 - Missing closing delimiter (auto-detects Markdown start)
 - Malformed YAML (salvages key-value pairs)
 - Empty frontmatter (creates new)
 
 **Detection logic**:
+
 1. Look for closing `---`
 2. If missing, scan for first `#` header or ` ```` code block
 3. Everything before = YAML, everything after = Markdown
@@ -319,11 +339,13 @@ This approximation is based on:
 ### Description Generation
 
 **Priority order**:
+
 1. Extract from Level 1 Quick Start section
 2. Extract from first meaningful paragraph
 3. Generate from skill path context
 
 **Filters out**:
+
 - TODO markers
 - Code blocks
 - Markdown formatting
@@ -352,6 +374,7 @@ python3 scripts/fix-anthropic-compliance.py --dry-run --all | grep "over limit"
 ```
 
 **Manual fixes**:
+
 - Move more examples to external files
 - Split large sections into separate documents
 - Link to external resources instead of embedding

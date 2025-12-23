@@ -474,7 +474,7 @@ All items prefixed with `std-` for easy identification and to avoid conflicts.
 - 🆕 [Skills Quick Start](./docs/guides/SKILLS_QUICK_START.md) - 5-minute tutorial
 - 📖 [Skills User Guide](./docs/guides/SKILLS_USER_GUIDE.md) - Complete guide
 - 📚 [Skills Catalog](./docs/SKILLS_CATALOG.md) - All available skills
-- 🔄 [Migration Guide](./docs/migration/MIGRATION_GUIDE.md) - Migrate to skills
+- 🔄 [Migration Guide](./archive/old-migrations/migration/MIGRATION_GUIDE.md) - Migrate to skills
 - ✍️ [Authoring Guide](./docs/guides/SKILL_AUTHORING_GUIDE.md) - Create skills
 - 🔌 [Claude Integration](./docs/guides/CLAUDE_INTEGRATION_GUIDE.md) - API & CLI integration
 - 📡 [API Documentation](./docs/api/SKILLS_API.md) - Programmatic API

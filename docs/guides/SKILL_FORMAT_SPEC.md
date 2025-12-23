@@ -40,22 +40,26 @@ description: What the skill does and when Claude should use it
 ```
 
 **Constraints:**
+
 - `name`: Maximum 64 characters, lowercase letters/numbers/hyphens only, no reserved words
 - `description`: Non-empty, maximum 1024 characters, no XML tags
 
 ### 3. Progressive Disclosure (3 Levels)
 
 **Level 1: Metadata** (~100 tokens)
+
 - YAML frontmatter
 - Always loaded at startup
 - Should be concise and informative
 
 **Level 2: Instructions** (<5,000 tokens recommended)
+
 - Markdown body of SKILL.md
 - Loaded when skill is triggered
 - Procedural knowledge: workflows, best practices, guidance
 
 **Level 3: Resources** (variable size)
+
 - Separate files (FORMS.md, REFERENCE.md, scripts)
 - Loaded only when explicitly referenced
 - Templates, schemas, detailed references

@@ -17,6 +17,7 @@ Three complementary scripts for cleanup operations:
 ### Purpose
 
 Safely delete vestigial files with:
+
 - Automatic backup before deletion
 - Reference scanning and warnings
 - Comprehensive logging
@@ -110,6 +111,7 @@ cp .cleanup-backups/YYYYMMDD_HHMMSS/path/to/file.md path/to/file.md
 ### Purpose
 
 Scan and fix documentation accuracy issues:
+
 - Detect vague/exaggerated language
 - Verify claims have evidence
 - Replace with evidence-based statements
@@ -134,6 +136,7 @@ python3 scripts/fix-documentation-accuracy.py --fix --check-links --verbose
 ### Detection Patterns
 
 **Prohibited Language**:
+
 - Vague quantifiers: "significantly", "dramatically", "vastly"
 - Unverifiable claims: "best", "optimal", "perfect"
 - Marketing hyperbole: "game-changer", "revolutionary"
@@ -141,6 +144,7 @@ python3 scripts/fix-documentation-accuracy.py --fix --check-links --verbose
 - Temporal vagueness: "recently", "soon", "upcoming"
 
 **Evidence Requirements**:
+
 - Performance claims need: measurement method, test conditions, metrics
 - Count claims need: verification command, file path, timestamp
 - Feature claims need: implementation file, test coverage, docs
@@ -162,6 +166,7 @@ The script applies conservative replacements:
 ### Manual Review Required
 
 For these patterns, the script flags but doesn't auto-fix:
+
 - Performance metrics without evidence
 - Count claims without verification
 - Unqualified superlatives in critical sections
@@ -210,6 +215,7 @@ Mode: FIX
 ### Purpose
 
 Comprehensive post-cleanup validation:
+
 - Run all existing validation scripts
 - Check for broken references
 - Verify file integrity
@@ -231,36 +237,43 @@ Comprehensive post-cleanup validation:
 ### Validation Checks
 
 **Check 1: Structure Audit**
+
 - Broken links count (must be 0)
 - Orphan count (must be ≤5)
 - Hub violations (must be 0)
 
 **Check 2: Claims Validation**
+
 - Documentation accuracy
 - Verified counts
 - Evidence-based claims
 
 **Check 3: Skills Validation**
+
 - Skills structure
 - Required fields present
 - File organization
 
 **Check 4: Anthropic Compliance** (full mode only)
+
 - Token budgets
 - Format compliance
 - Frontmatter validation
 
 **Check 5: Cross-References**
+
 - Agent count matches actual files
 - Skill count matches actual files
 - Common reference patterns
 
 **Check 6: File Integrity**
+
 - Required files present
 - No empty critical files
 - Proper permissions
 
 **Check 7: Git Status**
+
 - Uncommitted changes check
 - Untracked files check
 
@@ -447,6 +460,7 @@ Evidence:
 **Symptom**: "Failed to backup: file.md"
 
 **Solution**:
+
 ```bash
 # Check disk space
 df -h
@@ -464,6 +478,7 @@ cp -r files-to-delete/ manual-backup/
 **Symptom**: "Broken links: 5"
 
 **Solution**:
+
 ```bash
 # Run link fixer
 python3 scripts/auto-fix-links.py
@@ -480,6 +495,7 @@ cp .cleanup-backups/YYYYMMDD_HHMMSS/file.md file.md
 **Symptom**: "Found 20 references to file.md"
 
 **Solution**:
+
 ```bash
 # Don't delete yet - file is still needed
 # Remove from vestigial-files.txt
@@ -494,6 +510,7 @@ grep -r "filename" docs/ --files-with-matches
 **Symptom**: Accidentally deleted important files
 
 **Solution**:
+
 ```bash
 # Full rollback
 cd .cleanup-backups/YYYYMMDD_HHMMSS
@@ -510,6 +527,7 @@ git commit -m "restore: rollback cleanup operation"
 ## Safety Features
 
 All scripts include:
+
 - ✅ Dry-run mode
 - ✅ Automatic backups
 - ✅ Comprehensive logging

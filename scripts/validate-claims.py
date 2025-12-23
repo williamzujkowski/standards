@@ -15,11 +15,10 @@ import argparse
 import json
 import logging
 import re
-import subprocess
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional, Set
+from typing import Dict, List
 
 import yaml
 
@@ -523,7 +522,7 @@ class ClaimsValidator:
 
         errors = [r for r in self.results if not r.passed and r.severity == "error"]
         warnings = [r for r in self.results if not r.passed and r.severity == "warning"]
-        info = [r for r in self.results if r.passed or r.severity == "info"]
+        _info = [r for r in self.results if r.passed or r.severity == "info"]  # noqa: F841
 
         total = len(self.results)
         passed = len([r for r in self.results if r.passed])
@@ -619,7 +618,7 @@ Exit codes:
 
     # Run validation
     validator = ClaimsValidator(repo_root)
-    all_valid = validator.validate_all()
+    validator.validate_all()
 
     # Print report
     validator.print_report()

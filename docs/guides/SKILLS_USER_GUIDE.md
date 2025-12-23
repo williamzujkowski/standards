@@ -34,15 +34,18 @@ Skills are **modular, self-contained standards** that use **progressive disclosu
 This repository follows [Anthropic's canonical skills.md format](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/use-case-guides/use-skills) with optional extensions.
 
 **What this means for you**:
+
 - Skills work natively in Claude Code, Claude API, Agent SDK, and Claude.ai
 - Progressive loading reduces token usage (91-99.6% in most cases)
 - Optional metadata (NIST controls, prerequisites) enhances discoverability
 
 **Required fields** (per Anthropic spec):
+
 - `name`: Skill identifier (<64 chars)
 - `description`: Purpose and usage (<1024 chars)
 
 **Optional extensions** (standards repository value-adds):
+
 - `category`, `difficulty`, `nist_controls`, `related_skills`, etc.
 
 **Current compliance status**: 42/61 skills (68.9%) meet Anthropic's required field specifications. See [validation reports](/home/william/git/standards/reports/generated/skills-compliance-report.md) for details.

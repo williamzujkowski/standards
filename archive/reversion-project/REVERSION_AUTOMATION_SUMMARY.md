@@ -246,6 +246,7 @@ standards/
 Each script generates comprehensive artifacts:
 
 ### Backup Script
+
 - Branch: `backup/pre-reversion-<timestamp>`
 - Tag: `backup-<timestamp>`
 - Metadata: `backups/state_<timestamp>.json`
@@ -254,16 +255,19 @@ Each script generates comprehensive artifacts:
 - Log: `backups/backup_<timestamp>.log`
 
 ### Reversion Script
+
 - Branch: `reversion/skills-md-<timestamp>`
 - Report: `backups/reversion_report_<timestamp>.txt`
 - Log: `backups/reversion_<timestamp>.log`
 
 ### Validation Script
+
 - Report: `backups/validation_<timestamp>.txt`
 - JSON: `backups/validation_<timestamp>.json`
 - Exit codes: 0 (pass), 1 (fail), 2 (prerequisites not met)
 
 ### Rollback Script
+
 - Branch: `rollback/from-reversion-<timestamp>`
 - Report: `backups/rollback_report_<timestamp>.txt`
 - Log: `backups/rollback_<timestamp>.log`
@@ -312,11 +316,13 @@ Each script generates comprehensive artifacts:
 ## Dependencies
 
 ### Required
+
 - **bash** >= 4.0
 - **git** >= 2.0
 - **python3** >= 3.6 (for validation scripts)
 
 ### Optional
+
 - **jq** (for JSON processing, gracefully degrades without)
 
 ---
@@ -397,6 +403,7 @@ Potential improvements for future iterations:
 ## Documentation
 
 ### User Guide
+
 - **File**: `scripts/REVERSION_SCRIPTS_GUIDE.md`
 - **Size**: 748 lines
 - **Sections**:
@@ -409,6 +416,7 @@ Potential improvements for future iterations:
   - Best Practices
 
 ### Inline Documentation
+
 - Every script includes comprehensive header comments
 - `--help` flag shows usage, options, examples
 - Function-level comments explain logic
@@ -481,6 +489,7 @@ All four automation scripts have been successfully created and tested:
 4. **rollback-reversion.sh** - Emergency recovery capability
 
 **Key Achievements**:
+
 - 1,875 lines of production-ready bash scripting
 - 748-line comprehensive user guide
 - Full dry-run, logging, and safety features

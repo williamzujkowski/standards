@@ -87,6 +87,7 @@ Master payment card industry security standards (PCI-DSS v4.0.1), SOC2 Type II c
 ---
 
 ## Level 2:
+>
 > **📚 Full Examples**: See [REFERENCE.md](./REFERENCE.md) for complete code samples, detailed configurations, and production-ready implementations.
 
  Implementation Guide (~4500-5500 tokens)
@@ -119,9 +120,7 @@ Master payment card industry security standards (PCI-DSS v4.0.1), SOC2 Type II c
 **Network Segmentation Strategy**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-0) for complete implementation.*
-
 
 
 **Key Segmentation Controls:**
@@ -138,9 +137,7 @@ Master payment card industry security standards (PCI-DSS v4.0.1), SOC2 Type II c
 **Tokenization Implementation**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-1) for complete implementation.*
-
 
 
 **Encryption Requirements**
@@ -257,9 +254,7 @@ Master payment card industry security standards (PCI-DSS v4.0.1), SOC2 Type II c
 **Automated Evidence Collection**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-2) for complete implementation.*
-
 
 
 ### Compliance Automation
@@ -267,17 +262,13 @@ Master payment card industry security standards (PCI-DSS v4.0.1), SOC2 Type II c
 **Continuous Compliance Monitoring Architecture**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-3) for complete implementation.*
-
 
 
 **Sample Compliance Rules (AWS Config)**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-4) for complete implementation.*
-
 
 
 ### Incident Response for Payment Security

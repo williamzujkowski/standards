@@ -112,6 +112,7 @@ superadmin
 ---
 
 ## Level 2:
+>
 > **📚 Full Examples**: See [REFERENCE.md](./REFERENCE.md) for complete code samples, detailed configurations, and production-ready implementations.
 
  Implementation (<4,500 tokens, 30 minutes)
@@ -130,9 +131,7 @@ superadmin
 #### Database Schema
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-0) for complete implementation.*
-
 
 
 #### Python Implementation
@@ -140,17 +139,13 @@ superadmin
 See [templates/policy-enforcement.py](templates/policy-enforcement.py) for complete implementation.
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-1) for complete implementation.*
-
 
 
 #### Role Hierarchy Example
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-2) for complete implementation.*
-
 
 
 See [templates/rbac-policy.yaml](templates/rbac-policy.yaml) for declarative policy definition.
@@ -173,17 +168,13 @@ See [templates/rbac-policy.yaml](templates/rbac-policy.yaml) for declarative pol
 See [templates/abac-policy.json](templates/abac-policy.json) for complete policy.
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-3) for complete implementation.*
-
 
 
 #### Python ABAC Implementation
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-4) for complete implementation.*
-
 
 
 ---
@@ -195,9 +186,7 @@ See [templates/abac-policy.json](templates/abac-policy.json) for complete policy
 #### Architecture
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-5) for complete implementation.*
-
 
 
 #### Express Middleware Example
@@ -205,9 +194,7 @@ See [templates/abac-policy.json](templates/abac-policy.json) for complete policy
 See [templates/middleware.js](templates/middleware.js) for complete implementation.
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-6) for complete implementation.*
-
 
 
 #### Multi-Layer Enforcement
@@ -215,9 +202,7 @@ See [templates/middleware.js](templates/middleware.js) for complete implementati
 **Defense in Depth**: Enforce at multiple layers.
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-7) for complete implementation.*
-
 
 
 ---
@@ -235,17 +220,13 @@ See [templates/middleware.js](templates/middleware.js) for complete implementati
 - Use `*` sparingly (e.g., `admin:*` for full access)
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-8) for complete implementation.*
-
 
 
 #### Scope Validation Middleware
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-9) for complete implementation.*
-
 
 
 #### Claims-Based Authorization (ABAC with JWT)
@@ -253,9 +234,7 @@ See [templates/middleware.js](templates/middleware.js) for complete implementati
 Embed user attributes in JWT for distributed ABAC.
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-10) for complete implementation.*
-
 
 
 ---
@@ -267,25 +246,19 @@ Comprehensive testing ensures authorization logic is correct and secure.
 #### Unit Tests
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-11) for complete implementation.*
-
 
 
 #### Integration Tests
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-12) for complete implementation.*
-
 
 
 #### Policy Testing
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-13) for complete implementation.*
-
 
 
 ---
@@ -304,9 +277,7 @@ Comprehensive testing ensures authorization logic is correct and secure.
 - ✅ Authorization decisions logged (audit trail)
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-14) for complete implementation.*
-
 
 
 #### AC-4: Information Flow Enforcement
@@ -320,9 +291,7 @@ Comprehensive testing ensures authorization logic is correct and secure.
 - ✅ Cross-department access controls
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-15) for complete implementation.*
-
 
 
 #### AC-6: Least Privilege
@@ -372,9 +341,7 @@ CREATE TABLE user_roles (
 - ✅ Admin operations require dual authorization
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-18) for complete implementation.*
-
 
 
 #### AC-16: Security Attributes
@@ -388,9 +355,7 @@ CREATE TABLE user_roles (
 - ✅ ABAC policies use attributes for decisions
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-19) for complete implementation.*
-
 
 
 #### Compliance Checklist

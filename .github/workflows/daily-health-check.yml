@@ -20,6 +20,10 @@ jobs:
     name: Infrastructure Health Check
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    outputs:
+      structure_health: ${{ steps.repo-structure.outputs.structure_health }}
+      config_health: ${{ steps.config-health.outputs.config_health }}
+      script_health: ${{ steps.script-health.outputs.script_health }}
 
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
@@ -146,6 +150,10 @@ jobs:
     name: Content Health Check
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    outputs:
+      link_health: ${{ steps.link-health.outputs.link_health }}
+      standards_health: ${{ steps.standards-health.outputs.standards_health }}
+      cross_ref_health: ${{ steps.cross-ref-health.outputs.cross_ref_health }}
 
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
@@ -224,6 +232,8 @@ jobs:
     name: Security Health Check
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    outputs:
+      permissions_health: ${{ steps.permissions-health.outputs.permissions_health }}
 
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
@@ -274,6 +284,9 @@ jobs:
     name: Performance Health Check
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    outputs:
+      size_health: ${{ steps.size-health.outputs.size_health }}
+      large_files_health: ${{ steps.large-files-health.outputs.large_files_health }}
 
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1

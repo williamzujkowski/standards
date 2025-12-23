@@ -60,17 +60,20 @@ description: What this skill... # Required: <1024 chars, clear purpose
 **Validation**: Run `python3 scripts/analyze-skills-compliance.py` before committing.
 
 **Token Budget**: Aim for <5,000 tokens in Level 2 (markdown body). Use verification:
+
 ```bash
 python3 scripts/token-counter.py skills/your-skill/SKILL.md
 ```
 
 **If you exceed 5K tokens**:
+
 - Move verbose examples to Level 3 (separate files)
 - Link to external resources
 - Condense without losing critical information
 - Document trade-off in skill's metadata
 
 **Why Anthropic compliance matters**:
+
 - Ensures interoperability across Claude Code, API, and Agent SDK
 - Enables native skill loading in all Anthropic tools
 - Maintains consistency with official Anthropic standards

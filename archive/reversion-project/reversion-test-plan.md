@@ -12,18 +12,23 @@ This test plan ensures the safe reversion of commit a4b1ed1 ("major refactor to 
 ## Test Phases
 
 ### Phase 1: Pre-Reversion Baseline
+
 Establish current state metrics before making changes
 
 ### Phase 2: Reversion Execution
+
 Execute the git revert with monitoring
 
 ### Phase 3: Post-Reversion Validation
+
 Verify correct state after reversion
 
 ### Phase 4: Regression Testing
+
 Ensure no unexpected side effects
 
 ### Phase 5: Rollback Verification
+
 Validate recovery procedures work
 
 ---
@@ -35,6 +40,7 @@ Validate recovery procedures work
 **Test ID**: PRE-001
 **Description**: Capture complete current state
 **Commands**:
+
 ```bash
 # Repository state
 git log --oneline -5 > /tmp/reversion-baseline-commits.txt
@@ -48,6 +54,7 @@ find skills -name "SKILL.md" | wc -l > /tmp/reversion-baseline-skill-count.txt
 # Directory structure
 tree -L 3 --dirsfirst > /tmp/reversion-baseline-tree.txt 2>/dev/null || find . -type d | sort > /tmp/reversion-baseline-dirs.txt
 ```
+
 **Expected**: Baseline files created in /tmp
 **Pass Criteria**: All baseline files exist and contain data
 
@@ -56,6 +63,7 @@ tree -L 3 --dirsfirst > /tmp/reversion-baseline-tree.txt 2>/dev/null || find . -
 **Test ID**: PRE-002
 **Description**: Verify CI/CD workflows are functional
 **Commands**:
+
 ```bash
 # Workflow syntax validation
 python3 -c "import yaml; yaml.safe_load(open('.github/workflows/lint-and-validate.yml'))"
@@ -63,6 +71,7 @@ python3 -c "import yaml; yaml.safe_load(open('.github/workflows/lint-and-validat
 # Check for required jobs
 grep -E "(audit-gates|validate-anthropic-compliance|structure-audit)" .github/workflows/lint-and-validate.yml
 ```
+
 **Expected**: YAML valid, all critical jobs present
 **Pass Criteria**: No syntax errors, jobs found
 
@@ -71,6 +80,7 @@ grep -E "(audit-gates|validate-anthropic-compliance|structure-audit)" .github/wo
 **Test ID**: PRE-003
 **Description**: Run all validation scripts to establish baseline
 **Commands**:
+
 ```bash
 # Run validation suite
 python3 scripts/validate-skills.py --count-verify > /tmp/reversion-baseline-skills-validation.txt 2>&1
@@ -82,6 +92,7 @@ echo "Skills validation: $?" >> /tmp/reversion-baseline-exit-codes.txt
 echo "Anthropic compliance: $?" >> /tmp/reversion-baseline-exit-codes.txt
 echo "Audit reports: $?" >> /tmp/reversion-baseline-exit-codes.txt
 ```
+
 **Expected**: Scripts run (may have failures)
 **Pass Criteria**: Scripts execute without crashing
 
@@ -90,6 +101,7 @@ echo "Audit reports: $?" >> /tmp/reversion-baseline-exit-codes.txt
 **Test ID**: PRE-004
 **Description**: Check repository health
 **Commands**:
+
 ```bash
 # Check for uncommitted changes
 git status --porcelain
@@ -100,6 +112,7 @@ git fsck --full
 # Check current branch
 git rev-parse --abbrev-ref HEAD
 ```
+
 **Expected**: No uncommitted changes, no corruption, on master
 **Pass Criteria**: Clean working directory, fsck passes
 
@@ -108,10 +121,12 @@ git rev-parse --abbrev-ref HEAD
 **Test ID**: PRE-005
 **Description**: Capture current compliance metrics
 **Commands**:
+
 ```bash
 python3 scripts/validate-anthropic-compliance.py
 grep "Compliant:" reports/generated/anthropic-compliance-report.md | tee /tmp/reversion-baseline-compliance.txt
 ```
+
 **Expected**: Compliance report generated
 **Pass Criteria**: Report exists with compliance percentage
 
@@ -124,6 +139,7 @@ grep "Compliant:" reports/generated/anthropic-compliance-report.md | tee /tmp/re
 **Test ID**: REV-001
 **Description**: Create safety backup before reversion
 **Commands**:
+
 ```bash
 # Create backup branch
 git branch backup/pre-reversion-$(date +%Y%m%d-%H%M%S)
@@ -131,6 +147,7 @@ git branch backup/pre-reversion-$(date +%Y%m%d-%H%M%S)
 # Verify backup
 git branch | grep backup/pre-reversion
 ```
+
 **Expected**: Backup branch created
 **Pass Criteria**: Branch exists and points to current HEAD
 
@@ -139,6 +156,7 @@ git branch | grep backup/pre-reversion
 **Test ID**: REV-002
 **Description**: Execute git revert
 **Commands**:
+
 ```bash
 # Perform revert
 git revert --no-commit a4b1ed1
@@ -147,6 +165,7 @@ git revert --no-commit a4b1ed1
 git status --porcelain > /tmp/reversion-post-revert-status.txt
 git diff --cached --stat > /tmp/reversion-post-revert-staged.txt
 ```
+
 **Expected**: Revert staged, no conflicts
 **Pass Criteria**: Staged changes present, no conflict markers
 
@@ -155,6 +174,7 @@ git diff --cached --stat > /tmp/reversion-post-revert-staged.txt
 **Test ID**: REV-003
 **Description**: Handle any merge conflicts
 **Commands**:
+
 ```bash
 # Check for conflicts
 git status | grep "Unmerged paths" && echo "CONFLICTS DETECTED" || echo "NO CONFLICTS"
@@ -162,6 +182,7 @@ git status | grep "Unmerged paths" && echo "CONFLICTS DETECTED" || echo "NO CONF
 # If conflicts exist, document them
 git diff --check > /tmp/reversion-conflicts.txt 2>&1
 ```
+
 **Expected**: Ideally no conflicts
 **Pass Criteria**: If conflicts exist, all resolved before commit
 
@@ -174,6 +195,7 @@ git diff --check > /tmp/reversion-conflicts.txt 2>&1
 **Test ID**: POST-001
 **Description**: Verify file structure matches 68e0eb7
 **Commands**:
+
 ```bash
 # Compare file lists
 git ls-tree -r --name-only 68e0eb7 | sort > /tmp/reversion-target-files.txt
@@ -185,6 +207,7 @@ test ! -d "skills" || echo "ERROR: skills/ directory still exists"
 test ! -d "archive" || echo "ERROR: archive/ directory still exists"
 test ! -d "agents" || echo "ERROR: agents/ directory still exists"
 ```
+
 **Expected**: File lists match, refactor directories absent
 **Pass Criteria**: No diff output, directories don't exist
 
@@ -193,6 +216,7 @@ test ! -d "agents" || echo "ERROR: agents/ directory still exists"
 **Test ID**: POST-002
 **Description**: Verify key files match target commit
 **Commands**:
+
 ```bash
 # Check CLAUDE.md
 git diff 68e0eb7 HEAD -- CLAUDE.md || echo "CLAUDE.md matches"
@@ -203,6 +227,7 @@ git diff 68e0eb7 HEAD -- README.md || echo "README.md matches"
 # Check workflow file
 git diff 68e0eb7 HEAD -- .github/workflows/lint-and-validate.yml || echo "Workflow matches"
 ```
+
 **Expected**: No differences for critical files
 **Pass Criteria**: All files match or show expected differences only
 
@@ -211,6 +236,7 @@ git diff 68e0eb7 HEAD -- .github/workflows/lint-and-validate.yml || echo "Workfl
 **Test ID**: POST-003
 **Description**: Ensure no broken internal links
 **Commands**:
+
 ```bash
 python3 scripts/ensure-hub-links.py || true
 python3 scripts/generate-audit-reports.py
@@ -219,6 +245,7 @@ python3 scripts/generate-audit-reports.py
 grep "Broken links:" reports/generated/linkcheck.txt
 grep "broken_links" reports/generated/structure-audit.json
 ```
+
 **Expected**: Broken links = 0
 **Pass Criteria**: Zero broken links reported
 
@@ -227,10 +254,12 @@ grep "broken_links" reports/generated/structure-audit.json
 **Test ID**: POST-004
 **Description**: Verify orphan count is within limits
 **Commands**:
+
 ```bash
 # Extract orphan count
 python3 -c "import json; data=json.load(open('reports/generated/structure-audit.json')); print(f\"Orphans: {data.get('orphans', 'N/A')}\")"
 ```
+
 **Expected**: Orphans ≤ 5
 **Pass Criteria**: Orphan count within acceptable limit
 
@@ -239,10 +268,12 @@ python3 -c "import json; data=json.load(open('reports/generated/structure-audit.
 **Test ID**: POST-005
 **Description**: Ensure hub structure compliance
 **Commands**:
+
 ```bash
 # Check hub violations
 grep "hub_violations" reports/generated/structure-audit.json
 ```
+
 **Expected**: Hub violations = 0
 **Pass Criteria**: Zero hub violations
 
@@ -251,6 +282,7 @@ grep "hub_violations" reports/generated/structure-audit.json
 **Test ID**: POST-006
 **Description**: Verify CI/CD workflows still functional
 **Commands**:
+
 ```bash
 # Validate workflow syntax
 python3 -c "import yaml; yaml.safe_load(open('.github/workflows/lint-and-validate.yml'))"
@@ -260,6 +292,7 @@ for job in "audit-gates" "structure-audit" "link-check" "nist-quickstart"; do
     grep -q "^  $job:" .github/workflows/lint-and-validate.yml && echo "✅ $job" || echo "❌ $job MISSING"
 done
 ```
+
 **Expected**: YAML valid, all jobs present
 **Pass Criteria**: All critical jobs found
 
@@ -272,12 +305,14 @@ done
 **Test ID**: REG-001
 **Description**: Ensure validation scripts still work
 **Commands**:
+
 ```bash
 # Run each validation script
 python3 scripts/validate-skills.py && echo "✅ validate-skills" || echo "❌ validate-skills"
 python3 scripts/generate-audit-reports.py && echo "✅ audit-reports" || echo "❌ audit-reports"
 python3 scripts/validate-claims.py && echo "✅ validate-claims" || echo "❌ validate-claims"
 ```
+
 **Expected**: Scripts execute successfully
 **Pass Criteria**: All scripts run without fatal errors
 
@@ -286,11 +321,13 @@ python3 scripts/validate-claims.py && echo "✅ validate-claims" || echo "❌ va
 **Test ID**: REG-002
 **Description**: Verify all scripts have correct permissions
 **Commands**:
+
 ```bash
 # Check execute permissions
 find scripts -name "*.py" -type f ! -perm -u+x > /tmp/reversion-non-executable.txt
 cat /tmp/reversion-non-executable.txt
 ```
+
 **Expected**: All .py scripts are executable
 **Pass Criteria**: Empty output or only expected non-executables
 
@@ -299,6 +336,7 @@ cat /tmp/reversion-non-executable.txt
 **Test ID**: REG-003
 **Description**: Validate all YAML/JSON configs
 **Commands**:
+
 ```bash
 # Validate YAML files
 for yaml in $(find config -name "*.yaml" -o -name "*.yml"); do
@@ -310,6 +348,7 @@ for json in $(find reports/generated -name "*.json" 2>/dev/null); do
     python3 -c "import json; json.load(open('$json'))" && echo "✅ $json" || echo "❌ $json"
 done
 ```
+
 **Expected**: All configs valid
 **Pass Criteria**: No syntax errors
 
@@ -318,6 +357,7 @@ done
 **Test ID**: REG-004
 **Description**: Check documentation references are valid
 **Commands**:
+
 ```bash
 # Check for references to removed directories
 grep -r "skills/" docs/ 2>/dev/null | grep -v "Binary" | wc -l
@@ -326,6 +366,7 @@ grep -r "archive/" docs/ 2>/dev/null | grep -v "Binary" | grep -v "old-migration
 # Check CLAUDE.md for orphaned references
 grep -E "(skills/|@load skill:|61 active skills)" CLAUDE.md && echo "⚠️ Found skills references" || echo "✅ No skills references"
 ```
+
 **Expected**: Minimal or zero references to removed content
 **Pass Criteria**: No dangling references that break context
 
@@ -334,6 +375,7 @@ grep -E "(skills/|@load skill:|61 active skills)" CLAUDE.md && echo "⚠️ Foun
 **Test ID**: REG-005
 **Description**: Ensure concurrent operations still work
 **Commands**:
+
 ```bash
 # Test parallel script execution
 python3 scripts/generate-audit-reports.py &
@@ -344,6 +386,7 @@ PID2=$!
 wait $PID1 && echo "✅ audit-reports completed" || echo "❌ audit-reports failed"
 wait $PID2 && echo "✅ validate-skills completed" || echo "❌ validate-skills failed"
 ```
+
 **Expected**: Both scripts complete successfully
 **Pass Criteria**: Both scripts exit cleanly
 
@@ -356,6 +399,7 @@ wait $PID2 && echo "✅ validate-skills completed" || echo "❌ validate-skills 
 **Test ID**: ROLL-001
 **Description**: Verify we can restore from backup
 **Commands**:
+
 ```bash
 # Switch to backup branch
 CURRENT=$(git rev-parse HEAD)
@@ -368,6 +412,7 @@ git log --oneline -1
 git checkout master
 git log --oneline -1
 ```
+
 **Expected**: Backup branch accessible, restoration works
 **Pass Criteria**: Can switch to backup and back without errors
 
@@ -376,6 +421,7 @@ git log --oneline -1
 **Test ID**: ROLL-002
 **Description**: Test emergency recovery procedure
 **Commands**:
+
 ```bash
 # Create test branch
 git checkout -b test/revert-recovery
@@ -390,6 +436,7 @@ git status --porcelain
 git checkout master
 git branch -D test/revert-recovery
 ```
+
 **Expected**: Can undo the reversion
 **Pass Criteria**: Revert-revert succeeds without conflicts
 
@@ -398,6 +445,7 @@ git branch -D test/revert-recovery
 **Test ID**: ROLL-003
 **Description**: Verify audit reports enable state reconstruction
 **Commands**:
+
 ```bash
 # Check audit reports exist
 test -f reports/generated/structure-audit.json && echo "✅ Audit data preserved" || echo "❌ Audit data missing"
@@ -406,6 +454,7 @@ test -f reports/generated/linkcheck.txt && echo "✅ Link data preserved" || ech
 # Verify reports are usable
 python3 -c "import json; data=json.load(open('reports/generated/structure-audit.json')); print(f\"Report timestamp: {data.get('timestamp', 'N/A')}\")"
 ```
+
 **Expected**: Reports exist and are parseable
 **Pass Criteria**: Reports accessible with valid data
 
@@ -439,6 +488,7 @@ python3 -c "import json; data=json.load(open('reports/generated/structure-audit.
 | 5 | ROLL-003 | MEDIUM | ✅ | ❌ | ❌ |
 
 **Legend**:
+
 - ✅ = Fully implemented
 - ⚠️ = Partial/requires judgment
 - ❌ = Not applicable/not implemented

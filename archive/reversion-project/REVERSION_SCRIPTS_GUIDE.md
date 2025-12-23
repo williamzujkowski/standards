@@ -40,6 +40,7 @@ git push
 **Purpose**: Create timestamped backups before any reversion attempts.
 
 **What it does**:
+
 - Creates backup branch: `backup/pre-reversion-<timestamp>`
 - Creates backup tag: `backup-<timestamp>`
 - Exports state metadata to JSON
@@ -60,12 +61,14 @@ git push
 ```
 
 **Options**:
+
 - `--dry-run` - Show what would be done without doing it
 - `--backup-dir DIR` - Custom backup directory (default: backups/)
 - `--verbose` - Show detailed progress
 - `--help` - Show help message
 
 **Output**:
+
 - Backup branch and tag
 - `backups/state_<timestamp>.json` - Full state metadata
 - `backups/skills_refactor_diff_<timestamp>.patch` - Diff with pre-skills state
@@ -73,6 +76,7 @@ git push
 - `backups/backup_<timestamp>.log` - Operation log
 
 **Safety**:
+
 - ✅ Idempotent - Can run multiple times safely
 - ✅ Non-destructive - Only creates new branches/tags
 - ✅ Fully logged - All operations recorded
@@ -84,6 +88,7 @@ git push
 **Purpose**: Revert the skills.md refactor using git revert or reset.
 
 **What it does**:
+
 - Verifies backup exists (fails without backup)
 - Validates repository state
 - Creates reversion branch: `reversion/skills-md-<timestamp>`
@@ -116,6 +121,7 @@ git push
 | `reset` | Moves HEAD to pre-skills commit | Clean history | Destructive, requires force push, rewrites history |
 
 **Options**:
+
 - `--method METHOD` - Reversion method: `revert` or `reset` (default: revert)
 - `--dry-run` - Show what would be done without doing it
 - `--no-confirm` - Skip confirmation prompts (dangerous!)
@@ -123,11 +129,13 @@ git push
 - `--help` - Show help message
 
 **Output**:
+
 - Reversion branch: `reversion/skills-md-<timestamp>`
 - `backups/reversion_<timestamp>.log` - Operation log
 - `backups/reversion_report_<timestamp>.txt` - Reversion report
 
 **Safety**:
+
 - ✅ Requires backup to exist (created by backup-current-state.sh)
 - ✅ Validates repository state before proceeding
 - ✅ Requires confirmation for destructive operations
@@ -135,6 +143,7 @@ git push
 - ✅ Fully logged
 
 **Target Commits**:
+
 - Skills commit: `a4b1ed1` (major refactor to support skills.md)
 - Pre-skills commit: `68e0eb7` (fix: apply pre-commit auto-formatting)
 
@@ -145,6 +154,7 @@ git push
 **Purpose**: Comprehensive validation that reversion was successful.
 
 **What it does**:
+
 - Checks git repository integrity
 - Verifies not on skills commit
 - Compares with pre-skills state
@@ -172,6 +182,7 @@ git push
 ```
 
 **Options**:
+
 - `--verbose` - Show detailed validation progress
 - `--report-dir DIR` - Custom report directory (default: backups/)
 - `--fail-fast` - Stop on first validation failure
@@ -189,11 +200,13 @@ git push
 8. ✅ Python scripts syntax valid
 
 **Output**:
+
 - `backups/validation_<timestamp>.txt` - Detailed validation report
 - `backups/validation_<timestamp>.json` - Machine-readable results
 - Console output with colored status indicators
 
 **Exit Codes**:
+
 - `0` - All validations passed ✅
 - `1` - One or more validations failed ❌
 - `2` - Prerequisites not met ⚠️
@@ -205,6 +218,7 @@ git push
 **Purpose**: Emergency recovery to undo a failed reversion.
 
 **What it does**:
+
 - Finds latest backup tag (or uses specified tag)
 - Verifies backup exists and is valid
 - Saves current state in reference branch
@@ -230,6 +244,7 @@ git push
 ```
 
 **Options**:
+
 - `--dry-run` - Show what would be done without doing it
 - `--backup-tag TAG` - Specific backup tag to restore (default: latest)
 - `--no-confirm` - Skip confirmation prompts (dangerous!)
@@ -237,11 +252,13 @@ git push
 - `--help` - Show help message
 
 **Output**:
+
 - Rollback reference branch: `rollback/from-reversion-<timestamp>`
 - `backups/rollback_<timestamp>.log` - Operation log
 - `backups/rollback_report_<timestamp>.txt` - Rollback report
 
 **Safety**:
+
 - ✅ Requires backup tag to exist
 - ✅ Creates rollback branch before restoration
 - ✅ Requires confirmation before destructive operations
@@ -325,31 +342,37 @@ cat backups/rollback_report_*.txt
 All scripts include multiple safety layers:
 
 ### 1. Backup Requirements
+
 - Reversion script requires backup to exist
 - Rollback script requires backup tag
 - Multiple backup artifacts created (branch, tag, metadata)
 
 ### 2. Validation at Each Step
+
 - Repository state validated before operations
 - Operations validated after completion
 - Comprehensive validation script for final check
 
 ### 3. Confirmation Prompts
+
 - Major operations require user confirmation
 - Destructive operations require double confirmation
 - Can be bypassed with `--no-confirm` for automation
 
 ### 4. Comprehensive Logging
+
 - All operations logged to timestamped files
 - Logs include timestamps, operation details, results
 - Logs preserved for troubleshooting
 
 ### 5. Dry-Run Mode
+
 - Preview operations without executing
 - Test workflow before committing
 - Verify safety before production run
 
 ### 6. Idempotency
+
 - Scripts can be run multiple times safely
 - Graceful handling of existing branches/tags
 - No duplicate operations
@@ -361,6 +384,7 @@ All scripts include multiple safety layers:
 ### Backup Script Issues
 
 **Problem**: "Not a git repository"
+
 ```bash
 # Solution: Ensure you're in repository root
 cd /home/william/git/standards
@@ -368,6 +392,7 @@ cd /home/william/git/standards
 ```
 
 **Problem**: Permission denied
+
 ```bash
 # Solution: Make scripts executable
 chmod +x scripts/*.sh
@@ -376,12 +401,14 @@ chmod +x scripts/*.sh
 ### Reversion Script Issues
 
 **Problem**: "No backup found"
+
 ```bash
 # Solution: Run backup script first
 ./scripts/backup-current-state.sh
 ```
 
 **Problem**: "Working directory has uncommitted changes"
+
 ```bash
 # Solution: Commit or stash changes
 git status
@@ -391,6 +418,7 @@ git stash
 ```
 
 **Problem**: Git revert conflicts
+
 ```bash
 # Solution: Manually resolve conflicts
 git status  # See conflicted files
@@ -402,6 +430,7 @@ git revert --continue
 ### Validation Script Issues
 
 **Problem**: Validation fails after reversion
+
 ```bash
 # Solution: Review validation report
 cat backups/validation_*.txt
@@ -412,6 +441,7 @@ cat backups/validation_*.txt
 ```
 
 **Problem**: Python syntax errors detected
+
 ```bash
 # Solution: Check specific files with errors
 python3 -m py_compile scripts/problematic_file.py
@@ -422,6 +452,7 @@ python3 -m py_compile scripts/problematic_file.py
 ### Rollback Script Issues
 
 **Problem**: "No backup tags found"
+
 ```bash
 # Solution: List available backups
 git tag -l "backup-*"
@@ -431,6 +462,7 @@ git branch -a | grep backup
 ```
 
 **Problem**: Uncommitted changes warning
+
 ```bash
 # Solution: Either commit them or accept they'll be lost
 git status
@@ -540,6 +572,7 @@ A: Yes, scripts are well-commented and modular. Fork and modify as needed.
 
 **Q: How do I clean up old backups?**
 A: Manually delete old backup branches/tags after verifying reversion:
+
 ```bash
 git branch -d backup/pre-reversion-<old-timestamp>
 git tag -d backup-<old-timestamp>
@@ -550,12 +583,14 @@ git tag -d backup-<old-timestamp>
 ## Support & Contribution
 
 **Issues**: If you encounter problems:
+
 1. Check logs in `backups/` directory
 2. Run validation with `--verbose` flag
 3. Review this guide's troubleshooting section
 4. Check git status and recent commits
 
 **Improvements**: To enhance these scripts:
+
 1. Test changes in dry-run mode first
 2. Maintain idempotency and safety features
 3. Update this guide with new options

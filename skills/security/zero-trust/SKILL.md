@@ -142,6 +142,7 @@ spec:
 ---
 
 ## Level 2:
+>
 > **📚 Full Examples**: See [REFERENCE.md](./REFERENCE.md) for complete code samples, detailed configurations, and production-ready implementations.
 
  Implementation Guide
@@ -199,25 +200,19 @@ Mutual TLS provides bidirectional authentication where both client and server ve
 #### Certificate Management
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-0) for complete implementation.*
-
 
 
 #### Istio mTLS Configuration
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-1) for complete implementation.*
-
 
 
 #### Verification and Troubleshooting
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-2) for complete implementation.*
-
 
 
 ### Service Mesh for Zero-Trust
@@ -227,25 +222,19 @@ Service meshes provide a dedicated infrastructure layer for service-to-service c
 #### Istio Architecture
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-3) for complete implementation.*
-
 
 
 #### Authorization Policies
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-4) for complete implementation.*
-
 
 
 #### Linkerd Alternative
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-5) for complete implementation.*
-
 
 
 ### Identity-Based Access (Workload Identities)
@@ -255,41 +244,31 @@ Service meshes provide a dedicated infrastructure layer for service-to-service c
 SPIFFE (Secure Production Identity Framework For Everyone) provides a universal identity framework for workloads in heterogeneous environments.
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-6) for complete implementation.*
-
 
 
 **SPIRE Server Configuration:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-7) for complete implementation.*
-
 
 
 **SPIRE Agent Configuration:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-8) for complete implementation.*
-
 
 
 #### Integrating SPIRE with Istio
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-9) for complete implementation.*
-
 
 
 **Workload Identity Example:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-10) for complete implementation.*
-
 
 
 ### Network Segmentation (Microsegmentation)
@@ -299,17 +278,13 @@ Microsegmentation divides networks into small, isolated segments to limit latera
 #### Kubernetes NetworkPolicies
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-11) for complete implementation.*
-
 
 
 #### Cilium Network Policies (Advanced)
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-12) for complete implementation.*
-
 
 
 ### Continuous Verification and Monitoring
@@ -319,17 +294,13 @@ Zero-trust requires continuous validation of security posture and real-time thre
 #### Security Monitoring Stack
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-13) for complete implementation.*
-
 
 
 #### Prometheus Metrics for Zero-Trust
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-14) for complete implementation.*
-
 
 
 ### BeyondCorp Model
@@ -339,25 +310,19 @@ BeyondCorp removes the concept of a privileged corporate network, treating all a
 #### Identity-Aware Proxy (IAP)
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-15) for complete implementation.*
-
 
 
 #### Open Policy Agent (OPA) for Context-Aware Access
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-16) for complete implementation.*
-
 
 
 **OPA Integration with API Gateway:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-17) for complete implementation.*
-
 
 
 ### NIST 800-207 Zero Trust Architecture
@@ -387,9 +352,7 @@ NIST SP 800-207 provides a comprehensive framework for implementing zero-trust a
 **Implementation Example:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-18) for complete implementation.*
-
 
 
 #### Trust Algorithm (TA)
@@ -397,9 +360,7 @@ NIST SP 800-207 provides a comprehensive framework for implementing zero-trust a
 The Trust Algorithm computes trust scores based on multiple inputs:
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-19) for complete implementation.*
-
 
 
 ---

@@ -49,7 +49,6 @@ This document contains detailed PCI-DSS v4.0.1 requirements, SOC2 control mappin
 - 1.5.1 Security policies for mobile and remote-access devices
 
 
-
 #### Requirement 2: Secure Configurations
 
 **2.1 Processes and mechanisms for secure configurations**
@@ -71,7 +70,6 @@ This document contains detailed PCI-DSS v4.0.1 requirements, SOC2 control mappin
 
 - 2.3.1 Strong cryptography for wireless authentication and transmission
 - 2.3.2 Vendor defaults for wireless changed (passwords, SNMP, etc.)
-
 
 
 #### Requirement 3: Protect Stored Account Data
@@ -128,7 +126,6 @@ This document contains detailed PCI-DSS v4.0.1 requirements, SOC2 control mappin
 *See REFERENCE.md for complete list.*
 
 
-
 #### Requirement 4: Protect Cardholder Data with Strong Cryptography
 
 **4.1 Processes and mechanisms for protecting in-transit data**
@@ -142,7 +139,6 @@ This document contains detailed PCI-DSS v4.0.1 requirements, SOC2 control mappin
 - 4.2.1.1 Industry-accepted strong cryptography implemented (TLS 1.2+)
 - 4.2.1.2 Only trusted keys and certificates accepted
 - 4.2.2 PAN not sent via end-user messaging technologies
-
 
 
 #### Requirement 5: Protect from Malicious Software
@@ -170,7 +166,6 @@ This document contains detailed PCI-DSS v4.0.1 requirements, SOC2 control mappin
 **5.4 Phishing attacks prevented**
 
 - 5.4.1 Technical and automated controls prevent phishing attacks
-
 
 
 #### Requirement 6: Develop and Maintain Secure Systems
@@ -209,7 +204,6 @@ This document contains detailed PCI-DSS v4.0.1 requirements, SOC2 control mappin
 - 6.5.6 Change implementation documented
 
 
-
 #### Requirement 7: Restrict Access by Business Need to Know
 
 **7.1 Processes and mechanisms for restricting access**
@@ -231,7 +225,6 @@ This document contains detailed PCI-DSS v4.0.1 requirements, SOC2 control mappin
 - 7.3.1 Access control systems configured to enforce access requirements
 - 7.3.2 Access control systems deny access by default
 - 7.3.3 Access control systems include application and system accounts
-
 
 
 #### Requirement 8: Identify Users and Authenticate Access
@@ -274,7 +267,6 @@ This document contains detailed PCI-DSS v4.0.1 requirements, SOC2 control mappin
 - 8.6.3 Passwords for application and system accounts protected
 
 
-
 #### Requirement 9: Restrict Physical Access to Cardholder Data
 
 **9.1 Processes and mechanisms for restricting physical access**
@@ -315,7 +307,6 @@ This document contains detailed PCI-DSS v4.0.1 requirements, SOC2 control mappin
 - 9.5.2 Periodic inspections performed to detect tampering
 - 9.5.3 Personnel trained to detect tampering attempts
 - 9.5.4 POI devices inventoried and managed
-
 
 
 #### Requirement 10: Log and Monitor All Access
@@ -368,7 +359,6 @@ This document contains detailed PCI-DSS v4.0.1 requirements, SOC2 control mappin
 - 10.7.3 Failures of critical security controls detected and alerted
 
 
-
 #### Requirement 11: Test Security of Systems and Networks
 
 **11.1 Processes and mechanisms for regularly testing security**
@@ -414,7 +404,6 @@ This document contains detailed PCI-DSS v4.0.1 requirements, SOC2 control mappin
 - 11.6.5 Change-detection mechanisms configured for CDE
 - 11.6.6 Results from change-detection solution reviewed
 - 11.6.7 Personnel respond appropriately to alerts
-
 
 
 #### Requirement 12: Support Information Security with Organizational Policies
@@ -486,8 +475,6 @@ This document contains detailed PCI-DSS v4.0.1 requirements, SOC2 control mappin
   - Root cause analysis
   - Incident documentation
   - Business continuity procedures
-
-
 
 
 ---

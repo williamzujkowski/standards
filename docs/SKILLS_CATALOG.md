@@ -662,7 +662,7 @@ Help us improve skills:
 ### Documentation
 
 - **User Guide**: [SKILLS_USER_GUIDE.md](./guides/SKILLS_USER_GUIDE.md)
-- **Migration Guide**: [MIGRATION_GUIDE.md](./migration/MIGRATION_GUIDE.md)
+- **Migration Guide**: [MIGRATION_GUIDE.md](../archive/old-migrations/migration/MIGRATION_GUIDE.md)
 - **Authoring Guide**: [SKILL_AUTHORING_GUIDE.md](./guides/SKILL_AUTHORING_GUIDE.md)
 - **API Docs**: [SKILLS_API.md](./api/SKILLS_API.md)
 

@@ -243,6 +243,7 @@ spec:
 ---
 
 ## Level 2:
+>
 > **📚 Full Examples**: See [REFERENCE.md](./REFERENCE.md) for complete code samples, detailed configurations, and production-ready implementations.
 
  Implementation Guide
@@ -263,9 +264,7 @@ The control plane manages and configures the data plane proxies:
 **Istiod Components:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-0) for complete implementation.*
-
 
 
 #### Data Plane (Envoy Proxies)
@@ -273,9 +272,7 @@ The control plane manages and configures the data plane proxies:
 **Sidecar Pattern:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-1) for complete implementation.*
-
 
 
 **Envoy Capabilities:**
@@ -289,9 +286,7 @@ The control plane manages and configures the data plane proxies:
 #### Traffic Flow
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-2) for complete implementation.*
-
 
 
 ### Istio Installation and Configuration
@@ -301,25 +296,19 @@ The control plane manages and configures the data plane proxies:
 **1. IstioOperator (Recommended):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-3) for complete implementation.*
-
 
 
 **2. Helm Installation:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-4) for complete implementation.*
-
 
 
 **3. Production Profile:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-5) for complete implementation.*
-
 
 
 #### Sidecar Injection Strategies
@@ -361,9 +350,7 @@ spec:
 #### Configuration Validation
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-9) for complete implementation.*
-
 
 
 ### Advanced Traffic Management
@@ -373,17 +360,13 @@ spec:
 **Gradual Rollout Strategy:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-10) for complete implementation.*
-
 
 
 **Progressive Rollout Script:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-11) for complete implementation.*
-
 
 
 #### 2. Blue-Green Deployments
@@ -391,17 +374,13 @@ spec:
 **Zero-Downtime Cutover:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-12) for complete implementation.*
-
 
 
 **Cutover Process:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-13) for complete implementation.*
-
 
 
 #### 3. A/B Testing
@@ -409,9 +388,7 @@ spec:
 **User Cohort Routing:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-14) for complete implementation.*
-
 
 
 #### 4. Traffic Mirroring
@@ -419,9 +396,7 @@ spec:
 **Shadow Testing:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-15) for complete implementation.*
-
 
 
 **Use Cases:**
@@ -454,9 +429,7 @@ istioctl dashboard kiali
 **Kiali Configuration:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-17) for complete implementation.*
-
 
 
 #### Jaeger (Distributed Tracing)
@@ -473,17 +446,13 @@ istioctl dashboard jaeger
 **Enable Tracing in Mesh:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-19) for complete implementation.*
-
 
 
 **Application Instrumentation:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-20) for complete implementation.*
-
 
 
 #### Prometheus & Grafana
@@ -497,9 +466,7 @@ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.20/samp
 **Key Metrics:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-22) for complete implementation.*
-
 
 
 **Grafana Dashboards:**
@@ -513,9 +480,7 @@ istioctl dashboard grafana
 **Custom Dashboard (JSON):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-24) for complete implementation.*
-
 
 
 ### Security Configuration
@@ -525,25 +490,19 @@ istioctl dashboard grafana
 **Enable Strict mTLS (Cluster-wide):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-25) for complete implementation.*
-
 
 
 **Per-Namespace mTLS:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-26) for complete implementation.*
-
 
 
 **Per-Port mTLS:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-27) for complete implementation.*
-
 
 
 #### Authorization Policies
@@ -551,33 +510,25 @@ istioctl dashboard grafana
 **Default Deny:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-28) for complete implementation.*
-
 
 
 **Allow Specific Services:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-29) for complete implementation.*
-
 
 
 **JWT Authentication:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-30) for complete implementation.*
-
 
 
 **RBAC with Custom Claims:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-31) for complete implementation.*
-
 
 
 ### Resilience Patterns
@@ -587,17 +538,13 @@ istioctl dashboard grafana
 **Configuration:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-32) for complete implementation.*
-
 
 
 **Testing Circuit Breaker:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-33) for complete implementation.*
-
 
 
 #### Retries and Timeouts
@@ -605,25 +552,19 @@ istioctl dashboard grafana
 **Retry Configuration:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-34) for complete implementation.*
-
 
 
 **Timeout Configuration:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-35) for complete implementation.*
-
 
 
 **Fault Injection (Chaos Testing):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-36) for complete implementation.*
-
 
 
 #### Rate Limiting
@@ -631,9 +572,7 @@ istioctl dashboard grafana
 **Local Rate Limiting (Envoy):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-37) for complete implementation.*
-
 
 
 ### Multi-Cluster Service Mesh
@@ -643,23 +582,16 @@ istioctl dashboard grafana
 **Primary-Remote Model:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-38) for complete implementation.*
-
-
-
 
 
 *See [REFERENCE.md](./REFERENCE.md#example-39) for complete implementation.*
 
 
-
 **Cross-Cluster Service Discovery:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-40) for complete implementation.*
-
 
 
 ### Performance Tuning
@@ -669,17 +601,13 @@ istioctl dashboard grafana
 **Sidecar Resource Limits:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-41) for complete implementation.*
-
 
 
 **Sidecar Scoping:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-42) for complete implementation.*
-
 
 
 #### Telemetry Optimization
@@ -687,17 +615,13 @@ istioctl dashboard grafana
 **Reduce Metrics Cardinality:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-43) for complete implementation.*
-
 
 
 **Sampling Configuration:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-44) for complete implementation.*
-
 
 
 ## Examples
@@ -705,9 +629,7 @@ istioctl dashboard grafana
 ### Basic Usage
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-45) for complete implementation.*
-
 
 
 ### Advanced Usage

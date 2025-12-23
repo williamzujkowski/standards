@@ -122,6 +122,7 @@ SecurityEvent
 ---
 
 ## Level 2:
+>
 > **📚 Full Examples**: See [REFERENCE.md](./REFERENCE.md) for complete code samples, detailed configurations, and production-ready implementations.
 
  Implementation Guide
@@ -201,9 +202,7 @@ SecurityEvent
 **Organizational Readiness:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-0) for complete implementation.*
-
 
 
 **Tool Preparation:**
@@ -224,9 +223,7 @@ SecurityEvent
 **Detection Sources:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-1) for complete implementation.*
-
 
 
 **Alert Triage Process:**
@@ -250,23 +247,16 @@ SecurityEvent
 **SIEM Analysis Techniques:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-2) for complete implementation.*
-
-
-
 
 
 *See [REFERENCE.md](./REFERENCE.md#example-3) for complete implementation.*
 
 
-
 **Threat Intelligence Integration:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-4) for complete implementation.*
-
 
 
 #### Phase 3: Containment, Eradication & Recovery (IR-4)
@@ -281,9 +271,7 @@ SecurityEvent
 - Preserve evidence (memory dump, disk image)
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-5) for complete implementation.*
-
 
 
 **Long-Term Containment (1-4 hours):**
@@ -296,9 +284,7 @@ SecurityEvent
 **Eradication:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-6) for complete implementation.*
-
 
 
 **Recovery:**
@@ -321,9 +307,7 @@ SecurityEvent
 **Lessons Learned Meeting (Within 2 weeks):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-7) for complete implementation.*
-
 
 
 **Evidence Retention (IR-6):**
@@ -339,17 +323,13 @@ SecurityEvent
 **Critical Log Sources (Priority 1):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-8) for complete implementation.*
-
 
 
 **Log Parsing & Normalization:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-9) for complete implementation.*
-
 
 
 #### SIEM Correlation Rules
@@ -357,25 +337,19 @@ SecurityEvent
 **Rule 1: Brute Force Attack Detection**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-10) for complete implementation.*
-
 
 
 **Rule 2: Data Exfiltration Detection**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-11) for complete implementation.*
-
 
 
 **Rule 3: Privilege Escalation**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-12) for complete implementation.*
-
 
 
 ### Threat Hunting Methodologies
@@ -395,9 +369,7 @@ SecurityEvent
 3. **Data Collection:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-13) for complete implementation.*
-
 
 
 4. **Analysis & Validation:**
@@ -425,9 +397,7 @@ index=security sourcetype=sysmon EventCode=1
 **Technique: Beaconing Detection**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-15) for complete implementation.*
-
 
 
 ### Digital Forensics & Evidence Collection
@@ -437,9 +407,7 @@ index=security sourcetype=sysmon EventCode=1
 **Linux Memory Capture:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-16) for complete implementation.*
-
 
 
 **Windows Memory Capture:**
@@ -457,17 +425,13 @@ index=security sourcetype=sysmon EventCode=1
 **Evidence Collection (Forensically Sound):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-18) for complete implementation.*
-
 
 
 **Timeline Analysis:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-19) for complete implementation.*
-
 
 
 #### Network Forensics
@@ -475,9 +439,7 @@ index=security sourcetype=sysmon EventCode=1
 **PCAP Analysis:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-20) for complete implementation.*
-
 
 
 ### Security Metrics & KPIs (NIST IR-4, AU-6)
@@ -487,25 +449,19 @@ index=security sourcetype=sysmon EventCode=1
 **Mean Time To Detect (MTTD):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-21) for complete implementation.*
-
 
 
 **Mean Time To Respond (MTTR):**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-22) for complete implementation.*
-
 
 
 **Incident Trends:**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-23) for complete implementation.*
-
 
 
 **False Positive Rate:**
@@ -639,41 +595,31 @@ Search-Mailbox -Identity * -SearchQuery 'Subject:"Urgent: Password Expiration"' 
 **IR-4: Incident Handling**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-26) for complete implementation.*
-
 
 
 **IR-5: Incident Monitoring**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-27) for complete implementation.*
-
 
 
 **IR-6: Incident Reporting**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-28) for complete implementation.*
-
 
 
 **SI-4: Information System Monitoring**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-29) for complete implementation.*
-
 
 
 **AU-6: Audit Review, Analysis, and Reporting**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-30) for complete implementation.*
-
 
 
 ### Security Operations Best Practices

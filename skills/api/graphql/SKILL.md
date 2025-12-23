@@ -141,6 +141,7 @@ version: 1.0.0
 ---
 
 ## Level 2:
+>
 > **📚 Full Examples**: See [REFERENCE.md](./REFERENCE.md) for complete code samples, detailed configurations, and production-ready implementations.
 
  Implementation Guide (~4500 tokens)
@@ -152,33 +153,25 @@ version: 1.0.0
 **Object Types**: Primary building blocks
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-0) for complete implementation.*
-
 
 
 **Input Types**: For mutations and complex arguments
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-1) for complete implementation.*
-
 
 
 **Enums**: For fixed sets of values
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-2) for complete implementation.*
-
 
 
 **Interfaces**: For polymorphic types
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-3) for complete implementation.*
-
 
 
 **Unions**: For heterogeneous result types
@@ -206,17 +199,13 @@ scalar PositiveInt
 **Root Query Type**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-6) for complete implementation.*
-
 
 
 **Cursor-Based Pagination** (Relay spec)
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-7) for complete implementation.*
-
 
 
 #### Mutation Design Patterns
@@ -224,9 +213,7 @@ scalar PositiveInt
 **Input/Payload Pattern**: Consistent structure
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-8) for complete implementation.*
-
 
 
 **Optimistic Response Support**
@@ -244,9 +231,7 @@ type UpdatePostPayload {
 **Real-Time Events**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-10) for complete implementation.*
-
 
 
 ### 2. Resolvers and DataLoaders
@@ -256,9 +241,7 @@ type UpdatePostPayload {
 **Basic Resolvers**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-11) for complete implementation.*
-
 
 
 **Resolver Best Practices**
@@ -291,33 +274,25 @@ query {
 With DataLoader (2 queries):
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-13) for complete implementation.*
-
 
 
 **DataLoader in Context**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-14) for complete implementation.*
-
 
 
 **Using DataLoader in Resolvers**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-15) for complete implementation.*
-
 
 
 **Advanced DataLoader Patterns**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-16) for complete implementation.*
-
 
 
 ### 3. Apollo Federation v2
@@ -327,25 +302,19 @@ With DataLoader (2 queries):
 **Users Subgraph**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-17) for complete implementation.*
-
 
 
 **Posts Subgraph**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-18) for complete implementation.*
-
 
 
 **Reference Resolvers**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-19) for complete implementation.*
-
 
 
 #### Gateway Configuration
@@ -353,17 +322,13 @@ With DataLoader (2 queries):
 **Apollo Gateway Setup**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-20) for complete implementation.*
-
 
 
 **Managed Federation** (Apollo Studio)
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-21) for complete implementation.*
-
 
 
 ### 4. Authentication and Authorization
@@ -373,17 +338,13 @@ With DataLoader (2 queries):
 **JWT Token Verification**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-22) for complete implementation.*
-
 
 
 **Resolver-Level Authorization**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-23) for complete implementation.*
-
 
 
 #### Directive-Based Authorization
@@ -391,17 +352,13 @@ With DataLoader (2 queries):
 **Schema Directives**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-24) for complete implementation.*
-
 
 
 **Directive Implementation**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-25) for complete implementation.*
-
 
 
 ### 5. Subscriptions for Real-Time Data
@@ -411,25 +368,19 @@ With DataLoader (2 queries):
 **Apollo Server Subscriptions**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-26) for complete implementation.*
-
 
 
 **PubSub Implementation**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-27) for complete implementation.*
-
 
 
 **Subscription Resolvers**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-28) for complete implementation.*
-
 
 
 ### 6. Performance Optimization
@@ -446,17 +397,13 @@ type Query {
 ```
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-30) for complete implementation.*
-
 
 
 **Redis Response Caching**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-31) for complete implementation.*
-
 
 
 #### Query Complexity Analysis
@@ -464,9 +411,7 @@ type Query {
 **Cost-Based Limiting**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-32) for complete implementation.*
-
 
 
 #### Pagination Best Practices
@@ -474,9 +419,7 @@ type Query {
 **Cursor-Based Pagination**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-33) for complete implementation.*
-
 
 
 ### 7. Error Handling and Validation
@@ -486,17 +429,13 @@ type Query {
 **Custom Error Classes**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-34) for complete implementation.*
-
 
 
 **Error Formatting**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-35) for complete implementation.*
-
 
 
 ### 8. Testing GraphQL APIs
@@ -506,9 +445,7 @@ type Query {
 **Resolver Tests**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-36) for complete implementation.*
-
 
 
 #### Integration Testing
@@ -516,9 +453,7 @@ type Query {
 **GraphQL Server Tests**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-37) for complete implementation.*
-
 
 
 ### 9. Production Deployment
@@ -528,9 +463,7 @@ type Query {
 **Readiness and Liveness**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-38) for complete implementation.*
-
 
 
 #### Monitoring and Observability
@@ -538,17 +471,13 @@ type Query {
 **Apollo Studio Integration**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-39) for complete implementation.*
-
 
 
 **Custom Metrics**
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-40) for complete implementation.*
-
 
 
 ## Examples
@@ -556,9 +485,7 @@ type Query {
 ### Basic Usage
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-41) for complete implementation.*
-
 
 
 ### Advanced Usage

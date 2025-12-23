@@ -9,6 +9,7 @@ This directory contains Architecture Decision Records (ADRs) documenting key tec
 ## ADR Template
 
 Use the format from ADR-ACCURACY-CLEANUP.md as a template for new decisions:
+
 - Context & drivers
 - Options considered
 - Decision outcome
@@ -18,6 +19,7 @@ Use the format from ADR-ACCURACY-CLEANUP.md as a template for new decisions:
 ## Purpose
 
 ADRs help us:
+
 - Document why decisions were made
 - Provide context for future maintainers
 - Enable informed decision reversals

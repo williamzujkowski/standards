@@ -15,7 +15,6 @@ Usage:
 """
 
 import argparse
-import json
 import logging
 import re
 import shutil
@@ -50,18 +49,14 @@ def setup_logging(verbose: bool = False) -> None:
     level = logging.DEBUG if verbose else logging.INFO
 
     # File handler
-    file_handler = logging.FileHandler(LOG_FILE, mode='w')
+    file_handler = logging.FileHandler(LOG_FILE, mode="w")
     file_handler.setLevel(logging.DEBUG)
-    file_handler.setFormatter(
-        logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-    )
+    file_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
 
     # Console handler
     console_handler = logging.StreamHandler()
     console_handler.setLevel(level)
-    console_handler.setFormatter(
-        logging.Formatter('%(levelname)s: %(message)s')
-    )
+    console_handler.setFormatter(logging.Formatter("%(levelname)s: %(message)s"))
 
     # Root logger
     logger = logging.getLogger()
@@ -77,38 +72,38 @@ def estimate_tokens(text: str) -> int:
 
 def extract_yaml_frontmatter(content: str) -> Tuple[Optional[Dict], str]:
     """Extract YAML frontmatter and remaining content."""
-    if not content.startswith('---\n'):
+    if not content.startswith("---\n"):
         return None, content
 
     # Find the closing --- delimiter
-    end_match = re.search(r'\n---\n', content[4:])  # Skip first ---
+    end_match = re.search(r"\n---\n", content[4:])  # Skip first ---
 
     if end_match:
         # Properly formatted frontmatter
-        yaml_content = content[4:end_match.start() + 4]
-        remaining = content[end_match.end() + 4:]
+        yaml_content = content[4 : end_match.start() + 4]
+        remaining = content[end_match.end() + 4 :]
     else:
         # Malformed frontmatter - missing closing delimiter
         # Try to find where YAML ends and Markdown begins
         # YAML ends when we hit a line starting with # (Markdown header)
         logging.debug("Malformed frontmatter: missing closing '---'")
 
-        lines = content[4:].split('\n')
+        lines = content[4:].split("\n")
         yaml_lines = []
         markdown_start = 0
 
         for i, line in enumerate(lines):
             # YAML content detection
             stripped = line.strip()
-            if stripped.startswith('#'):
+            if stripped.startswith("#"):
                 # Found markdown header - YAML section ended
                 markdown_start = i
                 break
-            elif stripped.startswith('```'):
+            elif stripped.startswith("```"):
                 # Found code block - definitely not YAML
                 markdown_start = i
                 break
-            elif stripped and ':' in line and not stripped.startswith('-'):
+            elif stripped and ":" in line and not stripped.startswith("-"):
                 # Valid YAML line
                 yaml_lines.append(line)
             elif not stripped:
@@ -119,8 +114,8 @@ def extract_yaml_frontmatter(content: str) -> Tuple[Optional[Dict], str]:
                 markdown_start = i
                 break
 
-        yaml_content = '\n'.join(yaml_lines)
-        remaining = '\n'.join(lines[markdown_start:]) if markdown_start > 0 else ''
+        yaml_content = "\n".join(yaml_lines)
+        remaining = "\n".join(lines[markdown_start:]) if markdown_start > 0 else ""
 
     try:
         frontmatter = yaml.safe_load(yaml_content)
@@ -130,11 +125,11 @@ def extract_yaml_frontmatter(content: str) -> Tuple[Optional[Dict], str]:
     except yaml.YAMLError as e:
         logging.debug(f"Failed to parse YAML frontmatter: {e}")
         # Try to salvage what we can - parse line by line
-        lines = yaml_content.split('\n')
+        lines = yaml_content.split("\n")
         frontmatter = {}
         for line in lines:
-            if ':' in line and not line.strip().startswith('#'):
-                parts = line.split(':', 1)
+            if ":" in line and not line.strip().startswith("#"):
+                parts = line.split(":", 1)
                 if len(parts) == 2:
                     key = parts[0].strip()
                     value = parts[1].strip()
@@ -151,14 +146,14 @@ def derive_name_from_path(skill_path: Path) -> str:
     rel_path = skill_path.relative_to(SKILLS_DIR)
 
     # Use the last directory name (most specific)
-    name = rel_path.parent.name if rel_path.parent != Path('.') else rel_path.name
+    name = rel_path.parent.name if rel_path.parent != Path(".") else rel_path.name
 
     # Clean up: remove hyphens, capitalize
-    name = name.replace('-', ' ').title()
+    name = name.replace("-", " ").title()
 
     # Ensure within length limit
     if len(name) > MAX_NAME_LENGTH:
-        name = name[:MAX_NAME_LENGTH].rsplit(' ', 1)[0]  # Cut at word boundary
+        name = name[:MAX_NAME_LENGTH].rsplit(" ", 1)[0]  # Cut at word boundary
 
     return name
 
@@ -166,29 +161,25 @@ def derive_name_from_path(skill_path: Path) -> str:
 def extract_description_from_content(content: str) -> Optional[str]:
     """Extract description from Level 1 Quick Start or first meaningful paragraph."""
     # Try to find Level 1 section
-    level1_match = re.search(
-        r'##\s+Level\s+1[^\n]*\n+(.*?)(?=##\s+Level\s+[23]|$)',
-        content,
-        re.DOTALL | re.IGNORECASE
-    )
+    level1_match = re.search(r"##\s+Level\s+1[^\n]*\n+(.*?)(?=##\s+Level\s+[23]|$)", content, re.DOTALL | re.IGNORECASE)
 
     if level1_match:
         level1_content = level1_match.group(1).strip()
         # Get first paragraph that's not a code block or heading
-        paragraphs = level1_content.split('\n\n')
+        paragraphs = level1_content.split("\n\n")
         for para in paragraphs:
             para = para.strip()
-            if para and not para.startswith('```') and not para.startswith('#') and not para.startswith('-'):
+            if para and not para.startswith("```") and not para.startswith("#") and not para.startswith("-"):
                 # Remove markdown formatting
-                clean_para = re.sub(r'[*_`]', '', para)
-                clean_para = re.sub(r'\[([^\]]+)\]\([^\)]+\)', r'\1', clean_para)
-                clean_para = re.sub(r'\n', ' ', clean_para)
+                clean_para = re.sub(r"[*_`]", "", para)
+                clean_para = re.sub(r"\[([^\]]+)\]\([^\)]+\)", r"\1", clean_para)
+                clean_para = re.sub(r"\n", " ", clean_para)
 
                 if clean_para and len(clean_para) <= MAX_DESCRIPTION_LENGTH:
                     return clean_para
                 elif clean_para:
                     # Truncate at sentence boundary
-                    sentences = re.split(r'[.!?]\s+', clean_para)
+                    sentences = re.split(r"[.!?]\s+", clean_para)
                     desc = ""
                     for sentence in sentences:
                         if len(desc) + len(sentence) + 2 <= MAX_DESCRIPTION_LENGTH:
@@ -199,37 +190,37 @@ def extract_description_from_content(content: str) -> Optional[str]:
                         return desc.strip()
 
     # Try to find a title or first heading after frontmatter
-    lines = [l.strip() for l in content.split('\n') if l.strip()]
+    lines = [line.strip() for line in content.split("\n") if line.strip()]
     in_code_block = False
     found_title = False
 
     for i, line in enumerate(lines):
-        if line.startswith('```'):
+        if line.startswith("```"):
             in_code_block = not in_code_block
             continue
-        if in_code_block or line.startswith('---'):
+        if in_code_block or line.startswith("---"):
             continue
 
         # Look for first heading as context
-        if line.startswith('#') and not found_title:
+        if line.startswith("#") and not found_title:
             found_title = True
-            title_text = line.lstrip('#').strip()
+            _title_text = line.lstrip("#").strip()  # noqa: F841 - used for context
             continue
 
         # Skip common template markers
-        if 'TODO' in line.upper() or line.startswith('//'):
+        if "TODO" in line.upper() or line.startswith("//"):
             continue
 
         # Found a meaningful content line
-        if line and not line.startswith('#') and ':' not in line[:20]:
-            clean_line = re.sub(r'[*_`]', '', line)
-            clean_line = re.sub(r'\[([^\]]+)\]\([^\)]+\)', r'\1', clean_line)
+        if line and not line.startswith("#") and ":" not in line[:20]:
+            clean_line = re.sub(r"[*_`]", "", line)
+            clean_line = re.sub(r"\[([^\]]+)\]\([^\)]+\)", r"\1", clean_line)
 
             if len(clean_line) > 20:  # Skip very short lines
                 if len(clean_line) <= MAX_DESCRIPTION_LENGTH:
                     return clean_line
                 else:
-                    return clean_line[:MAX_DESCRIPTION_LENGTH].rsplit(' ', 1)[0] + "..."
+                    return clean_line[:MAX_DESCRIPTION_LENGTH].rsplit(" ", 1)[0] + "..."
 
     return None
 
@@ -242,12 +233,12 @@ def create_generic_description(name: str, skill_path: Path) -> str:
 
     if len(parts) >= 2:
         # e.g., data-engineering/orchestration
-        category = parts[-1].name.replace('-', ' ').title()
-        subcategory = parts[-2].name.replace('-', ' ')
+        category = parts[-1].name.replace("-", " ").title()
+        subcategory = parts[-2].name.replace("-", " ")
         return f"{name.title()} standards for {subcategory} in {category} environments. Covers best practices, implementation patterns, and integration guidelines."
     elif len(parts) == 1:
         # e.g., testing
-        category = parts[0].name.replace('-', ' ').title()
+        category = parts[0].name.replace("-", " ").title()
         return f"{name.title()} standards and best practices for {category}. Includes implementation guidelines, common patterns, and testing strategies."
     else:
         # Fallback
@@ -257,9 +248,9 @@ def create_generic_description(name: str, skill_path: Path) -> str:
 def split_level_content(content: str) -> Tuple[str, str, str]:
     """Split content into Level 1, Level 2, and Level 3 sections."""
     # Find level boundaries
-    level1_match = re.search(r'(##\s+Level\s+1[^\n]*\n+.*?)(?=##\s+Level\s+[23]|$)', content, re.DOTALL | re.IGNORECASE)
-    level2_match = re.search(r'(##\s+Level\s+2[^\n]*\n+.*?)(?=##\s+Level\s+3|$)', content, re.DOTALL | re.IGNORECASE)
-    level3_match = re.search(r'(##\s+Level\s+3[^\n]*\n+.*?)$', content, re.DOTALL | re.IGNORECASE)
+    level1_match = re.search(r"(##\s+Level\s+1[^\n]*\n+.*?)(?=##\s+Level\s+[23]|$)", content, re.DOTALL | re.IGNORECASE)
+    level2_match = re.search(r"(##\s+Level\s+2[^\n]*\n+.*?)(?=##\s+Level\s+3|$)", content, re.DOTALL | re.IGNORECASE)
+    level3_match = re.search(r"(##\s+Level\s+3[^\n]*\n+.*?)$", content, re.DOTALL | re.IGNORECASE)
 
     level1 = level1_match.group(1) if level1_match else ""
     level2 = level2_match.group(1) if level2_match else ""
@@ -286,7 +277,7 @@ def optimize_token_count(content: str, frontmatter: Dict) -> Tuple[str, bool]:
 
     # Strategy: Move detailed examples from Level 2 to Level 3
     # Identify code blocks in Level 2
-    code_blocks = re.findall(r'```[\s\S]*?```', level2)
+    code_blocks = re.findall(r"```[\s\S]*?```", level2)
 
     if code_blocks and len(code_blocks) > 2:
         # Keep first 2 examples in Level 2, move rest to Level 3
@@ -295,7 +286,7 @@ def optimize_token_count(content: str, frontmatter: Dict) -> Tuple[str, bool]:
         # Remove examples from Level 2
         level2_condensed = level2
         for example in examples_to_move:
-            level2_condensed = level2_condensed.replace(example, '', 1)
+            level2_condensed = level2_condensed.replace(example, "", 1)
 
         # Add to Level 3
         if not level3:
@@ -320,7 +311,7 @@ def optimize_token_count(content: str, frontmatter: Dict) -> Tuple[str, bool]:
 
     # If no code blocks to move, try condensing text
     # Remove excessive whitespace
-    condensed = re.sub(r'\n{3,}', '\n\n', content)
+    condensed = re.sub(r"\n{3,}", "\n\n", content)
 
     new_tokens = estimate_tokens(condensed)
     if new_tokens < current_tokens:
@@ -331,11 +322,7 @@ def optimize_token_count(content: str, frontmatter: Dict) -> Tuple[str, bool]:
     return content, False
 
 
-def fix_skill_file(
-    skill_path: Path,
-    dry_run: bool = False,
-    skip_token_optimization: bool = False
-) -> Dict[str, any]:
+def fix_skill_file(skill_path: Path, dry_run: bool = False, skip_token_optimization: bool = False) -> Dict[str, any]:
     """
     Fix a single SKILL.md file for Anthropic compliance.
 
@@ -345,18 +332,13 @@ def fix_skill_file(
         - changes_made: List[str]
         - diff_preview: Optional[str]
     """
-    result = {
-        "fixed": False,
-        "issues_found": [],
-        "changes_made": [],
-        "diff_preview": None
-    }
+    result = {"fixed": False, "issues_found": [], "changes_made": [], "diff_preview": None}
 
     logging.info(f"Processing: {skill_path.relative_to(REPO_ROOT)}")
 
     # Read original content
     try:
-        original_content = skill_path.read_text(encoding='utf-8')
+        original_content = skill_path.read_text(encoding="utf-8")
     except Exception as e:
         logging.error(f"Failed to read {skill_path}: {e}")
         return result
@@ -373,33 +355,33 @@ def fix_skill_file(
         modified = True
 
     # Check/fix name field
-    if 'name' not in frontmatter or not frontmatter['name']:
+    if "name" not in frontmatter or not frontmatter["name"]:
         result["issues_found"].append("Missing 'name' field")
         name = derive_name_from_path(skill_path)
-        frontmatter['name'] = name
+        frontmatter["name"] = name
         result["changes_made"].append(f"Added name: '{name}'")
         modified = True
-    elif len(frontmatter['name']) > MAX_NAME_LENGTH:
+    elif len(frontmatter["name"]) > MAX_NAME_LENGTH:
         result["issues_found"].append(f"Name too long ({len(frontmatter['name'])} > {MAX_NAME_LENGTH})")
-        old_name = frontmatter['name']
-        frontmatter['name'] = old_name[:MAX_NAME_LENGTH].rsplit(' ', 1)[0]
+        old_name = frontmatter["name"]
+        frontmatter["name"] = old_name[:MAX_NAME_LENGTH].rsplit(" ", 1)[0]
         result["changes_made"].append(f"Truncated name: '{old_name}' → '{frontmatter['name']}'")
         modified = True
 
     # Check/fix description field
-    desc_value = frontmatter.get('description', '').strip()
-    if not desc_value or desc_value.startswith('TODO'):
+    desc_value = frontmatter.get("description", "").strip()
+    if not desc_value or desc_value.startswith("TODO"):
         result["issues_found"].append("Missing or placeholder 'description' field")
         desc = extract_description_from_content(body)
         if not desc:
-            desc = create_generic_description(frontmatter.get('name', 'Skill'), skill_path)
-        frontmatter['description'] = desc
+            desc = create_generic_description(frontmatter.get("name", "Skill"), skill_path)
+        frontmatter["description"] = desc
         result["changes_made"].append(f"Added description: '{desc[:50]}...'")
         modified = True
     elif len(desc_value) > MAX_DESCRIPTION_LENGTH:
         result["issues_found"].append(f"Description too long ({len(desc_value)} > {MAX_DESCRIPTION_LENGTH})")
         old_desc = desc_value
-        frontmatter['description'] = old_desc[:MAX_DESCRIPTION_LENGTH].rsplit(' ', 1)[0] + "..."
+        frontmatter["description"] = old_desc[:MAX_DESCRIPTION_LENGTH].rsplit(" ", 1)[0] + "..."
         result["changes_made"].append("Truncated description to fit limit")
         modified = True
 
@@ -435,7 +417,7 @@ def fix_skill_file(
             shutil.copy2(skill_path, backup_path)
 
             # Write fixed content
-            skill_path.write_text(new_content, encoding='utf-8')
+            skill_path.write_text(new_content, encoding="utf-8")
             logging.info(f"Fixed: {skill_path.relative_to(REPO_ROOT)}")
             result["fixed"] = True
 
@@ -444,8 +426,8 @@ def fix_skill_file(
 
 def generate_diff_preview(original: str, new: str, context_lines: int = 3) -> str:
     """Generate a simple diff preview."""
-    orig_lines = original.split('\n')
-    new_lines = new.split('\n')
+    orig_lines = original.split("\n")
+    new_lines = new.split("\n")
 
     diff = []
     diff.append("--- Original")
@@ -464,7 +446,7 @@ def generate_diff_preview(original: str, new: str, context_lines: int = 3) -> st
             if new_line:
                 diff.append(f"+ {new_line}")
 
-    return '\n'.join(diff[:50])  # Limit preview length
+    return "\n".join(diff[:50])  # Limit preview length
 
 
 def find_non_compliant_skills() -> List[Path]:
@@ -473,7 +455,7 @@ def find_non_compliant_skills() -> List[Path]:
 
     for skill_file in SKILLS_DIR.rglob("SKILL.md"):
         try:
-            content = skill_file.read_text(encoding='utf-8')
+            content = skill_file.read_text(encoding="utf-8")
             frontmatter, body = extract_yaml_frontmatter(content)
 
             needs_fix = False
@@ -483,13 +465,13 @@ def find_non_compliant_skills() -> List[Path]:
                 needs_fix = True
             else:
                 # Check required fields
-                if 'name' not in frontmatter or not frontmatter['name']:
+                if "name" not in frontmatter or not frontmatter["name"]:
                     needs_fix = True
-                elif len(frontmatter['name']) > MAX_NAME_LENGTH:
+                elif len(frontmatter["name"]) > MAX_NAME_LENGTH:
                     needs_fix = True
 
-                desc_value = frontmatter.get('description', '').strip()
-                if not desc_value or desc_value.startswith('TODO'):
+                desc_value = frontmatter.get("description", "").strip()
+                if not desc_value or desc_value.startswith("TODO"):
                     needs_fix = True
                 elif len(desc_value) > MAX_DESCRIPTION_LENGTH:
                     needs_fix = True
@@ -512,38 +494,20 @@ def main():
     parser = argparse.ArgumentParser(
         description="Fix SKILL.md files for Anthropic API compliance",
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog=__doc__
+        epilog=__doc__,
     )
 
-    parser.add_argument(
-        '--skill',
-        type=str,
-        help="Path to specific skill directory (relative to skills/)"
-    )
+    parser.add_argument("--skill", type=str, help="Path to specific skill directory (relative to skills/)")
+
+    parser.add_argument("--all", action="store_true", help="Fix all non-compliant skills")
+
+    parser.add_argument("--dry-run", action="store_true", help="Preview changes without modifying files")
 
     parser.add_argument(
-        '--all',
-        action='store_true',
-        help="Fix all non-compliant skills"
+        "--skip-token-optimization", action="store_true", help="Skip token count optimization (only fix fields)"
     )
 
-    parser.add_argument(
-        '--dry-run',
-        action='store_true',
-        help="Preview changes without modifying files"
-    )
-
-    parser.add_argument(
-        '--skip-token-optimization',
-        action='store_true',
-        help="Skip token count optimization (only fix fields)"
-    )
-
-    parser.add_argument(
-        '--verbose',
-        action='store_true',
-        help="Enable verbose logging"
-    )
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose logging")
 
     args = parser.parse_args()
 
@@ -569,18 +533,14 @@ def main():
     # Process skills
     results = []
     for skill_path in skills_to_fix:
-        result = fix_skill_file(
-            skill_path,
-            dry_run=args.dry_run,
-            skip_token_optimization=args.skip_token_optimization
-        )
+        result = fix_skill_file(skill_path, dry_run=args.dry_run, skip_token_optimization=args.skip_token_optimization)
         result["skill"] = str(skill_path.relative_to(REPO_ROOT))
         results.append(result)
 
     # Summary report
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     print("SUMMARY REPORT")
-    print("="*80)
+    print("=" * 80)
 
     if args.dry_run:
         print("\n[DRY RUN MODE - No files were modified]\n")
@@ -638,7 +598,7 @@ def main():
     if not args.dry_run and fixed > 0:
         print(f"Backups saved to: {BACKUP_DIR}")
 
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
 
     return 0
 

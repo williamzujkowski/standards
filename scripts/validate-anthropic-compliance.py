@@ -17,15 +17,16 @@ import re
 import sys
 from pathlib import Path
 from typing import Dict, List, Tuple
+
 import yaml
 
 
 class SkillValidator:
     """Validator for Anthropic SKILL.md compliance."""
 
-    RESERVED_WORDS = {'skill', 'name', 'description', 'content', 'type', 'version'}
-    XML_TAG_PATTERN = re.compile(r'<[^>]+>')
-    NAME_PATTERN = re.compile(r'^[a-z0-9-]+$')
+    RESERVED_WORDS = {"skill", "name", "description", "content", "type", "version"}
+    XML_TAG_PATTERN = re.compile(r"<[^>]+>")
+    NAME_PATTERN = re.compile(r"^[a-z0-9-]+$")
     MAX_NAME_LENGTH = 64
     MAX_DESCRIPTION_LENGTH = 1024
     MAX_LEVEL2_TOKENS = 5000
@@ -36,17 +37,12 @@ class SkillValidator:
     def __init__(self, skills_dir: Path):
         """Initialize validator with skills directory."""
         self.skills_dir = skills_dir
-        self.results = {
-            'compliant': [],
-            'non_compliant': [],
-            'total': 0,
-            'errors': []
-        }
+        self.results = {"compliant": [], "non_compliant": [], "total": 0, "errors": []}
 
     def validate_all_skills(self) -> Dict:
         """Validate all SKILL.md files in the skills directory."""
-        skill_files = list(self.skills_dir.rglob('SKILL.md'))
-        self.results['total'] = len(skill_files)
+        skill_files = list(self.skills_dir.rglob("SKILL.md"))
+        self.results["total"] = len(skill_files)
 
         for skill_file in sorted(skill_files):
             self._validate_skill(skill_file)
@@ -59,17 +55,14 @@ class SkillValidator:
         issues = []
 
         try:
-            content = skill_file.read_text(encoding='utf-8')
+            content = skill_file.read_text(encoding="utf-8")
 
             # Extract YAML frontmatter
             frontmatter, body = self._extract_frontmatter(content)
 
             if frontmatter is None:
                 issues.append("Missing or invalid YAML frontmatter")
-                self.results['non_compliant'].append({
-                    'path': str(relative_path),
-                    'issues': issues
-                })
+                self.results["non_compliant"].append({"path": str(relative_path), "issues": issues})
                 return
 
             # Validate required fields
@@ -85,25 +78,19 @@ class SkillValidator:
 
             # Record results
             if issues:
-                self.results['non_compliant'].append({
-                    'path': str(relative_path),
-                    'issues': issues
-                })
+                self.results["non_compliant"].append({"path": str(relative_path), "issues": issues})
             else:
-                self.results['compliant'].append(str(relative_path))
+                self.results["compliant"].append(str(relative_path))
 
         except Exception as e:
-            self.results['errors'].append({
-                'path': str(relative_path),
-                'error': str(e)
-            })
+            self.results["errors"].append({"path": str(relative_path), "error": str(e)})
 
     def _extract_frontmatter(self, content: str) -> Tuple[Dict, str]:
         """Extract YAML frontmatter and body from content."""
-        if not content.startswith('---'):
+        if not content.startswith("---"):
             return None, content
 
-        parts = content.split('---', 2)
+        parts = content.split("---", 2)
         if len(parts) < 3:
             return None, content
 
@@ -119,15 +106,15 @@ class SkillValidator:
         issues = []
 
         # Check required fields
-        if 'name' not in frontmatter:
+        if "name" not in frontmatter:
             issues.append("Missing required field: 'name'")
         else:
-            issues.extend(self._validate_name(frontmatter['name']))
+            issues.extend(self._validate_name(frontmatter["name"]))
 
-        if 'description' not in frontmatter:
+        if "description" not in frontmatter:
             issues.append("Missing required field: 'description'")
         else:
-            issues.extend(self._validate_description(frontmatter['description']))
+            issues.extend(self._validate_description(frontmatter["description"]))
 
         return issues
 
@@ -145,11 +132,13 @@ class SkillValidator:
 
         # Check format (lowercase letters, numbers, hyphens only)
         if not self.NAME_PATTERN.match(name):
-            issues.append(f"Name '{name}' contains invalid characters (only lowercase letters, numbers, hyphens allowed)")
+            issues.append(
+                f"Name '{name}' contains invalid characters (only lowercase letters, numbers, hyphens allowed)"
+            )
 
         # Check for XML tags
         if self.XML_TAG_PATTERN.search(name):
-            issues.append(f"Name contains XML tags")
+            issues.append("Name contains XML tags")
 
         # Check for reserved words
         if name.lower() in self.RESERVED_WORDS:
@@ -180,11 +169,7 @@ class SkillValidator:
         issues = []
 
         # Extract Level 2 section
-        level2_match = re.search(
-            r'## Level 2:.*?(?=## Level 3:|$)',
-            body,
-            re.DOTALL | re.IGNORECASE
-        )
+        level2_match = re.search(r"## Level 2:.*?(?=## Level 3:|$)", body, re.DOTALL | re.IGNORECASE)
 
         if not level2_match:
             # No Level 2 section found - not necessarily an error
@@ -246,45 +231,45 @@ class SkillValidator:
             "- scripts/ directory",
             "",
             "---",
-            ""
+            "",
         ]
 
         # Compliant skills
-        if self.results['compliant']:
+        if self.results["compliant"]:
             report.append("## ✅ Compliant Skills")
             report.append("")
-            for skill in self.results['compliant']:
+            for skill in self.results["compliant"]:
                 report.append(f"- `{skill}`")
             report.append("")
 
         # Non-compliant skills
-        if self.results['non_compliant']:
+        if self.results["non_compliant"]:
             report.append("## ❌ Non-Compliant Skills")
             report.append("")
-            for item in self.results['non_compliant']:
+            for item in self.results["non_compliant"]:
                 report.append(f"### `{item['path']}`")
                 report.append("")
-                for issue in item['issues']:
+                for issue in item["issues"]:
                     report.append(f"- ⚠️ {issue}")
                 report.append("")
 
         # Errors
-        if self.results['errors']:
+        if self.results["errors"]:
             report.append("## 🔥 Errors During Validation")
             report.append("")
-            for item in self.results['errors']:
+            for item in self.results["errors"]:
                 report.append(f"### `{item['path']}`")
                 report.append("")
-                report.append(f"```")
+                report.append("```")
                 report.append(f"{item['error']}")
-                report.append(f"```")
+                report.append("```")
                 report.append("")
 
         # Recommendations
         report.append("## Recommendations")
         report.append("")
 
-        if self.results['non_compliant']:
+        if self.results["non_compliant"]:
             report.append("### Priority Fixes")
             report.append("")
 
@@ -293,14 +278,14 @@ class SkillValidator:
             description_issues = []
             token_issues = []
 
-            for item in self.results['non_compliant']:
-                for issue in item['issues']:
-                    if 'name' in issue.lower():
-                        name_issues.append(item['path'])
-                    elif 'description' in issue.lower():
-                        description_issues.append(item['path'])
-                    elif 'token' in issue.lower():
-                        token_issues.append(item['path'])
+            for item in self.results["non_compliant"]:
+                for issue in item["issues"]:
+                    if "name" in issue.lower():
+                        name_issues.append(item["path"])
+                    elif "description" in issue.lower():
+                        description_issues.append(item["path"])
+                    elif "token" in issue.lower():
+                        token_issues.append(item["path"])
 
             if name_issues:
                 report.append(f"1. **Fix Name Field Issues** ({len(name_issues)} skills)")
@@ -326,7 +311,7 @@ class SkillValidator:
 
         # Write report
         output_file.parent.mkdir(parents=True, exist_ok=True)
-        output_file.write_text('\n'.join(report), encoding='utf-8')
+        output_file.write_text("\n".join(report), encoding="utf-8")
 
 
 def main():
@@ -334,7 +319,7 @@ def main():
     # Determine skills directory
     script_dir = Path(__file__).parent
     repo_root = script_dir.parent
-    skills_dir = repo_root / 'skills'
+    skills_dir = repo_root / "skills"
 
     if not skills_dir.exists():
         print(f"❌ Skills directory not found: {skills_dir}", file=sys.stderr)
@@ -347,11 +332,11 @@ def main():
     results = validator.validate_all_skills()
 
     # Generate report
-    report_file = repo_root / 'reports' / 'generated' / 'anthropic-compliance-report.md'
+    report_file = repo_root / "reports" / "generated" / "anthropic-compliance-report.md"
     validator.generate_report(report_file)
 
     # Print summary
-    print(f"\n📊 Validation Complete:")
+    print("\n📊 Validation Complete:")
     print(f"   Total: {results['total']}")
     print(f"   ✅ Compliant: {len(results['compliant'])}")
     print(f"   ❌ Non-Compliant: {len(results['non_compliant'])}")
@@ -359,12 +344,12 @@ def main():
     print(f"\n📄 Report generated: {report_file}")
 
     # Exit with error code if non-compliant
-    if results['non_compliant'] or results['errors']:
+    if results["non_compliant"] or results["errors"]:
         sys.exit(1)
     else:
         print("\n✨ All skills are compliant!")
         sys.exit(0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

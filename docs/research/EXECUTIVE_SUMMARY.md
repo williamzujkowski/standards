@@ -19,6 +19,7 @@ On 2025-10-24, commit **a4b1ed1** introduced a massive refactor to align the rep
 ## Impact Assessment
 
 ### What Changed?
+
 1. ✅ **61 SKILL.md files** reformatted to Anthropic's YAML frontmatter format
 2. ✅ **18 REFERENCE.md files** added for progressive disclosure
 3. ✅ **13 validation scripts** created for Anthropic compliance
@@ -29,6 +30,7 @@ On 2025-10-24, commit **a4b1ed1** introduced a massive refactor to align the rep
 8. ✅ **78 files archived** (old migrations and reports)
 
 ### Affected Systems
+
 | System | Files Changed | Risk Level |
 |--------|--------------|-----------|
 | Skills Format | 61 SKILL.md + 18 REFERENCE.md | 🔴 CRITICAL |
@@ -44,12 +46,14 @@ On 2025-10-24, commit **a4b1ed1** introduced a massive refactor to align the rep
 ## Why Revert?
 
 ### Problems with Current State
+
 1. **Excessive Complexity**: Added 47,544 lines for Anthropic compliance
 2. **Breaking Changes**: Old tools/scripts may not work with new format
 3. **Maintenance Burden**: 13 new scripts + 37 new tests to maintain
 4. **Over-Engineering**: Marginal benefit for massive refactor
 
 ### Benefits of Reversion
+
 1. **Simplicity Restored**: Return to proven, stable format
 2. **Reduced Maintenance**: Fewer scripts and tests to maintain
 3. **Backward Compatibility**: Old tools continue to work
@@ -60,6 +64,7 @@ On 2025-10-24, commit **a4b1ed1** introduced a massive refactor to align the rep
 ## Reversion Plan
 
 ### Phase 1: Preparation (1 hour) ✅ SAFE
+
 - [x] Create reversion branch `revert-skills-refactor`
 - [x] Document current state (this analysis)
 - [ ] Extract valuable code (validate-claims.py, Quality Framework)
@@ -67,12 +72,14 @@ On 2025-10-24, commit **a4b1ed1** introduced a massive refactor to align the rep
 - [ ] Notify team of planned reversion
 
 ### Phase 2: Execution (2 hours) ⚠️ DESTRUCTIVE
+
 - [ ] Selective file reversion: `git checkout 68e0eb7 -- <files>`
 - [ ] Delete skills-specific files (113 files)
 - [ ] Verify no unintended changes
 - [ ] Run `git status` and review diff
 
 ### Phase 3: Validation (2 hours) ✅ SAFE
+
 - [ ] Run pre-commit hooks: `pre-commit run --all-files`
 - [ ] Run test suite: `pytest tests/`
 - [ ] Generate audit reports: `python3 scripts/generate-audit-reports.py`
@@ -80,6 +87,7 @@ On 2025-10-24, commit **a4b1ed1** introduced a massive refactor to align the rep
 - [ ] Check for broken links
 
 ### Phase 4: Cherry-Pick (1 hour) ✅ SAFE
+
 - [ ] Extract Quality Framework from CLAUDE.md
 - [ ] Adapt validate-claims.py for old structure
 - [ ] Apply pytest markers from pyproject.toml
@@ -94,6 +102,7 @@ On 2025-10-24, commit **a4b1ed1** introduced a massive refactor to align the rep
 ## Risk Mitigation
 
 ### High-Risk Areas
+
 1. **CI/CD Breakage**: New validation.yml workflow will disappear
    - **Mitigation**: Ensure lint-and-validate.yml still works after revert
 2. **Test Failures**: 37 skills-specific tests will be removed
@@ -104,13 +113,16 @@ On 2025-10-24, commit **a4b1ed1** introduced a massive refactor to align the rep
    - **Mitigation**: Remove cleanly, ensure no other scripts depend on them
 
 ### Rollback Plan
+
 If reversion fails:
+
 ```bash
 git reset --hard a4b1ed1  # Restore to current state
 git checkout master       # Return to main branch
 ```
 
 Or restore from backup:
+
 ```bash
 git apply /tmp/skills-refactor-backup.patch
 ```
@@ -120,6 +132,7 @@ git apply /tmp/skills-refactor-backup.patch
 ## Valuable Code to Preserve
 
 ### Must Extract Before Reversion
+
 1. **Quality & Accuracy Framework** (CLAUDE.md lines 146-217)
    - Documentation accuracy standards
    - Evidence-based claims policy
@@ -135,6 +148,7 @@ git apply /tmp/skills-refactor-backup.patch
    - Quality gate markers
 
 ### How to Preserve
+
 ```bash
 # Before reversion:
 git show a4b1ed1:CLAUDE.md | sed -n '146,217p' > /tmp/quality-framework.md
@@ -149,6 +163,7 @@ git show a4b1ed1:pyproject.toml | sed -n '/\[tool.pytest/,$p' > /tmp/pytest-conf
 ## Files to DELETE (113 total)
 
 **Quick List**:
+
 - **Scripts**: 13 files (validate-anthropic-compliance.py, token-counter.py, etc.)
 - **Tests**: 37 files (integration/, validation/, unit/)
 - **Docs**: 15+ files (SKILL_FORMAT_SPEC.md, architecture/, optimization/)
@@ -163,6 +178,7 @@ git show a4b1ed1:pyproject.toml | sed -n '/\[tool.pytest/,$p' > /tmp/pytest-conf
 ## Files to REVERT (165 total)
 
 **Quick List**:
+
 - **Core Docs**: CLAUDE.md, README.md, docs/README.md
 - **Skills**: All 61 SKILL.md files
 - **Guides**: 6 guide documents
@@ -176,6 +192,7 @@ git show a4b1ed1:pyproject.toml | sed -n '/\[tool.pytest/,$p' > /tmp/pytest-conf
 ## Post-Reversion Checklist
 
 ### Critical Validation
+
 - [ ] `git status` shows only expected changes
 - [ ] No REFERENCE.md files exist
 - [ ] CLAUDE.md has no "Anthropic Skills.md" section
@@ -186,6 +203,7 @@ git show a4b1ed1:pyproject.toml | sed -n '/\[tool.pytest/,$p' > /tmp/pytest-conf
 - [ ] CI/CD workflows pass
 
 ### Final Steps
+
 - [ ] Review git diff carefully
 - [ ] Cherry-pick valuable code
 - [ ] Update all documentation
@@ -199,12 +217,14 @@ git show a4b1ed1:pyproject.toml | sed -n '/\[tool.pytest/,$p' > /tmp/pytest-conf
 ## Recommendations
 
 ### Immediate Actions
+
 1. ✅ **APPROVE REVERSION**: Benefits outweigh risks
 2. ✅ **EXECUTE CAREFULLY**: Follow 4-phase plan
 3. ✅ **PRESERVE VALUE**: Extract Quality Framework and validate-claims.py
 4. ✅ **COMMUNICATE**: Keep team informed throughout process
 
 ### Future Refactors
+
 1. **INCREMENTAL CHANGES**: Avoid 278-file mega-commits
 2. **FEATURE FLAGS**: Allow toggling between formats
 3. **BACKWARD COMPATIBILITY**: Maintain old structure during migration
@@ -216,12 +236,14 @@ git show a4b1ed1:pyproject.toml | sed -n '/\[tool.pytest/,$p' > /tmp/pytest-conf
 ## Cost-Benefit Analysis
 
 ### Costs of Reversion
+
 - **Time**: 6-8 hours developer time
 - **Risk**: CI/CD may temporarily fail
 - **Effort**: Manual cherry-picking of valuable code
 - **Communication**: Team needs to be updated
 
 ### Benefits of Reversion
+
 - **Simplicity**: -47,544 lines of complexity
 - **Stability**: Return to proven format
 - **Maintainability**: -13 scripts, -37 tests to maintain
@@ -261,6 +283,7 @@ git show a4b1ed1:pyproject.toml | sed -n '/\[tool.pytest/,$p' > /tmp/pytest-conf
 **Recommended Action**: ✅ **APPROVE AND EXECUTE REVERSION**
 
 **Approvers**:
+
 - [ ] Product Owner: _________________ (Date: ______)
 - [ ] Tech Lead: _____________________ (Date: ______)
 - [ ] QA Lead: _______________________ (Date: ______)

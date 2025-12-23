@@ -144,10 +144,11 @@ See [REFERENCE.md](./REFERENCE.md) for X-Ray instrumentation, EMF examples, and 
 ---
 """
 
+
 def main():
     skill_path = "/home/william/git/standards/skills/cloud-native/aws-advanced/SKILL.md"
 
-    with open(skill_path, 'r') as f:
+    with open(skill_path) as f:
         lines = f.readlines()
 
     # Find section boundaries
@@ -167,20 +168,21 @@ def main():
 
     # Keep everything before Level 2, insert condensed content, keep Level 3 onwards
     new_content = (
-        ''.join(lines[:level2_start]) +
-        "## Level 2: Implementation Guide\n\n" +
-        "> **📚 Full Examples**: See [REFERENCE.md](./REFERENCE.md) for complete code samples, detailed configurations, and production-ready implementations.\n\n" +
-        CONDENSED_SECTIONS +
-        '\n'.join(lines[level3_start:])
+        "".join(lines[:level2_start])
+        + "## Level 2: Implementation Guide\n\n"
+        + "> **📚 Full Examples**: See [REFERENCE.md](./REFERENCE.md) for complete code samples, detailed configurations, and production-ready implementations.\n\n"
+        + CONDENSED_SECTIONS
+        + "\n".join(lines[level3_start:])
     )
 
-    with open(skill_path, 'w') as f:
+    with open(skill_path, "w") as f:
         f.write(new_content)
 
     print(f"✓ Condensed Level 2 from {level3_start - level2_start} to ~100 lines")
-    print(f"✓ All detailed examples moved to REFERENCE.md")
+    print("✓ All detailed examples moved to REFERENCE.md")
 
     return 0
+
 
 if __name__ == "__main__":
     exit(main())

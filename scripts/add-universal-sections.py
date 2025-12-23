@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Add universal sections (Examples, Integration Points, Common Pitfalls) to all skills."""
 
-import os
 import re
 from pathlib import Path
 from typing import Dict, Tuple
@@ -264,7 +263,7 @@ def main():
             skipped_count += 1
 
     print(f"\n{'='*60}")
-    print(f"Summary:")
+    print("Summary:")
     print(f"  Updated: {updated_count}")
     print(f"  Skipped: {skipped_count}")
     print(f"  Errors: {error_count}")

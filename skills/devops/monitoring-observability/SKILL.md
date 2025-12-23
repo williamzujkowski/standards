@@ -77,6 +77,7 @@ curl "http://localhost:16686/api/traces?service=frontend&limit=10"
 ---
 
 ## Level 2:
+>
 > **📚 Full Examples**: See [REFERENCE.md](./REFERENCE.md) for complete code samples, detailed configurations, and production-ready implementations.
 
  Implementation Guide
@@ -86,17 +87,13 @@ curl "http://localhost:16686/api/traces?service=frontend&limit=10"
 #### Architecture Overview
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-0) for complete implementation.*
-
 
 
 #### Prometheus Configuration
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-1) for complete implementation.*
-
 
 
 #### Instrumenting Applications
@@ -104,33 +101,25 @@ curl "http://localhost:16686/api/traces?service=frontend&limit=10"
 **Go Example**:
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-2) for complete implementation.*
-
 
 
 **Python Example**:
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-3) for complete implementation.*
-
 
 
 #### PromQL Query Examples
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-4) for complete implementation.*
-
 
 
 #### Recording Rules
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-5) for complete implementation.*
-
 
 
 ### 2. Logging with ELK/Loki
@@ -140,9 +129,7 @@ curl "http://localhost:16686/api/traces?service=frontend&limit=10"
 **Good - Structured JSON**:
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-6) for complete implementation.*
-
 
 
 **Bad - Unstructured**:
@@ -154,33 +141,25 @@ curl "http://localhost:16686/api/traces?service=frontend&limit=10"
 #### Log Levels Strategy
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-8) for complete implementation.*
-
 
 
 #### Loki Configuration (Lightweight Alternative to ELK)
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-9) for complete implementation.*
-
 
 
 #### Promtail (Log Shipper for Loki)
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-10) for complete implementation.*
-
 
 
 #### LogQL Query Examples
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-11) for complete implementation.*
-
 
 
 ### 3. Distributed Tracing with OpenTelemetry
@@ -188,9 +167,7 @@ curl "http://localhost:16686/api/traces?service=frontend&limit=10"
 #### OpenTelemetry Architecture
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-12) for complete implementation.*
-
 
 
 #### Instrumenting with OpenTelemetry
@@ -198,17 +175,13 @@ curl "http://localhost:16686/api/traces?service=frontend&limit=10"
 **Go Example**:
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-13) for complete implementation.*
-
 
 
 **Python Example**:
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-14) for complete implementation.*
-
 
 
 ### 4. Grafana Dashboards
@@ -216,17 +189,13 @@ curl "http://localhost:16686/api/traces?service=frontend&limit=10"
 #### Dashboard JSON Structure
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-15) for complete implementation.*
-
 
 
 #### Template Variables
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-16) for complete implementation.*
-
 
 
 ### 5. Alerting Strategies
@@ -234,17 +203,13 @@ curl "http://localhost:16686/api/traces?service=frontend&limit=10"
 #### Alert Rules
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-17) for complete implementation.*
-
 
 
 #### Alertmanager Configuration
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-18) for complete implementation.*
-
 
 
 #### Alert Fatigue Prevention
@@ -273,25 +238,19 @@ Throughput SLI = Requests Processed / Expected Requests
 #### Service Level Objectives (SLOs)
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-20) for complete implementation.*
-
 
 
 #### Error Budget Calculation
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-21) for complete implementation.*
-
 
 
 **Error Budget Policy**:
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-22) for complete implementation.*
-
 
 
 ### 7. Incident Response
@@ -299,12 +258,12 @@ Throughput SLI = Requests Processed / Expected Requests
 #### Runbook Template
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-23) for complete implementation.*
 
 bash
    kubectl get pods -n production
    kubectl logs -n production -l app=api-service --tail=100
+
    ```
 
 2. **Check dependencies**
@@ -316,7 +275,7 @@ bash
 
    ```bash
    git log --since="1 hour ago" --pretty=format:"%h %an %s"
-   
+
 
 *See [REFERENCE.md](./REFERENCE.md#example-25) for complete implementation.*
 
@@ -346,17 +305,13 @@ count({__name__="http_requests_total"})
 #### Retention Policies
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-28) for complete implementation.*
-
 
 
 #### Sampling Strategies
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-29) for complete implementation.*
-
 
 
 ## Examples
@@ -364,9 +319,7 @@ count({__name__="http_requests_total"})
 ### Basic Usage
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-30) for complete implementation.*
-
 
 
 ### Advanced Usage

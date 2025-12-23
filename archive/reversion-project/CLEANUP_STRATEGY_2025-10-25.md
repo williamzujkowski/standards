@@ -7,6 +7,7 @@
 ## Current State
 
 **Audit Results:**
+
 - Broken links: **18** (17 in .backup/, 1 in docs/research/)
 - Hub violations: **1** (docs/guides/REVERSION_GUIDE.md)
 - Orphans: **11** (various documentation files)
@@ -16,6 +17,7 @@
 ## Safety-First Approach
 
 ### Pre-Flight Checklist
+
 - [x] Audit baseline captured
 - [ ] Git tag created: `cleanup-baseline-2025-10-25`
 - [ ] Working branch: `cleanup/safe-removal-2025-10-25`
@@ -24,6 +26,7 @@
 ### Execution Phases
 
 **Phase 1: Backup (5 min)**
+
 ```bash
 git tag -a cleanup-baseline-2025-10-25 -m "Pre-cleanup: 18 broken, 1 hub violation, 11 orphans"
 git checkout -b cleanup/safe-removal-2025-10-25
@@ -31,6 +34,7 @@ python3 scripts/generate-audit-reports.py > /tmp/baseline.log 2>&1
 ```
 
 **Phase 2: Safe Deletions (10 min)**
+
 ```bash
 # Verify no active links to .backup
 grep -r "\.backup/" . --exclude-dir=.backup --exclude-dir=.git
@@ -45,6 +49,7 @@ rmdir backups/
 ```
 
 **Phase 3: Fix Hub Violation (5 min)**
+
 ```bash
 # Auto-link REVERSION_GUIDE.md to hub
 python3 scripts/ensure-hub-links.py
@@ -53,6 +58,7 @@ python3 scripts/ensure-hub-links.py
 ```
 
 **Checkpoint Validation**
+
 ```bash
 python3 scripts/generate-audit-reports.py
 # Verify: Broken ≤1, Hubs = 0, Orphans ≤11
@@ -61,6 +67,7 @@ python3 scripts/generate-audit-reports.py
 **Phase 4: Address Orphans (30 min)**
 
 Strategy by category:
+
 - **Root files** (GEMINI.md): Review → Link to README or archive
 - **Docs files** (4 files): Auto-link via ensure-hub-links.py
 - **Script docs** (2 files): Link to scripts/README.md or archive
@@ -77,6 +84,7 @@ python3 scripts/ensure-hub-links.py
 ```
 
 **Phase 5: Final Validation (10 min)**
+
 ```bash
 python3 scripts/generate-audit-reports.py
 python3 scripts/validate-skills.py
@@ -89,6 +97,7 @@ pre-commit run --all-files
 ```
 
 **Phase 6: Documentation (15 min)**
+
 - Update CLAUDE.md with new audit metrics
 - Create cleanup decision record
 - Update README if needed
@@ -117,12 +126,14 @@ pre-commit run --all-files
 ## Rollback Procedures
 
 ### Full Rollback
+
 ```bash
 git checkout master
 git reset --hard cleanup-baseline-2025-10-25
 ```
 
 ### Selective Restore
+
 ```bash
 git checkout cleanup-baseline-2025-10-25 -- .backup/
 git checkout cleanup-baseline-2025-10-25 -- path/to/file
@@ -191,6 +202,7 @@ grep -A 100 "Orphaned Files" reports/generated/structure-audit.md | grep "^-" | 
 ## Full Strategy Document
 
 Complete implementation details stored in:
+
 - **Memory**: `hive/cleanup/strategy` (11KB)
 - **This file**: Executive summary for quick reference
 

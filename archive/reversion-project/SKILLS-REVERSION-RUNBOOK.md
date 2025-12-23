@@ -16,6 +16,7 @@
 **How Long**: 2-3 hours (preparation + execution + verification)
 
 **Related Docs**:
+
 - Full Context: [REVERSION_GUIDE.md](../guides/REVERSION_GUIDE.md)
 - Decision Record: [ADR-SKILLS-REVERSION.md](../decisions/ADR-SKILLS-REVERSION.md)
 - State Notes: [POST-REVERSION-STATE.md](../notes/POST-REVERSION-STATE.md)
@@ -45,6 +46,7 @@ Before starting reversion, verify:
 **Purpose**: Preserve a4b1ed1 state for future reference
 
 **Commands**:
+
 ```bash
 # 1. Verify you're on the post-refactor commit
 git log -1 --oneline
@@ -72,6 +74,7 @@ git tag -l | grep legacy/skills-md-refactor
 ```
 
 **Verification**:
+
 ```bash
 # Confirm backup branch matches current state
 CURRENT_COMMIT=$(git rev-parse HEAD)
@@ -93,6 +96,7 @@ fi
 | Tag already exists | Previous tag | Delete: `git tag -d legacy/skills-md-refactor` |
 
 **Success Criteria**:
+
 - [ ] backup/pre-reversion-state branch created and pushed
 - [ ] legacy/skills-md-refactor tag created and pushed
 - [ ] Backup commit matches current HEAD
@@ -104,6 +108,7 @@ fi
 **Purpose**: Work on separate branch for clean PR workflow
 
 **Commands**:
+
 ```bash
 # 1. Return to master
 git checkout master
@@ -120,6 +125,7 @@ git branch --show-current
 ```
 
 **Verification**:
+
 ```bash
 git branch --show-current
 # Output: revert/skills-md-refactor
@@ -129,6 +135,7 @@ git log -1 --oneline
 ```
 
 **Success Criteria**:
+
 - [ ] On revert/skills-md-refactor branch
 - [ ] Branch matches current master state
 
@@ -139,6 +146,7 @@ git log -1 --oneline
 **Purpose**: Confirm target reversion commit (68e0eb7)
 
 **Commands**:
+
 ```bash
 # 1. View commits before and including a4b1ed1
 git log --oneline --graph a4b1ed1~5..a4b1ed1
@@ -164,6 +172,7 @@ git ls-tree -r --name-only 68e0eb7 skills/ | grep -c "REFERENCE.md"
 ```
 
 **Verification Questions**:
+
 - [ ] Does commit 68e0eb7 exist? `git cat-file -t 68e0eb7` → commit
 - [ ] Is 68e0eb7 before a4b1ed1? `git merge-base --is-ancestor 68e0eb7 a4b1ed1 && echo yes`
 - [ ] Does 68e0eb7 have 61 SKILL.md files?
@@ -171,6 +180,7 @@ git ls-tree -r --name-only 68e0eb7 skills/ | grep -c "REFERENCE.md"
 - [ ] Does 68e0eb7 pre-commit pass? (check CI history or git notes)
 
 **Success Criteria**:
+
 - [ ] Commit 68e0eb7 verified as last known good
 - [ ] 68e0eb7 state contains 61 SKILL.md files, 0 REFERENCE.md files
 - [ ] 68e0eb7 is ancestor of current HEAD
@@ -182,6 +192,7 @@ git ls-tree -r --name-only 68e0eb7 skills/ | grep -c "REFERENCE.md"
 **Purpose**: Reset repository to 68e0eb7 state
 
 **Commands**:
+
 ```bash
 # 1. Ensure on revert/skills-md-refactor branch
 git branch --show-current
@@ -223,6 +234,7 @@ See docs/decisions/ADR-SKILLS-REVERSION.md for decision record.
 ```
 
 **Verification Commands**:
+
 ```bash
 # File counts
 echo "=== Verification ==="
@@ -249,6 +261,7 @@ ls -d archive/ 2>&1 || echo "Not found (expected)"
 ```
 
 **Success Criteria**:
+
 - [ ] HEAD at 68e0eb7
 - [ ] 61 SKILL.md files present
 - [ ] 0 REFERENCE.md files
@@ -271,6 +284,7 @@ ls -d archive/ 2>&1 || echo "Not found (expected)"
 **Purpose**: Document reversion context for future reference
 
 **Directory Setup**:
+
 ```bash
 # Create documentation directories if needed
 mkdir -p docs/decisions
@@ -304,6 +318,7 @@ mkdir -p docs/notes
    - Validation commands
 
 **Commit Documentation**:
+
 ```bash
 # Add all reversion docs
 git add docs/guides/REVERSION_GUIDE.md
@@ -347,6 +362,7 @@ Provides comprehensive context for:
 ```
 
 **Verification**:
+
 ```bash
 # Verify all docs created
 ls -lh docs/guides/REVERSION_GUIDE.md
@@ -362,6 +378,7 @@ git log -2 --oneline
 ```
 
 **Success Criteria**:
+
 - [ ] All 4 reversion docs created
 - [ ] CHANGELOG.md updated (if exists)
 - [ ] Documentation committed with clear message
@@ -374,6 +391,7 @@ git log -2 --oneline
 **Purpose**: Confirm repository in expected post-reversion state
 
 **Verification Script**:
+
 ```bash
 #!/bin/bash
 # reversion-verification.sh
@@ -467,12 +485,14 @@ echo "=== Verification Complete ==="
 ```
 
 **Run Verification**:
+
 ```bash
 chmod +x reversion-verification.sh
 ./reversion-verification.sh
 ```
 
 **Manual Checks**:
+
 ```bash
 # Sample skill file structure
 cat skills/coding-standards/python/SKILL.md | head -20
@@ -488,6 +508,7 @@ git log --oneline | grep a4b1ed1
 ```
 
 **Success Criteria**:
+
 - [ ] All automated checks pass
 - [ ] 61/61 skills compliant
 - [ ] Pre-commit hooks pass
@@ -512,6 +533,7 @@ git log --oneline | grep a4b1ed1
 **Purpose**: Submit reversion for review and merge
 
 **Commands**:
+
 ```bash
 # 1. Push reversion branch
 git push -u origin revert/skills-md-refactor
@@ -618,6 +640,7 @@ echo "PR created: $PR_URL"
 ```
 
 **Alternative (Manual PR Creation)**:
+
 ```bash
 # If gh CLI not available, create PR manually:
 git push -u origin revert/skills-md-refactor
@@ -626,6 +649,7 @@ echo "Visit: https://github.com/williamzujkowski/standards/compare/revert/skills
 ```
 
 **PR Checklist** (ensure these are checked in PR):
+
 - [ ] Title clearly states reversion intent
 - [ ] Body explains rationale comprehensively
 - [ ] Verification section shows all checks passed
@@ -637,6 +661,7 @@ echo "Visit: https://github.com/williamzujkowski/standards/compare/revert/skills
 - [ ] Linked to related issues (if any)
 
 **Success Criteria**:
+
 - [ ] PR created successfully
 - [ ] PR URL accessible
 - [ ] PR body contains full context
@@ -673,6 +698,7 @@ git branch -d backup/pre-reversion-state  # Keep remote, delete local
 ```
 
 **Team Communication Template**:
+
 ```markdown
 Subject: Skills.md Refactor Reverted - Repository Returned to Stable State
 
@@ -707,6 +733,7 @@ Thanks,
 ```
 
 **Success Criteria**:
+
 - [ ] Master branch updated
 - [ ] Final verification passes
 - [ ] Production tag created
@@ -757,6 +784,7 @@ gh issue create --title "Reversion Rollback Required" \
 ```
 
 **Rollback Verification**:
+
 ```bash
 # Confirm state matches a4b1ed1
 git diff a4b1ed1 HEAD
@@ -769,6 +797,7 @@ pre-commit run --all-files
 ```
 
 **Success Criteria**:
+
 - [ ] System restored to pre-reversion state
 - [ ] All functionality verified working
 - [ ] Incident documented
@@ -788,6 +817,7 @@ pre-commit run --all-files
 **Cause**: Master branch updated after reversion branch created
 
 **Solution**:
+
 ```bash
 # Update reversion branch with latest master
 git checkout revert/skills-md-refactor
@@ -810,6 +840,7 @@ git push origin revert/skills-md-refactor
 **Cause**: Pre-commit config changed between 68e0eb7 and current
 
 **Solution**:
+
 ```bash
 # Check if .pre-commit-config.yaml changed
 git diff 68e0eb7 HEAD -- .pre-commit-config.yaml
@@ -832,6 +863,7 @@ git commit -m "revert: restore pre-refactor pre-commit config"
 **Cause**: Dependencies changed between versions
 
 **Solution**:
+
 ```bash
 # Check if requirements.txt changed
 git diff 68e0eb7 HEAD -- requirements.txt
@@ -856,6 +888,7 @@ git checkout 68e0eb7 -- scripts/skill-loader.py
 **Cause**: Incomplete revert or validation script changed
 
 **Solution**:
+
 ```bash
 # 1. Verify skills count
 find skills -name "SKILL.md" | wc -l
@@ -880,6 +913,7 @@ python3 scripts/validate-anthropic-compliance.py
 **Cause**: mkdocs.yml references removed files
 
 **Solution**:
+
 ```bash
 # Check if mkdocs.yml changed
 git diff 68e0eb7 HEAD -- mkdocs.yml
@@ -941,6 +975,7 @@ mkdocs build 2>&1 | grep "WARNING"
 - [ ] Team satisfied with decision
 
 **Failure Indicators**:
+
 - User reports of skill loading failures
 - Compliance drops below 95%
 - External requirement for skills.md emerges within 1 month
@@ -1008,12 +1043,14 @@ git branch -d backup/pre-reversion-state  # Deletes local only, remote preserved
 ## Document Maintenance
 
 **Update Triggers**:
+
 - Reversion procedure changes
 - New troubleshooting scenarios identified
 - Team feedback on clarity
 - Post-mortem findings
 
 **Review Schedule**:
+
 - Immediately after first use
 - 1 month post-reversion
 - Annually (or when referenced)

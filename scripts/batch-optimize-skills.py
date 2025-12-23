@@ -7,8 +7,6 @@ Uses proven pattern from aws-advanced and advanced-kubernetes optimizations.
 import re
 from pathlib import Path
 from typing import Dict, List, Tuple
-import json
-
 
 # Skills to optimize (from anthropic-compliance-report.md)
 SKILLS_TO_OPTIMIZE = [
@@ -19,14 +17,12 @@ SKILLS_TO_OPTIMIZE = [
     ("ml-ai/model-deployment", 9465),
     ("security/zero-trust", 9342),
     ("security/api-security", 8718),
-
     # High priority (7K-8K tokens)
     ("compliance/gdpr", 7680),
     ("compliance/healthtech", 7763),
     ("devops/infrastructure-as-code", 7794),
     ("compliance/fintech", 7384),
     ("database/advanced-optimization", 7177),
-
     # Medium priority (6K-7K tokens)
     ("frontend/mobile-react-native", 6825),
     ("devops/monitoring-observability", 6797),
@@ -34,7 +30,6 @@ SKILLS_TO_OPTIMIZE = [
     ("cloud-native/serverless", 6612),
     ("data-engineering/orchestration", 6283),
     ("database/nosql", 6420),
-
     # Lower priority (5K-6K tokens)
     ("cloud-native/service-mesh", 5945),
     ("security/security-operations", 6100),
@@ -53,11 +48,7 @@ class SkillOptimizer:
     def extract_level2_section(self, content: str) -> Tuple[str, str, str]:
         """Extract Level 1, Level 2, and Level 3+ sections."""
         # Find Level 2 section
-        level2_match = re.search(
-            r'(## Level 2:.*?)(?=## Level 3:|$)',
-            content,
-            re.DOTALL
-        )
+        level2_match = re.search(r"(## Level 2:.*?)(?=## Level 3:|$)", content, re.DOTALL)
 
         if not level2_match:
             return "", content, ""
@@ -65,13 +56,13 @@ class SkillOptimizer:
         level2_content = level2_match.group(1)
 
         # Split at Level 2
-        parts = content.split('## Level 2:', 1)
+        parts = content.split("## Level 2:", 1)
         before_level2 = parts[0] if len(parts) > 1 else ""
 
         # Find Level 3
-        if '## Level 3:' in content:
-            after_parts = content.split('## Level 3:', 1)
-            level3_content = '## Level 3:' + after_parts[1] if len(after_parts) > 1 else ""
+        if "## Level 3:" in content:
+            after_parts = content.split("## Level 3:", 1)
+            level3_content = "## Level 3:" + after_parts[1] if len(after_parts) > 1 else ""
         else:
             level3_content = ""
 
@@ -82,23 +73,18 @@ class SkillOptimizer:
         code_blocks = []
 
         def replace_code(match):
-            lang = match.group(1) or ''
+            lang = match.group(1) or ""
             code = match.group(2)
             index = len(code_blocks)
 
             # Determine if this is a substantial code block
             is_substantial = (
-                len(code) > 200 or  # Long code
-                code.count('\n') > 10 or  # Many lines
-                any(x in code for x in ['function', 'class', 'def', 'import', 'const', 'export'])
+                len(code) > 200
+                or code.count("\n") > 10  # Long code
+                or any(x in code for x in ["function", "class", "def", "import", "const", "export"])  # Many lines
             )
 
-            block_info = {
-                'index': index,
-                'lang': lang,
-                'code': code,
-                'substantial': is_substantial
-            }
+            block_info = {"index": index, "lang": lang, "code": code, "substantial": is_substantial}
             code_blocks.append(block_info)
 
             if is_substantial:
@@ -108,7 +94,7 @@ class SkillOptimizer:
                 # Keep short examples inline
                 return match.group(0)
 
-        pattern = r'```(\w*)\n(.*?)```'
+        pattern = r"```(\w*)\n(.*?)```"
         condensed_text = re.sub(pattern, replace_code, text, flags=re.DOTALL)
 
         return code_blocks, condensed_text
@@ -121,34 +107,30 @@ class SkillOptimizer:
         def condense_list(match):
             items = match.group(0)
             if len(items) > 500:  # Long list
-                extracted_content.append(('list', items))
+                extracted_content.append(("list", items))
                 # Return abbreviated version
-                lines = items.split('\n')
+                lines = items.split("\n")
                 if len(lines) > 8:
-                    return '\n'.join(lines[:5]) + '\n\n*See REFERENCE.md for complete list.*\n'
+                    return "\n".join(lines[:5]) + "\n\n*See REFERENCE.md for complete list.*\n"
             return items
 
-        text = re.sub(r'(?:^[-*] .+$\n?)+', condense_list, text, flags=re.MULTILINE)
+        text = re.sub(r"(?:^[-*] .+$\n?)+", condense_list, text, flags=re.MULTILINE)
 
         # Pattern 2: Extract verbose configuration examples
         def condense_config(match):
             config = match.group(0)
             if len(config) > 400:
-                extracted_content.append(('config', config))
-                lang = match.group(1) or ''
+                extracted_content.append(("config", config))
+                lang = match.group(1) or ""
                 return f"\n\n*See [REFERENCE.md](./REFERENCE.md) for complete {lang} configuration.*\n\n"
             return config
 
-        text = re.sub(r'```(yaml|json|toml)\n.*?```', condense_config, text, flags=re.DOTALL)
+        text = re.sub(r"```(yaml|json|toml)\n.*?```", condense_config, text, flags=re.DOTALL)
 
         return text, extracted_content
 
     def create_reference_doc(
-        self,
-        skill_name: str,
-        code_blocks: List[Dict],
-        extracted_content: List,
-        original_level2: str
+        self, skill_name: str, code_blocks: List[Dict], extracted_content: List, original_level2: str
     ) -> str:
         """Create REFERENCE.md with extracted content."""
 
@@ -161,9 +143,9 @@ This document contains detailed configuration examples and full code samples ext
 """
 
         # Add TOC based on original structure
-        sections = re.findall(r'###\s+(.+)', original_level2)
+        sections = re.findall(r"###\s+(.+)", original_level2)
         for section in sections[:10]:  # Limit TOC
-            anchor = section.lower().replace(' ', '-').replace('/', '').replace('&', '')
+            anchor = section.lower().replace(" ", "-").replace("/", "").replace("&", "")
             doc += f"- [{section}](#{anchor})\n"
 
         doc += "\n---\n\n"
@@ -172,7 +154,7 @@ This document contains detailed configuration examples and full code samples ext
         if code_blocks:
             doc += "## Code Examples\n\n"
             for block in code_blocks:
-                if block['substantial']:
+                if block["substantial"]:
                     doc += f"### Example {block['index']}\n\n"
                     doc += f"```{block['lang']}\n{block['code']}```\n\n"
 
@@ -201,11 +183,7 @@ See the main SKILL.md file for essential patterns and the official documentation
         print(f"Current tokens: {current_tokens:,} (target: <5,000)")
 
         if not skill_file.exists():
-            return {
-                'skill': skill_path,
-                'status': 'error',
-                'message': 'SKILL.md not found'
-            }
+            return {"skill": skill_path, "status": "error", "message": "SKILL.md not found"}
 
         # Read content
         content = skill_file.read_text()
@@ -215,11 +193,7 @@ See the main SKILL.md file for essential patterns and the official documentation
         level1, level2, level3 = self.extract_level2_section(content)
 
         if not level2:
-            return {
-                'skill': skill_path,
-                'status': 'error',
-                'message': 'No Level 2 section found'
-            }
+            return {"skill": skill_path, "status": "error", "message": "No Level 2 section found"}
 
         # Extract code blocks
         code_blocks, level2_condensed = self.extract_code_blocks(level2)
@@ -230,14 +204,10 @@ See the main SKILL.md file for essential patterns and the official documentation
         # Add reference link if content was extracted
         if code_blocks or extracted_content:
             # Add reference link at top of Level 2
-            reference_note = '\n> **📚 Full Examples**: See [REFERENCE.md](./REFERENCE.md) for complete code samples, detailed configurations, and production-ready implementations.\n\n'
+            reference_note = "\n> **📚 Full Examples**: See [REFERENCE.md](./REFERENCE.md) for complete code samples, detailed configurations, and production-ready implementations.\n\n"
 
             # Insert after Level 2 header
-            level2_final = level2_final.replace(
-                '## Level 2:',
-                '## Level 2:' + reference_note,
-                1
-            )
+            level2_final = level2_final.replace("## Level 2:", "## Level 2:" + reference_note, 1)
 
         # Reconstruct file
         new_content = level1 + level2_final + level3
@@ -257,13 +227,8 @@ See the main SKILL.md file for essential patterns and the official documentation
         # Create REFERENCE.md if content was extracted
         reference_created = False
         if code_blocks or extracted_content:
-            skill_name = skill_path.split('/')[-1].replace('-', ' ').title()
-            reference_content = self.create_reference_doc(
-                skill_name,
-                code_blocks,
-                extracted_content,
-                level2
-            )
+            skill_name = skill_path.split("/")[-1].replace("-", " ").title()
+            reference_content = self.create_reference_doc(skill_name, code_blocks, extracted_content, level2)
 
             reference_file = self.skills_dir / skill_path / "REFERENCE.md"
             reference_file.write_text(reference_content)
@@ -272,21 +237,21 @@ See the main SKILL.md file for essential patterns and the official documentation
 
         # Write optimized SKILL.md
         skill_file.write_text(new_content)
-        print(f"  ✅ Updated SKILL.md")
+        print("  ✅ Updated SKILL.md")
 
         return {
-            'skill': skill_path,
-            'status': 'success',
-            'original_tokens': current_tokens,
-            'new_tokens': new_tokens,
-            'token_reduction': token_reduction,
-            'reduction_pct': reduction_pct,
-            'original_chars': original_chars,
-            'new_chars': new_chars,
-            'code_blocks_extracted': len(code_blocks),
-            'configs_extracted': len(extracted_content),
-            'reference_created': reference_created,
-            'now_compliant': new_tokens < 5000
+            "skill": skill_path,
+            "status": "success",
+            "original_tokens": current_tokens,
+            "new_tokens": new_tokens,
+            "token_reduction": token_reduction,
+            "reduction_pct": reduction_pct,
+            "original_chars": original_chars,
+            "new_chars": new_chars,
+            "code_blocks_extracted": len(code_blocks),
+            "configs_extracted": len(extracted_content),
+            "reference_created": reference_created,
+            "now_compliant": new_tokens < 5000,
         }
 
     def optimize_all(self) -> List[Dict]:
@@ -302,15 +267,15 @@ See the main SKILL.md file for essential patterns and the official documentation
 
     def generate_summary(self) -> str:
         """Generate optimization summary report."""
-        successful = [r for r in self.results if r['status'] == 'success']
-        errors = [r for r in self.results if r['status'] == 'error']
+        successful = [r for r in self.results if r["status"] == "success"]
+        errors = [r for r in self.results if r["status"] == "error"]
 
-        total_token_reduction = sum(r.get('token_reduction', 0) for r in successful)
-        total_original = sum(r.get('original_tokens', 0) for r in successful)
+        total_token_reduction = sum(r.get("token_reduction", 0) for r in successful)
+        total_original = sum(r.get("original_tokens", 0) for r in successful)
         avg_reduction = (total_token_reduction / total_original * 100) if total_original > 0 else 0
 
-        now_compliant = sum(1 for r in successful if r.get('now_compliant', False))
-        references_created = sum(1 for r in successful if r.get('reference_created', False))
+        now_compliant = sum(1 for r in successful if r.get("now_compliant", False))
+        references_created = sum(1 for r in successful if r.get("reference_created", False))
 
         report = f"""
 # Batch Skill Optimization Summary
@@ -332,10 +297,10 @@ See the main SKILL.md file for essential patterns and the official documentation
 """
 
         # Sort by token reduction (highest first)
-        successful_sorted = sorted(successful, key=lambda x: x.get('token_reduction', 0), reverse=True)
+        successful_sorted = sorted(successful, key=lambda x: x.get("token_reduction", 0), reverse=True)
 
         for result in successful_sorted:
-            status_icon = "✅" if result.get('now_compliant') else "⚠️"
+            status_icon = "✅" if result.get("now_compliant") else "⚠️"
             report += f"""
 ### {status_icon} `{result['skill']}`
 
@@ -397,9 +362,9 @@ def main():
     summary_file.write_text(summary)
 
     print(f"\n{'='*80}")
-    print(f"Optimization complete!")
+    print("Optimization complete!")
     print(f"Summary saved to: {summary_file}")
-    print(f"\nQuick stats:")
+    print("\nQuick stats:")
     print(f"  Processed: {len(results)} skills")
     print(f"  Successful: {sum(1 for r in results if r['status'] == 'success')}")
     print(f"  Now compliant: {sum(1 for r in results if r.get('now_compliant', False))}")

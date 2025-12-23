@@ -64,30 +64,35 @@
 ## Migration Plan (5 Phases)
 
 ### Phase 1: Framework (Week 1)
+
 - Build format converter
 - Update skill-loader for dual formats
 - Add validation for both formats
 - **Deliverable**: Working converter + updated tooling
 
 ### Phase 2: Pilot (Week 2)
+
 - Migrate 5 representative skills
 - Validate approach
 - Fix edge cases
 - **Deliverable**: 5 skills in both formats, validated
 
 ### Phase 3: Bulk Migration (Week 3)
+
 - Convert all 61 skills
 - Full validation suite
 - Update CLAUDE.md
 - **Deliverable**: All skills dual-format
 
 ### Phase 4: Documentation (Week 4)
+
 - Update all guides
 - Create migration guide
 - Update CI/CD
 - **Deliverable**: Complete documentation
 
 ### Phase 5: Validation (Week 5)
+
 - Comprehensive testing
 - Performance benchmarks
 - Real-world validation
@@ -111,6 +116,7 @@
 ## Success Criteria
 
 ### Must Have ✅
+
 - [ ] All 61 skills have both SKILL.md and skill.md
 - [ ] Both formats pass validation
 - [ ] skill-loader works with both formats
@@ -118,6 +124,7 @@
 - [ ] 0 broken links, 0 hub violations, orphans ≤5
 
 ### Nice to Have ⭐
+
 - [ ] Auto-generation on commit via pre-commit hook
 - [ ] Claude Projects tested and validated
 - [ ] Performance benchmarks documented
@@ -128,17 +135,20 @@
 ## Resource Requirements
 
 ### People
+
 - 1 Senior Developer (full-time, 2 weeks)
 - 1 Technical Writer (part-time, 1 week)
 - 1 QA Engineer (part-time, 1 week)
 - Repository Owner (review and approval, 4 hours)
 
 ### Tools
+
 - Existing Python environment
 - pytest for testing
 - No new dependencies required
 
 ### Timeline
+
 - **Week 1**: Framework development
 - **Week 2**: Pilot migration + validation
 - **Week 3**: Bulk conversion + docs
@@ -149,6 +159,7 @@
 ## Key Architectural Changes
 
 ### Before (Current)
+
 ```
 skills/
 ├── coding-standards/
@@ -160,6 +171,7 @@ skills/
 ```
 
 ### After (Dual-Format)
+
 ```
 skills/
 ├── coding-standards/
@@ -224,17 +236,20 @@ python3 scripts/validate-skills.py --all
 ## Next Steps
 
 ### Immediate (This Week)
+
 1. ✅ Review and approve strategy document
 2. ⬜ Allocate resources (1 senior dev)
 3. ⬜ Create feature branch: `feature/skills-v2-dual-format`
 4. ⬜ Begin converter implementation
 
 ### Short-Term (2-4 Weeks)
+
 1. Complete Phase 1-2 (framework + pilot)
 2. Validate approach with 5 skills
 3. Iterate based on results
 
 ### Medium-Term (1-2 Months)
+
 1. Complete Phase 3-5 (bulk migration + validation)
 2. Finalize documentation
 3. Deploy to production
@@ -244,18 +259,23 @@ python3 scripts/validate-skills.py --all
 ## Questions and Answers
 
 ### Q: Will this break existing workflows?
+
 **A**: No. SKILL.md remains unchanged. skill-loader default behavior is identical to current behavior.
 
 ### Q: Why not just use canonical format everywhere?
+
 **A**: Our 3-level format provides superior token optimization (46-99% savings in some scenarios) and progressive disclosure that benefits learning workflows.
 
 ### Q: What if Anthropic releases official specification later?
+
 **A**: Dual-format approach allows us to quickly adapt. We'll update the generator to match official spec while keeping SKILL.md as source.
 
 ### Q: How do we validate canonical format works with Claude Projects?
+
 **A**: Manual testing - upload generated skill.md to Claude Projects and verify functionality. Automate validation once integration patterns are clear.
 
 ### Q: What happens to NIST tagging in canonical format?
+
 **A**: NIST controls preserved as comments in code examples (e.g., `# @nist IA-2 "User authentication"`). Also documented in metadata file.
 
 ---

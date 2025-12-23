@@ -134,6 +134,7 @@ terraform output -json vpc_id
 ---
 
 ## Level 2:
+>
 > **📚 Full Examples**: See [REFERENCE.md](./REFERENCE.md) for complete code samples, detailed configurations, and production-ready implementations.
 
  Implementation Guide
@@ -143,25 +144,19 @@ terraform output -json vpc_id
 #### Project Structure
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-0) for complete implementation.*
-
 
 
 #### Provider Configuration
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-1) for complete implementation.*
-
 
 
 #### Resources and Data Sources
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-2) for complete implementation.*
-
 
 
 ### 2. Module Development
@@ -169,17 +164,13 @@ terraform output -json vpc_id
 #### Module Structure
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-3) for complete implementation.*
-
 
 
 #### Module Versioning
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-4) for complete implementation.*
-
 
 
 ### 3. State Management
@@ -187,25 +178,19 @@ terraform output -json vpc_id
 #### S3 Backend Configuration
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-5) for complete implementation.*
-
 
 
 #### Backend Initialization Script
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-6) for complete implementation.*
-
 
 
 #### State Operations
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-7) for complete implementation.*
-
 
 
 ### 4. Workspace Strategies
@@ -213,17 +198,13 @@ terraform output -json vpc_id
 #### Environment Workspaces
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-8) for complete implementation.*
-
 
 
 #### Workspace-Based Configuration
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-9) for complete implementation.*
-
 
 
 ### 5. Testing Infrastructure as Code
@@ -231,25 +212,19 @@ terraform output -json vpc_id
 #### Terraform Validate and Format
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-10) for complete implementation.*
-
 
 
 #### TFLint Configuration
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-11) for complete implementation.*
-
 
 
 #### Terratest Example
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-12) for complete implementation.*
-
 
 
 ### 6. CI/CD Integration
@@ -257,17 +232,13 @@ terraform output -json vpc_id
 #### GitHub Actions Workflow
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-13) for complete implementation.*
-
 
 
 #### GitLab CI Pipeline
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-14) for complete implementation.*
-
 
 
 ### 7. Multi-Cloud Configuration
@@ -275,17 +246,13 @@ terraform output -json vpc_id
 #### AWS + Azure Example
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-15) for complete implementation.*
-
 
 
 #### GCP Configuration
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-16) for complete implementation.*
-
 
 
 ### 8. Security Best Practices
@@ -293,25 +260,19 @@ terraform output -json vpc_id
 #### Secrets Management
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-17) for complete implementation.*
-
 
 
 #### IAM Policy Best Practices
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-18) for complete implementation.*
-
 
 
 #### Resource Encryption
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-19) for complete implementation.*
-
 
 
 ### 9. Drift Detection and Remediation
@@ -319,17 +280,13 @@ terraform output -json vpc_id
 #### Drift Detection Script
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-20) for complete implementation.*
-
 
 
 #### Automated Remediation
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-21) for complete implementation.*
-
 
 
 #### Scheduled Drift Checks (Cron)
@@ -345,25 +302,19 @@ terraform output -json vpc_id
 #### Dynamic Blocks
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-23) for complete implementation.*
-
 
 
 #### For Expressions
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-24) for complete implementation.*
-
 
 
 #### Conditional Resources
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-25) for complete implementation.*
-
 
 
 ---

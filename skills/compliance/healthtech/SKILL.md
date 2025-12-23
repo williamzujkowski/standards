@@ -41,6 +41,7 @@ description: HIPAA establishes national standards for protecting patient health 
 ---
 
 ## Level 2:
+>
 > **📚 Full Examples**: See [REFERENCE.md](./REFERENCE.md) for complete code samples, detailed configurations, and production-ready implementations.
 
  Implementation Guide (~1200 tokens)

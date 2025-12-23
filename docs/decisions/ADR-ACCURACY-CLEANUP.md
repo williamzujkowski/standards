@@ -33,26 +33,30 @@ Software documentation often suffers from marketing language, unverifiable claim
 **Description**: Emphasize features, use compelling language, focus on potential rather than current state.
 
 **Examples**:
-- "Revolutionary AI-powered development framework"
-- "Dramatically improved performance"
-- "Cutting-edge automation capabilities"
-- "Industry-leading standards compliance"
+
+* "Revolutionary AI-powered development framework"
+* "Dramatically improved performance"
+* "Cutting-edge automation capabilities"
+* "Industry-leading standards compliance"
 
 **Pros**:
-- More engaging for casual readers
-- Easier to attract initial attention
-- Competitive positioning emphasized
-- Potential future capabilities highlighted
+
+* More engaging for casual readers
+* Easier to attract initial attention
+* Competitive positioning emphasized
+* Potential future capabilities highlighted
 
 **Cons**:
-- **Trust erosion** when claims don't match reality
-- **Maintenance burden** updating exaggerations
-- **AI confusion** processing vague quantifiers
-- **Professional skepticism** from enterprise users
-- **Technical debt** when features don't materialize
-- **Compliance risk** overstating capabilities
+
+* **Trust erosion** when claims don't match reality
+* **Maintenance burden** updating exaggerations
+* **AI confusion** processing vague quantifiers
+* **Professional skepticism** from enterprise users
+* **Technical debt** when features don't materialize
+* **Compliance risk** overstating capabilities
 
 **Example Problems**:
+
 ```markdown
 ❌ BAD: "Dramatically improves token efficiency"
 Why bad: "Dramatically" is unquantified and subjective
@@ -73,25 +77,29 @@ Why bad: "Revolutionary" is marketing hyperbole
 **Description**: Mix marketing language with factual information, use disclaimers for uncertain claims.
 
 **Examples**:
-- "Significant performance improvements (see benchmarks for details)"
-- "Advanced automation capabilities*" (*experimental features)
-- "Industry-leading compliance† (based on internal testing)"
+
+* "Significant performance improvements (see benchmarks for details)"
+* "Advanced automation capabilities*" (*experimental features)
+* "Industry-leading compliance† (based on internal testing)"
 
 **Pros**:
-- Maintains some marketing appeal
-- Provides factual backup for claims
-- Allows flexibility in presentation
-- Easier transition from current state
+
+* Maintains some marketing appeal
+* Provides factual backup for claims
+* Allows flexibility in presentation
+* Easier transition from current state
 
 **Cons**:
-- **Ambiguity** in what's marketing vs fact
-- **Cognitive load** parsing disclaimers
-- **Inconsistency** in application across documents
-- **Maintenance complexity** updating both marketing and facts
-- **Partial solution** doesn't fully address trust issues
-- **Still requires verification** for every mixed claim
+
+* **Ambiguity** in what's marketing vs fact
+* **Cognitive load** parsing disclaimers
+* **Inconsistency** in application across documents
+* **Maintenance complexity** updating both marketing and facts
+* **Partial solution** doesn't fully address trust issues
+* **Still requires verification** for every mixed claim
 
 **Example Problems**:
+
 ```markdown
 ⚠️ MIXED: "Dramatically improved* performance"
 *91-99.6% token reduction depending on scenario
@@ -109,6 +117,7 @@ Better: "91-99.6% token reduction depending on scenario"
 **Description**: Use only factual, measurable, verifiable language with primary evidence for all claims.
 
 **Core Principles**:
+
 1. **No Exaggeration**: All performance claims must be measurable and verified
 2. **Primary Evidence**: Link to actual files, configs, scripts - not abstractions
 3. **Temporal Precision**: Use exact timestamps in ISO 8601 + timezone format
@@ -116,6 +125,7 @@ Better: "91-99.6% token reduction depending on scenario"
 5. **Refusal to Guess**: Mark uncertain information as "Unknown" or "Planned"
 
 **Examples**:
+
 ```markdown
 ✅ GOOD: "91-99.6% token reduction (measured via scripts/token-counter.py)"
 Why good: Specific metric, verification method provided
@@ -135,36 +145,41 @@ Why good: Honest limitation, specific dependency
 **Prohibited Language**:
 
 **Never use without data**:
-- Vague quantifiers: "significantly", "dramatically", "vastly"
-- Unverifiable claims: "best", "optimal", "perfect"
-- Marketing language: "game-changer", "revolutionary", "cutting-edge"
+
+* Vague quantifiers: "significantly", "dramatically", "vastly"
+* Unverifiable claims: "best", "optimal", "perfect"
+* Marketing language: "game-changer", "revolutionary", "cutting-edge"
 
 **Always prefer**:
-- Specific metrics: "91-99.6% token reduction"
-- Qualified statements: "In testing with 61 skills..."
-- Honest limitations: "Requires external MCP server"
+
+* Specific metrics: "91-99.6% token reduction"
+* Qualified statements: "In testing with 61 skills..."
+* Honest limitations: "Requires external MCP server"
 
 **Pros**:
-- **Maximum trust** - all claims verifiable
-- **AI-friendly** - specific, parseable information
-- **Professional credibility** - enterprise-ready documentation
-- **Low maintenance** - facts don't need updating unless they change
-- **Long-term value** - accurate docs age better
-- **Compliance modeling** - demonstrates standards we advocate
-- **Clear limitations** - users know exactly what to expect
-- **Reproducible** - verification commands provided
+
+* **Maximum trust** - all claims verifiable
+* **AI-friendly** - specific, parseable information
+* **Professional credibility** - enterprise-ready documentation
+* **Low maintenance** - facts don't need updating unless they change
+* **Long-term value** - accurate docs age better
+* **Compliance modeling** - demonstrates standards we advocate
+* **Clear limitations** - users know exactly what to expect
+* **Reproducible** - verification commands provided
 
 **Cons**:
-- **Less flashy** - may not grab casual attention
-- **Longer initial read** - more detail upfront
-- **Higher bar** - requires verification for every claim
-- **Ongoing effort** - maintaining evidence links
+
+* **Less flashy** - may not grab casual attention
+* **Longer initial read** - more detail upfront
+* **Higher bar** - requires verification for every claim
+* **Ongoing effort** - maintaining evidence links
 
 **Mitigation for Cons**:
-- Use clear structure (tables, bullet points) for scannability
-- Lead with key metrics in summaries
-- Automate verification via scripts (validate-claims.py)
-- Include verification commands for transparency
+
+* Use clear structure (tables, bullet points) for scannability
+* Lead with key metrics in summaries
+* Automate verification via scripts (validate-claims.py)
+* Include verification commands for transparency
 
 **Conclusion**: **Selected**. Best fit for professional, AI-integrated standards repository.
 
@@ -181,11 +196,12 @@ Why good: Honest limitation, specific dependency
 #### Documentation Integrity Policy
 
 **Core Principles**:
-- **No Exaggeration**: All performance claims must be measurable and verified
-- **Primary Evidence**: Link to actual files, configs, scripts - not abstractions
-- **Temporal Precision**: Use exact timestamps in ISO 8601 + timezone format
-- **Trade-offs Required**: Every feature must document limitations
-- **Refusal to Guess**: Mark uncertain information as "Unknown" or "Planned"
+
+* **No Exaggeration**: All performance claims must be measurable and verified
+* **Primary Evidence**: Link to actual files, configs, scripts - not abstractions
+* **Temporal Precision**: Use exact timestamps in ISO 8601 + timezone format
+* **Trade-offs Required**: Every feature must document limitations
+* **Refusal to Guess**: Mark uncertain information as "Unknown" or "Planned"
 
 #### Enforcement Mechanisms
 
@@ -203,9 +219,10 @@ python3 scripts/generate-audit-reports.py
 ```
 
 **Review Cadence**:
-- **Per Commit**: Automated validation passes
-- **Weekly**: Structure audit (broken links = 0, hub violations = 0, orphans ≤ 5)
-- **Quarterly**: External review of all claims against repository state
+
+* **Per Commit**: Automated validation passes
+* **Weekly**: Structure audit (broken links = 0, hub violations = 0, orphans ≤ 5)
+* **Quarterly**: External review of all claims against repository state
 
 #### Evidence Requirements
 
@@ -246,10 +263,11 @@ Problem: Vague quantifier, no verification method
 * **Learning Curve**: Contributors must learn accuracy standards
 
 **Mitigation**:
-- Structure for scannability (tables, bullet points, summaries)
-- Automate verification (validate-claims.py catches issues early)
-- Provide templates with accuracy built-in
-- Document in CONTRIBUTING.md with examples
+
+* Structure for scannability (tables, bullet points, summaries)
+* Automate verification (validate-claims.py catches issues early)
+* Provide templates with accuracy built-in
+* Document in CONTRIBUTING.md with examples
 
 ---
 
@@ -262,10 +280,11 @@ Problem: Vague quantifier, no verification method
 **Reason**: Quality & Accuracy Framework was established 2025-10-24 in CLAUDE.md (lines 146-219) and has proven effective at preventing marketing language.
 
 **Evidence**:
-- GEMINI.md (new file): Reviewed and approved without modifications
-- CLAUDE.md: Already contains accuracy framework
-- ADR-SKILLS-REVERSION.md: Exemplary evidence-based decision document
-- validate-claims.py: Catches undocumented claims automatically
+
+* GEMINI.md (new file): Reviewed and approved without modifications
+* CLAUDE.md: Already contains accuracy framework
+* ADR-SKILLS-REVERSION.md: Exemplary evidence-based decision document
+* validate-claims.py: Catches undocumented claims automatically
 
 ### Evidence-Based Replacements
 
@@ -290,20 +309,22 @@ Problem: Vague quantifier, no verification method
 ### Before Accuracy Framework
 
 **Historical State** (pre-2025-10-24):
-- Some vague quantifiers ("numerous", "many")
-- Marketing language in early versions
-- Missing verification commands
-- Inconsistent timestamp formats
-- Unclear implementation status
+
+* Some vague quantifiers ("numerous", "many")
+* Marketing language in early versions
+* Missing verification commands
+* Inconsistent timestamp formats
+* Unclear implementation status
 
 ### After Accuracy Framework
 
 **Current State** (post-2025-10-24):
-- Specific counts for all collections
-- Verification commands for every metric
-- ISO 8601 + timezone timestamps
-- Clear status indicators (✅/⚠️/❌)
-- Documented limitations and dependencies
+
+* Specific counts for all collections
+* Verification commands for every metric
+* ISO 8601 + timezone timestamps
+* Clear status indicators (✅/⚠️/❌)
+* Documented limitations and dependencies
 
 **Validation Results** (2025-10-25):
 
@@ -325,15 +346,15 @@ python3 scripts/validate-anthropic-compliance.py
 
 ### Success Criteria
 
-- [x] Quality & Accuracy Framework documented (CLAUDE.md lines 146-219)
-- [x] Automated validation scripts functional (validate-claims.py)
-- [x] Evidence requirements defined and followed
-- [x] Prohibited language list established
-- [x] Verification commands provided for all claims
-- [x] Timestamps in ISO 8601 + timezone format
-- [x] Implementation status clearly categorized
-- [x] Limitations documented for all features
-- [x] Review cadence defined (per commit, weekly, quarterly)
+* [x] Quality & Accuracy Framework documented (CLAUDE.md lines 146-219)
+* [x] Automated validation scripts functional (validate-claims.py)
+* [x] Evidence requirements defined and followed
+* [x] Prohibited language list established
+* [x] Verification commands provided for all claims
+* [x] Timestamps in ISO 8601 + timezone format
+* [x] Implementation status clearly categorized
+* [x] Limitations documented for all features
+* [x] Review cadence defined (per commit, weekly, quarterly)
 
 ---
 
@@ -360,10 +381,11 @@ Trust Impact: Users discovering gap lose trust in all claims
 ```
 
 **Cost Analysis**:
-- Initial appeal: +10% casual user engagement (estimated)
-- Trust erosion: -30% enterprise adoption after verification (estimated)
-- Maintenance: 20-40 hours/year updating marketing language
-- Technical debt: Claims diverge from reality over time
+
+* Initial appeal: +10% casual user engagement (estimated)
+* Trust erosion: -30% enterprise adoption after verification (estimated)
+* Maintenance: 20-40 hours/year updating marketing language
+* Technical debt: Claims diverge from reality over time
 
 **ROI**: Negative for professional/AI-integrated repository
 
@@ -384,11 +406,12 @@ vs.
 ```
 
 **Comparison**:
-- Balanced: 2 lines (marketing + disclaimer)
-- Accuracy-First: 4 lines (direct evidence)
-- Reader effort: Balanced requires parsing disclaimer
-- Verifiability: Accuracy-First provides method directly
-- Maintainability: Accuracy-First updates when numbers change, Balanced updates marketing + numbers
+
+* Balanced: 2 lines (marketing + disclaimer)
+* Accuracy-First: 4 lines (direct evidence)
+* Reader effort: Balanced requires parsing disclaimer
+* Verifiability: Accuracy-First provides method directly
+* Maintainability: Accuracy-First updates when numbers change, Balanced updates marketing + numbers
 
 **Conclusion**: Minimal length difference, but Accuracy-First is clearer and more maintainable.
 
@@ -420,15 +443,16 @@ python3 scripts/token-counter.py --product api --language python
 
 **Evidence**:
 
-- 61 active skills in `/home/william/git/standards/skills/`
-- Product-matrix driven auto-loading in `config/product-matrix.yaml`
-- Measurement script: `scripts/token-counter.py`
+* 61 active skills in `/home/william/git/standards/skills/`
+* Product-matrix driven auto-loading in `config/product-matrix.yaml`
+* Measurement script: `scripts/token-counter.py`
 
 **Limitations**:
 
-- Token reduction assumes single product type; complex projects may require multiple skill loads
-- Parallel execution requires proper swarm initialization
-- Memory persistence depends on MCP server configuration
+* Token reduction assumes single product type; complex projects may require multiple skill loads
+* Parallel execution requires proper swarm initialization
+* Memory persistence depends on MCP server configuration
+
 ```
 
 **Analysis**:
@@ -472,26 +496,30 @@ python3 scripts/validate-claims.py --report quarterly-accuracy-$(date +%Y-Q%q).m
 ### Continuous Improvement Process
 
 **Weekly**:
-- Automated validation in CI/CD (validate-claims.py)
-- Structure audit (generate-audit-reports.py)
-- New documentation reviewed for accuracy
+
+* Automated validation in CI/CD (validate-claims.py)
+* Structure audit (generate-audit-reports.py)
+* New documentation reviewed for accuracy
 
 **Monthly**:
-- Review failed validation checks
-- Update timestamps for changed metrics
-- Verify external links still valid
+
+* Review failed validation checks
+* Update timestamps for changed metrics
+* Verify external links still valid
 
 **Quarterly**:
-- External review of all major claims
-- Update verification commands if tools change
-- Assess new prohibited language patterns
-- Update accuracy framework based on learnings
+
+* External review of all major claims
+* Update verification commands if tools change
+* Assess new prohibited language patterns
+* Update accuracy framework based on learnings
 
 **Annually**:
-- Comprehensive documentation audit
-- Third-party verification of key metrics
-- Framework effectiveness assessment
-- Training update for contributors
+
+* Comprehensive documentation audit
+* Third-party verification of key metrics
+* Framework effectiveness assessment
+* Training update for contributors
 
 ---
 
@@ -501,7 +529,7 @@ python3 scripts/validate-claims.py --report quarterly-accuracy-$(date +%Y-Q%q).m
 
 * **Quality Framework**: [CLAUDE.md](../../CLAUDE.md#quality--accuracy-framework) (lines 146-219)
 * **Cleanup Report**: [CLEANUP_REPORT.md](../../reports/generated/CLEANUP_REPORT.md)
-* **Skills Reversion ADR**: [ADR-SKILLS-REVERSION.md](./ADR-SKILLS-REVERSION.md)
+* **Skills Reversion ADR**: [ADR-SKILLS-REVERSION.md](../../archive/reversion-project/ADR-SKILLS-REVERSION.md)
 * **Validation Script**: [validate-claims.py](../../scripts/validate-claims.py)
 
 ### Validation Tools

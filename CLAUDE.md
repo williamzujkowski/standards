@@ -82,6 +82,7 @@ We extend Anthropic's format with optional metadata for automation:
 ### ✅ Optimization Complete (Phase 2)
 
 **All 61 skills now meet Anthropic's <5K token budget:**
+
 - Comprehensive content preserved in REFERENCE.md files (18 skills)
 - Level 2 optimized for essential patterns and workflows
 - 102,142 tokens reduced (61.4% average reduction)
@@ -102,6 +103,7 @@ cat reports/generated/anthropic-compliance-report.md
 ```
 
 **Current Compliance**:
+
 - Required fields: 61/61 (100%) ✅
 - Token budget: 61/61 (100%) ✅
 - Overall: 61/61 compliant (100%) ✅

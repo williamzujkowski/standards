@@ -9,10 +9,12 @@ Successfully optimized 2 largest skills that significantly exceeded the 5,000 to
 ### AWS Advanced Skill (`cloud-native/aws-advanced/`)
 
 **Before:**
+
 - Total tokens: ~9,845 (97% over 5K limit)
 - Structure: Verbose Level 2 with complete code examples inline
 
 **After:**
+
 - Total tokens: ~1,604 (68% under 5K limit)
 - **Reduction: 83.7%**
 - Structure:
@@ -20,6 +22,7 @@ Successfully optimized 2 largest skills that significantly exceeded the 5,000 to
   - **REFERENCE.md** - Complete implementations, full examples, detailed configs
 
 **Key Changes:**
+
 - Condensed Step Functions section from 300+ lines to key patterns overview
 - Moved complete state machine definitions to REFERENCE.md
 - Replaced verbose EventBridge examples with concise pattern descriptions
@@ -31,10 +34,12 @@ Successfully optimized 2 largest skills that significantly exceeded the 5,000 to
 ### Advanced Kubernetes Skill (`cloud-native/advanced-kubernetes/`)
 
 **Before:**
+
 - Total tokens: ~9,559 (91% over 5K limit)
 - Structure: Complete controller implementations inline, verbose webhook code
 
 **After:**
+
 - Total tokens: ~3,051 (39% under 5K limit)
 - **Reduction: 68.1%**
 - Structure:
@@ -42,6 +47,7 @@ Successfully optimized 2 largest skills that significantly exceeded the 5,000 to
   - **REFERENCE.md** - Full CRD definitions, complete controllers, test suites
 
 **Key Changes:**
+
 - Condensed CRD section to essential markers and patterns
 - Moved complete controller implementation (~300 lines) to REFERENCE.md
 - Extracted full webhook examples (validating + mutating) to reference
@@ -55,19 +61,23 @@ Successfully optimized 2 largest skills that significantly exceeded the 5,000 to
 ### Content Restructuring Approach
 
 **Level 1 (Quick Reference):**
+
 - No changes - kept intact for rapid skill lookup
 - Essential checklists, quick commands, core concepts
 
 **Level 2 (Implementation Guide):**
+
 - **Goal**: Patterns and workflows, not complete implementations
 - **Format**: Concept → Key points → Minimal code snippet → Link to REFERENCE.md
 - **Token target**: <3,000 tokens (60% of 5K budget)
 
 **Level 3 (Deep Dive Resources):**
+
 - No changes - kept intact for learning resources
 - Links to official docs, books, community resources
 
 **New: REFERENCE.md (Full Examples):**
+
 - Complete code implementations
 - Full configuration files
 - Detailed step-by-step examples
@@ -77,12 +87,14 @@ Successfully optimized 2 largest skills that significantly exceeded the 5,000 to
 ### Verification
 
 **No Information Loss:**
+
 - ✓ All code examples preserved (moved to REFERENCE.md)
 - ✓ All detailed configurations preserved
 - ✓ All implementation patterns preserved
 - ✓ Cross-references added for discoverability
 
 **Token Budget Compliance:**
+
 - ✓ AWS Advanced: 1,604 tokens (68% under limit)
 - ✓ Advanced Kubernetes: 3,051 tokens (39% under limit)
 - ✓ Combined reduction: 76.0% (from 19,404 to 4,655 tokens)
@@ -116,16 +128,19 @@ skills/cloud-native/advanced-kubernetes/
 ## Benefits
 
 ### For Claude LLM Context
+
 - **68-83% reduction** in token usage for these skills
 - More room for additional skills in context window
 - Faster skill loading and processing
 
 ### For Users
+
 - **Faster comprehension** - key patterns without noise
 - **Better navigation** - concise guides with deep-dive option
 - **Complete reference** - all examples still available when needed
 
 ### For Maintainers
+
 - **Clearer structure** - separation of concepts vs. implementations
 - **Easier updates** - modify examples in REFERENCE.md without touching patterns
 - **Reusable approach** - scripts can optimize other verbose skills
@@ -133,13 +148,16 @@ skills/cloud-native/advanced-kubernetes/
 ## Recommendations
 
 ### Apply to Other Skills
+
 Consider this pattern for other skills >3,000 tokens:
+
 1. Identify verbose code examples in Level 2
 2. Extract to REFERENCE.md
 3. Replace with concise pattern descriptions + minimal snippets
 4. Add cross-references
 
 ### Standards for New Skills
+
 1. **Level 2 token budget: <3,000 tokens**
 2. Complete examples → REFERENCE.md from the start
 3. Use "See REFERENCE.md for..." pattern consistently

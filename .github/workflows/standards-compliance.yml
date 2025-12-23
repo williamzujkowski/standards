@@ -45,9 +45,13 @@ jobs:
             fi
           fi
 
+      - name: Install yamllint
+        run: |
+          pip install yamllint
+
       - name: Validate YAML files
         run: |
-          find . -name "*.yml" -o -name "*.yaml" | xargs -I {} yamllint {}
+          find . \( -name "*.yml" -o -name "*.yaml" \) -not -path "./.git/*" -not -path "./node_modules/*" | xargs -I {} yamllint {}
 
       - name: Run Knowledge Management Tests
         run: |

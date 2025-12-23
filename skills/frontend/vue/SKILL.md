@@ -133,6 +133,7 @@ const theme = inject<Ref<string>>('theme');
 ---
 
 ## Level 2:
+>
 > **📚 Full Examples**: See [REFERENCE.md](./REFERENCE.md) for complete code samples, detailed configurations, and production-ready implementations.
 
  Implementation Guide (~4000-5000 tokens)
@@ -144,9 +145,7 @@ const theme = inject<Ref<string>>('theme');
 The Composition API provides better TypeScript support and code organization:
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-0) for complete implementation.*
-
 
 
 #### Reactive Primitives
@@ -157,25 +156,19 @@ The Composition API provides better TypeScript support and code organization:
 - `reactive`: Objects, arrays, no `.value` needed
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-1) for complete implementation.*
-
 
 
 #### Computed Properties
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-2) for complete implementation.*
-
 
 
 #### Watchers
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-3) for complete implementation.*
-
 
 
 ### 2. Component Architecture
@@ -183,25 +176,19 @@ The Composition API provides better TypeScript support and code organization:
 #### Props & Emits
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-4) for complete implementation.*
-
 
 
 #### Slots
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-5) for complete implementation.*
-
 
 
 #### Provide/Inject
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-6) for complete implementation.*
-
 
 
 ### 3. Vue Router
@@ -209,25 +196,19 @@ The Composition API provides better TypeScript support and code organization:
 #### Route Configuration
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-7) for complete implementation.*
-
 
 
 #### Navigation Guards
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-8) for complete implementation.*
-
 
 
 #### Typed Routes
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-9) for complete implementation.*
-
 
 
 ### 4. State Management with Pinia
@@ -235,25 +216,19 @@ The Composition API provides better TypeScript support and code organization:
 #### Store Definition
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-10) for complete implementation.*
-
 
 
 #### Store Composition
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-11) for complete implementation.*
-
 
 
 #### Store Persistence
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-12) for complete implementation.*
-
 
 
 ### 5. Performance Optimization
@@ -261,33 +236,25 @@ The Composition API provides better TypeScript support and code organization:
 #### Virtual Scrolling
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-13) for complete implementation.*
-
 
 
 #### Lazy Loading
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-14) for complete implementation.*
-
 
 
 #### Memoization
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-15) for complete implementation.*
-
 
 
 #### Build Optimization
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-16) for complete implementation.*
-
 
 
 ### 6. Testing with Vitest
@@ -295,25 +262,19 @@ The Composition API provides better TypeScript support and code organization:
 #### Component Testing
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-17) for complete implementation.*
-
 
 
 #### Store Testing
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-18) for complete implementation.*
-
 
 
 #### Composable Testing
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-19) for complete implementation.*
-
 
 
 ### 7. Accessibility (WCAG 2.1 AA)
@@ -321,33 +282,25 @@ The Composition API provides better TypeScript support and code organization:
 #### Semantic HTML
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-20) for complete implementation.*
-
 
 
 #### ARIA Attributes
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-21) for complete implementation.*
-
 
 
 #### Keyboard Navigation
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-22) for complete implementation.*
-
 
 
 #### Focus Management
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-23) for complete implementation.*
-
 
 
 ### 8. Security Best Practices
@@ -355,33 +308,25 @@ The Composition API provides better TypeScript support and code organization:
 #### XSS Prevention
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-24) for complete implementation.*
-
 
 
 #### Content Security Policy
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-25) for complete implementation.*
-
 
 
 #### Secure API Communication
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-26) for complete implementation.*
-
 
 
 #### Input Validation
 
 
-
 *See [REFERENCE.md](./REFERENCE.md#example-27) for complete implementation.*
-
 
 
 ---

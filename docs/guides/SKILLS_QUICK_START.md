@@ -280,7 +280,7 @@ Cost: 98% reduction compared to loading all standards documents
 ## Need Help?
 
 - **User Guide**: [SKILLS_USER_GUIDE.md](./SKILLS_USER_GUIDE.md)
-- **Migration Guide**: [MIGRATION_GUIDE.md](../migration/MIGRATION_GUIDE.md)
+- **Migration Guide**: [MIGRATION_GUIDE.md](../../archive/old-migrations/migration/MIGRATION_GUIDE.md)
 - **API Docs**: [SKILLS_API.md](../api/SKILLS_API.md)
 - **GitHub Issues**: [Report issues](https://github.com/williamzujkowski/standards/issues)
 
