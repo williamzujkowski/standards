@@ -163,7 +163,7 @@ $ python3 scripts/validate-skills.py skills/
 ```bash
 $ python3 scripts/count-tokens.py skills/coding-standards/SKILL.md
 Level 1: 327 tokens
-Level 2: 1,214 tokens  
+Level 2: 1,214 tokens
 Level 3: 1,336 tokens
 TOTAL: 2,908 tokens
 ```

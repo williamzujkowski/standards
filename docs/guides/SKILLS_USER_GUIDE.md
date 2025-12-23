@@ -48,7 +48,7 @@ This repository follows [Anthropic's canonical skills.md format](https://docs.an
 
 - `category`, `difficulty`, `nist_controls`, `related_skills`, etc.
 
-**Current compliance status**: 42/61 skills (68.9%) meet Anthropic's required field specifications. See [validation reports](/home/william/git/standards/reports/generated/skills-compliance-report.md) for details.
+**Current compliance status**: 42/61 skills (68.9%) meet Anthropic's required field specifications. See [validation reports](../../reports/generated/skills-compliance-report.md) for details.
 
 ### Why Skills?
 

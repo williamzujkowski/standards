@@ -10,7 +10,7 @@
 ## ✅ Coding Standards (4 skills)
 
 1. **Rust** - 1,209 lines, 6,887 tokens, 6 resources
-2. **Swift** - 1,165 lines, ~4,200 tokens L2, 6 resources  
+2. **Swift** - 1,165 lines, ~4,200 tokens L2, 6 resources
 3. **Kotlin** - 786 lines, ~2,236 tokens L2, 6 resources
 4. **Shell** - 1,566 lines, ~4,500 tokens L2, 6 resources
 
