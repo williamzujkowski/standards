@@ -1,0 +1,12 @@
+# Ignore generated reports (may have duplicate headings from automation)
+reports/generated/
+
+# Ignore archive files (historical, not actively maintained)
+archive/
+
+# Ignore node_modules
+node_modules/
+**/node_modules/
+
+# Ignore git
+.git/
