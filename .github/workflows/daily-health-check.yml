@@ -26,17 +26,17 @@ jobs:
       script_health: ${{ steps.script-health.outputs.script_health }}
 
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Full history for trend analysis
 
       - name: Setup Python
-        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5.1.0
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Setup Node.js
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8  # v4.0.2
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
 
@@ -156,10 +156,10 @@ jobs:
       cross_ref_health: ${{ steps.cross-ref-health.outputs.cross_ref_health }}
 
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+      - uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5.1.0
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -236,10 +236,10 @@ jobs:
       permissions_health: ${{ steps.permissions-health.outputs.permissions_health }}
 
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+      - uses: actions/checkout@v4
 
       - name: Security scan with Trivy
-        uses: aquasecurity/trivy-action@84384bd6e777ef152729993b8145ea352e9dd3ef  # v0.17.0
+        uses: aquasecurity/trivy-action@0.33.1
         with:
           scan-type: 'fs'
           scan-ref: '.'
@@ -247,7 +247,7 @@ jobs:
           output: 'trivy-results.txt'
 
       - name: Check for secrets
-        uses: trufflesecurity/trufflehog@v3.82.13
+        uses: trufflesecurity/trufflehog@v3.92.4
         with:
           path: ./
           base: main
@@ -289,7 +289,7 @@ jobs:
       large_files_health: ${{ steps.large-files-health.outputs.large_files_health }}
 
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+      - uses: actions/checkout@v4
 
       - name: Check repository size
         id: size-health
@@ -453,7 +453,7 @@ jobs:
 
       - name: Create issue for critical health problems
         if: steps.create-summary.outputs.overall_health == 'unhealthy'
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        uses: actions/github-script@v7
         with:
           script: |
             const title = `🚨 Critical Repository Health Issues - ${new Date().toISOString().split('T')[0]}`;
