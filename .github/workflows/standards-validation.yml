@@ -63,7 +63,7 @@ jobs:
 
       - name: Upload Validation Report
         if: always()
-        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        uses: actions/upload-artifact@v4
         with:
           name: validation-report
           path: validation-report.md

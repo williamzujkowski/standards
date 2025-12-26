@@ -32,6 +32,8 @@ link_check:
     - "docs/guides/SKILLS_USER_GUIDE.md"   # Links to planned MIGRATION_GUIDE.md (v2.0 feature)
     - "docs/research/**"             # Research documents (may reference non-existent files)
     - "docs/decisions/**"            # ADRs (may reference superseded documents)
+    - "**/node_modules/**"           # Node.js dependencies (third-party)
+    - "standards/compliance/node_modules/**"  # Compliance tool dependencies
 
 orphans:
   exclude:
