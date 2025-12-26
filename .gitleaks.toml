@@ -25,6 +25,11 @@ paths = [
     '''skills/.*/templates/.*\.(tsx?|jsx?|yaml|yml|sh|md)''',
     '''skills/.*/resources/.*\.md''',
     '''skills/.*/scripts/.*\.sh''',
+    # Reference documentation with example credentials
+    '''skills/.*/REFERENCE\.md''',
+    '''skills/cloud-native/.*/REFERENCE\.md''',
+    '''skills/database/.*/REFERENCE\.md''',
+    '''skills/security/.*/REFERENCE\.md''',
 ]
 
 # Specific patterns to ignore

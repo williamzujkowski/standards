@@ -246,7 +246,7 @@ jobs:
           npm run generate-ssp -- --baseline ${{ env.BASELINE }} --format json
 
       - name: Upload SSP artifact
-        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        uses: actions/upload-artifact@v4
         with:
           name: system-security-plan
           path: standards/compliance/oscal-output/ssp-*.json
@@ -281,7 +281,7 @@ jobs:
           ls -la oscal-output/
 
       - name: Upload evidence artifacts
-        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        uses: actions/upload-artifact@v4
         with:
           name: compliance-evidence-${{ github.run_number }}
           path: standards/compliance/oscal-output/assessment-results-*.json
