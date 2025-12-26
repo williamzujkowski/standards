@@ -24,7 +24,7 @@ jobs:
           python-version: '3.11'
 
       - name: Cache pre-commit
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/pre-commit
           key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
@@ -53,7 +53,7 @@ jobs:
           node-version: '18'
 
       - name: Cache npm packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-npm-markdownlint-${{ hashFiles('**/package-lock.json') }}
