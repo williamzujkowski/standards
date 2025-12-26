@@ -6,7 +6,6 @@ Tests that multiple skills can be loaded and work together seamlessly.
 
 import re
 from pathlib import Path
-from typing import Dict, List, Set
 
 import pytest
 import yaml
@@ -19,7 +18,7 @@ class SkillComposability:
         self.skills_dir = Path(skills_dir)
         self.loaded_skills = {}
 
-    def load_skill(self, skill_name: str) -> Dict:
+    def load_skill(self, skill_name: str) -> dict:
         """Load a skill and its metadata."""
         skill_path = self.skills_dir / skill_name / "SKILL.md"
 
@@ -40,7 +39,7 @@ class SkillComposability:
         self.loaded_skills[skill_name] = skill_data
         return skill_data
 
-    def load_multiple_skills(self, skill_names: List[str]) -> Dict[str, Dict]:
+    def load_multiple_skills(self, skill_names: list[str]) -> dict[str, dict]:
         """Load multiple skills at once."""
         results = {}
         for skill_name in skill_names:
@@ -50,7 +49,7 @@ class SkillComposability:
                 results[skill_name] = {"error": str(e)}
         return results
 
-    def detect_skill_dependencies(self, skill_name: str) -> Set[str]:
+    def detect_skill_dependencies(self, skill_name: str) -> set[str]:
         """Detect dependencies/references to other skills."""
         if skill_name not in self.loaded_skills:
             self.load_skill(skill_name)
@@ -75,7 +74,7 @@ class SkillComposability:
 
         return dependencies
 
-    def check_circular_dependencies(self, skill_name: str, visited: Set[str] = None) -> bool:
+    def check_circular_dependencies(self, skill_name: str, visited: set[str] = None) -> bool:
         """Check for circular dependencies in skill references."""
         if visited is None:
             visited = set()
@@ -94,7 +93,7 @@ class SkillComposability:
 
         return False
 
-    def test_skill_combination(self, skill_names: List[str]) -> Dict:
+    def test_skill_combination(self, skill_names: list[str]) -> dict:
         """Test loading and combining multiple skills."""
         results = {
             "skills_loaded": 0,
@@ -125,7 +124,7 @@ class SkillComposability:
 
         return results
 
-    def validate_skill_compatibility(self, skill_names: List[str]) -> Dict:
+    def validate_skill_compatibility(self, skill_names: list[str]) -> dict:
         """Validate that skills can work together without conflicts."""
         results = {"compatible": True, "issues": []}
 
@@ -179,7 +178,7 @@ name: {name}
 description: {description}
 ---
 
-# {name.replace('-', ' ').title()}
+# {name.replace("-", " ").title()}
 
 ## Overview
 This is the {name} skill.

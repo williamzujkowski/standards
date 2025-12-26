@@ -15,7 +15,7 @@ import base64
 import json
 import os
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
@@ -34,7 +34,7 @@ class PHIEncryption:
     - Metadata preservation for audit logging
     """
 
-    def __init__(self, key: Optional[bytes] = None):
+    def __init__(self, key: bytes | None = None):
         """
         Initialize PHI encryption with encryption key
 
@@ -54,7 +54,7 @@ class PHIEncryption:
         return os.urandom(32)
 
     @staticmethod
-    def derive_key_from_password(password: str, salt: Optional[bytes] = None) -> tuple:
+    def derive_key_from_password(password: str, salt: bytes | None = None) -> tuple:
         """
         Derive encryption key from password using PBKDF2
 
@@ -79,7 +79,7 @@ class PHIEncryption:
 
         return key, salt
 
-    def encrypt_phi(self, phi_data: Dict[str, Any], metadata: Optional[Dict[str, Any]] = None) -> Dict[str, str]:
+    def encrypt_phi(self, phi_data: dict[str, Any], metadata: dict[str, Any] | None = None) -> dict[str, str]:
         """
         Encrypt PHI data with AES-256-GCM
 
@@ -119,7 +119,7 @@ class PHIEncryption:
 
         return encrypted_package
 
-    def decrypt_phi(self, encrypted_package: Dict[str, str]) -> Dict[str, Any]:
+    def decrypt_phi(self, encrypted_package: dict[str, str]) -> dict[str, Any]:
         """
         Decrypt PHI data
 
@@ -156,7 +156,7 @@ class PHIEncryption:
             return phi_data
 
         except Exception as e:
-            raise ValueError(f"Decryption failed: {str(e)}")
+            raise ValueError(f"Decryption failed: {e!s}")
 
     def export_key(self) -> str:
         """Export encryption key as base64-encoded string"""
@@ -184,7 +184,7 @@ class PHIFieldEncryption:
         """
         self.encryption = encryption
 
-    def encrypt_fields(self, data: Dict[str, Any], fields_to_encrypt: list) -> Dict[str, Any]:
+    def encrypt_fields(self, data: dict[str, Any], fields_to_encrypt: list) -> dict[str, Any]:
         """
         Encrypt specified fields in data dictionary
 
@@ -210,7 +210,7 @@ class PHIFieldEncryption:
 
         return encrypted_data
 
-    def decrypt_fields(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def decrypt_fields(self, data: dict[str, Any]) -> dict[str, Any]:
         """
         Decrypt encrypted fields in data dictionary
 

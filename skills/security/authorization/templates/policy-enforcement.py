@@ -7,7 +7,6 @@ Supports Flask/Django applications with SQLAlchemy
 
 from datetime import datetime
 from functools import wraps
-from typing import List, Optional, Tuple
 
 from flask import abort, g, request
 from sqlalchemy import or_
@@ -48,7 +47,7 @@ class RBACManager:
         self._permission_cache[cache_key] = result
         return result
 
-    def _get_user_roles_with_hierarchy(self, user_id: int) -> List[int]:
+    def _get_user_roles_with_hierarchy(self, user_id: int) -> list[int]:
         """Get all roles including parent roles."""
         from models import UserRole
 
@@ -82,9 +81,7 @@ class RBACManager:
 
         return parents
 
-    def audit_authorization(
-        self, user_id: int, resource: str, action: str, allowed: bool, reason: Optional[str] = None
-    ):
+    def audit_authorization(self, user_id: int, resource: str, action: str, allowed: bool, reason: str | None = None):
         """
         Log authorization decision for compliance.
 
@@ -215,7 +212,7 @@ class ABACEngine:
         with open(policy_file) as f:
             self.policies = json.load(f)["policies"]
 
-    def evaluate(self, subject: dict, resource: dict, action: str, environment: dict) -> Tuple[bool, str]:
+    def evaluate(self, subject: dict, resource: dict, action: str, environment: dict) -> tuple[bool, str]:
         """
         Evaluate ABAC policy.
 
@@ -259,30 +256,30 @@ class ABACEngine:
             left = self._get_attribute(condition["left"], subject, resource, environment)
             return left == condition["right"]
 
-        elif operator == "in":
+        if operator == "in":
             left = self._get_attribute(condition["left"], subject, resource, environment)
             return left in condition["right"]
 
-        elif operator == "time_between":
+        if operator == "time_between":
             current_time = datetime.fromisoformat(environment["current_time"]).time()
             start = datetime.strptime(condition["start"], "%H:%M:%S").time()
             end = datetime.strptime(condition["end"], "%H:%M:%S").time()
             return start <= current_time <= end
 
-        elif operator == "ip_in_network":
+        if operator == "ip_in_network":
             from ipaddress import ip_address, ip_network
 
             client_ip = ip_address(environment["ip_address"])
             network = ip_network(condition["network"])
             return client_ip in network
 
-        elif operator == "and":
+        if operator == "and":
             return all(self._evaluate_condition(c, subject, resource, environment) for c in condition["conditions"])
 
-        elif operator == "or":
+        if operator == "or":
             return any(self._evaluate_condition(c, subject, resource, environment) for c in condition["conditions"])
 
-        elif operator == "not":
+        if operator == "not":
             return not self._evaluate_condition(condition["condition"], subject, resource, environment)
 
         return False
@@ -293,9 +290,9 @@ class ABACEngine:
 
         if namespace == "subject":
             return subject.get(key)
-        elif namespace == "resource":
+        if namespace == "resource":
             return resource.get(key)
-        elif namespace == "environment":
+        if namespace == "environment":
             return environment.get(key)
 
         return None

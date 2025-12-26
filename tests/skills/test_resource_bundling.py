@@ -6,7 +6,6 @@ Validates that resources are properly bundled within skills.
 
 import json
 from pathlib import Path
-from typing import Dict, List
 
 import pytest
 
@@ -20,7 +19,7 @@ class ResourceBundlingValidator:
     def __init__(self, skills_dir: Path):
         self.skills_dir = Path(skills_dir)
 
-    def find_all_skills(self) -> List[Path]:
+    def find_all_skills(self) -> list[Path]:
         """Find all skill directories."""
         if not self.skills_dir.exists():
             return []
@@ -31,7 +30,7 @@ class ResourceBundlingValidator:
                 skills.append(item)
         return skills
 
-    def analyze_skill_resources(self, skill_dir: Path) -> Dict:
+    def analyze_skill_resources(self, skill_dir: Path) -> dict:
         """Analyze resource structure for a skill."""
         result = {
             "skill_name": skill_dir.name,
@@ -69,7 +68,7 @@ class ResourceBundlingValidator:
 
         return result
 
-    def _scan_resource_dir(self, resource_dir: Path) -> List[Dict]:
+    def _scan_resource_dir(self, resource_dir: Path) -> list[dict]:
         """Scan a resource directory for files."""
         resources = []
 
@@ -115,7 +114,7 @@ class ResourceBundlingValidator:
 
         return list(referenced), list(unreferenced)
 
-    def validate_resource_accessibility(self, skill_dir: Path) -> Dict:
+    def validate_resource_accessibility(self, skill_dir: Path) -> dict:
         """Validate that resources are accessible and valid."""
         result = {"skill_name": skill_dir.name, "accessible": True, "issues": []}
 
@@ -153,7 +152,7 @@ class ResourceBundlingValidator:
 
         return bool(file_path.stat().st_mode & stat.S_IXUSR)
 
-    def analyze_all_skills(self) -> Dict:
+    def analyze_all_skills(self) -> dict:
         """Analyze resource bundling for all skills."""
         skills = self.find_all_skills()
 

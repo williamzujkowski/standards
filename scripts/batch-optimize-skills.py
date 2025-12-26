@@ -6,7 +6,7 @@ Uses proven pattern from aws-advanced and advanced-kubernetes optimizations.
 
 import re
 from pathlib import Path
-from typing import Dict, List, Tuple
+
 
 # Skills to optimize (from anthropic-compliance-report.md)
 SKILLS_TO_OPTIMIZE = [
@@ -45,7 +45,7 @@ class SkillOptimizer:
         self.skills_dir = skills_dir
         self.results = []
 
-    def extract_level2_section(self, content: str) -> Tuple[str, str, str]:
+    def extract_level2_section(self, content: str) -> tuple[str, str, str]:
         """Extract Level 1, Level 2, and Level 3+ sections."""
         # Find Level 2 section
         level2_match = re.search(r"(## Level 2:.*?)(?=## Level 3:|$)", content, re.DOTALL)
@@ -68,7 +68,7 @@ class SkillOptimizer:
 
         return before_level2, level2_content, level3_content
 
-    def extract_code_blocks(self, text: str) -> Tuple[List[Dict], str]:
+    def extract_code_blocks(self, text: str) -> tuple[list[dict], str]:
         """Extract code blocks from text, return blocks and text with placeholders."""
         code_blocks = []
 
@@ -90,16 +90,15 @@ class SkillOptimizer:
             if is_substantial:
                 # Replace with reference
                 return f"\n\n*See [REFERENCE.md](./REFERENCE.md#example-{index}) for complete implementation.*\n\n"
-            else:
-                # Keep short examples inline
-                return match.group(0)
+            # Keep short examples inline
+            return match.group(0)
 
         pattern = r"```(\w*)\n(.*?)```"
         condensed_text = re.sub(pattern, replace_code, text, flags=re.DOTALL)
 
         return code_blocks, condensed_text
 
-    def condense_section(self, text: str) -> Tuple[str, List[str]]:
+    def condense_section(self, text: str) -> tuple[str, list[str]]:
         """Condense a section by extracting verbose content."""
         extracted_content = []
 
@@ -130,7 +129,7 @@ class SkillOptimizer:
         return text, extracted_content
 
     def create_reference_doc(
-        self, skill_name: str, code_blocks: List[Dict], extracted_content: List, original_level2: str
+        self, skill_name: str, code_blocks: list[dict], extracted_content: list, original_level2: str
     ) -> str:
         """Create REFERENCE.md with extracted content."""
 
@@ -174,11 +173,11 @@ See the main SKILL.md file for essential patterns and the official documentation
 
         return doc
 
-    def optimize_skill(self, skill_path: str, current_tokens: int) -> Dict:
+    def optimize_skill(self, skill_path: str, current_tokens: int) -> dict:
         """Optimize a single skill file."""
         skill_file = self.skills_dir / skill_path / "SKILL.md"
 
-        print(f"\n{'='*80}")
+        print(f"\n{'=' * 80}")
         print(f"Processing: {skill_path}")
         print(f"Current tokens: {current_tokens:,} (target: <5,000)")
 
@@ -254,7 +253,7 @@ See the main SKILL.md file for essential patterns and the official documentation
             "now_compliant": new_tokens < 5000,
         }
 
-    def optimize_all(self) -> List[Dict]:
+    def optimize_all(self) -> list[dict]:
         """Optimize all skills in the list."""
         print(f"Starting batch optimization of {len(SKILLS_TO_OPTIMIZE)} skills")
         print(f"Skills directory: {self.skills_dir}")
@@ -289,7 +288,7 @@ See the main SKILL.md file for essential patterns and the official documentation
 
 - **Total Token Reduction**: {total_token_reduction:,} tokens
 - **Average Reduction**: {avg_reduction:.1f}%
-- **Skills Now Compliant**: {now_compliant}/{len(successful)} ({now_compliant/len(successful)*100:.1f}%)
+- **Skills Now Compliant**: {now_compliant}/{len(successful)} ({now_compliant / len(successful) * 100:.1f}%)
 - **REFERENCE.md Files Created**: {references_created}
 
 ## Detailed Results
@@ -302,13 +301,13 @@ See the main SKILL.md file for essential patterns and the official documentation
         for result in successful_sorted:
             status_icon = "✅" if result.get("now_compliant") else "⚠️"
             report += f"""
-### {status_icon} `{result['skill']}`
+### {status_icon} `{result["skill"]}`
 
-- Original: {result['original_tokens']:,} tokens → New: {result['new_tokens']:,} tokens
-- Reduction: {result['token_reduction']:,} tokens ({result['reduction_pct']:.1f}%)
-- Extracted: {result['code_blocks_extracted']} code blocks, {result['configs_extracted']} configs
-- REFERENCE.md: {"Created" if result['reference_created'] else "Not needed"}
-- Status: {"✅ Now compliant (<5K)" if result['now_compliant'] else "⚠️ Still over budget"}
+- Original: {result["original_tokens"]:,} tokens → New: {result["new_tokens"]:,} tokens
+- Reduction: {result["token_reduction"]:,} tokens ({result["reduction_pct"]:.1f}%)
+- Extracted: {result["code_blocks_extracted"]} code blocks, {result["configs_extracted"]} configs
+- REFERENCE.md: {"Created" if result["reference_created"] else "Not needed"}
+- Status: {"✅ Now compliant (<5K)" if result["now_compliant"] else "⚠️ Still over budget"}
 """
 
         if errors:
@@ -361,7 +360,7 @@ def main():
     summary_file.parent.mkdir(parents=True, exist_ok=True)
     summary_file.write_text(summary)
 
-    print(f"\n{'='*80}")
+    print(f"\n{'=' * 80}")
     print("Optimization complete!")
     print(f"Summary saved to: {summary_file}")
     print("\nQuick stats:")

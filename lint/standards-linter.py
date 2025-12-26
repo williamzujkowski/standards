@@ -10,7 +10,6 @@ import sys
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Optional
 
 import yaml
 
@@ -25,7 +24,7 @@ class LintIssue:
     rule: str
     severity: str  # error, warning, info
     message: str
-    fix_suggestion: Optional[str] = None
+    fix_suggestion: str | None = None
 
 
 class StandardsLinter:
@@ -33,7 +32,7 @@ class StandardsLinter:
 
     def __init__(self, root_path: str = "."):
         self.root = Path(root_path)
-        self.issues: List[LintIssue] = []
+        self.issues: list[LintIssue] = []
         self.manifest = self._load_manifest()
         self.standards_files = list(self.root.glob("*_STANDARDS.md"))
         self.standards_files.extend(self.root.glob("UNIFIED_STANDARDS.md"))
@@ -46,7 +45,7 @@ class StandardsLinter:
                 return yaml.safe_load(f)
         return {}
 
-    def lint_all(self) -> List[LintIssue]:
+    def lint_all(self) -> list[LintIssue]:
         """Run all linting rules"""
         for std_file in self.standards_files:
             self._lint_file(std_file)
@@ -73,7 +72,7 @@ class StandardsLinter:
         self._check_formatting(file_path, lines)
         self._check_code_examples(file_path, content, lines)
 
-    def _check_metadata(self, file_path: Path, lines: List[str]):
+    def _check_metadata(self, file_path: Path, lines: list[str]):
         """Check for required metadata headers"""
         "\n".join(lines[:20])
 
@@ -130,7 +129,7 @@ class StandardsLinter:
                     "Add: **Standard Code:** XX (2-4 letters)",
                 )
 
-    def _check_structure(self, file_path: Path, content: str, lines: List[str]):
+    def _check_structure(self, file_path: Path, content: str, lines: list[str]):
         """Check document structure requirements"""
         # Table of Contents
         if "Table of Contents" not in content and "## Contents" not in content:
@@ -147,7 +146,7 @@ class StandardsLinter:
         # Required sections
         required_sections = ["Overview", "Implementation"]
         for section in required_sections:
-            pattern = rf"^#{1,3}\s+{section}"
+            pattern = rf"^#{1, 3}\s+{section}"
             if not re.search(pattern, content, re.MULTILINE):
                 self._add_issue(
                     file_path,
@@ -171,7 +170,7 @@ class StandardsLinter:
                 "Add an Implementation Checklist section",
             )
 
-    def _check_requirement_tags(self, file_path: Path, content: str, lines: List[str]):
+    def _check_requirement_tags(self, file_path: Path, content: str, lines: list[str]):
         """Check for [REQUIRED] and [RECOMMENDED] tags"""
         if "[REQUIRED]" not in content and "[RECOMMENDED]" not in content:
             self._add_issue(
@@ -200,7 +199,7 @@ class StandardsLinter:
                         "Move tag to header: ### [REQUIRED] Section Name",
                     )
 
-    def _check_cross_references(self, file_path: Path, content: str, lines: List[str]):
+    def _check_cross_references(self, file_path: Path, content: str, lines: list[str]):
         """Check cross-reference validity and format"""
         link_pattern = r"\[([^\]]+)\]\(([^)]+)\)"
 
@@ -271,7 +270,7 @@ class StandardsLinter:
                     "Consider using progressive disclosure or splitting",
                 )
 
-    def _check_formatting(self, file_path: Path, lines: List[str]):
+    def _check_formatting(self, file_path: Path, lines: list[str]):
         """Check formatting issues"""
         for i, line in enumerate(lines):
             # Trailing whitespace
@@ -311,7 +310,7 @@ class StandardsLinter:
                         "Use at most 2 consecutive blank lines",
                     )
 
-    def _check_code_examples(self, file_path: Path, content: str, lines: List[str]):
+    def _check_code_examples(self, file_path: Path, content: str, lines: list[str]):
         """Check code example quality"""
         code_blocks = re.findall(r"```(\w*)\n(.*?)\n```", content, re.DOTALL)
 
@@ -411,7 +410,7 @@ class StandardsLinter:
         rule: str,
         severity: str,
         message: str,
-        fix_suggestion: Optional[str] = None,
+        fix_suggestion: str | None = None,
     ):
         """Add a linting issue"""
         self.issues.append(

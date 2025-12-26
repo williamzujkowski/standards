@@ -5,21 +5,21 @@ Ensure hub files contain AUTO-LINKS sections pointing to all documents under the
 
 import re
 from pathlib import Path
-from typing import Dict, List
 
 import yaml
+
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def load_audit_rules() -> Dict:
+def load_audit_rules() -> dict:
     """Load audit rules configuration."""
     config_path = ROOT / "config/audit-rules.yaml"
     with open(config_path) as f:
         return yaml.safe_load(f)
 
 
-def find_files_matching_pattern(pattern: str) -> List[Path]:
+def find_files_matching_pattern(pattern: str) -> list[Path]:
     """Find all files matching a glob pattern."""
     files = []
     pattern.replace("**", "*")
@@ -44,7 +44,7 @@ def find_files_matching_pattern(pattern: str) -> List[Path]:
     return sorted(files)
 
 
-def generate_auto_links_section(files: List[Path], hub_path: Path) -> str:
+def generate_auto_links_section(files: list[Path], hub_path: Path) -> str:
     """Generate AUTO-LINKS section content."""
     if not files:
         return "_(no documents found)_"
@@ -72,7 +72,7 @@ def generate_auto_links_section(files: List[Path], hub_path: Path) -> str:
     return "\n".join(lines) if lines else "_(no documents found)_"
 
 
-def update_hub_file(hub_path: Path, pattern: str, files: List[Path]):
+def update_hub_file(hub_path: Path, pattern: str, files: list[Path]):
     """Update or create hub file with AUTO-LINKS section."""
     auto_links_marker = f"<!-- AUTO-LINKS:{pattern} -->"
     auto_links_end = "<!-- /AUTO-LINKS -->"
@@ -110,26 +110,24 @@ This is the hub page for {hub_name.lower()} documentation.
         regex = f"{pattern_escaped}.*?{end_escaped}"
         replacement = f"{auto_links_marker}\n\n{links_content}\n\n{auto_links_end}"
         content = re.sub(regex, replacement, content, flags=re.DOTALL)
+    # Add new section at appropriate location
+    elif "## Contents" in content:
+        # Add after Contents heading
+        content = content.replace(
+            "## Contents", f"## Contents\n\n{auto_links_marker}\n\n{links_content}\n\n{auto_links_end}"
+        )
+    # Add before navigation or at end
+    elif "## Navigation" in content:
+        content = content.replace(
+            "## Navigation", f"{auto_links_marker}\n\n{links_content}\n\n{auto_links_end}\n\n## Navigation"
+        )
+    elif "---" in content:
+        # Add before first horizontal rule
+        parts = content.split("---", 1)
+        content = f"{parts[0]}{auto_links_marker}\n\n{links_content}\n\n{auto_links_end}\n\n---{parts[1]}"
     else:
-        # Add new section at appropriate location
-        if "## Contents" in content:
-            # Add after Contents heading
-            content = content.replace(
-                "## Contents", f"## Contents\n\n{auto_links_marker}\n\n{links_content}\n\n{auto_links_end}"
-            )
-        else:
-            # Add before navigation or at end
-            if "## Navigation" in content:
-                content = content.replace(
-                    "## Navigation", f"{auto_links_marker}\n\n{links_content}\n\n{auto_links_end}\n\n## Navigation"
-                )
-            elif "---" in content:
-                # Add before first horizontal rule
-                parts = content.split("---", 1)
-                content = f"{parts[0]}{auto_links_marker}\n\n{links_content}\n\n{auto_links_end}\n\n---{parts[1]}"
-            else:
-                # Add at end
-                content += f"\n\n{auto_links_marker}\n\n{links_content}\n\n{auto_links_end}\n"
+        # Add at end
+        content += f"\n\n{auto_links_marker}\n\n{links_content}\n\n{auto_links_end}\n"
 
     # Write updated content
     hub_path.write_text(content, encoding="utf-8")

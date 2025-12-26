@@ -14,7 +14,7 @@ def get_recent_changes():
     # Get commits from last week
     week_ago = (datetime.now() - timedelta(days=7)).strftime("%Y-%m-%d")
     cmd = f"git log --since='{week_ago}' --pretty=format:'%h|%s|%an|%ad' --date=short"
-    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+    result = subprocess.run(cmd, check=False, shell=True, capture_output=True, text=True)
 
     changes = []
     for line in result.stdout.strip().split("\n"):
@@ -28,7 +28,7 @@ def get_recent_changes():
 def get_changed_files():
     week_ago = (datetime.now() - timedelta(days=7)).strftime("%Y-%m-%d")
     cmd = f"git diff --name-only HEAD@{{'{week_ago}'}} HEAD"
-    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+    result = subprocess.run(cmd, check=False, shell=True, capture_output=True, text=True)
     return [f for f in result.stdout.strip().split("\n") if f.endswith(".md")]
 
 

@@ -12,10 +12,6 @@ TARGET STATE:
 - All skills have Common Pitfalls section
 """
 
-import re
-
-import pytest
-
 
 class TestSkillFrontmatter:
     """Test YAML frontmatter compliance."""
@@ -29,7 +25,7 @@ class TestSkillFrontmatter:
         )
 
         assert skill_file.frontmatter is not None, (
-            f"Skill '{skill_file.name}' has invalid YAML frontmatter.\n" f"File: {skill_file.path}"
+            f"Skill '{skill_file.name}' has invalid YAML frontmatter.\nFile: {skill_file.path}"
         )
 
     def test_has_name_field(self, skill_file):

@@ -7,7 +7,6 @@ Ensures 100% documentation accuracy quality gate.
 
 import re
 from pathlib import Path
-from typing import List
 
 import pytest
 
@@ -36,7 +35,7 @@ class TestDocumentationStructure:
 
         assert not missing_docs, f"Missing required documentation: {missing_docs}"
 
-    def test_docs_have_titles(self, all_markdown_files: List[Path]):
+    def test_docs_have_titles(self, all_markdown_files: list[Path]):
         """Verify all markdown files have titles."""
         files_without_titles = []
 
@@ -50,7 +49,7 @@ class TestDocumentationStructure:
 
         assert not files_without_titles, f"Files without titles: {files_without_titles}"
 
-    def test_no_broken_relative_links(self, all_markdown_files: List[Path], exclusion_helper):
+    def test_no_broken_relative_links(self, all_markdown_files: list[Path], exclusion_helper):
         """Verify no broken relative links in documentation."""
         broken_links = []
 
@@ -94,7 +93,7 @@ class TestDocumentationStructure:
                 if not target.exists():
                     broken_links.append(f"{md_file}: [{link_text}]({link_path})")
 
-        assert not broken_links, f"Broken links found:\n" + "\n".join(broken_links)
+        assert not broken_links, "Broken links found:\n" + "\n".join(broken_links)
 
     def test_hub_links_present(self, repo_root: Path):
         """Verify hub READMEs have AUTO-LINKS sections."""
@@ -125,7 +124,7 @@ class TestDocumentationStructure:
 class TestDocumentationContent:
     """Test documentation content quality."""
 
-    def test_no_placeholder_content(self, all_markdown_files: List[Path], exclusion_helper):
+    def test_no_placeholder_content(self, all_markdown_files: list[Path], exclusion_helper):
         """Verify no placeholder or TODO content in docs."""
         placeholders = ["TODO", "FIXME", "XXX", "PLACEHOLDER", "TBD"]
         files_with_placeholders = []
@@ -148,9 +147,9 @@ class TestDocumentationContent:
             item for item in files_with_placeholders if not any(allowed in item for allowed in allowed_files)
         ]
 
-        assert not files_with_placeholders, f"Placeholder content found:\n" + "\n".join(files_with_placeholders)
+        assert not files_with_placeholders, "Placeholder content found:\n" + "\n".join(files_with_placeholders)
 
-    def test_code_blocks_properly_fenced(self, all_markdown_files: List[Path], extract_code_blocks):
+    def test_code_blocks_properly_fenced(self, all_markdown_files: list[Path], extract_code_blocks):
         """Verify code blocks are properly fenced."""
         improperly_fenced = []
 
@@ -165,7 +164,7 @@ class TestDocumentationContent:
 
         assert not improperly_fenced, f"Improperly fenced code blocks: {improperly_fenced}"
 
-    def test_consistent_heading_style(self, all_markdown_files: List[Path]):
+    def test_consistent_heading_style(self, all_markdown_files: list[Path]):
         """Verify consistent heading style (ATX style)."""
         inconsistent_files = []
 
@@ -207,11 +206,11 @@ class TestDocumentationAccuracy:
         # Filter out non-agent items
         actual_agents = [a for a in agent_types if a not in ["mcp", "tools", "coordination"]]
 
-        assert (
-            len(actual_agents) == claimed_count
-        ), f"Agent count mismatch: claimed {claimed_count}, found {len(actual_agents)}"
+        assert len(actual_agents) == claimed_count, (
+            f"Agent count mismatch: claimed {claimed_count}, found {len(actual_agents)}"
+        )
 
-    def test_file_paths_valid(self, repo_root: Path, all_markdown_files: List[Path], exclusion_helper):
+    def test_file_paths_valid(self, repo_root: Path, all_markdown_files: list[Path], exclusion_helper):
         """Verify file paths mentioned in docs exist."""
         invalid_paths = []
 
@@ -246,9 +245,9 @@ class TestDocumentationAccuracy:
         if len(invalid_paths) > 20:
             invalid_paths = invalid_paths[:20] + [f"... and {len(invalid_paths) - 20} more"]
 
-        assert not invalid_paths, f"Invalid file paths in documentation:\n" + "\n".join(invalid_paths)
+        assert not invalid_paths, "Invalid file paths in documentation:\n" + "\n".join(invalid_paths)
 
-    def test_command_examples_syntax(self, all_markdown_files: List[Path], extract_code_blocks):
+    def test_command_examples_syntax(self, all_markdown_files: list[Path], extract_code_blocks):
         """Verify command examples have valid syntax."""
         invalid_commands = []
 
@@ -267,13 +266,13 @@ class TestDocumentationAccuracy:
                     if re.search(r"\([^)]*$", code):  # Unclosed parenthesis
                         invalid_commands.append(f"{md_file}: Unclosed parenthesis")
 
-        assert not invalid_commands, f"Invalid command syntax:\n" + "\n".join(invalid_commands[:10])
+        assert not invalid_commands, "Invalid command syntax:\n" + "\n".join(invalid_commands[:10])
 
 
 class TestDocumentationCompleteness:
     """Test documentation completeness."""
 
-    def test_all_skills_documented(self, skills_dir: Path, all_skill_files: List[Path]):
+    def test_all_skills_documented(self, skills_dir: Path, all_skill_files: list[Path]):
         """Verify all skills have documentation."""
         skills_without_docs = []
 

@@ -9,7 +9,8 @@ import hmac
 import logging
 import secrets
 from datetime import datetime, timedelta
-from typing import Any, Dict, Optional
+from typing import Any
+
 
 # Configure audit logging
 # @nist au-2 "Audit events"
@@ -32,9 +33,9 @@ class AuthenticationService:
     """
 
     def __init__(self):
-        self.users: Dict[str, Dict[str, Any]] = {}
-        self.sessions: Dict[str, Dict[str, Any]] = {}
-        self.failed_attempts: Dict[str, int] = {}
+        self.users: dict[str, dict[str, Any]] = {}
+        self.sessions: dict[str, dict[str, Any]] = {}
+        self.failed_attempts: dict[str, int] = {}
 
         # @nist sc-13 "Cryptographic protection"
         self.salt = secrets.token_bytes(32)
@@ -70,7 +71,7 @@ class AuthenticationService:
         logger.info(f"User account created: {username}, role: {role}")
         return True
 
-    def authenticate(self, username: str, password: str) -> Optional[str]:
+    def authenticate(self, username: str, password: str) -> str | None:
         """
         Authenticate user and create session.
 
@@ -269,13 +270,12 @@ def handle_login_request(auth_service: AuthenticationService, request_data: dict
 
         if session_token:
             return {"success": True, "session_token": session_token, "expires_in": 3600}
-        else:
-            return {"success": False, "error": "Authentication failed"}
+        return {"success": False, "error": "Authentication failed"}
 
     except Exception as e:
         # @nist si-11 "Error handling"
         # Don't expose internal errors to client
-        logger.error(f"Error in login request: {str(e)}")
+        logger.error(f"Error in login request: {e!s}")
         return {"error": "An error occurred during authentication"}
 
 

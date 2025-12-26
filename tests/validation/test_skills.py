@@ -7,16 +7,14 @@ Ensures 100% skills compliance quality gate.
 
 import re
 from pathlib import Path
-from typing import Dict, List
 
 import pytest
-import yaml
 
 
 class TestSkillStructure:
     """Test skill file structure and organization."""
 
-    def test_skill_files_have_required_structure(self, all_skill_files: List[Path]):
+    def test_skill_files_have_required_structure(self, all_skill_files: list[Path]):
         """Verify SKILL.md files have required sections."""
         required_sections = [
             "# Skill:",
@@ -41,7 +39,7 @@ class TestSkillStructure:
             if missing:
                 skills_missing_sections.append(f"{skill_file}: {missing}")
 
-        assert not skills_missing_sections, f"Skills missing sections:\n" + "\n".join(skills_missing_sections[:10])
+        assert not skills_missing_sections, "Skills missing sections:\n" + "\n".join(skills_missing_sections[:10])
 
     def test_skill_directories_have_expected_structure(self, skills_dir: Path, exclusion_helper):
         """Verify skill directories have expected subdirectories."""
@@ -60,7 +58,7 @@ class TestSkillStructure:
             if not found_subdirs.intersection(expected_subdirs):
                 missing_structure.append(str(skill_dir.relative_to(skills_dir)))
 
-        assert not missing_structure, f"Skills missing expected subdirectories:\n" + "\n".join(missing_structure)
+        assert not missing_structure, "Skills missing expected subdirectories:\n" + "\n".join(missing_structure)
 
     def test_skill_subdirs_have_readme(self, skills_dir: Path, exclusion_helper):
         """Verify skill subdirectories have README.md."""
@@ -77,13 +75,13 @@ class TestSkillStructure:
                 if subdir_path.exists() and not (subdir_path / "README.md").exists():
                     missing_readmes.append(str(subdir_path.relative_to(skills_dir)))
 
-        assert not missing_readmes, f"Skill subdirs missing README:\n" + "\n".join(missing_readmes[:10])
+        assert not missing_readmes, "Skill subdirs missing README:\n" + "\n".join(missing_readmes[:10])
 
 
 class TestSkillContent:
     """Test skill content quality and compliance."""
 
-    def test_skills_have_metadata(self, all_skill_files: List[Path]):
+    def test_skills_have_metadata(self, all_skill_files: list[Path]):
         """Verify skills have proper metadata."""
         skills_without_metadata = []
 
@@ -108,11 +106,11 @@ class TestSkillContent:
         # Allow some skills without full metadata
         compliance_rate = (len(all_skill_files) - len(skills_without_metadata)) / len(all_skill_files) * 100
 
-        assert (
-            compliance_rate >= 70
-        ), f"Low metadata compliance: {compliance_rate:.1f}% (found {len(skills_without_metadata)} without metadata)"
+        assert compliance_rate >= 70, (
+            f"Low metadata compliance: {compliance_rate:.1f}% (found {len(skills_without_metadata)} without metadata)"
+        )
 
-    def test_skills_have_examples(self, all_skill_files: List[Path]):
+    def test_skills_have_examples(self, all_skill_files: list[Path]):
         """Verify skills include usage examples."""
         skills_without_examples = []
 
@@ -138,7 +136,7 @@ class TestSkillContent:
 
         assert compliance_rate >= 80, f"Low example compliance: {compliance_rate:.1f}%"
 
-    def test_skills_reference_standards(self, all_skill_files: List[Path]):
+    def test_skills_reference_standards(self, all_skill_files: list[Path]):
         """Verify skills reference relevant standards."""
         skills_without_standards = []
 
@@ -168,7 +166,7 @@ class TestSkillContent:
 class TestSkillCompliance:
     """Test skill compliance with repository standards."""
 
-    def test_skill_file_size_limits(self, all_skill_files: List[Path], check_file_size):
+    def test_skill_file_size_limits(self, all_skill_files: list[Path], check_file_size):
         """Verify skill files don't exceed size limits."""
         oversized_files = []
 
@@ -177,7 +175,7 @@ class TestSkillCompliance:
             if not within_limit:
                 oversized_files.append(f"{skill_file}: {lines} lines")
 
-        assert not oversized_files, f"Oversized skill files:\n" + "\n".join(oversized_files)
+        assert not oversized_files, "Oversized skill files:\n" + "\n".join(oversized_files)
 
     def test_skill_naming_convention(self, skills_dir: Path):
         """Verify skill directories follow naming convention."""
@@ -191,9 +189,9 @@ class TestSkillCompliance:
             if not re.match(r"^[a-z0-9\-]+$", name):
                 invalid_names.append(str(skill_dir.relative_to(skills_dir)))
 
-        assert not invalid_names, f"Invalid skill directory names:\n" + "\n".join(invalid_names)
+        assert not invalid_names, "Invalid skill directory names:\n" + "\n".join(invalid_names)
 
-    def test_skills_have_unique_identifiers(self, all_skill_files: List[Path]):
+    def test_skills_have_unique_identifiers(self, all_skill_files: list[Path]):
         """Verify each skill has a unique identifier."""
         skill_ids = {}
         duplicate_ids = []
@@ -212,13 +210,13 @@ class TestSkillCompliance:
                 else:
                     skill_ids[skill_id] = skill_file
 
-        assert not duplicate_ids, f"Duplicate skill IDs:\n" + "\n".join(duplicate_ids)
+        assert not duplicate_ids, "Duplicate skill IDs:\n" + "\n".join(duplicate_ids)
 
 
 class TestSkillIntegration:
     """Test skill integration with other components."""
 
-    def test_skills_referenced_in_product_matrix(self, product_matrix: Dict, skills_dir: Path):
+    def test_skills_referenced_in_product_matrix(self, product_matrix: dict, skills_dir: Path):
         """Verify skills are referenced in product matrix."""
         # Extract standard codes from product matrix
         referenced_standards = set()
@@ -239,7 +237,7 @@ class TestSkillIntegration:
         # Some overlap expected between skills and standards
         assert len(referenced_standards) > 0, "No standards referenced in product matrix"
 
-    def test_skill_dependencies_exist(self, all_skill_files: List[Path], skills_dir: Path):
+    def test_skill_dependencies_exist(self, all_skill_files: list[Path], skills_dir: Path):
         """Verify skill dependencies reference existing skills."""
         missing_dependencies = []
 
@@ -257,7 +255,7 @@ class TestSkillIntegration:
                     missing_dependencies.append(f"{skill_file}: {dep}")
 
         # Allow some references to external dependencies
-        assert len(missing_dependencies) < 10, f"Missing skill dependencies:\n" + "\n".join(missing_dependencies[:10])
+        assert len(missing_dependencies) < 10, "Missing skill dependencies:\n" + "\n".join(missing_dependencies[:10])
 
 
 @pytest.mark.quality_gate
@@ -268,7 +266,7 @@ class TestSkillQualityGate:
         """Verify skills compliance meets 100% quality gate."""
         assert quality_gates["skills_compliance"] == 100
 
-    def test_all_skills_valid(self, all_skill_files: List[Path]):
+    def test_all_skills_valid(self, all_skill_files: list[Path]):
         """Verify all skill files are valid and loadable."""
         import re
 
@@ -293,8 +291,7 @@ class TestSkillQualityGate:
 
         # Allow up to 10% of skills to have minor issues
         tolerance = int(len(all_skill_files) * 0.1)
-        assert (
-            len(invalid_skills) <= tolerance
-        ), f"Too many invalid skill files ({len(invalid_skills)}/{len(all_skill_files)}):\n" + "\n".join(
-            invalid_skills[:10]
+        assert len(invalid_skills) <= tolerance, (
+            f"Too many invalid skill files ({len(invalid_skills)}/{len(all_skill_files)}):\n"
+            + "\n".join(invalid_skills[:10])
         )

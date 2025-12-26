@@ -21,9 +21,9 @@ import shutil
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
 
 import yaml
+
 
 # Token estimation (rough approximation: 1 token ≈ 4 chars)
 TOKEN_LIMIT = 5000
@@ -70,7 +70,7 @@ def estimate_tokens(text: str) -> int:
     return len(text) // CHARS_PER_TOKEN
 
 
-def extract_yaml_frontmatter(content: str) -> Tuple[Optional[Dict], str]:
+def extract_yaml_frontmatter(content: str) -> tuple[dict | None, str]:
     """Extract YAML frontmatter and remaining content."""
     if not content.startswith("---\n"):
         return None, content
@@ -99,11 +99,11 @@ def extract_yaml_frontmatter(content: str) -> Tuple[Optional[Dict], str]:
                 # Found markdown header - YAML section ended
                 markdown_start = i
                 break
-            elif stripped.startswith("```"):
+            if stripped.startswith("```"):
                 # Found code block - definitely not YAML
                 markdown_start = i
                 break
-            elif stripped and ":" in line and not stripped.startswith("-"):
+            if stripped and ":" in line and not stripped.startswith("-"):
                 # Valid YAML line
                 yaml_lines.append(line)
             elif not stripped:
@@ -158,7 +158,7 @@ def derive_name_from_path(skill_path: Path) -> str:
     return name
 
 
-def extract_description_from_content(content: str) -> Optional[str]:
+def extract_description_from_content(content: str) -> str | None:
     """Extract description from Level 1 Quick Start or first meaningful paragraph."""
     # Try to find Level 1 section
     level1_match = re.search(r"##\s+Level\s+1[^\n]*\n+(.*?)(?=##\s+Level\s+[23]|$)", content, re.DOTALL | re.IGNORECASE)
@@ -177,7 +177,7 @@ def extract_description_from_content(content: str) -> Optional[str]:
 
                 if clean_para and len(clean_para) <= MAX_DESCRIPTION_LENGTH:
                     return clean_para
-                elif clean_para:
+                if clean_para:
                     # Truncate at sentence boundary
                     sentences = re.split(r"[.!?]\s+", clean_para)
                     desc = ""
@@ -204,7 +204,7 @@ def extract_description_from_content(content: str) -> Optional[str]:
         # Look for first heading as context
         if line.startswith("#") and not found_title:
             found_title = True
-            _title_text = line.lstrip("#").strip()  # noqa: F841 - used for context
+            _title_text = line.lstrip("#").strip()
             continue
 
         # Skip common template markers
@@ -219,8 +219,7 @@ def extract_description_from_content(content: str) -> Optional[str]:
             if len(clean_line) > 20:  # Skip very short lines
                 if len(clean_line) <= MAX_DESCRIPTION_LENGTH:
                     return clean_line
-                else:
-                    return clean_line[:MAX_DESCRIPTION_LENGTH].rsplit(" ", 1)[0] + "..."
+                return clean_line[:MAX_DESCRIPTION_LENGTH].rsplit(" ", 1)[0] + "..."
 
     return None
 
@@ -236,16 +235,15 @@ def create_generic_description(name: str, skill_path: Path) -> str:
         category = parts[-1].name.replace("-", " ").title()
         subcategory = parts[-2].name.replace("-", " ")
         return f"{name.title()} standards for {subcategory} in {category} environments. Covers best practices, implementation patterns, and integration guidelines."
-    elif len(parts) == 1:
+    if len(parts) == 1:
         # e.g., testing
         category = parts[0].name.replace("-", " ").title()
         return f"{name.title()} standards and best practices for {category}. Includes implementation guidelines, common patterns, and testing strategies."
-    else:
-        # Fallback
-        return f"{name.title()} standards and implementation best practices for software development."
+    # Fallback
+    return f"{name.title()} standards and implementation best practices for software development."
 
 
-def split_level_content(content: str) -> Tuple[str, str, str]:
+def split_level_content(content: str) -> tuple[str, str, str]:
     """Split content into Level 1, Level 2, and Level 3 sections."""
     # Find level boundaries
     level1_match = re.search(r"(##\s+Level\s+1[^\n]*\n+.*?)(?=##\s+Level\s+[23]|$)", content, re.DOTALL | re.IGNORECASE)
@@ -259,7 +257,7 @@ def split_level_content(content: str) -> Tuple[str, str, str]:
     return level1, level2, level3
 
 
-def optimize_token_count(content: str, frontmatter: Dict) -> Tuple[str, bool]:
+def optimize_token_count(content: str, frontmatter: dict) -> tuple[str, bool]:
     """
     Optimize content to stay under token limit.
     Move verbose examples to Level 3, condense Level 2.
@@ -305,9 +303,8 @@ def optimize_token_count(content: str, frontmatter: Dict) -> Tuple[str, bool]:
         if new_tokens <= TOKEN_LIMIT:
             logging.info(f"Optimization successful: {current_tokens} → {new_tokens} tokens")
             return optimized, True
-        else:
-            logging.warning(f"Optimization insufficient: {current_tokens} → {new_tokens} tokens (still over limit)")
-            return optimized, True
+        logging.warning(f"Optimization insufficient: {current_tokens} → {new_tokens} tokens (still over limit)")
+        return optimized, True
 
     # If no code blocks to move, try condensing text
     # Remove excessive whitespace
@@ -322,7 +319,7 @@ def optimize_token_count(content: str, frontmatter: Dict) -> Tuple[str, bool]:
     return content, False
 
 
-def fix_skill_file(skill_path: Path, dry_run: bool = False, skip_token_optimization: bool = False) -> Dict[str, any]:
+def fix_skill_file(skill_path: Path, dry_run: bool = False, skip_token_optimization: bool = False) -> dict[str, any]:
     """
     Fix a single SKILL.md file for Anthropic compliance.
 
@@ -449,7 +446,7 @@ def generate_diff_preview(original: str, new: str, context_lines: int = 3) -> st
     return "\n".join(diff[:50])  # Limit preview length
 
 
-def find_non_compliant_skills() -> List[Path]:
+def find_non_compliant_skills() -> list[Path]:
     """Find all SKILL.md files that need fixing."""
     non_compliant = []
 
@@ -465,15 +462,11 @@ def find_non_compliant_skills() -> List[Path]:
                 needs_fix = True
             else:
                 # Check required fields
-                if "name" not in frontmatter or not frontmatter["name"]:
-                    needs_fix = True
-                elif len(frontmatter["name"]) > MAX_NAME_LENGTH:
+                if "name" not in frontmatter or not frontmatter["name"] or len(frontmatter["name"]) > MAX_NAME_LENGTH:
                     needs_fix = True
 
                 desc_value = frontmatter.get("description", "").strip()
-                if not desc_value or desc_value.startswith("TODO"):
-                    needs_fix = True
-                elif len(desc_value) > MAX_DESCRIPTION_LENGTH:
+                if not desc_value or desc_value.startswith("TODO") or len(desc_value) > MAX_DESCRIPTION_LENGTH:
                     needs_fix = True
 
             # Check token count
@@ -515,7 +508,7 @@ def main():
     setup_logging(args.verbose)
 
     # Determine which skills to process
-    skills_to_fix: List[Path] = []
+    skills_to_fix: list[Path] = []
 
     if args.skill:
         skill_path = SKILLS_DIR / args.skill / "SKILL.md"

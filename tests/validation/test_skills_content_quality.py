@@ -93,7 +93,7 @@ class TestIntegrationPointsQuality:
                 break
 
         assert integration_section is not None, (
-            f"Skill '{skill_file.name}' missing Integration Points section.\n" f"File: {skill_file.path}"
+            f"Skill '{skill_file.name}' missing Integration Points section.\nFile: {skill_file.path}"
         )
 
         # Count list items or links in integration section
@@ -137,7 +137,7 @@ class TestCommonPitfallsQuality:
                 break
 
         assert pitfalls_section is not None, (
-            f"Skill '{skill_file.name}' missing Common Pitfalls section.\n" f"File: {skill_file.path}"
+            f"Skill '{skill_file.name}' missing Common Pitfalls section.\nFile: {skill_file.path}"
         )
 
         # Count distinct pitfalls (list items, headings, or code examples)
@@ -246,14 +246,14 @@ class TestContentCompleteness:
                 # Look ahead until next same-level heading or end
                 for j in range(i + 1, len(lines)):
                     next_line = lines[j]
-                    if re.match(rf"^#{{{1,{heading_level}}}}\s+", next_line):
+                    if re.match(rf"^#{{{1, {heading_level}}}}\s+", next_line):
                         break
                     if next_line.strip():
                         content_lines.append(next_line)
 
                 # If section has no content (only whitespace/empty lines)
                 if not content_lines:
-                    empty_sections.append(f"Line {i+1}: {line.strip()}")
+                    empty_sections.append(f"Line {i + 1}: {line.strip()}")
 
         assert not empty_sections, (
             f"Skill '{skill_file.name}' has empty sections.\n"

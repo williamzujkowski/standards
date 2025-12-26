@@ -76,35 +76,21 @@ else
 fi
 echo ""
 
-echo "Step 3: Python import sorting (isort)..."
-echo "----------------------------------------"
-if command -v isort &> /dev/null; then
-    print_status "info" "Running isort..."
-    if isort --profile black . 2>&1 | tee /tmp/isort-fix.log; then
-        print_status "success" "Imports sorted successfully"
+echo "Step 3: Python code formatting (ruff format)..."
+echo "-----------------------------------------------"
+if command -v ruff &> /dev/null; then
+    print_status "info" "Running ruff format..."
+    if ruff format . 2>&1 | tee /tmp/ruff-format.log; then
+        print_status "success" "Code formatted with ruff"
     else
-        print_status "warning" "isort found issues"
+        print_status "warning" "Ruff format found issues"
     fi
 else
-    print_status "error" "isort not installed. Install with: pip install isort"
+    print_status "error" "ruff not installed. Install with: pip install ruff"
 fi
 echo ""
 
-echo "Step 4: Python code formatting (black)..."
-echo "-----------------------------------------"
-if command -v black &> /dev/null; then
-    print_status "info" "Running black formatter..."
-    if black . 2>&1 | tee /tmp/black-fix.log; then
-        print_status "success" "Code formatted with black"
-    else
-        print_status "warning" "Black found issues"
-    fi
-else
-    print_status "error" "black not installed. Install with: pip install black"
-fi
-echo ""
-
-echo "Step 5: Verifying gitignore compliance..."
+echo "Step 4: Verifying gitignore compliance..."
 echo "-----------------------------------------"
 GITIGNORED=$(git ls-files --cached --ignored --exclude-standard 2>/dev/null || true)
 if [ -z "$GITIGNORED" ]; then
@@ -118,7 +104,7 @@ else
 fi
 echo ""
 
-echo "Step 6: Checking for remaining large files..."
+echo "Step 5: Checking for remaining large files..."
 echo "---------------------------------------------"
 LARGE_FILES=$(find . -type f -size +1M \
     -not -path "./.git/*" \
@@ -136,7 +122,7 @@ else
 fi
 echo ""
 
-echo "Step 7: Running pre-commit validation..."
+echo "Step 6: Running pre-commit validation..."
 echo "----------------------------------------"
 if command -v pre-commit &> /dev/null; then
     print_status "info" "Running pre-commit hooks..."

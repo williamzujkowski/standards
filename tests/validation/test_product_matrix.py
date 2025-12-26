@@ -4,26 +4,23 @@ Product matrix validation tests.
 Tests product matrix configuration and consistency.
 """
 
-from pathlib import Path
-from typing import Dict
-
 import pytest
 
 
 class TestProductMatrixStructure:
     """Test product matrix structure."""
 
-    def test_matrix_has_version(self, product_matrix: Dict):
+    def test_matrix_has_version(self, product_matrix: dict):
         """Verify product matrix has version field."""
         assert "version" in product_matrix, "Product matrix missing version field"
         assert product_matrix["version"] >= 1, "Invalid version number"
 
-    def test_matrix_has_products(self, product_matrix: Dict):
+    def test_matrix_has_products(self, product_matrix: dict):
         """Verify product matrix defines products."""
         assert "products" in product_matrix, "Product matrix missing products section"
         assert len(product_matrix["products"]) > 0, "No products defined"
 
-    def test_products_have_required_fields(self, product_matrix: Dict):
+    def test_products_have_required_fields(self, product_matrix: dict):
         """Verify each product has required fields."""
         required_fields = ["description", "standards"]
         invalid_products = []
@@ -33,9 +30,9 @@ class TestProductMatrixStructure:
             if missing:
                 invalid_products.append(f"{product_name}: missing {missing}")
 
-        assert not invalid_products, f"Products with invalid structure:\n" + "\n".join(invalid_products)
+        assert not invalid_products, "Products with invalid structure:\n" + "\n".join(invalid_products)
 
-    def test_wildcard_expansions_defined(self, product_matrix: Dict):
+    def test_wildcard_expansions_defined(self, product_matrix: dict):
         """Verify wildcard expansions are properly defined."""
         if "wildcards" not in product_matrix:
             pytest.skip("No wildcards defined in product matrix")
@@ -47,13 +44,13 @@ class TestProductMatrixStructure:
             elif not isinstance(config["expands_to"], list):
                 invalid_wildcards.append(f"{wildcard}: expands_to must be a list")
 
-        assert not invalid_wildcards, f"Invalid wildcard definitions:\n" + "\n".join(invalid_wildcards)
+        assert not invalid_wildcards, "Invalid wildcard definitions:\n" + "\n".join(invalid_wildcards)
 
 
 class TestProductMatrixContent:
     """Test product matrix content."""
 
-    def test_standard_codes_consistent(self, product_matrix: Dict):
+    def test_standard_codes_consistent(self, product_matrix: dict):
         """Verify standard codes follow consistent format."""
         import re
 
@@ -66,9 +63,9 @@ class TestProductMatrixContent:
                 if not code_pattern.match(standard):
                     invalid_codes.append(f"{product_name}: {standard}")
 
-        assert not invalid_codes, f"Invalid standard codes:\n" + "\n".join(invalid_codes[:10])
+        assert not invalid_codes, "Invalid standard codes:\n" + "\n".join(invalid_codes[:10])
 
-    def test_nist_auto_inclusion(self, product_matrix: Dict):
+    def test_nist_auto_inclusion(self, product_matrix: dict):
         """Verify NIST is auto-included when SEC standards present."""
         products_with_sec = []
         products_missing_nist = []
@@ -98,7 +95,7 @@ class TestProductMatrixContent:
                 "Consider adding NIST-IG:base for consistency."
             )
 
-    def test_language_mappings_valid(self, product_matrix: Dict):
+    def test_language_mappings_valid(self, product_matrix: dict):
         """Verify language mappings are properly defined."""
         if "language_mappings" not in product_matrix:
             pytest.skip("No language mappings defined")
@@ -113,9 +110,9 @@ class TestProductMatrixContent:
                 if not isinstance(value, str):
                     invalid_mappings.append(f"{language}.{key}: value must be a string")
 
-        assert not invalid_mappings, f"Invalid language mappings:\n" + "\n".join(invalid_mappings)
+        assert not invalid_mappings, "Invalid language mappings:\n" + "\n".join(invalid_mappings)
 
-    def test_framework_mappings_valid(self, product_matrix: Dict):
+    def test_framework_mappings_valid(self, product_matrix: dict):
         """Verify framework mappings are properly defined."""
         if "framework_mappings" not in product_matrix:
             pytest.skip("No framework mappings defined")
@@ -125,13 +122,13 @@ class TestProductMatrixContent:
             if not isinstance(mappings, dict):
                 invalid_mappings.append(f"{framework}: mappings must be a dict")
 
-        assert not invalid_mappings, f"Invalid framework mappings:\n" + "\n".join(invalid_mappings)
+        assert not invalid_mappings, "Invalid framework mappings:\n" + "\n".join(invalid_mappings)
 
 
 class TestProductMatrixUsage:
     """Test product matrix usage patterns."""
 
-    def test_common_products_defined(self, product_matrix: Dict):
+    def test_common_products_defined(self, product_matrix: dict):
         """Verify common product types are defined."""
         common_products = [
             "api",
@@ -145,7 +142,7 @@ class TestProductMatrixUsage:
 
         assert not missing, f"Missing common product types: {missing}"
 
-    def test_stack_presets_reference_products(self, product_matrix: Dict):
+    def test_stack_presets_reference_products(self, product_matrix: dict):
         """Verify stack presets reference valid products."""
         if "stack_presets" not in product_matrix:
             pytest.skip("No stack presets defined")
@@ -159,9 +156,9 @@ class TestProductMatrixUsage:
                 if referenced_product not in products:
                     invalid_references.append(f"{stack}: references undefined product '{referenced_product}'")
 
-        assert not invalid_references, f"Invalid product references:\n" + "\n".join(invalid_references)
+        assert not invalid_references, "Invalid product references:\n" + "\n".join(invalid_references)
 
-    def test_no_circular_dependencies(self, product_matrix: Dict):
+    def test_no_circular_dependencies(self, product_matrix: dict):
         """Verify no circular dependencies in stack presets."""
         if "stack_presets" not in product_matrix:
             pytest.skip("No stack presets defined")
@@ -191,7 +188,7 @@ class TestProductMatrixUsage:
 class TestProductMatrixDocumentation:
     """Test product matrix documentation."""
 
-    def test_products_have_descriptions(self, product_matrix: Dict):
+    def test_products_have_descriptions(self, product_matrix: dict):
         """Verify all products have descriptions."""
         missing_descriptions = []
 
@@ -202,7 +199,7 @@ class TestProductMatrixDocumentation:
 
         assert not missing_descriptions, f"Products missing descriptions: {missing_descriptions}"
 
-    def test_wildcards_have_descriptions(self, product_matrix: Dict):
+    def test_wildcards_have_descriptions(self, product_matrix: dict):
         """Verify wildcards have descriptions."""
         if "wildcards" not in product_matrix:
             pytest.skip("No wildcards defined")
@@ -221,7 +218,7 @@ class TestProductMatrixDocumentation:
 class TestProductMatrixQualityGate:
     """Quality gate tests for product matrix."""
 
-    def test_matrix_completeness(self, product_matrix: Dict):
+    def test_matrix_completeness(self, product_matrix: dict):
         """Verify product matrix is complete and valid."""
         required_sections = ["version", "products"]
         missing = [s for s in required_sections if s not in product_matrix]

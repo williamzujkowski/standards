@@ -3,7 +3,7 @@
 
 import re
 from pathlib import Path
-from typing import Dict, Tuple
+
 
 # Skill-specific content mappings
 SKILL_CONTEXTS = {
@@ -93,7 +93,7 @@ See `examples/{skill_name}/` for complete working examples.
 """
 
 
-def generate_integration_points_section(skill_name: str, context: Dict) -> str:
+def generate_integration_points_section(skill_name: str, context: dict) -> str:
     """Generate skill-specific Integration Points section."""
     tools = ", ".join(context.get("tools", []))
     related = context.get("related", [])
@@ -106,7 +106,7 @@ This skill integrates with:
 
 ### Upstream Dependencies
 - **Tools**: {tools if tools else "Common development tools and frameworks"}
-- **Prerequisites**: Basic understanding of {context.get('category', 'software development')} concepts
+- **Prerequisites**: Basic understanding of {context.get("category", "software development")} concepts
 
 ### Downstream Consumers
 - **Applications**: Production systems requiring {skill_name} functionality
@@ -191,7 +191,7 @@ def find_insertion_point(content: str) -> int:
     return len(content)
 
 
-def process_skill(skill_path: Path) -> Tuple[bool, str]:
+def process_skill(skill_path: Path) -> tuple[bool, str]:
     """Process a single skill file to add universal sections."""
     try:
         content = skill_path.read_text()
@@ -262,13 +262,13 @@ def main():
         else:
             skipped_count += 1
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print("Summary:")
     print(f"  Updated: {updated_count}")
     print(f"  Skipped: {skipped_count}")
     print(f"  Errors: {error_count}")
     print(f"  Total: {len(skill_files)}")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
 
 if __name__ == "__main__":

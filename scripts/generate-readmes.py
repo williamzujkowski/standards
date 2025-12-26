@@ -6,6 +6,7 @@ Generate README.md files for directories missing them.
 import sys
 from pathlib import Path
 
+
 ROOT = Path(__file__).resolve().parents[1]
 
 # Directories that need README files
@@ -88,15 +89,14 @@ def get_hub_link(dir_path: Path) -> str:
         # Calculate relative path to UNIFIED_STANDARDS
         depth = len(dir_path.parts)
         return "../" * (depth - 1) + "docs/standards/UNIFIED_STANDARDS.md"
-    elif "examples" in dir_str:
+    if "examples" in dir_str:
         depth = len(dir_path.parts)
         return "../" * depth + "README.md"
-    elif "docs" in dir_str:
+    if "docs" in dir_str:
         return "../README.md"
-    elif ".claude" in dir_str or ".nist" in dir_str or ".github" in dir_str:
+    if ".claude" in dir_str or ".nist" in dir_str or ".github" in dir_str:
         return "../../README.md"
-    else:
-        return "../README.md"
+    return "../README.md"
 
 
 def generate_readme(dir_path: Path) -> bool:
@@ -114,7 +114,7 @@ def generate_readme(dir_path: Path) -> bool:
         return False
 
     # Get description
-    description = DIR_DESCRIPTIONS.get(str(dir_path), f'{full_path.name.replace("-", " ").title()} directory')
+    description = DIR_DESCRIPTIONS.get(str(dir_path), f"{full_path.name.replace('-', ' ').title()} directory")
 
     # Start building README content
     lines = [

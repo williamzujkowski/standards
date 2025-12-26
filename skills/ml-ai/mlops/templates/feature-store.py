@@ -3,11 +3,11 @@ Feature Store implementation using Feast for online and offline feature serving.
 """
 
 from datetime import datetime, timedelta
-from typing import Dict, List
 
 import pandas as pd
 from feast import Entity, Feature, FeatureStore, FeatureView, FileSource, ValueType
 from feast.types import Float32, Int64, String
+
 
 # Feature Repository Configuration
 # Save as: feature_repo/feature_store.yaml
@@ -112,9 +112,8 @@ class FeatureStoreManager:
     def apply_feature_definitions(self):
         """Apply feature definitions to the feature store."""
         # This would be done via: feast apply
-        pass
 
-    def generate_training_features(self, entity_df: pd.DataFrame, feature_refs: List[str]) -> pd.DataFrame:
+    def generate_training_features(self, entity_df: pd.DataFrame, feature_refs: list[str]) -> pd.DataFrame:
         """
         Generate features for model training (historical/offline features).
 
@@ -129,7 +128,7 @@ class FeatureStoreManager:
 
         return training_df
 
-    def get_online_features(self, entity_rows: List[Dict], feature_refs: List[str]) -> Dict:
+    def get_online_features(self, entity_rows: list[dict], feature_refs: list[str]) -> dict:
         """
         Get online features for real-time inference.
 
@@ -144,7 +143,7 @@ class FeatureStoreManager:
 
         return features
 
-    def materialize_features(self, start_date: datetime, end_date: datetime, feature_views: List[str] = None):
+    def materialize_features(self, start_date: datetime, end_date: datetime, feature_views: list[str] = None):
         """
         Materialize features from offline to online store.
 
@@ -195,7 +194,7 @@ class FeatureEngineer:
         return user_features
 
     @staticmethod
-    def engineer_transaction_features(current_transaction: Dict, user_history: pd.DataFrame) -> Dict:
+    def engineer_transaction_features(current_transaction: dict, user_history: pd.DataFrame) -> dict:
         """Engineer transaction-level features."""
 
         features = {}

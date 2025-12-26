@@ -1,3 +1,11 @@
+# ============================================================================
+# DEPRECATION NOTICE
+# ============================================================================
+# This file is deprecated in favor of pyproject.toml
+# For development dependencies, use: pip install -e ".[dev]"
+# For documentation dependencies, use: pip install -e ".[docs]"
+# ============================================================================
+
 # MkDocs and Material Theme (latest stable versions)
 mkdocs==1.6.1
 mkdocs-material==9.6.18

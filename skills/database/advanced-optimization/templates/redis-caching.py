@@ -7,12 +7,14 @@ Description: Production-ready Redis caching strategies
 import json
 import logging
 import time
+from collections.abc import Callable
 from datetime import datetime
 from functools import wraps
-from typing import Any, Callable, List
+from typing import Any
 
 import redis
 from redis.cluster import RedisCluster
+
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -28,7 +30,7 @@ class RedisCache:
         port: int = 6379,
         db: int = 0,
         cluster_mode: bool = False,
-        cluster_nodes: List[dict] = None,
+        cluster_nodes: list[dict] = None,
     ):
         """
         Initialize Redis client

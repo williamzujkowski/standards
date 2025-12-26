@@ -14,10 +14,11 @@ Security Features:
 import logging
 import os
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
 import braintree
 import stripe
+
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -50,9 +51,9 @@ class StripeTokenizer:
         self,
         amount: int,
         currency: str = "usd",
-        customer_id: Optional[str] = None,
-        metadata: Optional[Dict[str, str]] = None,
-    ) -> Dict[str, Any]:
+        customer_id: str | None = None,
+        metadata: dict[str, str] | None = None,
+    ) -> dict[str, Any]:
         """
         Create a PaymentIntent for Stripe.js to complete
 
@@ -87,7 +88,7 @@ class StripeTokenizer:
             logger.error(f"Stripe error: {e}")
             raise
 
-    def process_payment(self, token: str, amount: int, description: str) -> Dict[str, Any]:
+    def process_payment(self, token: str, amount: int, description: str) -> dict[str, Any]:
         """
         Process a payment using a Stripe token
 
@@ -126,8 +127,8 @@ class StripeTokenizer:
             return {"success": False, "error": "Payment processing failed"}
 
     def create_customer_with_payment_method(
-        self, email: str, payment_method_id: str, metadata: Optional[Dict[str, str]] = None
-    ) -> Dict[str, Any]:
+        self, email: str, payment_method_id: str, metadata: dict[str, str] | None = None
+    ) -> dict[str, Any]:
         """
         Create a customer and attach a payment method (tokenized)
 
@@ -155,7 +156,7 @@ class StripeTokenizer:
             logger.error(f"Customer creation failed: {e}")
             raise
 
-    def charge_saved_customer(self, customer_id: str, amount: int, description: str) -> Dict[str, Any]:
+    def charge_saved_customer(self, customer_id: str, amount: int, description: str) -> dict[str, Any]:
         """
         Charge an existing customer using saved payment method
 
@@ -230,7 +231,7 @@ class BraintreeTokenizer:
 
         logger.info("Braintree gateway initialized")
 
-    def generate_client_token(self, customer_id: Optional[str] = None) -> str:
+    def generate_client_token(self, customer_id: str | None = None) -> str:
         """
         Generate client token for Braintree.js
 
@@ -252,7 +253,7 @@ class BraintreeTokenizer:
             logger.error(f"Token generation failed: {e}")
             raise
 
-    def process_payment(self, nonce: str, amount: str, customer_id: Optional[str] = None) -> Dict[str, Any]:
+    def process_payment(self, nonce: str, amount: str, customer_id: str | None = None) -> dict[str, Any]:
         """
         Process payment using payment method nonce from Braintree.js
 
@@ -285,18 +286,17 @@ class BraintreeTokenizer:
                     "amount": transaction.amount,
                     "status": transaction.status,
                 }
-            else:
-                logger.warning(f"Payment declined: {result.message}")
-                return {
-                    "success": False,
-                    "error": result.message,
-                    "errors": [error.message for error in result.errors.deep_errors],
-                }
+            logger.warning(f"Payment declined: {result.message}")
+            return {
+                "success": False,
+                "error": result.message,
+                "errors": [error.message for error in result.errors.deep_errors],
+            }
         except Exception as e:
             logger.error(f"Braintree error: {e}")
             return {"success": False, "error": "Payment processing failed"}
 
-    def create_customer(self, email: str, payment_method_nonce: str) -> Dict[str, Any]:
+    def create_customer(self, email: str, payment_method_nonce: str) -> dict[str, Any]:
         """
         Create customer and vault payment method
 
@@ -320,14 +320,13 @@ class BraintreeTokenizer:
                     "email": customer.email,
                     "payment_methods": [pm.token for pm in customer.payment_methods],
                 }
-            else:
-                logger.error(f"Customer creation failed: {result.message}")
-                raise Exception(result.message)
+            logger.error(f"Customer creation failed: {result.message}")
+            raise Exception(result.message)
         except Exception as e:
             logger.error(f"Braintree error: {e}")
             raise
 
-    def charge_saved_customer(self, customer_id: str, amount: str) -> Dict[str, Any]:
+    def charge_saved_customer(self, customer_id: str, amount: str) -> dict[str, Any]:
         """
         Charge existing customer using vaulted payment method
 
@@ -349,8 +348,7 @@ class BraintreeTokenizer:
                 self._audit_log("recurring_payment", transaction.id, amount)
 
                 return {"success": True, "transaction_id": transaction.id, "amount": transaction.amount}
-            else:
-                return {"success": False, "error": result.message}
+            return {"success": False, "error": result.message}
         except Exception as e:
             logger.error(f"Braintree error: {e}")
             return {"success": False, "error": str(e)}
@@ -386,7 +384,9 @@ def example_stripe_flow():
 
     # Charge the customer
     result = tokenizer.charge_saved_customer(
-        customer_id=customer["customer_id"], amount=5000, description="Product purchase"  # $50.00
+        customer_id=customer["customer_id"],
+        amount=5000,
+        description="Product purchase",  # $50.00
     )
 
     print(f"Payment result: {result}")
@@ -404,7 +404,8 @@ def example_braintree_flow():
 
     # Create customer and process payment
     customer = tokenizer.create_customer(
-        email="customer@example.com", payment_method_nonce="fake-valid-nonce"  # From Braintree.js
+        email="customer@example.com",
+        payment_method_nonce="fake-valid-nonce",  # From Braintree.js
     )
 
     # Charge saved customer

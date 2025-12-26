@@ -6,8 +6,6 @@ London School TDD - focused unit tests with mocks for parser behavior.
 RED PHASE: Parser implementation does not exist yet.
 """
 
-from typing import Dict, List
-
 import pytest
 
 
@@ -15,7 +13,7 @@ class LoadDirectiveParser:
     """Parser for @load directives - TO BE IMPLEMENTED"""
 
     @staticmethod
-    def parse(directive: str) -> Dict:
+    def parse(directive: str) -> dict:
         """Parse @load directive into structured format"""
         raise NotImplementedError("Parser not implemented")
 
@@ -25,7 +23,7 @@ class LoadDirectiveParser:
         raise NotImplementedError("Validator not implemented")
 
     @staticmethod
-    def expand_wildcards(components: List[str]) -> List[str]:
+    def expand_wildcards(components: list[str]) -> list[str]:
         """Expand wildcard components like SEC:*"""
         raise NotImplementedError("Wildcard expansion not implemented")
 

@@ -14,7 +14,6 @@ import json
 import re
 import sys
 from pathlib import Path
-from typing import List
 
 import yaml
 
@@ -24,8 +23,8 @@ class SkillValidator:
 
     def __init__(self, skills_dir: Path):
         self.skills_dir = skills_dir
-        self.errors: List[str] = []
-        self.warnings: List[str] = []
+        self.errors: list[str] = []
+        self.warnings: list[str] = []
         self.skills_validated = 0
 
     def validate_all(self) -> bool:
@@ -115,9 +114,7 @@ class SkillValidator:
             print("  ❌ Missing 'name' field")
             valid = False
         elif frontmatter["name"] != skill_name:
-            self.warnings.append(
-                f"{skill_name}: Name mismatch (dir: {skill_name}, " f"frontmatter: {frontmatter['name']})"
-            )
+            self.warnings.append(f"{skill_name}: Name mismatch (dir: {skill_name}, frontmatter: {frontmatter['name']})")
             print(f"  ⚠️  Name mismatch: {skill_name} != {frontmatter['name']}")
 
         if "description" not in frontmatter:
@@ -125,7 +122,7 @@ class SkillValidator:
             print("  ❌ Missing 'description' field")
             valid = False
         elif len(frontmatter["description"]) < 20:
-            self.warnings.append(f"{skill_name}: Description too short " f"({len(frontmatter['description'])} chars)")
+            self.warnings.append(f"{skill_name}: Description too short ({len(frontmatter['description'])} chars)")
             print("  ⚠️  Description too short")
 
         if valid:
@@ -187,16 +184,16 @@ class SkillValidator:
 
         # Level 1 should be quick (< 2000 tokens for 5 min read)
         if level1_tokens > 2000:
-            self.warnings.append(f"{skill_name}: Level 1 too long ({level1_tokens} tokens, " "recommended < 2000)")
+            self.warnings.append(f"{skill_name}: Level 1 too long ({level1_tokens} tokens, recommended < 2000)")
             print(f"  ⚠️  Level 1 too long: {level1_tokens} tokens")
             valid = False
 
         # Level 2 should be comprehensive but not overwhelming (< 5000 tokens)
         if level2_tokens > 5000:
-            self.warnings.append(f"{skill_name}: Level 2 too long ({level2_tokens} tokens, " "recommended < 5000)")
+            self.warnings.append(f"{skill_name}: Level 2 too long ({level2_tokens} tokens, recommended < 5000)")
             print(f"  ⚠️  Level 2 too long: {level2_tokens} tokens")
 
-        print(f"  ℹ️  Token estimates: L1={level1_tokens}, L2={level2_tokens}, " f"L3={level3_tokens}")
+        print(f"  ℹ️  Token estimates: L1={level1_tokens}, L2={level2_tokens}, L3={level3_tokens}")
 
         return valid
 

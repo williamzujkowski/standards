@@ -188,9 +188,8 @@ class ValidationFixer:
 
         if len(words) == 1:
             return words[0][:3].upper()
-        else:
-            code = "".join(w[0] for w in words[:4])
-            return code.upper()
+        code = "".join(w[0] for w in words[:4])
+        return code.upper()
 
 
 def main():

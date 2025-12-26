@@ -11,12 +11,14 @@ from pathlib import Path
 import pytest
 import yaml
 
+
 # Add scripts directory to path
 SCRIPTS_DIR = Path(__file__).parent.parent.parent / "scripts"
 sys.path.insert(0, str(SCRIPTS_DIR))
 
 # Import module under test
 import importlib.util
+
 
 spec = importlib.util.spec_from_file_location("discover_skills", SCRIPTS_DIR / "discover-skills.py")
 discover_skills = importlib.util.module_from_spec(spec)
@@ -63,15 +65,15 @@ def sample_skill_files():
 
         # Create SKILL.md with frontmatter
         content = f"""---
-name: "{skill_data['name']}"
-description: "{skill_data['description']}"
-category: "{skill_data['category']}"
-tags: {json.dumps(skill_data['tags'])}
+name: "{skill_data["name"]}"
+description: "{skill_data["description"]}"
+category: "{skill_data["category"]}"
+tags: {json.dumps(skill_data["tags"])}
 ---
 
-# {skill_data['name']}
+# {skill_data["name"]}
 
-{skill_data['description']}
+{skill_data["description"]}
 
 ## Related Skills
 
@@ -403,7 +405,7 @@ class TestGenerateLoadCommand:
 
         cmd = discovery.generate_load_command(["api-security"])
 
-        assert "@load skills:[api-security]" == cmd
+        assert cmd == "@load skills:[api-security]"
 
     def test_generate_load_command_multiple(self, sample_skill_files):
         """Test generating load command for multiple skills."""
@@ -411,7 +413,7 @@ class TestGenerateLoadCommand:
 
         cmd = discovery.generate_load_command(["api-security", "input-validation"])
 
-        assert "@load skills:[api-security,input-validation]" == cmd
+        assert cmd == "@load skills:[api-security,input-validation]"
 
     def test_generate_load_command_empty(self, sample_skill_files):
         """Test generating load command with empty list."""
@@ -419,7 +421,7 @@ class TestGenerateLoadCommand:
 
         cmd = discovery.generate_load_command([])
 
-        assert "@load skills:[]" == cmd
+        assert cmd == "@load skills:[]"
 
 
 class TestCommandLineInterface:
@@ -436,6 +438,7 @@ class TestCommandLineInterface:
                 "--search",
                 "security",
             ],
+            check=False,
             capture_output=True,
             text=True,
         )
@@ -454,6 +457,7 @@ class TestCommandLineInterface:
                 "--category",
                 "security",
             ],
+            check=False,
             capture_output=True,
             text=True,
         )
@@ -465,6 +469,7 @@ class TestCommandLineInterface:
         """Test --list-all flag."""
         result = subprocess.run(
             ["python3", str(SCRIPTS_DIR / "discover-skills.py"), "--skills-dir", str(sample_skill_files), "--list-all"],
+            check=False,
             capture_output=True,
             text=True,
         )
@@ -484,6 +489,7 @@ class TestCommandLineInterface:
                 "security",
                 "--generate-command",
             ],
+            check=False,
             capture_output=True,
             text=True,
         )
@@ -505,6 +511,7 @@ class TestCommandLineInterface:
                 "--output-json",
                 str(output_json),
             ],
+            check=False,
             capture_output=True,
             text=True,
         )
@@ -529,6 +536,7 @@ class TestCommandLineInterface:
                 "security",
                 "--verbose",
             ],
+            check=False,
             capture_output=True,
             text=True,
         )
@@ -546,6 +554,7 @@ class TestCommandLineInterface:
                 "--resolve-deps",
                 "api-security",
             ],
+            check=False,
             capture_output=True,
             text=True,
         )
@@ -566,6 +575,7 @@ class TestCommandLineInterface:
                 "--product-type",
                 "api",
             ],
+            check=False,
             capture_output=True,
             text=True,
         )
@@ -574,7 +584,9 @@ class TestCommandLineInterface:
 
     def test_cli_no_arguments(self):
         """Test CLI with no arguments."""
-        result = subprocess.run(["python3", str(SCRIPTS_DIR / "discover-skills.py")], capture_output=True, text=True)
+        result = subprocess.run(
+            ["python3", str(SCRIPTS_DIR / "discover-skills.py")], check=False, capture_output=True, text=True
+        )
 
         assert result.returncode == 0
 
