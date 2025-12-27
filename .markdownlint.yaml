@@ -58,6 +58,7 @@ MD001: false  # Heading levels increment
 MD025: false  # Multiple top-level headings
 MD029: false  # Ordered list item prefix
 MD051: false  # Link fragments validation
+MD060: false  # Table column style - too strict for our compact tables
 
 # Links must have descriptive text
 MD042: true
