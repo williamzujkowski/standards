@@ -231,9 +231,7 @@ class TestContentCompleteness:
 
     def test_no_empty_sections(self, skill_file):
         """Skills must not have empty sections."""
-        # Find all section headings
-        sections = re.findall(r"^(#{2,4})\s+(.+)$", skill_file.content, re.MULTILINE)
-
+        # Find section headings using split approach instead of findall
         empty_sections = []
         lines = skill_file.content.split("\n")
 

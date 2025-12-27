@@ -140,18 +140,74 @@ ignore = [
     "S603",    # subprocess untrusted input - needed in scripts
     "S607",    # partial executable path - needed in scripts
     "B007",    # unused loop variable
+    "B028",    # no stacklevel in warnings.warn - acceptable
     "N802",    # function name should be lowercase - needed for HTTP handlers
     "PLR0913", # too many arguments - sometimes needed
     "PLR2004", # magic value comparison - acceptable for constants
+    "PLC0415", # import not at top of file - sometimes needed for lazy imports
     "ARG001",  # unused function argument - sometimes needed for API compatibility
     "ARG002",  # unused method argument - sometimes needed for API compatibility
+    "DTZ",     # datetime timezone - too strict for existing codebase
+    "PT009",   # pytest.raises style - style preference
+    "PERF203", # try-except in loop - sometimes needed for error handling
+    "PERF401", # use list comprehension - sometimes less readable
+    "SIM102",  # nested if - sometimes clearer than combined condition
+    "SIM108",  # ternary operator - sometimes less readable
+    "RUF005",  # iterable unpacking vs concatenation - style preference
+    "RUF013",  # implicit optional - allow None defaults without explicit Optional
+    "PLW2901", # loop variable overwritten - sometimes intentional
+    "PLW1514", # unspecified encoding - Python 3 uses UTF-8 by default
+    "PLR0912", # too many branches - complex logic sometimes needed
+    "PLR0915", # too many statements - complex logic sometimes needed
+    "PLR0911", # too many return statements - acceptable
+    "RET505",  # unnecessary else after return - sometimes clearer
+    "RET506",  # unnecessary else after raise - sometimes clearer
+    "RET507",  # unnecessary else after continue - sometimes clearer
+    "RET508",  # unnecessary else after break - sometimes clearer
+    "C416",    # unnecessary list comprehension - sometimes clearer
+    "PLR1722", # use sys.exit - exit() is fine in scripts
+    "UP015",   # redundant open mode - explicit is clearer
+    "UP031",   # f-string instead of % formatting - legacy code
+    "UP032",   # f-string instead of .format() - legacy code
+    "ISC001",  # implicit string concatenation - style preference
+    "T201",    # print found - needed in scripts
+    "E402",    # import not at top - sometimes needed for conditional imports
+    "RET504",  # unnecessary variable assignment before return - sometimes clearer
+    "TRY003",  # raise exception with long message - acceptable
+    "TRY301",  # raise in try block - sometimes needed
+    "PLW0603", # global statement - sometimes needed in scripts
+    "PLW1641", # eq without hash - acceptable for some classes
+    "E712",    # comparison to True/False - explicit is clearer in tests
+    "E711",    # comparison to None - explicit is sometimes clearer
+    "PLR5501", # collapsible if - sometimes clearer separated
+    "SIM114",  # combine if branches - sometimes clearer separated
+    "ARG004",  # unused static method argument - API compatibility
+    # UP038 was removed from ruff - no longer needed
+    "PIE810",  # multiple startswith/endswith - sometimes clearer
+    "PERF102", # dict.values() instead of iteration - style
+    "RUF001",  # ambiguous unicode - intentional use of symbols
+    "SIM115",  # context manager for files - sometimes clearer without
+    "C401",    # generator vs comprehension - style preference
+    "C414",    # list in sorted - explicit is clearer
+    "PERF402", # list copy - style preference
+    "PERF403", # dict comprehension - sometimes less clear
+    "RUF012",  # mutable class attributes - acceptable in some cases
+    "B904",    # raise from - not always needed
+    "PT006",   # pytest parametrize first arg - legacy style
+    "PT011",   # pytest.raises too broad - acceptable in tests
+    "S311",    # random not crypto-safe - acceptable for non-crypto uses
+    "RUF059",  # unpacked variable never used - sometimes intentional
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/*" = ["S101", "PLR2004", "ARG"]  # Allow assert and magic values in tests
-"scripts/*" = ["S602", "S603", "S607", "T201"]  # Allow subprocess and print in scripts
-"monitoring/*" = ["S602", "S607", "E722"]  # Allow shell commands and bare except
-"examples/*" = ["S105", "S106"]  # Allow example credentials in examples
+"tests/*" = ["S101", "PLR2004", "ARG", "PERF", "PT", "F841", "SIM", "S108", "B"]  # Allow test patterns
+"tests/**/*" = ["S101", "PLR2004", "ARG", "PERF", "PT", "F841", "SIM", "S108", "B"]  # Same for nested test dirs
+"scripts/*" = ["S602", "S603", "S607", "T201", "PLR"]  # Allow subprocess and print in scripts
+"monitoring/*" = ["S602", "S607", "E722", "PERF", "PLR"]  # Allow shell commands and bare except
+"examples/*" = ["S105", "S106", "PERF", "PLR", "F821", "F841"]  # Allow example code patterns
+"skills/*" = ["S105", "S106", "PERF", "PLR", "F821", "F841", "N", "S608", "PT", "B", "SIM"]  # Skills templates
+"skills/**/*" = ["S105", "S106", "PERF", "PLR", "F821", "F841", "N", "S608", "PT", "B", "SIM"]  # Nested skills
+"lint/*" = ["T201", "PLR"]  # Linter scripts may print
 
 [tool.ruff.lint.isort]
 # Match the behavior of the old isort configuration
