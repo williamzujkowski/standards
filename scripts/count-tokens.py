@@ -12,7 +12,7 @@ import logging
 import re
 import sys
 from pathlib import Path
-from typing import Dict, List, Optional
+
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -48,11 +48,10 @@ class TokenCounter:
         """Count tokens in text."""
         if self.encoding:
             return len(self.encoding.encode(text))
-        else:
-            # Fallback estimation: ~4 chars per token
-            return len(text) // 4
+        # Fallback estimation: ~4 chars per token
+        return len(text) // 4
 
-    def split_by_levels(self, content: str) -> Dict[str, str]:
+    def split_by_levels(self, content: str) -> dict[str, str]:
         """Split content into levels."""
         levels = {}
 
@@ -88,7 +87,7 @@ class TokenCounter:
 
         return levels
 
-    def count_all_levels(self) -> Dict[str, Dict[str, int]]:
+    def count_all_levels(self) -> dict[str, dict[str, int]]:
         """Count tokens for all levels."""
         content = self.skill_file.read_text()
         levels = self.split_by_levels(content)
@@ -109,7 +108,7 @@ class TokenCounter:
 
         return results
 
-    def check_violations(self, results: Dict[str, Dict[str, int]]) -> List[str]:
+    def check_violations(self, results: dict[str, dict[str, int]]) -> list[str]:
         """Check for token limit violations."""
         violations = []
 
@@ -130,7 +129,7 @@ class TokenCounter:
 
         return violations
 
-    def format_report(self, results: Dict[str, Dict[str, int]], violations: List[str]) -> str:
+    def format_report(self, results: dict[str, dict[str, int]], violations: list[str]) -> str:
         """Format human-readable report."""
         lines = []
         lines.append("=" * 60)
@@ -154,8 +153,7 @@ class TokenCounter:
                 data = results[level_name]
                 level_display = level_name.replace("level", "Level ")
                 lines.append(
-                    f"{level_display:15} {data['tokens']:6,} tokens  "
-                    f"{data['chars']:7,} chars  {data['lines']:5,} lines"
+                    f"{level_display:15} {data['tokens']:6,} tokens  {data['chars']:7,} chars  {data['lines']:5,} lines"
                 )
 
         lines.append("-" * 60)
@@ -163,9 +161,7 @@ class TokenCounter:
         # Total
         if "total" in results:
             data = results["total"]
-            lines.append(
-                f"{'TOTAL':15} {data['tokens']:6,} tokens  " f"{data['chars']:7,} chars  {data['lines']:5,} lines"
-            )
+            lines.append(f"{'TOTAL':15} {data['tokens']:6,} tokens  {data['chars']:7,} chars  {data['lines']:5,} lines")
 
         lines.append("")
 
@@ -182,7 +178,7 @@ class TokenCounter:
         return "\n".join(lines)
 
 
-def count_directory(directory: Path, output_json: Optional[Path] = None) -> Dict[str, any]:
+def count_directory(directory: Path, output_json: Path | None = None) -> dict[str, any]:
     """Count tokens for all SKILL.md files in directory."""
     skill_files = list(directory.rglob("SKILL.md"))
 

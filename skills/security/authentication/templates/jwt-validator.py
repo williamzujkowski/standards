@@ -15,7 +15,7 @@ This example demonstrates production-ready JWT validation with:
 
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
 
 import jwt
 
@@ -23,7 +23,7 @@ import jwt
 class JWTValidator:
     """Validate JWT tokens using RS256 asymmetric signing."""
 
-    def __init__(self, config: Dict[str, str]):
+    def __init__(self, config: dict[str, str]):
         """
         Initialize JWT validator.
 
@@ -37,7 +37,7 @@ class JWTValidator:
         self.issuer = config["issuer"]
         self.audience = config["audience"]
 
-    def verify(self, token: str, options: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    def verify(self, token: str, options: dict[str, Any] | None = None) -> dict[str, Any]:
         """
         Verify and decode JWT token.
 
@@ -79,13 +79,13 @@ class JWTValidator:
         except jwt.ExpiredSignatureError:
             raise ValueError("Token has expired")
         except jwt.InvalidTokenError as e:
-            raise ValueError(f"Invalid token: {str(e)}")
+            raise ValueError(f"Invalid token: {e!s}")
         except jwt.InvalidIssuerError:
             raise ValueError("Token issuer does not match expected issuer")
         except jwt.InvalidAudienceError:
             raise ValueError("Token audience does not match expected audience")
 
-    def _validate_custom_claims(self, payload: Dict[str, Any]) -> None:
+    def _validate_custom_claims(self, payload: dict[str, Any]) -> None:
         """
         Validate custom claims in token payload.
 
@@ -103,7 +103,7 @@ class JWTValidator:
         if "sub" not in payload:
             raise ValueError("Missing subject (sub) claim")
 
-    def decode_without_verification(self, token: str) -> Dict[str, Any]:
+    def decode_without_verification(self, token: str) -> dict[str, Any]:
         """
         Decode token without verification (for debugging only).
 
@@ -177,7 +177,7 @@ class JWTAuthMiddleware:
             return request
 
         except ValueError as e:
-            raise ValueError(f"Authentication failed: {str(e)}")
+            raise ValueError(f"Authentication failed: {e!s}")
 
 
 def create_flask_decorator(validator: JWTValidator):

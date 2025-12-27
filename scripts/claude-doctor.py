@@ -9,6 +9,7 @@ import json
 import sys
 from pathlib import Path
 
+
 # ANSI colors
 RED = "\033[91m"
 GREEN = "\033[92m"
@@ -274,9 +275,9 @@ def check_file_permissions(path: Path) -> None:
 
 
 def main():
-    print(f"{BOLD}{'='*60}{RESET}")
+    print(f"{BOLD}{'=' * 60}{RESET}")
     print(f"{BOLD}Claude Code Doctor - Configuration Diagnostics{RESET}")
-    print(f"{BOLD}{'='*60}{RESET}")
+    print(f"{BOLD}{'=' * 60}{RESET}")
 
     home = Path.home()
     cwd = Path.cwd()
@@ -307,9 +308,9 @@ def main():
     check_settings_conflicts(global_settings, project_settings)
 
     # Summary
-    print(f"\n{BOLD}{'='*60}{RESET}")
+    print(f"\n{BOLD}{'=' * 60}{RESET}")
     print(f"{BOLD}Summary{RESET}")
-    print(f"{BOLD}{'='*60}{RESET}")
+    print(f"{BOLD}{'=' * 60}{RESET}")
 
     if issues:
         print(f"\n{RED}{BOLD}Issues ({len(issues)}):{RESET}")

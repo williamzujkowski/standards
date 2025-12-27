@@ -9,7 +9,7 @@ import subprocess
 import sys
 import time
 from pathlib import Path
-from typing import Dict, List, Tuple
+
 
 # Test configuration
 REPO_ROOT = Path(__file__).parent.parent
@@ -43,13 +43,13 @@ class TestResults:
 
     def print_summary(self):
         total = self.passed + self.failed
-        print(f"\n{'='*80}")
+        print(f"\n{'=' * 80}")
         print(f"{BLUE}TEST SUMMARY{RESET}")
-        print(f"{'='*80}")
+        print(f"{'=' * 80}")
         print(f"Total Tests: {total}")
         print(f"{GREEN}Passed: {self.passed}{RESET}")
         print(f"{RED}Failed: {self.failed}{RESET}")
-        print(f"Success Rate: {(self.passed/total*100):.1f}%")
+        print(f"Success Rate: {(self.passed / total * 100):.1f}%")
 
         if self.errors:
             print(f"\n{RED}FAILURES:{RESET}")
@@ -68,12 +68,13 @@ class TestResults:
             print(f"  Max: {max_time:.3f}s")
 
 
-def run_command(cmd: List[str], timeout: int = 10) -> Tuple[bool, str, float]:
+def run_command(cmd: list[str], timeout: int = 10) -> tuple[bool, str, float]:
     """Run a command and return success status, output, and duration"""
     start_time = time.time()
     try:
         result = subprocess.run(
             cmd,
+            check=False,
             capture_output=True,
             text=True,
             timeout=timeout,
@@ -341,9 +342,9 @@ def test_recommend_command(results: TestResults):
 
 def main():
     """Run all tests"""
-    print(f"{BLUE}{'='*80}{RESET}")
+    print(f"{BLUE}{'=' * 80}{RESET}")
     print(f"{BLUE}SKILL-LOADER.PY COMPREHENSIVE TEST SUITE{RESET}")
-    print(f"{BLUE}{'='*80}{RESET}")
+    print(f"{BLUE}{'=' * 80}{RESET}")
     print(f"Repository: {REPO_ROOT}")
     print(f"Script: {SKILL_LOADER}")
 

@@ -7,7 +7,6 @@ Ensures 100% example functionality quality gate.
 
 import subprocess
 from pathlib import Path
-from typing import List
 
 import pytest
 
@@ -35,7 +34,7 @@ class TestExampleFunctionality:
                     except SyntaxError as e:
                         syntax_errors.append(f"{md_file} block {i}: {e}")
 
-        assert not syntax_errors, f"Python syntax errors in examples:\n" + "\n".join(syntax_errors)
+        assert not syntax_errors, "Python syntax errors in examples:\n" + "\n".join(syntax_errors)
 
     def test_bash_examples_syntax(self, examples_dir: Path, extract_code_blocks, run_command, exclusion_helper):
         """Verify Bash examples have valid syntax."""
@@ -59,7 +58,9 @@ class TestExampleFunctionality:
 
                     try:
                         # Check syntax with bash -n
-                        result = subprocess.run(["bash", "-n", "-c", code], capture_output=True, text=True, timeout=5)
+                        result = subprocess.run(
+                            ["bash", "-n", "-c", code], check=False, capture_output=True, text=True, timeout=5
+                        )
                         if result.returncode != 0:
                             syntax_errors.append(f"{md_file} block {i}: {result.stderr}")
                     except subprocess.TimeoutExpired:
@@ -67,7 +68,7 @@ class TestExampleFunctionality:
                     except Exception as e:
                         syntax_errors.append(f"{md_file} block {i}: {e}")
 
-        assert not syntax_errors, f"Bash syntax errors in examples:\n" + "\n".join(syntax_errors[:10])
+        assert not syntax_errors, "Bash syntax errors in examples:\n" + "\n".join(syntax_errors[:10])
 
     def test_yaml_examples_syntax(self, examples_dir: Path, extract_code_blocks, validate_yaml, exclusion_helper):
         """Verify YAML examples have valid syntax."""
@@ -98,7 +99,7 @@ class TestExampleFunctionality:
                     finally:
                         temp_path.unlink()
 
-        assert not syntax_errors, f"YAML syntax errors in examples:\n" + "\n".join(syntax_errors[:10])
+        assert not syntax_errors, "YAML syntax errors in examples:\n" + "\n".join(syntax_errors[:10])
 
     def test_json_examples_syntax(self, examples_dir: Path, extract_code_blocks, validate_json, exclusion_helper):
         """Verify JSON examples have valid syntax."""
@@ -129,7 +130,7 @@ class TestExampleFunctionality:
                     finally:
                         temp_path.unlink()
 
-        assert not syntax_errors, f"JSON syntax errors in examples:\n" + "\n".join(syntax_errors[:10])
+        assert not syntax_errors, "JSON syntax errors in examples:\n" + "\n".join(syntax_errors[:10])
 
 
 class TestNISTTemplates:
@@ -227,7 +228,7 @@ class TestWorkflowExamples:
             if not is_valid:
                 invalid_workflows.append(f"{workflow.name}: {error}")
 
-        assert not invalid_workflows, f"Invalid workflow files:\n" + "\n".join(invalid_workflows)
+        assert not invalid_workflows, "Invalid workflow files:\n" + "\n".join(invalid_workflows)
 
     def test_workflows_have_required_fields(self, repo_root: Path):
         """Verify workflow files have required fields."""
@@ -252,7 +253,7 @@ class TestWorkflowExamples:
             if missing_fields:
                 invalid_workflows.append(f"{workflow.name}: missing {missing_fields}")
 
-        assert not invalid_workflows, f"Workflows missing required fields:\n" + "\n".join(invalid_workflows)
+        assert not invalid_workflows, "Workflows missing required fields:\n" + "\n".join(invalid_workflows)
 
 
 @pytest.mark.quality_gate

@@ -7,7 +7,6 @@ import json
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 
@@ -40,26 +39,24 @@ class BanditStrategy(ABC):
     """Abstract base class for bandit algorithms."""
 
     @abstractmethod
-    def select_model(self, metrics: Dict[str, ModelMetrics]) -> str:
+    def select_model(self, metrics: dict[str, ModelMetrics]) -> str:
         """Select which model to use."""
-        pass
 
     @abstractmethod
     def update(self, model_id: str, reward: float):
         """Update algorithm state after receiving reward."""
-        pass
 
 
 class ThompsonSampling(BanditStrategy):
     """Thompson Sampling algorithm using Beta distribution."""
 
-    def __init__(self, model_ids: List[str], prior_alpha: float = 1.0, prior_beta: float = 1.0):
+    def __init__(self, model_ids: list[str], prior_alpha: float = 1.0, prior_beta: float = 1.0):
         self.model_ids = model_ids
         # Beta distribution parameters (successes, failures)
-        self.alpha = {model_id: prior_alpha for model_id in model_ids}
-        self.beta = {model_id: prior_beta for model_id in model_ids}
+        self.alpha = dict.fromkeys(model_ids, prior_alpha)
+        self.beta = dict.fromkeys(model_ids, prior_beta)
 
-    def select_model(self, metrics: Dict[str, ModelMetrics]) -> str:
+    def select_model(self, metrics: dict[str, ModelMetrics]) -> str:
         """Select model by sampling from Beta distributions."""
         samples = {model_id: np.random.beta(self.alpha[model_id], self.beta[model_id]) for model_id in self.model_ids}
         return max(samples, key=samples.get)
@@ -71,7 +68,7 @@ class ThompsonSampling(BanditStrategy):
         else:  # Failure
             self.beta[model_id] += 1
 
-    def get_statistics(self) -> Dict:
+    def get_statistics(self) -> dict:
         """Get current statistics for each model."""
         return {
             model_id: {
@@ -83,7 +80,7 @@ class ThompsonSampling(BanditStrategy):
             for model_id in self.model_ids
         }
 
-    def _compute_ci(self, model_id: str, confidence: float = 0.95) -> Tuple[float, float]:
+    def _compute_ci(self, model_id: str, confidence: float = 0.95) -> tuple[float, float]:
         """Compute confidence interval for model's success rate."""
         from scipy.stats import beta
 
@@ -96,14 +93,14 @@ class ThompsonSampling(BanditStrategy):
 class EpsilonGreedy(BanditStrategy):
     """Epsilon-Greedy algorithm."""
 
-    def __init__(self, model_ids: List[str], epsilon: float = 0.1, decay: float = 0.999):
+    def __init__(self, model_ids: list[str], epsilon: float = 0.1, decay: float = 0.999):
         self.model_ids = model_ids
         self.epsilon = epsilon
         self.initial_epsilon = epsilon
         self.decay = decay
         self.rewards = {model_id: [] for model_id in model_ids}
 
-    def select_model(self, metrics: Dict[str, ModelMetrics]) -> str:
+    def select_model(self, metrics: dict[str, ModelMetrics]) -> str:
         """Select model using epsilon-greedy strategy."""
         # Exploration
         if np.random.random() < self.epsilon:
@@ -120,7 +117,7 @@ class EpsilonGreedy(BanditStrategy):
         self.rewards[model_id].append(reward)
         self.epsilon *= self.decay
 
-    def get_statistics(self) -> Dict:
+    def get_statistics(self) -> dict:
         """Get current statistics."""
         return {
             model_id: {
@@ -134,14 +131,14 @@ class EpsilonGreedy(BanditStrategy):
 class UCB(BanditStrategy):
     """Upper Confidence Bound algorithm."""
 
-    def __init__(self, model_ids: List[str], exploration_factor: float = 2.0):
+    def __init__(self, model_ids: list[str], exploration_factor: float = 2.0):
         self.model_ids = model_ids
         self.exploration_factor = exploration_factor
-        self.counts = {model_id: 0 for model_id in model_ids}
-        self.values = {model_id: 0.0 for model_id in model_ids}
+        self.counts = dict.fromkeys(model_ids, 0)
+        self.values = dict.fromkeys(model_ids, 0.0)
         self.total_counts = 0
 
-    def select_model(self, metrics: Dict[str, ModelMetrics]) -> str:
+    def select_model(self, metrics: dict[str, ModelMetrics]) -> str:
         """Select model using UCB formula."""
         # Ensure all models tried at least once
         for model_id in self.model_ids:
@@ -163,7 +160,7 @@ class UCB(BanditStrategy):
         self.values[model_id] += reward
         self.total_counts += 1
 
-    def get_statistics(self) -> Dict:
+    def get_statistics(self) -> dict:
         """Get current statistics."""
         return {
             model_id: {
@@ -179,7 +176,7 @@ class UCB(BanditStrategy):
 class ABTestingFramework:
     """Complete A/B testing framework for ML models."""
 
-    def __init__(self, model_ids: List[str], strategy: str = "thompson", strategy_params: Optional[Dict] = None):
+    def __init__(self, model_ids: list[str], strategy: str = "thompson", strategy_params: dict | None = None):
         self.model_ids = model_ids
         self.metrics = {model_id: ModelMetrics(model_id) for model_id in model_ids}
 
@@ -201,7 +198,7 @@ class ABTestingFramework:
         return self.bandit.select_model(self.metrics)
 
     def record_result(
-        self, model_id: str, reward: float, success: bool, latency_ms: float, metadata: Optional[Dict] = None
+        self, model_id: str, reward: float, success: bool, latency_ms: float, metadata: dict | None = None
     ):
         """Record result of model prediction."""
         # Update metrics
@@ -234,11 +231,11 @@ class ABTestingFramework:
             }
         )
 
-    def get_metrics(self) -> Dict[str, ModelMetrics]:
+    def get_metrics(self) -> dict[str, ModelMetrics]:
         """Get current metrics for all models."""
         return self.metrics
 
-    def get_statistics(self) -> Dict:
+    def get_statistics(self) -> dict:
         """Get comprehensive statistics."""
         model_stats = {
             model_id: {
@@ -258,7 +255,7 @@ class ABTestingFramework:
             "total_requests": sum(m.total_requests for m in self.metrics.values()),
         }
 
-    def determine_winner(self, confidence: float = 0.95, min_samples: int = 100) -> Optional[str]:
+    def determine_winner(self, confidence: float = 0.95, min_samples: int = 100) -> str | None:
         """
         Determine if there's a statistically significant winner.
 

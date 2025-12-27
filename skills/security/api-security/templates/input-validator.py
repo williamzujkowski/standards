@@ -5,7 +5,6 @@ NIST Controls: SI-10 (Information Input Validation)
 
 import re
 from datetime import datetime
-from typing import List, Optional
 
 from pydantic import BaseModel, EmailStr, Field, root_validator, validator
 
@@ -16,8 +15,8 @@ class CreateUserRequest(BaseModel):
     email: EmailStr
     username: str = Field(..., min_length=3, max_length=30, regex=r"^[a-zA-Z0-9_-]+$")
     password: str = Field(..., min_length=12, max_length=128)
-    age: Optional[int] = Field(None, ge=0, le=150)
-    roles: List[str] = Field(default_factory=list, max_items=10)
+    age: int | None = Field(None, ge=0, le=150)
+    roles: list[str] = Field(default_factory=list, max_items=10)
 
     @validator("username")
     def username_alphanumeric(cls, v):

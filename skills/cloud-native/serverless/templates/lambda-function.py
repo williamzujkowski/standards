@@ -5,13 +5,14 @@ Features: Structured logging, X-Ray tracing, error handling, secrets management.
 
 import json
 import os
-from typing import Any, Dict
+from typing import Any
 
 import boto3
 from aws_lambda_powertools import Logger, Metrics, Tracer
 from aws_lambda_powertools.metrics import MetricUnit
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from aws_xray_sdk.core import patch_all
+
 
 # Patch AWS SDK clients for X-Ray tracing
 patch_all()
@@ -30,10 +31,8 @@ table = dynamodb.Table(os.environ.get("TABLE_NAME", "users"))
 class ValidationError(Exception):
     """Custom exception for input validation errors."""
 
-    pass
 
-
-def get_secret(secret_arn: str) -> Dict[str, Any]:
+def get_secret(secret_arn: str) -> dict[str, Any]:
     """
     Retrieve secret from AWS Secrets Manager with caching.
 
@@ -51,7 +50,7 @@ def get_secret(secret_arn: str) -> Dict[str, Any]:
         raise
 
 
-def validate_input(event: Dict[str, Any]) -> Dict[str, Any]:
+def validate_input(event: dict[str, Any]) -> dict[str, Any]:
     """
     Validate and sanitize input event.
 
@@ -85,7 +84,7 @@ def validate_input(event: Dict[str, Any]) -> Dict[str, Any]:
 
 
 @tracer.capture_method
-def get_user_from_db(user_id: str) -> Dict[str, Any]:
+def get_user_from_db(user_id: str) -> dict[str, Any]:
     """
     Retrieve user from DynamoDB.
 
@@ -105,7 +104,7 @@ def get_user_from_db(user_id: str) -> Dict[str, Any]:
 
 
 @tracer.capture_method
-def create_user(user_data: Dict[str, Any]) -> Dict[str, Any]:
+def create_user(user_data: dict[str, Any]) -> dict[str, Any]:
     """
     Create new user in DynamoDB.
 
@@ -120,7 +119,7 @@ def create_user(user_data: Dict[str, Any]) -> Dict[str, Any]:
     return user_data
 
 
-def build_response(status_code: int, body: Any, headers: Dict[str, str] = None) -> Dict[str, Any]:
+def build_response(status_code: int, body: Any, headers: dict[str, str] = None) -> dict[str, Any]:
     """
     Build API Gateway response object.
 
@@ -152,7 +151,7 @@ def build_response(status_code: int, body: Any, headers: Dict[str, str] = None) 
 @logger.inject_lambda_context(log_event=True)
 @tracer.capture_lambda_handler
 @metrics.log_metrics(capture_cold_start_metric=True)
-def lambda_handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
+def lambda_handler(event: dict[str, Any], context: LambdaContext) -> dict[str, Any]:
     """
     Main Lambda handler function.
 
@@ -194,7 +193,7 @@ def lambda_handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, A
             logger.info(f"Retrieved user: {user_id}")
             return build_response(200, user)
 
-        elif http_method == "POST":
+        if http_method == "POST":
             # Create user
             user_data = {
                 "id": user_id,
@@ -207,11 +206,10 @@ def lambda_handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, A
             metrics.add_metric(name="UserCreated", unit=MetricUnit.Count, value=1)
             return build_response(201, created_user)
 
-        else:
-            return build_response(405, {"error": "Method not allowed"})
+        return build_response(405, {"error": "Method not allowed"})
 
     except ValidationError as e:
-        logger.warning(f"Validation error: {str(e)}")
+        logger.warning(f"Validation error: {e!s}")
         metrics.add_metric(name="ValidationError", unit=MetricUnit.Count, value=1)
         return build_response(400, {"error": str(e)})
 

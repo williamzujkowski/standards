@@ -87,8 +87,8 @@ pip install --upgrade pip > /dev/null 2>&1
 pip install pre-commit > /dev/null 2>&1
 print_status "pre-commit installed"
 
-# Install other development tools
-pip install black flake8 bandit pytest > /dev/null 2>&1
+# Install other development tools (ruff replaces black + isort)
+pip install ruff flake8 bandit pytest > /dev/null 2>&1
 print_status "Python development tools installed"
 
 # Install monitoring dependencies if needed
@@ -177,7 +177,7 @@ echo ""
 echo "  ✓ Python virtual environment (venv)"
 echo "  ✓ Pre-commit hooks for code quality"
 echo "  ✓ Directory structure for reports and monitoring"
-echo "  ✓ Development tools (black, flake8, bandit, pytest)"
+echo "  ✓ Development tools (ruff, flake8, bandit, pytest)"
 if command -v node &> /dev/null; then
     echo "  ✓ Node.js dependencies for compliance tools"
 fi

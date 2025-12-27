@@ -17,9 +17,9 @@ import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import List
 
 import yaml
+
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -29,8 +29,6 @@ logger = logging.getLogger(__name__)
 class MigrationError(Exception):
     """Migration error."""
 
-    pass
-
 
 class RepositoryMigrator:
     """Handles automated repository migration to v2."""
@@ -39,7 +37,7 @@ class RepositoryMigrator:
         self.repo_root = repo_root
         self.dry_run = dry_run
         self.backup_dir = repo_root / ".migration-backup" / datetime.now().strftime("%Y%m%d_%H%M%S")
-        self.migration_log: List[str] = []
+        self.migration_log: list[str] = []
 
     def log(self, message: str, level: str = "info") -> None:
         """Log migration action."""
@@ -264,7 +262,7 @@ class RepositoryMigrator:
 
         # Add migration notice if not present
         migration_notice = f"""
-<!-- MIGRATION NOTE: Migrated to v2 on {datetime.now().strftime('%Y-%m-%d')} -->
+<!-- MIGRATION NOTE: Migrated to v2 on {datetime.now().strftime("%Y-%m-%d")} -->
 """
 
         if "MIGRATION NOTE" not in content and not self.dry_run:
@@ -290,6 +288,7 @@ class RepositoryMigrator:
         try:
             result = subprocess.run(
                 ["python3", str(self.repo_root / "scripts" / "generate-audit-reports.py")],
+                check=False,
                 capture_output=True,
                 text=True,
                 cwd=self.repo_root,
@@ -307,6 +306,7 @@ class RepositoryMigrator:
         try:
             result = subprocess.run(
                 ["python3", str(self.repo_root / "scripts" / "validate-skills.py")],
+                check=False,
                 capture_output=True,
                 text=True,
                 cwd=self.repo_root,

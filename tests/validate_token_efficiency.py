@@ -7,7 +7,6 @@ Ensures documentation follows token-efficient patterns from KNOWLEDGE_MANAGEMENT
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List
 
 import yaml
 
@@ -18,9 +17,9 @@ class TokenMetrics:
 
     file_name: str
     total_tokens: int
-    section_tokens: Dict[str, int]
+    section_tokens: dict[str, int]
     efficiency_score: float
-    recommendations: List[str]
+    recommendations: list[str]
 
 
 class TokenEfficiencyValidator:
@@ -56,7 +55,7 @@ class TokenEfficiencyValidator:
             recommendations=recommendations,
         )
 
-    def _split_sections(self, content: str) -> Dict[str, str]:
+    def _split_sections(self, content: str) -> dict[str, str]:
         """Split document into sections by headers"""
         sections = {}
         current_section = "header"
@@ -76,7 +75,7 @@ class TokenEfficiencyValidator:
 
         return sections
 
-    def _calculate_efficiency(self, sections: Dict[str, str]) -> float:
+    def _calculate_efficiency(self, sections: dict[str, str]) -> float:
         """Calculate efficiency score (0-100)"""
         score = 100.0
 
@@ -101,7 +100,7 @@ class TokenEfficiencyValidator:
 
         return max(0, min(100, score))
 
-    def _generate_recommendations(self, sections: Dict[str, str], section_tokens: Dict[str, int]) -> List[str]:
+    def _generate_recommendations(self, sections: dict[str, str], section_tokens: dict[str, int]) -> list[str]:
         """Generate token optimization recommendations"""
         recommendations = []
 
@@ -128,7 +127,7 @@ class TokenEfficiencyValidator:
 
         return recommendations
 
-    def validate_manifest_alignment(self) -> Dict[str, List[str]]:
+    def validate_manifest_alignment(self) -> dict[str, list[str]]:
         """Validate that MANIFEST.yaml token counts align with actual content"""
         manifest_path = self.root / "MANIFEST.yaml"
         if not manifest_path.exists():
@@ -169,7 +168,7 @@ class TokenEfficiencyValidator:
                             if code not in misalignments:
                                 misalignments[code] = []
                             misalignments[code].append(
-                                f"{section_name}: manifest={manifest_tokens}, " f"estimated={actual_tokens}"
+                                f"{section_name}: manifest={manifest_tokens}, estimated={actual_tokens}"
                             )
 
         return misalignments

@@ -167,11 +167,13 @@ Goal: Gain Unauthorized Access to User Account
 ### Technical Details
 
 **Exploited Vulnerabilities:**
+
 | CVE/CWE | Component | Description | CVSS Score |
 |---------|-----------|-------------|------------|
 | _[ID]_ | _[Component]_ | _[Description]_ | _[Score]_ |
 
 **Tools & Techniques:**
+
 | Tool | Purpose | MITRE ATT&CK Technique |
 |------|---------|------------------------|
 | _[Tool]_ | _[Usage]_ | _[Technique ID]_ |

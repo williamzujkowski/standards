@@ -16,11 +16,13 @@ from unittest.mock import patch
 
 import pytest
 
+
 # Add scripts to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "scripts"))
 
 # Import the script (handle hyphenated names)
 import importlib.util
+
 
 spec = importlib.util.spec_from_file_location(
     "validate_skills", Path(__file__).parent.parent.parent / "scripts" / "validate-skills.py"
@@ -426,7 +428,6 @@ pattern = r"^## Level (\\d+):.*?(?=## Level|\\Z)"
         """Test --export flag."""
         # This would require mocking the entire main() flow
         # For now, just verify the flag is recognized
-        pass
 
 
 # ==================== FIXTURES VALIDATION ====================

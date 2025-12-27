@@ -7,7 +7,6 @@ London School TDD approach - provides mock factories and test utilities.
 import shutil
 import tempfile
 from pathlib import Path
-from typing import Dict, List
 
 import pytest
 
@@ -115,7 +114,7 @@ class MockFileSystem:
 
     def __init__(self, root: Path):
         self.root = root
-        self.files: Dict[Path, str] = {}
+        self.files: dict[Path, str] = {}
 
     def create_file(self, path: Path, content: str):
         """Create a mock file"""
@@ -129,7 +128,7 @@ class MockFileSystem:
         """Check if mock file exists"""
         return path in self.files
 
-    def glob(self, pattern: str) -> List[Path]:
+    def glob(self, pattern: str) -> list[Path]:
         """Mock glob operation"""
         import fnmatch
 
@@ -146,7 +145,7 @@ class CommandCapture:
     """Capture and verify command executions in tests"""
 
     def __init__(self):
-        self.commands: List[str] = []
+        self.commands: list[str] = []
 
     def execute(self, command: str):
         """Record command execution"""

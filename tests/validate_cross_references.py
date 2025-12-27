@@ -8,7 +8,6 @@ import re
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List
 
 import yaml
 
@@ -19,7 +18,7 @@ class ValidationResult:
 
     passed: bool
     message: str
-    details: List[str] = None
+    details: list[str] = None
 
 
 class StandardsValidator:
@@ -42,7 +41,7 @@ class StandardsValidator:
         self.errors = []
         self.warnings = []
 
-    def _find_standards_files(self) -> List[Path]:
+    def _find_standards_files(self) -> list[Path]:
         """Find all standards markdown files"""
         patterns = ["*_STANDARDS.md", "UNIFIED_STANDARDS.md"]
         files = []
@@ -56,7 +55,7 @@ class StandardsValidator:
             files.extend(self.root.glob(pattern))
         return sorted(files)
 
-    def run_all_tests(self) -> Dict[str, ValidationResult]:
+    def run_all_tests(self) -> dict[str, ValidationResult]:
         """Run all validation tests"""
         results = {
             "manifest_completeness": self.test_manifest_completeness(),
@@ -341,10 +340,9 @@ class StandardsValidator:
                         # Check if code is in index
                         if f"`{code}:" not in index_content:
                             missing.append(f"{std_file.name} (code: {code})")
-                    else:
-                        # If no code found, fall back to filename check
-                        if std_file.name not in index_content:
-                            missing.append(f"{std_file.name} (no code found)")
+                    # If no code found, fall back to filename check
+                    elif std_file.name not in index_content:
+                        missing.append(f"{std_file.name} (no code found)")
             except Exception:
                 if std_file.name not in index_content:
                     missing.append(f"{std_file.name} (error reading)")
@@ -406,7 +404,7 @@ class StandardsValidator:
         return ValidationResult(True, "All major standards referenced in README")
 
 
-def format_results(results: Dict[str, ValidationResult]) -> str:
+def format_results(results: dict[str, ValidationResult]) -> str:
     """Format test results for display"""
     output = ["=" * 60]
     output.append("KNOWLEDGE MANAGEMENT VALIDATION RESULTS")

@@ -7,7 +7,6 @@ Compares token usage between original standards and skill-based approach.
 import json
 import re
 from pathlib import Path
-from typing import Dict
 
 
 class TokenAnalyzer:
@@ -27,7 +26,7 @@ class TokenAnalyzer:
         text = re.sub(r"\s+", " ", text)
         return len(text) // self.CHARS_PER_TOKEN
 
-    def analyze_standard_file(self, file_path: Path) -> Dict:
+    def analyze_standard_file(self, file_path: Path) -> dict:
         """Analyze token usage in a standard file."""
         content = file_path.read_text(encoding="utf-8")
 
@@ -38,7 +37,7 @@ class TokenAnalyzer:
             "line_count": len(content.splitlines()),
         }
 
-    def analyze_skill_progressive_loading(self, skill_path: Path) -> Dict:
+    def analyze_skill_progressive_loading(self, skill_path: Path) -> dict:
         """Analyze token usage with progressive disclosure."""
         # Level 1: Frontmatter only
         content = skill_path.read_text(encoding="utf-8")
@@ -86,7 +85,7 @@ class TokenAnalyzer:
             "progressive_saving": level2_tokens + level3_tokens,  # Tokens saved if not loaded
         }
 
-    def compare_standard_to_skill(self, standard_name: str) -> Dict:
+    def compare_standard_to_skill(self, standard_name: str) -> dict:
         """Compare a standard file to its skill equivalent."""
         standard_path = self.standards_dir / f"{standard_name}.md"
         skill_path = self.skills_dir / standard_name.lower().replace("_", "-") / "SKILL.md"
@@ -120,7 +119,7 @@ class TokenAnalyzer:
 
         return results
 
-    def full_repository_comparison(self) -> Dict:
+    def full_repository_comparison(self) -> dict:
         """Compare all standards to skills."""
         # Find all standards
         if not self.standards_dir.exists():

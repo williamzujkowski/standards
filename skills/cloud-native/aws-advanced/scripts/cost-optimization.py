@@ -7,7 +7,7 @@ Analyzes AWS resources and provides cost optimization recommendations
 import json
 from collections import defaultdict
 from datetime import datetime, timedelta
-from typing import Any, Dict, List
+from typing import Any
 
 import boto3
 
@@ -23,7 +23,7 @@ class AWSCostOptimizer:
         self.cloudwatch_client = boto3.client("cloudwatch", region_name=region)
         self.s3_client = boto3.client("s3", region_name=region)
 
-    def analyze_all(self) -> Dict[str, Any]:
+    def analyze_all(self) -> dict[str, Any]:
         """Run all cost optimization checks"""
         print("Running AWS cost optimization analysis...")
 
@@ -45,7 +45,7 @@ class AWSCostOptimizer:
 
         return results
 
-    def analyze_lambda_functions(self) -> List[Dict]:
+    def analyze_lambda_functions(self) -> list[dict]:
         """Analyze Lambda functions for cost optimization"""
         print("Analyzing Lambda functions...")
         recommendations = []
@@ -106,7 +106,7 @@ class AWSCostOptimizer:
 
         return recommendations
 
-    def analyze_dynamodb_tables(self) -> List[Dict]:
+    def analyze_dynamodb_tables(self) -> list[dict]:
         """Analyze DynamoDB tables for cost optimization"""
         print("Analyzing DynamoDB tables...")
         recommendations = []
@@ -172,7 +172,7 @@ class AWSCostOptimizer:
 
         return recommendations
 
-    def analyze_s3_buckets(self) -> List[Dict]:
+    def analyze_s3_buckets(self) -> list[dict]:
         """Analyze S3 buckets for cost optimization"""
         print("Analyzing S3 buckets...")
         recommendations = []
@@ -230,7 +230,7 @@ class AWSCostOptimizer:
 
         return recommendations
 
-    def analyze_cloudwatch_logs(self) -> List[Dict]:
+    def analyze_cloudwatch_logs(self) -> list[dict]:
         """Analyze CloudWatch Logs for cost optimization"""
         print("Analyzing CloudWatch Logs...")
         recommendations = []
@@ -287,7 +287,7 @@ class AWSCostOptimizer:
 
         return recommendations
 
-    def _get_lambda_stats(self, function_name: str) -> Dict:
+    def _get_lambda_stats(self, function_name: str) -> dict:
         """Get Lambda function statistics"""
         end_time = datetime.utcnow()
         start_time = end_time - timedelta(days=30)
@@ -322,7 +322,7 @@ class AWSCostOptimizer:
         except Exception:
             return {"invocations_30d": 0, "avg_duration": 0}
 
-    def _get_dynamodb_metrics(self, table_name: str) -> Dict:
+    def _get_dynamodb_metrics(self, table_name: str) -> dict:
         """Get DynamoDB table metrics"""
         end_time = datetime.utcnow()
         start_time = end_time - timedelta(days=30)
@@ -355,7 +355,7 @@ class AWSCostOptimizer:
         except Exception:
             return {"read_ops_30d": 0, "write_ops_30d": 0}
 
-    def _estimate_provisioned_cost(self, table: Dict) -> float:
+    def _estimate_provisioned_cost(self, table: dict) -> float:
         """Estimate provisioned capacity cost"""
         read_capacity = table.get("ProvisionedThroughput", {}).get("ReadCapacityUnits", 0)
         write_capacity = table.get("ProvisionedThroughput", {}).get("WriteCapacityUnits", 0)
@@ -364,7 +364,7 @@ class AWSCostOptimizer:
         monthly_cost = (read_capacity * 0.00065 + write_capacity * 0.00325) * 730
         return monthly_cost
 
-    def _estimate_ondemand_cost(self, metrics: Dict) -> float:
+    def _estimate_ondemand_cost(self, metrics: dict) -> float:
         """Estimate on-demand cost"""
         # Cost: $1.25 per million reads, $6.25 per million writes
         read_cost = (metrics["read_ops_30d"] / 1000000) * 1.25
@@ -406,7 +406,7 @@ class AWSCostOptimizer:
         except Exception:
             return "Unknown"
 
-    def generate_report(self, results: Dict) -> str:
+    def generate_report(self, results: dict) -> str:
         """Generate formatted report"""
         report_lines = [
             "=" * 80,

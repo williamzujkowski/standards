@@ -10,10 +10,11 @@ This template demonstrates pytest best practices including:
 """
 
 import asyncio
-from typing import Generator
+from collections.abc import Generator
 from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
+
 
 # ============================================================================
 # FIXTURES
@@ -48,7 +49,7 @@ def mock_database() -> Generator[Mock, None, None]:
 
 
 @pytest.fixture
-def mock_http_client() -> Generator[Mock, None, None]:
+def mock_http_client() -> Mock:
     """Mock HTTP client for API testing.
 
     Yields:
@@ -57,7 +58,7 @@ def mock_http_client() -> Generator[Mock, None, None]:
     client = Mock()
     client.get.return_value = Mock(status_code=200, json=lambda: {"data": "test"})
 
-    yield client
+    return client
 
 
 @pytest.fixture(scope="session")
@@ -134,7 +135,6 @@ def test_user_validation(username: str, email: str, is_valid: bool):
     # This would call your actual validation function
     # result = validate_user(username, email)
     # assert result == is_valid
-    pass
 
 
 # ============================================================================
@@ -240,13 +240,11 @@ def test_integration_with_database(mock_database):
 @pytest.mark.skip(reason="Not implemented yet")
 def test_future_feature():
     """Test skipped until feature is implemented."""
-    pass
 
 
 @pytest.mark.skipif(pytest.__version__ < "7.0", reason="Requires pytest 7.0+")
 def test_new_pytest_feature():
     """Test skipped on older pytest versions."""
-    pass
 
 
 # ============================================================================

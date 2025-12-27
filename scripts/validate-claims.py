@@ -18,9 +18,9 @@ import re
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List
 
 import yaml
+
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -34,7 +34,7 @@ class ValidationResult:
     check_name: str
     passed: bool
     message: str
-    details: Dict = field(default_factory=dict)
+    details: dict = field(default_factory=dict)
     severity: str = "error"  # error, warning, info
 
 
@@ -43,7 +43,7 @@ class ClaimsValidator:
 
     def __init__(self, repo_root: Path):
         self.repo_root = repo_root
-        self.results: List[ValidationResult] = []
+        self.results: list[ValidationResult] = []
         self.claude_md = repo_root / "CLAUDE.md"
         self.config_dir = repo_root / "config"
         self.scripts_dir = repo_root / "scripts"
@@ -522,7 +522,7 @@ class ClaimsValidator:
 
         errors = [r for r in self.results if not r.passed and r.severity == "error"]
         warnings = [r for r in self.results if not r.passed and r.severity == "warning"]
-        _info = [r for r in self.results if r.passed or r.severity == "info"]  # noqa: F841
+        _info = [r for r in self.results if r.passed or r.severity == "info"]
 
         total = len(self.results)
         passed = len([r for r in self.results if r.passed])

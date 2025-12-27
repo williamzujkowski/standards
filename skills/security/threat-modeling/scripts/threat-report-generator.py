@@ -16,7 +16,6 @@ import sys
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import List
 
 import yaml
 
@@ -62,12 +61,11 @@ class DreadScore:
         score = self.calculate()
         if score >= 8.0:
             return Priority.CRITICAL
-        elif score >= 6.0:
+        if score >= 6.0:
             return Priority.HIGH
-        elif score >= 4.0:
+        if score >= 4.0:
             return Priority.MEDIUM
-        else:
-            return Priority.LOW
+        return Priority.LOW
 
 
 @dataclass
@@ -91,7 +89,7 @@ class Threat:
     attack_scenario: str
     component: str
     dread: DreadScore
-    mitigations: List[Mitigation] = field(default_factory=list)
+    mitigations: list[Mitigation] = field(default_factory=list)
     impact_confidentiality: str = ""
     impact_integrity: str = ""
     impact_availability: str = ""
@@ -105,7 +103,7 @@ class ThreatModel:
     version: str
     date: str
     analyst: str
-    threats: List[Threat] = field(default_factory=list)
+    threats: list[Threat] = field(default_factory=list)
 
 
 class ThreatReportGenerator:
@@ -134,7 +132,7 @@ class ThreatReportGenerator:
 **Version:** {self.model.version}
 **Date:** {self.model.date}
 **Analyst:** {self.model.analyst}
-**Report Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+**Report Generated:** {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 
 ---
 """
@@ -160,8 +158,8 @@ class ThreatReportGenerator:
 - 🟢 Low (DREAD < 4.0): {low}
 
 **Mitigation Status:**
-- Threats with Implemented Mitigations: {mitigated} ({mitigated/total*100:.1f}%)
-- Threats Requiring Action: {total - mitigated} ({(total-mitigated)/total*100:.1f}%)
+- Threats with Implemented Mitigations: {mitigated} ({mitigated / total * 100:.1f}%)
+- Threats Requiring Action: {total - mitigated} ({(total - mitigated) / total * 100:.1f}%)
 
 **Risk Summary:**
 {"⚠️ CRITICAL: Immediate action required for critical threats" if critical > 0 else "✅ No critical threats identified"}
@@ -214,9 +212,9 @@ class ThreatReportGenerator:
 {threat.attack_scenario}
 
 **Impact:**
-- Confidentiality: {threat.impact_confidentiality or 'N/A'}
-- Integrity: {threat.impact_integrity or 'N/A'}
-- Availability: {threat.impact_availability or 'N/A'}
+- Confidentiality: {threat.impact_confidentiality or "N/A"}
+- Integrity: {threat.impact_integrity or "N/A"}
+- Availability: {threat.impact_availability or "N/A"}
 
 **DREAD Breakdown:**
 - Damage Potential: {threat.dread.damage}/10
@@ -253,9 +251,9 @@ class ThreatReportGenerator:
 **Total Mitigations:** {len(all_mitigations)}
 
 **Status Breakdown:**
-- ✅ Implemented: {implemented} ({implemented/len(all_mitigations)*100:.1f}%)
-- 🔄 In Progress: {in_progress} ({in_progress/len(all_mitigations)*100:.1f}%)
-- 📋 Planned: {planned} ({planned/len(all_mitigations)*100:.1f}%)
+- ✅ Implemented: {implemented} ({implemented / len(all_mitigations) * 100:.1f}%)
+- 🔄 In Progress: {in_progress} ({in_progress / len(all_mitigations) * 100:.1f}%)
+- 📋 Planned: {planned} ({planned / len(all_mitigations) * 100:.1f}%)
 """
 
     def _nist_control_mapping(self) -> str:
@@ -302,7 +300,7 @@ class ThreatReportGenerator:
 
         if high_count > 0:
             recommendations.append(
-                f"\n### 🟠 HIGH PRIORITY\n\n" f"{high_count} high priority threat(s). " f"Address within 30 days.\n"
+                f"\n### 🟠 HIGH PRIORITY\n\n{high_count} high priority threat(s). Address within 30 days.\n"
             )
 
         if unmitigated:

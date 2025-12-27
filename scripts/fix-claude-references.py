@@ -7,6 +7,7 @@ Root CLAUDE.md is the router, docs/core/CLAUDE.md is legacy.
 import re
 from pathlib import Path
 
+
 ROOT = Path(__file__).resolve().parents[1]
 
 

@@ -12,18 +12,19 @@ Generate link check and structure audit reports for the standards repository.
 import fnmatch
 import json
 import re
+from collections.abc import Iterable
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Iterable, List, Set, Tuple
 from urllib.parse import unquote, urlparse
 
 import yaml
+
 
 ROOT = Path(__file__).resolve().parents[1] if (Path(__file__).parent.name == "scripts") else Path.cwd()
 OUTDIR = ROOT / "reports" / "generated"
 POLICY = ROOT / "config" / "audit-rules.yaml"
 
-DEFAULT_RULES: Dict = {
+DEFAULT_RULES: dict = {
     "orphans": {
         "exclude": [
             ".claude/**",
@@ -54,7 +55,7 @@ AUTO_BEGIN = "<!-- AUTO-LINKS:"
 AUTO_END = "<!-- /AUTO-LINKS -->"
 
 
-def parse_autolinks_section(text: str) -> List[Tuple[str, str]]:
+def parse_autolinks_section(text: str) -> list[tuple[str, str]]:
     """Return list of (text, link) from AUTO-LINKS blocks only - deterministic parse."""
     links = []
     start_idx = 0
@@ -80,7 +81,7 @@ def parse_autolinks_section(text: str) -> List[Tuple[str, str]]:
     return links
 
 
-def load_rules() -> Dict:
+def load_rules() -> dict:
     if POLICY.exists():
         try:
             user = yaml.safe_load(POLICY.read_text(encoding="utf-8")) or {}
@@ -113,7 +114,7 @@ def normalize_repo_path(path: Path) -> str:
         return path.resolve().as_posix()
 
 
-def resolve_internal_link(source_file: Path, link: str) -> Tuple[bool, str]:
+def resolve_internal_link(source_file: Path, link: str) -> tuple[bool, str]:
     if link.startswith("mailto:") or link.strip() == "" or link.startswith("#"):
         return True, ""
 
@@ -141,10 +142,10 @@ def resolve_internal_link(source_file: Path, link: str) -> Tuple[bool, str]:
 
 def check_links_in_file(
     filepath: Path,
-) -> Tuple[List[Tuple[str, str]], List[Tuple[str, str]], List[Tuple[str, str, str]]]:
-    internal_links: List[Tuple[str, str]] = []
-    external_links: List[Tuple[str, str]] = []
-    broken_links: List[Tuple[str, str, str]] = []
+) -> tuple[list[tuple[str, str]], list[tuple[str, str]], list[tuple[str, str, str]]]:
+    internal_links: list[tuple[str, str]] = []
+    external_links: list[tuple[str, str]] = []
+    broken_links: list[tuple[str, str, str]] = []
 
     try:
         content = filepath.read_text(encoding="utf-8")
@@ -221,7 +222,7 @@ def matches_any(path: str, patterns: Iterable[str]) -> bool:
                             return True
                     elif len(path_parts) >= len(suffix):
                         # Match the suffix parts
-                        if all(fnmatch.fnmatch(p, s) for p, s in zip(path_parts[-len(suffix) :], suffix)):
+                        if all(fnmatch.fnmatch(p, s) for p, s in zip(path_parts[-len(suffix) :], suffix, strict=False)):
                             return True
                 else:
                     # No suffix after **, so everything under prefix matches
@@ -253,11 +254,11 @@ def matches_any(path: str, patterns: Iterable[str]) -> bool:
 
 
 def build_link_graph(
-    all_md_files: List[Path],
-) -> Tuple[Dict[str, Set[str]], List[Tuple[str, str, str]], List[Tuple[str, str, str]]]:
-    graph: Dict[str, Set[str]] = {}
-    all_broken: List[Tuple[str, str, str]] = []
-    all_external: List[Tuple[str, str, str]] = []
+    all_md_files: list[Path],
+) -> tuple[dict[str, set[str]], list[tuple[str, str, str]], list[tuple[str, str, str]]]:
+    graph: dict[str, set[str]] = {}
+    all_broken: list[tuple[str, str, str]] = []
+    all_external: list[tuple[str, str, str]] = []
 
     for md in all_md_files:
         key = normalize_repo_path(md)
@@ -286,9 +287,9 @@ def build_link_graph(
     return pruned_graph, all_broken, all_external
 
 
-def compute_orphans(graph: Dict[str, Set[str]], rules: Dict) -> List[str]:
+def compute_orphans(graph: dict[str, set[str]], rules: dict) -> list[str]:
     excludes = rules.get("orphans", {}).get("exclude", [])
-    orphans: List[str] = []
+    orphans: list[str] = []
 
     for f, inbound in graph.items():
         # Respect exclusions
@@ -307,9 +308,9 @@ def compute_orphans(graph: Dict[str, Set[str]], rules: Dict) -> List[str]:
     return sorted(orphans)
 
 
-def enforce_hub_rules(graph: Dict[str, Set[str]], rules: Dict) -> Tuple[List[str], Dict[str, Dict[str, bool]]]:
-    violations: List[str] = []
-    matrix: Dict[str, Dict[str, bool]] = {}
+def enforce_hub_rules(graph: dict[str, set[str]], rules: dict) -> tuple[list[str], dict[str, dict[str, bool]]]:
+    violations: list[str] = []
+    matrix: dict[str, dict[str, bool]] = {}
 
     reqs = rules.get("orphans", {}).get("require_link_from", [])
     all_hubs = {h for r in reqs for h in r.get("hubs", [])}
@@ -352,8 +353,8 @@ def enforce_hub_rules(graph: Dict[str, Set[str]], rules: Dict) -> Tuple[List[str
     return violations, matrix
 
 
-def analyze_repository_structure(rules: Dict) -> Dict:
-    issues: Dict = {
+def analyze_repository_structure(rules: dict) -> dict:
+    issues: dict = {
         "orphaned_files": [],
         "missing_cross_refs": [],
         "non_conforming_names": [],
@@ -378,7 +379,7 @@ def analyze_repository_structure(rules: Dict) -> Dict:
         if not (ROOT / d).exists():
             issues["structure_violations"].append(f"Missing expected directory: {d} ({desc})")
 
-    all_md_files: List[Path] = [p for p in ROOT.rglob("*.md")]
+    all_md_files: list[Path] = [p for p in ROOT.rglob("*.md")]
     graph, _, _ = build_link_graph(all_md_files)
 
     # Orphans (policy-aware)
@@ -427,7 +428,7 @@ def analyze_repository_structure(rules: Dict) -> Dict:
 
     # Write hub matrix
     OUTDIR.mkdir(parents=True, exist_ok=True)
-    hubs_order: List[str] = sorted(
+    hubs_order: list[str] = sorted(
         {h for r in rules.get("orphans", {}).get("require_link_from", []) for h in r.get("hubs", [])}
     )
     with open(OUTDIR / "hub-matrix.tsv", "w", encoding="utf-8") as f:
@@ -441,8 +442,8 @@ def analyze_repository_structure(rules: Dict) -> Dict:
     return issues
 
 
-def generate_linkcheck_report() -> Tuple[str, int]:
-    lines: List[str] = []
+def generate_linkcheck_report() -> tuple[str, int]:
+    lines: list[str] = []
     lines.append("# Link Check Report")
     lines.append(f"\nGenerated: {datetime.now().strftime('%Y-%m-%d')}\n")
 
@@ -450,8 +451,8 @@ def generate_linkcheck_report() -> Tuple[str, int]:
     rules = load_rules()
     link_exclusions = rules.get("link_check", {}).get("exclude_files", [])
 
-    all_broken: List[Tuple[str, str, str]] = []
-    all_external: List[Tuple[str, str, str]] = []
+    all_broken: list[tuple[str, str, str]] = []
+    all_external: list[tuple[str, str, str]] = []
     file_count = 0
 
     for md in ROOT.rglob("*.md"):
@@ -477,7 +478,7 @@ def generate_linkcheck_report() -> Tuple[str, int]:
 
     lines.append(f"\n## External Links ({len(all_external)} found)\n")
     if all_external:
-        by_domain: Dict[str, List[Tuple[str, str, str]]] = {}
+        by_domain: dict[str, list[tuple[str, str, str]]] = {}
         for source, text, link in all_external:
             domain = urlparse(link).netloc
             if domain not in by_domain:
@@ -500,8 +501,8 @@ def generate_linkcheck_report() -> Tuple[str, int]:
     return "\n".join(lines) + "\n", len(all_broken)
 
 
-def generate_structure_audit_report(issues: Dict) -> str:
-    lines: List[str] = []
+def generate_structure_audit_report(issues: dict) -> str:
+    lines: list[str] = []
     lines.append("# Structure Audit Report")
     lines.append(f"\nGenerated: {datetime.now().strftime('%Y-%m-%d')}\n")
 

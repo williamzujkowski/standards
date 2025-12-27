@@ -72,7 +72,9 @@ class PerformanceMonitor:
                 start_time = time.time()
                 start_memory = psutil.Process().memory_info().rss / 1024 / 1024  # MB
 
-                result = subprocess.run(cmd, capture_output=True, text=True, cwd=self.repo_path, timeout=30)
+                result = subprocess.run(
+                    cmd, check=False, capture_output=True, text=True, cwd=self.repo_path, timeout=30
+                )
 
                 end_time = time.time()
                 end_memory = psutil.Process().memory_info().rss / 1024 / 1024  # MB
@@ -184,6 +186,7 @@ class PerformanceMonitor:
 
                 result = subprocess.run(
                     ["python3", script_path],
+                    check=False,
                     capture_output=True,
                     text=True,
                     cwd=self.repo_path,
@@ -302,6 +305,7 @@ class PerformanceMonitor:
                 start_time = time.time()
                 result = subprocess.run(
                     command,
+                    check=False,
                     shell=True,
                     capture_output=True,
                     text=True,
@@ -344,10 +348,9 @@ class PerformanceMonitor:
 
         if value >= critical_threshold:
             return "critical"
-        elif value >= warning_threshold:
+        if value >= warning_threshold:
             return "warning"
-        else:
-            return "ok"
+        return "ok"
 
     def generate_performance_report(self):
         """Generate comprehensive performance report"""
@@ -481,7 +484,7 @@ class PerformanceMonitor:
 
         summary_file = os.path.join(
             self.metrics_dir,
-            f'continuous_monitoring_summary_{datetime.now().strftime("%Y%m%d_%H%M%S")}.json',
+            f"continuous_monitoring_summary_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
         )
         try:
             with open(summary_file, "w") as f:

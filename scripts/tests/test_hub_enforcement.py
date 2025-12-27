@@ -10,6 +10,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
+
 # Load generate-audit-reports.py module
 spec = importlib.util.spec_from_file_location(
     "generate_audit_reports", Path(__file__).parent.parent / "generate-audit-reports.py"

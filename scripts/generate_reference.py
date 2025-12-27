@@ -20,7 +20,7 @@ def generate_reference():
 
     # Extract quick answers
     for line in content.split("\n"):
-        if "|" in line and "CS:" in line or "SEC:" in line or "TS:" in line:
+        if ("|" in line and "CS:" in line) or "SEC:" in line or "TS:" in line:
             parts = [p.strip() for p in line.split("|")]
             if len(parts) >= 3:
                 code = parts[0].strip("`")

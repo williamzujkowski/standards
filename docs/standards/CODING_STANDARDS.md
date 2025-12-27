@@ -764,6 +764,7 @@ Generate code following these comprehensive coding standards:
 The code should be robust, efficient, secure, and maintainable. It should
 follow all applicable industry best practices and demonstrate a high level of
 craftsmanship.
+```
 
 ## Implementation
 

@@ -17,11 +17,13 @@ from unittest.mock import patch
 import pytest
 import yaml
 
+
 # Add scripts to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "scripts"))
 
 # Import the script (handle hyphenated names)
 import importlib.util
+
 
 spec = importlib.util.spec_from_file_location(
     "migrate_to_skills", Path(__file__).parent.parent.parent / "scripts" / "migrate-to-skills.py"
@@ -341,7 +343,6 @@ Advanced content.
         """Test migrate_all prints plan without modifying files."""
         # Note: This tests the current implementation
         # Future: Add --dry-run flag support
-        pass
 
     # ==================== CONTENT INTEGRITY TESTS ====================
 
@@ -501,7 +502,6 @@ class TestMigrateCLI:
         """Test main() execution flow."""
         # This would require mocking file system
         # For now, ensure it doesn't crash
-        pass
 
 
 if __name__ == "__main__":

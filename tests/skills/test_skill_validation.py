@@ -6,7 +6,6 @@ Tests YAML frontmatter, description limits, and progressive disclosure structure
 
 import re
 from pathlib import Path
-from typing import Dict, List, Optional
 
 import pytest
 import yaml
@@ -21,13 +20,13 @@ class SkillValidator:
     def __init__(self, skills_dir: Path):
         self.skills_dir = Path(skills_dir)
 
-    def find_all_skills(self) -> List[Path]:
+    def find_all_skills(self) -> list[Path]:
         """Find all SKILL.md files in the skills directory."""
         if not self.skills_dir.exists():
             return []
         return list(self.skills_dir.rglob(self.SKILL_MD_FILENAME))
 
-    def extract_frontmatter(self, skill_path: Path) -> Optional[Dict]:
+    def extract_frontmatter(self, skill_path: Path) -> dict | None:
         """Extract and parse YAML frontmatter from SKILL.md."""
         content = skill_path.read_text(encoding="utf-8")
 
@@ -43,7 +42,7 @@ class SkillValidator:
         except yaml.YAMLError as e:
             raise ValueError(f"Invalid YAML in {skill_path}: {e}")
 
-    def validate_frontmatter_structure(self, frontmatter: Dict, skill_path: Path) -> List[str]:
+    def validate_frontmatter_structure(self, frontmatter: dict, skill_path: Path) -> list[str]:
         """Validate required frontmatter fields."""
         errors = []
 
@@ -64,14 +63,14 @@ class SkillValidator:
 
         return errors
 
-    def validate_description_length(self, description: str, skill_path: Path) -> Optional[str]:
+    def validate_description_length(self, description: str, skill_path: Path) -> str | None:
         """Validate description is within token limits."""
         length = len(description)
         if length > self.DESCRIPTION_MAX_LENGTH:
             return f"{skill_path}: Description exceeds {self.DESCRIPTION_MAX_LENGTH} characters ({length} chars)"
         return None
 
-    def validate_progressive_disclosure(self, skill_path: Path) -> List[str]:
+    def validate_progressive_disclosure(self, skill_path: Path) -> list[str]:
         """Validate progressive disclosure structure (Level 1, 2, 3)."""
         errors = []
         content = skill_path.read_text(encoding="utf-8")
@@ -102,7 +101,7 @@ class SkillValidator:
 
         return errors
 
-    def validate_skill(self, skill_path: Path) -> Dict[str, any]:
+    def validate_skill(self, skill_path: Path) -> dict[str, any]:
         """Run all validations on a single skill."""
         results = {"path": str(skill_path), "valid": True, "errors": [], "warnings": []}
 
@@ -135,7 +134,7 @@ class SkillValidator:
         results["valid"] = len(results["errors"]) == 0
         return results
 
-    def validate_all_skills(self) -> Dict[str, any]:
+    def validate_all_skills(self) -> dict[str, any]:
         """Validate all skills in the directory."""
         skills = self.find_all_skills()
 

@@ -1,10 +1,10 @@
 # Pre-commit hooks for Standards Repository
 # Comprehensive security and quality enforcement before commits
-# Version: 2.0.0 - Enhanced Security & Validation
+# Version: 3.0.0 - Unified Ruff (replaces black + isort)
 
 default_language_version:
   python: python3
-  node: '20.0.0'
+  node: '20.18.0'
 
 repos:
   # ============================================================================
@@ -13,7 +13,7 @@ repos:
 
   # Secret Detection - Gitleaks (industry standard)
   - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.18.0
+    rev: v8.30.0
     hooks:
       - id: gitleaks
         name: Detect secrets and credentials
@@ -26,7 +26,7 @@ repos:
   # ============================================================================
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v6.0.0
     hooks:
       # Large file prevention (1MB limit for most files)
       - id: check-added-large-files
@@ -60,7 +60,7 @@ repos:
   # ============================================================================
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v6.0.0
     hooks:
       # Whitespace and formatting fixes
       - id: trailing-whitespace
@@ -106,7 +106,7 @@ repos:
 
   # YAML validation
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v6.0.0
     hooks:
       - id: check-yaml
         name: Validate YAML syntax
@@ -125,7 +125,7 @@ repos:
 
   # Advanced YAML linting
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.35.1
+    rev: v1.37.1
     hooks:
       - id: yamllint
         name: Advanced YAML linting
@@ -133,14 +133,14 @@ repos:
 
   # TOML validation
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v6.0.0
     hooks:
       - id: check-toml
         name: Validate TOML syntax
 
   # XML validation
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v6.0.0
     hooks:
       - id: check-xml
         name: Validate XML syntax
@@ -151,7 +151,7 @@ repos:
 
   # Markdown linting
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.39.0
+    rev: v0.47.0
     hooks:
       - id: markdownlint
         name: Markdown quality checks
@@ -160,6 +160,7 @@ repos:
           (?x)^(
               node_modules/|
               examples/archive/|
+              archive/|
               .*\.template\.md$|
               CHANGELOG\.md$|
               docs/guides/STANDARDS_INDEX\.md$
@@ -230,7 +231,7 @@ repos:
 
 
   # ============================================================================
-  # CODE QUALITY & LINTING
+  # CODE QUALITY & LINTING (Unified Ruff - replaces black + isort)
   # ============================================================================
 
   # Shell script security and quality
@@ -242,32 +243,22 @@ repos:
         args: [--severity=error, --shell=bash, --external-sources]
         files: \.(sh|bash)$
 
-  # Python code quality and security
-  - repo: https://github.com/psf/black
-    rev: 24.1.1
+  # Python code formatting and linting with Ruff (replaces black + isort)
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.10
     hooks:
-      - id: black
-        name: Python code formatting
-        files: \.(py)$
+      # Ruff formatter (replaces black)
+      - id: ruff-format
+        name: Python code formatting (ruff)
+        files: \.(py|pyi)$
         exclude: ^(archive|vendor|node_modules)/
 
-  - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
-    hooks:
-      - id: isort
-        name: Python import sorting
-        files: \.(py)$
-        args: [--profile, black, --check-only, --diff]
-
-  # Advanced Python linting and security
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.2.1
-    hooks:
+      # Ruff linter (includes isort via "I" rules)
       - id: ruff
-        name: Python security & quality analysis
-        files: \.(py)$
-        exclude: ^(skills/.*/templates/.*\.py|tests/.*\.py|skills/.*/scripts/.*\.py)$
-        args: [--fix]
+        name: Python linting & import sorting (ruff)
+        files: \.(py|pyi)$
+        exclude: ^(archive|vendor|node_modules)/
+        args: [--fix, --exit-non-zero-on-fix]
 
   # TypeScript/JavaScript quality (if present)
   - repo: https://github.com/pre-commit/mirrors-eslint
@@ -300,7 +291,7 @@ repos:
 
   # Prevent direct commits to protected branches
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v6.0.0
     hooks:
       - id: no-commit-to-branch
         name: Protect main branches
@@ -345,5 +336,6 @@ exclude: |
       build/|
       .*\.egg-info/|
       \.gitleaks-report\.json$|
-      \.secrets\.baseline$
+      \.secrets\.baseline$|
+      \.ruff_cache/
   )$

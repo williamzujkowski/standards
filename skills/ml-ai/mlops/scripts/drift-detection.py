@@ -4,12 +4,12 @@ Includes statistical tests, distribution comparisons, and alerting.
 """
 
 import warnings
-from typing import Dict
 
 import numpy as np
 import pandas as pd
 from scipy import stats
 from scipy.spatial.distance import jensenshannon
+
 
 warnings.filterwarnings("ignore")
 
@@ -29,7 +29,7 @@ class DriftDetector:
     def __init__(
         self,
         reference_data: pd.DataFrame,
-        feature_types: Dict[str, str],
+        feature_types: dict[str, str],
         significance_level: float = 0.05,
         psi_threshold: float = 0.1,
         js_threshold: float = 0.1,
@@ -53,7 +53,7 @@ class DriftDetector:
         # Precompute reference statistics
         self.reference_stats = self._compute_reference_statistics()
 
-    def _compute_reference_statistics(self) -> Dict:
+    def _compute_reference_statistics(self) -> dict:
         """Precompute statistics from reference data."""
         stats_dict = {}
 
@@ -81,7 +81,7 @@ class DriftDetector:
 
         return stats_dict
 
-    def detect_drift(self, current_data: pd.DataFrame) -> Dict:
+    def detect_drift(self, current_data: pd.DataFrame) -> dict:
         """
         Detect drift in all features.
 
@@ -110,7 +110,7 @@ class DriftDetector:
 
         return results
 
-    def _detect_numerical_drift(self, feature: str, current_values: np.ndarray, ref_stats: Dict) -> Dict:
+    def _detect_numerical_drift(self, feature: str, current_values: np.ndarray, ref_stats: dict) -> dict:
         """Detect drift in numerical features using multiple methods."""
 
         ref_values = ref_stats["distribution"]
@@ -154,7 +154,7 @@ class DriftDetector:
             "severity": self._compute_severity(max(ks_stat, psi, js_div)),
         }
 
-    def _detect_categorical_drift(self, feature: str, current_series: pd.Series, ref_stats: Dict) -> Dict:
+    def _detect_categorical_drift(self, feature: str, current_series: pd.Series, ref_stats: dict) -> dict:
         """Detect drift in categorical features."""
 
         # Current value counts
@@ -174,7 +174,7 @@ class DriftDetector:
         chi2_drift = chi2_pvalue < self.significance_level
 
         # 2. Total Variation Distance
-        tvd = 0.5 * sum(abs(r - c) for r, c in zip(ref_freq, curr_freq))
+        tvd = 0.5 * sum(abs(r - c) for r, c in zip(ref_freq, curr_freq, strict=False))
         tvd_drift = tvd > 0.1  # Typical threshold
 
         # 3. Category changes
@@ -246,14 +246,13 @@ class DriftDetector:
         """Compute drift severity level."""
         if score < 0.1:
             return "low"
-        elif score < 0.25:
+        if score < 0.25:
             return "medium"
-        elif score < 0.5:
+        if score < 0.5:
             return "high"
-        else:
-            return "critical"
+        return "critical"
 
-    def generate_report(self, drift_results: Dict) -> str:
+    def generate_report(self, drift_results: dict) -> str:
         """Generate human-readable drift report."""
 
         report = ["=" * 80]

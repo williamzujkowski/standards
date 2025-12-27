@@ -12,9 +12,9 @@ import logging
 import re
 import sys
 from pathlib import Path
-from typing import Dict, List, Optional, Set
 
 import yaml
+
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -24,11 +24,11 @@ logger = logging.getLogger(__name__)
 class SkillDiscovery:
     """Skill search and recommendation engine."""
 
-    def __init__(self, skills_dir: Path, product_matrix: Optional[Path] = None):
+    def __init__(self, skills_dir: Path, product_matrix: Path | None = None):
         self.skills_dir = skills_dir
         self.product_matrix_path = product_matrix
-        self.skills: Dict[str, Dict] = {}
-        self.product_matrix: Dict = {}
+        self.skills: dict[str, dict] = {}
+        self.product_matrix: dict = {}
 
         self.load_skills()
         if product_matrix and product_matrix.exists():
@@ -51,7 +51,7 @@ class SkillDiscovery:
 
         logger.info(f"Loaded {len(self.skills)} skills")
 
-    def parse_skill(self, skill_file: Path) -> Dict:
+    def parse_skill(self, skill_file: Path) -> dict:
         """Parse SKILL.md file and extract metadata."""
         content = skill_file.read_text()
 
@@ -81,7 +81,7 @@ class SkillDiscovery:
 
         return skill_data
 
-    def extract_related_skills(self, content: str) -> List[str]:
+    def extract_related_skills(self, content: str) -> list[str]:
         """Extract related skills from content."""
         related = []
 
@@ -103,7 +103,7 @@ class SkillDiscovery:
         except Exception as e:
             logger.warning(f"Failed to load product matrix: {e}")
 
-    def search_by_keyword(self, keyword: str) -> List[Dict]:
+    def search_by_keyword(self, keyword: str) -> list[dict]:
         """Search skills by keyword in name or description."""
         keyword_lower = keyword.lower()
         results = []
@@ -118,7 +118,7 @@ class SkillDiscovery:
 
         return results
 
-    def filter_by_category(self, category: str) -> List[Dict]:
+    def filter_by_category(self, category: str) -> list[dict]:
         """Filter skills by category."""
         results = []
 
@@ -128,7 +128,7 @@ class SkillDiscovery:
 
         return results
 
-    def recommend_for_product(self, product_type: str) -> List[Dict]:
+    def recommend_for_product(self, product_type: str) -> list[dict]:
         """Recommend skills based on product type."""
         if not self.product_matrix:
             logger.warning("Product matrix not loaded")
@@ -161,7 +161,7 @@ class SkillDiscovery:
 
         return recommended
 
-    def resolve_dependencies(self, skill_slug: str, visited: Optional[Set[str]] = None) -> List[str]:
+    def resolve_dependencies(self, skill_slug: str, visited: set[str] | None = None) -> list[str]:
         """Resolve skill dependencies (related skills)."""
         if visited is None:
             visited = set()
@@ -185,7 +185,7 @@ class SkillDiscovery:
 
         return dependencies
 
-    def format_skill_result(self, skill_data: Dict, verbose: bool = False) -> str:
+    def format_skill_result(self, skill_data: dict, verbose: bool = False) -> str:
         """Format skill result for display."""
         lines = []
 
@@ -205,7 +205,7 @@ class SkillDiscovery:
 
         return "\n".join(lines)
 
-    def generate_load_command(self, skill_slugs: List[str]) -> str:
+    def generate_load_command(self, skill_slugs: list[str]) -> str:
         """Generate load command for skills."""
         return f"@load skills:[{','.join(skill_slugs)}]"
 

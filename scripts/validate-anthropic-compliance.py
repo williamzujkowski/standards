@@ -16,7 +16,6 @@ Reserved words: skill, name, description, content, type, version
 import re
 import sys
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 import yaml
 
@@ -39,7 +38,7 @@ class SkillValidator:
         self.skills_dir = skills_dir
         self.results = {"compliant": [], "non_compliant": [], "total": 0, "errors": []}
 
-    def validate_all_skills(self) -> Dict:
+    def validate_all_skills(self) -> dict:
         """Validate all SKILL.md files in the skills directory."""
         skill_files = list(self.skills_dir.rglob("SKILL.md"))
         self.results["total"] = len(skill_files)
@@ -85,7 +84,7 @@ class SkillValidator:
         except Exception as e:
             self.results["errors"].append({"path": str(relative_path), "error": str(e)})
 
-    def _extract_frontmatter(self, content: str) -> Tuple[Dict, str]:
+    def _extract_frontmatter(self, content: str) -> tuple[dict, str]:
         """Extract YAML frontmatter and body from content."""
         if not content.startswith("---"):
             return None, content
@@ -101,7 +100,7 @@ class SkillValidator:
         except yaml.YAMLError:
             return None, content
 
-    def _validate_frontmatter(self, frontmatter: Dict) -> List[str]:
+    def _validate_frontmatter(self, frontmatter: dict) -> list[str]:
         """Validate YAML frontmatter fields."""
         issues = []
 
@@ -118,7 +117,7 @@ class SkillValidator:
 
         return issues
 
-    def _validate_name(self, name: str) -> List[str]:
+    def _validate_name(self, name: str) -> list[str]:
         """Validate the 'name' field."""
         issues = []
 
@@ -146,7 +145,7 @@ class SkillValidator:
 
         return issues
 
-    def _validate_description(self, description: str) -> List[str]:
+    def _validate_description(self, description: str) -> list[str]:
         """Validate the 'description' field."""
         issues = []
 
@@ -164,7 +163,7 @@ class SkillValidator:
 
         return issues
 
-    def _validate_level2_tokens(self, body: str) -> List[str]:
+    def _validate_level2_tokens(self, body: str) -> list[str]:
         """Validate Level 2 section token count."""
         issues = []
 
@@ -188,7 +187,7 @@ class SkillValidator:
 
         return issues
 
-    def _validate_file_structure(self, skill_dir: Path) -> List[str]:
+    def _validate_file_structure(self, skill_dir: Path) -> list[str]:
         """Validate optional file structure (FORMS.md, REFERENCE.md, scripts/)."""
         # This is informational only - optional files don't cause compliance failure
         # Just noting if they exist for completeness

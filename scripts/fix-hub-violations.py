@@ -6,21 +6,21 @@ This is a companion to ensure-hub-links.py that verifies the links are recognize
 
 import re
 from pathlib import Path
-from typing import Dict, Set
 
 import yaml
+
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def load_audit_rules() -> Dict:
+def load_audit_rules() -> dict:
     """Load audit rules configuration."""
     config_path = ROOT / "config/audit-rules.yaml"
     with open(config_path) as f:
         return yaml.safe_load(f)
 
 
-def extract_links_from_auto_sections(content: str) -> Set[str]:
+def extract_links_from_auto_sections(content: str) -> set[str]:
     """Extract file paths from AUTO-LINKS sections."""
     links = set()
 

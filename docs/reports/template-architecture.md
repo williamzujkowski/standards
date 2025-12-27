@@ -984,6 +984,7 @@ Client → API Gateway → Core API → Cache Check (Miss) → Database → Cach
 - L2: Redis cache (TTL: 5 minutes for reads, invalidate on writes)
 
 **Performance Targets**:
+
 | Metric | Target | Monitoring |
 |--------|--------|------------|
 | API Response (p95) | < 200ms | CloudWatch |

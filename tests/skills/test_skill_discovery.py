@@ -6,7 +6,6 @@ Tests skill discovery and loading mechanisms.
 
 import re
 from pathlib import Path
-from typing import Dict, List, Optional
 
 import pytest
 import yaml
@@ -19,7 +18,7 @@ class SkillDiscovery:
         self.skills_dir = Path(skills_dir)
         self.skill_cache = {}
 
-    def discover_all_skills(self) -> List[Dict]:
+    def discover_all_skills(self) -> list[dict]:
         """Discover all available skills."""
         if not self.skills_dir.exists():
             return []
@@ -41,7 +40,7 @@ class SkillDiscovery:
 
         return skills
 
-    def _extract_skill_metadata(self, skill_path: Path) -> Optional[Dict]:
+    def _extract_skill_metadata(self, skill_path: Path) -> dict | None:
         """Extract metadata from SKILL.md."""
         try:
             content = skill_path.read_text(encoding="utf-8")
@@ -61,7 +60,7 @@ class SkillDiscovery:
         except Exception:
             return None
 
-    def search_skills(self, query: str) -> List[Dict]:
+    def search_skills(self, query: str) -> list[dict]:
         """Search skills by keyword."""
         all_skills = self.discover_all_skills()
         query_lower = query.lower()
@@ -85,7 +84,7 @@ class SkillDiscovery:
 
         return matches
 
-    def find_skills_by_category(self, category: str) -> List[Dict]:
+    def find_skills_by_category(self, category: str) -> list[dict]:
         """Find skills by category/domain."""
         all_skills = self.discover_all_skills()
         category_lower = category.lower()
@@ -99,7 +98,7 @@ class SkillDiscovery:
 
         return matches
 
-    def get_skill_by_name(self, name: str) -> Optional[Dict]:
+    def get_skill_by_name(self, name: str) -> dict | None:
         """Get a specific skill by name."""
         if name in self.skill_cache:
             return self.skill_cache[name]
@@ -117,7 +116,7 @@ class SkillDiscovery:
 
         return skill_info
 
-    def recommend_skills(self, context: str) -> List[Dict]:
+    def recommend_skills(self, context: str) -> list[dict]:
         """Recommend skills based on context."""
         # Simple keyword-based recommendation
         keywords = {
@@ -180,7 +179,7 @@ name: {name}
 description: {description}
 ---
 
-# {name.replace('-', ' ').title()}
+# {name.replace("-", " ").title()}
 
 Content here.
 """

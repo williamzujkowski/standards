@@ -7,7 +7,7 @@ Outputs JSON catalog with normalized metadata for each standard document.
 import json
 import re
 from pathlib import Path
-from typing import Dict, List, Optional
+
 
 # Standard document codes mapping
 STANDARD_CODES = {
@@ -39,7 +39,7 @@ STANDARD_CODES = {
 }
 
 
-def extract_nist_controls(content: str) -> List[str]:
+def extract_nist_controls(content: str) -> list[str]:
     """Extract NIST control references from document content."""
     controls = set()
     # Look for patterns like AC-2, AC-2(1), SC-13, etc.
@@ -114,7 +114,7 @@ def get_standard_code(filename: str) -> str:
     return STANDARD_CODES.get(base, base[:3])
 
 
-def extract_related_standards(content: str) -> List[str]:
+def extract_related_standards(content: str) -> list[str]:
     """Extract references to other standards from content."""
     related = set()
 
@@ -134,7 +134,7 @@ def extract_related_standards(content: str) -> List[str]:
     return sorted(list(related))
 
 
-def extract_tags(content: str, filepath: str) -> List[str]:
+def extract_tags(content: str, filepath: str) -> list[str]:
     """Extract tags from document content and filepath."""
     tags = set()
 
@@ -192,7 +192,7 @@ def extract_tags(content: str, filepath: str) -> List[str]:
     return sorted(list(tags))
 
 
-def process_standard_file(filepath: str) -> Optional[Dict]:
+def process_standard_file(filepath: str) -> dict | None:
     """Process a single standard document file."""
     try:
         with open(filepath, encoding="utf-8") as f:

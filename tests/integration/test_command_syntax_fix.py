@@ -9,7 +9,6 @@ RED PHASE: These tests will FAIL until command syntax is fixed.
 
 import re
 from pathlib import Path
-from typing import Dict, List
 
 import pytest
 
@@ -17,7 +16,7 @@ import pytest
 class MockDocumentScanner:
     """Mock for document scanning behavior"""
 
-    def scan_for_commands(self, path: Path) -> List[Dict[str, str]]:
+    def scan_for_commands(self, path: Path) -> list[dict[str, str]]:
         """Mock method - will be replaced with real implementation"""
         raise NotImplementedError("Implementation required")
 
@@ -25,7 +24,7 @@ class MockDocumentScanner:
 class MockCommandValidator:
     """Mock for command validation behavior"""
 
-    def validate_syntax(self, command: str) -> Dict[str, bool]:
+    def validate_syntax(self, command: str) -> dict[str, bool]:
         """Mock method - will be replaced with real implementation"""
         raise NotImplementedError("Implementation required")
 
@@ -86,7 +85,7 @@ class TestCommandSyntaxDetection:
 
         # THEN: Should not report as bash command syntax issue
         # This tests the scanner's ability to understand code context
-        pass  # Will implement with actual scanner
+        # Will implement with actual scanner
 
     def test_detects_command_in_markdown_callouts(self, mock_scanner):
         """Should detect commands in blockquotes and callouts"""
@@ -168,7 +167,7 @@ class TestCommandSyntaxFix:
 
         # THEN: Should convert to npx usage
         # assert fixed == expected
-        pass  # Will implement with actual fixer
+        # Will implement with actual fixer
 
     def test_preserves_valid_commands(self):
         """Should not modify valid commands"""
@@ -180,7 +179,7 @@ class TestCommandSyntaxFix:
 
         # THEN: Should remain unchanged
         # assert fixed == original
-        pass  # Will implement with actual fixer
+        # Will implement with actual fixer
 
     def test_handles_multiline_commands(self):
         """Should handle commands with line continuations"""
@@ -195,7 +194,7 @@ npm install \\
         # Should handle \ continuations
 
         # THEN: Should properly transform entire command
-        pass  # Will implement with actual fixer
+        # Will implement with actual fixer
 
 
 class TestCommandSyntaxReport:
@@ -212,7 +211,7 @@ class TestCommandSyntaxReport:
         # assert 'files_scanned' in report
         # assert 'issues_found' in report
         # assert 'fixes_available' in report
-        pass  # Will implement with actual scanner
+        # Will implement with actual scanner
 
     def test_groups_issues_by_type(self):
         """Should group issues by command type"""
@@ -224,7 +223,7 @@ class TestCommandSyntaxReport:
         # THEN: Should group by issue type
         # assert 'npm_usage' in report['issue_types']
         # assert 'invalid_syntax' in report['issue_types']
-        pass  # Will implement with actual scanner
+        # Will implement with actual scanner
 
 
 # Integration test that will FAIL until fixes are applied

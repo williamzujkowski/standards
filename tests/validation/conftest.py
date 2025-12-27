@@ -6,11 +6,10 @@ Aligns with audit-rules.yaml exclusion patterns.
 """
 
 import json
-import os
 import re
 import subprocess
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import pytest
 import yaml
@@ -47,7 +46,7 @@ def config_dir(repo_root: Path) -> Path:
 
 
 @pytest.fixture(scope="session")
-def product_matrix(config_dir: Path) -> Dict[str, Any]:
+def product_matrix(config_dir: Path) -> dict[str, Any]:
     """Load product matrix configuration."""
     matrix_file = config_dir / "product-matrix.yaml"
     with open(matrix_file) as f:
@@ -55,14 +54,14 @@ def product_matrix(config_dir: Path) -> Dict[str, Any]:
 
 
 @pytest.fixture(scope="session")
-def audit_rules(config_dir: Path) -> Dict[str, Any]:
+def audit_rules(config_dir: Path) -> dict[str, Any]:
     """Load audit rules configuration."""
     rules_file = config_dir / "audit-rules.yaml"
     with open(rules_file) as f:
         return yaml.safe_load(f)
 
 
-def should_exclude_file(file_path: Path, repo_root: Path, exclusion_patterns: List[str]) -> bool:
+def should_exclude_file(file_path: Path, repo_root: Path, exclusion_patterns: list[str]) -> bool:
     """Check if a file should be excluded based on audit rules patterns.
 
     Args:
@@ -103,16 +102,15 @@ def should_exclude_file(file_path: Path, repo_root: Path, exclusion_patterns: Li
 
             if PurePath(rel_path_str).match(pattern):
                 return True
-        else:
-            # Exact match or prefix match
-            if rel_path_str == pattern or rel_path_str.startswith(pattern + "/"):
-                return True
+        # Exact match or prefix match
+        elif rel_path_str == pattern or rel_path_str.startswith(pattern + "/"):
+            return True
 
     return False
 
 
 @pytest.fixture(scope="session")
-def all_markdown_files(repo_root: Path, audit_rules: Dict[str, Any]) -> List[Path]:
+def all_markdown_files(repo_root: Path, audit_rules: dict[str, Any]) -> list[Path]:
     """Get all markdown files in repository, excluding patterns from audit-rules.yaml."""
     # Combine exclusion patterns from different sections
     exclusion_patterns = []
@@ -134,7 +132,7 @@ def all_markdown_files(repo_root: Path, audit_rules: Dict[str, Any]) -> List[Pat
 
 
 @pytest.fixture(scope="session")
-def all_skill_files(skills_dir: Path) -> List[Path]:
+def all_skill_files(skills_dir: Path) -> list[Path]:
     """Get all SKILL.md files."""
     return list(skills_dir.rglob("SKILL.md"))
 
@@ -211,7 +209,7 @@ def skills_root(skills_dir: Path) -> Path:
 def run_command():
     """Fixture to run shell commands."""
 
-    def _run(cmd: List[str], cwd: Path = None, check: bool = True) -> subprocess.CompletedProcess:
+    def _run(cmd: list[str], cwd: Path = None, check: bool = True) -> subprocess.CompletedProcess:
         """Run a command and return result."""
         return subprocess.run(cmd, cwd=cwd, check=check, capture_output=True, text=True)
 
@@ -219,7 +217,7 @@ def run_command():
 
 
 @pytest.fixture(scope="session")
-def quality_gates() -> Dict[str, Any]:
+def quality_gates() -> dict[str, Any]:
     """Define quality gates for validation."""
     return {
         "documentation_accuracy": 100,  # 100% accuracy required
@@ -282,7 +280,7 @@ def check_file_size():
 def extract_code_blocks():
     """Fixture to extract code blocks from markdown."""
 
-    def _extract(md_file: Path) -> List[Dict[str, str]]:
+    def _extract(md_file: Path) -> list[dict[str, str]]:
         """Extract fenced code blocks from markdown file."""
         code_blocks = []
         with open(md_file) as f:
@@ -332,7 +330,7 @@ def excluded_dirs() -> set:
 
 
 @pytest.fixture(scope="session")
-def exclusion_helper(repo_root: Path, audit_rules: Dict[str, Any]):
+def exclusion_helper(repo_root: Path, audit_rules: dict[str, Any]):
     """Helper for checking if files should be excluded based on audit rules."""
 
     def _should_exclude(file_path: Path) -> bool:

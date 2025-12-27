@@ -21,7 +21,6 @@ import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Optional
 
 import yaml
 
@@ -35,7 +34,7 @@ class Skill:
     description: str
     category: str
     level: int = 1
-    related: List[str] = None
+    related: list[str] = None
 
     def __post_init__(self):
         if self.related is None:
@@ -52,10 +51,10 @@ class SkillLoader:
         self.config_dir = repo_root / "config"
         self.legacy_mappings = self._load_legacy_mappings()
         self.product_matrix = self._load_product_matrix()
-        self.skills_cache: Dict[str, Skill] = {}
+        self.skills_cache: dict[str, Skill] = {}
         self._discover_skills()
 
-    def _load_legacy_mappings(self) -> Dict:
+    def _load_legacy_mappings(self) -> dict:
         """Load legacy pattern mappings"""
         mappings_file = self.skills_dir / "legacy-bridge" / "resources" / "legacy-mappings.yaml"
         if mappings_file.exists():
@@ -63,7 +62,7 @@ class SkillLoader:
                 return yaml.safe_load(f)
         return {}
 
-    def _load_product_matrix(self) -> Dict:
+    def _load_product_matrix(self) -> dict:
         """Load product matrix configuration"""
         matrix_file = self.config_dir / "product-matrix.yaml"
         if matrix_file.exists():
@@ -87,7 +86,7 @@ class SkillLoader:
                 if skill:
                     self.skills_cache[skill.name] = skill
 
-    def _parse_skill_file(self, skill_file: Path) -> Optional[Skill]:
+    def _parse_skill_file(self, skill_file: Path) -> Skill | None:
         """Parse a SKILL.md file and extract metadata"""
         try:
             with open(skill_file) as f:
@@ -117,7 +116,7 @@ class SkillLoader:
             print(f"⚠️  Error parsing {skill_file}: {e}", file=sys.stderr)
             return None
 
-    def discover(self, keyword: Optional[str] = None, category: Optional[str] = None) -> List[Skill]:
+    def discover(self, keyword: str | None = None, category: str | None = None) -> list[Skill]:
         """Discover skills by keyword or category"""
         results = []
 
@@ -136,7 +135,7 @@ class SkillLoader:
 
         return sorted(results, key=lambda s: s.name)
 
-    def recommend(self, product_type: str) -> List[Skill]:
+    def recommend(self, product_type: str) -> list[Skill]:
         """Recommend skills for a product type"""
         # Use legacy mappings to determine recommended skills
         product_mappings = self.legacy_mappings.get("product_mappings", {})
@@ -160,7 +159,7 @@ class SkillLoader:
 
         return recommended
 
-    def load_skill(self, skill_name: str, level: int = 2) -> Optional[Skill]:
+    def load_skill(self, skill_name: str, level: int = 2) -> Skill | None:
         """Load a specific skill at the given level"""
         # Handle composite skill names (e.g., 'coding-standards/python')
         base_name = skill_name.split("/")[0]
@@ -173,7 +172,7 @@ class SkillLoader:
         skill.level = level
         return skill
 
-    def _translate_legacy_pattern(self, pattern: str) -> Optional[Skill]:
+    def _translate_legacy_pattern(self, pattern: str) -> Skill | None:
         """Translate a legacy @load pattern to skills"""
         # Handle product types
         if pattern.startswith("product:"):
@@ -199,11 +198,11 @@ class SkillLoader:
 
         return None
 
-    def list_skills(self, category: str = "all") -> List[Skill]:
+    def list_skills(self, category: str = "all") -> list[Skill]:
         """List all skills, optionally filtered by category"""
         return self.discover(category=category)
 
-    def get_skill_info(self, skill_name: str) -> Optional[Skill]:
+    def get_skill_info(self, skill_name: str) -> Skill | None:
         """Get detailed information about a skill"""
         base_name = skill_name.split("/")[0]
         return self.skills_cache.get(base_name)

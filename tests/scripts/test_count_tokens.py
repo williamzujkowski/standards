@@ -10,12 +10,14 @@ from pathlib import Path
 
 import pytest
 
+
 # Add scripts directory to path
 SCRIPTS_DIR = Path(__file__).parent.parent.parent / "scripts"
 sys.path.insert(0, str(SCRIPTS_DIR))
 
 # Import module under test
 import importlib.util
+
 
 spec = importlib.util.spec_from_file_location("count_tokens", SCRIPTS_DIR / "count-tokens.py")
 count_tokens = importlib.util.module_from_spec(spec)
@@ -274,7 +276,10 @@ class TestCommandLineInterface:
     def test_cli_single_file(self, temp_skill_file):
         """Test CLI with single file."""
         result = subprocess.run(
-            ["python3", str(SCRIPTS_DIR / "count-tokens.py"), str(temp_skill_file)], capture_output=True, text=True
+            ["python3", str(SCRIPTS_DIR / "count-tokens.py"), str(temp_skill_file)],
+            check=False,
+            capture_output=True,
+            text=True,
         )
 
         assert result.returncode in [0, 1]  # 0 = no violations, 1 = violations
@@ -285,6 +290,7 @@ class TestCommandLineInterface:
         """Test CLI with directory mode."""
         result = subprocess.run(
             ["python3", str(SCRIPTS_DIR / "count-tokens.py"), "--directory", str(temp_skills_dir)],
+            check=False,
             capture_output=True,
             text=True,
         )
@@ -304,6 +310,7 @@ class TestCommandLineInterface:
                 "--output-json",
                 str(output_json),
             ],
+            check=False,
             capture_output=True,
             text=True,
         )
@@ -314,7 +321,10 @@ class TestCommandLineInterface:
     def test_cli_check_tiktoken(self):
         """Test --check-tiktoken flag."""
         result = subprocess.run(
-            ["python3", str(SCRIPTS_DIR / "count-tokens.py"), "--check-tiktoken"], capture_output=True, text=True
+            ["python3", str(SCRIPTS_DIR / "count-tokens.py"), "--check-tiktoken"],
+            check=False,
+            capture_output=True,
+            text=True,
         )
 
         assert result.returncode == 0
@@ -324,6 +334,7 @@ class TestCommandLineInterface:
         """Test --verbose flag."""
         result = subprocess.run(
             ["python3", str(SCRIPTS_DIR / "count-tokens.py"), str(temp_skill_file), "--verbose"],
+            check=False,
             capture_output=True,
             text=True,
         )
@@ -334,7 +345,9 @@ class TestCommandLineInterface:
 
     def test_cli_no_arguments(self):
         """Test CLI with no arguments."""
-        result = subprocess.run(["python3", str(SCRIPTS_DIR / "count-tokens.py")], capture_output=True, text=True)
+        result = subprocess.run(
+            ["python3", str(SCRIPTS_DIR / "count-tokens.py")], check=False, capture_output=True, text=True
+        )
 
         # Should show help and exit with code 2
         assert result.returncode == 2
@@ -347,7 +360,7 @@ class TestExitCodes:
     def test_exit_code_no_violations(self, temp_skill_file):
         """Test exit code 0 for no violations."""
         result = subprocess.run(
-            ["python3", str(SCRIPTS_DIR / "count-tokens.py"), str(temp_skill_file)], capture_output=True
+            ["python3", str(SCRIPTS_DIR / "count-tokens.py"), str(temp_skill_file)], check=False, capture_output=True
         )
 
         # Should be 0 or 1 depending on content
@@ -357,7 +370,7 @@ class TestExitCodes:
         """Test exit code 2 for no skills found."""
         temp_dir = tempfile.mkdtemp()
         result = subprocess.run(
-            ["python3", str(SCRIPTS_DIR / "count-tokens.py"), "--directory", temp_dir], capture_output=True
+            ["python3", str(SCRIPTS_DIR / "count-tokens.py"), "--directory", temp_dir], check=False, capture_output=True
         )
 
         assert result.returncode == 2

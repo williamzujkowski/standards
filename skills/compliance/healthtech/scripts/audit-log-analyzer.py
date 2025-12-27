@@ -14,7 +14,7 @@ import json
 from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 @dataclass
@@ -27,9 +27,9 @@ class AuditLogEntry:
     resource_accessed: str
     success: bool
     source_ip: str
-    patient_id: Optional[str] = None
-    action: Optional[str] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    patient_id: str | None = None
+    action: str | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -41,8 +41,8 @@ class ComplianceViolation:
     description: str
     user_id: str
     timestamp: str
-    patient_id: Optional[str] = None
-    details: Dict[str, Any] = field(default_factory=dict)
+    patient_id: str | None = None
+    details: dict[str, Any] = field(default_factory=dict)
 
 
 class HIPAAAuditLogAnalyzer:
@@ -63,9 +63,9 @@ class HIPAAAuditLogAnalyzer:
     """
 
     def __init__(self):
-        self.violations: List[ComplianceViolation] = []
-        self.audit_entries: List[AuditLogEntry] = []
-        self.user_access_patterns: Dict[str, List[AuditLogEntry]] = defaultdict(list)
+        self.violations: list[ComplianceViolation] = []
+        self.audit_entries: list[AuditLogEntry] = []
+        self.user_access_patterns: dict[str, list[AuditLogEntry]] = defaultdict(list)
 
         # Configuration (customize per organization)
         self.business_hours_start = 7  # 7 AM
@@ -107,7 +107,7 @@ class HIPAAAuditLogAnalyzer:
                     row["action"] = row.get("action") or None
 
                     # Parse metadata if present
-                    if "metadata" in row and row["metadata"]:
+                    if row.get("metadata"):
                         try:
                             row["metadata"] = json.loads(row["metadata"])
                         except json.JSONDecodeError:

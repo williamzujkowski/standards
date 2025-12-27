@@ -164,7 +164,7 @@ class HealthMonitor:
                             corrupted_files.append(f"{file_path} (invalid YAML)")
 
             except Exception as e:
-                corrupted_files.append(f"{file_path} (read error: {str(e)})")
+                corrupted_files.append(f"{file_path} (read error: {e!s})")
 
         # Calculate score
         total_files = len(critical_files)
@@ -302,7 +302,7 @@ class HealthMonitor:
                             )
 
             except Exception as e:
-                check_result["issues"].append(f"Error checking links in {md_file}: {str(e)}")
+                check_result["issues"].append(f"Error checking links in {md_file}: {e!s}")
 
         # Calculate score
         if total_links > 0:
@@ -416,7 +416,7 @@ class HealthMonitor:
         except Exception as e:
             check_result["status"] = "critical"
             check_result["score"] = 0
-            check_result["issues"].append(f"Error checking standards consistency: {str(e)}")
+            check_result["issues"].append(f"Error checking standards consistency: {e!s}")
 
         return check_result
 
@@ -426,7 +426,7 @@ class HealthMonitor:
 
         try:
             # Check if we're in a git repository
-            result = subprocess.run(["git", "status"], capture_output=True, text=True, cwd=self.repo_path)
+            result = subprocess.run(["git", "status"], check=False, capture_output=True, text=True, cwd=self.repo_path)
             if result.returncode != 0:
                 check_result["status"] = "critical"
                 check_result["score"] = 0
@@ -451,6 +451,7 @@ class HealthMonitor:
             # Check recent commit activity
             recent_commits = subprocess.run(
                 ["git", "log", "--oneline", "--since=30 days ago"],
+                check=False,
                 capture_output=True,
                 text=True,
                 cwd=self.repo_path,
@@ -462,6 +463,7 @@ class HealthMonitor:
             try:
                 find_result = subprocess.run(
                     ["find", self.repo_path, "-type", "f", "-size", "+10M"],
+                    check=False,
                     capture_output=True,
                     text=True,
                 )
@@ -508,7 +510,7 @@ class HealthMonitor:
         except Exception as e:
             check_result["status"] = "critical"
             check_result["score"] = 0
-            check_result["issues"].append(f"Error checking Git health: {str(e)}")
+            check_result["issues"].append(f"Error checking Git health: {e!s}")
 
         return check_result
 
@@ -570,7 +572,7 @@ class HealthMonitor:
         except Exception as e:
             check_result["status"] = "warning"
             check_result["score"] = 80
-            check_result["issues"].append(f"Error checking system resources: {str(e)}")
+            check_result["issues"].append(f"Error checking system resources: {e!s}")
 
         return check_result
 
@@ -675,6 +677,7 @@ class HealthMonitor:
             if os.path.exists(compliance_script):
                 result = subprocess.run(
                     ["python3", compliance_script],
+                    check=False,
                     capture_output=True,
                     text=True,
                     cwd=self.repo_path,
@@ -727,7 +730,7 @@ class HealthMonitor:
         except Exception as e:
             check_result["status"] = "warning"
             check_result["score"] = 75
-            check_result["issues"].append(f"Error checking compliance: {str(e)}")
+            check_result["issues"].append(f"Error checking compliance: {e!s}")
 
         return check_result
 
@@ -831,8 +834,8 @@ class HealthMonitor:
 REPOSITORY HEALTH REPORT
 ========================
 Generated: {timestamp}
-Overall Status: {health_report['overall_status'].upper()}
-Health Score: {health_report['health_score']}/100
+Overall Status: {health_report["overall_status"].upper()}
+Health Score: {health_report["health_score"]}/100
 
 HEALTH CHECK RESULTS
 -------------------

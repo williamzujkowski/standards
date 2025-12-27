@@ -275,10 +275,9 @@ class RedundancyChecker:
         # Return exit code
         if self.errors:
             return 1  # Critical errors
-        elif self.warnings:
+        if self.warnings:
             return 2  # Non-critical warnings
-        else:
-            return 0  # All good
+        return 0  # All good
 
 
 def main():

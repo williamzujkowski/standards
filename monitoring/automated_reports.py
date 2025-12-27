@@ -23,6 +23,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from pathlib import Path
 
+
 # Add the current directory to Python path for imports
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
@@ -349,7 +350,7 @@ class AutomatedReporter:
 DAILY STANDARDS REPOSITORY SUMMARY
 ==================================
 Date: {date}
-Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 
 PERFORMANCE OVERVIEW
 -------------------
@@ -392,7 +393,7 @@ PERFORMANCE OVERVIEW
 WEEKLY STANDARDS REPOSITORY ANALYSIS
 =====================================
 Week Ending: {week_end}
-Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 
 WEEKLY SUMMARY
 --------------
@@ -432,7 +433,7 @@ WEEKLY SUMMARY
 MONTHLY COMPREHENSIVE STANDARDS REPOSITORY REPORT
 ==================================================
 Month: {month}
-Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 
 EXECUTIVE SUMMARY
 -----------------
@@ -456,7 +457,7 @@ EXECUTIVE SUMMARY
             text += f"Standards tracked: {len(standards_metrics)}\n"
 
             health_metrics = current_state.get("health_metrics", {})
-            text += f"Repository size: {health_metrics.get('repository_size', 0) / (1024*1024):.1f} MB\n"
+            text += f"Repository size: {health_metrics.get('repository_size', 0) / (1024 * 1024):.1f} MB\n"
 
         text += "\nRECOMMENDATIONS FOR NEXT MONTH\n------------------------------\n"
 
@@ -510,8 +511,7 @@ EXECUTIVE SUMMARY
                         {
                             "level": "critical",
                             "message": (
-                                f"High error rate detected: {error_rate:.1f}% "
-                                f"(threshold: {thresholds['error_rate']}%)"
+                                f"High error rate detected: {error_rate:.1f}% (threshold: {thresholds['error_rate']}%)"
                             ),
                             "metric": "error_rate",
                             "value": error_rate,

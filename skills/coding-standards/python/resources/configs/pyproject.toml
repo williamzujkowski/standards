@@ -195,6 +195,18 @@ directory = "htmlcov"
 [tool.ruff]
 target-version = "py310"
 line-length = 88
+exclude = [
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+]
+
+[tool.ruff.lint]
 select = [
     "E",  # pycodestyle errors
     "W",  # pycodestyle warnings
@@ -212,25 +224,15 @@ ignore = [
     "B008",  # do not perform function calls in argument defaults
     "PLR0913",  # too many arguments
 ]
-exclude = [
-    ".git",
-    ".mypy_cache",
-    ".pytest_cache",
-    ".ruff_cache",
-    ".venv",
-    "__pycache__",
-    "build",
-    "dist",
-]
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]  # Unused imports
 "tests/*" = ["ARG001", "PLR2004"]  # Unused args, magic values
 
-[tool.ruff.mccabe]
+[tool.ruff.lint.mccabe]
 max-complexity = 10
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 known-first-party = ["myproject"]
 
 # ============================================================================

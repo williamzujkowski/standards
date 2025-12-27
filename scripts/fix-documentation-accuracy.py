@@ -24,7 +24,7 @@ import sys
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
+
 
 # Configuration
 REPO_ROOT = Path(__file__).parent.parent
@@ -75,8 +75,8 @@ class DocumentIssue:
     line_number: int
     issue_type: str
     original_text: str
-    suggested_fix: Optional[str] = None
-    evidence_required: List[str] = field(default_factory=list)
+    suggested_fix: str | None = None
+    evidence_required: list[str] = field(default_factory=list)
     severity: str = "warning"  # error, warning, info
 
 
@@ -97,8 +97,8 @@ class DocumentationAccuracyFixer:
     def __init__(self, dry_run: bool = True, verbose: bool = False):
         self.dry_run = dry_run
         self.verbose = verbose
-        self.issues: List[DocumentIssue] = []
-        self.fixes: List[FixResult] = []
+        self.issues: list[DocumentIssue] = []
+        self.fixes: list[FixResult] = []
 
         # Ensure reports directory exists
         REPORTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -115,7 +115,7 @@ class DocumentationAccuracyFixer:
         if self.verbose:
             print(message)
 
-    def scan_file(self, file_path: Path) -> List[DocumentIssue]:
+    def scan_file(self, file_path: Path) -> list[DocumentIssue]:
         """Scan a file for accuracy issues."""
         issues = []
 
@@ -146,7 +146,7 @@ class DocumentationAccuracyFixer:
 
         return issues
 
-    def _check_evidence_requirements(self, file_path: Path, line_num: int, line: str) -> List[DocumentIssue]:
+    def _check_evidence_requirements(self, file_path: Path, line_num: int, line: str) -> list[DocumentIssue]:
         """Check if claims have required evidence."""
         issues = []
 
@@ -183,7 +183,7 @@ class DocumentationAccuracyFixer:
 
         return issues
 
-    def _has_nearby_evidence(self, file_path: Path, line_num: int, keywords: List[str], window: int = 3) -> bool:
+    def _has_nearby_evidence(self, file_path: Path, line_num: int, keywords: list[str], window: int = 3) -> bool:
         """Check if evidence keywords appear near a claim."""
         try:
             content = file_path.read_text(encoding="utf-8")
@@ -199,7 +199,7 @@ class DocumentationAccuracyFixer:
         except Exception:
             return False
 
-    def suggest_fix(self, issue: DocumentIssue) -> Optional[str]:
+    def suggest_fix(self, issue: DocumentIssue) -> str | None:
         """Generate a suggested fix for an issue."""
         original = issue.original_text
 
@@ -209,14 +209,14 @@ class DocumentationAccuracyFixer:
                 # Generate context-aware suggestions
                 if "significantly" in original.lower():
                     return re.sub(r"\bsignificantly\b", "[SPECIFY METRIC]", original, flags=re.IGNORECASE)
-                elif "numerous" in original.lower():
+                if "numerous" in original.lower():
                     return re.sub(r"\bnumerous\b", "[EXACT COUNT]", original, flags=re.IGNORECASE)
-                elif "best" in original.lower():
+                if "best" in original.lower():
                     return re.sub(r"\bbest\b", "recommended", original, flags=re.IGNORECASE)
 
         return None
 
-    def apply_safe_fixes(self, file_path: Path) -> List[FixResult]:
+    def apply_safe_fixes(self, file_path: Path) -> list[FixResult]:
         """Apply safe automated fixes to a file."""
         results = []
 
@@ -278,6 +278,7 @@ class DocumentationAccuracyFixer:
             # Run link checker
             subprocess.run(
                 [sys.executable, str(REPO_ROOT / "scripts" / "generate-audit-reports.py")],
+                check=False,
                 cwd=REPO_ROOT,
                 capture_output=True,
                 text=True,
@@ -294,9 +295,8 @@ class DocumentationAccuracyFixer:
                     if broken_links == 0:
                         self._log("✅ No broken links found")
                         return True
-                    else:
-                        self._log(f"⚠️  Found {broken_links} broken links")
-                        return False
+                    self._log(f"⚠️  Found {broken_links} broken links")
+                    return False
 
         except Exception as e:
             self._log(f"Error validating links: {e}")
@@ -304,7 +304,7 @@ class DocumentationAccuracyFixer:
 
         return True
 
-    def scan_all_docs(self, target_files: Optional[List[Path]] = None) -> None:
+    def scan_all_docs(self, target_files: list[Path] | None = None) -> None:
         """Scan all documentation files for accuracy issues."""
         if target_files:
             files_to_scan = target_files
@@ -353,7 +353,7 @@ class DocumentationAccuracyFixer:
         ]
 
         # Group by file
-        issues_by_file: Dict[Path, List[DocumentIssue]] = {}
+        issues_by_file: dict[Path, list[DocumentIssue]] = {}
         for issue in self.issues:
             issues_by_file.setdefault(issue.file_path, []).append(issue)
 

@@ -5,12 +5,12 @@ import traceback
 import uuid
 from datetime import datetime
 from functools import wraps
-from typing import List, Optional
 
 import jwt
 import redis
 from flask import Flask, g, jsonify, request
 from werkzeug.exceptions import BadRequest, Forbidden, Unauthorized
+
 
 """
 Secure API Template with NIST Controls
@@ -42,7 +42,7 @@ class RateLimiter:
         self.default_limit = 100  # requests per minute
         self.burst_limit = 10  # burst allowance
 
-    def check_rate_limit(self, identifier: str, limit: Optional[int] = None) -> bool:
+    def check_rate_limit(self, identifier: str, limit: int | None = None) -> bool:
         """
         Check if request should be rate limited
         @nist ac-7 "Rate limiting implementation"
@@ -112,7 +112,7 @@ class InputValidator:
         return sanitized
 
 
-def require_auth(scopes: List[str] = None):
+def require_auth(scopes: list[str] = None):
     """
     Authentication decorator
     @nist ia-2 "API authentication"
@@ -269,7 +269,7 @@ def handle_error(error):
     """
     # Log the error with full details
     logger.error(
-        f"Unhandled error: {str(error)}",
+        f"Unhandled error: {error!s}",
         extra={
             "correlation_id": g.get("correlation_id"),
             "error_type": type(error).__name__,

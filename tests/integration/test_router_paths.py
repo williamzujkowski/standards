@@ -7,7 +7,6 @@ RED PHASE: These tests will FAIL until routing paths are corrected.
 """
 
 from pathlib import Path
-from typing import Dict, List, Optional
 
 import pytest
 import yaml
@@ -16,11 +15,11 @@ import yaml
 class MockRouterConfig:
     """Mock for router configuration behavior"""
 
-    def load_product_matrix(self) -> Dict:
+    def load_product_matrix(self) -> dict:
         """Mock method - will be replaced with real implementation"""
         raise NotImplementedError("Implementation required")
 
-    def resolve_product_type(self, product_code: str) -> Dict:
+    def resolve_product_type(self, product_code: str) -> dict:
         """Mock method - will be replaced with real implementation"""
         raise NotImplementedError("Implementation required")
 
@@ -28,7 +27,7 @@ class MockRouterConfig:
 class MockPathResolver:
     """Mock for path resolution behavior"""
 
-    def resolve_standard_path(self, standard_code: str) -> Optional[Path]:
+    def resolve_standard_path(self, standard_code: str) -> Path | None:
         """Mock method - will be replaced with real implementation"""
         raise NotImplementedError("Implementation required")
 
@@ -95,7 +94,7 @@ class TestLoadDirectiveSyntax:
         # THEN: Should recognize product type
         # assert parsed['type'] == 'product'
         # assert parsed['value'] == 'api'
-        pass  # Will implement with parser
+        # Will implement with parser
 
     def test_validates_standard_code_load(self, path_resolver):
         """Should validate standard code load: @load CS:python"""
@@ -108,7 +107,7 @@ class TestLoadDirectiveSyntax:
         # assert parsed['type'] == 'standard'
         # assert parsed['category'] == 'CS'
         # assert parsed['value'] == 'python'
-        pass  # Will implement with parser
+        # Will implement with parser
 
     def test_validates_wildcard_load(self, path_resolver):
         """Should validate wildcard load: @load SEC:*"""
@@ -120,7 +119,7 @@ class TestLoadDirectiveSyntax:
         # THEN: Should recognize wildcard
         # assert parsed['wildcard'] is True
         # assert parsed['category'] == 'SEC'
-        pass  # Will implement with parser
+        # Will implement with parser
 
     def test_validates_combination_load(self, path_resolver):
         """Should validate combination load: @load [product:api + CS:python]"""
@@ -132,7 +131,7 @@ class TestLoadDirectiveSyntax:
         # THEN: Should recognize combination
         # assert parsed['type'] == 'combination'
         # assert len(parsed['components']) == 3
-        pass  # Will implement with parser
+        # Will implement with parser
 
     def test_rejects_invalid_syntax(self, path_resolver):
         """Should reject invalid load directive syntax"""
@@ -193,7 +192,7 @@ class TestPathResolution:
         # assert len(paths) > 0, "Should resolve to security standards"
         # for path in paths:
         #     assert resolver.validate_path_exists(path)
-        pass  # Will implement with wildcard resolver
+        # Will implement with wildcard resolver
 
     def test_auto_includes_nist_ig_base(self, resolver):
         """Should auto-include NIST-IG:base when SEC is loaded"""
@@ -206,7 +205,7 @@ class TestPathResolution:
         # THEN: Should include NIST-IG:base
         # nist_paths = [p for p in paths if 'nist' in str(p).lower()]
         # assert len(nist_paths) > 0, "Should auto-include NIST-IG:base"
-        pass  # Will implement with dependency resolver
+        # Will implement with dependency resolver
 
 
 class TestRouterPathUpdates:
@@ -262,7 +261,7 @@ class TestRouterIntegration:
         # THEN: Should load all API-related standards
         # assert len(standards) > 0
         # assert any('rest' in str(s).lower() for s in standards)
-        pass  # Will implement with router
+        # Will implement with router
 
     def test_load_combination_resolves(self):
         """Complex load directive should resolve correctly"""
@@ -273,7 +272,7 @@ class TestRouterIntegration:
 
         # THEN: Should load all components
         # assert len(standards) >= 3
-        pass  # Will implement with router
+        # Will implement with router
 
     def test_wildcard_expansion(self):
         """Wildcard should expand to all matching standards"""
@@ -286,7 +285,7 @@ class TestRouterIntegration:
         # assert len(standards) > 1
         # assert all('security' in str(s).lower() or 'sec' in str(s).lower()
         #           for s in standards)
-        pass  # Will implement with router
+        # Will implement with router
 
 
 if __name__ == "__main__":

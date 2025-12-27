@@ -12,6 +12,7 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
+
 # ===== Example Code Under Test =====
 
 
@@ -114,9 +115,8 @@ def email_service():
 def reset_state():
     """Fixture that runs automatically before each test to reset state"""
     # Setup (runs before each test)
-    yield
+    return
     # Teardown (runs after each test)
-    pass
 
 
 # ===== Basic Unit Tests =====

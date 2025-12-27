@@ -14,6 +14,7 @@ from pathlib import Path
 
 import pytest
 
+
 # Add scripts to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "scripts"))
 
@@ -38,7 +39,6 @@ class TestGenerateSkill:
         # skill_dir = tmp_path / "test-skill"
         # assert skill_dir.exists()
         # assert (skill_dir / "SKILL.md").exists()
-        pass
 
     def test_generate_with_full_metadata(self, tmp_path):
         """Test generating skill with all metadata."""
@@ -58,7 +58,6 @@ class TestGenerateSkill:
         #
         # assert "version: 1.0.0" in content
         # assert "standard_code: CS-001" in content
-        pass
 
     def test_generate_invalid_name(self, tmp_path):
         """Test error handling for invalid skill name."""
@@ -71,7 +70,6 @@ class TestGenerateSkill:
         #         name="Invalid Name With Spaces",
         #         description="Test"
         #     )
-        pass
 
     def test_generate_dry_run(self, tmp_path, capsys):
         """Test dry-run mode shows plan without creating files."""
@@ -87,7 +85,6 @@ class TestGenerateSkill:
         # captured = capsys.readouterr()
         # assert "Would create" in captured.out
         # assert not (tmp_path / "test-skill").exists()
-        pass
 
     def test_template_rendering(self, tmp_path):
         """Test that templates are rendered correctly."""
@@ -102,7 +99,6 @@ class TestGenerateSkill:
         # assert "## Level 1: Quick Start" in content
         # assert "### What You'll Learn" in content
         # assert "### Core Principles" in content
-        pass
 
     def test_directory_structure_creation(self, tmp_path):
         """Test that all required directories are created."""
@@ -115,7 +111,6 @@ class TestGenerateSkill:
         # assert (skill_dir / "templates").exists()
         # assert (skill_dir / "scripts").exists()
         # assert (skill_dir / "resources").exists()
-        pass
 
 
 # ==================== COUNT-TOKENS TESTS ====================
@@ -137,7 +132,6 @@ class TestCountTokens:
         #
         # assert count > 0
         # assert isinstance(count, int)
-        pass
 
     def test_count_tokens_by_level(self, tmp_path):
         """Test token counting per level."""
@@ -166,7 +160,6 @@ class TestCountTokens:
         # assert "level1" in counts
         # assert "level2" in counts
         # assert "level3" in counts
-        pass
 
     def test_flag_level2_violations(self, tmp_path, capsys):
         """Test that Level 2 violations (>5k tokens) are flagged."""
@@ -185,7 +178,6 @@ class TestCountTokens:
         # captured = capsys.readouterr()
         # assert "violation" in captured.out.lower()
         # assert "5000" in captured.out or "5k" in captured.out
-        pass
 
     def test_export_json_report(self, tmp_path):
         """Test JSON export of token counts."""
@@ -208,7 +200,6 @@ class TestCountTokens:
         #
         # assert "files" in report
         # assert "total_tokens" in report
-        pass
 
     def test_handle_malformed_markdown(self, tmp_path):
         """Test handling of malformed markdown."""
@@ -221,7 +212,6 @@ class TestCountTokens:
         # # Should not crash
         # count = counter.count_file(file_path)
         # assert count > 0
-        pass
 
     def test_empty_file(self, tmp_path):
         """Test token counting for empty file."""
@@ -233,7 +223,6 @@ class TestCountTokens:
         # counter = TokenCounter()
         # count = counter.count_file(file_path)
         # assert count == 0
-        pass
 
 
 # ==================== DISCOVER-SKILLS TESTS ====================
@@ -254,7 +243,6 @@ class TestDiscoverSkills:
         # for result in results:
         #     assert "python" in result["name"].lower() or \
         #            "python" in result["description"].lower()
-        pass
 
     def test_filter_by_category(self, tmp_path):
         """Test filtering skills by category."""
@@ -265,7 +253,6 @@ class TestDiscoverSkills:
         #
         # for result in results:
         #     assert result["category"] == "security"
-        pass
 
     def test_recommend_by_product_type(self, tmp_path):
         """Test skill recommendations for product type."""
@@ -277,7 +264,6 @@ class TestDiscoverSkills:
         # # Should recommend relevant skills for APIs
         # skill_names = [r["name"] for r in recommendations]
         # assert any("api" in name or "rest" in name for name in skill_names)
-        pass
 
     def test_resolve_dependencies(self, tmp_path):
         """Test dependency resolution."""
@@ -288,7 +274,6 @@ class TestDiscoverSkills:
         #
         # # Should return list of prerequisite skills
         # assert isinstance(deps, list)
-        pass
 
     def test_output_load_commands(self, tmp_path, capsys):
         """Test generation of @load commands."""
@@ -300,7 +285,6 @@ class TestDiscoverSkills:
         # captured = capsys.readouterr()
         # assert "@load skill:skill1" in captured.out
         # assert "@load skill:skill2" in captured.out
-        pass
 
 
 if __name__ == "__main__":
