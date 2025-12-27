@@ -172,10 +172,14 @@ When adding new examples:
 <!-- AUTO-LINKS:examples/**/*.md -->
 
 - [Readme](ai-generation-hints/README.md)
+- [Readme](compliance/README.md)
+- [Readme](compliance/healthtech/README.md)
 - [Readme](nist-templates/README.md)
 - [Readme](nist-templates/go/README.md)
 - [Readme](nist-templates/python/README.md)
 - [Readme](nist-templates/quickstart/README.md)
+- [Readme](nist-templates/quickstart/scripts/README.md)
+- [Readme](nist-templates/quickstart/scripts/tests/README.md)
 - [Readme](nist-templates/typescript/README.md)
 - [Readme](project-templates/README.md)
 - [Readme](project-templates/docker/README.md)
