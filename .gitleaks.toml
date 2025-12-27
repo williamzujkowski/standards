@@ -24,6 +24,8 @@ paths = [
     '''skills/.*/templates/\.env\.(example|template)''',
     '''skills/.*/templates/.*\.(tsx?|jsx?|yaml|yml|sh|md)''',
     '''skills/.*/resources/.*\.md''',
+    # REFERENCE.md files contain example credentials for documentation
+    '''skills/.*/REFERENCE\.md''',
     '''skills/.*/scripts/.*\.sh''',
 ]
 
