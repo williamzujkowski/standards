@@ -28,9 +28,9 @@ class TestSkillStructure:
 
             # Check for Anthropic format (YAML frontmatter with name and description)
             has_anthropic_format = (
-                content.startswith("---") and
-                re.search(r"^name:", content, re.MULTILINE) and
-                re.search(r"^description:", content, re.MULTILINE)
+                content.startswith("---")
+                and re.search(r"^name:", content, re.MULTILINE)
+                and re.search(r"^description:", content, re.MULTILINE)
             )
 
             if has_anthropic_format:
@@ -58,8 +58,8 @@ class TestSkillStructure:
         # Allow some skills in transition period
         tolerance = int(len(all_skill_files) * 0.2)  # 20% tolerance
         assert len(skills_missing_sections) <= tolerance, (
-            f"Too many skills missing sections ({len(skills_missing_sections)}):\n" +
-            "\n".join(skills_missing_sections[:10])
+            f"Too many skills missing sections ({len(skills_missing_sections)}):\n"
+            + "\n".join(skills_missing_sections[:10])
         )
 
     def test_skill_directories_have_expected_structure(self, skills_dir: Path, exclusion_helper):
@@ -201,9 +201,8 @@ class TestSkillCompliance:
                 oversized_files.append(f"{skill_file}: {lines} lines")
 
         # Allow up to 5 oversized files during transition period
-        assert len(oversized_files) <= 5, (
-            f"Too many oversized skill files ({len(oversized_files)}):\n" +
-            "\n".join(oversized_files)
+        assert len(oversized_files) <= 5, f"Too many oversized skill files ({len(oversized_files)}):\n" + "\n".join(
+            oversized_files
         )
 
     def test_skill_naming_convention(self, skills_dir: Path):

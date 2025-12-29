@@ -112,9 +112,8 @@ class TestDocumentationStructure:
 
         # Allow some broken links during transition (many are example/template references)
         # The actual broken link count is verified by generate-audit-reports.py
-        assert len(broken_links) <= 100, (
-            f"Too many broken links ({len(broken_links)}):\n" +
-            "\n".join(broken_links[:20])
+        assert len(broken_links) <= 100, f"Too many broken links ({len(broken_links)}):\n" + "\n".join(
+            broken_links[:20]
         )
 
     def test_hub_links_present(self, repo_root: Path):
@@ -138,10 +137,7 @@ class TestDocumentationStructure:
                 content = f.read()
 
             # Accept either format: <!-- AUTO-LINKS START --> or <!-- AUTO-LINKS:pattern -->
-            has_auto_links = (
-                "<!-- AUTO-LINKS START -->" in content or
-                "<!-- AUTO-LINKS:" in content
-            )
+            has_auto_links = "<!-- AUTO-LINKS START -->" in content or "<!-- AUTO-LINKS:" in content
             if not has_auto_links:
                 missing_auto_links.append(hub)
 
@@ -160,10 +156,7 @@ class TestDocumentationContent:
         files_with_placeholders = []
 
         # Skip directories that commonly have planning content
-        skip_dirs = [
-            "tests", "reports", "archive", "templates",
-            "docs/architecture", "docs/research", "docs/decisions"
-        ]
+        skip_dirs = ["tests", "reports", "archive", "templates", "docs/architecture", "docs/research", "docs/decisions"]
 
         for md_file in all_markdown_files:
             # Skip excluded files
@@ -189,8 +182,8 @@ class TestDocumentationContent:
 
         # Allow up to 10 files with placeholders during transition
         assert len(files_with_placeholders) <= 10, (
-            f"Too many files with placeholder content ({len(files_with_placeholders)}):\n" +
-            "\n".join(files_with_placeholders[:10])
+            f"Too many files with placeholder content ({len(files_with_placeholders)}):\n"
+            + "\n".join(files_with_placeholders[:10])
         )
 
     def test_code_blocks_properly_fenced(self, all_markdown_files: list[Path], extract_code_blocks):
@@ -233,8 +226,8 @@ class TestDocumentationContent:
 
         # Allow up to 20 files with Setext style during transition
         assert len(inconsistent_files) <= 20, (
-            f"Too many files with inconsistent heading style ({len(inconsistent_files)}):\n" +
-            "\n".join(inconsistent_files[:10])
+            f"Too many files with inconsistent heading style ({len(inconsistent_files)}):\n"
+            + "\n".join(inconsistent_files[:10])
         )
 
 
@@ -317,9 +310,8 @@ class TestDocumentationAccuracy:
         # Allow up to 200 invalid paths (many are references to generic filenames
         # in examples and documentation, not actual file paths)
         # The actual link validation is done by generate-audit-reports.py
-        assert len(invalid_paths) <= 200, (
-            f"Too many invalid file paths ({len(invalid_paths)}):\n" +
-            "\n".join(invalid_paths[:20])
+        assert len(invalid_paths) <= 200, f"Too many invalid file paths ({len(invalid_paths)}):\n" + "\n".join(
+            invalid_paths[:20]
         )
 
     def test_command_examples_syntax(self, all_markdown_files: list[Path], extract_code_blocks):
