@@ -19,6 +19,7 @@ These tests are marked as xfail until skills are fully populated.
 
 import pytest
 
+
 # Mark all tests in this module as expected failures
 # Skills are being developed and many don't have complete structure yet
 pytestmark = pytest.mark.xfail(
