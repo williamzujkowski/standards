@@ -6,7 +6,6 @@ Ensures existing @load patterns continue to work with new skill system.
 
 import re
 from pathlib import Path
-from typing import Dict
 
 import pytest
 import yaml
@@ -21,7 +20,7 @@ class BackwardCompatibilityTester:
         self.skills_dir = self.repo_root / "docs" / "skills"
         self.product_matrix = self.repo_root / "config" / "product-matrix.yaml"
 
-    def load_product_matrix(self) -> Dict:
+    def load_product_matrix(self) -> dict:
         """Load the product matrix configuration."""
         if not self.product_matrix.exists():
             return {}
@@ -29,7 +28,7 @@ class BackwardCompatibilityTester:
         with open(self.product_matrix) as f:
             return yaml.safe_load(f)
 
-    def parse_load_directive(self, directive: str) -> Dict:
+    def parse_load_directive(self, directive: str) -> dict:
         """Parse @load directive and extract components."""
         # Patterns:
         # @load product:api
@@ -52,7 +51,7 @@ class BackwardCompatibilityTester:
 
         return result
 
-    def resolve_load_directive_legacy(self, directive: str) -> Dict:
+    def resolve_load_directive_legacy(self, directive: str) -> dict:
         """Resolve @load directive using legacy standards."""
         parsed = self.parse_load_directive(directive)
         matrix = self.load_product_matrix()
@@ -78,7 +77,7 @@ class BackwardCompatibilityTester:
 
         return result
 
-    def resolve_load_directive_skills(self, directive: str) -> Dict:
+    def resolve_load_directive_skills(self, directive: str) -> dict:
         """Resolve @load directive using new skill system."""
         parsed = self.parse_load_directive(directive)
 
@@ -140,7 +139,7 @@ class BackwardCompatibilityTester:
         prefix = code_to_skill.get(code, "general")
         return f"{prefix}-{value}"
 
-    def compare_resolutions(self, directive: str) -> Dict:
+    def compare_resolutions(self, directive: str) -> dict:
         """Compare legacy and skill resolution for the same directive."""
         legacy = self.resolve_load_directive_legacy(directive)
         skills = self.resolve_load_directive_skills(directive)
@@ -152,7 +151,7 @@ class BackwardCompatibilityTester:
             "compatible": len(legacy["resolved_files"]) > 0 and len(skills["resolved_skills"]) > 0,
         }
 
-    def test_all_product_types(self) -> Dict:
+    def test_all_product_types(self) -> dict:
         """Test all product types from matrix."""
         matrix = self.load_product_matrix()
 

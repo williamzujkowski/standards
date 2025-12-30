@@ -13,6 +13,7 @@ from pathlib import Path
 
 import pytest
 
+
 # Add scripts to path
 REPO_ROOT = Path(__file__).parent.parent.parent
 SCRIPTS_DIR = REPO_ROOT / "scripts"
@@ -110,7 +111,11 @@ class TestSkillLoaderCLI:
     def run_cli(self, args):
         """Helper to run CLI command"""
         result = subprocess.run(
-            [sys.executable, str(SCRIPTS_DIR / "skill-loader.py")] + args, capture_output=True, text=True, cwd=REPO_ROOT
+            [sys.executable, str(SCRIPTS_DIR / "skill-loader.py")] + args,
+            check=False,
+            capture_output=True,
+            text=True,
+            cwd=REPO_ROOT,
         )
         return result
 

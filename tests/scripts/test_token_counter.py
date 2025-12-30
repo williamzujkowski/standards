@@ -10,12 +10,14 @@ from pathlib import Path
 
 import pytest
 
+
 # Add scripts directory to path
 SCRIPTS_DIR = Path(__file__).parent.parent.parent / "scripts"
 sys.path.insert(0, str(SCRIPTS_DIR))
 
 # Import module under test
 import importlib.util
+
 
 spec = importlib.util.spec_from_file_location("token_counter", SCRIPTS_DIR / "token-counter.py")
 token_counter = importlib.util.module_from_spec(spec)
@@ -234,7 +236,7 @@ class TestCommandLineInterface:
     def test_cli_help(self):
         """Test CLI help."""
         result = subprocess.run(
-            ["python3", str(SCRIPTS_DIR / "token-counter.py"), "--help"], capture_output=True, text=True
+            ["python3", str(SCRIPTS_DIR / "token-counter.py"), "--help"], check=False, capture_output=True, text=True
         )
 
         assert result.returncode == 0
@@ -244,6 +246,7 @@ class TestCommandLineInterface:
         """Test basic CLI run."""
         result = subprocess.run(
             ["python3", str(SCRIPTS_DIR / "token-counter.py"), "--directory", str(temp_repo)],
+            check=False,
             capture_output=True,
             text=True,
         )
@@ -264,6 +267,7 @@ class TestCommandLineInterface:
                 "--export",
                 str(output_file),
             ],
+            check=False,
             capture_output=True,
             text=True,
         )
@@ -280,6 +284,7 @@ class TestCommandLineInterface:
         """Test CLI with pattern."""
         result = subprocess.run(
             ["python3", str(SCRIPTS_DIR / "token-counter.py"), "--directory", str(temp_repo), "--pattern", "*.md"],
+            check=False,
             capture_output=True,
             text=True,
         )

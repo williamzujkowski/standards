@@ -9,7 +9,6 @@ disclosure SKILL.md format with Level 1, 2, and 3 sections.
 import re
 import sys
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 
 class SkillMigrator:
@@ -100,7 +99,7 @@ class SkillMigrator:
 
         print(f"✓ Created {target / 'README.md'}")
 
-    def extract_metadata(self, content: str) -> Dict[str, str]:
+    def extract_metadata(self, content: str) -> dict[str, str]:
         """Extract metadata from standard document."""
         metadata = {}
 
@@ -122,7 +121,7 @@ class SkillMigrator:
         return metadata
 
     def generate_skill_markdown(
-        self, name: str, description: str, source_content: str, metadata: Dict[str, str]
+        self, name: str, description: str, source_content: str, metadata: dict[str, str]
     ) -> str:
         """
         Generate SKILL.md content from source standard.
@@ -135,8 +134,8 @@ class SkillMigrator:
         frontmatter = f"""---
 name: {name}
 description: {description}
-version: {metadata.get('version', '1.0.0')}
-standard_code: {metadata.get('standard_code', 'N/A')}
+version: {metadata.get("version", "1.0.0")}
+standard_code: {metadata.get("standard_code", "N/A")}
 ---
 
 """
@@ -170,7 +169,7 @@ standard_code: {metadata.get('standard_code', 'N/A')}
         }
         return mapping.get(name, "docs/standards/")
 
-    def extract_sections(self, content: str) -> List[Tuple[str, str]]:
+    def extract_sections(self, content: str) -> list[tuple[str, str]]:
         """Extract major sections from document."""
         sections = []
 
@@ -183,9 +182,9 @@ standard_code: {metadata.get('standard_code', 'N/A')}
 
         return sections
 
-    def generate_level1(self, name: str, sections: List[Tuple[str, str]]) -> str:
+    def generate_level1(self, name: str, sections: list[tuple[str, str]]) -> str:
         """Generate Level 1: Quick Start section."""
-        return f"""# {name.replace('-', ' ').title()} Skill
+        return f"""# {name.replace("-", " ").title()} Skill
 
 ## Level 1: Quick Start (5 minutes)
 
@@ -208,7 +207,7 @@ standard_code: {metadata.get('standard_code', 'N/A')}
 
 """
 
-    def generate_level2(self, sections: List[Tuple[str, str]]) -> str:
+    def generate_level2(self, sections: list[tuple[str, str]]) -> str:
         """Generate Level 2: Implementation section."""
         return f"""## Level 2: Implementation (30 minutes)
 
@@ -226,7 +225,7 @@ standard_code: {metadata.get('standard_code', 'N/A')}
 
 """
 
-    def generate_level3(self, sections: List[Tuple[str, str]]) -> str:
+    def generate_level3(self, sections: list[tuple[str, str]]) -> str:
         """Generate Level 3: Mastery section."""
         return f"""## Level 3: Mastery (Extended Learning)
 
@@ -246,7 +245,7 @@ See `./scripts/` for automation scripts.
 
 """
 
-    def extract_overview(self, sections: List[Tuple[str, str]]) -> str:
+    def extract_overview(self, sections: list[tuple[str, str]]) -> str:
         """Extract overview text."""
         for title, content in sections:
             if "overview" in title.lower():
@@ -257,7 +256,7 @@ See `./scripts/` for automation scripts.
 
         return "Apply best practices and standards for this domain."
 
-    def extract_principles(self, sections: List[Tuple[str, str]]) -> str:
+    def extract_principles(self, sections: list[tuple[str, str]]) -> str:
         """Extract core principles."""
         principles = []
 
@@ -275,7 +274,7 @@ See `./scripts/` for automation scripts.
 - **Maintainability**: Write for long-term sustainability
 - **Best Practices**: Apply industry standards"""
 
-    def extract_examples(self, sections: List[Tuple[str, str]], limit: int = 2) -> str:
+    def extract_examples(self, sections: list[tuple[str, str]], limit: int = 2) -> str:
         """Extract code examples."""
         examples = []
 
@@ -289,7 +288,7 @@ See `./scripts/` for automation scripts.
 
         return "```\n# Examples to be added\n```"
 
-    def generate_checklist(self, sections: List[Tuple[str, str]]) -> str:
+    def generate_checklist(self, sections: list[tuple[str, str]]) -> str:
         """Generate essential checklist."""
         return """- [ ] Understand core principles
 - [ ] Review quick reference examples
@@ -297,14 +296,14 @@ See `./scripts/` for automation scripts.
 - [ ] Set up automation
 - [ ] Validate implementation"""
 
-    def extract_pitfalls(self, sections: List[Tuple[str, str]]) -> str:
+    def extract_pitfalls(self, sections: list[tuple[str, str]]) -> str:
         """Extract common pitfalls."""
         return """- Skipping fundamentals in favor of advanced techniques
 - Not automating enforcement
 - Ignoring existing patterns
 - Inconsistent application"""
 
-    def format_sections_for_level2(self, sections: List[Tuple[str, str]]) -> str:
+    def format_sections_for_level2(self, sections: list[tuple[str, str]]) -> str:
         """Format sections for Level 2."""
         formatted = []
 
@@ -313,7 +312,7 @@ See `./scripts/` for automation scripts.
 
         return "\n".join(formatted)
 
-    def format_sections_for_level3(self, sections: List[Tuple[str, str]]) -> str:
+    def format_sections_for_level3(self, sections: list[tuple[str, str]]) -> str:
         """Format sections for Level 3."""
         formatted = []
 
@@ -322,7 +321,7 @@ See `./scripts/` for automation scripts.
 
         return "\n".join(formatted)
 
-    def extract_patterns(self, sections: List[Tuple[str, str]]) -> str:
+    def extract_patterns(self, sections: list[tuple[str, str]]) -> str:
         """Extract implementation patterns."""
         return "See Level 2 deep dive sections for detailed patterns."
 
@@ -332,7 +331,7 @@ See `./scripts/` for automation scripts.
 - Cross-references to standards
 - Tool and framework integrations"""
 
-    def extract_resources(self, sections: List[Tuple[str, str]]) -> str:
+    def extract_resources(self, sections: list[tuple[str, str]]) -> str:
         """Extract resource links."""
         resources = []
 
@@ -348,7 +347,7 @@ See `./scripts/` for automation scripts.
 
     def generate_readme(self, name: str, source: Path) -> str:
         """Generate README for skill directory."""
-        return f"""# {name.replace('-', ' ').title()}
+        return f"""# {name.replace("-", " ").title()}
 
 This skill was auto-generated from `{source}`.
 

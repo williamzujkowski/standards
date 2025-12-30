@@ -9,7 +9,6 @@ import re
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 
 @dataclass
@@ -29,9 +28,9 @@ class SkillCompliance:
     level1_tokens: int
     level2_tokens: int
     level3_tokens: int
-    violations: List[str]
-    missing_sections: List[str]
-    token_violations: List[str]
+    violations: list[str]
+    missing_sections: list[str]
+    token_violations: list[str]
 
     @property
     def compliance_score(self) -> float:
@@ -62,7 +61,7 @@ def estimate_tokens(text: str) -> int:
     return int(words * 1.3)
 
 
-def extract_section_content(content: str, header_pattern: str) -> Tuple[str, int, int]:
+def extract_section_content(content: str, header_pattern: str) -> tuple[str, int, int]:
     """Extract content between header and next same-level header."""
     lines = content.split("\n")
     in_section = False
@@ -170,7 +169,7 @@ def analyze_skill(skill_path: Path) -> SkillCompliance:
     )
 
 
-def generate_report(compliance_data: List[SkillCompliance]) -> str:
+def generate_report(compliance_data: list[SkillCompliance]) -> str:
     """Generate comprehensive compliance report in Markdown."""
     total_skills = len(compliance_data)
     compliant_skills = [s for s in compliance_data if s.is_compliant]
@@ -183,19 +182,19 @@ def generate_report(compliance_data: List[SkillCompliance]) -> str:
     large_skills = [s for s in compliance_data if s.total_tokens > 1500]
 
     # Count missing sections
-    section_counts: Dict[str, int] = {}
+    section_counts: dict[str, int] = {}
     for skill in compliance_data:
         for section in skill.missing_sections:
             section_counts[section] = section_counts.get(section, 0) + 1
 
     report = f"""# Skills Compliance Analysis Report
 
-**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+**Generated:** {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 
 ## Executive Summary
 
 - **Total Skills:** {total_skills}
-- **Fully Compliant:** {len(compliant_skills)} ({len(compliant_skills)/total_skills*100:.1f}%)
+- **Fully Compliant:** {len(compliant_skills)} ({len(compliant_skills) / total_skills * 100:.1f}%)
 - **Average Compliance:** {avg_compliance:.1f}%
 - **Skills Needing Attention:** {total_skills - len(compliant_skills)}
 

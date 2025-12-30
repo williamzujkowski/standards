@@ -8,6 +8,7 @@ import re
 from collections import defaultdict
 from pathlib import Path
 
+
 # Standard code mappings
 STANDARD_CODES = {
     "CODING_STANDARDS.md": "CS",

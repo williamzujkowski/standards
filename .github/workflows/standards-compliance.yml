@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+      - uses: actions/checkout@v4
 
       - name: Check file formatting
         run: |
@@ -89,7 +89,7 @@ jobs:
           fi
 
       - name: Security - Check for secrets
-        uses: trufflesecurity/trufflehog@v3.82.13
+        uses: trufflesecurity/trufflehog@v3.92.4
         with:
           path: ./
 
@@ -101,22 +101,22 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+      - uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d  # v5.1.0
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Install dependencies
         run: |
-          pip install black isort flake8 mypy pytest pytest-cov safety bandit
+          pip install ruff flake8 mypy pytest pytest-cov safety bandit
 
-      - name: Format check with Black
-        run: black --check .
+      - name: Format check with Ruff
+        run: ruff format --check .
 
-      - name: Import sort check with isort
-        run: isort --check-only .
+      - name: Lint and import sort check with Ruff
+        run: ruff check .
 
       - name: Lint with flake8
         run: flake8 .
@@ -140,10 +140,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+      - uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8  # v4.0.2
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
 
@@ -169,10 +169,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+      - uses: actions/checkout@v4
 
       - name: Setup Go
-        uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491  # v5.0.0
+        uses: actions/setup-go@v5
         with:
           go-version: '1.21'
 
@@ -200,10 +200,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
+      - uses: actions/checkout@v4
 
       - name: Lighthouse CI
-        uses: treosh/lighthouse-ci-action@2f8dda6cf4de7d73b29853c3f29e73a01e297bd8  # v12.1.0
+        uses: treosh/lighthouse-ci-action@v12
         with:
           urls: |
             http://localhost:3000
@@ -211,7 +211,7 @@ jobs:
           temporaryPublicStorage: true
 
       - name: Accessibility check
-        uses: a11ywatch/github-action@318a611fdbb84063900abb38aec60e459c63b1e2  # v2.1.12
+        uses: a11ywatch/github-action@v2
         with:
           WEBSITE_URL: ${{ github.event.repository.homepage }}
           WCAG_LEVEL: AA

@@ -8,7 +8,6 @@ RED PHASE: These tests will FAIL until cleanup is performed.
 
 import json
 from pathlib import Path
-from typing import Dict, List, Set
 
 import pytest
 
@@ -16,11 +15,11 @@ import pytest
 class MockCleanupService:
     """Mock for cleanup service behavior"""
 
-    def find_pycache_dirs(self, root: Path) -> List[Path]:
+    def find_pycache_dirs(self, root: Path) -> list[Path]:
         """Mock method - will be replaced with real implementation"""
         raise NotImplementedError("Implementation required")
 
-    def find_orphan_files(self, root: Path, exclusions: Set[str]) -> List[Path]:
+    def find_orphan_files(self, root: Path, exclusions: set[str]) -> list[Path]:
         """Mock method - will be replaced with real implementation"""
         raise NotImplementedError("Implementation required")
 
@@ -28,7 +27,7 @@ class MockCleanupService:
 class MockAuditService:
     """Mock for audit service behavior"""
 
-    def generate_audit(self, root: Path) -> Dict:
+    def generate_audit(self, root: Path) -> dict:
         """Mock method - will be replaced with real implementation"""
         raise NotImplementedError("Implementation required")
 
@@ -98,9 +97,9 @@ class TestGitignoreConfiguration:
         content = gitignore.read_text()
 
         # Should have __pycache__ exclusion
-        assert (
-            "__pycache__" in content or "__pycache__/" in content or "**/__pycache__" in content
-        ), ".gitignore should exclude __pycache__"
+        assert "__pycache__" in content or "__pycache__/" in content or "**/__pycache__" in content, (
+            ".gitignore should exclude __pycache__"
+        )
 
     def test_gitignore_excludes_pyc_files(self, repo_root):
         """Gitignore should exclude .pyc files"""
@@ -298,7 +297,7 @@ class TestCleanupIntegration:
 
         # THEN: State should be identical
         # assert initial_state == final_state
-        pass  # Will implement with cleanup service
+        # Will implement with cleanup service
 
 
 if __name__ == "__main__":

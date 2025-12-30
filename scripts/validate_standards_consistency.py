@@ -28,7 +28,7 @@ def main():
     for rule in rules["rules"]:
         std_ref = rule["standard"].split(":")[0]
         if std_ref not in standard_ids:
-            errors.append(f'Rule {rule["id"]} references unknown standard: {std_ref}')
+            errors.append(f"Rule {rule['id']} references unknown standard: {std_ref}")
 
     if errors:
         print("Validation errors:")

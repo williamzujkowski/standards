@@ -4,6 +4,7 @@
 import re
 from pathlib import Path
 
+
 skill_file = Path("skills/compliance/fintech/SKILL.md")
 reference_file = Path("skills/compliance/fintech/REFERENCE.md")
 
@@ -309,5 +310,5 @@ if level2_match:
     print("✅ Optimized SKILL.md")
     print(f"   Original: {original_tokens:,} tokens")
     print(f"   New: {new_tokens:,} tokens")
-    print(f"   Reduction: {reduction:,} tokens ({reduction/original_tokens*100:.1f}%)")
+    print(f"   Reduction: {reduction:,} tokens ({reduction / original_tokens * 100:.1f}%)")
     print(f"   Status: {'✅ Compliant' if new_tokens < 5000 else '⚠️ Still over budget'}")

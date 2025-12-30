@@ -22,6 +22,8 @@ link_check:
   exclude_files:
     - "skills/**"                    # Skills are self-contained modular system
     - "tests/scripts/fixtures/**"    # Test fixtures with intentional broken links
+    - "standards/compliance/node_modules/**"  # NPM dependencies (not our code)
+    - "**/node_modules/**"           # All node_modules directories
     - "docs/guides/SKILL_AUTHORING_GUIDE.md"  # Template with example placeholder links
     - "archive/**"                   # Archived historical content (may have outdated links)
     - ".backup/**"                   # Backup directories (historical snapshots)
@@ -42,7 +44,9 @@ orphans:
     - "reports/generated/**"  # Generated reports (transient)
     - ".vscode/**"           # IDE configuration
     - ".git/**"              # Git internal files
-    - "node_modules/**"      # Node.js dependencies
+    - "node_modules/**"      # Node.js dependencies (root)
+    - "**/node_modules/**"   # Node.js dependencies (all levels)
+    - "standards/compliance/node_modules/**"  # Compliance tool dependencies
     - "__pycache__/**"       # Python cache (root level)
     - ".github/**"           # GitHub configuration files
     - ".backup/**"           # Backup directories

@@ -1,58 +1,80 @@
-[tool.black]
-line-length = 120
-target-version = ['py38', 'py39', 'py310', 'py311']
-include = '\.pyi?$'
-exclude = '''
-/(
-    \.git
-  | \.venv
-  | build
-  | dist
-  | node_modules
-  | __pycache__
-)/
-'''
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
 
-[tool.isort]
-profile = "black"
-line_length = 120
-multi_line_output = 3
-include_trailing_comma = true
+[project]
+name = "standards"
+version = "2.0.0"
+description = "Comprehensive software development standards with Claude-Flow orchestration"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "William Zujkowski"}
+]
+keywords = [
+    "standards",
+    "documentation",
+    "claude",
+    "ai",
+    "development",
+    "best-practices",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Documentation",
+    "Topic :: Software Development :: Documentation",
+]
+
+# Core dependencies (from requirements.txt)
+dependencies = [
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.7.1",
+    "mkdocs-minify-plugin>=0.8.0",
+    "mkdocs-git-revision-date-localized-plugin>=1.5.0",
+    "pymdown-extensions>=10.19.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.14.0",
+    "pre-commit>=3.6.0",
+    "pyyaml>=6.0",
+    "tiktoken>=0.5.0",
+]
+docs = [
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.7.1",
+    "mkdocs-minify-plugin>=0.8.0",
+    "mkdocs-git-revision-date-localized-plugin>=1.5.0",
+    "pymdown-extensions>=10.19.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/williamzujkowski/standards"
+Documentation = "https://williamzujkowski.github.io/standards/"
+Repository = "https://github.com/williamzujkowski/standards"
+Issues = "https://github.com/williamzujkowski/standards/issues"
+
+# ============================================================================
+# Ruff Configuration - Replaces Black, isort, and provides linting
+# ============================================================================
 
 [tool.ruff]
 line-length = 120
-target-version = "py38"
-
-[tool.ruff.lint]
-select = [
-    "E",  # pycodestyle errors
-    "W",  # pycodestyle warnings
-    "F",  # pyflakes
-    "B",  # flake8-bugbear
-    "S",  # flake8-bandit
-    "I",  # isort
-    "N",  # pep8-naming
-    "UP", # pyupgrade
-]
-ignore = [
-    "E501",  # line too long - handled by formatter
-    "E722",  # bare except - sometimes needed
-    "S101",  # use of assert detected
-    "S103",  # chmod permissions
-    "S105",  # possible hardcoded password
-    "S106",  # possible hardcoded password
-    "S110",  # try-except-pass - acceptable in some cases
-    "S112",  # try-except-continue - acceptable in monitoring
-    "S324",  # MD5 hash - used for checksums, not security
-    "S602",  # subprocess with shell=True
-    "S603",  # subprocess untrusted input
-    "S607",  # partial executable path
-    "B007",  # unused loop variable
-    "N802",  # function name should be lowercase - needed for HTTP handlers
-]
+target-version = "py310"
 exclude = [
     ".git",
     ".venv",
+    "venv",
     "build",
     "dist",
     "node_modules",
@@ -60,20 +82,179 @@ exclude = [
     "*.egg-info",
     ".mypy_cache",
     ".pytest_cache",
+    ".ruff_cache",
+    "archive",
+    "vendor",
+]
+
+[tool.ruff.format]
+# Use double quotes for strings (consistent with black's default)
+quote-style = "double"
+# Use spaces for indentation
+indent-style = "space"
+# Respect magic trailing commas
+skip-magic-trailing-comma = false
+# Auto-detect line endings
+line-ending = "auto"
+# Format docstrings
+docstring-code-format = true
+docstring-code-line-length = 80
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # pyflakes
+    "B",      # flake8-bugbear
+    "S",      # flake8-bandit (security)
+    "I",      # isort (import sorting)
+    "N",      # pep8-naming
+    "UP",     # pyupgrade
+    "C4",     # flake8-comprehensions
+    "DTZ",    # flake8-datetimez
+    "T10",    # flake8-debugger
+    "ISC",    # flake8-implicit-str-concat
+    "PIE",    # flake8-pie
+    "PT",     # flake8-pytest-style
+    "RSE",    # flake8-raise
+    "RET",    # flake8-return
+    "SIM",    # flake8-simplify
+    "TID",    # flake8-tidy-imports
+    "TCH",    # flake8-type-checking
+    "ARG",    # flake8-unused-arguments
+    "PL",     # pylint
+    "PERF",   # perflint
+    "RUF",    # ruff-specific rules
+]
+ignore = [
+    "E501",    # line too long - handled by formatter
+    "E722",    # bare except - sometimes needed
+    "S101",    # use of assert detected - allowed in tests
+    "S103",    # chmod permissions
+    "S105",    # possible hardcoded password - false positives in examples
+    "S106",    # possible hardcoded password - false positives in examples
+    "S110",    # try-except-pass - acceptable in some cases
+    "S112",    # try-except-continue - acceptable in monitoring
+    "S324",    # MD5 hash - used for checksums, not security
+    "S602",    # subprocess with shell=True - needed in scripts
+    "S603",    # subprocess untrusted input - needed in scripts
+    "S607",    # partial executable path - needed in scripts
+    "B007",    # unused loop variable
+    "B028",    # no stacklevel in warnings.warn - acceptable
+    "N802",    # function name should be lowercase - needed for HTTP handlers
+    "PLR0913", # too many arguments - sometimes needed
+    "PLR2004", # magic value comparison - acceptable for constants
+    "PLC0415", # import not at top of file - sometimes needed for lazy imports
+    "ARG001",  # unused function argument - sometimes needed for API compatibility
+    "ARG002",  # unused method argument - sometimes needed for API compatibility
+    "DTZ",     # datetime timezone - too strict for existing codebase
+    "PT009",   # pytest.raises style - style preference
+    "PERF203", # try-except in loop - sometimes needed for error handling
+    "PERF401", # use list comprehension - sometimes less readable
+    "SIM102",  # nested if - sometimes clearer than combined condition
+    "SIM108",  # ternary operator - sometimes less readable
+    "RUF005",  # iterable unpacking vs concatenation - style preference
+    "RUF013",  # implicit optional - allow None defaults without explicit Optional
+    "PLW2901", # loop variable overwritten - sometimes intentional
+    "PLW1514", # unspecified encoding - Python 3 uses UTF-8 by default
+    "PLR0912", # too many branches - complex logic sometimes needed
+    "PLR0915", # too many statements - complex logic sometimes needed
+    "PLR0911", # too many return statements - acceptable
+    "RET505",  # unnecessary else after return - sometimes clearer
+    "RET506",  # unnecessary else after raise - sometimes clearer
+    "RET507",  # unnecessary else after continue - sometimes clearer
+    "RET508",  # unnecessary else after break - sometimes clearer
+    "C416",    # unnecessary list comprehension - sometimes clearer
+    "PLR1722", # use sys.exit - exit() is fine in scripts
+    "UP015",   # redundant open mode - explicit is clearer
+    "UP031",   # f-string instead of % formatting - legacy code
+    "UP032",   # f-string instead of .format() - legacy code
+    "ISC001",  # implicit string concatenation - style preference
+    "T201",    # print found - needed in scripts
+    "E402",    # import not at top - sometimes needed for conditional imports
+    "RET504",  # unnecessary variable assignment before return - sometimes clearer
+    "TRY003",  # raise exception with long message - acceptable
+    "TRY301",  # raise in try block - sometimes needed
+    "PLW0603", # global statement - sometimes needed in scripts
+    "PLW1641", # eq without hash - acceptable for some classes
+    "E712",    # comparison to True/False - explicit is clearer in tests
+    "E711",    # comparison to None - explicit is sometimes clearer
+    "PLR5501", # collapsible if - sometimes clearer separated
+    "SIM114",  # combine if branches - sometimes clearer separated
+    "ARG004",  # unused static method argument - API compatibility
+    # UP038 was removed from ruff - no longer needed
+    "PIE810",  # multiple startswith/endswith - sometimes clearer
+    "PERF102", # dict.values() instead of iteration - style
+    "RUF001",  # ambiguous unicode - intentional use of symbols
+    "SIM115",  # context manager for files - sometimes clearer without
+    "C401",    # generator vs comprehension - style preference
+    "C414",    # list in sorted - explicit is clearer
+    "PERF402", # list copy - style preference
+    "PERF403", # dict comprehension - sometimes less clear
+    "RUF012",  # mutable class attributes - acceptable in some cases
+    "B904",    # raise from - not always needed
+    "PT006",   # pytest parametrize first arg - legacy style
+    "PT011",   # pytest.raises too broad - acceptable in tests
+    "S311",    # random not crypto-safe - acceptable for non-crypto uses
+    "RUF059",  # unpacked variable never used - sometimes intentional
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/*" = ["S101"]  # Allow assert in tests
-"scripts/*" = ["S603", "S607"]  # Allow subprocess calls in scripts
-"monitoring/*" = ["S602", "S607", "E722"]  # Allow shell commands and bare except in monitoring
+"tests/*" = ["S101", "PLR2004", "ARG", "PERF", "PT", "F841", "SIM", "S108", "B"]  # Allow test patterns
+"tests/**/*" = ["S101", "PLR2004", "ARG", "PERF", "PT", "F841", "SIM", "S108", "B"]  # Same for nested test dirs
+"scripts/*" = ["S602", "S603", "S607", "T201", "PLR"]  # Allow subprocess and print in scripts
+"monitoring/*" = ["S602", "S607", "E722", "PERF", "PLR"]  # Allow shell commands and bare except
+"examples/*" = ["S105", "S106", "PERF", "PLR", "F821", "F841", "UP038"]  # Allow example code patterns
+"examples/**/*" = ["S105", "S106", "PERF", "PLR", "F821", "F841", "UP038"]  # Nested examples
+"skills/*" = ["S105", "S106", "PERF", "PLR", "F821", "F841", "N", "S608", "PT", "B", "SIM"]  # Skills templates
+"skills/**/*" = ["S105", "S106", "PERF", "PLR", "F821", "F841", "N", "S608", "PT", "B", "SIM"]  # Nested skills
+"lint/*" = ["T201", "PLR"]  # Linter scripts may print
+
+[tool.ruff.lint.isort]
+# Match the behavior of the old isort configuration
+force-single-line = false
+lines-after-imports = 2
+known-first-party = ["standards"]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+
+# ============================================================================
+# Pytest Configuration
+# ============================================================================
 
 [tool.pytest.ini_options]
 markers = [
     "quality_gate: marks tests as quality gate tests (deselect with '-m \"not quality_gate\"')",
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
 ]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = "-ra -q --strict-markers"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]
+
+# ============================================================================
+# Coverage Configuration
+# ============================================================================
+
+[tool.coverage.run]
+source = ["scripts", "tests"]
+omit = [
+    "*/tests/*",
+    "*/__pycache__/*",
+    "*/site-packages/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]

@@ -9,13 +9,11 @@ Author: REVIEWER Agent
 Created: 2025-10-24
 """
 
-import json
-import sys
 from pathlib import Path
-from typing import Dict, List, Set
 
 import pytest
 import yaml
+
 
 # Get repository root
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -25,7 +23,7 @@ class TestProductMatrixRouter:
     """Test product-matrix.yaml routing logic."""
 
     @pytest.fixture
-    def product_matrix(self) -> Dict:
+    def product_matrix(self) -> dict:
         """Load product matrix configuration."""
         matrix_file = REPO_ROOT / "config/product-matrix.yaml"
         with open(matrix_file) as f:
@@ -91,7 +89,7 @@ class TestSkillLoader:
     """Test skill-loader.py path resolution."""
 
     @pytest.fixture
-    def legacy_mappings(self) -> Dict:
+    def legacy_mappings(self) -> dict:
         """Load legacy mappings configuration."""
         mappings_file = REPO_ROOT / "skills/legacy-bridge/resources/legacy-mappings.yaml"
         with open(mappings_file) as f:
@@ -175,7 +173,7 @@ class TestAuditRules:
     """Test audit-rules.yaml configuration."""
 
     @pytest.fixture
-    def audit_rules(self) -> Dict:
+    def audit_rules(self) -> dict:
         """Load audit rules configuration."""
         rules_file = REPO_ROOT / "config/audit-rules.yaml"
         with open(rules_file) as f:
@@ -278,9 +276,9 @@ class TestHubLinking:
                     auto_links_marker = f"<!-- AUTO-LINKS:{pattern} -->"
                     if auto_links_marker in content:
                         # Verify closing marker exists
-                        assert (
-                            "<!-- /AUTO-LINKS -->" in content
-                        ), f"Hub {hub} has opening AUTO-LINKS but no closing marker"
+                        assert "<!-- /AUTO-LINKS -->" in content, (
+                            f"Hub {hub} has opening AUTO-LINKS but no closing marker"
+                        )
 
                         # Extract AUTO-LINKS section
                         start_idx = content.find(auto_links_marker)
@@ -420,7 +418,7 @@ class TestReportGeneration:
         """Generate a comprehensive validation report."""
         report_lines = [
             "# Router Validation Report",
-            f"Generated: 2025-10-24",
+            "Generated: 2025-10-24",
             "",
             "## Test Results Summary",
             "",

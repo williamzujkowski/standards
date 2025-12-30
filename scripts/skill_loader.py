@@ -13,6 +13,7 @@ import importlib.util
 import sys
 from pathlib import Path
 
+
 # Load the hyphenated script as a module
 script_path = Path(__file__).parent / "skill-loader.py"
 spec = importlib.util.spec_from_file_location("_skill_loader_internal", script_path)

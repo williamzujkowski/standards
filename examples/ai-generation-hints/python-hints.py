@@ -11,7 +11,8 @@ import logging
 from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, Generic, Optional, TypeVar
+from typing import Any, Generic, TypeVar
+
 
 logger = logging.getLogger(__name__)
 
@@ -28,8 +29,8 @@ class Result(Generic[T, E]):
     """
 
     success: bool
-    value: Optional[T] = None
-    error: Optional[E] = None
+    value: T | None = None
+    error: E | None = None
 
     @classmethod
     def ok(cls, value: T) -> "Result[T, E]":
@@ -53,7 +54,7 @@ class StandardAPIEndpoint:
     """
 
     @staticmethod
-    def validate_input(data: Dict[str, Any]) -> Result[Dict[str, Any], ValueError]:
+    def validate_input(data: dict[str, Any]) -> Result[dict[str, Any], ValueError]:
         """Validate all inputs according to SEC:validation standards."""
         try:
             # Type checking
@@ -85,8 +86,8 @@ class StandardAPIEndpoint:
         return True
 
     async def handle_request(
-        self, request_data: Dict[str, Any], user_context: Dict[str, Any]
-    ) -> Result[Dict[str, Any], Exception]:
+        self, request_data: dict[str, Any], user_context: dict[str, Any]
+    ) -> Result[dict[str, Any], Exception]:
         """
         Standard request handler following all security and error handling standards.
 
@@ -138,7 +139,7 @@ class StandardAPIEndpoint:
 
                 return Result.err(e)
 
-    async def process_request(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_request(self, data: dict[str, Any]) -> dict[str, Any]:
         """Override this method with actual business logic."""
         raise NotImplementedError
 
@@ -230,7 +231,7 @@ def log_context(**kwargs):
     yield
 
 
-def log_audit_event(event_type: str, user_id: Optional[str], **additional_fields) -> None:
+def log_audit_event(event_type: str, user_id: str | None, **additional_fields) -> None:
     """
     Log audit event following CS:audit + LEG:compliance standards.
     """

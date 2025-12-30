@@ -9,12 +9,14 @@ from pathlib import Path
 
 import pytest
 
+
 # Add scripts directory to path
 SCRIPTS_DIR = Path(__file__).parent.parent.parent / "scripts"
 sys.path.insert(0, str(SCRIPTS_DIR))
 
 # Import module under test
 import importlib.util
+
 
 spec = importlib.util.spec_from_file_location("generate_skill", SCRIPTS_DIR / "generate-skill.py")
 generate_skill = importlib.util.module_from_spec(spec)
@@ -343,6 +345,7 @@ class TestIntegrationTests:
                 str(temp_dir),
                 "--dry-run",
             ],
+            check=False,
             capture_output=True,
             text=True,
         )
@@ -373,6 +376,7 @@ class TestIntegrationTests:
                 str(temp_dir),
                 "--validate",
             ],
+            check=False,
             capture_output=True,
             text=True,
         )

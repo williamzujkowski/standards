@@ -141,13 +141,13 @@ class AnalyticsCollector:
         """Get number of commits in the last N days"""
         since_date = (datetime.now() - timedelta(days=days)).strftime("%Y-%m-%d")
         cmd = f"git log --since='{since_date}' --oneline | wc -l"
-        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, cwd=self.repo_path)
+        result = subprocess.run(cmd, check=False, shell=True, capture_output=True, text=True, cwd=self.repo_path)
         return int(result.stdout.strip()) if result.stdout.strip() else 0
 
     def _get_file_change_frequency(self):
         """Get file change frequency over last 30 days"""
         cmd = "git log --since='30 days ago' --name-only --pretty=format: | sort | uniq -c | sort -nr"
-        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, cwd=self.repo_path)
+        result = subprocess.run(cmd, check=False, shell=True, capture_output=True, text=True, cwd=self.repo_path)
 
         file_changes = {}
         for line in result.stdout.strip().split("\n"):
@@ -164,7 +164,7 @@ class AnalyticsCollector:
     def _get_contributor_metrics(self):
         """Get contributor metrics"""
         cmd = "git log --since='30 days ago' --pretty=format:'%an' | sort | uniq -c | sort -nr"
-        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, cwd=self.repo_path)
+        result = subprocess.run(cmd, check=False, shell=True, capture_output=True, text=True, cwd=self.repo_path)
 
         contributors = {}
         for line in result.stdout.strip().split("\n"):
@@ -183,6 +183,7 @@ class AnalyticsCollector:
             # Get current branch
             current_branch = subprocess.run(
                 "git branch --show-current",
+                check=False,
                 shell=True,
                 capture_output=True,
                 text=True,
@@ -192,6 +193,7 @@ class AnalyticsCollector:
             # Get total branches
             branches = subprocess.run(
                 "git branch -a | wc -l",
+                check=False,
                 shell=True,
                 capture_output=True,
                 text=True,
@@ -238,7 +240,7 @@ class AnalyticsCollector:
         """Get total repository size"""
         try:
             cmd = f"du -sb {self.repo_path}"
-            result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+            result = subprocess.run(cmd, check=False, shell=True, capture_output=True, text=True)
             return int(result.stdout.split()[0]) if result.stdout else 0
         except:
             return 0
@@ -348,6 +350,7 @@ class AnalyticsCollector:
             if os.path.exists(script_path):
                 result = subprocess.run(
                     ["python3", script_path],
+                    check=False,
                     capture_output=True,
                     text=True,
                     cwd=self.repo_path,
@@ -379,7 +382,7 @@ class AnalyticsCollector:
             if os.path.exists(subdir_path):
                 try:
                     cmd = f"du -sb {subdir_path}"
-                    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+                    result = subprocess.run(cmd, check=False, shell=True, capture_output=True, text=True)
                     usage[subdir] = int(result.stdout.split()[0]) if result.stdout else 0
                 except:
                     usage[subdir] = 0
@@ -405,6 +408,7 @@ class AnalyticsCollector:
                         start_time = time.time()
                         result = subprocess.run(
                             ["python3", script_path],
+                            check=False,
                             capture_output=True,
                             text=True,
                             cwd=self.repo_path,
@@ -473,7 +477,9 @@ class AnalyticsCollector:
             try:
                 start_time = time.time()
                 cmd = f"grep -r '{term}' docs/ --include='*.md' | wc -l"
-                result = subprocess.run(cmd, shell=True, capture_output=True, text=True, cwd=self.repo_path)
+                result = subprocess.run(
+                    cmd, check=False, shell=True, capture_output=True, text=True, cwd=self.repo_path
+                )
                 end_time = time.time()
 
                 benchmarks[f"grep_{term}"] = {
@@ -502,6 +508,7 @@ class AnalyticsCollector:
                     start_time = time.time()
                     result = subprocess.run(
                         ["python3", script_path],
+                        check=False,
                         capture_output=True,
                         text=True,
                         cwd=self.repo_path,

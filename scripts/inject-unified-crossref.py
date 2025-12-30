@@ -6,6 +6,7 @@ Inject cross-references to UNIFIED_STANDARDS.md in all standards documents.
 import sys
 from pathlib import Path
 
+
 ROOT = Path(__file__).resolve().parents[1]
 
 # List of files that need UNIFIED_STANDARDS cross-reference

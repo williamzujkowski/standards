@@ -15,6 +15,7 @@ import urllib.parse
 from datetime import datetime
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
+
 # Add the current directory to Python path for imports
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
@@ -65,7 +66,7 @@ class DashboardHandler(SimpleHTTPRequestHandler):
             else:
                 self.send_error(404, "API endpoint not found")
         except Exception as e:
-            self.send_error(500, f"Internal server error: {str(e)}")
+            self.send_error(500, f"Internal server error: {e!s}")
 
     def serve_dashboard(self):
         """Serve the main dashboard HTML"""
@@ -120,7 +121,7 @@ class DashboardHandler(SimpleHTTPRequestHandler):
         except FileNotFoundError:
             self.send_error(404, "Dashboard file not found")
         except Exception as e:
-            self.send_error(500, f"Error serving dashboard: {str(e)}")
+            self.send_error(500, f"Error serving dashboard: {e!s}")
 
     def serve_latest_metrics(self):
         """Serve the latest collected metrics"""
@@ -132,7 +133,7 @@ class DashboardHandler(SimpleHTTPRequestHandler):
             metrics = self.analytics_collector.collect_all_metrics()
             self.send_json_response(metrics)
         except Exception as e:
-            self.send_json_response({"error": f"Failed to collect metrics: {str(e)}"})
+            self.send_json_response({"error": f"Failed to collect metrics: {e!s}"})
 
     def serve_performance_data(self):
         """Serve performance monitoring data"""
@@ -152,7 +153,7 @@ class DashboardHandler(SimpleHTTPRequestHandler):
                 report = self.performance_monitor.generate_performance_report()
                 self.send_json_response(report)
         except Exception as e:
-            self.send_json_response({"error": f"Failed to get performance data: {str(e)}"})
+            self.send_json_response({"error": f"Failed to get performance data: {e!s}"})
 
     def serve_usage_stats(self):
         """Serve standards usage statistics"""
@@ -179,7 +180,7 @@ class DashboardHandler(SimpleHTTPRequestHandler):
                 self.send_json_response(self._get_mock_usage_data())
 
         except Exception as e:
-            self.send_json_response({"error": f"Failed to get usage stats: {str(e)}"})
+            self.send_json_response({"error": f"Failed to get usage stats: {e!s}"})
 
     def serve_health_status(self):
         """Serve repository health status"""
@@ -209,7 +210,7 @@ class DashboardHandler(SimpleHTTPRequestHandler):
                     alerts.append(
                         {
                             "type": "warning",
-                            "message": f'{link_health.get("broken_links", 0)} broken links detected',
+                            "message": f"{link_health.get('broken_links', 0)} broken links detected",
                         }
                     )
 
@@ -220,7 +221,7 @@ class DashboardHandler(SimpleHTTPRequestHandler):
                     alerts.append(
                         {
                             "type": "warning",
-                            "message": f'Compliance score is {compliance.get("compliance_score", "unknown")}%',
+                            "message": f"Compliance score is {compliance.get('compliance_score', 'unknown')}%",
                         }
                     )
 
@@ -247,7 +248,7 @@ class DashboardHandler(SimpleHTTPRequestHandler):
                 self.send_json_response(self._get_mock_health_data())
 
         except Exception as e:
-            self.send_json_response({"error": f"Failed to get health status: {str(e)}"})
+            self.send_json_response({"error": f"Failed to get health status: {e!s}"})
 
     def serve_git_activity(self):
         """Serve Git activity data"""
@@ -269,7 +270,7 @@ class DashboardHandler(SimpleHTTPRequestHandler):
                 self.send_json_response(self._get_mock_git_data())
 
         except Exception as e:
-            self.send_json_response({"error": f"Failed to get git activity: {str(e)}"})
+            self.send_json_response({"error": f"Failed to get git activity: {e!s}"})
 
     def send_json_response(self, data):
         """Send JSON response"""

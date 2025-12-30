@@ -16,7 +16,7 @@ import logging
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional
+
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -42,9 +42,9 @@ class TokenStats:
     lines: int
     file_type: str
     encoding: str = "estimation"
-    children: List["TokenStats"] = field(default_factory=list)
+    children: list["TokenStats"] = field(default_factory=list)
 
-    def to_dict(self) -> Dict:
+    def to_dict(self) -> dict:
         """Convert to dictionary."""
         return {
             "path": self.path,
@@ -101,16 +101,15 @@ class TokenCounter:
         """Count tokens in text."""
         if self.encoder:
             return len(self.encoder.encode(text))
-        else:
-            # Fallback estimation: ~4 chars per token
-            return len(text) // 4
+        # Fallback estimation: ~4 chars per token
+        return len(text) // 4
 
     def should_exclude(self, path: Path) -> bool:
         """Check if path should be excluded."""
         parts = path.parts
         return any(pattern in parts for pattern in self.exclude_patterns)
 
-    def count_file(self, file_path: Path) -> Optional[TokenStats]:
+    def count_file(self, file_path: Path) -> TokenStats | None:
         """Count tokens in a single file."""
         if self.should_exclude(file_path):
             return None
@@ -141,7 +140,7 @@ class TokenCounter:
         total_tokens = 0
         total_chars = 0
         total_lines = 0
-        children: List[TokenStats] = []
+        children: list[TokenStats] = []
 
         if recursive:
             files = dir_path.rglob(file_pattern)
@@ -167,9 +166,9 @@ class TokenCounter:
             children=children,
         )
 
-    def analyze_by_type(self, stats: TokenStats) -> Dict[str, Dict[str, int]]:
+    def analyze_by_type(self, stats: TokenStats) -> dict[str, dict[str, int]]:
         """Analyze token usage by file type."""
-        by_type: Dict[str, Dict[str, int]] = {}
+        by_type: dict[str, dict[str, int]] = {}
 
         def collect_stats(s: TokenStats):
             if s.file_type not in by_type:
@@ -186,9 +185,9 @@ class TokenCounter:
         collect_stats(stats)
         return by_type
 
-    def analyze_by_directory(self, stats: TokenStats, max_depth: int = 2) -> Dict[str, int]:
+    def analyze_by_directory(self, stats: TokenStats, max_depth: int = 2) -> dict[str, int]:
         """Analyze token usage by directory."""
-        by_dir: Dict[str, int] = {}
+        by_dir: dict[str, int] = {}
 
         def collect_by_dir(s: TokenStats, depth: int = 0):
             if depth <= max_depth:
@@ -201,9 +200,9 @@ class TokenCounter:
         collect_by_dir(stats)
         return by_dir
 
-    def find_largest_files(self, stats: TokenStats, limit: int = 10) -> List[TokenStats]:
+    def find_largest_files(self, stats: TokenStats, limit: int = 10) -> list[TokenStats]:
         """Find files with most tokens."""
-        all_files: List[TokenStats] = []
+        all_files: list[TokenStats] = []
 
         def collect_files(s: TokenStats):
             if s.file_type != "directory":
@@ -217,7 +216,7 @@ class TokenCounter:
         all_files.sort(key=lambda x: x.tokens, reverse=True)
         return all_files[:limit]
 
-    def compare_with_claims(self, stats: TokenStats) -> Dict[str, any]:
+    def compare_with_claims(self, stats: TokenStats) -> dict[str, any]:
         """Compare actual token usage with documented claims."""
         comparisons = {}
 
@@ -253,7 +252,7 @@ class TokenCounter:
 
         return comparisons
 
-    def format_report(self, stats: TokenStats, by_type: Dict, largest: List[TokenStats], comparisons: Dict) -> str:
+    def format_report(self, stats: TokenStats, by_type: dict, largest: list[TokenStats], comparisons: dict) -> str:
         """Format human-readable report."""
         lines = []
         lines.append("=" * 80)

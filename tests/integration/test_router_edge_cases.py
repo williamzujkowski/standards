@@ -13,6 +13,7 @@ from pathlib import Path
 import pytest
 import yaml
 
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
@@ -37,9 +38,9 @@ class TestProductMatrixEdgeCases:
 
             if has_security:
                 # NIST-IG:base should be included
-                assert (
-                    "NIST-IG:base" in standards
-                ), f"Product {product_name} has security standards but missing NIST-IG:base"
+                assert "NIST-IG:base" in standards, (
+                    f"Product {product_name} has security standards but missing NIST-IG:base"
+                )
 
     def test_wildcard_sec_includes_nist(self, product_matrix):
         """Verify SEC:* wildcard expansion includes NIST-IG:base."""
@@ -68,9 +69,9 @@ class TestProductMatrixEdgeCases:
 
             # CS mapping should follow pattern: CS:{language}
             expected_pattern = f"CS:{language}"
-            assert (
-                cs_mapping == expected_pattern
-            ), f"Language {language} CS mapping should be {expected_pattern}, got {cs_mapping}"
+            assert cs_mapping == expected_pattern, (
+                f"Language {language} CS mapping should be {expected_pattern}, got {cs_mapping}"
+            )
 
     def test_no_duplicate_standards_in_products(self, product_matrix):
         """Verify products don't have duplicate standards."""
@@ -229,9 +230,9 @@ class TestCrossSystemConsistency:
         legacy_wildcards = set(legacy_mappings.get("wildcards", {}).keys())
 
         # Should be identical
-        assert (
-            matrix_wildcards == legacy_wildcards
-        ), f"Wildcard mismatch: matrix={matrix_wildcards}, legacy={legacy_wildcards}"
+        assert matrix_wildcards == legacy_wildcards, (
+            f"Wildcard mismatch: matrix={matrix_wildcards}, legacy={legacy_wildcards}"
+        )
 
     def test_nist_auto_inclusion_consistent(self):
         """Verify NIST auto-inclusion logic is consistent across systems."""
@@ -244,9 +245,9 @@ class TestCrossSystemConsistency:
 
         # Check defaults
         matrix_defaults = product_matrix.get("defaults", {})
-        assert (
-            matrix_defaults.get("include_nist_on_security") is True
-        ), "Product matrix should auto-include NIST on security"
+        assert matrix_defaults.get("include_nist_on_security") is True, (
+            "Product matrix should auto-include NIST on security"
+        )
 
         # Check auto-inclusion rules
         auto_inclusion = legacy_mappings.get("auto_inclusion", {})

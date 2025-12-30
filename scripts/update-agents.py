@@ -15,9 +15,9 @@ import logging
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import List
 
 import yaml
+
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -31,7 +31,7 @@ class AgentUpdater:
         self.repo_root = repo_root
         self.dry_run = dry_run
         self.claude_dir = repo_root / ".claude"
-        self.updates_made: List[str] = []
+        self.updates_made: list[str] = []
 
     def log_update(self, message: str) -> None:
         """Log an update."""
