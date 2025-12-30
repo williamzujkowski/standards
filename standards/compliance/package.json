@@ -12,7 +12,7 @@
   "devDependencies": {
     "@types/js-yaml": "^4.0.5",
     "@types/node": "^20.0.0",
-    "eslint": "^8.0.0",
+    "eslint": "^9.39.2",
     "jest": "^29.0.0",
     "ts-node": "^10.0.0",
     "typescript": "^5.8.3"
