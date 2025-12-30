@@ -9,10 +9,11 @@ clearly marking them as needing content.
 import re
 from pathlib import Path
 
+
 SKILLS_ROOT = Path(__file__).parent.parent / "skills"
 
 # Template for stub skills with proper Level 1/2/3 structure
-SKILL_TEMPLATE = '''---
+SKILL_TEMPLATE = """---
 name: {name}
 description: {description}
 ---
@@ -94,7 +95,7 @@ See the `templates/` directory for starter configurations.
 ### External Resources
 
 Consult official documentation and community best practices for {domain}.
-'''
+"""
 
 
 def extract_frontmatter(content: str) -> dict:
@@ -132,9 +133,7 @@ def needs_population(content: str) -> bool:
         return False
     # Must be small (under 50 lines) - real skills have more content
     lines = content.count("\n")
-    if lines > 50:
-        return False
-    return True
+    return lines <= 50
 
 
 def populate_skill(path: Path) -> bool:
@@ -146,9 +145,7 @@ def populate_skill(path: Path) -> bool:
 
     frontmatter = extract_frontmatter(content)
     name = frontmatter.get("name", path.parent.name)
-    description = frontmatter.get(
-        "description", f"Standards for {get_domain_from_path(path)}"
-    )
+    description = frontmatter.get("description", f"Standards for {get_domain_from_path(path)}")
 
     # Clean up description (remove TODO patterns)
     if "TODO" in description:
@@ -157,9 +154,7 @@ def populate_skill(path: Path) -> bool:
     title = get_title_from_name(name)
     domain = get_domain_from_path(path)
 
-    new_content = SKILL_TEMPLATE.format(
-        name=name, description=description, title=title, domain=domain
-    )
+    new_content = SKILL_TEMPLATE.format(name=name, description=description, title=title, domain=domain)
 
     path.write_text(new_content)
     return True
