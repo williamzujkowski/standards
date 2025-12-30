@@ -5,125 +5,38 @@ description: Backward compatibility bridge that translates legacy @load patterns
 
 # Legacy Bridge
 
-## Examples
-
-### Basic Usage
-
-```python
-// TODO: Add basic example for legacy-bridge
-// This example demonstrates core functionality
-```
-
-### Advanced Usage
-
-```python
-// TODO: Add advanced example for legacy-bridge
-// This example shows production-ready patterns
-```
-
-### Integration Example
-
-```python
-// TODO: Add integration example showing how legacy-bridge
-// works with other systems and services
-```
-
-See `examples/legacy-bridge/` for complete working examples.
-
-## Integration Points
-
-This skill integrates with:
-
-### Upstream Dependencies
-
-- **Tools**: Common development tools and frameworks
-- **Prerequisites**: Basic understanding of general concepts
-
-### Downstream Consumers
-
-- **Applications**: Production systems requiring legacy-bridge functionality
-- **CI/CD Pipelines**: Automated testing and deployment workflows
-- **Monitoring Systems**: Observability and logging platforms
-
-### Related Skills
-
-- See other skills in this category
-
-### Common Integration Patterns
-
-1. **Development Workflow**: How this skill fits into daily development
-2. **Production Deployment**: Integration with production systems
-3. **Monitoring & Alerting**: Observability integration points
-
-## Common Pitfalls
-
-### Pitfall 1: Insufficient Testing
-
-**Problem:** Not testing edge cases and error conditions leads to production bugs
-
-**Solution:** Implement comprehensive test coverage including:
-
-- Happy path scenarios
-- Error handling and edge cases
-- Integration points with external systems
-
-**Prevention:** Enforce minimum code coverage (80%+) in CI/CD pipeline
-
-### Pitfall 2: Hardcoded Configuration
-
-**Problem:** Hardcoding values makes applications inflexible and environment-dependent
-
-**Solution:** Use environment variables and configuration management:
-
-- Separate config from code
-- Use environment-specific configuration files
-- Never commit secrets to version control
-
-**Prevention:** Use tools like dotenv, config validators, and secret scanners
-
-### Pitfall 3: Ignoring Security Best Practices
-
-**Problem:** Security vulnerabilities from not following established security patterns
-
-**Solution:** Follow security guidelines:
-
-- Input validation and sanitization
-- Proper authentication and authorization
-- Encrypted data transmission (TLS/SSL)
-- Regular security audits and updates
-
-**Prevention:** Use security linters, SAST tools, and regular dependency updates
-
-**Best Practices:**
-
-- Follow established patterns and conventions for legacy-bridge
-- Keep dependencies up to date and scan for vulnerabilities
-- Write comprehensive documentation and inline comments
-- Use linting and formatting tools consistently
-- Implement proper error handling and logging
-- Regular code reviews and pair programming
-- Monitor production metrics and set up alerts
+> **Quick Navigation:**
+> Level 1: [Quick Start](#level-1-quick-start) (5 min) → Level 2: [Implementation](#level-2-implementation) (30 min) → Level 3: [Mastery](#level-3-mastery-resources) (Extended)
 
 ---
 
-# Legacy Bridge Skill
+## Level 1: Quick Start
 
-## Overview
+### Overview
 
 The legacy-bridge skill provides backward compatibility for existing `@load` patterns used in CLAUDE.md and the product-matrix system. This bridge enables a zero-breaking-change migration path from the legacy standards loader to the new Skills-based architecture.
 
 **Migration Timeline**: 6-month transition period (deprecation warnings only, no breaking changes)
 
-## When to Use This Skill
+### When to Use
 
 Use this skill when:
 
 - You have existing code using `@load product:*` patterns
 - You need to maintain backward compatibility during migration
 - You want to gradually transition to the new Skills format
-- You're supporting both old and new loading patterns simultaneously
 
-## Core Instructions
+### Quick Reference
+
+| Legacy Pattern | New Skill Loading |
+|----------------|-------------------|
+| `@load product:api` | `skill-loader.py load product:api` |
+| `@load CS:python` | `skills/coding-standards/python` |
+| `@load SEC:*` | `skills/security/*` + NIST baseline |
+
+---
+
+## Level 2: Implementation
 
 ### Pattern Translation
 
@@ -133,12 +46,9 @@ The legacy-bridge automatically translates old `@load` patterns to new skill loa
 
 ```bash
 # Old Pattern → New Skill Loading
-@load product:api              → Load: [coding-standards, testing, security, devops]
-@load product:web-service      → Load: [coding-standards, testing, security, frontend, devops]
-@load product:frontend-web     → Load: [frontend, testing, security]
-@load product:mobile           → Load: [frontend/mobile, testing, security]
-@load product:data-pipeline    → Load: [data-engineering, testing, security, compliance]
-@load product:ml-service       → Load: [ml-ai, data-engineering, testing, security]
+@load product:api         → Load: [coding-standards, testing, security, devops]
+@load product:web-service → Load: [coding-standards, testing, security, frontend, devops]
+@load product:frontend-web → Load: [frontend, testing, security]
 ```
 
 #### Standard Code Patterns
@@ -147,36 +57,14 @@ The legacy-bridge automatically translates old `@load` patterns to new skill loa
 # Coding Standards (CS)
 @load CS:python       → Load: skills/coding-standards/python
 @load CS:javascript   → Load: skills/coding-standards/javascript
-@load CS:typescript   → Load: skills/coding-standards/typescript
-@load CS:go           → Load: skills/coding-standards/go
-@load CS:java         → Load: skills/coding-standards/java
 
 # Testing Standards (TS)
 @load TS:pytest       → Load: skills/testing/pytest
-@load TS:jest         → Load: skills/testing/jest
-@load TS:vitest       → Load: skills/testing/vitest
 @load TS:*            → Load: skills/testing/* (all testing skills)
 
 # Security Standards (SEC)
-@load SEC:auth                → Load: skills/security/authentication
-@load SEC:secrets             → Load: skills/security/secrets-management
-@load SEC:input-validation    → Load: skills/security/input-validation
-@load SEC:*                   → Load: skills/security/* + NIST-IG:base
-
-# Frontend (FE)
-@load FE:react        → Load: skills/frontend/react
-@load FE:vue          → Load: skills/frontend/vue
-@load FE:angular      → Load: skills/frontend/angular
-@load FE:accessibility → Load: skills/frontend/accessibility
-
-# DevOps (DOP)
-@load DOP:ci-cd       → Load: skills/devops/ci-cd
-@load DOP:iac         → Load: skills/devops/infrastructure-as-code
-@load DOP:monitoring  → Load: skills/devops/monitoring
-
-# NIST Compliance (NIST-IG)
-@load NIST-IG:base    → Load: skills/nist-compliance/baseline
-@load NIST-IG:full    → Load: skills/nist-compliance/full-implementation
+@load SEC:auth        → Load: skills/security/authentication
+@load SEC:*           → Load: skills/security/* + NIST-IG:base
 ```
 
 #### Composite Patterns
@@ -185,12 +73,6 @@ The legacy-bridge automatically translates old `@load` patterns to new skill loa
 # Multiple standards combined
 @load [product:api + CS:python + TS:pytest]
   → Load: product:api skills + python coding + pytest testing
-
-@load [product:frontend-web + FE:react + SEC:*]
-  → Load: frontend-web skills + react + all security skills + NIST baseline
-
-@load [CS:python + TS:* + SEC:* + NIST-IG:full]
-  → Load: python coding + all testing + all security + full NIST compliance
 ```
 
 ### Wildcard Expansion
@@ -202,28 +84,12 @@ SEC:*  expands to:
   - SEC:auth
   - SEC:secrets
   - SEC:input-validation
-  - SEC:encryption
-  - SEC:audit
-  - NIST-IG:base  # Auto-included with any security standard
+  - NIST-IG:base  # Auto-included with security
 
 TS:* expands to:
   - TS:unit
   - TS:integration
   - TS:e2e
-  - TS:performance
-  - TS:security
-
-DOP:* expands to:
-  - DOP:ci-cd
-  - DOP:iac
-  - DOP:monitoring
-  - DOP:incident-response
-
-FE:* expands to:
-  - FE:design-system
-  - FE:accessibility
-  - FE:performance
-  - FE:responsive
 ```
 
 ### Auto-Inclusion Rules
@@ -231,12 +97,15 @@ FE:* expands to:
 **NIST Baseline Auto-Loading**:
 
 - Any security standard (`SEC:*`) automatically includes `NIST-IG:base`
-- This ensures compliance requirements are never missed
 - Explicit override available with `--no-auto-nist` flag
 
-## Migration Guide
+---
 
-### Phase 1: Compatibility Mode (Current)
+## Level 3: Mastery Resources
+
+### Migration Guide
+
+#### Phase 1: Compatibility Mode (Current)
 
 Both patterns work side-by-side:
 
@@ -246,90 +115,15 @@ Both patterns work side-by-side:
 
 # New skill pattern (recommended)
 skill-loader.py load product:api
-
-# Both produce identical output
 ```
 
-### Phase 2: Deprecation Warnings (Month 3-6)
+#### Phase 2: Deprecation Warnings (Month 3-6)
 
-```bash
-⚠️  DEPRECATION WARNING: @load syntax will be removed in 6 months
-    Please migrate to: skill-loader.py load product:api
-    See: docs/guides/migration-guide.md
-```
+Deprecation warnings will appear in logs.
 
-### Phase 3: Legacy Removal (Month 6+)
+#### Phase 3: Legacy Removal (Month 6+)
 
-```bash
-❌ ERROR: @load syntax removed. Use skill-loader.py instead.
-    Migration guide: docs/guides/migration-guide.md
-```
-
-## Advanced Topics
-
-### Custom Mapping Files
-
-Create custom legacy mappings for your organization:
-
-```yaml
-# config/custom-legacy-mappings.yaml
-custom_products:
-  internal-api:
-    description: "Our internal API standard"
-    maps_to:
-      - product:api
-      - CS:python
-      - SEC:auth
-      - custom-skill:internal-standards
-
-custom_codes:
-  INT:api-gateway:
-    description: "Internal API gateway standards"
-    maps_to:
-      - skills/internal/api-gateway
-```
-
-Load custom mappings:
-
-```bash
-skill-loader.py load product:internal-api --custom-mappings config/custom-legacy-mappings.yaml
-```
-
-### Translation Validation
-
-Verify your legacy patterns translate correctly:
-
-```bash
-# Dry-run translation
-skill-loader.py translate "@load [product:api + CS:python]" --dry-run
-
-# Output:
-# Translation Preview:
-# - Load product:api → [coding-standards, testing, security, devops]
-# - Load CS:python   → skills/coding-standards/python
-# Total skills: 5 unique skills
-```
-
-### Conflict Resolution
-
-When patterns conflict, explicit specifications win:
-
-```bash
-# product:api includes generic coding-standards
-# CS:python provides specific python standards
-@load [product:api + CS:python]
-
-# Resolution: Use CS:python (more specific) over product:api's generic coding
-```
-
-## Resources
-
-### Legacy Mapping Files
-
-All translation rules are defined in:
-
-- `resources/legacy-mappings.yaml` - Complete mapping definitions
-- `config/product-matrix.yaml` - Original product definitions
+Legacy syntax will be removed. Migration guide available.
 
 ### Migration Tools
 
@@ -344,24 +138,14 @@ skill-loader.py migration-report --output migration-plan.md
 skill-loader.py migrate --path . --backup
 ```
 
-### Examples
-
-See `examples/legacy-patterns/` for:
-
-- Common legacy pattern usage
-- Side-by-side comparisons
-- Migration examples
-
-## Related Skills
+### Related Skills
 
 - [skill-loader](../skill-loader/SKILL.md) - New skill loading mechanism
 - [coding-standards](../coding-standards/SKILL.md) - Base coding standards
 - [security-practices](../security-practices/SKILL.md) - Security implementations
-- [nist-compliance](../nist-compliance/SKILL.md) - Compliance requirements
 
-## Bundled Resources
+### External Resources
 
-- [Legacy Mappings YAML](./resources/legacy-mappings.yaml)
-- [Product Matrix Reference](../../config/product-matrix.yaml)
-- [Migration Scripts](./scripts/)
-- [Example Translations](./examples/)
+- `resources/legacy-mappings.yaml` - Complete mapping definitions
+- `config/product-matrix.yaml` - Original product definitions
+- `examples/legacy-patterns/` - Migration examples
