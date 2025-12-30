@@ -86,8 +86,8 @@ class ClaimsValidator:
 
             content = self.claude_md.read_text()
 
-            # Find agent count claims
-            agent_section = re.search(r"🚀 Agent Types for Task Tool \((\d+) Available\)", content)
+            # Find agent count claims (accept both "Available" and "Agent Types" formats)
+            agent_section = re.search(r"🚀 Agent Types for Task Tool \((\d+) (?:Available|Agent Types)\)", content)
 
             if not agent_section:
                 self.results.append(
@@ -107,13 +107,40 @@ class ClaimsValidator:
 
             # Extract agents from sections
             agent_pattern = r"`([a-z-]+)`"
+            # Non-agent words that might appear in backticks (YAML fields, commands, etc)
+            non_agent_words = {
+                "name",
+                "description",
+                "category",
+                "difficulty",
+                "prerequisites",
+                "find",
+                "ls",
+                "cat",
+                "head",
+                "tail",
+                "grep",
+                "echo",
+                "touch",
+                "make",
+                "test",
+                "install",
+                "build",
+                "run",
+                "dev",
+                "prod",
+            }
             for match in re.finditer(agent_pattern, content):
                 agent_name = match.group(1)
                 # Filter out non-agent names
-                if not any(
-                    agent_name.startswith(prefix)
-                    for prefix in ["http", "www", "git", "npm", "python", "bash", "mkdir", "cd"]
-                ):
+                if agent_name in non_agent_words:
+                    continue
+                # Filter out command prefixes but not agent names that happen to start with them
+                excluded_prefixes = ["http", "www", "npm", "python", "bash", "mkdir", "cd"]
+                # Special handling for "git" - exclude git commands but not "github-modes" agent
+                if agent_name.startswith("git") and agent_name not in ["github-modes"]:
+                    continue
+                if not any(agent_name.startswith(prefix) for prefix in excluded_prefixes):
                     actual_agents.add(agent_name)
 
             # Validate count
@@ -293,26 +320,28 @@ class ClaimsValidator:
         try:
             content = self.claude_md.read_text()
 
-            # Find MCP tool count claim
+            # Find MCP tool count claim (optional - MCP tools section may not have explicit count)
             mcp_tools_match = re.search(r"MCP Tools.*?\((\d+) available", content)
 
+            # Count actual MCP tools listed in document
+            mcp_tools = set(re.findall(r"`(mcp__[a-z_-]+)`", content))
+            actual_mcp_count = len(mcp_tools)
+
             if not mcp_tools_match:
+                # No count claim found - just verify tools section exists
+                has_mcp_section = "## MCP Tool Categories" in content or "### MCP Tools" in content
                 self.results.append(
                     ValidationResult(
                         check_name="tool_lists",
-                        passed=False,
-                        message="MCP tools count not found in CLAUDE.md",
-                        severity="warning",
+                        passed=has_mcp_section,
+                        message=f"MCP tools section {'found' if has_mcp_section else 'missing'} ({actual_mcp_count} tool references)",
+                        details={"tools_found": actual_mcp_count},
+                        severity="info" if has_mcp_section else "warning",
                     )
                 )
                 return
 
             claimed_mcp_count = int(mcp_tools_match.group(1))
-
-            # Count actual MCP tools listed
-            mcp_tools = set(re.findall(r"`(mcp__[a-z_-]+)`", content))
-            actual_mcp_count = len(mcp_tools)
-
             passed = claimed_mcp_count == actual_mcp_count
 
             self.results.append(

@@ -785,7 +785,7 @@ cd -
 
 8) CI gate (must exist)
 
-- `.github/workflows/lint-and-validate.yml` job reads `structure-audit.json` and **fails** if (broken>0 OR hubs>0 OR orphans>{{orphan_limit}}). Upload artifacts: `linkcheck.txt`, `structure-audit.md/json`, `hub-matrix.tsv`.
+- `.github/workflows/lint-and-validate.yml` job reads `reports/generated/structure-audit.json` and **fails** if (broken>0 OR hubs>0 OR orphans>{{orphan_limit}}). Upload artifacts from `reports/generated/`.
 
 9) PR
 
