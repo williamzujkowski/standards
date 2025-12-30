@@ -303,11 +303,13 @@ error_budget:
 ### Latency Distribution
 
 ```
+
 p50:  Xms  ████████████████░░░░░░░░░░░░░░░░░░░░ (50%)
 p75:  Xms  ████████████████████████░░░░░░░░░░░░ (75%)
 p90:  Xms  ████████████████████████████████░░░░ (90%)
 p95:  Xms  ████████████████████████████████████ (95%)
 p99:  Xms  ████████████████████████████████████ (99%)
+
 ```
 
 ## Bottlenecks Identified
@@ -520,6 +522,7 @@ By completing this skill, you should be able to:
 **Problem:** Test environment doesn't match production configuration
 
 **Solution:**
+
 - Use production-like data volumes
 - Match hardware/resource allocation
 - Simulate realistic network latency
@@ -529,6 +532,7 @@ By completing this skill, you should be able to:
 **Problem:** Measuring performance before JIT compilation and cache warming
 
 **Solution:**
+
 - Include warm-up phase in test design
 - Exclude warm-up metrics from analysis
 - Allow connection pools to initialize
@@ -538,6 +542,7 @@ By completing this skill, you should be able to:
 **Problem:** Only looking at average latency, missing tail latency issues
 
 **Solution:**
+
 - Always measure p95, p99, p99.9 percentiles
 - Track error rate alongside latency
 - Monitor resource utilization during tests
@@ -547,6 +552,7 @@ By completing this skill, you should be able to:
 **Problem:** Only testing happy path, missing resilience issues
 
 **Solution:**
+
 - Include chaos engineering scenarios
 - Test with partial service degradation
 - Validate circuit breaker behavior
