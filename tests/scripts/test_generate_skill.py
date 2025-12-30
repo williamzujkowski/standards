@@ -351,7 +351,9 @@ class TestIntegrationTests:
         )
 
         assert result.returncode == 0
-        assert "cli-test-skill" in result.stdout.lower()
+        # Output may be in stdout or stderr depending on logging config
+        combined_output = (result.stdout + result.stderr).lower()
+        assert "cli-test-skill" in combined_output
 
     def test_validation_flag(self, temp_dir):
         """Test --validate flag."""

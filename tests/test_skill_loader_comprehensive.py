@@ -2,6 +2,9 @@
 """
 Comprehensive test suite for skill-loader.py
 Tests all 61 skills and product types with timing metrics
+
+NOTE: This is a standalone test runner, not a pytest test file.
+Run directly: python3 tests/test_skill_loader_comprehensive.py
 """
 
 import json

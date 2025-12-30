@@ -4,6 +4,9 @@ Pytest configuration and shared fixtures for test suite.
 London School TDD approach - provides mock factories and test utilities.
 """
 
+# Files to ignore during pytest collection (standalone test runners)
+collect_ignore = ["test_skill_loader_comprehensive.py"]
+
 import shutil
 import tempfile
 from pathlib import Path

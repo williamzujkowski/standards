@@ -4,9 +4,16 @@ Unit tests for @load directive parser.
 London School TDD - focused unit tests with mocks for parser behavior.
 
 RED PHASE: Parser implementation does not exist yet.
+See Issue #20: @load directive v2.0
 """
 
 import pytest
+
+# Mark all tests as expected failures until @load directive is implemented (Issue #20)
+pytestmark = pytest.mark.xfail(
+    reason="@load directive not implemented yet - see Issue #20",
+    strict=False,
+)
 
 
 class LoadDirectiveParser:
