@@ -691,8 +691,6 @@ This skill integrates with:
 
 ---
 
----
-
 ## Bundled Resources
 
 - [Full NIST_IMPLEMENTATION_GUIDE.md](../../docs/nist/NIST_IMPLEMENTATION_GUIDE.md)

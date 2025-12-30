@@ -106,8 +106,6 @@ This skill integrates with:
 
 ---
 
----
-
 # Legacy Bridge Skill
 
 ## Overview

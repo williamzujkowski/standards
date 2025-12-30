@@ -1308,6 +1308,4 @@ This skill integrates with:
 
 ---
 
----
-
 *Remember: Swift is designed for safety, speed, and expressiveness. Embrace optionals, leverage protocols, and write tests. Happy coding!*

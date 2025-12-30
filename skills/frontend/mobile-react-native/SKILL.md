@@ -479,8 +479,6 @@ This skill integrates with:
 
 ---
 
----
-
 ## Quick Links to Templates
 
 - [Screen Component Template](./templates/screen-component.tsx)

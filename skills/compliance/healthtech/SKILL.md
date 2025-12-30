@@ -289,6 +289,4 @@ This skill integrates with:
 
 ---
 
----
-
 **Remember**: HIPAA compliance is an ongoing process, not a one-time project. Establish continuous monitoring, regular training, and periodic assessments to maintain compliance posture.

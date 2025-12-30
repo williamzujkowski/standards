@@ -1667,7 +1667,5 @@ This skill integrates with:
 
 ---
 
----
-
 *Last Updated: 2025-10-17*
 *Skill Version: 1.0.0*

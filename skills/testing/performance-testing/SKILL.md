@@ -1160,8 +1160,6 @@ This skill integrates with:
 
 ---
 
----
-
 **Last Updated:** 2025-10-17
 **Version:** 1.0.0
 **Maintainer:** Testing Standards Team

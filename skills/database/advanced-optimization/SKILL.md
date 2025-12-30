@@ -728,8 +728,6 @@ This skill integrates with:
 
 ---
 
----
-
 ## Bundled Resources
 
 This skill includes 6 production-ready templates and scripts:

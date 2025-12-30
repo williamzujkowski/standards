@@ -1104,8 +1104,6 @@ This skill integrates with:
 
 ---
 
----
-
 **Last Updated:** 2025-01-17
 **Version:** 1.0.0
 **Quality Score:** 95/100

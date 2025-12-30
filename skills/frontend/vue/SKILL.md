@@ -477,6 +477,4 @@ This skill integrates with:
 
 ---
 
----
-
 **Note**: This skill focuses on Vue 3 Composition API, modern tooling (Vite, Vitest), and production-ready patterns. For options API or Vue 2, refer to the official migration guides.

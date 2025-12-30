@@ -520,6 +520,4 @@ This skill integrates with:
 
 ---
 
----
-
 **Next Steps**: Review [api-security](../api-security/SKILL.md) for securing APIs, [authentication-security](../authentication/SKILL.md) for auth fundamentals, and [secrets-management](../secrets-management/SKILL.md) for credential handling.

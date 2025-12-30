@@ -726,8 +726,6 @@ This skill integrates with:
 
 ---
 
----
-
 ## Bundled Resources
 
 - [Full TESTING_STANDARDS.md](../../docs/standards/TESTING_STANDARDS.md)

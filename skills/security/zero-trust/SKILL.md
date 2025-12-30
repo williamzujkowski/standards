@@ -532,8 +532,6 @@ This skill integrates with:
 
 ---
 
----
-
 ## Bundled Resources
 
 See `templates/`, `resources/`, and `scripts/` directories for:

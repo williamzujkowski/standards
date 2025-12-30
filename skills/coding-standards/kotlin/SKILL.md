@@ -920,6 +920,4 @@ This skill integrates with:
 
 ---
 
----
-
 *Last updated: 2025-10-17*

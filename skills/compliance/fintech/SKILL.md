@@ -389,8 +389,6 @@ trufflehog git https://github.com/yourorg/payment-service --json
 
 ---
 
----
-
 *Version: 1.0.0*
 *Last Updated: 2025-10-17*
 *Compliance Standards: PCI-DSS v4.0.1, SOC2 Type II*

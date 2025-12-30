@@ -737,8 +737,6 @@ This skill integrates with:
 
 ---
 
----
-
 ## Bundled Resources
 
 - [Full MODERN_SECURITY_STANDARDS.md](../../docs/standards/MODERN_SECURITY_STANDARDS.md)

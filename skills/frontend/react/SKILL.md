@@ -977,8 +977,6 @@ This skill integrates with:
 
 ---
 
----
-
 ## Summary
 
 React development focuses on:

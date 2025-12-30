@@ -506,8 +506,6 @@ This skill integrates with:
 
 ---
 
----
-
 **Next Steps**: After mastering API security, explore related skills:
 
 - **Threat Modeling** - Proactive security architecture design

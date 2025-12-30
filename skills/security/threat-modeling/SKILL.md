@@ -399,8 +399,6 @@ This skill integrates with:
 
 ---
 
----
-
 **Next Steps:**
 
 1. Review bundled templates in `templates/`

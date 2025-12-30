@@ -1092,8 +1092,6 @@ This skill integrates with:
 
 ---
 
----
-
 ## Bundled Resources
 
 See accompanying files:

@@ -463,8 +463,6 @@ This skill integrates with:
 
 ---
 
----
-
 ## Next Steps
 
 After mastering Infrastructure as Code:

@@ -582,8 +582,6 @@ This skill integrates with:
 
 ---
 
----
-
 ## Level 3: Deep Dive Resources
 
 ### Official Documentation

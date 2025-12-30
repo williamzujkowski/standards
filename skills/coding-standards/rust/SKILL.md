@@ -1313,6 +1313,4 @@ This skill integrates with:
 
 ---
 
----
-
 **Skill Complete**: You now have comprehensive Rust coding standards covering ownership, traits, error handling, concurrency, testing, and performance optimization. Use the bundled resources to kickstart your Rust projects with best practices built-in.

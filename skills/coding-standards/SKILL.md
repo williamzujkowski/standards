@@ -561,8 +561,6 @@ This skill integrates with:
 
 ---
 
----
-
 ## Bundled Resources
 
 - [Full CODING_STANDARDS.md](../../docs/standards/CODING_STANDARDS.md)
