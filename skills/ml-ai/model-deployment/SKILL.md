@@ -1,27 +1,83 @@
 ---
 name: model-deployment
 description: Model-Deployment standards for model deployment in Ml Ai environments.
-  Covers best practices, implementation patterns, and integration guidelines.
 ---
 
-# model-deployment Skill
+# Model Deployment
 
-## Overview
+> **Quick Navigation:**
+> Level 1: [Quick Start](#level-1-quick-start) (5 min) → Level 2: [Implementation](#level-2-implementation) (30 min) → Level 3: [Mastery](#level-3-mastery-resources) (Extended)
 
-TODO: Add overview
+---
 
-## When to Use This Skill
+## Level 1: Quick Start
 
-TODO: Add usage scenarios
+### Core Principles
 
-## Core Instructions
+1. **Best Practices**: Follow industry-standard patterns for ml ai
+2. **Security First**: Implement secure defaults and validate all inputs
+3. **Maintainability**: Write clean, documented, testable code
+4. **Performance**: Optimize for common use cases
 
-TODO: Add core instructions
+### Essential Checklist
 
-## Advanced Topics
+- [ ] Follow established patterns for ml ai
+- [ ] Implement proper error handling
+- [ ] Add comprehensive logging
+- [ ] Write unit and integration tests
+- [ ] Document public interfaces
 
-TODO: Add advanced topics and resource references
+### Quick Links to Level 2
 
-## Related Skills
+- [Core Concepts](#core-concepts)
+- [Implementation Patterns](#implementation-patterns)
+- [Common Pitfalls](#common-pitfalls)
 
-TODO: Add related skills
+---
+
+## Level 2: Implementation
+
+### Core Concepts
+
+This skill covers essential practices for ml ai.
+
+**Key areas include:**
+
+- Architecture patterns
+- Implementation best practices
+- Testing strategies
+- Performance optimization
+
+### Implementation Patterns
+
+Apply these patterns when working with ml ai:
+
+1. **Pattern Selection**: Choose appropriate patterns for your use case
+2. **Error Handling**: Implement comprehensive error recovery
+3. **Monitoring**: Add observability hooks for production
+
+### Common Pitfalls
+
+Avoid these common mistakes:
+
+- Skipping validation of inputs
+- Ignoring edge cases
+- Missing test coverage
+- Poor documentation
+
+---
+
+## Level 3: Mastery Resources
+
+### Reference Materials
+
+- [Related Standards](../../docs/standards/)
+- [Best Practices Guide](../../docs/guides/)
+
+### Templates
+
+See the `templates/` directory for starter configurations.
+
+### External Resources
+
+Consult official documentation and community best practices for ml ai.
