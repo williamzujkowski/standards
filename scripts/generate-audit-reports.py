@@ -411,12 +411,28 @@ def analyze_repository_structure(rules: dict) -> dict:
                 pass
 
     # Missing READMEs
+    # Directories that never need READMEs (cache, build artifacts, etc.)
+    skip_readme_dirs = {
+        "__pycache__",
+        ".benchmarks",
+        "node_modules",
+        ".git",
+        ".pytest_cache",
+        ".ruff_cache",
+        ".mypy_cache",
+        ".tox",
+    }
     for d in ROOT.rglob("*"):
         if not d.is_dir():
             continue
         rel = normalize_repo_path(d)
+        # Skip if any part of the path is a known skip directory
+        if any(skip_dir in d.parts for skip_dir in skip_readme_dirs):
+            continue
         if matches_any(
-            rel, rules["orphans"]["exclude"] + [".git/**", "__pycache__/**", "node_modules/**", "reports/generated/**"]
+            rel,
+            rules["orphans"]["exclude"]
+            + [".git/**", "**/__pycache__/**", "**/node_modules/**", "reports/generated/**", "**/.benchmarks/**"],
         ):
             continue
         if rel and rel != "." and not (d / "README.md").exists():

@@ -402,6 +402,32 @@ jobs:
           name: anthropic-compliance-report
           path: reports/generated/anthropic-compliance-report.md
 
+  standards-index-check:
+    name: Standards Index Freshness
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Check if STANDARDS_INDEX.md needs update
+        run: |
+          python scripts/generate_standards_index.py
+          if git diff --exit-code docs/guides/STANDARDS_INDEX.md; then
+            echo "✅ STANDARDS_INDEX.md is up to date"
+          else
+            echo "❌ STANDARDS_INDEX.md needs to be regenerated"
+            echo "Run: python scripts/generate_standards_index.py"
+            git diff docs/guides/STANDARDS_INDEX.md | head -50
+            exit 1
+          fi
+
   nist-compliance-check:
     name: NIST Compliance Check (Changed Files)
     runs-on: ubuntu-latest
@@ -448,6 +474,7 @@ jobs:
       - standards-inventory
       - product-matrix-validation
       - validate-anthropic-compliance
+      - standards-index-check
       - nist-compliance-check
     if: always()
     steps:
@@ -466,6 +493,7 @@ jobs:
           echo "- Standards inventory: ${{ needs.standards-inventory.result }}"
           echo "- Product matrix: ${{ needs.product-matrix-validation.result }}"
           echo "- Anthropic compliance: ${{ needs.validate-anthropic-compliance.result }}"
+          echo "- Standards index: ${{ needs.standards-index-check.result }}"
           echo "- NIST compliance (changed files): ${{ needs.nist-compliance-check.result }}"
           echo ""
           # Fail pipeline if critical gates fail
