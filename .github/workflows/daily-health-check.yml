@@ -239,7 +239,7 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
 
       - name: Security scan with Trivy
-        uses: aquasecurity/trivy-action@84384bd6e777ef152729993b8145ea352e9dd3ef  # v0.17.0
+        uses: aquasecurity/trivy-action@b6643a29fecd7f34b3597bc6acb0a98b03d33ff8  # v0.33.1
         with:
           scan-type: 'fs'
           scan-ref: '.'
@@ -247,7 +247,7 @@ jobs:
           output: 'trivy-results.txt'
 
       - name: Check for secrets
-        uses: trufflesecurity/trufflehog@v3.82.13
+        uses: trufflesecurity/trufflehog@v3.92.4
         with:
           path: ./
           base: main
