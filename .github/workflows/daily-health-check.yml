@@ -222,7 +222,7 @@ jobs:
           fi
 
       - name: Upload content health report
-        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4
         with:
           name: content-health-report
           path: content-health.md
@@ -274,7 +274,7 @@ jobs:
           fi
 
       - name: Upload security health report
-        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4
         with:
           name: security-health-report
           path: security-health.md
@@ -340,7 +340,7 @@ jobs:
           fi
 
       - name: Upload performance health report
-        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4
         with:
           name: performance-health-report
           path: performance-health.md
@@ -355,7 +355,7 @@ jobs:
 
     steps:
       - name: Download all health reports
-        uses: actions/download-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093  # v4
         with:
           path: health-reports
 
@@ -441,7 +441,7 @@ jobs:
           echo "overall_health=$overall_health" >> $GITHUB_OUTPUT
 
       - name: Upload health summary
-        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392  # v4.0.0
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4
         with:
           name: health-summary
           path: health-summary.md
