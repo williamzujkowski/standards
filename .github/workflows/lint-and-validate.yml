@@ -141,7 +141,7 @@ jobs:
 
       - name: Upload link report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: link-check-report
           path: reports/generated/linkcheck.txt
@@ -180,7 +180,7 @@ jobs:
 
       - name: Upload structure artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: structure-audit-artifacts
           path: |
@@ -246,7 +246,7 @@ jobs:
 
       - name: Upload audit artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: audit-gates-artifacts
           path: |
@@ -319,7 +319,7 @@ jobs:
 
       - name: Upload inventory
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: standards-inventory
           path: |
@@ -397,7 +397,7 @@ jobs:
 
       - name: Upload compliance report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: anthropic-compliance-report
           path: reports/generated/anthropic-compliance-report.md
