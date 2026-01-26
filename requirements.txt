@@ -12,7 +12,7 @@ mkdocs-material==9.7.1
 
 # Plugins for enhanced functionality
 mkdocs-minify-plugin==0.8.0
-mkdocs-git-revision-date-localized-plugin==1.5.0
+mkdocs-git-revision-date-localized-plugin==1.5.1
 
 # Additional dependencies for Material theme extensions
-pymdown-extensions==10.19.1
+pymdown-extensions==10.20.1
