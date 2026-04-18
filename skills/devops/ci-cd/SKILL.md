@@ -746,13 +746,6 @@ jobs:
       - run: ./deploy.sh ${{ inputs.environment }}
 ```
 
-### Related Skills
-
-- **[kubernetes](../../cloud-native/kubernetes/SKILL.md)** - Container orchestration for deployments
-- **[docker-standards](../docker/SKILL.md)** - Container image best practices
-- **[security-scanning](../../security/scanning/SKILL.md)** - Security vulnerability detection
-- **[monitoring](../monitoring/SKILL.md)** - Production observability
-
 ### Security Best Practices
 
 1. **Secrets Management**: Use GitHub Secrets, AWS Secrets Manager, or HashiCorp Vault
@@ -782,5 +775,7 @@ jobs:
 ### Related Skills
 
 - **[kubernetes](../../cloud-native/kubernetes/SKILL.md)** - Container orchestration for deployments
+- **[docker-standards](../docker/SKILL.md)** - Container image best practices
+- **[security-scanning](../../security/scanning/SKILL.md)** - Security vulnerability detection
 - **[Infrastructure As Code](../infrastructure-as-code/SKILL.md)** - Infrastructure provisioning
 - **[Monitoring Observability](../monitoring-observability/SKILL.md)** - Production observability
