@@ -208,7 +208,7 @@ jobs:
           github.event_name == 'push' &&
           github.ref == 'refs/heads/main' &&
           env.GIST_SECRET != ''
-        uses: schneegans/dynamic-badges-action@7142847813c746736c986b42dec98541e49a2cea  # v1.7.0
+        uses: schneegans/dynamic-badges-action@0e50b8bad39e7e1afd3e4e9c2b7dd145fad07501  # v1.7.0
         env:
           GIST_SECRET: ${{ secrets.GIST_SECRET }}
         with:
