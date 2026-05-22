@@ -93,11 +93,12 @@ repos:
         exclude: |
           (?x)^(
               .*\.vscode/.*\.json$|
-              package-lock\.json$|
+              .*package-lock\.json$|
               .*node_modules/.*\.json$|
               .*\.min\.json$|
               .*tsconfig.*\.json$|
-              .*\.eslintrc.*\.json$
+              .*\.eslintrc.*\.json$|
+              reports/generated/.*\.json$
           )$
 
   # ============================================================================
