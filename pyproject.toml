@@ -35,9 +35,9 @@ classifiers = [
 # Core dependencies (from requirements.txt)
 dependencies = [
     "mkdocs>=1.6.1",
-    "mkdocs-material>=9.7.1",
+    "mkdocs-material>=9.7.7",
     "mkdocs-minify-plugin>=0.8.0",
-    "mkdocs-git-revision-date-localized-plugin>=1.5.0",
+    "mkdocs-git-revision-date-localized-plugin>=1.5.3",
     "pymdown-extensions>=10.21.3",
 ]
 
@@ -52,9 +52,9 @@ dev = [
 ]
 docs = [
     "mkdocs>=1.6.1",
-    "mkdocs-material>=9.7.1",
+    "mkdocs-material>=9.7.7",
     "mkdocs-minify-plugin>=0.8.0",
-    "mkdocs-git-revision-date-localized-plugin>=1.5.0",
+    "mkdocs-git-revision-date-localized-plugin>=1.5.3",
     "pymdown-extensions>=10.21.3",
 ]
 
