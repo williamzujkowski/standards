@@ -89,7 +89,7 @@ jobs:
           fi
 
       - name: Security - Check for secrets
-        uses: trufflesecurity/trufflehog@v3.94.3
+        uses: trufflesecurity/trufflehog@v3.95.9
         with:
           path: ./
 
