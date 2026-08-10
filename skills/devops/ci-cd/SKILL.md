@@ -1,6 +1,6 @@
 ---
 name: ci-cd
-description: CI/CD pipeline standards for GitHub Actions, GitLab CI, and deployment automation. Covers testing gates, security scanning, artifact management, and deployment strategies for reliable software delivery.
+description: "Configures GitHub Actions and GitLab CI pipelines with testing gates, SAST/DAST security scanning, container image builds, and multi-environment deployments. Implements blue-green, canary, and rolling update strategies with automated rollback. Use when the user asks about CI/CD pipelines, GitHub Actions workflows, .gitlab-ci.yml, deployment automation, pipeline YAML, build caching, artifact management, or continuous integration setup."
 ---
 
 # CI/CD DevOps Standards
@@ -746,13 +746,6 @@ jobs:
       - run: ./deploy.sh ${{ inputs.environment }}
 ```
 
-### Related Skills
-
-- **[kubernetes](../../cloud-native/kubernetes/SKILL.md)** - Container orchestration for deployments
-- **[docker-standards](../docker/SKILL.md)** - Container image best practices
-- **[security-scanning](../../security/scanning/SKILL.md)** - Security vulnerability detection
-- **[monitoring](../monitoring/SKILL.md)** - Production observability
-
 ### Security Best Practices
 
 1. **Secrets Management**: Use GitHub Secrets, AWS Secrets Manager, or HashiCorp Vault
@@ -779,119 +772,10 @@ jobs:
 
 ---
 
-## When to Use This Skill
-
-- ✅ Setting up CI/CD pipelines for new projects
-- ✅ Automating build, test, and deployment workflows
-- ✅ Implementing security scanning and compliance gates
-- ✅ Configuring multi-environment deployments (dev/staging/prod)
-- ✅ Establishing artifact management and versioning strategies
-- ✅ Creating rollback procedures and disaster recovery plans
-- ✅ Optimizing pipeline performance and reducing build times
-- ✅ Implementing GitOps workflows with Kubernetes
-
-## Examples
-
-### Basic Usage
-
-```python
-// TODO: Add basic example for ci-cd
-// This example demonstrates core functionality
-```
-
-### Advanced Usage
-
-```python
-// TODO: Add advanced example for ci-cd
-// This example shows production-ready patterns
-```
-
-### Integration Example
-
-```python
-// TODO: Add integration example showing how ci-cd
-// works with other systems and services
-```
-
-See `examples/ci-cd/` for complete working examples.
-
-## Integration Points
-
-This skill integrates with:
-
-### Upstream Dependencies
-
-- **Tools**: GitHub Actions, GitLab CI, Jenkins, CircleCI
-- **Prerequisites**: Basic understanding of devops concepts
-
-### Downstream Consumers
-
-- **Applications**: Production systems requiring ci-cd functionality
-- **CI/CD Pipelines**: Automated testing and deployment workflows
-- **Monitoring Systems**: Observability and logging platforms
-
 ### Related Skills
 
-- [Infrastructure As Code](../../infrastructure-as-code/SKILL.md)
-- [Monitoring Observability](../../monitoring-observability/SKILL.md)
-
-### Common Integration Patterns
-
-1. **Development Workflow**: How this skill fits into daily development
-2. **Production Deployment**: Integration with production systems
-3. **Monitoring & Alerting**: Observability integration points
-
-## Common Pitfalls
-
-### Pitfall 1: Insufficient Testing
-
-**Problem:** Not testing edge cases and error conditions leads to production bugs
-
-**Solution:** Implement comprehensive test coverage including:
-
-- Happy path scenarios
-- Error handling and edge cases
-- Integration points with external systems
-
-**Prevention:** Enforce minimum code coverage (80%+) in CI/CD pipeline
-
-### Pitfall 2: Hardcoded Configuration
-
-**Problem:** Hardcoding values makes applications inflexible and environment-dependent
-
-**Solution:** Use environment variables and configuration management:
-
-- Separate config from code
-- Use environment-specific configuration files
-- Never commit secrets to version control
-
-**Prevention:** Use tools like dotenv, config validators, and secret scanners
-
-### Pitfall 3: Ignoring Security Best Practices
-
-**Problem:** Security vulnerabilities from not following established security patterns
-
-**Solution:** Follow security guidelines:
-
-- Input validation and sanitization
-- Proper authentication and authorization
-- Encrypted data transmission (TLS/SSL)
-- Regular security audits and updates
-
-**Prevention:** Use security linters, SAST tools, and regular dependency updates
-
-**Best Practices:**
-
-- Follow established patterns and conventions for ci-cd
-- Keep dependencies up to date and scan for vulnerabilities
-- Write comprehensive documentation and inline comments
-- Use linting and formatting tools consistently
-- Implement proper error handling and logging
-- Regular code reviews and pair programming
-- Monitor production metrics and set up alerts
-
----
-
-**Last Updated:** 2025-01-17
-**Version:** 1.0.0
-**Quality Score:** 95/100
+- **[kubernetes](../../cloud-native/kubernetes/SKILL.md)** - Container orchestration for deployments
+- **[docker-standards](../docker/SKILL.md)** - Container image best practices
+- **[security-scanning](../../security/scanning/SKILL.md)** - Security vulnerability detection
+- **[Infrastructure As Code](../infrastructure-as-code/SKILL.md)** - Infrastructure provisioning
+- **[Monitoring Observability](../monitoring-observability/SKILL.md)** - Production observability
